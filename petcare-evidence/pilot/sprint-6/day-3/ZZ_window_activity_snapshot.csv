@@ -1,0 +1,7 @@
+table_name,rows,min_ts,max_ts
+app.audit_events,0,,
+public.tcf_explainability_logs,0,,
+public.audit_log,0,,
+auth.audit_log_entries,0,,
+public.integration_events,0,,
+public.scenario_run_outputs,0,,

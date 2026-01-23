@@ -1,0 +1,2 @@
+table_name,rows,min_ts,max_ts
+public.audit_log,0,,

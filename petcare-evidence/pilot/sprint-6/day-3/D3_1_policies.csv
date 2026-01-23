@@ -1,0 +1,7 @@
+schemaname,tablename,policyname,cmd,roles,qual,with_check
+public,tcf_explainability_logs,tcf_explainability_logs_delete_service_role,DELETE,{service_role},true,
+public,tcf_explainability_logs,tcf_explainability_logs_insert,INSERT,{authenticated},,(tenant_id = ((auth.jwt() ->> 'tenant_id'::text))::uuid)
+public,tcf_explainability_logs,tcf_explainability_logs_insert_service_role,INSERT,{service_role},,true
+public,tcf_explainability_logs,tcf_explainability_logs_select,SELECT,{authenticated},(tenant_id = ((auth.jwt() ->> 'tenant_id'::text))::uuid),
+public,tcf_explainability_logs,tcf_explainability_logs_select_service_role,SELECT,{service_role},true,
+public,tcf_explainability_logs,tcf_explainability_logs_update_service_role,UPDATE,{service_role},true,true

@@ -1,0 +1,13 @@
+enum_schema,enum_name,enum_value,enumsortorder
+app,audit_severity,info,1
+app,audit_severity,warning,2
+app,audit_severity,critical,3
+app,integration_mode,stub,1
+app,integration_mode,sandbox,2
+app,integration_mode,production,3
+app,provider_authority,nafath,1
+app,provider_authority,wathq,2
+app,provider_authority,spl,3
+app,provider_authority,zatca,4
+app,provider_authority,ncdc,5
+app,provider_authority,sama_disabled,6

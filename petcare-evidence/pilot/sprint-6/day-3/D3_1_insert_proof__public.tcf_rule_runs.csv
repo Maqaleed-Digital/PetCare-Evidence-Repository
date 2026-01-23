@@ -1,0 +1,2 @@
+id,tenant_id,request_id,subject_type,subject_id,engine_version,context_json,score,band,decision,created_at,created_by
+b5634a23-3206-46ef-963b-b9ef554744a0,7f3c9e2a-8c41-4c9a-bc0a-5f9c8e2d1a77,D3_1_TEST_REQ_20260122T200150Z,tenant,7f3c9e2a-8c41-4c9a-bc0a-5f9c8e2d1a77,d3_1_manual,{},0,D3_1,manual_proof,2026-01-22 20:03:18.64175+00,

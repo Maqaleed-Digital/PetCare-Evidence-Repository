@@ -1,0 +1,28 @@
+event_type,description,entity_table,requires_business,payload_schema
+business.created,Business created,businesses,t,"{""fields"": [""business_id"", ""name"", ""registration_number""]}"
+business.updated,Business updated,businesses,t,"{""fields"": [""business_id"", ""patch""]}"
+business.member.added,Member added to business,business_members,t,"{""fields"": [""business_id"", ""user_profile_id"", ""role""]}"
+business.member.removed,Member removed from business,business_members,t,"{""fields"": [""business_id"", ""user_profile_id""]}"
+document.uploaded,Business document uploaded,business_documents,t,"{""fields"": [""business_id"", ""document_id"", ""document_type"", ""workflow_category"", ""file_name"", ""storage_path""]}"
+document.updated,Business document metadata updated,business_documents,t,"{""fields"": [""business_id"", ""document_id"", ""patch""]}"
+document.deleted,Business document deleted,business_documents,t,"{""fields"": [""business_id"", ""document_id"", ""storage_path""]}"
+document.viewed,Business document viewed via signed URL,business_documents,t,"{""fields"": [""business_id"", ""document_id""]}"
+financials.uploaded,Financials uploaded,financials,t,"{""fields"": [""business_id"", ""financial_id"", ""statement_type"", ""period_start"", ""period_end"", ""file_name"", ""storage_path""]}"
+financials.parsed,Financials parsed successfully,financials,t,"{""fields"": [""business_id"", ""financial_id""]}"
+financials.parse_failed,Financials parse failed,financials,t,"{""fields"": [""business_id"", ""financial_id"", ""error""]}"
+scenario.run.created,Scenario run created,scenario_runs,t,"{""fields"": [""business_id"", ""scenario_run_id"", ""hash""]}"
+scenario.run.updated,Scenario run updated,scenario_runs,t,"{""fields"": [""business_id"", ""scenario_run_id"", ""patch""]}"
+credit_file.readiness.updated,Credit file readiness updated,credit_file_readiness,t,"{""fields"": [""business_id"", ""readiness"", ""missing""]}"
+auth.login,User login,,f,"{""fields"": [""user_id""]}"
+auth.logout,User logout,,f,"{""fields"": [""user_id""]}"
+scenario.created,Scenario template created,scenarios,t,{}
+scenario.deleted,Scenario template deleted,scenarios,t,{}
+access.grant.created,Business access grant created,business_access_grants,t,{}
+access.grant.revoked,Business access grant revoked,business_access_grants,t,{}
+access.grant.expired,Business access grant expired,business_access_grants,t,{}
+score.created,Score created,scores,t,{}
+score.updated,Score updated,scores,t,{}
+score.deleted,Score deleted,scores,t,{}
+risk.evaluation.requested,Risk evaluation requested,tcf_rule_runs,f,"{""fields"": [""request_id"", ""subject_type"", ""subject_id"", ""engine_version""]}"
+risk.evaluation.completed,Risk evaluation completed,tcf_rule_runs,f,"{""fields"": [""request_id"", ""subject_type"", ""subject_id"", ""engine_version"", ""score"", ""band"", ""decision"", ""run_id""]}"
+risk.snapshot.updated,Risk snapshot updated,tcf_risk_snapshots,f,"{""fields"": [""request_id"", ""subject_type"", ""subject_id"", ""score"", ""band"", ""decision"", ""run_id""]}"

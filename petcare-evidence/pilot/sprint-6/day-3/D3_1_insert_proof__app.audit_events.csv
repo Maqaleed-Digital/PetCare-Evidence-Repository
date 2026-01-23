@@ -1,0 +1,2 @@
+id,tenant_id,occurred_at,actor_user_id,severity,event_type,target_type,target_id,correlation_id,source_mode,source_provider,evidence_hash,metadata
+f094b704-f449-4f73-b519-3cead6515bbf,7f3c9e2a-8c41-4c9a-bc0a-5f9c8e2d1a77,2026-01-22 19:58:31.14263+00,,info,admin_hub.viewed,admin_hub,,D3_1_TEST_20260122T194459Z,sandbox,nafath,,{}

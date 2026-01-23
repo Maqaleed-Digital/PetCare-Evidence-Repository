@@ -1,0 +1,2 @@
+table_name,rows,min_ts,max_ts
+auth.audit_log_entries,0,,

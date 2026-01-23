@@ -1,0 +1,2 @@
+id,tenant_id,run_id,request_id,rule_key,rule_version,hit,weight,points,reason_code,reason_text,details_json,created_at
+78001e18-7ad2-47ce-8a97-8874f96aeec3,7f3c9e2a-8c41-4c9a-bc0a-5f9c8e2d1a77,b5634a23-3206-46ef-963b-b9ef554744a0,D3_1_TEST_REQ_20260122T200150Z,D3_1_TEST_RULE,1,t,1,1,D3_1_TEST_REASON,D3.1 manual insert proof,{},2026-01-22 20:03:30.844604+00

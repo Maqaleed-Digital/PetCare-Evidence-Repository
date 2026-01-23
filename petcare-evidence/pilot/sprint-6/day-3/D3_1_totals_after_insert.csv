@@ -1,0 +1,4 @@
+table_name,total_rows
+app.audit_events,1
+public.tcf_rule_runs,1
+public.tcf_explainability_logs,1

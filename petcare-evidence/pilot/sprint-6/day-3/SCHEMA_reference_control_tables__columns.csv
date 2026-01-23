@@ -1,0 +1,25 @@
+table_schema,table_name,ordinal_position,column_name,data_type,udt_name
+app,audit_event_types,1,id,uuid,uuid
+app,audit_event_types,2,code,text,text
+app,audit_event_types,3,severity,USER-DEFINED,audit_severity
+app,audit_event_types,4,description,text,text
+app,audit_event_types,5,target_type,text,text
+app,audit_event_types,6,step_up_required,boolean,bool
+app,audit_event_types,7,contains_secrets,boolean,bool
+app,audit_event_types,8,is_system,boolean,bool
+app,audit_event_types,9,created_at,timestamp with time zone,timestamptz
+public,audit_event_catalog,1,event_type,USER-DEFINED,audit_event_type
+public,audit_event_catalog,2,description,text,text
+public,audit_event_catalog,3,entity_table,text,text
+public,audit_event_catalog,4,requires_business,boolean,bool
+public,audit_event_catalog,5,payload_schema,jsonb,jsonb
+public,business_access_grants,1,id,uuid,uuid
+public,business_access_grants,2,grantor_business_id,uuid,uuid
+public,business_access_grants,3,grantee_business_id,uuid,uuid
+public,business_access_grants,4,scope,text,text
+public,business_access_grants,5,status,text,text
+public,business_access_grants,6,expires_at,timestamp with time zone,timestamptz
+public,business_access_grants,7,created_by,uuid,uuid
+public,business_access_grants,8,created_at,timestamp with time zone,timestamptz
+public,business_access_grants,9,revoked_at,timestamp with time zone,timestamptz
+public,business_access_grants,10,revoked_by,uuid,uuid
