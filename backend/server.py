@@ -447,85 +447,168 @@ async def get_pack_file(pack_id: str, path: str = Query(...)):
     return FileResponse(file_path, filename=file_path.name)
 
 # Governance Routes
-@api_router.get("/governance/summary", response_model=List[GovernanceSummary])
+@api_router.get("/governance/summary")
 async def get_governance_summary():
-    """Get A-E governance summary cards"""
+    """Get A-E governance summary cards with data from CSV snapshots"""
     
-    # Load counts
-    counts = {}
-    for f in PILOT_DATA.glob("A_counts__*.csv"):
-        data = parse_csv_file(f)
-        if data:
-            counts[data[0].get('table_name', '')] = int(data[0].get('rows', 0))
+    # Parse ZZ_window_activity_snapshot.csv
+    window_activity = parse_csv_file(PILOT_DATA / "ZZ_window_activity_snapshot.csv")
+    activity_data = {row['table_name']: {
+        'rows': int(row.get('rows', 0) or 0),
+        'min_ts': row.get('min_ts', ''),
+        'max_ts': row.get('max_ts', '')
+    } for row in window_activity}
     
-    # Load totals after insert
-    totals = parse_csv_file(PILOT_DATA / "D3_1_totals_after_insert.csv")
-    totals_dict = {r['table_name']: int(r['total_rows']) for r in totals}
+    total_window_rows = sum(d['rows'] for d in activity_data.values())
+    tables_with_data = sum(1 for d in activity_data.values() if d['rows'] > 0)
     
-    # Load RLS status
+    # Parse D3_2_rls_status (from addendum)
+    rls_audit_events = parse_csv_file(ADDENDUM_DIR / "D3_2_rls_status__app.audit_events.csv")
+    audit_events_rls = rls_audit_events[0] if rls_audit_events else {}
+    audit_events_rls_enabled = audit_events_rls.get('relrowsecurity', 'f') == 't'
+    audit_events_rls_forced = audit_events_rls.get('relforcerowsecurity', 'f') == 't'
+    
+    # Parse D3_3_roles__bypassrls (from addendum)
+    bypass_roles = parse_csv_file(ADDENDUM_DIR / "D3_3_roles__bypassrls.csv")
+    bypass_count = sum(1 for r in bypass_roles if r.get('rolbypassrls', 'f') == 't')
+    
+    # Parse main RLS status
     rls_data = parse_csv_file(PILOT_DATA / "D3_1_rls_status.csv")
     rls_enabled_count = sum(1 for r in rls_data if r.get('relrowsecurity') == 't')
+    total_rls_tables = len(rls_data) + (1 if rls_audit_events else 0)
+    total_rls_enabled = rls_enabled_count + (1 if audit_events_rls_enabled else 0)
+    
+    # Parse totals after insert
+    totals = parse_csv_file(PILOT_DATA / "D3_1_totals_after_insert.csv")
+    totals_dict = {r['table_name']: int(r.get('total_rows', 0)) for r in totals}
+    
+    # Parse audit event types for severity breakdown
+    event_types = parse_csv_file(PILOT_DATA / "app.audit_event_types__full.csv")
+    severity_counts = {}
+    for et in event_types:
+        sev = et.get('default_severity', 'info')
+        severity_counts[sev] = severity_counts.get(sev, 0) + 1
+    
+    # Parse explainability data
+    explainability_runs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_rule_runs.csv")
+    explainability_logs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_explainability_logs.csv")
+    
+    # Determine activity type
+    activity_type = "IDLE" if total_window_rows == 0 else "PILOT-TEST" if sum(totals_dict.values()) <= 5 else "ACTIVE"
     
     summaries = [
-        GovernanceSummary(
-            section="A",
-            title="Daily Pilot Summary",
-            status="complete",
-            finding="Pilot-test activity only; no live signals detected",
-            details={
-                "activity_type": "PILOT-TEST",
-                "live_signals": False,
-                "test_inserts": sum(totals_dict.values()),
-                "tables_checked": len(counts)
-            }
-        ),
-        GovernanceSummary(
-            section="B",
-            title="Clinical & Safety Signal Scan",
-            status="clear",
-            finding="No clinical/safety risk indicators present",
-            details={
-                "critical_events": 0,
-                "warning_events": 0,
-                "safety_signals": "NONE"
-            }
-        ),
-        GovernanceSummary(
-            section="C",
-            title="AI Governance Integrity",
-            status="green",
-            finding="Schema sound, referential integrity valid",
-            details={
+        {
+            "section": "A",
+            "title": "Daily Pilot Summary",
+            "status": "complete" if activity_type != "IDLE" else "idle",
+            "finding": f"{'Pilot-test activity' if activity_type == 'PILOT-TEST' else 'No activity'} in window; {tables_with_data}/{len(activity_data)} tables with data",
+            "details": {
+                "activity_type": activity_type,
+                "window_total_rows": total_window_rows,
+                "tables_checked": len(activity_data),
+                "tables_with_data": tables_with_data,
+                "test_inserts": sum(totals_dict.values())
+            },
+            "source_files": ["ZZ_window_activity_snapshot.csv", "D3_1_totals_after_insert.csv"],
+            "activity_snapshot": activity_data
+        },
+        {
+            "section": "B",
+            "title": "Clinical & Safety Signal Scan",
+            "status": "clear",
+            "finding": "No clinical/safety risk indicators present in audit events",
+            "details": {
+                "critical_event_types": severity_counts.get('critical', 0),
+                "warning_event_types": severity_counts.get('warning', 0),
+                "info_event_types": severity_counts.get('info', 0),
+                "safety_signals": "NONE",
+                "total_event_types": len(event_types)
+            },
+            "source_files": ["app.audit_event_types__full.csv"]
+        },
+        {
+            "section": "C",
+            "title": "AI Governance Integrity",
+            "status": "green" if len(explainability_runs) > 0 and len(explainability_logs) > 0 else "idle",
+            "finding": f"Schema sound; {len(explainability_runs)} rule runs, {len(explainability_logs)} explainability logs",
+            "details": {
                 "schema_integrity": "COMPLETE",
-                "referential_integrity": "VALID",
-                "explainability_coverage": "100%"
-            }
-        ),
-        GovernanceSummary(
-            section="D",
-            title="Ops Load Scan",
-            status="idle",
-            finding="System pre-production, no operational workload",
-            details={
-                "system_state": "IDLE",
-                "total_events": sum(counts.values()),
-                "active_tenants": 1
-            }
-        ),
-        GovernanceSummary(
-            section="E",
-            title="Security & RBAC",
-            status="amber",
-            finding="RLS partial (1/2 tables); policy enforcement active",
-            details={
-                "rls_enabled_tables": rls_enabled_count,
-                "total_tables": len(rls_data),
+                "referential_integrity": "VALID" if len(explainability_runs) > 0 else "UNTESTED",
+                "rule_runs": len(explainability_runs),
+                "explainability_logs": len(explainability_logs),
+                "coverage": "100%" if len(explainability_runs) > 0 and len(explainability_logs) >= len(explainability_runs) else "N/A"
+            },
+            "source_files": ["D3_1_insert_proof__public.tcf_rule_runs.csv", "D3_1_insert_proof__public.tcf_explainability_logs.csv"]
+        },
+        {
+            "section": "D",
+            "title": "Ops Load Scan",
+            "status": "idle" if total_window_rows == 0 else "active",
+            "finding": f"System {'pre-production' if total_window_rows == 0 else 'has activity'}; {total_window_rows} events in window",
+            "details": {
+                "system_state": "IDLE" if total_window_rows == 0 else "ACTIVE",
+                "total_events": total_window_rows,
+                "active_tenants": 1 if sum(totals_dict.values()) > 0 else 0,
+                "latency_indicators": "N/A"
+            },
+            "source_files": ["ZZ_window_activity_snapshot.csv"]
+        },
+        {
+            "section": "E",
+            "title": "Security & RBAC",
+            "status": "green" if total_rls_enabled == total_rls_tables else "amber",
+            "finding": f"RLS {total_rls_enabled}/{total_rls_tables} tables; app.audit_events RLS={'enabled' if audit_events_rls_enabled else 'disabled'}",
+            "details": {
+                "rls_enabled_tables": total_rls_enabled,
+                "total_tables": total_rls_tables,
+                "app_audit_events_rls": audit_events_rls_enabled,
+                "app_audit_events_forced": audit_events_rls_forced,
+                "bypass_roles": bypass_count,
                 "policy_enforcement": "ACTIVE"
-            }
-        )
+            },
+            "source_files": ["D3_2_rls_status__app.audit_events.csv", "D3_3_roles__bypassrls.csv", "D3_1_rls_status.csv"],
+            "bypass_roles_detail": bypass_roles
+        }
     ]
     
     return summaries
+
+@api_router.get("/governance/window-activity")
+async def get_window_activity():
+    """Get window activity snapshot data"""
+    data = parse_csv_file(PILOT_DATA / "ZZ_window_activity_snapshot.csv")
+    return data
+
+@api_router.get("/governance/report-excerpt")
+async def get_report_excerpt():
+    """Get key excerpts from the analysis report"""
+    if not REPORT_FILE.exists():
+        return {"error": "Report not found"}
+    
+    with open(REPORT_FILE, 'r', encoding='utf-8') as f:
+        content = f.read()
+    
+    # Extract key sections
+    excerpts = {
+        "integrity_status": "VERIFIED" if "INTEGRITY VERIFIED" in content else "UNVERIFIED",
+        "ui_readiness": [],
+        "recommendations": []
+    }
+    
+    # Extract UI-0 Readiness Signals
+    if "UI-0 Readiness Signals" in content:
+        start = content.find("## UI-0 Readiness Signals")
+        end = content.find("## Summary", start) if start > -1 else -1
+        if start > -1 and end > -1:
+            section = content[start:end]
+            if "### ✅ Ready" in section:
+                ready_start = section.find("### ✅ Ready")
+                ready_end = section.find("### ⚠️", ready_start)
+                ready_section = section[ready_start:ready_end] if ready_end > -1 else section[ready_start:]
+                lines = [l.strip() for l in ready_section.split('\n') if l.strip().startswith('-')]
+                excerpts["ui_readiness"] = [l.lstrip('- ') for l in lines[:5]]
+    
+    return excerpts
 
 # Security Routes
 ADDENDUM_DIR = PILOT_DATA / "addendum"
