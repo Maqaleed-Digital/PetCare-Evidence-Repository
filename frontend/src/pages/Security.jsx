@@ -1,6 +1,20 @@
 import { useEffect, useState } from "react";
-import { Lock, Shield, CheckCircle, XCircle, AlertTriangle, Info } from "lucide-react";
-import api from "../lib/api";
+import { 
+  Lock, 
+  Shield, 
+  CheckCircle, 
+  XCircle, 
+  AlertTriangle, 
+  Info,
+  Users,
+  FileText,
+  Tag
+} from "lucide-react";
+import api, { BASELINE_TAG } from "../lib/api";
+
+// E2: Security & RLS View (UI0-G2)
+// Deterministic rule: If policy_count == 0, show flagged notice
+// Highlight any role where rolbypassrls=true
 
 export default function Security() {
   const [rlsStatus, setRlsStatus] = useState([]);
@@ -39,243 +53,328 @@ export default function Security() {
     );
   }
 
+  // E2: Calculate policy count for deterministic flagging
+  const policyCount = policies.length;
   const tablesWithRLS = rlsStatus.filter(t => t.rls_enabled).length;
-  const totalTables = rlsStatus.length;
+  const tablesWithForce = rlsStatus.filter(t => t.rls_forced).length;
   const bypassCount = bypassRoles.filter(r => r.bypass_rls).length;
 
+  // E2: Check for app.audit_events specifically
+  const auditEventsRLS = rlsStatus.find(t => t.table_name === 'app.audit_events');
+  const auditEventsEnabled = auditEventsRLS?.rls_enabled;
+  const auditEventsForced = auditEventsRLS?.rls_forced;
+
   return (
-    <div className="space-y-8 animate-fade-in" data-testid="security-page">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900 tracking-tight" style={{ fontFamily: 'Manrope, sans-serif' }}>
-          Security Review
-        </h1>
-        <p className="mt-2 text-slate-500">
-          Row-Level Security (RLS) status, policies, and role permissions
-        </p>
+    <div className="space-y-6 animate-fade-in" data-testid="security-page">
+      {/* Header with Baseline Tag */}
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            Security & RLS
+          </h1>
+          <p className="mt-2 text-slate-500">
+            Evidence-backed security posture review
+          </p>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-2 bg-slate-100 rounded-lg">
+          <Tag className="w-4 h-4 text-slate-500" />
+          <span className="text-sm font-mono text-slate-700">{BASELINE_TAG}</span>
+        </div>
       </div>
 
+      {/* E2: Flagged Notice - policy_count == 0 */}
+      {policyCount === 0 && auditEventsEnabled && auditEventsForced && (
+        <div className="bg-amber-50 border-2 border-amber-200 rounded-xl p-4" data-testid="policy-count-warning">
+          <div className="flex items-start gap-3">
+            <AlertTriangle className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
+            <div>
+              <p className="font-bold text-amber-800">Security Notice (Evidence-Backed)</p>
+              <p className="text-sm text-amber-700 mt-1">
+                RLS enabled+forced on <code className="bg-amber-100 px-1.5 py-0.5 rounded font-mono">app.audit_events</code>; 
+                policy_count={policyCount}
+              </p>
+              <p className="text-xs text-amber-600 mt-2">
+                Source: /api/security/policies, /api/security/rls
+              </p>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <SummaryCard
           icon={Shield}
           title="RLS Coverage"
-          value={`${tablesWithRLS}/${totalTables}`}
-          status={tablesWithRLS === totalTables ? "green" : "amber"}
-          description={tablesWithRLS === totalTables ? "All tables protected" : "Partial coverage"}
+          value={`${tablesWithRLS}/${rlsStatus.length}`}
+          status={tablesWithRLS === rlsStatus.length ? "green" : "amber"}
+          subtitle="Tables with RLS enabled"
           testId="rls-coverage"
         />
         <SummaryCard
           icon={Lock}
+          title="Force RLS"
+          value={`${tablesWithForce}/${rlsStatus.length}`}
+          status={tablesWithForce > 0 ? "green" : "amber"}
+          subtitle="Tables with force enabled"
+          testId="force-rls"
+        />
+        <SummaryCard
+          icon={FileText}
+          title="Policies"
+          value={policyCount}
+          status={policyCount > 0 ? "green" : "amber"}
+          subtitle="RLS policies defined"
+          testId="policy-count"
+        />
+        <SummaryCard
+          icon={Users}
           title="Bypass Roles"
           value={bypassCount}
           status={bypassCount <= 2 ? "green" : "amber"}
-          description={`${bypassCount} role${bypassCount !== 1 ? 's' : ''} can bypass RLS`}
+          subtitle="Roles can bypass RLS"
           testId="bypass-count"
         />
-        <SummaryCard
-          icon={AlertTriangle}
-          title="Policies Active"
-          value={policies.length}
-          status="green"
-          description="RLS policies defined"
-          testId="policies-count"
-        />
       </div>
 
-      {/* RLS Status Table */}
+      {/* RLS Status Table - /api/security/rls */}
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200">
-          <h2 className="text-lg font-bold text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            RLS Status by Table
-          </h2>
-          <p className="text-sm text-slate-500 mt-1">
-            Shows whether Row-Level Security is enabled and forced for each table
-          </p>
+        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-bold text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                RLS Status by Table
+              </h2>
+              <p className="text-xs text-slate-500 font-mono mt-1">Source: /api/security/rls</p>
+            </div>
+          </div>
         </div>
-        <div className="data-table border-0">
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th>Table Name</th>
-                <th>RLS Enabled</th>
-                <th>RLS Forced</th>
-                <th>Status</th>
+        <table className="w-full">
+          <thead className="bg-slate-50 border-b border-slate-200">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Table Name</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">RLS Enabled</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">RLS Forced</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Status</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {rlsStatus.map((table, idx) => (
+              <tr key={table.table_name || idx} className="hover:bg-slate-50" data-testid={`rls-row-${idx}`}>
+                <td className="px-6 py-4 font-mono text-sm text-slate-900">{table.table_name}</td>
+                <td className="px-6 py-4">
+                  {table.rls_enabled ? (
+                    <span className="inline-flex items-center gap-1.5 text-emerald-600">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="text-sm font-medium">Yes</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 text-red-600">
+                      <XCircle className="w-4 h-4" />
+                      <span className="text-sm font-medium">No</span>
+                    </span>
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {table.rls_forced ? (
+                    <span className="inline-flex items-center gap-1.5 text-emerald-600">
+                      <CheckCircle className="w-4 h-4" />
+                      <span className="text-sm font-medium">Yes</span>
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-1.5 text-slate-400">
+                      <span className="text-sm">No</span>
+                    </span>
+                  )}
+                </td>
+                <td className="px-6 py-4">
+                  {table.rls_enabled ? (
+                    <span className="px-2 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded-full border border-emerald-200">
+                      Protected
+                    </span>
+                  ) : (
+                    <span className="px-2 py-1 bg-amber-50 text-amber-700 text-xs font-medium rounded-full border border-amber-200">
+                      Review Required
+                    </span>
+                  )}
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {rlsStatus.map((table, idx) => (
-                <tr key={table.table_name || idx} data-testid={`rls-row-${idx}`}>
-                  <td className="font-mono">{table.table_name}</td>
-                  <td>
-                    {table.rls_enabled ? (
-                      <span className="inline-flex items-center gap-1.5 text-emerald-600">
-                        <CheckCircle className="w-4 h-4" />
-                        <span>Yes</span>
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1.5 text-red-600">
-                        <XCircle className="w-4 h-4" />
-                        <span>No</span>
-                      </span>
-                    )}
-                  </td>
-                  <td>
-                    {table.rls_forced ? (
-                      <span className="inline-flex items-center gap-1.5 text-emerald-600">
-                        <CheckCircle className="w-4 h-4" />
-                        <span>Yes</span>
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1.5 text-slate-400">
-                        <span>No</span>
-                      </span>
-                    )}
-                  </td>
-                  <td>
-                    {table.rls_enabled ? (
-                      <span className="status-badge bg-emerald-50 text-emerald-700 border-emerald-200">
-                        Protected
-                      </span>
-                    ) : (
-                      <span className="status-badge bg-amber-50 text-amber-700 border-amber-200">
-                        Review Required
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* Bypass Roles Table */}
+      {/* Bypass Roles Table - /api/security/bypassrls */}
       <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-        <div className="px-6 py-4 border-b border-slate-200">
-          <h2 className="text-lg font-bold text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            Roles with Bypass RLS Privilege
-          </h2>
-          <p className="text-sm text-slate-500 mt-1">
-            These roles can bypass Row-Level Security policies
-          </p>
+        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+          <div>
+            <h2 className="text-lg font-bold text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              Bypass RLS Roles
+            </h2>
+            <p className="text-xs text-slate-500 font-mono mt-1">Source: /api/security/bypassrls</p>
+          </div>
         </div>
-        <div className="data-table border-0">
-          <table className="w-full">
-            <thead>
-              <tr>
-                <th>Role Name</th>
-                <th>Bypass RLS</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
-            <tbody>
-              {bypassRoles.map((role, idx) => (
-                <tr key={role.role_name || idx} data-testid={`bypass-row-${idx}`}>
-                  <td className="font-mono font-medium">{role.role_name}</td>
-                  <td>
-                    {role.bypass_rls ? (
+        <table className="w-full">
+          <thead className="bg-slate-50 border-b border-slate-200">
+            <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Role Name</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Bypass RLS</th>
+              <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Notes</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {bypassRoles.map((role, idx) => {
+              const isBypass = role.bypass_rls;
+              const isSystemRole = role.role_name === 'postgres' || role.role_name === 'service_role';
+              
+              return (
+                <tr 
+                  key={role.role_name || idx} 
+                  className={`hover:bg-slate-50 ${isBypass ? 'bg-amber-50/50' : ''}`}
+                  data-testid={`bypass-row-${idx}`}
+                >
+                  <td className="px-6 py-4">
+                    <span className={`font-mono text-sm font-medium ${isBypass ? 'text-amber-800' : 'text-slate-900'}`}>
+                      {role.role_name}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4">
+                    {isBypass ? (
                       <span className="inline-flex items-center gap-1.5 text-amber-600">
                         <AlertTriangle className="w-4 h-4" />
-                        <span>Yes</span>
+                        <span className="text-sm font-medium">Yes</span>
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1.5 text-emerald-600">
                         <CheckCircle className="w-4 h-4" />
-                        <span>No</span>
+                        <span className="text-sm font-medium">No</span>
                       </span>
                     )}
                   </td>
-                  <td className="text-slate-500 text-sm">
-                    {role.bypass_rls && (role.role_name === 'service_role' || role.role_name === 'postgres') 
+                  <td className="px-6 py-4 text-sm text-slate-500">
+                    {isBypass && isSystemRole 
                       ? 'Expected for system/service accounts'
-                      : role.bypass_rls 
+                      : isBypass 
                         ? 'Review privilege grant'
                         : 'Standard user role'}
                   </td>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
+              );
+            })}
+          </tbody>
+        </table>
         
-        {/* Bypass Note */}
+        {/* E2: Highlight bypass roles notice */}
         <div className="px-6 py-4 bg-amber-50 border-t border-amber-100">
           <div className="flex items-start gap-3">
             <Info className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
             <div>
-              <p className="text-sm text-amber-800 font-medium">Note: service_role / postgres bypassrls=true</p>
-              <p className="text-sm text-amber-700 mt-1">
-                This is expected behavior for Supabase architecture. Service roles need bypass privileges for backend operations.
+              <p className="text-sm text-amber-800 font-medium">
+                Note: postgres/service_role bypassrls=true
+              </p>
+              <p className="text-xs text-amber-700 mt-1">
+                Expected behavior for Supabase architecture. Service roles need bypass privileges for backend operations.
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Policies Table */}
-      {policies.length > 0 && (
-        <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
-          <div className="px-6 py-4 border-b border-slate-200">
+      {/* Policies Table - /api/security/policies */}
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+          <div>
             <h2 className="text-lg font-bold text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
               RLS Policies
             </h2>
-            <p className="text-sm text-slate-500 mt-1">
-              Active Row-Level Security policies
-            </p>
-          </div>
-          <div className="data-table border-0">
-            <table className="w-full">
-              <thead>
-                <tr>
-                  <th>Policy Name</th>
-                  <th>Table</th>
-                  <th>Command</th>
-                  <th>Roles</th>
-                </tr>
-              </thead>
-              <tbody>
-                {policies.map((policy, idx) => (
-                  <tr key={policy.policyname || idx} data-testid={`policy-row-${idx}`}>
-                    <td className="font-mono text-sm">{policy.policyname}</td>
-                    <td className="font-mono">{policy.schemaname}.{policy.tablename}</td>
-                    <td>
-                      <span className="status-badge bg-slate-100 text-slate-700 border-slate-200">
-                        {policy.cmd}
-                      </span>
-                    </td>
-                    <td className="font-mono text-sm">{policy.roles}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            <p className="text-xs text-slate-500 font-mono mt-1">Source: /api/security/policies</p>
           </div>
         </div>
-      )}
+        {policies.length > 0 ? (
+          <table className="w-full">
+            <thead className="bg-slate-50 border-b border-slate-200">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Policy Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Table</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Command</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Roles</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {policies.map((policy, idx) => (
+                <tr key={policy.policyname || idx} className="hover:bg-slate-50" data-testid={`policy-row-${idx}`}>
+                  <td className="px-6 py-4 font-mono text-sm text-slate-900">{policy.policyname}</td>
+                  <td className="px-6 py-4 font-mono text-sm text-slate-600">{policy.schemaname}.{policy.tablename}</td>
+                  <td className="px-6 py-4">
+                    <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded">
+                      {policy.cmd}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 font-mono text-sm text-slate-600">{policy.roles}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="text-center py-12">
+            <FileText className="w-12 h-12 text-slate-300 mx-auto" />
+            <p className="mt-4 text-slate-500">No policies defined (policy_count=0)</p>
+          </div>
+        )}
+      </div>
 
-      {/* Info Box */}
-      <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
-        <h3 className="font-semibold text-slate-900 mb-2">Security Recommendations</h3>
-        <ul className="space-y-2 text-sm text-slate-600">
-          <li className="flex items-start gap-2">
-            <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-            <span>Enable RLS on all tenant-scoped tables for proper data isolation</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <CheckCircle className="w-4 h-4 text-emerald-500 mt-0.5 flex-shrink-0" />
-            <span>Use JWT claims (auth.jwt()) for tenant filtering in policies</span>
-          </li>
-          <li className="flex items-start gap-2">
-            <AlertTriangle className="w-4 h-4 text-amber-500 mt-0.5 flex-shrink-0" />
-            <span>Review any tables without RLS before production deployment</span>
-          </li>
-        </ul>
+      {/* Grants Table - /api/security/grants */}
+      <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
+        <div className="px-6 py-4 border-b border-slate-200 bg-slate-50">
+          <div>
+            <h2 className="text-lg font-bold text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+              Role Table Grants
+            </h2>
+            <p className="text-xs text-slate-500 font-mono mt-1">Source: /api/security/grants</p>
+          </div>
+        </div>
+        {grants.length > 0 ? (
+          <table className="w-full">
+            <thead className="bg-slate-50 border-b border-slate-200">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Grantee</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Schema</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Table</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Privilege</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {grants.slice(0, 20).map((grant, idx) => (
+                <tr key={idx} className="hover:bg-slate-50" data-testid={`grant-row-${idx}`}>
+                  <td className="px-6 py-4 font-mono text-sm text-slate-900">{grant.grantee}</td>
+                  <td className="px-6 py-4 text-sm text-slate-600">{grant.table_schema}</td>
+                  <td className="px-6 py-4 font-mono text-sm text-slate-600">{grant.table_name}</td>
+                  <td className="px-6 py-4">
+                    <span className="px-2 py-1 bg-slate-100 text-slate-700 text-xs font-medium rounded">
+                      {grant.privilege_type}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <div className="text-center py-12">
+            <Users className="w-12 h-12 text-slate-300 mx-auto" />
+            <p className="mt-4 text-slate-500">No grants data available</p>
+          </div>
+        )}
+        {grants.length > 20 && (
+          <div className="px-6 py-3 bg-slate-50 border-t border-slate-200 text-center">
+            <p className="text-sm text-slate-500">Showing 20 of {grants.length} grants</p>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-function SummaryCard({ icon: Icon, title, value, status, description, testId }) {
+function SummaryCard({ icon: Icon, title, value, status, subtitle, testId }) {
   const statusStyles = {
     green: "border-emerald-200 bg-emerald-50",
     amber: "border-amber-200 bg-amber-50",
@@ -284,7 +383,7 @@ function SummaryCard({ icon: Icon, title, value, status, description, testId }) 
 
   return (
     <div 
-      className={`rounded-xl border-2 p-6 ${statusStyles[status] || 'border-slate-200 bg-white'}`}
+      className={`rounded-xl border-2 p-5 ${statusStyles[status] || 'border-slate-200 bg-white'}`}
       data-testid={testId}
     >
       <div className="flex items-center gap-3">
@@ -298,7 +397,7 @@ function SummaryCard({ icon: Icon, title, value, status, description, testId }) 
           </p>
         </div>
       </div>
-      <p className="mt-3 text-sm text-slate-600">{description}</p>
+      <p className="mt-3 text-sm text-slate-600">{subtitle}</p>
     </div>
   );
 }
