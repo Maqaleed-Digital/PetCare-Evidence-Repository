@@ -2,13 +2,16 @@ import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import Layout from "./components/Layout";
 import Dashboard from "./pages/Dashboard";
 import Evidence from "./pages/Evidence";
-import EvidencePack from "./pages/EvidencePack";
-import Governance from "./pages/Governance";
-import Audit from "./pages/Audit";
-import Explainability from "./pages/Explainability";
 import Security from "./pages/Security";
 import Report from "./pages/Report";
+import SprintClosurePack from "./pages/SprintClosurePack";
 import { Toaster } from "sonner";
+
+// Sprint UI-0 Routes
+// E1: /evidence - Evidence Browser + Checksum Verification
+// E2: /security - Security & RLS View
+// E3: /dashboard - Governance Dashboard (A-E Cards)
+// E4: /sprint-closure - Notion-ready Sprint UI-0 Pack
 
 function App() {
   return (
@@ -20,12 +23,9 @@ function App() {
             <Route index element={<Navigate to="/dashboard" replace />} />
             <Route path="dashboard" element={<Dashboard />} />
             <Route path="evidence" element={<Evidence />} />
-            <Route path="evidence/:packId" element={<EvidencePack />} />
-            <Route path="governance" element={<Governance />} />
-            <Route path="audit" element={<Audit />} />
-            <Route path="explainability" element={<Explainability />} />
             <Route path="security" element={<Security />} />
             <Route path="report" element={<Report />} />
+            <Route path="sprint-closure" element={<SprintClosurePack />} />
           </Route>
         </Routes>
       </BrowserRouter>
