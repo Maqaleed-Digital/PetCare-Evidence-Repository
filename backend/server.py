@@ -528,43 +528,55 @@ async def get_governance_summary():
     return summaries
 
 # Security Routes
+ADDENDUM_DIR = PILOT_DATA / "addendum"
+
 @api_router.get("/security/rls", response_model=List[RLSStatus])
 async def get_rls_status():
-    """Get RLS status for tables"""
-    # Try D3_2 first, fallback to D3_1
-    data = parse_csv_file(PILOT_DATA / "D3_2_rls_status__app.audit_events.csv")
-    if not data:
-        data = parse_csv_file(PILOT_DATA / "D3_1_rls_status.csv")
-    
+    """Get RLS status for tables - checks addendum first"""
     results = []
-    for row in data:
+    
+    # Load from addendum D3_2 file first
+    addendum_data = parse_csv_file(ADDENDUM_DIR / "D3_2_rls_status__app.audit_events.csv")
+    for row in addendum_data:
         results.append(RLSStatus(
             table_name=row.get('table_name', ''),
             rls_enabled=row.get('relrowsecurity', 'f') == 't',
             rls_forced=row.get('relforcerowsecurity', 'f') == 't'
         ))
     
+    # Also load from main D3_1 file
+    main_data = parse_csv_file(PILOT_DATA / "D3_1_rls_status.csv")
+    existing_tables = {r.table_name for r in results}
+    for row in main_data:
+        table_name = row.get('table_name', '')
+        if table_name not in existing_tables:
+            results.append(RLSStatus(
+                table_name=table_name,
+                rls_enabled=row.get('relrowsecurity', 'f') == 't',
+                rls_forced=row.get('relforcerowsecurity', 'f') == 't'
+            ))
+    
     return results
 
 @api_router.get("/security/bypassrls", response_model=List[BypassRole])
 async def get_bypass_rls_roles():
-    """Get roles with bypass RLS privilege"""
-    # Try D3_3 first, construct from grants if not available
-    data = parse_csv_file(PILOT_DATA / "D3_3_roles__bypassrls.csv")
+    """Get roles with bypass RLS privilege - checks addendum first"""
+    # Try addendum D3_3 first
+    data = parse_csv_file(ADDENDUM_DIR / "D3_3_roles__bypassrls.csv")
     
-    if not data:
-        # Infer from role grants
-        grants = parse_csv_file(PILOT_DATA / "D3_1_role_table_grants.csv")
-        roles = set(r.get('grantee', '') for r in grants)
-        # service_role and postgres typically have bypassrls
-        return [
-            BypassRole(role_name="postgres", bypass_rls=True),
-            BypassRole(role_name="service_role", bypass_rls=True),
-            BypassRole(role_name="authenticated", bypass_rls=False),
-            BypassRole(role_name="anon", bypass_rls=False)
-        ]
+    if data:
+        return [BypassRole(
+            role_name=r.get('rolname', ''), 
+            bypass_rls=r.get('rolbypassrls', 'f') == 't'
+        ) for r in data]
     
-    return [BypassRole(role_name=r.get('rolname', ''), bypass_rls=r.get('rolbypassrls', 'f') == 't') for r in data]
+    # Fallback: infer from role grants
+    return [
+        BypassRole(role_name="postgres", bypass_rls=True),
+        BypassRole(role_name="service_role", bypass_rls=True),
+        BypassRole(role_name="authenticated", bypass_rls=False),
+        BypassRole(role_name="anon", bypass_rls=False)
+    ]
 
 @api_router.get("/security/policies")
 async def get_security_policies():
