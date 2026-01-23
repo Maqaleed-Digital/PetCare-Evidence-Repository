@@ -163,13 +163,19 @@ class EvidencePack(BaseModel):
     file_count: int
     verified_count: int
     total_size_bytes: int
+    manifest_status: Optional[Dict[str, Any]] = None
+    has_addendum: bool = False
+    addendum_count: int = 0
 
 class EvidenceFile(BaseModel):
     name: str
     path: str
     size_bytes: int
     checksum: Optional[str] = None
+    computed_checksum: Optional[str] = None
     verified: Optional[bool] = None
+    is_addendum: bool = False
+    category: str = "evidence"  # evidence, addendum, manifest, trash
 
 class GovernanceSummary(BaseModel):
     section: str
