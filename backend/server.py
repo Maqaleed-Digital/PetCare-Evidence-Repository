@@ -96,6 +96,55 @@ def verify_file_checksum(file_path: Path, expected_checksum: str) -> bool:
     except Exception:
         return False
 
+def compute_file_checksum(file_path: Path) -> str:
+    """Compute SHA256 checksum for a file"""
+    try:
+        sha256_hash = hashlib.sha256()
+        with open(file_path, "rb") as f:
+            for byte_block in iter(lambda: f.read(4096), b""):
+                sha256_hash.update(byte_block)
+        return sha256_hash.hexdigest()
+    except Exception:
+        return ""
+
+def get_manifest_verification_status(pack_path: Path, checksums: Dict[str, str]) -> Dict[str, Any]:
+    """Get comprehensive manifest verification status"""
+    total_in_manifest = len(checksums)
+    verified = 0
+    failed = 0
+    missing_files = []
+    extra_files = []
+    
+    # Check files in manifest
+    for rel_path, expected_hash in checksums.items():
+        file_path = pack_path / rel_path
+        if file_path.exists():
+            if verify_file_checksum(file_path, expected_hash):
+                verified += 1
+            else:
+                failed += 1
+        else:
+            missing_files.append(rel_path)
+    
+    # Check for files not in manifest (excluding addendum and _trash)
+    for f in pack_path.glob("*"):
+        if f.is_file() and not f.name.startswith('.'):
+            rel_name = f.name
+            if rel_name not in checksums:
+                extra_files.append(rel_name)
+    
+    all_ok = verified == total_in_manifest and failed == 0 and len(missing_files) == 0
+    
+    return {
+        "all_ok": all_ok,
+        "total_in_manifest": total_in_manifest,
+        "verified": verified,
+        "failed": failed,
+        "missing_files": missing_files,
+        "extra_files": extra_files,
+        "status_message": "ALL OK" if all_ok else f"{verified}/{total_in_manifest} verified, {failed} failed, {len(missing_files)} missing"
+    }
+
 # --- Models ---
 
 class StatusCheck(BaseModel):
