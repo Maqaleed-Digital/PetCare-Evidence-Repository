@@ -1,0 +1,10 @@
+.DS_Store
+
+app/backend/.venv/
+__pycache__/
+*.pyc
+
+app/frontend/node_modules/
+app/frontend/dist/
+
+exports/
