@@ -1,7 +1,9 @@
 import axios from 'axios';
 
-// Use relative URLs for Vite proxy to backend
-const API = '/api';
+// Use environment variable for backend URL (Emergent platform)
+// Falls back to relative /api for local Vite proxy
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL || '';
+const API = `${BACKEND_URL}/api`;
 
 // Baseline tag for evidence-backed rendering
 export const BASELINE_TAG = 'sprint-6-day-3-closed-v2';
