@@ -825,21 +825,31 @@ async def get_correlation_ids():
 # Explainability Routes
 @api_router.get("/explainability/runs")
 async def get_explainability_runs(request_id: Optional[str] = None):
-    """Get TCF rule runs"""
-    data = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_rule_runs.csv")
+    """Get TCF rule runs with related logs"""
+    runs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_rule_runs.csv")
+    logs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_explainability_logs.csv")
+    
+    # Add related logs count to each run
+    for run in runs:
+        run_id = run.get('id', '')
+        run['_logs_count'] = sum(1 for log in logs if log.get('run_id') == run_id)
+        run['_source'] = 'D3_1_insert_proof__public.tcf_rule_runs.csv'
     
     if request_id:
-        data = [d for d in data if request_id in d.get('request_id', '')]
+        runs = [r for r in runs if request_id.lower() in r.get('request_id', '').lower()]
     
-    return data
+    return runs
 
 @api_router.get("/explainability/logs")
 async def get_explainability_logs(request_id: Optional[str] = None, run_id: Optional[str] = None):
     """Get TCF explainability logs"""
     data = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_explainability_logs.csv")
     
+    for row in data:
+        row['_source'] = 'D3_1_insert_proof__public.tcf_explainability_logs.csv'
+    
     if request_id:
-        data = [d for d in data if request_id in d.get('request_id', '')]
+        data = [d for d in data if request_id.lower() in d.get('request_id', '').lower()]
     if run_id:
         data = [d for d in data if run_id in d.get('run_id', '')]
     
@@ -850,6 +860,131 @@ async def get_explainability_schema():
     """Get explainability logs schema"""
     data = parse_csv_file(PILOT_DATA / "SCHEMA_public.tcf_explainability_logs__columns.csv")
     return data
+
+@api_router.get("/explainability/distributions")
+async def get_explainability_distributions():
+    """Get reason code and rule hit distributions"""
+    reason_codes = parse_csv_file(PILOT_DATA / "B_dist__public.tcf_explainability_logs__reason_codes.csv")
+    rule_hits = parse_csv_file(PILOT_DATA / "B_dist__public.tcf_explainability_logs__rule_hit_rate.csv")
+    
+    # Also calculate from actual data if distributions are empty
+    logs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_explainability_logs.csv")
+    runs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_rule_runs.csv")
+    
+    # Calculate from actual data
+    reason_code_dist = {}
+    rule_hit_dist = {}
+    decision_dist = {}
+    band_dist = {}
+    
+    for log in logs:
+        code = log.get('reason_code', 'unknown')
+        reason_code_dist[code] = reason_code_dist.get(code, 0) + 1
+        
+        rule_key = log.get('rule_key', 'unknown')
+        hit = log.get('hit', 'f') == 't'
+        key = f"{rule_key}_{'hit' if hit else 'miss'}"
+        rule_hit_dist[key] = rule_hit_dist.get(key, 0) + 1
+    
+    for run in runs:
+        decision = run.get('decision', 'unknown')
+        decision_dist[decision] = decision_dist.get(decision, 0) + 1
+        
+        band = run.get('band', 'unknown')
+        band_dist[band] = band_dist.get(band, 0) + 1
+    
+    return {
+        "reason_codes": reason_code_dist,
+        "rule_hits": rule_hit_dist,
+        "decisions": decision_dist,
+        "bands": band_dist,
+        "raw_reason_codes": reason_codes,
+        "raw_rule_hits": rule_hits,
+        "summary": {
+            "total_runs": len(runs),
+            "total_logs": len(logs),
+            "unique_rules": len(set(log.get('rule_key', '') for log in logs)),
+            "unique_reason_codes": len(set(log.get('reason_code', '') for log in logs)),
+            "hit_rate": sum(1 for log in logs if log.get('hit') == 't') / max(len(logs), 1) * 100
+        }
+    }
+
+@api_router.get("/explainability/request/{request_id}")
+async def get_request_drilldown(request_id: str):
+    """Get complete drilldown for a specific request_id"""
+    runs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_rule_runs.csv")
+    logs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_explainability_logs.csv")
+    
+    # Filter by request_id
+    request_runs = [r for r in runs if request_id.lower() in r.get('request_id', '').lower()]
+    request_logs = [l for l in logs if request_id.lower() in l.get('request_id', '').lower()]
+    
+    # Build timeline
+    timeline = []
+    
+    for run in request_runs:
+        timeline.append({
+            "timestamp": run.get('created_at', ''),
+            "type": "rule_run",
+            "title": f"Rule Run: {run.get('decision', '')}",
+            "subtitle": f"Score: {run.get('score', 0)} | Band: {run.get('band', '')}",
+            "details": run
+        })
+    
+    for log in request_logs:
+        hit_status = "HIT" if log.get('hit') == 't' else "MISS"
+        timeline.append({
+            "timestamp": log.get('created_at', ''),
+            "type": "explainability_log",
+            "title": f"{log.get('rule_key', '')} - {hit_status}",
+            "subtitle": log.get('reason_text', ''),
+            "details": log
+        })
+    
+    # Sort by timestamp
+    timeline.sort(key=lambda x: x.get('timestamp', ''))
+    
+    # Calculate summary
+    total_points = sum(int(l.get('points', 0)) for l in request_logs)
+    total_weight = sum(int(l.get('weight', 0)) for l in request_logs)
+    hits = sum(1 for l in request_logs if l.get('hit') == 't')
+    
+    return {
+        "request_id": request_id,
+        "runs": request_runs,
+        "logs": request_logs,
+        "timeline": timeline,
+        "summary": {
+            "total_runs": len(request_runs),
+            "total_logs": len(request_logs),
+            "total_points": total_points,
+            "total_weight": total_weight,
+            "hits": hits,
+            "misses": len(request_logs) - hits,
+            "hit_rate": hits / max(len(request_logs), 1) * 100,
+            "final_decision": request_runs[0].get('decision', 'N/A') if request_runs else 'N/A',
+            "final_band": request_runs[0].get('band', 'N/A') if request_runs else 'N/A',
+            "final_score": request_runs[0].get('score', 'N/A') if request_runs else 'N/A'
+        }
+    }
+
+@api_router.get("/explainability/request-ids")
+async def get_request_ids():
+    """Get all unique request IDs from explainability data"""
+    runs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_rule_runs.csv")
+    logs = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_explainability_logs.csv")
+    
+    request_ids = set()
+    for run in runs:
+        rid = run.get('request_id', '')
+        if rid:
+            request_ids.add(rid)
+    for log in logs:
+        rid = log.get('request_id', '')
+        if rid:
+            request_ids.add(rid)
+    
+    return list(request_ids)
 
 # Report Routes
 @api_router.get("/report/day3")
