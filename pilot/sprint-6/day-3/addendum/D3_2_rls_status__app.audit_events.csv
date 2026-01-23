@@ -1,0 +1,2 @@
+table_name,relrowsecurity,relforcerowsecurity
+app.audit_events,t,t
