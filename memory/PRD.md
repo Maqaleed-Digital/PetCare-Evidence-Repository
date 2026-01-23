@@ -44,6 +44,9 @@
 | 2026-01-23 | Explainability page | ✅ Complete |
 | 2026-01-23 | Security page | ✅ Complete |
 | 2026-01-23 | Report Viewer page | ✅ Complete |
+| 2026-01-23 | Evidence browser with manifest verification | ✅ Complete |
+| 2026-01-23 | Addendum section for supplemental files | ✅ Complete |
+| 2026-01-23 | ALL OK / PARTIAL manifest status display | ✅ Complete |
 | 2026-01-23 | Testing (100% pass) | ✅ Complete |
 
 ## Architecture
