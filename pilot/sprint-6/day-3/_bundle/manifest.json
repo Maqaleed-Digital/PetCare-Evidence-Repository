@@ -1,7 +1,7 @@
 {
   "bundle_name": "pilot/sprint-6/day-3",
-  "generated_utc": "2026-01-23T16:37:38Z",
-  "count": 51,
+  "generated_utc": "2026-01-23T19:16:57Z",
+  "count": 53,
   "items": [
     {
       "path": "00_manifest_ls_lah.txt",
@@ -238,10 +238,22 @@
       "mtime_iso": "2026-01-23T13:54:08Z"
     },
     {
+      "path": "addendum/D3_2_policies_count__app.audit_events.csv",
+      "bytes": 43,
+      "sha256": "281d6e4766af4bc23b1208696efe59b70b9d40126298c2eab5c4ba813da3f0dd",
+      "mtime_iso": "2026-01-23T16:43:18Z"
+    },
+    {
       "path": "addendum/D3_2_rls_status__app.audit_events.csv",
       "bytes": 67,
       "sha256": "1edd2d246323774259a064762cba1c6583c8ce28c4a525328d0539c779d3fa87",
       "mtime_iso": "2026-01-23T13:54:08Z"
+    },
+    {
+      "path": "addendum/D3_3_role_table_grants__app.audit_events.csv",
+      "bytes": 142,
+      "sha256": "adeeea056b3e88dcf9d62f95e8bbe60599bc4f300300c0814e142267bc4ef1f6",
+      "mtime_iso": "2026-01-23T16:46:30Z"
     },
     {
       "path": "addendum/D3_3_roles__bypassrls.csv",
