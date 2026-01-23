@@ -1,0 +1,5 @@
+rolname,rolbypassrls
+anon,f
+authenticated,f
+postgres,t
+service_role,t
