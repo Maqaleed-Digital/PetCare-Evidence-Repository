@@ -1,0 +1,7 @@
+enum_name,enum_value,enumsortorder
+provider_authority,nafath,1
+provider_authority,wathq,2
+provider_authority,spl,3
+provider_authority,zatca,4
+provider_authority,ncdc,5
+provider_authority,sama_disabled,6

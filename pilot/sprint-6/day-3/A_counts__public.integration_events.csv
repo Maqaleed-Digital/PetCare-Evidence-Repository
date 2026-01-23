@@ -1,0 +1,2 @@
+table_name,rows,min_ts,max_ts
+public.integration_events,0,,

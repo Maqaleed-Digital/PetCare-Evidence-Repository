@@ -1,0 +1,4 @@
+enum_name,enum_value,enumsortorder
+integration_mode,stub,1
+integration_mode,sandbox,2
+integration_mode,production,3

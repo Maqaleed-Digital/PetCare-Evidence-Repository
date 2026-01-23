@@ -1,0 +1,4 @@
+table_schema,table_name,column_name,column_udt
+app,audit_events,severity,audit_severity
+app,audit_events,source_mode,integration_mode
+app,audit_events,source_provider,provider_authority

@@ -1,0 +1,14 @@
+ordinal_position,column_name,data_type,udt_name
+1,id,uuid,uuid
+2,tenant_id,uuid,uuid
+3,run_id,uuid,uuid
+4,request_id,text,text
+5,rule_key,text,text
+6,rule_version,integer,int4
+7,hit,boolean,bool
+8,weight,integer,int4
+9,points,integer,int4
+10,reason_code,text,text
+11,reason_text,text,text
+12,details_json,jsonb,jsonb
+13,created_at,timestamp with time zone,timestamptz

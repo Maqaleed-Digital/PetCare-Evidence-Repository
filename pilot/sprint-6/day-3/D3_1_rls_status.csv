@@ -1,0 +1,3 @@
+table_name,relrowsecurity,relforcerowsecurity
+app.audit_events,f,f
+public.tcf_explainability_logs,t,f

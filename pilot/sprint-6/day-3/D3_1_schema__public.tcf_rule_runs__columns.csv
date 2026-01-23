@@ -1,0 +1,13 @@
+ordinal_position,column_name,data_type,udt_name,is_nullable
+1,id,uuid,uuid,NO
+2,tenant_id,uuid,uuid,NO
+3,request_id,text,text,YES
+4,subject_type,text,text,NO
+5,subject_id,uuid,uuid,NO
+6,engine_version,text,text,NO
+7,context_json,jsonb,jsonb,NO
+8,score,integer,int4,NO
+9,band,text,text,NO
+10,decision,text,text,NO
+11,created_at,timestamp with time zone,timestamptz,NO
+12,created_by,uuid,uuid,YES

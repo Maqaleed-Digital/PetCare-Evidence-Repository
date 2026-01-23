@@ -1,0 +1,1 @@
+slice,id,tenant_id,run_id,request_id,rule_key,rule_version,hit,weight,points,reason_code,reason_text,details_json,created_at

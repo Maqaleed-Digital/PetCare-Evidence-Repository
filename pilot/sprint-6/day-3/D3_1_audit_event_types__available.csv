@@ -1,0 +1,32 @@
+id,code,severity,description,target_type,step_up_required,contains_secrets,is_system,created_at
+0660f8ac-a879-413d-a43d-a53d5f84054d,provider.mode.changed,critical,Provider mode changed (stub/sandbox/production).,provider,t,f,t,2026-01-19 18:33:05.442823+00
+0fa211e5-f6ef-4452-a630-c75af039221b,no_fake_endpoints.enforced,warning,Stub-mode result returned and explicitly labeled as non-authoritative.,provider_call,f,f,t,2026-01-19 18:33:05.442823+00
+24c1705d-d4a2-440d-8dba-3f76c28466a0,provider.connection.tested,info,Provider connection test executed.,provider_health,f,f,t,2026-01-19 18:33:05.442823+00
+2eb7cd87-4f24-41dd-916d-4afae4250433,user.invited,info,User invitation created/sent.,invitation,f,f,t,2026-01-19 18:33:05.442823+00
+3578a1bb-cc07-4624-aa98-fbd688e05ea4,provider.call.succeeded,info,Provider call succeeded (hash recorded).,provider_call,f,f,t,2026-01-19 18:33:05.442823+00
+36a2d73a-d6ab-499e-92d8-32c3e22c9582,role.revoked,warning,Role revoked for user.,role_assignment,t,f,t,2026-01-19 18:33:05.442823+00
+4c9a20d8-bc5d-41fb-8d13-28add21e472e,legal_document.expired,warning,Legal document marked expired.,legal_document,f,f,t,2026-01-19 18:33:05.442823+00
+5cd844e9-ef3a-492c-9937-d9ee720f584b,provider.created,info,Provider created in Provider Center.,provider,t,f,t,2026-01-19 18:33:05.442823+00
+5dfa085a-9588-4d09-87d7-a389779cfc75,provider.onboarding.changed,warning,Provider onboarding status changed.,provider,t,f,t,2026-01-19 18:33:05.442823+00
+5f663f03-45c7-47b0-8465-bc236ef64c9a,kyb.verification.created,info,KYB verification initiated.,kyb_verification,t,f,t,2026-01-19 18:33:05.442823+00
+75001a05-65bc-4f1b-a3dd-bfcd1bf8ead3,role.assigned,info,Role assigned to user.,role_assignment,t,f,t,2026-01-19 18:33:05.442823+00
+7504eac5-8148-4a42-bf6c-4a1af2cfcde3,security.user.suspended,critical,User suspended by admin/owner.,org_membership,t,f,t,2026-01-19 18:33:05.442823+00
+86dfd146-e731-49f3-b08f-90a08383df83,audit.viewed,info,Audit log viewed.,audit_events,f,f,t,2026-01-19 18:33:05.442823+00
+871b24ef-59c7-4b1b-bdb6-2692b069f620,provider.credentials.updated,critical,Provider credential reference updated/rotated (no secret values).,provider_credentials,t,f,t,2026-01-19 18:33:05.442823+00
+87a025a1-c7e7-4da4-b404-bfbddec8ba8a,legal_document.uploaded,info,Legal document uploaded (board resolution/POA/other).,legal_document,t,f,t,2026-01-19 18:33:05.442823+00
+93d72f1a-761a-486a-a1df-471ff5ed1051,delegation.expired,info,Delegation expired.,delegation_grant,f,f,t,2026-01-19 18:33:05.442823+00
+a13041a3-6cb5-4b2b-8d28-f00c2f057c19,admin_hub.viewed,info,Admin Hub accessed.,admin_hub,f,f,t,2026-01-19 18:33:05.442823+00
+a38a045e-c654-4397-aae9-f8f6ff3a699c,security.force_logout,critical,User sessions invalidated/forced logout.,session,t,f,t,2026-01-19 18:33:05.442823+00
+ae3d7e5c-3c78-480b-b59d-6d215dfaadff,kyb.verification.rejected,warning,KYB verification rejected.,kyb_verification,f,f,t,2026-01-19 18:33:05.442823+00
+bd2988d2-9139-4c59-acd7-c9b8016b3701,evidence.exported,info,Evidence pack exported.,evidence_pack,t,f,t,2026-01-19 18:33:05.442823+00
+bdb8ec87-bcfd-4df7-8b42-0ca06974c24b,invitation.revoked,warning,Invitation revoked before acceptance.,invitation,t,f,t,2026-01-19 18:33:05.442823+00
+cfd58328-0afa-49b3-b340-23e5a400d980,role.changed,warning,Role changed for user.,role_assignment,t,f,t,2026-01-19 18:33:05.442823+00
+cfeea38b-ff77-44da-ab50-e3775302abaa,invitation.accepted,info,Invitation accepted by user.,invitation,f,f,t,2026-01-19 18:33:05.442823+00
+d1a21bba-8b5b-45cd-81c8-1732032bc06e,delegation.revoked,warning,Delegation revoked.,delegation_grant,t,f,t,2026-01-19 18:33:05.442823+00
+d295c105-edc6-4e80-917c-f2258a85de7b,org.viewed,info,Organization record viewed.,organization,f,f,t,2026-01-19 18:33:05.442823+00
+d2f3651c-5e87-4e0c-a0ea-73c28cc1551b,cr.refreshed,info,Commercial registration data refresh requested/completed.,organization,t,f,t,2026-01-19 18:33:05.442823+00
+ec092b7e-4308-4a6f-b59d-3ad4d6317d7e,delegation.granted,info,Delegation granted with scope and expiry.,delegation_grant,t,f,t,2026-01-19 18:33:05.442823+00
+f28710fb-70f3-4e97-a4d6-157a6852e0f1,provider.updated,info,Provider updated (non-sensitive fields).,provider,t,f,t,2026-01-19 18:33:05.442823+00
+f3ce2fc2-4afd-498b-902a-3abf0c5a5c81,kyb.verification.updated,info,KYB verification status updated.,kyb_verification,f,f,t,2026-01-19 18:33:05.442823+00
+fc61a5a3-2ddc-40a3-b7c7-9619084e5a73,provider.call.failed,warning,Provider call failed (hash + error recorded).,provider_call,f,f,t,2026-01-19 18:33:05.442823+00
+fc771e21-640f-45bd-a0a8-482226f229ec,provider.evidence.attached,info,Evidence attached to provider record.,provider_evidence,t,f,t,2026-01-19 18:33:05.442823+00

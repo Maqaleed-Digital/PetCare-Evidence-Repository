@@ -1,0 +1,2 @@
+column_name,data_type,udt_name
+details_json,jsonb,jsonb

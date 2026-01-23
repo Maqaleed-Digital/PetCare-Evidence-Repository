@@ -1,0 +1,13 @@
+column_name,is_nullable,column_default,data_type,udt_name
+id,NO,gen_random_uuid(),uuid,uuid
+tenant_id,NO,,uuid,uuid
+request_id,YES,,text,text
+subject_type,NO,,text,text
+subject_id,NO,,uuid,uuid
+engine_version,NO,,text,text
+context_json,NO,'{}'::jsonb,jsonb,jsonb
+score,NO,,integer,int4
+band,NO,,text,text
+decision,NO,,text,text
+created_at,NO,now(),timestamp with time zone,timestamptz
+created_by,YES,,uuid,uuid
