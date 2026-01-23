@@ -678,29 +678,59 @@ async def get_role_grants():
 async def get_audit_events(
     event_type: Optional[str] = None,
     severity: Optional[str] = None,
-    correlation_id: Optional[str] = None
+    correlation_id: Optional[str] = None,
+    limit: int = 100
 ):
-    """Get audit events with optional filters"""
-    # Load from insert proof
-    data = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__app.audit_events.csv")
+    """Get audit events from all audit CSV files with optional filters"""
+    all_events = []
     
-    # Also check tenant_time file
+    # Primary: D3_1_insert_proof__app.audit_events.csv
+    insert_proof = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__app.audit_events.csv")
+    for row in insert_proof:
+        row['_source'] = 'D3_1_insert_proof__app.audit_events.csv'
+    all_events.extend(insert_proof)
+    
+    # app.audit_events__tenant_time.csv
     tenant_data = parse_csv_file(PILOT_DATA / "app.audit_events__tenant_time.csv")
-    data.extend(tenant_data)
+    for row in tenant_data:
+        row['_source'] = 'app.audit_events__tenant_time.csv'
+    all_events.extend(tenant_data)
+    
+    # auth.audit_log_entries__time.csv
+    auth_data = parse_csv_file(PILOT_DATA / "auth.audit_log_entries__time.csv")
+    for row in auth_data:
+        row['_source'] = 'auth.audit_log_entries__time.csv'
+        row['event_type'] = row.get('event_type', 'auth.event')
+        row['severity'] = row.get('severity', 'info')
+    all_events.extend(auth_data)
+    
+    # public.audit_log__time.csv
+    public_audit = parse_csv_file(PILOT_DATA / "public.audit_log__time.csv")
+    for row in public_audit:
+        row['_source'] = 'public.audit_log__time.csv'
+        row['event_type'] = row.get('event_type', 'public.audit')
+        row['severity'] = row.get('severity', 'info')
+    all_events.extend(public_audit)
+    
+    # DIAG_app.audit_events__nearest_to_window.csv
+    diag_data = parse_csv_file(PILOT_DATA / "DIAG_app.audit_events__nearest_to_window.csv")
+    for row in diag_data:
+        row['_source'] = 'DIAG_app.audit_events__nearest_to_window.csv'
+    all_events.extend(diag_data)
     
     # Apply filters
     if event_type:
-        data = [d for d in data if event_type.lower() in d.get('event_type', '').lower()]
+        all_events = [e for e in all_events if event_type.lower() in e.get('event_type', '').lower()]
     if severity:
-        data = [d for d in data if d.get('severity', '').lower() == severity.lower()]
+        all_events = [e for e in all_events if e.get('severity', '').lower() == severity.lower()]
     if correlation_id:
-        data = [d for d in data if correlation_id in d.get('correlation_id', '')]
+        all_events = [e for e in all_events if correlation_id.lower() in e.get('correlation_id', '').lower()]
     
-    return data
+    return all_events[:limit]
 
 @api_router.get("/audit/event-types")
 async def get_audit_event_types():
-    """Get available audit event types"""
+    """Get available audit event types with severity breakdown"""
     data = parse_csv_file(PILOT_DATA / "app.audit_event_types__full.csv")
     return data
 
@@ -709,6 +739,88 @@ async def get_audit_event_catalog():
     """Get audit event catalog"""
     data = parse_csv_file(PILOT_DATA / "public.audit_event_catalog__full.csv")
     return data
+
+@api_router.get("/audit/severity-distribution")
+async def get_severity_distribution():
+    """Get severity distribution from event types"""
+    data = parse_csv_file(PILOT_DATA / "app.audit_event_types__full.csv")
+    distribution = {}
+    for row in data:
+        sev = row.get('severity', 'unknown')
+        distribution[sev] = distribution.get(sev, 0) + 1
+    return distribution
+
+@api_router.get("/audit/correlation/{correlation_id}")
+async def get_correlation_drilldown(correlation_id: str):
+    """Get all events and related data for a specific correlation ID"""
+    result = {
+        "correlation_id": correlation_id,
+        "audit_events": [],
+        "explainability_runs": [],
+        "explainability_logs": [],
+        "timeline": []
+    }
+    
+    # Get audit events
+    audit_data = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__app.audit_events.csv")
+    for row in audit_data:
+        if correlation_id.lower() in row.get('correlation_id', '').lower():
+            row['_type'] = 'audit_event'
+            result["audit_events"].append(row)
+            result["timeline"].append({
+                "timestamp": row.get('occurred_at', ''),
+                "type": "audit_event",
+                "event": row.get('event_type', ''),
+                "severity": row.get('severity', ''),
+                "details": row
+            })
+    
+    # Get explainability runs by correlation pattern
+    runs_data = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_rule_runs.csv")
+    for row in runs_data:
+        # Match by request_id pattern (D3_1_TEST_* format)
+        if correlation_id.replace('D3_1_TEST_', '') in row.get('request_id', ''):
+            row['_type'] = 'rule_run'
+            result["explainability_runs"].append(row)
+            result["timeline"].append({
+                "timestamp": row.get('created_at', ''),
+                "type": "rule_run",
+                "event": f"Rule run: {row.get('decision', '')}",
+                "severity": "info",
+                "details": row
+            })
+    
+    # Get explainability logs
+    logs_data = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__public.tcf_explainability_logs.csv")
+    for row in logs_data:
+        if correlation_id.replace('D3_1_TEST_', '') in row.get('request_id', ''):
+            row['_type'] = 'explainability_log'
+            result["explainability_logs"].append(row)
+            result["timeline"].append({
+                "timestamp": row.get('created_at', ''),
+                "type": "explainability_log",
+                "event": f"Rule: {row.get('rule_key', '')} - {row.get('reason_text', '')}",
+                "severity": "info",
+                "details": row
+            })
+    
+    # Sort timeline by timestamp
+    result["timeline"].sort(key=lambda x: x.get('timestamp', ''))
+    
+    return result
+
+@api_router.get("/audit/correlations")
+async def get_correlation_ids():
+    """Get all unique correlation IDs"""
+    correlations = set()
+    
+    audit_data = parse_csv_file(PILOT_DATA / "D3_1_insert_proof__app.audit_events.csv")
+    for row in audit_data:
+        cid = row.get('correlation_id', '')
+        if cid:
+            correlations.add(cid)
+    
+    return list(correlations)
 
 # Explainability Routes
 @api_router.get("/explainability/runs")
