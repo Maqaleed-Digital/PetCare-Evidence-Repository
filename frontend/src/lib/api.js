@@ -1,20 +1,25 @@
 import axios from 'axios';
 
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+// Use relative URLs for Vite proxy to backend
+const API = '/api';
+
+// Baseline tag for evidence-backed rendering
+export const BASELINE_TAG = 'sprint-6-day-3-closed-v2';
+export const EVIDENCE_PACK_ID = 'sprint-6-day-3';
+export const EVIDENCE_ROOT = 'pilot/sprint-6/day-3';
 
 export const api = {
-  // Evidence
+  // Evidence - E1
   getEvidencePacks: () => axios.get(`${API}/evidence/packs`),
   getPackFiles: (packId) => axios.get(`${API}/evidence/packs/${packId}/files`),
   getPackManifest: (packId) => axios.get(`${API}/evidence/packs/${packId}/manifest`),
   getPackFile: (packId, path) => axios.get(`${API}/evidence/packs/${packId}/file?path=${encodeURIComponent(path)}`),
   getPackFileUrl: (packId, path) => `${API}/evidence/packs/${packId}/file?path=${encodeURIComponent(path)}`,
   
-  // Governance
+  // Governance - E3
   getGovernanceSummary: () => axios.get(`${API}/governance/summary`),
   
-  // Security
+  // Security - E2
   getRLSStatus: () => axios.get(`${API}/security/rls`),
   getBypassRLS: () => axios.get(`${API}/security/bypassrls`),
   getPolicies: () => axios.get(`${API}/security/policies`),
@@ -54,6 +59,16 @@ export const api = {
   
   // Report
   getDay3Report: () => axios.get(`${API}/report/day3`),
+};
+
+// E1: Checksum verification status mapping
+// verified: true → OK (checksum exists + matches)
+// verified: false → FAIL (checksum exists + mismatch)
+// verified: null → MISSING (checksum does not include path)
+export const getVerificationStatus = (file) => {
+  if (file.verified === true) return 'OK';
+  if (file.verified === false) return 'FAIL';
+  return 'MISSING';
 };
 
 export default api;
