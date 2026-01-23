@@ -1,0 +1,8 @@
+grantee,privilege_type
+postgres,DELETE
+postgres,INSERT
+postgres,REFERENCES
+postgres,SELECT
+postgres,TRIGGER
+postgres,TRUNCATE
+postgres,UPDATE
