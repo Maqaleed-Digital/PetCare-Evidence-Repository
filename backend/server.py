@@ -246,76 +246,201 @@ async def root():
 # Evidence Pack Routes
 @api_router.get("/evidence/packs", response_model=List[EvidencePack])
 async def get_evidence_packs():
-    """Get list of available evidence packs"""
+    """Get list of available evidence packs from pilot/ folder"""
     packs = []
     checksums = load_checksums()
+    pilot_root = EVIDENCE_ROOT / "pilot"
     
-    # Sprint 6 Day 3 pack
-    if PILOT_DATA.exists():
-        files = list(PILOT_DATA.glob("*"))
-        files = [f for f in files if f.is_file() and not f.name.startswith('.')]
-        
-        verified_count = 0
-        total_size = 0
-        for f in files:
-            total_size += f.stat().st_size
-            rel_path = f.name
-            if rel_path in checksums:
-                if verify_file_checksum(f, checksums[rel_path]):
-                    verified_count += 1
-        
-        packs.append(EvidencePack(
-            id="sprint-6-day-3",
-            name="Sprint 6 Day 3",
-            path="pilot/sprint-6/day-3",
-            file_count=len(files),
-            verified_count=verified_count,
-            total_size_bytes=total_size
-        ))
+    # Scan pilot/ folder for evidence packs
+    if pilot_root.exists():
+        for sprint_dir in sorted(pilot_root.iterdir()):
+            if sprint_dir.is_dir():
+                for day_dir in sorted(sprint_dir.iterdir()):
+                    if day_dir.is_dir():
+                        pack_id = f"{sprint_dir.name}-{day_dir.name}"
+                        pack_name = f"{sprint_dir.name.replace('-', ' ').title()} {day_dir.name.replace('-', ' ').title()}"
+                        
+                        # Count main evidence files (exclude addendum, _trash, hidden)
+                        files = [f for f in day_dir.glob("*") 
+                                if f.is_file() and not f.name.startswith('.')]
+                        
+                        # Check for addendum folder
+                        addendum_dir = day_dir / "addendum"
+                        has_addendum = addendum_dir.exists() and addendum_dir.is_dir()
+                        addendum_count = len(list(addendum_dir.glob("*"))) if has_addendum else 0
+                        
+                        # Calculate verification status
+                        verified_count = 0
+                        total_size = 0
+                        for f in files:
+                            total_size += f.stat().st_size
+                            rel_path = f.name
+                            if rel_path in checksums:
+                                if verify_file_checksum(f, checksums[rel_path]):
+                                    verified_count += 1
+                        
+                        # Get comprehensive manifest status
+                        manifest_status = get_manifest_verification_status(day_dir, checksums)
+                        
+                        packs.append(EvidencePack(
+                            id=pack_id,
+                            name=pack_name,
+                            path=str(day_dir.relative_to(EVIDENCE_ROOT)),
+                            file_count=len(files),
+                            verified_count=verified_count,
+                            total_size_bytes=total_size,
+                            manifest_status=manifest_status,
+                            has_addendum=has_addendum,
+                            addendum_count=addendum_count
+                        ))
     
     return packs
 
-@api_router.get("/evidence/packs/{pack_id}/files", response_model=List[EvidenceFile])
-async def get_pack_files(pack_id: str):
-    """Get files in an evidence pack"""
-    if pack_id != "sprint-6-day-3":
+@api_router.get("/evidence/packs/{pack_id}/files")
+async def get_pack_files(pack_id: str, include_addendum: bool = True):
+    """Get files in an evidence pack with addendum separation"""
+    # Parse pack_id to find the right folder
+    parts = pack_id.split("-")
+    if len(parts) < 3:
+        raise HTTPException(status_code=404, detail="Pack not found")
+    
+    sprint_name = f"{parts[0]}-{parts[1]}"  # e.g., "sprint-6"
+    day_name = "-".join(parts[2:])  # e.g., "day-3"
+    pack_path = EVIDENCE_ROOT / "pilot" / sprint_name / day_name
+    
+    if not pack_path.exists():
         raise HTTPException(status_code=404, detail="Pack not found")
     
     checksums = load_checksums()
-    files = []
+    evidence_files = []
+    addendum_files = []
+    manifest_files = []
+    trash_files = []
     
-    if PILOT_DATA.exists():
-        for f in sorted(PILOT_DATA.glob("*")):
+    # Main evidence files
+    for f in sorted(pack_path.glob("*")):
+        if f.is_file() and not f.name.startswith('.'):
+            rel_path = f.name
+            expected_checksum = checksums.get(rel_path)
+            computed = compute_file_checksum(f) if expected_checksum else None
+            verified = None
+            if expected_checksum and computed:
+                verified = computed == expected_checksum
+            
+            # Categorize by prefix
+            category = "evidence"
+            if rel_path.startswith("00_manifest") or rel_path.startswith("01_manifest"):
+                category = "manifest"
+            
+            evidence_files.append(EvidenceFile(
+                name=f.name,
+                path=str(f.relative_to(EVIDENCE_ROOT)),
+                size_bytes=f.stat().st_size,
+                checksum=expected_checksum,
+                computed_checksum=computed,
+                verified=verified,
+                is_addendum=False,
+                category=category
+            ))
+    
+    # Addendum files
+    addendum_dir = pack_path / "addendum"
+    if addendum_dir.exists() and include_addendum:
+        for f in sorted(addendum_dir.glob("*")):
             if f.is_file() and not f.name.startswith('.'):
-                rel_path = f.name
+                addendum_files.append(EvidenceFile(
+                    name=f.name,
+                    path=str(f.relative_to(EVIDENCE_ROOT)),
+                    size_bytes=f.stat().st_size,
+                    checksum=None,  # Addendum files not in manifest
+                    computed_checksum=compute_file_checksum(f),
+                    verified=None,  # Cannot verify without manifest entry
+                    is_addendum=True,
+                    category="addendum"
+                ))
+    
+    # Trash files (for reference)
+    trash_dir = pack_path / "_trash"
+    if trash_dir.exists():
+        for f in sorted(trash_dir.glob("*")):
+            if f.is_file():
+                rel_path = f"_trash/{f.name}"
                 expected_checksum = checksums.get(rel_path)
-                verified = None
-                if expected_checksum:
-                    verified = verify_file_checksum(f, expected_checksum)
                 
-                files.append(EvidenceFile(
+                trash_files.append(EvidenceFile(
                     name=f.name,
                     path=str(f.relative_to(EVIDENCE_ROOT)),
                     size_bytes=f.stat().st_size,
                     checksum=expected_checksum,
-                    verified=verified
+                    computed_checksum=compute_file_checksum(f) if expected_checksum else None,
+                    verified=verify_file_checksum(f, expected_checksum) if expected_checksum else None,
+                    is_addendum=False,
+                    category="trash"
                 ))
     
-    return files
+    return {
+        "evidence": evidence_files,
+        "addendum": addendum_files,
+        "trash": trash_files,
+        "manifest_status": get_manifest_verification_status(pack_path, checksums)
+    }
+
+@api_router.get("/evidence/packs/{pack_id}/manifest")
+async def get_pack_manifest_status(pack_id: str):
+    """Get detailed manifest verification status"""
+    parts = pack_id.split("-")
+    if len(parts) < 3:
+        raise HTTPException(status_code=404, detail="Pack not found")
+    
+    sprint_name = f"{parts[0]}-{parts[1]}"
+    day_name = "-".join(parts[2:])
+    pack_path = EVIDENCE_ROOT / "pilot" / sprint_name / day_name
+    
+    if not pack_path.exists():
+        raise HTTPException(status_code=404, detail="Pack not found")
+    
+    checksums = load_checksums()
+    status = get_manifest_verification_status(pack_path, checksums)
+    
+    # Add detailed file-by-file status
+    file_status = []
+    for rel_path, expected_hash in checksums.items():
+        file_path = pack_path / rel_path
+        exists = file_path.exists()
+        matches = verify_file_checksum(file_path, expected_hash) if exists else False
+        
+        file_status.append({
+            "file": rel_path,
+            "expected_hash": expected_hash[:16] + "...",
+            "exists": exists,
+            "matches": matches,
+            "status": "OK" if matches else ("MISSING" if not exists else "MISMATCH")
+        })
+    
+    return {
+        **status,
+        "file_details": file_status
+    }
 
 @api_router.get("/evidence/packs/{pack_id}/file")
 async def get_pack_file(pack_id: str, path: str = Query(...)):
     """Get raw file content"""
-    if pack_id != "sprint-6-day-3":
+    parts = pack_id.split("-")
+    if len(parts) < 3:
         raise HTTPException(status_code=404, detail="Pack not found")
     
-    file_path = PILOT_DATA / path
+    sprint_name = f"{parts[0]}-{parts[1]}"
+    day_name = "-".join(parts[2:])
+    pack_path = EVIDENCE_ROOT / "pilot" / sprint_name / day_name
+    
+    # Handle both direct filenames and paths with subdirectories
+    file_path = pack_path / path
     if not file_path.exists() or not file_path.is_file():
         raise HTTPException(status_code=404, detail="File not found")
     
-    # Security check - ensure path is within PILOT_DATA
+    # Security check - ensure path is within pack_path
     try:
-        file_path.resolve().relative_to(PILOT_DATA.resolve())
+        file_path.resolve().relative_to(pack_path.resolve())
     except ValueError:
         raise HTTPException(status_code=403, detail="Access denied")
     
