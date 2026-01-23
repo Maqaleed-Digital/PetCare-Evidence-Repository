@@ -7,6 +7,7 @@ export const api = {
   // Evidence
   getEvidencePacks: () => axios.get(`${API}/evidence/packs`),
   getPackFiles: (packId) => axios.get(`${API}/evidence/packs/${packId}/files`),
+  getPackManifest: (packId) => axios.get(`${API}/evidence/packs/${packId}/manifest`),
   getPackFile: (packId, path) => axios.get(`${API}/evidence/packs/${packId}/file?path=${encodeURIComponent(path)}`),
   getPackFileUrl: (packId, path) => `${API}/evidence/packs/${packId}/file?path=${encodeURIComponent(path)}`,
   
