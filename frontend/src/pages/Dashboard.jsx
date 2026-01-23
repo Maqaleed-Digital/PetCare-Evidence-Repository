@@ -1,49 +1,89 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import { 
-  FolderArchive, 
-  Shield, 
-  ScrollText, 
-  Brain, 
-  Lock,
-  CheckCircle,
-  AlertTriangle,
+  BarChart3,
+  FileText,
+  Shield,
   Activity,
-  ArrowRight
+  Lock,
+  ArrowRight,
+  Tag,
+  CheckCircle,
+  Database
 } from "lucide-react";
-import api from "../lib/api";
+import api, { getVerificationStatus, BASELINE_TAG, EVIDENCE_PACK_ID, EVIDENCE_ROOT } from "../lib/api";
 
-const statusColors = {
-  green: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  complete: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  clear: "bg-emerald-50 text-emerald-700 border-emerald-200",
-  amber: "bg-amber-50 text-amber-700 border-amber-200",
-  idle: "bg-slate-100 text-slate-700 border-slate-200",
-  red: "bg-red-50 text-red-700 border-red-200",
+// E3: Governance Dashboard (A–E Cards) (UI0-G5)
+// Cards derived from evidence file counts with prefix matching
+// Each card deep-links to /evidence with query filter
+
+const CARD_CONFIG = {
+  A: {
+    prefix: 'A_counts__',
+    title: 'Counts',
+    description: 'Row count snapshots per table',
+    icon: Database,
+    color: 'sky',
+    link: '/evidence?prefix=A_counts__'
+  },
+  B: {
+    prefix: 'B_dist__',
+    title: 'Distributions',
+    description: 'Value distribution analysis',
+    icon: BarChart3,
+    color: 'violet',
+    link: '/evidence?prefix=B_dist__'
+  },
+  C: {
+    prefix: 'B_quality__',
+    title: 'Quality',
+    description: 'Data quality checks',
+    icon: CheckCircle,
+    color: 'emerald',
+    link: '/evidence?prefix=B_quality__'
+  },
+  D: {
+    prefix: 'ZZ_window_activity_snapshot',
+    title: 'Window Snapshot',
+    description: 'Activity window evidence',
+    icon: Activity,
+    color: 'amber',
+    link: '/evidence?search=ZZ_window',
+    checkPresence: true
+  },
+  E: {
+    prefix: 'addendum/',
+    title: 'Security Addendum',
+    description: 'Security evidence files',
+    icon: Lock,
+    color: 'rose',
+    link: '/security',
+    isAddendum: true
+  }
 };
 
-const sectionIcons = {
-  A: Activity,
-  B: Shield,
-  C: Brain,
-  D: ScrollText,
-  E: Lock,
+const COLOR_CLASSES = {
+  sky: { bg: 'bg-sky-50', border: 'border-sky-200', icon: 'bg-sky-100 text-sky-600', text: 'text-sky-700' },
+  violet: { bg: 'bg-violet-50', border: 'border-violet-200', icon: 'bg-violet-100 text-violet-600', text: 'text-violet-700' },
+  emerald: { bg: 'bg-emerald-50', border: 'border-emerald-200', icon: 'bg-emerald-100 text-emerald-600', text: 'text-emerald-700' },
+  amber: { bg: 'bg-amber-50', border: 'border-amber-200', icon: 'bg-amber-100 text-amber-600', text: 'text-amber-700' },
+  rose: { bg: 'bg-rose-50', border: 'border-rose-200', icon: 'bg-rose-100 text-rose-600', text: 'text-rose-700' },
 };
 
 export default function Dashboard() {
-  const [governance, setGovernance] = useState([]);
-  const [packs, setPacks] = useState([]);
+  const [files, setFiles] = useState({ evidence: [], addendum: [] });
+  const [manifestStatus, setManifestStatus] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const [govRes, packsRes] = await Promise.all([
-          api.getGovernanceSummary(),
-          api.getEvidencePacks()
-        ]);
-        setGovernance(govRes.data);
-        setPacks(packsRes.data);
+        const res = await api.getPackFiles(EVIDENCE_PACK_ID);
+        setFiles({
+          evidence: res.data.evidence || [],
+          addendum: res.data.addendum || []
+        });
+        setManifestStatus(res.data.manifest_status);
       } catch (err) {
         console.error("Error fetching dashboard data:", err);
       } finally {
@@ -53,6 +93,42 @@ export default function Dashboard() {
     fetchData();
   }, []);
 
+  // E3: Calculate counts for each card based on prefix matching
+  const cardCounts = useMemo(() => {
+    const allFiles = [...files.evidence, ...files.addendum];
+    const counts = {};
+    
+    Object.entries(CARD_CONFIG).forEach(([key, config]) => {
+      if (config.isAddendum) {
+        // E: Count addendum files
+        counts[key] = files.addendum.length;
+      } else if (config.checkPresence) {
+        // D: Check presence of specific file
+        counts[key] = allFiles.some(f => f.name.startsWith(config.prefix)) ? 1 : 0;
+      } else {
+        // A, B, C: Count files with prefix
+        counts[key] = files.evidence.filter(f => f.name.startsWith(config.prefix)).length;
+      }
+    });
+    
+    return counts;
+  }, [files]);
+
+  // Calculate overall verification stats
+  const verificationStats = useMemo(() => {
+    const allFiles = [...files.evidence, ...files.addendum];
+    let ok = 0, fail = 0, missing = 0;
+    
+    allFiles.forEach(f => {
+      const status = getVerificationStatus(f);
+      if (status === 'OK') ok++;
+      else if (status === 'FAIL') fail++;
+      else missing++;
+    });
+    
+    return { ok, fail, missing, total: allFiles.length };
+  }, [files]);
+
   if (loading) {
     return (
       <div className="flex items-center justify-center h-64" data-testid="dashboard-loading">
@@ -61,133 +137,139 @@ export default function Dashboard() {
     );
   }
 
-  const totalFiles = packs.reduce((acc, p) => acc + p.file_count, 0);
-  const verifiedFiles = packs.reduce((acc, p) => acc + p.verified_count, 0);
-  const greenCount = governance.filter(g => ['green', 'complete', 'clear'].includes(g.status)).length;
-  const amberCount = governance.filter(g => g.status === 'amber').length;
-
   return (
     <div className="space-y-8 animate-fade-in" data-testid="dashboard">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-bold text-slate-900 tracking-tight" style={{ fontFamily: 'Manrope, sans-serif' }}>
-          Dashboard
-        </h1>
-        <p className="mt-2 text-slate-500">
-          Sprint 6 Day-3 Evidence Analysis Overview
-        </p>
+      {/* Header with Baseline Tag */}
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-bold text-slate-900 tracking-tight" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            Governance Dashboard
+          </h1>
+          <p className="mt-2 text-slate-500">
+            Sprint UI-0 evidence summary for {EVIDENCE_ROOT}
+          </p>
+        </div>
+        <div className="flex items-center gap-2 px-3 py-2 bg-slate-100 rounded-lg">
+          <Tag className="w-4 h-4 text-slate-500" />
+          <span className="text-sm font-mono text-slate-700">{BASELINE_TAG}</span>
+        </div>
       </div>
 
-      {/* Key Metrics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <MetricCard
-          icon={FolderArchive}
-          label="Evidence Files"
-          value={totalFiles}
-          subtext={`${verifiedFiles} verified`}
-          href="/evidence"
-          testId="metric-files"
-        />
-        <MetricCard
-          icon={CheckCircle}
-          label="Sections Green"
-          value={`${greenCount}/5`}
-          subtext="Governance checks"
-          href="/governance"
-          testId="metric-green"
-        />
-        <MetricCard
-          icon={AlertTriangle}
-          label="Sections Amber"
-          value={amberCount}
-          subtext="Require attention"
-          href="/governance"
-          testId="metric-amber"
-        />
-        <MetricCard
-          icon={Shield}
-          label="Integrity"
-          value={verifiedFiles === totalFiles ? "Verified" : "Partial"}
-          subtext={`${verifiedFiles}/${totalFiles} checksums`}
-          href="/evidence"
-          testId="metric-integrity"
-        />
-      </div>
-
-      {/* Governance Summary */}
-      <div>
+      {/* Verification Summary */}
+      <div className="bg-white border border-slate-200 rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-bold text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            Governance Summary (A–E)
+          <h2 className="text-lg font-bold text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+            Evidence Integrity
           </h2>
           <Link 
-            to="/governance" 
-            className="text-sm font-medium text-slate-600 hover:text-slate-900 flex items-center gap-1"
-            data-testid="view-governance-link"
+            to="/evidence" 
+            className="text-sm text-slate-600 hover:text-slate-900 flex items-center gap-1"
           >
             View all <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <StatBox label="Total Files" value={verificationStats.total} />
+          <StatBox label="OK" value={verificationStats.ok} color="emerald" />
+          <StatBox label="FAIL" value={verificationStats.fail} color={verificationStats.fail > 0 ? "red" : "slate"} />
+          <StatBox label="MISSING" value={verificationStats.missing} color={verificationStats.missing > 0 ? "amber" : "slate"} />
+        </div>
+        {manifestStatus && (
+          <p className="mt-4 text-xs text-slate-500 font-mono">
+            Manifest: {manifestStatus.verified}/{manifestStatus.total_in_manifest} verified
+            {manifestStatus.missing_files?.length > 0 && ` • ${manifestStatus.missing_files.length} missing`}
+          </p>
+        )}
+      </div>
+
+      {/* E3: A–E Cards */}
+      <div>
+        <h2 className="text-lg font-bold text-slate-900 mb-4" style={{ fontFamily: 'Manrope, sans-serif' }}>
+          Evidence Categories (A–E)
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {governance.map((item) => {
-            const Icon = sectionIcons[item.section] || Shield;
+          {Object.entries(CARD_CONFIG).map(([key, config]) => {
+            const count = cardCounts[key];
+            const colors = COLOR_CLASSES[config.color];
+            const Icon = config.icon;
+            
             return (
-              <div 
-                key={item.section} 
-                className="governance-card"
-                data-testid={`governance-card-${item.section}`}
+              <Link
+                key={key}
+                to={config.link}
+                className={`group rounded-xl border-2 p-5 transition-all hover:shadow-md ${colors.bg} ${colors.border}`}
+                data-testid={`card-${key}`}
               >
                 <div className="flex items-start justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-slate-600" />
-                    </div>
-                    <div>
-                      <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">
-                        Section {item.section}
-                      </p>
-                      <h3 className="font-semibold text-slate-900">{item.title}</h3>
-                    </div>
+                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${colors.icon}`}>
+                    <Icon className="w-6 h-6" />
                   </div>
-                  <span className={`status-badge ${statusColors[item.status] || 'gray'}`}>
-                    {item.status.toUpperCase()}
-                  </span>
+                  <div className="flex items-center gap-1 text-slate-400 group-hover:text-slate-600 transition-colors">
+                    <span className="text-sm">View</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </div>
                 </div>
-                <p className="mt-4 text-sm text-slate-600">{item.finding}</p>
-              </div>
+                
+                <div className="mt-4">
+                  <div className="flex items-baseline gap-2">
+                    <span className="text-sm font-medium text-slate-500">Section {key}</span>
+                    <span className={`text-xs px-1.5 py-0.5 rounded font-mono ${colors.bg} ${colors.text} border ${colors.border}`}>
+                      {config.prefix.replace('__', '')}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-bold text-slate-900 mt-1" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                    {config.title}
+                  </h3>
+                  <p className="text-sm text-slate-600 mt-1">{config.description}</p>
+                </div>
+                
+                <div className="mt-4 pt-4 border-t border-slate-200/50">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-slate-500">
+                      {config.checkPresence ? 'Present' : 'Files'}
+                    </span>
+                    <span className={`text-2xl font-bold ${colors.text}`} style={{ fontFamily: 'Manrope, sans-serif' }}>
+                      {config.checkPresence ? (count > 0 ? '✓' : '—') : count}
+                    </span>
+                  </div>
+                </div>
+              </Link>
             );
           })}
         </div>
       </div>
 
       {/* Quick Links */}
-      <div>
-        <h2 className="text-xl font-bold text-slate-900 mb-4" style={{ fontFamily: 'Manrope, sans-serif' }}>
-          Quick Access
-        </h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <QuickLinkCard
-            to="/report"
-            icon={ScrollText}
-            title="Day-3 Report"
-            description="Full analysis report with all findings"
-            testId="quick-report"
-          />
-          <QuickLinkCard
-            to="/security"
-            icon={Lock}
-            title="Security Review"
-            description="RLS status and bypass roles"
-            testId="quick-security"
-          />
-          <QuickLinkCard
-            to="/explainability"
-            icon={Brain}
-            title="AI Explainability"
-            description="Rule runs and explainability logs"
-            testId="quick-explainability"
-          />
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <Link
+          to="/evidence"
+          className="bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-300 hover:shadow-sm transition-all flex items-center gap-4 group"
+          data-testid="quick-evidence"
+        >
+          <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
+            <FileText className="w-6 h-6 text-slate-600" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-slate-900">Evidence Browser</h3>
+            <p className="text-sm text-slate-500">Browse all files with checksum verification</p>
+          </div>
+          <ArrowRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors" />
+        </Link>
+        
+        <Link
+          to="/security"
+          className="bg-white border border-slate-200 rounded-xl p-5 hover:border-slate-300 hover:shadow-sm transition-all flex items-center gap-4 group"
+          data-testid="quick-security"
+        >
+          <div className="w-12 h-12 bg-slate-100 rounded-xl flex items-center justify-center">
+            <Shield className="w-6 h-6 text-slate-600" />
+          </div>
+          <div className="flex-1">
+            <h3 className="font-bold text-slate-900">Security & RLS</h3>
+            <p className="text-sm text-slate-500">View security posture and RLS status</p>
+          </div>
+          <ArrowRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors" />
+        </Link>
       </div>
 
       {/* Standalone Notice */}
@@ -196,49 +278,28 @@ export default function Dashboard() {
           <span className="font-medium text-slate-900">PetCare is a standalone project.</span>
           {" "}No portfolio/Crédito artifacts are included. This evidence repository is the authoritative source of truth.
         </p>
+        <p className="text-xs text-slate-500 font-mono mt-2">
+          Evidence root: {EVIDENCE_ROOT} • Baseline: {BASELINE_TAG}
+        </p>
       </div>
     </div>
   );
 }
 
-function MetricCard({ icon: Icon, label, value, subtext, href, testId }) {
+function StatBox({ label, value, color = "slate" }) {
+  const colorClasses = {
+    emerald: "text-emerald-600",
+    red: "text-red-600",
+    amber: "text-amber-600",
+    slate: "text-slate-900"
+  };
+  
   return (
-    <Link 
-      to={href}
-      className="governance-card cursor-pointer hover:border-slate-300"
-      data-testid={testId}
-    >
-      <div className="flex items-center gap-3">
-        <div className="w-10 h-10 bg-slate-100 rounded-lg flex items-center justify-center">
-          <Icon className="w-5 h-5 text-slate-600" />
-        </div>
-        <div>
-          <p className="text-sm text-slate-500">{label}</p>
-          <p className="text-2xl font-bold text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
-            {value}
-          </p>
-          <p className="text-xs text-slate-400">{subtext}</p>
-        </div>
-      </div>
-    </Link>
-  );
-}
-
-function QuickLinkCard({ to, icon: Icon, title, description, testId }) {
-  return (
-    <Link 
-      to={to}
-      className="governance-card cursor-pointer hover:border-slate-300 flex items-center gap-4"
-      data-testid={testId}
-    >
-      <div className="w-12 h-12 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-        <Icon className="w-6 h-6 text-white" />
-      </div>
-      <div>
-        <h3 className="font-semibold text-slate-900">{title}</h3>
-        <p className="text-sm text-slate-500">{description}</p>
-      </div>
-      <ArrowRight className="w-5 h-5 text-slate-400 ml-auto" />
-    </Link>
+    <div className="text-center p-4 bg-slate-50 rounded-lg">
+      <p className="text-xs text-slate-500 uppercase tracking-wider">{label}</p>
+      <p className={`text-3xl font-bold ${colorClasses[color]}`} style={{ fontFamily: 'Manrope, sans-serif' }}>
+        {value}
+      </p>
+    </div>
   );
 }
