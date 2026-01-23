@@ -48,6 +48,9 @@ export const api = {
     return axios.get(`${API}/explainability/logs?${params.toString()}`);
   },
   getExplainabilitySchema: () => axios.get(`${API}/explainability/schema`),
+  getExplainabilityDistributions: () => axios.get(`${API}/explainability/distributions`),
+  getRequestDrilldown: (requestId) => axios.get(`${API}/explainability/request/${encodeURIComponent(requestId)}`),
+  getRequestIds: () => axios.get(`${API}/explainability/request-ids`),
   
   // Report
   getDay3Report: () => axios.get(`${API}/report/day3`),
