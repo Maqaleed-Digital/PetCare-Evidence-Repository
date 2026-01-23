@@ -1,6 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { FolderArchive, FileText, CheckCircle, XCircle, ArrowRight } from "lucide-react";
+import { 
+  FolderArchive, 
+  FileText, 
+  CheckCircle, 
+  XCircle, 
+  ArrowRight,
+  Plus,
+  ShieldCheck
+} from "lucide-react";
 import api from "../lib/api";
 
 export default function Evidence() {
@@ -37,71 +45,84 @@ export default function Evidence() {
           Evidence Packs
         </h1>
         <p className="mt-2 text-slate-500">
-          Browse and verify evidence files from the PetCare repository
+          Browse and verify evidence files from the PetCare repository (pilot/ folder)
         </p>
       </div>
 
       {/* Packs Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {packs.map((pack) => (
-          <Link
-            key={pack.id}
-            to={`/evidence/${pack.id}`}
-            className="governance-card cursor-pointer hover:border-slate-300 group"
-            data-testid={`pack-card-${pack.id}`}
-          >
-            <div className="flex items-start justify-between">
-              <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
-                <FolderArchive className="w-6 h-6 text-slate-600" />
-              </div>
-              <ArrowRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors" />
-            </div>
-            
-            <div className="mt-4">
-              <h3 className="font-semibold text-lg text-slate-900">{pack.name}</h3>
-              <p className="text-sm text-slate-500 mt-1">{pack.path}</p>
-            </div>
-
-            <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-3 gap-4">
-              <div>
-                <p className="text-xs text-slate-500">Files</p>
-                <p className="text-lg font-semibold text-slate-900">{pack.file_count}</p>
-              </div>
-              <div>
-                <p className="text-xs text-slate-500">Verified</p>
-                <p className="text-lg font-semibold text-emerald-600">{pack.verified_count}</p>
-              </div>
-              <div>
-                <p className="text-xs text-slate-500">Size</p>
-                <p className="text-lg font-semibold text-slate-900">
-                  {formatBytes(pack.total_size_bytes)}
-                </p>
-              </div>
-            </div>
-
-            {/* Verification Status */}
-            <div className="mt-4">
-              {pack.verified_count === pack.file_count ? (
-                <div className="flex items-center gap-2 text-emerald-600">
-                  <CheckCircle className="w-4 h-4" />
-                  <span className="text-sm font-medium">All files verified</span>
+        {packs.map((pack) => {
+          const manifestStatus = pack.manifest_status || {};
+          const allOk = manifestStatus.all_ok;
+          
+          return (
+            <Link
+              key={pack.id}
+              to={`/evidence/${pack.id}`}
+              className="governance-card cursor-pointer hover:border-slate-300 group"
+              data-testid={`pack-card-${pack.id}`}
+            >
+              <div className="flex items-start justify-between">
+                <div className="w-12 h-12 bg-slate-100 rounded-lg flex items-center justify-center">
+                  <FolderArchive className="w-6 h-6 text-slate-600" />
                 </div>
-              ) : (
-                <div className="flex items-center gap-2 text-amber-600">
-                  <XCircle className="w-4 h-4" />
-                  <span className="text-sm font-medium">
-                    {pack.file_count - pack.verified_count} files unverified
-                  </span>
+                <ArrowRight className="w-5 h-5 text-slate-300 group-hover:text-slate-600 transition-colors" />
+              </div>
+              
+              <div className="mt-4">
+                <h3 className="font-semibold text-lg text-slate-900">{pack.name}</h3>
+                <p className="text-sm text-slate-500 mt-1 font-mono">{pack.path}</p>
+              </div>
+
+              <div className="mt-4 pt-4 border-t border-slate-100 grid grid-cols-3 gap-4">
+                <div>
+                  <p className="text-xs text-slate-500">Files</p>
+                  <p className="text-lg font-semibold text-slate-900">{pack.file_count}</p>
                 </div>
-              )}
-            </div>
-          </Link>
-        ))}
+                <div>
+                  <p className="text-xs text-slate-500">Verified</p>
+                  <p className="text-lg font-semibold text-emerald-600">{pack.verified_count}</p>
+                </div>
+                <div>
+                  <p className="text-xs text-slate-500">Size</p>
+                  <p className="text-lg font-semibold text-slate-900">
+                    {formatBytes(pack.total_size_bytes)}
+                  </p>
+                </div>
+              </div>
+
+              {/* Manifest Status Badge */}
+              <div className="mt-4 flex items-center justify-between">
+                {allOk ? (
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-emerald-50 border border-emerald-200 rounded-full">
+                    <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                    <span className="text-sm font-bold text-emerald-700">ALL OK</span>
+                  </div>
+                ) : (
+                  <div className="flex items-center gap-2 px-3 py-1.5 bg-amber-50 border border-amber-200 rounded-full">
+                    <XCircle className="w-4 h-4 text-amber-600" />
+                    <span className="text-sm font-medium text-amber-700">
+                      {manifestStatus.status_message || 'Verification pending'}
+                    </span>
+                  </div>
+                )}
+
+                {/* Addendum indicator */}
+                {pack.has_addendum && (
+                  <div className="flex items-center gap-1 text-xs text-slate-500">
+                    <Plus className="w-3 h-3" />
+                    <span>{pack.addendum_count} addendum</span>
+                  </div>
+                )}
+              </div>
+            </Link>
+          );
+        })}
 
         {packs.length === 0 && (
           <div className="col-span-full text-center py-12">
             <FileText className="w-12 h-12 text-slate-300 mx-auto" />
-            <p className="mt-4 text-slate-500">No evidence packs found</p>
+            <p className="mt-4 text-slate-500">No evidence packs found in pilot/ folder</p>
           </div>
         )}
       </div>
@@ -109,11 +130,27 @@ export default function Evidence() {
       {/* Info Box */}
       <div className="bg-slate-50 border border-slate-200 rounded-xl p-6">
         <h3 className="font-semibold text-slate-900 mb-2">About Evidence Integrity</h3>
-        <p className="text-sm text-slate-600">
+        <p className="text-sm text-slate-600 mb-4">
           Each file is verified against SHA256 checksums stored in the manifest file 
-          (<code className="bg-slate-200 px-1.5 py-0.5 rounded text-xs">manifests/sprint-6-day-3_sha256.txt</code>). 
-          Green checkmarks indicate the file matches its expected checksum.
+          (<code className="bg-slate-200 px-1.5 py-0.5 rounded text-xs font-mono">manifests/sprint-6-day-3_sha256.txt</code>).
         </p>
+        <div className="flex flex-wrap gap-4">
+          <div className="flex items-center gap-2">
+            <div className="flex items-center gap-1 px-2 py-1 bg-emerald-50 border border-emerald-200 rounded">
+              <ShieldCheck className="w-3 h-3 text-emerald-600" />
+              <span className="text-xs font-bold text-emerald-700">ALL OK</span>
+            </div>
+            <span className="text-sm text-slate-600">— All files present and checksums match</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <CheckCircle className="w-4 h-4 text-emerald-500" />
+            <span className="text-sm text-slate-600">— Individual file verified</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <XCircle className="w-4 h-4 text-red-500" />
+            <span className="text-sm text-slate-600">— Checksum mismatch or missing</span>
+          </div>
+        </div>
       </div>
     </div>
   );
