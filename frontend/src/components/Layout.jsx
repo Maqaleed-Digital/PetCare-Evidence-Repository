@@ -1,25 +1,29 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { 
   LayoutDashboard, 
-  FolderArchive, 
+  FileText, 
   Shield, 
-  ScrollText, 
-  Brain, 
   Lock,
-  FileText,
   Menu,
-  X
+  X,
+  FileCheck,
+  Tag
 } from "lucide-react";
 import { useState } from "react";
+import { BASELINE_TAG } from "../lib/api";
+
+// Sprint UI-0 Navigation
+// E1: /evidence - Evidence Browser
+// E2: /security - Security & RLS
+// E3: /dashboard - Governance Dashboard
+// E4: /sprint-closure - Sprint Closure Pack
 
 const navItems = [
-  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/evidence", label: "Evidence Packs", icon: FolderArchive },
-  { path: "/governance", label: "Governance", icon: Shield },
-  { path: "/audit", label: "Audit Events", icon: ScrollText },
-  { path: "/explainability", label: "Explainability", icon: Brain },
-  { path: "/security", label: "Security", icon: Lock },
-  { path: "/report", label: "Day-3 Report", icon: FileText },
+  { path: "/dashboard", label: "Dashboard", icon: LayoutDashboard, description: "A-E Cards" },
+  { path: "/evidence", label: "Evidence", icon: FileText, description: "Checksum Verification" },
+  { path: "/security", label: "Security", icon: Lock, description: "RLS & Policies" },
+  { path: "/report", label: "Report", icon: FileCheck, description: "Day-3 Analysis" },
+  { path: "/sprint-closure", label: "Sprint Closure", icon: Tag, description: "Notion Pack" },
 ];
 
 export default function Layout() {
@@ -53,9 +57,12 @@ export default function Layout() {
               <div className="w-8 h-8 bg-slate-900 rounded-lg flex items-center justify-center">
                 <Shield className="w-5 h-5 text-white" />
               </div>
-              <span className="font-bold text-lg text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
-                PetCare
-              </span>
+              <div>
+                <span className="font-bold text-lg text-slate-900" style={{ fontFamily: 'Manrope, sans-serif' }}>
+                  PetCare
+                </span>
+                <span className="ml-1 text-xs text-slate-500">UI-0</span>
+              </div>
             </div>
             <button 
               className="lg:hidden p-1 hover:bg-slate-200 rounded"
@@ -74,12 +81,19 @@ export default function Layout() {
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
                 className={({ isActive }) =>
-                  `sidebar-nav-item ${isActive ? 'active' : ''}`
+                  `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-all duration-200 ${
+                    isActive 
+                      ? 'bg-slate-900 text-white' 
+                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                  }`
                 }
                 data-testid={`nav-${item.path.replace('/', '')}`}
               >
                 <item.icon className="w-5 h-5" />
-                {item.label}
+                <div className="flex-1">
+                  <span className="font-medium text-sm">{item.label}</span>
+                  <span className="block text-xs opacity-70">{item.description}</span>
+                </div>
               </NavLink>
             ))}
           </nav>
@@ -88,7 +102,10 @@ export default function Layout() {
           <div className="p-4 border-t border-slate-200">
             <div className="text-xs text-slate-500 leading-relaxed">
               <p className="font-medium text-slate-700">PetCare Standalone</p>
-              <p className="mt-1">No portfolio/Crédito artifacts included.</p>
+              <p className="mt-1">No portfolio/Crédito artifacts.</p>
+              <p className="mt-2 font-mono text-[10px] bg-slate-100 px-2 py-1 rounded">
+                {BASELINE_TAG}
+              </p>
             </div>
           </div>
         </div>
@@ -106,9 +123,9 @@ export default function Layout() {
             <Menu className="w-5 h-5 text-slate-600" />
           </button>
           <div className="flex items-center gap-2">
-            <span className="text-sm text-slate-500">Sprint 6</span>
+            <span className="text-sm text-slate-500">Sprint UI-0</span>
             <span className="text-slate-300">/</span>
-            <span className="text-sm font-medium text-slate-900">Day-3 Evidence</span>
+            <span className="text-sm font-medium text-slate-900">Evidence UI</span>
           </div>
         </header>
 
