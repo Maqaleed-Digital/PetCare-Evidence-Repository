@@ -1,0 +1,313 @@
+{
+  "bundle_name": "pilot/sprint-6/day-3",
+  "generated_utc": "2026-01-23T16:37:38Z",
+  "count": 51,
+  "items": [
+    {
+      "path": "00_manifest_ls_lah.txt",
+      "bytes": 4535,
+      "sha256": "d4fa1b2274b16c6f1a98fbcb3c5e44520bffed91ab01333e63c642f5a236c6f3",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "01_manifest_csv_linecounts.csv",
+      "bytes": 1802,
+      "sha256": "dd767dad5f500502e76b3341bc277ed7395123a1f0e7e0abbef5865566129d42",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "A_counts__app.audit_events.csv",
+      "bytes": 51,
+      "sha256": "245f63c01d8c57440914a35d870e45a5d7829cfcb06854c4494bef8075dceed0",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "A_counts__auth.audit_log_entries.csv",
+      "bytes": 57,
+      "sha256": "bbe15478a8b3d7982c7fb0e01f9071679fdc9f590a2af59a1b67c15da87ec03f",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "A_counts__public.audit_log.csv",
+      "bytes": 51,
+      "sha256": "3c3e3129efa5484acbd56eac62592161fe411fbc446a2b0fcd4312d3aa3ce39a",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "A_counts__public.integration_events.csv",
+      "bytes": 60,
+      "sha256": "5d74cf2e90af2506f01b54f45ba828621b927167b5c8c7124466cb21a79a774c",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "A_counts__public.scenario_run_outputs.csv",
+      "bytes": 62,
+      "sha256": "0d8dc7af3bf40edbb0a08df6b2c62f309da44de2442127e5b423ac60f6701c19",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "A_counts__public.tcf_explainability_logs.csv",
+      "bytes": 65,
+      "sha256": "4844c80d867dafb71250e1a687a99a01f33226f796487bb7bc675e6c38c8a26c",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "B_dist__app.audit_events__event_type_severity.csv",
+      "bytes": 22,
+      "sha256": "e39d1aa690bed67f4c08def939f292b9d2ed0c872022c56589b4d9a01b87b84b",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "B_dist__public.tcf_explainability_logs__reason_codes.csv",
+      "bytes": 14,
+      "sha256": "538d8e1227470b45018a2c0e706a10a95899c3c289826ec3ee215b6dff431cd6",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "B_dist__public.tcf_explainability_logs__rule_hit_rate.csv",
+      "bytes": 28,
+      "sha256": "70e921ba5f9026319b9ed14712db23fe6539a6b0f0b7a0f2308cbb081abeb76e",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "B_quality__public.tcf_explainability_logs__details_json__nulls.csv",
+      "bytes": 37,
+      "sha256": "2133f37bd4c77ca6d4914f3d7abdea50a67508cf372c9b2a90ea33ce950e7ec3",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_audit_event_types__available.csv",
+      "bytes": 4719,
+      "sha256": "2d6d59ff05c55980a25a53ac432c122a30c6dcdaa1711b4b1f6a6186252a5fbe",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_audit_event_types__distinct_event_type.csv",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_audit_events__enum_udts.csv",
+      "bytes": 186,
+      "sha256": "16487ebc7845c14a62e84444e71179a596cf7dec05e74eb3e06460131c0005c6",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_combined_insert_proof.jsonl",
+      "bytes": 1388,
+      "sha256": "f1c99d90dc084b62c43a36ce1517055172c318d73d05bac606ec7617eaf5862d",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_enum__app.integration_mode.csv",
+      "bytes": 116,
+      "sha256": "da160469b33a0f6e13b11ee8200127fb75eadf058096338cc095d557625a8744",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_enum__app.provider_authority.csv",
+      "bytes": 203,
+      "sha256": "b0f03f61a996bd5cab0bb3b0d192c7cf5c1f84f473b941522597a2afa965d214",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_enums_used_by_app.audit_events.csv",
+      "bytes": 417,
+      "sha256": "0911b1bea65c9300e78ffd22afe5697f0cfcc90cd02b4188eb6033368ec9cab4",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_insert_proof__app.audit_events.csv",
+      "bytes": 330,
+      "sha256": "976fa8288f90dae1676ea4aa531fe0bef02340d547373424efcefd123342edbc",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_insert_proof__public.tcf_explainability_logs.csv",
+      "bytes": 359,
+      "sha256": "115379b869d8699efde1bdcf246e7ffc56a2f7fed3282b999e6abd78999a6948",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_insert_proof__public.tcf_rule_runs.csv",
+      "bytes": 332,
+      "sha256": "80ea30367255af073aa03b0468c96f06302f75c5cbbf506330dd316910d5d998",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_policies.csv",
+      "bytes": 760,
+      "sha256": "6feca1fccd109f74647da25a1bbb2bec6876ab69333677c37098f475c753b7f5",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_rls_status.csv",
+      "bytes": 102,
+      "sha256": "9244024718d1da0df1115f1f0e259ca5ec8e2127c75aa6da94f37422de091405",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_role_table_grants.csv",
+      "bytes": 1664,
+      "sha256": "5a251ba195c79b14283b57ca9376a99dbd3f6a9169d6c0a1c891832dd6fa6e37",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_schema__public.tcf_rule_runs__columns.csv",
+      "bytes": 395,
+      "sha256": "166c9a8f3ab01a9de4d7d916b8a9880f40eb1720f2add2bfa0095c1dae3f9608",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_schema__public.tcf_rule_runs__nullability_defaults.csv",
+      "bytes": 411,
+      "sha256": "b9b282292db764d052af5510bbc26a4b2c3573953219aaacf1da51e5f61e0639",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_1_totals_after_insert.csv",
+      "bytes": 97,
+      "sha256": "e72ce18112895e23384a655bc26bbefcaeb8b7ae1ea36eed2545ef35d199d58e",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "D3_2_baseline_counts__window.csv",
+      "bytes": 116,
+      "sha256": "20c9b3aef88130f9f77acab11b5d4b1607bd68c420e2735e91917cde3f9718bb",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "DIAG_app.audit_events__nearest_to_window.csv",
+      "bytes": 153,
+      "sha256": "0fdee961c596b6f30716f745a576a35859cf1b295c55b59550bd05c3708fb7eb",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "DIAG_public.tcf_explainability_logs__nearest_to_window.csv",
+      "bytes": 125,
+      "sha256": "b03c1f48002a378a69f0e7701b3eb8ea3fd3882f8934b512c47ec82fb5e7854a",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "SCHEMA_public.tcf_explainability_logs__columns.csv",
+      "bytes": 368,
+      "sha256": "c23205646676e7af62acde5e437aa445622b69d9653a400845c36ca64c732661",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "SCHEMA_public.tcf_explainability_logs__json_columns.csv",
+      "bytes": 56,
+      "sha256": "602325fe24de8e14b57eb1ffa32210715e3e8d57ba431c4df7552b97e973d67d",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "SCHEMA_reference_control_tables__columns.csv",
+      "bytes": 1430,
+      "sha256": "dcfb456dcdc509b45c241fb875ab3b7da7790cdc65e1dcde6ec6f477e50333bc",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "ZZ_tenant_total_counts__tenant_scoped_tables.csv",
+      "bytes": 68,
+      "sha256": "7edea66a2f6bcebca26a5e0f91cf27f5cdd3c91df638eb4d48d184eb98cb80f8",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "ZZ_window_activity_snapshot.csv",
+      "bytes": 196,
+      "sha256": "98d8c47b06998e962fad9ccdb5c8c5aabb12ed8d973acc64cbbf4515685b961a",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "_trash/B_quality__public.tcf_explainability_logs__metadata_nulls.csv",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "_trash/audit_logs.csv",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "addendum/D3_2_policies__app.audit_events.csv",
+      "bytes": 58,
+      "sha256": "235419efc0a3d91b2dc8baa29d7a2840907b6df9de2abc0ae6fa9a087bc3fa71",
+      "mtime_iso": "2026-01-23T13:54:08Z"
+    },
+    {
+      "path": "addendum/D3_2_rls_status__app.audit_events.csv",
+      "bytes": 67,
+      "sha256": "1edd2d246323774259a064762cba1c6583c8ce28c4a525328d0539c779d3fa87",
+      "mtime_iso": "2026-01-23T13:54:08Z"
+    },
+    {
+      "path": "addendum/D3_3_roles__bypassrls.csv",
+      "bytes": 70,
+      "sha256": "3517e489b0f676b4a181a1f34ece212665b07b794c6e682290fede36a6ce0e31",
+      "mtime_iso": "2026-01-23T14:03:02Z"
+    },
+    {
+      "path": "app.audit_event_types__full.csv",
+      "bytes": 4719,
+      "sha256": "2d6d59ff05c55980a25a53ac432c122a30c6dcdaa1711b4b1f6a6186252a5fbe",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "app.audit_events__tenant_time.csv",
+      "bytes": 147,
+      "sha256": "47aff7806136ed59e4a70e882dacaf236a0a33dbdbf700b0740f057b15e246c3",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "auth.audit_log_entries__time.csv",
+      "bytes": 45,
+      "sha256": "096b1676630d01176b0e646281e3c3dc49c1f40994d6cb296cb8098eb9938d66",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "day3_combined__tenant_scoped.jsonl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "public.audit_event_catalog__full.csv",
+      "bytes": 3067,
+      "sha256": "32e70bc3f2bc98598695fe7c3639d33da719cd16a0df6df60ef6c1673c1263c5",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "public.audit_log__time.csv",
+      "bytes": 142,
+      "sha256": "b876d261e1013f9351f8ad79d0060c3794978e68865824acb63cc2f8c7949fd4",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "public.business_access_grants__full.csv",
+      "bytes": 111,
+      "sha256": "e6bba2181d772936eb3548445ef503837bf87490b0acbd97766cd505eeb10376",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "public.integration_events__time.csv",
+      "bytes": 148,
+      "sha256": "5a6979adb3e22ed360e9a829a77bca5168950d9916a7904528f190f8d7e4c999",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "public.scenario_run_outputs__time.csv",
+      "bytes": 72,
+      "sha256": "ef4fcddc8c2d6980ae2f8e8eff7734bc1ab43236c5bff05005ad7f5a76afadf0",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    },
+    {
+      "path": "public.tcf_explainability_logs__tenant_time.csv",
+      "bytes": 119,
+      "sha256": "36cecb8bfe71c1e4fd3fbf829a96fed4eb71fbfda2e9972da2e00af2873b1e5d",
+      "mtime_iso": "2026-01-23T12:18:04Z"
+    }
+  ]
+}
