@@ -26,10 +26,14 @@ export const api = {
     if (filters.event_type) params.append('event_type', filters.event_type);
     if (filters.severity) params.append('severity', filters.severity);
     if (filters.correlation_id) params.append('correlation_id', filters.correlation_id);
+    if (filters.limit) params.append('limit', filters.limit);
     return axios.get(`${API}/audit/events?${params.toString()}`);
   },
   getAuditEventTypes: () => axios.get(`${API}/audit/event-types`),
   getAuditEventCatalog: () => axios.get(`${API}/audit/event-catalog`),
+  getSeverityDistribution: () => axios.get(`${API}/audit/severity-distribution`),
+  getCorrelationDrilldown: (correlationId) => axios.get(`${API}/audit/correlation/${encodeURIComponent(correlationId)}`),
+  getCorrelationIds: () => axios.get(`${API}/audit/correlations`),
   
   // Explainability
   getExplainabilityRuns: (filters = {}) => {
