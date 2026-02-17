@@ -12,3 +12,9 @@ petcare_execution/evidence_output/
 petcare_execution/__pycache__/
 petcare_execution/.DS_Store
 petcare_execution/*.pyc
+
+petcare_execution/.venv/
+petcare_execution/evidence_output/
+petcare_execution/__pycache__/
+petcare_execution/.DS_Store
+petcare_execution/*.pyc
