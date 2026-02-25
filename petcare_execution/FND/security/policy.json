@@ -1,0 +1,11 @@
+{
+  "schema": "PETCARE_SECURITY_POLICY_V1",
+  "mode": "REGULATED",
+  "auth": {
+    "require_auth_token": false,
+    "expected_token": null,
+    "actor_header": "X-Actor-Id",
+    "token_header": "X-Auth-Token"
+  },
+  "deny_by_default": false
+}
