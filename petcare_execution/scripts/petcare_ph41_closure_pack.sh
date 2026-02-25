@@ -162,6 +162,20 @@ echo "OK zip created: ${ZIP}"
 echo "OK zip sha: ${ZIP}.sha256"
 
 echo ""
+
+  echo ""
+  echo "=== WRITE LATEST PASS POINTER (TRACKED; evidence_output ignored) ==="
+  LATEST_PTR="scripts/PH41_LATEST_PASS.txt"
+  RUN_ID="$(basename "${OUT}")"
+  mkdir -p "$(dirname "${LATEST_PTR}")"
+  cat > "${LATEST_PTR}" <<EOF
+run_id=${RUN_ID}
+run_dir=${OUT#${repo_root}/}
+zip=${ZIP#${repo_root}/}
+zip_sha=${ZIP_SHA#${repo_root}/}
+EOF
+  echo "WROTE=${LATEST_PTR}"
+
 echo "=== SUMMARY ==="
 echo "OUT=${OUT}"
 echo "ZIP=${ZIP}"
