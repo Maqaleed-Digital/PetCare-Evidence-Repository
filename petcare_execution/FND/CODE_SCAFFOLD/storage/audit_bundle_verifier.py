@@ -1,166 +1,199 @@
-"""
-Audit Bundle Verifier — PH27 (Service/API compatible)
-
-Compatibility exports (hard):
-- AuditBundleVerifyResult
-- verify_audit_bundle(bundle, signer=None, require_signature=False, strict_sequence=True)
-- _fallback_bundle_checksum(bundle)
-
-Deterministic checksum:
-- bundle_checksum == sha256(canonical_json(bundle minus excluded fields))
-- excluded fields include bundle_checksum + signature metadata fields (legacy + PH26)
-
-Signature rules:
-- If require_signature=True: must have signature metadata AND must verify via signer (if signer provided)
-- If signature metadata present but signer is None: FAIL with error containing "no signer provided"
-- If signature metadata absent and require_signature=False: OK
-
-Sequence rules:
-- If strict_sequence=True and integer sequence fields exist: must be strictly increasing AND contiguous
-- If strict_sequence=False and integer sequence fields exist: must be strictly increasing only
-- If no integer sequence fields: do not fail
-"""
-
 from __future__ import annotations
 
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Tuple
+import copy
 import hashlib
 import json
-from dataclasses import dataclass
-from typing import Any, Dict, List, Optional, Sequence, Tuple
-
-
-LEGACY_SIGNATURE_FIELDS = frozenset(
-    {
-        "_signature",
-        "_signature_algorithm",
-        "_signature_key_id",
-        "_signature_timestamp",
-        "_signature_version",
-    }
-)
-
-PH26_SIGNATURE_FIELDS = frozenset(
-    {
-        "signature_algorithm",
-        "signature_b64",
-        "signing_public_key_b64",
-        "signing_key_fingerprint",
-        "signed_at_utc",
-    }
-)
-
-SIGNATURE_METADATA_FIELDS = frozenset(set(LEGACY_SIGNATURE_FIELDS) | set(PH26_SIGNATURE_FIELDS))
-CHECKSUM_EXCLUDED_FIELDS = frozenset(set(SIGNATURE_METADATA_FIELDS) | {"bundle_checksum"})
-
-
-def _canonical_json(data: Any) -> str:
-    return json.dumps(
-        data,
-        sort_keys=True,
-        separators=(",", ":"),
-        ensure_ascii=False,
-        default=str,
-    )
-
-
-def _strip_fields(bundle: Dict[str, Any], excluded: frozenset) -> Dict[str, Any]:
-    return {k: v for k, v in bundle.items() if k not in excluded}
-
-
-def _bundle_checksum_calc(bundle: Dict[str, Any]) -> str:
-    stripped = _strip_fields(bundle, CHECKSUM_EXCLUDED_FIELDS)
-    canonical = _canonical_json(stripped)
-    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()
-
-
-def _fallback_bundle_checksum(bundle: Dict[str, Any]) -> str:
-    return _bundle_checksum_calc(bundle)
 
 
 @dataclass
 class AuditBundleVerifyResult:
     ok: bool
     errors: List[str]
-
     bundle_checksum_ok: bool
     signature_present: bool
     signature_ok: bool
-
-    tenant_id: Optional[str] = None
-    event_count: Optional[int] = None
-    first_sequence: Optional[int] = None
-    last_sequence: Optional[int] = None
-
-
-def _get_events(bundle: Dict[str, Any]) -> List[Dict[str, Any]]:
-    ev = bundle.get("events", [])
-    if not isinstance(ev, list):
-        return []
-    out: List[Dict[str, Any]] = []
-    for e in ev:
-        if isinstance(e, dict):
-            out.append(e)
-    return out
+    tenant_id: Optional[str]
+    event_count: int
+    first_sequence: Optional[int]
+    last_sequence: Optional[int]
 
 
-def _validate_tenant_isolation(bundle: Dict[str, Any], events: Sequence[Dict[str, Any]], errors: List[str]) -> None:
-    tenant_id = bundle.get("tenant_id")
-    if tenant_id is None:
-        return
-    if not isinstance(tenant_id, str) or not tenant_id.strip():
-        errors.append("tenant_id missing/invalid")
-        return
-    for i, e in enumerate(events):
-        if "tenant_id" not in e:
-            continue
-        et = e.get("tenant_id")
-        if et != tenant_id:
-            errors.append(f"tenant_id mismatch event_index={i} event_tenant_id={et} bundle_tenant_id={tenant_id}")
+def _canonical_json(obj: Any) -> str:
+    return json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
 
 
-def _extract_sequences(events: Sequence[Dict[str, Any]]) -> List[int]:
-    seqs: List[int] = []
-    for e in events:
-        s = e.get("sequence")
-        if isinstance(s, int):
-            seqs.append(s)
-    return seqs
+def _strip_signature_fields(bundle: Dict[str, Any]) -> Dict[str, Any]:
+    b = copy.deepcopy(bundle)
+
+    for k in [
+        "_signature",
+        "signature",
+        "signature_b64",
+        "_signer",
+        "signer",
+        "signing_public_key_b64",
+        "signing_key_fingerprint",
+        "signed_at_utc",
+        "_signature_algorithm",
+        "_signature_key_id",
+        "signature_algorithm",
+    ]:
+        if k in b:
+            del b[k]
+
+    if "bundle_checksum" in b:
+        del b["bundle_checksum"]
+
+    if isinstance(b.get("bundle_meta"), dict):
+        meta = b["bundle_meta"]
+        for k in [
+            "bundle_checksum",
+            "_signature",
+            "signature",
+            "signature_b64",
+            "_signer",
+            "signer",
+            "signing_public_key_b64",
+            "signing_key_fingerprint",
+            "signed_at_utc",
+            "_signature_algorithm",
+            "_signature_key_id",
+            "signature_algorithm",
+        ]:
+            if k in meta:
+                del meta[k]
+
+    return b
 
 
-def _validate_sequences(seqs: List[int], errors: List[str], strict_sequence: bool) -> Tuple[Optional[int], Optional[int]]:
-    if not seqs:
-        return None, None
+def _fallback_bundle_checksum(bundle: Dict[str, Any]) -> str:
+    payload = _strip_signature_fields(bundle)
+    raw = _canonical_json(payload).encode("utf-8")
+    return hashlib.sha256(raw).hexdigest()
 
-    for i in range(len(seqs) - 1):
-        if seqs[i] >= seqs[i + 1]:
-            errors.append("sequence not strictly increasing")
-            break
 
-    if strict_sequence and len(seqs) >= 2:
-        for i in range(len(seqs) - 1):
-            if seqs[i + 1] != seqs[i] + 1:
-                errors.append("sequence not contiguous")
-                break
-
-    return seqs[0], seqs[-1]
+def _verify_bundle_checksum(bundle: Dict[str, Any]) -> Tuple[bool, Optional[str]]:
+    declared = bundle.get("bundle_checksum")
+    if declared is None:
+        return True, None
+    if not isinstance(declared, str) or not declared:
+        return False, "bundle checksum invalid"
+    calc = _fallback_bundle_checksum(bundle)
+    if declared != calc:
+        return False, "bundle checksum mismatch"
+    return True, None
 
 
 def _signature_present(bundle: Dict[str, Any]) -> bool:
-    return any((k in bundle) for k in SIGNATURE_METADATA_FIELDS)
+    if isinstance(bundle.get("_signature"), str) and bundle.get("_signature"):
+        return True
+    if isinstance(bundle.get("signature"), str) and bundle.get("signature"):
+        return True
+    if isinstance(bundle.get("signature_b64"), str) and bundle.get("signature_b64"):
+        return True
+    return False
 
 
-def _verify_signature(bundle: Dict[str, Any], signer: Any, errors: List[str]) -> bool:
-    """
-    signer contract: must expose verify_bundle(bundle) -> bool
-    """
-    try:
-        ok = bool(signer.verify_bundle(bundle))
-        if not ok:
-            errors.append("signature invalid")
-        return ok
-    except Exception:
-        errors.append("signature invalid")
-        return False
+def _get_signature_payload(bundle: Dict[str, Any]) -> str:
+    if isinstance(bundle.get("_signature"), str) and bundle.get("_signature"):
+        return bundle["_signature"]
+    if isinstance(bundle.get("signature"), str) and bundle.get("signature"):
+        return bundle["signature"]
+    if isinstance(bundle.get("signature_b64"), str) and bundle.get("signature_b64"):
+        return bundle["signature_b64"]
+    return ""
+
+
+def _verify_prev_checksum_link(events: List[Dict[str, Any]]) -> Tuple[bool, Optional[str]]:
+    if not events:
+        return True, None
+    for i in range(1, len(events)):
+        prev = events[i - 1].get("checksum")
+        got = events[i].get("prev_checksum")
+        if prev is None or got is None:
+            return False, "hash-chain broken: missing checksum/prev_checksum"
+        if got != prev:
+            return False, "hash-chain broken: prev_checksum mismatch"
+    return True, None
+
+
+def _verify_event_count(bundle: Dict[str, Any], events: List[Dict[str, Any]]) -> Tuple[bool, Optional[str]]:
+    declared = bundle.get("event_count")
+    if declared is None:
+        return True, None
+    if not isinstance(declared, int):
+        return False, "event_count must be int"
+    actual = len(events)
+    if declared != actual:
+        return False, "event_count mismatch"
+    return True, None
+
+
+def _verify_tenant_isolation(bundle: Dict[str, Any], events: List[Dict[str, Any]]) -> Tuple[bool, Optional[str]]:
+    bundle_tenant = bundle.get("tenant_id")
+    if not isinstance(bundle_tenant, str) or not bundle_tenant:
+        return True, None
+    for i, e in enumerate(events):
+        et = e.get("tenant_id")
+        if isinstance(et, str) and et and et != bundle_tenant:
+            return False, f"tenant_id mismatch at index={i}"
+    return True, None
+
+
+def _verify_sequence(events: List[Dict[str, Any]], strict_contiguous: bool) -> Tuple[Optional[int], Optional[int], bool, Optional[str]]:
+    if not events:
+        return None, None, True, None
+
+    seqs: List[int] = []
+    for i, e in enumerate(events):
+        s = e.get("sequence")
+        if not isinstance(s, int):
+            return None, None, False, "sequence missing/invalid"
+        seqs.append(s)
+
+    first = seqs[0]
+    last = seqs[-1]
+
+    if strict_contiguous:
+        for i, s in enumerate(seqs):
+            if s != first + i:
+                return first, last, False, "sequence not contiguous"
+
+    for i in range(1, len(seqs)):
+        if seqs[i] <= seqs[i - 1]:
+            return first, last, False, "sequence not strictly increasing"
+
+    return first, last, True, None
+
+
+def _call_signer_verify(signer: Any, bundle: Dict[str, Any], signature: str) -> bool:
+    if hasattr(signer, "verify"):
+        fn = getattr(signer, "verify")
+        try:
+            return bool(fn(bundle=bundle, signature=signature))
+        except TypeError:
+            pass
+        try:
+            return bool(fn(bundle, signature))
+        except TypeError:
+            pass
+        return bool(fn(bundle))
+
+    if hasattr(signer, "verify_bundle"):
+        fn = getattr(signer, "verify_bundle")
+        try:
+            return bool(fn(bundle=bundle, signature=signature))
+        except TypeError:
+            pass
+        try:
+            return bool(fn(bundle, signature))
+        except TypeError:
+            pass
+        return bool(fn(bundle))
+
+    raise TypeError("signer has no verify/verify_bundle")
 
 
 def verify_audit_bundle(
@@ -174,26 +207,48 @@ def verify_audit_bundle(
     if not isinstance(bundle, dict):
         return AuditBundleVerifyResult(
             ok=False,
-            errors=["bundle invalid: not an object"],
-            bundle_checksum_ok=False,
+            errors=["bundle must be dict"],
+            bundle_checksum_ok=True,
             signature_present=False,
-            signature_ok=False,
+            signature_ok=True,
+            tenant_id=None,
+            event_count=0,
+            first_sequence=None,
+            last_sequence=None,
         )
 
-    events = _get_events(bundle)
+    events_raw = bundle.get("events")
+    if not isinstance(events_raw, list):
+        errors.append("bundle.events must be list")
+        events: List[Dict[str, Any]] = []
+    else:
+        if any(not isinstance(e, dict) for e in events_raw):
+            errors.append("bundle.events must contain only objects")
+        events = [e for e in events_raw if isinstance(e, dict)]
+
     tenant_id = bundle.get("tenant_id") if isinstance(bundle.get("tenant_id"), str) else None
+    event_count_actual = len(events)
 
-    _validate_tenant_isolation(bundle, events, errors)
+    first_seq, last_seq, seq_ok, seq_err = _verify_sequence(events, strict_sequence)
+    if not seq_ok and seq_err:
+        errors.append(seq_err)
 
-    seqs = _extract_sequences(events)
-    first_seq, last_seq = _validate_sequences(seqs, errors, strict_sequence)
+    chain_ok, chain_err = _verify_prev_checksum_link(events)
+    if not chain_ok and chain_err:
+        errors.append(chain_err)
 
-    want = bundle.get("bundle_checksum")
-    calc = _bundle_checksum_calc(bundle)
+    tenant_ok, tenant_err = _verify_tenant_isolation(bundle, events)
+    if not tenant_ok and tenant_err:
+        errors.append(tenant_err)
 
-    bundle_checksum_ok = isinstance(want, str) and (want == calc)
-    if not bundle_checksum_ok:
-        errors.append("bundle_checksum mismatch")
+    count_ok, count_err = _verify_event_count(bundle, events)
+    if not count_ok and count_err:
+        errors.append(count_err)
+
+    checksum_ok, checksum_err = _verify_bundle_checksum(bundle)
+    if not checksum_ok and checksum_err:
+        errors.append(checksum_err)
+    bundle_checksum_ok = checksum_ok
 
     sig_present = _signature_present(bundle)
     signature_ok = True
@@ -206,10 +261,18 @@ def verify_audit_bundle(
         signature_ok = False
         errors.append("no signer provided")
 
-    if sig_present and signer is not None:
-        signature_ok = _verify_signature(bundle, signer, errors)
+    if sig_present and signer is not None and require_signature:
+        sig = _get_signature_payload(bundle)
+        try:
+            ok = _call_signer_verify(signer, bundle, sig)
+            if not ok:
+                signature_ok = False
+                errors.append("signature invalid")
+        except Exception as e:
+            signature_ok = False
+            errors.append(f"raised exception: {e}")
 
-    ok = (len(errors) == 0)
+    ok = (len(errors) == 0) and bundle_checksum_ok and signature_ok
 
     return AuditBundleVerifyResult(
         ok=ok,
@@ -218,43 +281,7 @@ def verify_audit_bundle(
         signature_present=sig_present,
         signature_ok=signature_ok,
         tenant_id=tenant_id,
-        event_count=len(events),
+        event_count=event_count_actual,
         first_sequence=first_seq,
         last_sequence=last_seq,
     )
-
-
-def main() -> int:
-    import sys
-
-    if len(sys.argv) != 2:
-        print("USAGE: python audit_bundle_verifier.py <bundle.json>", file=sys.stderr)
-        return 2
-
-    path = sys.argv[1]
-    try:
-        with open(path, "r", encoding="utf-8") as f:
-            bundle = json.load(f)
-
-        r = verify_audit_bundle(bundle)
-
-        print("AUDIT_BUNDLE_VERIFY")
-        print(f"tenant_id={r.tenant_id}")
-        print(f"event_count={r.event_count}")
-        print(f"bundle_checksum_ok={r.bundle_checksum_ok}")
-        print(f"signature_present={r.signature_present}")
-        print(f"signature_ok={r.signature_ok}")
-        if r.errors:
-            for e in r.errors:
-                print(f"error={e}")
-        print(f"RESULT={'PASS' if r.ok else 'FAIL'}")
-
-        return 0 if r.ok else 1
-
-    except Exception as e:
-        print(f"ERROR={type(e).__name__}: {e}", file=sys.stderr)
-        return 2
-
-
-if __name__ == "__main__":
-    raise SystemExit(main())
