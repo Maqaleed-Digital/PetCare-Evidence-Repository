@@ -132,13 +132,25 @@ fi
 echo "RESULT=PASS" | tee -a "${OUT}/evidence_safety.txt"
 
 echo ""
-echo "=== SECRET HEURISTIC (TRACKED FILES ONLY) ==="
+echo "=== SECRET HEURISTIC (TRACKED CODE/CONFIG ONLY; excludes .md) ==="
 SECRET_SCAN="PASS"
-if git grep -nE '(API_KEY|SECRET_KEY|PRIVATE_KEY|BEGIN (RSA|EC|OPENSSH) PRIVATE KEY|AKIA[0-9A-Z]{16})' -- . >/dev/null 2>&1; then
+# Avoid false positives in policy/spec markdown by scanning only code/config types.
+# Still catch hard indicators (private keys / AWS access keys) anywhere in those files.
+if git grep -nE '(BEGIN (RSA|EC|OPENSSH) PRIVATE KEY|AKIA[0-9A-Z]{16})' -- \
+  '*.py' '*.sh' '*.bash' '*.zsh' '*.js' '*.ts' '*.tsx' '*.yml' '*.yaml' '*.toml' '*.json' '*.ini' '*.cfg' \
+  >/dev/null 2>&1; then
+  SECRET_SCAN="FAIL"
+fi
+# For API/secret token words, require an assignment-like context to reduce noise.
+if git grep -nE '(API_KEY|SECRET_KEY|PRIVATE_KEY)[[:space:]]*[:=]' -- \
+  '*.py' '*.sh' '*.bash' '*.zsh' '*.js' '*.ts' '*.tsx' '*.yml' '*.yaml' '*.toml' '*.json' '*.ini' '*.cfg' \
+  >/dev/null 2>&1; then
   SECRET_SCAN="FAIL"
 fi
 echo "SECRET_SCAN=${SECRET_SCAN}" | tee "${OUT}/secret_scan.txt"
 if [ "${SECRET_SCAN}" != "PASS" ]; then
+  echo "DETAIL=Run: git grep -nE \"(BEGIN (RSA|EC|OPENSSH) PRIVATE KEY|AKIA[0-9A-Z]{16}|(API_KEY|SECRET_KEY|PRIVATE_KEY)[[:space:]]*[:=])\" -- \\
+  \"*.py\" \"*.sh\" \"*.yml\" \"*.yaml\" \"*.toml\" \"*.json\"" | tee -a "${OUT}/secret_scan.txt"
   exit 1
 fi
 

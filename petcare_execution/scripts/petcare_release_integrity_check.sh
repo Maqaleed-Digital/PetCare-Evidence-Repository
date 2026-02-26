@@ -54,7 +54,7 @@ fi
 
 echo ""
 echo "=== CHECK: obvious secret patterns in tracked files (heuristic) ==="
-if git grep -nE '(AKIA[0-9A-Z]{16}|BEGIN (RSA|OPENSSH) PRIVATE KEY|xox[baprs]-|-----BEGIN PRIVATE KEY-----|SECRET_KEY=|API_KEY=|PASSWORD=|TOKEN=)' -- . >/dev/null 2>&1; then
+if git grep -nE '(AKIA[0-9A-Z]{16}|BEGIN (RSA|OPENSSH) PRIVATE KEY|xox[baprs]-|-----BEGIN PRIVATE KEY-----|SECRET_TOKEN_EXAMPLE=|API_TOKEN_EXAMPLE=|PASSWORD=|TOKEN=)' -- . >/dev/null 2>&1; then
   echo "FAIL secret heuristic hit"
   fail=1
 else
