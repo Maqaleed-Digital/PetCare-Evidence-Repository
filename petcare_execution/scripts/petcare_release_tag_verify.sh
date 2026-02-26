@@ -11,6 +11,15 @@ if [ -z "${TAG}" ]; then
 fi
 
 echo "=== RELEASE TAG VERIFY ==="
+
+echo "=== CHECK: working tree must be clean ==="
+if [ -n "$(git status --porcelain)" ]; then
+  echo "RESULT=FAIL"
+  echo "DIRTY_WORKTREE=1"
+  git status -sb || true
+  exit 1
+fi
+echo "WORKTREE_CLEAN=1"
 echo "repo=${ROOT}"
 echo "tag=${TAG}"
 
