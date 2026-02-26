@@ -10,3 +10,4 @@ build/
 # ================================================
 
 .tmp_lock_verify/
+tests/ENVIRONMENT_NEGATIVE_CASES.md
