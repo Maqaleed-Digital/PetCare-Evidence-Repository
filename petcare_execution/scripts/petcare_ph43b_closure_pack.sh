@@ -132,7 +132,18 @@ while IFS= read -r f; do
 done < "${OUT}/closure_files.txt"
 
 echo "=== SHA256 LIST (DETERMINISTIC) ==="
-find "${OUT}" -type f -print0 | LC_ALL=C sort -z | xargs -0 shasum -a 256 > "${OUT}/closure_sha256.txt"
+TMP_SHA="${OUT}/.closure_sha256.tmp"
+rm -f "${TMP_SHA}"
+
+find "${OUT}" -type f \
+  ! -name "closure_sha256.txt" \
+  ! -name ".closure_sha256.tmp" \
+  -print0 \
+| LC_ALL=C sort -z \
+| xargs -0 shasum -a 256 \
+> "${TMP_SHA}"
+
+mv -f "${TMP_SHA}" "${OUT}/closure_sha256.txt"
 
 echo "=== ZIP ==="
 mkdir -p "${OUT_ROOT}"
