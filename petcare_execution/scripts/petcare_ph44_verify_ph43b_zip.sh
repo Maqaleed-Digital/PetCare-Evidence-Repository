@@ -50,10 +50,14 @@ WORK="${OUT_DIR}/work/extracted"
 rm -rf "${WORK}"
 mkdir -p "${WORK}"
 
-python3 - <<PY
-import zipfile, sys
-zip_path = r"""${PH43B_ZIP}"""
-work = r"""${WORK}"""
+echo "=== EXTRACT ==="
+export PH44_ZIP_PATH="${PH43B_ZIP}"
+export PH44_WORK_DIR="${WORK}"
+python3 - <<'PY'
+import os, zipfile, sys
+zip_path = os.environ["PH44_ZIP_PATH"]
+work = os.environ["PH44_WORK_DIR"]
+
 with zipfile.ZipFile(zip_path, "r") as z:
     for m in z.infolist():
         name = m.filename
@@ -61,6 +65,7 @@ with zipfile.ZipFile(zip_path, "r") as z:
             print("ERROR: unsafe zip path traversal:", name)
             sys.exit(10)
     z.extractall(work)
+
 print("EXTRACT_OK")
 PY
 
@@ -69,6 +74,7 @@ if [ -z "${BASE_DIR}" ]; then
   echo "ERROR: could not locate MANIFEST.json after extraction"
   exit 5
 fi
+
 echo "base_dir=${BASE_DIR}"
 
 MANIFEST="${BASE_DIR}/MANIFEST.json"
@@ -79,17 +85,24 @@ if [ ! -f "${MANIFEST}" ]; then echo "ERROR: missing MANIFEST.json"; exit 6; fi
 if [ ! -f "${CLOSURE_SHA}" ]; then echo "ERROR: missing closure_sha256.txt"; exit 7; fi
 if [ ! -f "${ATTEST}" ]; then echo "ERROR: missing attestation record"; exit 8; fi
 
-python3 - <<PY
-import json
-json.load(open(r"""${MANIFEST}""","r",encoding="utf-8"))
+echo "=== MANIFEST JSON ==="
+export PH44_MANIFEST_PATH="${MANIFEST}"
+python3 - <<'PY'
+import json, os
+json.load(open(os.environ["PH44_MANIFEST_PATH"], "r", encoding="utf-8"))
 print("MANIFEST_JSON_OK")
 PY
 
+echo "=== VERIFY closure_sha256.txt ==="
 VERIFY_HASH_OK="true"
-python3 - <<PY
+export PH44_BASE_DIR="${BASE_DIR}"
+export PH44_CLOSURE_SHA="${CLOSURE_SHA}"
+
+python3 - <<'PY' || VERIFY_HASH_OK="false"
 import os, sys, hashlib
-base = r"""${BASE_DIR}"""
-sha_list = r"""${CLOSURE_SHA}"""
+
+base = os.environ["PH44_BASE_DIR"]
+sha_list = os.environ["PH44_CLOSURE_SHA"]
 
 def sha256_file(p):
     h = hashlib.sha256()
@@ -134,17 +147,26 @@ if failed:
     sys.exit(31)
 
 print("CLOSURE_SHA256_VERIFY_OK count=", len(want))
-PY || VERIFY_HASH_OK="false"
+PY
 
-python3 - <<PY > "${OUT_DIR}/results/_ph44_extract_values.txt"
+echo "closure_sha256_verify_ok=${VERIFY_HASH_OK}"
+
+echo "=== EXTRACT ARTIFACT BINDING VALUES ==="
+export PH44_ATTEST_PATH="${ATTEST}"
+export PH44_OUT_DIR="${OUT_DIR}"
+
+python3 - <<'PY' > "${OUT_DIR}/results/_ph44_extract_values.txt"
 import json, os
-base = r"""${BASE_DIR}"""
-manifest = json.load(open(r"""${MANIFEST}""","r",encoding="utf-8"))
-att = json.load(open(r"""${ATTEST}""","r",encoding="utf-8"))
+
+base = os.environ["PH44_BASE_DIR"]
+manifest = json.load(open(os.environ["PH44_MANIFEST_PATH"], "r", encoding="utf-8"))
+att = json.load(open(os.environ["PH44_ATTEST_PATH"], "r", encoding="utf-8"))
+
 m_sha = (manifest.get("artifact") or {}).get("sha256","")
 a_sha = (att.get("artifact") or {}).get("sha256","")
 name = (manifest.get("artifact") or {}).get("name","") or (att.get("artifact") or {}).get("name","")
 copy = os.path.join(base, "artifact", name) if name else ""
+
 print("MANIFEST_ART_SHA256=" + m_sha)
 print("ATTEST_ART_SHA256=" + a_sha)
 print("ARTIFACT_NAME=" + name)
@@ -189,6 +211,7 @@ EOF
 
 cat > "${REPORT_MD}" <<EOF
 # PH44 — Verification Report (PH43-B ZIP)
+
 overall_pass: ${OVERALL_PASS}
 EOF
 
