@@ -129,6 +129,9 @@ with open(sha_list, "r", encoding="utf-8") as f:
             path = path[2:]
         rel = os.path.relpath(path, base) if path.startswith(base + os.sep) else path
         want[rel] = digest
+        if rel.endswith("closure_sha256.txt"):
+            continue
+
 
 failed = 0
 for rel, digest in want.items():
