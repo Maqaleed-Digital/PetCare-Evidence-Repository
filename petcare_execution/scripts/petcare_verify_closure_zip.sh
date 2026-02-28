@@ -22,12 +22,7 @@ mkdir -p "${OUT_DIR}/logs" "${OUT_DIR}/work" "${OUT_DIR}/results"
 LOG_TXT="${OUT_DIR}/logs/verify_log.txt"
 RESULT_JSON="${OUT_DIR}/results/VERIFY_RESULT.json"
 REPORT_MD="${OUT_DIR}/results/VERIFY_REPORT.md"
-
-if [ -z "${RESULT_JSON}" ] || [ -z "${REPORT_MD}" ]; then
-  echo "ERROR: internal paths empty (RESULT_JSON/REPORT_MD)"
-  echo "OUT_DIR=${OUT_DIR}"
-  exit 4
-fi
+MANIFEST_SCAN_TXT="${OUT_DIR}/results/.manifest_files_scan.txt"
 
 mkdir -p "$(dirname "${RESULT_JSON}")" "$(dirname "${REPORT_MD}")"
 
@@ -38,7 +33,7 @@ echo "repo_root=${REPO_ROOT}"
 echo "zip_path=${ZIP_PATH}"
 echo "out_dir=${OUT_DIR}"
 
-ZIP_SHA256="$(shasum -a 256 "${ZIP_PATH}" | awk "{print \$1}")"
+ZIP_SHA256="$(shasum -a 256 "${ZIP_PATH}" | awk '{print $1}')"
 echo "zip_sha256=${ZIP_SHA256}"
 
 SIDE_SHA="${ZIP_PATH}.sha256"
@@ -47,7 +42,7 @@ SIDECAR_MATCH="(no_sidecar)"
 SIDECAR_WANT="(missing)"
 if [ -f "${SIDE_SHA}" ]; then
   SIDECAR_PRESENT="true"
-  SIDECAR_WANT="$(awk "{print \$1}" < "${SIDE_SHA}")"
+  SIDECAR_WANT="$(awk '{print $1}' < "${SIDE_SHA}")"
   SIDECAR_MATCH="false"
   if [ "${SIDECAR_WANT}" = "${ZIP_SHA256}" ]; then SIDECAR_MATCH="true"; fi
   echo "sidecar_sha256=${SIDECAR_WANT}"
@@ -67,7 +62,6 @@ python3 - <<'PY'
 import os, zipfile, sys
 zip_path = os.environ["PC_ZIP_PATH"]
 work = os.environ["PC_WORK_DIR"]
-
 with zipfile.ZipFile(zip_path, "r") as z:
     for m in z.infolist():
         name = m.filename
@@ -75,11 +69,10 @@ with zipfile.ZipFile(zip_path, "r") as z:
             print("ERROR: unsafe zip path traversal:", name)
             sys.exit(10)
     z.extractall(work)
-
 print("EXTRACT_OK")
 PY
 
-BASE_DIR="$(find "${WORK}" -maxdepth 3 -type f -name MANIFEST.json -print | head -1 | sed s#/MANIFEST.json##)"
+BASE_DIR="$(find "${WORK}" -maxdepth 3 -type f -name MANIFEST.json -print | head -1 | sed 's#/MANIFEST.json##')"
 if [ -z "${BASE_DIR}" ]; then
   echo "ERROR: could not locate MANIFEST.json after extraction"
   exit 5
@@ -93,10 +86,9 @@ if [ ! -f "${MANIFEST}" ]; then echo "ERROR: missing MANIFEST.json"; exit 6; fi
 if [ ! -f "${CLOSURE_SHA}" ]; then echo "ERROR: missing closure_sha256.txt"; exit 7; fi
 
 echo "=== MANIFEST JSON PARSE ==="
-export PC_MANIFEST_PATH="${MANIFEST}"
-python3 - <<'PY'
-import json, os
-json.load(open(os.environ["PC_MANIFEST_PATH"], "r", encoding="utf-8"))
+python3 - <<'PY' "${MANIFEST}"
+import json, sys
+json.load(open(sys.argv[1], "r", encoding="utf-8"))
 print("MANIFEST_JSON_OK")
 PY
 
@@ -156,39 +148,39 @@ echo "closure_sha256_verify_ok=${VERIFY_HASH_OK}"
 echo "=== VERIFY MANIFEST FILE REFERENCES (files.* must exist) ==="
 FILES_OK="true"
 FILES_TOTAL="0"
-FILES_MISSING_COUNT="0"
-python3 - <<'PY' "${BASE_DIR}" "${MANIFEST}" "${OUT_DIR}/results/.manifest_files_scan.txt" || FILES_OK="false"
+FILES_MISSING="0"
+python3 - <<'PY' "${BASE_DIR}" "${MANIFEST}" "${MANIFEST_SCAN_TXT}" || FILES_OK="false"
 import json, sys, os
 base = sys.argv[1]
 m = json.load(open(sys.argv[2], "r", encoding="utf-8"))
 outp = sys.argv[3]
 files = m.get("files") or {}
 missing = []
-total = 0
 for k, rel in files.items():
-    total += 1
     if not isinstance(rel, str) or not rel:
         missing.append((k, "(invalid)"))
         continue
     p = os.path.join(base, rel)
     if not os.path.isfile(p):
         missing.append((k, rel))
+
 with open(outp, "w", encoding="utf-8", newline="\n") as f:
-    f.write("total=%d\n" % total)
-    if missing:
-        for k, rel in missing:
-            f.write("missing=%s %s\n" % (k, rel))
+    f.write(f"total={len(files)}\n")
+    for k, rel in missing:
+        f.write(f"missing={k} {rel}\n")
+
 if missing:
     for k, rel in missing:
         print("MANIFEST_FILE_MISSING:", k, rel)
     raise SystemExit(41)
+
 print("MANIFEST_FILES_OK count=", len(files))
 PY
 echo "manifest_files_ok=${FILES_OK}"
 
-if [ -f "${OUT_DIR}/results/.manifest_files_scan.txt" ]; then
-  FILES_TOTAL="$(awk -F= '/^total=/{print $2}' "${OUT_DIR}/results/.manifest_files_scan.txt" | tr -d '[:space:]' || true)"
-  FILES_MISSING_COUNT="$(grep -c '^missing=' "${OUT_DIR}/results/.manifest_files_scan.txt" || true)"
+if [ -f "${MANIFEST_SCAN_TXT}" ]; then
+  FILES_TOTAL="$(awk -F= '/^total=/{print $2}' "${MANIFEST_SCAN_TXT}" | tr -d '[:space:]' || true)"
+  FILES_MISSING="$(grep -c '^missing=' "${MANIFEST_SCAN_TXT}" || true)"
 fi
 
 OVERALL_PASS="true"
@@ -199,7 +191,7 @@ if [ "${FILES_OK}" != "true" ]; then OVERALL_PASS="false"; fi
 echo "result_json_path=${RESULT_JSON}"
 echo "report_md_path=${REPORT_MD}"
 
-cat > "${RESULT_JSON}" <<EOF
+cat > "${RESULT_JSON}" <<JSON
 {
   "schema": "petcare.verify_closure_zip.v1",
   "zip_path": "${ZIP_PATH}",
@@ -212,3 +204,27 @@ cat > "${RESULT_JSON}" <<EOF
   "manifest_files_ok": "${FILES_OK}",
   "overall_pass": "${OVERALL_PASS}"
 }
+JSON
+
+cat > "${REPORT_MD}" <<MD
+# PetCare Closure ZIP Verification Report
+
+repo_root: ${REPO_ROOT}  
+zip_path: ${ZIP_PATH}  
+zip_sha256: ${ZIP_SHA256}  
+sidecar_present: ${SIDECAR_PRESENT}  
+sidecar_sha256: ${SIDECAR_WANT}  
+sidecar_match: ${SIDECAR_MATCH}  
+base_dir: ${BASE_DIR}  
+
+Checks:
+- closure_sha256_verify_ok: ${VERIFY_HASH_OK}
+- manifest_files_ok: ${FILES_OK} (total=${FILES_TOTAL} missing=${FILES_MISSING})
+
+overall_pass: ${OVERALL_PASS}
+MD
+
+if [ ! -f "${REPORT_MD}" ]; then
+  echo "ERROR: failed to write VERIFY_REPORT.md"
+  exit 9
+fi
