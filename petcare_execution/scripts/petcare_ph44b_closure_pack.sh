@@ -36,6 +36,7 @@ if [ -n "$(git status --porcelain)" ]; then
 fi
 
 mkdir -p "${OUT}/input" "${OUT}/verify" "${OUT}/EVIDENCE" "${OUT}/snapshots"
+mkdir -p "${OUT}/EVIDENCE/verify_results"
 
 echo "=== COPY INPUT ZIP (+ optional sidecar) ==="
 cp -p "${ZIP_IN}" "${OUT}/input/INPUT.zip"
@@ -45,6 +46,21 @@ fi
 
 echo "=== RUN GENERIC VERIFIER ==="
 bash "${REPO_ROOT}/scripts/petcare_verify_closure_zip.sh" "${OUT}/input/INPUT.zip" "${OUT}/verify"
+
+echo "=== STABILIZE VERIFIER OUTPUTS (PH44B-OWNED PATHS) ==="
+if [ -f "${OUT}/verify/results/VERIFY_RESULT.json" ]; then
+  cp -p "${OUT}/verify/results/VERIFY_RESULT.json" "${OUT}/EVIDENCE/verify_results/VERIFY_RESULT.json"
+else
+  echo "ERROR: missing verifier result: ${OUT}/verify/results/VERIFY_RESULT.json"
+  exit 4
+fi
+
+if [ -f "${OUT}/verify/results/VERIFY_REPORT.md" ]; then
+  cp -p "${OUT}/verify/results/VERIFY_REPORT.md" "${OUT}/EVIDENCE/verify_results/VERIFY_REPORT.md"
+else
+  echo "ERROR: missing verifier report: ${OUT}/verify/results/VERIFY_REPORT.md"
+  exit 5
+fi
 
 echo "=== WRITE EVIDENCE REPORT ==="
 cat > "${OUT}/EVIDENCE/PH44B_VERIFY_CLOSURE_ZIP_REPORT.md" <<EOM
@@ -58,9 +74,13 @@ git_describe: $(git describe --tags --dirty --always)
 input_zip (provided): ${ZIP_IN}  
 input_zip (copied): ${OUT}/input/INPUT.zip  
 
-Verifier outputs:
+Verifier outputs (verifier-native paths):
 - verify/results/VERIFY_RESULT.json
 - verify/results/VERIFY_REPORT.md
+
+Verifier outputs (PH44B-owned stable paths):
+- EVIDENCE/verify_results/VERIFY_RESULT.json
+- EVIDENCE/verify_results/VERIFY_REPORT.md
 EOM
 
 echo "=== PACK MANIFEST (PH44-B) ==="
@@ -78,8 +98,8 @@ cat > "${OUT}/MANIFEST.json" <<EOM
   },
   "files": {
     "input_zip_copy": "input/INPUT.zip",
-    "verifier_result": "verify/results/VERIFY_RESULT.json",
-    "verifier_report": "verify/results/VERIFY_REPORT.md",
+    "verifier_result": "EVIDENCE/verify_results/VERIFY_RESULT.json",
+    "verifier_report": "EVIDENCE/verify_results/VERIFY_REPORT.md",
     "evidence_report": "EVIDENCE/PH44B_VERIFY_CLOSURE_ZIP_REPORT.md"
   }
 }
