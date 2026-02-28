@@ -1,5 +1,19 @@
 {
-  "schema": "petcare.verification_index.v1",
-  "created_utc": "INIT",
-  "entries": []
+  "created_utc": "20260228T223112Z",
+  "entries": [
+    {
+      "entry_hash": "65d131d564e14fd65a05db9c957a9448f65c8563515d2c257dae848f3042c994",
+      "overall_pass": "true",
+      "prev_entry_hash": "",
+      "ts_utc": "20260228T223112Z",
+      "verified_pack": "PETCARE-PH43B-CLOSURE",
+      "verified_zip_sha256": "6d2de27b2681d915b81f54fb39fb12282dccee54e02463e6436140bd37914fe9",
+      "verifier_git_describe": "petcare-prod-20260226.1-15-g3e14c44",
+      "verifier_git_head": "3e14c44717770e90fa1e85e67f950970a42d2f84",
+      "verifier_pack": "PETCARE-PH44B-CLOSURE",
+      "verifier_zip_sha256": "4eeaa2866dcfe0bb596826f4cc16f82ed6bb1f1837e943e414aeee57a10fb54d"
+    }
+  ],
+  "index_digest_sha256": "6e127f8a5c1d5a49a5daf5786e8f55a76a64c07da96feca452b5801226a67f17",
+  "schema": "petcare.verification_index.v1"
 }
