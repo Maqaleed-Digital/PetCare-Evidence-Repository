@@ -44,12 +44,13 @@ echo "zip_sha256=${ZIP_SHA256}"
 SIDE_SHA="${ZIP_PATH}.sha256"
 SIDECAR_PRESENT="false"
 SIDECAR_MATCH="(no_sidecar)"
+SIDECAR_WANT="(missing)"
 if [ -f "${SIDE_SHA}" ]; then
   SIDECAR_PRESENT="true"
-  WANT="$(awk "{print \$1}" < "${SIDE_SHA}")"
+  SIDECAR_WANT="$(awk "{print \$1}" < "${SIDE_SHA}")"
   SIDECAR_MATCH="false"
-  if [ "${WANT}" = "${ZIP_SHA256}" ]; then SIDECAR_MATCH="true"; fi
-  echo "sidecar_sha256=${WANT}"
+  if [ "${SIDECAR_WANT}" = "${ZIP_SHA256}" ]; then SIDECAR_MATCH="true"; fi
+  echo "sidecar_sha256=${SIDECAR_WANT}"
   echo "sidecar_match=${SIDECAR_MATCH}"
 else
   echo "sidecar_sha256=(missing)"
@@ -154,19 +155,29 @@ echo "closure_sha256_verify_ok=${VERIFY_HASH_OK}"
 
 echo "=== VERIFY MANIFEST FILE REFERENCES (files.* must exist) ==="
 FILES_OK="true"
-python3 - <<'PY' "${BASE_DIR}" "${MANIFEST}" || FILES_OK="false"
+FILES_TOTAL="0"
+FILES_MISSING_COUNT="0"
+python3 - <<'PY' "${BASE_DIR}" "${MANIFEST}" "${OUT_DIR}/results/.manifest_files_scan.txt" || FILES_OK="false"
 import json, sys, os
 base = sys.argv[1]
 m = json.load(open(sys.argv[2], "r", encoding="utf-8"))
+outp = sys.argv[3]
 files = m.get("files") or {}
 missing = []
+total = 0
 for k, rel in files.items():
+    total += 1
     if not isinstance(rel, str) or not rel:
         missing.append((k, "(invalid)"))
         continue
     p = os.path.join(base, rel)
     if not os.path.isfile(p):
         missing.append((k, rel))
+with open(outp, "w", encoding="utf-8", newline="\n") as f:
+    f.write("total=%d\n" % total)
+    if missing:
+        for k, rel in missing:
+            f.write("missing=%s %s\n" % (k, rel))
 if missing:
     for k, rel in missing:
         print("MANIFEST_FILE_MISSING:", k, rel)
@@ -175,6 +186,11 @@ print("MANIFEST_FILES_OK count=", len(files))
 PY
 echo "manifest_files_ok=${FILES_OK}"
 
+if [ -f "${OUT_DIR}/results/.manifest_files_scan.txt" ]; then
+  FILES_TOTAL="$(awk -F= '/^total=/{print $2}' "${OUT_DIR}/results/.manifest_files_scan.txt" | tr -d '[:space:]' || true)"
+  FILES_MISSING_COUNT="$(grep -c '^missing=' "${OUT_DIR}/results/.manifest_files_scan.txt" || true)"
+fi
+
 OVERALL_PASS="true"
 if [ "${SIDECAR_MATCH}" = "false" ]; then OVERALL_PASS="false"; fi
 if [ "${VERIFY_HASH_OK}" != "true" ]; then OVERALL_PASS="false"; fi
@@ -182,6 +198,7 @@ if [ "${FILES_OK}" != "true" ]; then OVERALL_PASS="false"; fi
 
 echo "result_json_path=${RESULT_JSON}"
 echo "report_md_path=${REPORT_MD}"
+
 cat > "${RESULT_JSON}" <<EOF
 {
   "schema": "petcare.verify_closure_zip.v1",
