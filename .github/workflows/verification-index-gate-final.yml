@@ -1,12 +1,13 @@
-name: verification-index-gate
+name: verification-index-gate-final
 
-"on":
+on:
   release:
     types: [published]
+
   workflow_dispatch:
     inputs:
       prod_zip_sha256:
-        description: "Optional: production ZIP SHA256 to gate. If blank, release event auto-resolves from *.zip.sha256 asset."
+        description: "Optional: production ZIP SHA256. If blank, release event auto-resolves from *.zip.sha256 asset."
         required: false
         type: string
 
@@ -70,17 +71,8 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             "${API_URL}" > release.json
 
-          SHA_URL="$(python3 - <<'PY'
-import json
-d=json.load(open("release.json","r",encoding="utf-8"))
-assets=d.get("assets") or []
-want=[a for a in assets if isinstance(a.get("name"),str) and a["name"].endswith(".zip.sha256")]
-want.sort(key=lambda a: a.get("name",""))
-if not want:
-    raise SystemExit(10)
-print(want[0].get("browser_download_url",""))
-PY
-)"
+          # NO HEREDOC: single-line python to find the *.zip.sha256 asset URL
+          SHA_URL="$(python3 -c 'import json,sys; d=json.load(open("release.json","r",encoding="utf-8")); assets=d.get("assets") or []; want=[a for a in assets if isinstance(a.get("name"),str) and a["name"].endswith(".zip.sha256")]; want.sort(key=lambda a: a.get("name","")); print((want[0].get("browser_download_url","") if want else ""))')"
           if [ -z "${SHA_URL}" ]; then
             echo "ERROR: no *.zip.sha256 asset found on release ${RELEASE_TAG}"
             exit 4
