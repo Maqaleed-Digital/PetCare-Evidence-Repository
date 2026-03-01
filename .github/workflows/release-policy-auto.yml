@@ -1,0 +1,39 @@
+name: release-policy-auto
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  auto-release-policy-gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Verify verification index integrity (PH46)
+        run: |
+          python3 petcare_execution/scripts/petcare_verification_index_verify.py --index petcare_execution/FND/VERIFICATION_INDEX.json
+
+      - name: Resolve production ZIP sha256 from release assets (PH47)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "EVENT_PATH=${GITHUB_EVENT_PATH}"
+          bash petcare_execution/scripts/petcare_release_asset_sha_resolve.sh "${GITHUB_EVENT_PATH}" "_resolved_prod_zip_sha256.txt"
+          echo "RESOLVED_SHA=$(cat _resolved_prod_zip_sha256.txt)"
+
+      - name: Enforce policy gate using resolved sha (PH46)
+        env:
+          PROD_ZIP_SHA256_FILE: _resolved_prod_zip_sha256.txt
+        run: |
+          PROD_SHA="$(cat "${PROD_ZIP_SHA256_FILE}")"
+          bash petcare_execution/scripts/petcare_verification_policy_check_sha.sh "${PROD_SHA}" "petcare_execution/FND/VERIFICATION_INDEX.json"
