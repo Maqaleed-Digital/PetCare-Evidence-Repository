@@ -9,9 +9,12 @@ on:
   workflow_dispatch:
     inputs:
       prod_zip_sha256:
-        description: "Optional: production ZIP SHA256 to gate. If blank, will resolve from latest release assets."
+        description: "Optional: production ZIP SHA256 to gate. If blank, will resolve from release assets (release event only)."
         required: false
         type: string
+
+permissions:
+  contents: read
 
 jobs:
   index-integrity:
@@ -36,17 +39,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup GitHub CLI
-        uses: cli/cli@v2
-        with:
-          version: latest
-
-      - name: Resolve PROD_ZIP_SHA256 (auto from release asset or manual input)
+      - name: Resolve PROD_ZIP_SHA256 (manual input OR auto from release asset)
         env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MANUAL_SHA: ${{ inputs.prod_zip_sha256 }}
           RELEASE_TAG: ${{ github.event.release.tag_name }}
           EVENT_NAME: ${{ github.event_name }}
+          REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
           echo "event_name=${EVENT_NAME}"
@@ -69,26 +68,45 @@ jobs:
             exit 3
           fi
 
-          echo "Resolving SHA from release assets via .zip.sha256 sidecar..."
-          # Prefer the .zip.sha256 asset (deterministic source of truth).
-          # This expects the release assets include at least one *.zip.sha256 file.
-          ASSET_NAME="$(gh release view "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --json assets -q '.assets[] | select(.name | endswith(".zip.sha256")) | .name' | head -n 1 || true)"
-          if [ -z "${ASSET_NAME}" ]; then
-            echo "ERROR: no .zip.sha256 asset found on release ${RELEASE_TAG}"
-            gh release view "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --json assets -q '.assets[].name' || true
+          echo "Fetching release JSON via GitHub API..."
+          API_URL="https://api.github.com/repos/${REPO}/releases/tags/${RELEASE_TAG}"
+          curl -fsSL \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/vnd.github+json" \
+            "${API_URL}" > release.json
+
+          echo "Locating first *.zip.sha256 asset deterministically..."
+          SHA_URL="$(python3 - <<'PY'
+import json
+d=json.load(open("release.json","r",encoding="utf-8"))
+assets=d.get("assets") or []
+want=[a for a in assets if isinstance(a.get("name"),str) and a["name"].endswith(".zip.sha256")]
+want.sort(key=lambda a: a.get("name",""))
+if not want:
+    raise SystemExit(10)
+print(want[0].get("browser_download_url",""))
+PY
+)"
+          if [ -z "${SHA_URL}" ]; then
+            echo "ERROR: no *.zip.sha256 asset found on release ${RELEASE_TAG}"
+            python3 - <<'PY'
+import json
+d=json.load(open("release.json","r",encoding="utf-8"))
+print("assets=",[a.get("name") for a in (d.get("assets") or [])])
+PY
             exit 4
           fi
-          echo "sha_asset=${ASSET_NAME}"
+          echo "sha_url=${SHA_URL}"
 
-          gh release download "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --pattern "${ASSET_NAME}" --dir .
-          if [ ! -f "${ASSET_NAME}" ]; then
-            echo "ERROR: failed to download sha asset ${ASSET_NAME}"
-            exit 5
-          fi
+          echo "Downloading sha sidecar..."
+          curl -fsSL \
+            -H "Authorization: Bearer ${GITHUB_TOKEN}" \
+            -H "Accept: application/octet-stream" \
+            "${SHA_URL}" > prod.zip.sha256
 
-          PROD_SHA="$(awk '{print $1}' < "${ASSET_NAME}" | head -n 1 | tr -d '[:space:]')"
+          PROD_SHA="$(awk '{print $1}' < prod.zip.sha256 | head -n 1 | tr -d '[:space:]')"
           if [ -z "${PROD_SHA}" ]; then
-            echo "ERROR: sha asset empty/invalid: ${ASSET_NAME}"
+            echo "ERROR: downloaded sha is empty/invalid"
             exit 6
           fi
 
