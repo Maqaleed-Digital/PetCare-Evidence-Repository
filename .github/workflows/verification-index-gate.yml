@@ -1,9 +1,8 @@
-name: verification-index
+name: verification-index-gate
 
-on:
+"on":
   release:
     types: [published]
-
   workflow_dispatch:
     inputs:
       prod_zip_sha256:
