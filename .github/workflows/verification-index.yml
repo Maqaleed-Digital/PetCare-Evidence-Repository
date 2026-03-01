@@ -1,6 +1,6 @@
 name: verification-index
 
-on:
+"on":
   release:
     types: [published]
 
