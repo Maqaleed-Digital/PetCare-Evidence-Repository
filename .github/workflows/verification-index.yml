@@ -1,14 +1,16 @@
 name: verification-index
 
 on:
-  push:
-    branches: [ "main" ]
-  pull_request:
+  # Auto mode: triggered by published release (ZERO manual input)
+  release:
+    types: [published]
+
+  # Manual mode: optional override input
   workflow_dispatch:
     inputs:
       prod_zip_sha256:
-        description: "Production closure ZIP sha256 to verify against petcare_execution/FND/VERIFICATION_INDEX.json"
-        required: true
+        description: "Optional: production ZIP SHA256 to gate. If blank, will resolve from latest release assets."
+        required: false
         type: string
 
 jobs:
@@ -23,28 +25,83 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Verify verification index integrity
-        run: |
-          python3 petcare_execution/scripts/petcare_verification_index_verify.py --index petcare_execution/FND/VERIFICATION_INDEX.json
-
-  release-policy-gate:
-    if: ${{ github.event_name == 'workflow_dispatch' }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: "3.11"
-
       - name: Verify verification index integrity (precondition)
         run: |
           python3 petcare_execution/scripts/petcare_verification_index_verify.py --index petcare_execution/FND/VERIFICATION_INDEX.json
 
-      - name: Enforce policy for production zip sha
+  release-gate:
+    runs-on: ubuntu-latest
+    needs: [index-integrity]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup GitHub CLI
+        uses: cli/cli@v2
+        with:
+          version: latest
+
+      - name: Resolve PROD_ZIP_SHA256 (auto from release asset or manual input)
         env:
-          PROD_ZIP_SHA256: ${{ inputs.prod_zip_sha256 }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          MANUAL_SHA: ${{ inputs.prod_zip_sha256 }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          EVENT_NAME: ${{ github.event_name }}
         run: |
+          set -euo pipefail
+          echo "event_name=${EVENT_NAME}"
+          echo "release_tag=${RELEASE_TAG}"
+
+          if [ -n "${MANUAL_SHA}" ]; then
+            echo "Using manual input SHA."
+            echo "PROD_ZIP_SHA256=${MANUAL_SHA}" >> "${GITHUB_ENV}"
+            exit 0
+          fi
+
+          if [ "${EVENT_NAME}" != "release" ]; then
+            echo "ERROR: No manual SHA provided and event is not 'release'."
+            echo "Provide inputs.prod_zip_sha256 when using workflow_dispatch."
+            exit 2
+          fi
+
+          if [ -z "${RELEASE_TAG}" ]; then
+            echo "ERROR: release tag missing from event payload"
+            exit 3
+          fi
+
+          echo "Resolving SHA from release assets via .zip.sha256 sidecar..."
+          # Prefer the .zip.sha256 asset (deterministic source of truth).
+          # This expects the release assets include at least one *.zip.sha256 file.
+          ASSET_NAME="$(gh release view "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --json assets -q '.assets[] | select(.name | endswith(".zip.sha256")) | .name' | head -n 1 || true)"
+          if [ -z "${ASSET_NAME}" ]; then
+            echo "ERROR: no .zip.sha256 asset found on release ${RELEASE_TAG}"
+            gh release view "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --json assets -q '.assets[].name' || true
+            exit 4
+          fi
+          echo "sha_asset=${ASSET_NAME}"
+
+          gh release download "${RELEASE_TAG}" --repo "${GITHUB_REPOSITORY}" --pattern "${ASSET_NAME}" --dir .
+          if [ ! -f "${ASSET_NAME}" ]; then
+            echo "ERROR: failed to download sha asset ${ASSET_NAME}"
+            exit 5
+          fi
+
+          PROD_SHA="$(awk '{print $1}' < "${ASSET_NAME}" | head -n 1 | tr -d '[:space:]')"
+          if [ -z "${PROD_SHA}" ]; then
+            echo "ERROR: sha asset empty/invalid: ${ASSET_NAME}"
+            exit 6
+          fi
+
+          echo "PROD_ZIP_SHA256=${PROD_SHA}" >> "${GITHUB_ENV}"
+          echo "Resolved PROD_ZIP_SHA256=${PROD_SHA}"
+
+      - name: Enforce policy for production zip sha (sha-based gate)
+        env:
+          PROD_ZIP_SHA256: ${{ env.PROD_ZIP_SHA256 }}
+        run: |
+          set -euo pipefail
+          if [ -z "${PROD_ZIP_SHA256}" ]; then
+            echo "ERROR: PROD_ZIP_SHA256 empty"
+            exit 10
+          fi
           bash petcare_execution/scripts/petcare_verification_policy_check_sha.sh "${PROD_ZIP_SHA256}" "petcare_execution/FND/VERIFICATION_INDEX.json"
