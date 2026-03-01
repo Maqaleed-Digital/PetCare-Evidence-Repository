@@ -27,7 +27,7 @@ jobs:
         run: |
           set -euo pipefail
           python3 -m py_compile scripts/petcare_verification_index_verify.py
-          python3 scripts/petcare_verification_index_verify.py --path verification_index.json
+          python3 scripts/petcare_verification_index_verify.py --index verification_index.json
 
       - name: Verification policy check (if present)
         run: |

@@ -41,6 +41,8 @@ def main():
 
     # Validate chain + hashes
     prev = ""
+    edges = []  # PH48 lineage graph: verifier_pack -> verified_pack
+    seen_pairs = set()
     for i, e in enumerate(entries):
         if not isinstance(e, dict):
             print(f"ERROR: entry[{i}] not object", file=sys.stderr)
@@ -50,12 +52,56 @@ def main():
             "ts_utc","verified_pack","verified_zip_sha256",
             "verifier_pack","verifier_zip_sha256",
             "verifier_git_head","verifier_git_describe",
-            "overall_pass","prev_entry_hash","entry_hash"
+            "overall_pass","verifier_class","prev_entry_hash","entry_hash"
         ]
         for k in need_keys:
             if k not in e:
                 print(f"ERROR: entry[{i}] missing key {k}", file=sys.stderr)
                 raise SystemExit(11)
+
+        # === PH48_VERIFIER_CLASS_HARDENING ===
+        def _is_hex64(s: str) -> bool:
+            s = (s or "").strip()
+            if len(s) != 64:
+                return False
+            try:
+                int(s, 16)
+                return True
+            except Exception:
+                return False
+
+        verified_pack = (e.get("verified_pack") or "").strip()
+        verifier_pack = (e.get("verifier_pack") or "").strip()
+        if not verified_pack or not verifier_pack:
+            print(f"ERROR: entry[{i}] pack ids missing/empty", file=sys.stderr)
+            raise SystemExit(111)
+
+        if verifier_pack == verified_pack:
+            print(f"ERROR: entry[{i}] self-attestation forbidden (verifier_pack == verified_pack == {verifier_pack})", file=sys.stderr)
+            raise SystemExit(112)
+
+        vc = (e.get("verifier_class") or "").strip()
+        if vc not in ("independent", "meta"):
+            print(f"ERROR: entry[{i}] invalid verifier_class={vc!r}", file=sys.stderr)
+            raise SystemExit(113)
+
+        if not _is_hex64(e.get("verified_zip_sha256")):
+            print(f"ERROR: entry[{i}] invalid verified_zip_sha256 (must be 64-hex)", file=sys.stderr)
+            raise SystemExit(114)
+
+        if not _is_hex64(e.get("verifier_zip_sha256")):
+            print(f"ERROR: entry[{i}] invalid verifier_zip_sha256 (must be 64-hex)", file=sys.stderr)
+            raise SystemExit(115)
+        # === END PH48_VERIFIER_CLASS_HARDENING ===
+
+
+        # PH48: record lineage edge + ban duplicates
+        pair = (verifier_pack, verified_pack)
+        if pair in seen_pairs:
+            print(f"ERROR: entry[{i}] duplicate lineage edge forbidden: {verifier_pack} -> {verified_pack}", file=sys.stderr)
+            raise SystemExit(116)
+        seen_pairs.add(pair)
+        edges.append(pair)
 
         if e["prev_entry_hash"] != prev:
             print(f"ERROR: entry[{i}] prev_entry_hash mismatch", file=sys.stderr)
@@ -67,7 +113,7 @@ def main():
             "ts_utc","verified_pack","verified_zip_sha256",
             "verifier_pack","verifier_zip_sha256",
             "verifier_git_head","verifier_git_describe",
-            "overall_pass","prev_entry_hash"
+            "overall_pass","verifier_class","prev_entry_hash"
         ]}
         want_hash = compute_entry_hash(entry_core)
         if e["entry_hash"] != want_hash:
@@ -77,6 +123,33 @@ def main():
             raise SystemExit(13)
 
         prev = e["entry_hash"]
+
+
+    # PH48: lineage DAG enforcement (no cycles)
+    from collections import defaultdict, deque
+    g = defaultdict(list)
+    indeg = defaultdict(int)
+    nodes = set()
+
+    for a, b in edges:
+        nodes.add(a); nodes.add(b)
+        g[a].append(b)
+        indeg[b] += 1
+        indeg.setdefault(a, indeg.get(a, 0))
+
+    q = deque([n for n in nodes if indeg.get(n, 0) == 0])
+    seen = 0
+    while q:
+        n = q.popleft()
+        seen += 1
+        for nxt in g.get(n, []):
+            indeg[nxt] -= 1
+            if indeg[nxt] == 0:
+                q.append(nxt)
+
+    if nodes and seen != len(nodes):
+        print("ERROR: lineage cycle detected in verifier_pack -> verified_pack graph", file=sys.stderr)
+        raise SystemExit(117)
 
     # Validate index_digest_sha256
     idx_digest = idx.get("index_digest_sha256")
