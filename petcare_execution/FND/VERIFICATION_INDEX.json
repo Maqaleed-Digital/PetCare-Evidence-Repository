@@ -12,8 +12,20 @@
       "verifier_git_head": "3e14c44717770e90fa1e85e67f950970a42d2f84",
       "verifier_pack": "PETCARE-PH44B-CLOSURE",
       "verifier_zip_sha256": "4eeaa2866dcfe0bb596826f4cc16f82ed6bb1f1837e943e414aeee57a10fb54d"
+    },
+    {
+      "entry_hash": "16ff583ec749f846c369e4fee1d0729816cf0d82bc52a88b2ecd5509144cb2f0",
+      "overall_pass": "true",
+      "prev_entry_hash": "65d131d564e14fd65a05db9c957a9448f65c8563515d2c257dae848f3042c994",
+      "ts_utc": "20260301T211558Z",
+      "verified_pack": "PETCARE-PH45-CLOSURE",
+      "verified_zip_sha256": "843262836a010d95dc99967608b628a2ff6d71371a05a0627b7d190884f5fa81",
+      "verifier_git_describe": "petcare-prod-20260301.2-11-gbd431f1",
+      "verifier_git_head": "bd431f188c823fd7210d1ff94e816b8d86a3bdc8",
+      "verifier_pack": "PETCARE-PH45-CLOSURE",
+      "verifier_zip_sha256": "843262836a010d95dc99967608b628a2ff6d71371a05a0627b7d190884f5fa81"
     }
   ],
-  "index_digest_sha256": "6e127f8a5c1d5a49a5daf5786e8f55a76a64c07da96feca452b5801226a67f17",
+  "index_digest_sha256": "0ca295207079a6802ecabb6db99a7681b0fd2ae39eb732e6c4377bb29e1970c8",
   "schema": "petcare.verification_index.v1"
 }
