@@ -34,6 +34,14 @@ jobs:
   release-gate:
     runs-on: ubuntu-latest
     needs: [index-integrity]
+
+    # IMPORTANT:
+    # - For release events: only run if tag_name matches petcare-prod-*
+    # - For workflow_dispatch: always run
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event_name == 'release' && startsWith(github.event.release.tag_name, 'petcare-prod-'))
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -71,8 +79,7 @@ jobs:
             -H "Accept: application/vnd.github+json" \
             "${API_URL}" > release.json
 
-          # NO HEREDOC: single-line python to find the *.zip.sha256 asset URL
-          SHA_URL="$(python3 -c 'import json,sys; d=json.load(open("release.json","r",encoding="utf-8")); assets=d.get("assets") or []; want=[a for a in assets if isinstance(a.get("name"),str) and a["name"].endswith(".zip.sha256")]; want.sort(key=lambda a: a.get("name","")); print((want[0].get("browser_download_url","") if want else ""))')"
+          SHA_URL="$(python3 -c 'import json; d=json.load(open("release.json","r",encoding="utf-8")); assets=d.get("assets") or []; want=[a for a in assets if isinstance(a.get("name"),str) and a["name"].endswith(".zip.sha256")]; want.sort(key=lambda a: a.get("name","")); print((want[0].get("browser_download_url","") if want else ""))')"
           if [ -z "${SHA_URL}" ]; then
             echo "ERROR: no *.zip.sha256 asset found on release ${RELEASE_TAG}"
             exit 4
