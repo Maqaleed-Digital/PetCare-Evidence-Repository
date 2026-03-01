@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
     inputs:
       prod_zip_sha256:
-        description: "Production closure ZIP sha256 to verify against FND/VERIFICATION_INDEX.json"
+        description: "Production closure ZIP sha256 to verify against petcare_execution/FND/VERIFICATION_INDEX.json"
         required: true
         type: string
 
@@ -25,10 +25,9 @@ jobs:
 
       - name: Verify verification index integrity
         run: |
-          python3 scripts/petcare_verification_index_verify.py --index FND/VERIFICATION_INDEX.json
+          python3 petcare_execution/scripts/petcare_verification_index_verify.py --index petcare_execution/FND/VERIFICATION_INDEX.json
 
   release-policy-gate:
-    # Only run this job when manually triggered
     if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
@@ -42,10 +41,10 @@ jobs:
 
       - name: Verify verification index integrity (precondition)
         run: |
-          python3 scripts/petcare_verification_index_verify.py --index FND/VERIFICATION_INDEX.json
+          python3 petcare_execution/scripts/petcare_verification_index_verify.py --index petcare_execution/FND/VERIFICATION_INDEX.json
 
       - name: Enforce policy for production zip sha
         env:
           PROD_ZIP_SHA256: ${{ inputs.prod_zip_sha256 }}
         run: |
-          bash scripts/petcare_verification_policy_check_sha.sh "${PROD_ZIP_SHA256}" "FND/VERIFICATION_INDEX.json"
+          bash petcare_execution/scripts/petcare_verification_policy_check_sha.sh "${PROD_ZIP_SHA256}" "petcare_execution/FND/VERIFICATION_INDEX.json"
