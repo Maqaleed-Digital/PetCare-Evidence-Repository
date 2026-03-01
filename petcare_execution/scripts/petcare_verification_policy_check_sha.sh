@@ -1,6 +1,28 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# === PATH NORMALIZATION (repo-root anchored) ===
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd -- "${SCRIPT_DIR}/../.." && pwd)"
+INDEX_ARG="${2:-}"
+if [ -z "${INDEX_ARG}" ]; then
+  echo "ERROR: index path arg missing"
+  exit 3
+fi
+# If caller provided relative path, resolve it against repo root
+case "${INDEX_ARG}" in
+  /*) INDEX_PATH="${INDEX_ARG}" ;;
+  *)  INDEX_PATH="${REPO_ROOT}/${INDEX_ARG}" ;;
+esac
+# Normalize any /./ or /../ segments (python is guaranteed)
+INDEX_PATH="$(python3 - <<PY
+import os,sys
+print(os.path.realpath(sys.argv[1]))
+PY
+"${INDEX_PATH}")"
+# === END PATH NORMALIZATION ===
+
+
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${REPO_ROOT}" || exit 1
 
