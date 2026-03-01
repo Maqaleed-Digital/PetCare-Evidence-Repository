@@ -1,15 +1,13 @@
 name: verification-index
 
 on:
-  # Auto mode: triggered by published release (ZERO manual input)
   release:
     types: [published]
 
-  # Manual mode: optional override input
   workflow_dispatch:
     inputs:
       prod_zip_sha256:
-        description: "Optional: production ZIP SHA256 to gate. If blank, will resolve from release assets (release event only)."
+        description: "Optional: production ZIP SHA256 to gate. If blank, release event auto-resolves from *.zip.sha256 asset."
         required: false
         type: string
 
@@ -30,6 +28,7 @@ jobs:
 
       - name: Verify verification index integrity (precondition)
         run: |
+          set -euo pipefail
           python3 petcare_execution/scripts/petcare_verification_index_verify.py --index petcare_execution/FND/VERIFICATION_INDEX.json
 
   release-gate:
@@ -43,39 +42,35 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MANUAL_SHA: ${{ inputs.prod_zip_sha256 }}
-          RELEASE_TAG: ${{ github.event.release.tag_name }}
           EVENT_NAME: ${{ github.event_name }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
           REPO: ${{ github.repository }}
         run: |
           set -euo pipefail
-          echo "event_name=${EVENT_NAME}"
-          echo "release_tag=${RELEASE_TAG}"
 
           if [ -n "${MANUAL_SHA}" ]; then
-            echo "Using manual input SHA."
             echo "PROD_ZIP_SHA256=${MANUAL_SHA}" >> "${GITHUB_ENV}"
+            echo "Resolved from manual input."
             exit 0
           fi
 
           if [ "${EVENT_NAME}" != "release" ]; then
             echo "ERROR: No manual SHA provided and event is not 'release'."
-            echo "Provide inputs.prod_zip_sha256 when using workflow_dispatch."
+            echo "Provide inputs.prod_zip_sha256 for workflow_dispatch."
             exit 2
           fi
 
           if [ -z "${RELEASE_TAG}" ]; then
-            echo "ERROR: release tag missing from event payload"
+            echo "ERROR: release tag missing"
             exit 3
           fi
 
-          echo "Fetching release JSON via GitHub API..."
           API_URL="https://api.github.com/repos/${REPO}/releases/tags/${RELEASE_TAG}"
           curl -fsSL \
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
             -H "Accept: application/vnd.github+json" \
             "${API_URL}" > release.json
 
-          echo "Locating first *.zip.sha256 asset deterministically..."
           SHA_URL="$(python3 - <<'PY'
 import json
 d=json.load(open("release.json","r",encoding="utf-8"))
@@ -89,16 +84,9 @@ PY
 )"
           if [ -z "${SHA_URL}" ]; then
             echo "ERROR: no *.zip.sha256 asset found on release ${RELEASE_TAG}"
-            python3 - <<'PY'
-import json
-d=json.load(open("release.json","r",encoding="utf-8"))
-print("assets=",[a.get("name") for a in (d.get("assets") or [])])
-PY
             exit 4
           fi
-          echo "sha_url=${SHA_URL}"
 
-          echo "Downloading sha sidecar..."
           curl -fsSL \
             -H "Authorization: Bearer ${GITHUB_TOKEN}" \
             -H "Accept: application/octet-stream" \
@@ -111,7 +99,7 @@ PY
           fi
 
           echo "PROD_ZIP_SHA256=${PROD_SHA}" >> "${GITHUB_ENV}"
-          echo "Resolved PROD_ZIP_SHA256=${PROD_SHA}"
+          echo "Resolved from release asset."
 
       - name: Enforce policy for production zip sha (sha-based gate)
         env:
