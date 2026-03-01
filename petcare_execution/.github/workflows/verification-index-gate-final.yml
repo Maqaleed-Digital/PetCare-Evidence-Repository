@@ -1,0 +1,39 @@
+name: verification-index-gate-final
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+
+jobs:
+  verify-index:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Canonicalize verification index path
+        run: |
+          set -euo pipefail
+          test -f "FND/VERIFICATION_INDEX.json"
+          cp -f "FND/VERIFICATION_INDEX.json" "verification_index.json"
+
+      - name: Verify index schema + lineage (PH48)
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/petcare_verification_index_verify.py
+          python3 scripts/petcare_verification_index_verify.py --path verification_index.json
+
+      - name: Verification policy check (if present)
+        run: |
+          set -euo pipefail
+          if [ -f "scripts/petcare_verification_policy_check.sh" ]; then
+            bash scripts/petcare_verification_policy_check.sh verification_index.json
+          else
+            echo "SKIP: scripts/petcare_verification_policy_check.sh not present"
+          fi

@@ -39,6 +39,7 @@ def main():
     ap.add_argument("--verified_pack", required=True, help="Pack id of the verified pack (e.g., PETCARE-PH43B-CLOSURE)")
     ap.add_argument("--verified_zip_sha256", required=True, help="SHA256 of the verified pack zip (from PH44B manifest input_zip.sha256)")
     ap.add_argument("--verifier_pack", required=True, help="Verifier pack id (e.g., PETCARE-PH44B-CLOSURE)")
+    ap.add_argument("--verifier_class", required=True, help="Verifier class: independent|meta")
     ap.add_argument("--verifier_zip_sha256", required=True, help="SHA256 of the verifier pack zip (zip sidecar value)")
     ap.add_argument("--verifier_git_head", required=True)
     ap.add_argument("--verifier_git_describe", required=True)
@@ -72,6 +73,7 @@ def main():
         "verified_pack": args.verified_pack,
         "verified_zip_sha256": args.verified_zip_sha256,
         "verifier_pack": args.verifier_pack,
+        "verifier_class": args.verifier_class,
         "verifier_zip_sha256": args.verifier_zip_sha256,
         "verifier_git_head": args.verifier_git_head,
         "verifier_git_describe": args.verifier_git_describe,

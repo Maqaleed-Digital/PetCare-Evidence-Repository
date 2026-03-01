@@ -128,6 +128,7 @@ python3 "${REPO_ROOT}/scripts/petcare_verification_index_append.py" \
   --verified_pack "${VERIFIED_PACK}" \
   --verified_zip_sha256 "${VERIFIED_ZIP_SHA}" \
   --verifier_pack "${VERIFIER_PACK}" \
+  --verifier_class "independent" \
   --verifier_zip_sha256 "${PH44B_ZIP_SHA}" \
   --verifier_git_head "${VERIFIER_GIT_HEAD}" \
   --verifier_git_describe "${VERIFIER_GIT_DESCRIBE}" \

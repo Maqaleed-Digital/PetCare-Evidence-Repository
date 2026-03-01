@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# PH48: ban self-attestation when caller provides pack ids
+VERIFIED_PACK="${VERIFIED_PACK:-}"
+VERIFIER_PACK="${VERIFIER_PACK:-}"
+if [ -n "${VERIFIED_PACK}" ] && [ -n "${VERIFIER_PACK}" ] && [ "${VERIFIED_PACK}" = "${VERIFIER_PACK}" ]; then
+  echo "FAIL: self-attestation forbidden (VERIFIER_PACK == VERIFIED_PACK == ${VERIFIER_PACK})" >&2
+  exit 42
+fi
+
+
+
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${REPO_ROOT}" || exit 1
 
