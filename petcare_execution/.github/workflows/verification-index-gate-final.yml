@@ -117,4 +117,41 @@ jobs:
             exit 1
           fi
           echo "OK PH51 negative test: verifier failed as expected rc=${RC}"
+# PH52 negative test (meta verifier not allowlisted must fail)
+
+      - name: PH52 negative test (meta verifier not allowlisted must fail)
+        run: |
+          set -euo pipefail
+          TMP_IDX2="$(mktemp)"
+          cat > "${TMP_IDX2}" <<'JSON'
+          {
+            "schema": "petcare.verification_index.v1",
+            "created_utc": "INIT",
+            "entries": [],
+            "index_digest_sha256": "INIT"
+          }
+JSON
+
+          python3 scripts/petcare_verification_index_append.py \
+            --index "${TMP_IDX2}" \
+            --verified_pack "PETCARE-PH43B-CLOSURE" \
+            --verified_zip_sha256 "0000000000000000000000000000000000000000000000000000000000000000" \
+            --verifier_pack "PETCARE-PH44B-CLOSURE" \
+            --verifier_class "meta" \
+            --verifier_zip_sha256 "1111111111111111111111111111111111111111111111111111111111111111" \
+            --verifier_git_head "deadbeef" \
+            --verifier_git_describe "ci" \
+            --overall_pass "true" \
+            --ts_utc "20260101T000000Z" || true
+
+          # Should fail due to PH52 allowlist (empty list by default)
+          set +e
+          python3 scripts/petcare_verification_index_verify.py --index "${TMP_IDX2}"
+          RC="$?"
+          set -e
+          if [ "${RC}" -eq 0 ]; then
+            echo "FAIL: expected PH52 meta allowlist failure, got success" >&2
+            exit 1
+          fi
+          echo "OK: PH52 negative test failed as expected (rc=${RC})"
 

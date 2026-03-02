@@ -221,6 +221,65 @@ def main():
     # === END PH51 POLICY CHECKS ===
 
 
+    
+    # === PH52_META_ALLOWLIST_POLICY ===
+    # Model A: only allow listed verifier_pack to act as verifier_class=meta.
+    POLICY_SCHEMA = "petcare.verification_policy.v1"
+    policy_path = "FND/VERIFICATION_POLICY.json"
+    policy_sha_path = "FND/VERIFICATION_POLICY.sha256"
+
+    if not isinstance(entries, list):
+        print("ERROR: entries must be list (PH52 precondition)", file=sys.stderr)
+        raise SystemExit(140)
+
+    # Require policy + sha
+    try:
+        pol_raw = open(policy_path, "rb").read()
+    except Exception:
+        print(f"ERROR: PH52: missing required policy file: {policy_path}", file=sys.stderr)
+        raise SystemExit(141)
+
+    try:
+        pol_sha = open(policy_sha_path, "r", encoding="utf-8").read().strip()
+    except Exception:
+        print(f"ERROR: PH52: missing required policy sha file: {policy_sha_path}", file=sys.stderr)
+        raise SystemExit(142)
+
+    want_pol_sha = sha256_hex(pol_raw)
+    if pol_sha != want_pol_sha:
+        print("ERROR: PH52: policy sha mismatch", file=sys.stderr)
+        print(f"want={want_pol_sha}", file=sys.stderr)
+        print(f"got ={pol_sha}", file=sys.stderr)
+        raise SystemExit(143)
+
+    try:
+        policy = json.loads(pol_raw.decode("utf-8"))
+    except Exception as e:
+        print(f"ERROR: PH52: policy JSON invalid: {e}", file=sys.stderr)
+        raise SystemExit(144)
+
+    if policy.get("schema") != POLICY_SCHEMA:
+        print(f"ERROR: PH52: policy schema mismatch: {policy.get('schema')}", file=sys.stderr)
+        raise SystemExit(145)
+
+    allow = policy.get("meta_verifiers_allowlist")
+    if not isinstance(allow, list):
+        print("ERROR: PH52: meta_verifiers_allowlist must be list", file=sys.stderr)
+        raise SystemExit(146)
+
+    allow_set = set([x for x in allow if isinstance(x, str) and x])
+
+    # Enforce: meta verifier must be allowlisted
+    # (PH51 already enforces other constraints, including independent-first and naming regex.)
+    for i, e in enumerate(entries):
+        vc = e.get("verifier_class", "")
+        vp = e.get("verifier_pack", "")
+        if vc == "meta":
+            if vp not in allow_set:
+                print(f"ERROR: PH52: verifier_pack not allowlisted for meta: {vp} (entry[{i}])", file=sys.stderr)
+                raise SystemExit(133)
+    # === END PH52_META_ALLOWLIST_POLICY ===
+
     print("OK verification index integrity PASS")
     print(f"entries_count={len(entries)}")
     print(f"head_entry_hash={prev if entries else ''}")
