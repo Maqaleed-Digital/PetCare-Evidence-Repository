@@ -2,6 +2,7 @@
 import argparse
 import hashlib
 import json
+import sys
 import os
 from datetime import datetime, timezone
 
@@ -45,9 +46,71 @@ def main():
     ap.add_argument("--verifier_git_describe", required=True)
     ap.add_argument("--overall_pass", required=True, choices=["true","false"])
     ap.add_argument("--ts_utc", default="", help="UTC timestamp; if empty, generated")
-    args = ap.parse_args()
+    args = ap.par
 
-    idx = load_json(args.index)
+def get_args():
+    """
+    Deterministic arg acquisition (PH49 repair):
+    - Prefer argparse if present in this script (common in earlier versions)
+    - Fallback to environment variables for minimal recovery
+    """
+    # Try argparse path only if 'argparse' is imported AND a parser object exists in globals.
+    if "argparse" in globals():
+        # Heuristic: look for a global variable that is an ArgumentParser instance.
+        for v in globals().values():
+            try:
+                if isinstance(v, argparse.ArgumentParser):
+                    return v.parse_args()
+            except Exception:
+                pass
+    # Fallback: env vars (explicit contract)
+    import os
+    class A: pass
+    a = A()
+    a.index = os.environ.get("PC_INDEX", "FND/VERIFICATION_INDEX.json")
+    a.verified_pack = os.environ.get("PC_VERIFIED_PACK", "")
+    a.verified_zip_sha256 = os.environ.get("PC_VERIFIED_ZIP_SHA256", "")
+    a.verifier_pack = os.environ.get("PC_VERIFIER_PACK", "")
+    a.verifier_class = os.environ.get("PC_VERIFIER_CLASS", "independent")
+    a.verifier_zip_sha256 = os.environ.get("PC_VERIFIER_ZIP_SHA256", "")
+    a.verifier_git_head = os.environ.get("PC_VERIFIER_GIT_HEAD", "")
+    a.verifier_git_describe = os.environ.get("PC_VERIFIER_GIT_DESCRIBE", "")
+    a.overall_pass = os.environ.get("PC_OVERALL_PASS", "true")
+    a.ts_utc = os.environ.get("PC_TS_UTC", "")
+    return a
+
+args = get_args()
+
+# === PH49_APPEND_GUARDS ===
+def _fail(msg: str, code: int = 42):
+    print(f"ERROR: {msg}", file=sys.stderr)
+    raise SystemExit(code)
+
+if getattr(args, "verifier_class", "") not in ("independent", "meta"):
+    _fail(f"verifier_class invalid: {getattr(args,'verifier_class',None)}")
+
+if getattr(args, "verifier_pack", "") == getattr(args, "verified_pack", "") and getattr(args, "verifier_pack", ""):
+    _fail(f"self-attestation forbidden (verifier_pack == verified_pack == {args.verifier_pack})")
+
+def _is_hex64(s: str) -> bool:
+    if not isinstance(s, str) or len(s) != 64:
+        return False
+    try:
+        int(s, 16)
+        return True
+    except Exception:
+        return False
+
+if not _is_hex64(getattr(args, "verified_zip_sha256", "")):
+    _fail("verified_zip_sha256 must be 64-hex")
+if not _is_hex64(getattr(args, "verifier_zip_sha256", "")):
+    _fail("verifier_zip_sha256 must be 64-hex")
+
+if getattr(args, "overall_pass", "") not in ("true", "false"):
+    _fail("overall_pass must be 'true' or 'false'")
+# === END PH49_APPEND_GUARDS ===
+
+idx = load_json(args.index)
 
     if idx.get("schema") != SCHEMA:
         raise SystemExit(f"ERROR: unexpected index schema: {idx.get('schema')}")

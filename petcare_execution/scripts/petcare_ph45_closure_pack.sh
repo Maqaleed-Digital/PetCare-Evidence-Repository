@@ -86,7 +86,7 @@ if [ -f "${OUT}/input/PH44B.zip.sha256" ]; then
   PH44B_SIDECAR_SHA="$(awk '{print $1}' < "${OUT}/input/PH44B.zip.sha256")"
 fi
 
-VERIFIER_PACK="PETCARE-PH44B-CLOSURE"
+VERIFIER_PACK="${PACK}"
 VERIFIER_GIT_HEAD="$(git rev-parse HEAD)"
 VERIFIER_GIT_DESCRIBE="$(git describe --tags --dirty --always)"
 
