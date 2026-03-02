@@ -112,56 +112,56 @@ if getattr(args, "overall_pass", "") not in ("true", "false"):
 
 idx = load_json(args.index)
 
-    if idx.get("schema") != SCHEMA:
-        raise SystemExit(f"ERROR: unexpected index schema: {idx.get('schema')}")
+if idx.get("schema") != SCHEMA:
+    raise SystemExit(f"ERROR: unexpected index schema: {idx.get('schema')}")
 
-    entries = idx.get("entries")
-    if not isinstance(entries, list):
-        raise SystemExit("ERROR: index.entries must be a list")
+entries = idx.get("entries")
+if not isinstance(entries, list):
+    raise SystemExit("ERROR: index.entries must be a list")
 
-    ts = args.ts_utc.strip() or now_utc()
+ts = args.ts_utc.strip() or now_utc()
 
-    prev_hash = ""
-    if entries:
-        last = entries[-1]
-        prev_hash = last.get("entry_hash", "") or ""
+prev_hash = ""
+if entries:
+    last = entries[-1]
+    prev_hash = last.get("entry_hash", "") or ""
 
-    # Prevent duplicate verifier zip sha append (idempotency)
-    for e in entries:
-        if e.get("verifier_zip_sha256") == args.verifier_zip_sha256:
-            raise SystemExit("ERROR: verifier_zip_sha256 already indexed (duplicate append blocked)")
+# Prevent duplicate verifier zip sha append (idempotency)
+for e in entries:
+    if e.get("verifier_zip_sha256") == args.verifier_zip_sha256:
+        raise SystemExit("ERROR: verifier_zip_sha256 already indexed (duplicate append blocked)")
 
-    entry_core = {
-        "ts_utc": ts,
-        "verified_pack": args.verified_pack,
-        "verified_zip_sha256": args.verified_zip_sha256,
-        "verifier_pack": args.verifier_pack,
-        "verifier_class": args.verifier_class,
-        "verifier_zip_sha256": args.verifier_zip_sha256,
-        "verifier_git_head": args.verifier_git_head,
-        "verifier_git_describe": args.verifier_git_describe,
-        "overall_pass": args.overall_pass,
-        "prev_entry_hash": prev_hash
-    }
-    entry_hash = compute_entry_hash(entry_core)
+entry_core = {
+    "ts_utc": ts,
+    "verified_pack": args.verified_pack,
+    "verified_zip_sha256": args.verified_zip_sha256,
+    "verifier_pack": args.verifier_pack,
+    "verifier_class": args.verifier_class,
+    "verifier_zip_sha256": args.verifier_zip_sha256,
+    "verifier_git_head": args.verifier_git_head,
+    "verifier_git_describe": args.verifier_git_describe,
+    "overall_pass": args.overall_pass,
+    "prev_entry_hash": prev_hash
+}
+entry_hash = compute_entry_hash(entry_core)
 
-    entry = dict(entry_core)
-    entry["entry_hash"] = entry_hash
+entry = dict(entry_core)
+entry["entry_hash"] = entry_hash
 
-    if idx.get("created_utc") == "INIT":
-        idx["created_utc"] = ts
+if idx.get("created_utc") == "INIT":
+    idx["created_utc"] = ts
 
-    entries.append(entry)
-    idx["entries"] = entries
+entries.append(entry)
+idx["entries"] = entries
 
-    # index_digest is deterministic sha over canonical JSON excluding itself
-    idx_core = {"schema": idx["schema"], "created_utc": idx["created_utc"], "entries": idx["entries"]}
-    idx["index_digest_sha256"] = sha256_hex(canon_json(idx_core).encode("utf-8"))
+# index_digest is deterministic sha over canonical JSON excluding itself
+idx_core = {"schema": idx["schema"], "created_utc": idx["created_utc"], "entries": idx["entries"]}
+idx["index_digest_sha256"] = sha256_hex(canon_json(idx_core).encode("utf-8"))
 
-    write_json(args.index, idx)
-    print("OK appended")
-    print("entry_hash=" + entry_hash)
-    print("index_digest_sha256=" + idx["index_digest_sha256"])
+write_json(args.index, idx)
+print("OK appended")
+print("entry_hash=" + entry_hash)
+print("index_digest_sha256=" + idx["index_digest_sha256"])
 
 if __name__ == "__main__":
-    main()
+main()
