@@ -29,6 +29,50 @@ jobs:
           python3 -m py_compile scripts/petcare_verification_index_verify.py
           python3 scripts/petcare_verification_index_verify.py --index verification_index.json
 
+
+      - name: PH50 main-boundary guard (verification scripts)
+        run: |
+          set -euo pipefail
+          python3 scripts/petcare_scripts_main_guard.py \
+            --files \
+            scripts/petcare_verification_index_append.py \
+            scripts/petcare_verification_index_verify.py
+
+      - name: PH50 append tool help (argparse entrypoint)
+        run: |
+          set -euo pipefail
+          python3 -m py_compile scripts/petcare_verification_index_append.py
+          python3 scripts/petcare_verification_index_append.py --help >/dev/null
+
+      - name: PH50 temp index append + verify (non-self-attesting)
+        run: |
+          set -euo pipefail
+          TMP_IDX="$(mktemp)"
+          cat > "${TMP_IDX}" <<'JSON'
+          {
+            "schema": "petcare.verification_index.v1",
+            "created_utc": "INIT",
+            "entries": [],
+            "index_digest_sha256": "INIT"
+          }
+          JSON
+
+          python3 scripts/petcare_verification_index_append.py \
+            --index "${TMP_IDX}" \
+            --verified_pack "PETCARE-PH43B-CLOSURE" \
+            --verified_zip_sha256 "0000000000000000000000000000000000000000000000000000000000000000" \
+            --verifier_pack "PETCARE-PH44B-CLOSURE" \
+            --verifier_class "independent" \
+            --verifier_zip_sha256 "1111111111111111111111111111111111111111111111111111111111111111" \
+            --verifier_git_head "deadbeef" \
+            --verifier_git_describe "ci" \
+            --overall_pass "true" \
+            --ts_utc "20260101T000000Z"
+
+          python3 -m py_compile scripts/petcare_verification_index_verify.py
+          python3 scripts/petcare_verification_index_verify.py --index "${TMP_IDX}"
+
+
       - name: Verification policy check (if present)
         run: |
           set -euo pipefail
