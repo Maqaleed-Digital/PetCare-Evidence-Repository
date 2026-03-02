@@ -55,6 +55,10 @@ echo "=== GATE 6: Evidence size guard ==="
 bash "${REPO}/scripts/petcare_evidence_size_guard.sh"
 
 echo ""
+echo "=== GATE: verification index no-patch (PH66) ==="
+bash "${REPO}/scripts/petcare_verification_index_no_patch_guard.sh"
+
+echo ""
 echo "=== GATE: verification index generation (drift) ==="
 python3 "${REPO}/scripts/petcare_verification_index_generate.py" --check --ts_utc "$(date -u +%Y%m%dT%H%M%SZ)"
 
