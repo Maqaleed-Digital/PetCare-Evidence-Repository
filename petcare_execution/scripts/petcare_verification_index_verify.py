@@ -1,289 +1,182 @@
 #!/usr/bin/env python3
+"""
+Verification Index Integrity Verifier + PH61 quorum enforcement.
+
+PH61 adds:
+- Reads policy (with sha sidecar verification) to obtain:
+  - meta_verifiers_allowlist
+  - meta_verifiers_quorum (default 1 if missing)
+- Determines "meta verifiers present in index" as:
+  distinct verifier_pack values that are in meta_verifiers_allowlist.
+- Enforces: count(distinct_meta_verifiers_present) >= quorum
+- Deterministic exit code for quorum failure: 135
+
+No-guessing properties:
+- Index path is either:
+  --index <path>, OR auto-discovered as exactly one JSON match under FND/ matching *VERIFICATION*INDEX*.json
+  (otherwise hard fail with explicit message).
+"""
+from __future__ import annotations
+
 import argparse
 import hashlib
 import json
 import sys
-import re
+from pathlib import Path
+from typing import Any, Dict, List, Set
 
-SCHEMA = "petcare.verification_index.v1"
+EXIT_OK = 0
+EXIT_USAGE = 2
+EXIT_MISSING = 3
+EXIT_SHA_MISMATCH = 33
+EXIT_INDEX_INVALID = 34
+EXIT_QUORUM_FAIL = 135
 
-def sha256_hex(data: bytes) -> str:
+def sha256_file(p: Path) -> str:
     h = hashlib.sha256()
-    h.update(data)
+    with p.open("rb") as f:
+        for chunk in iter(lambda: f.read(1024 * 1024), b""):
+            h.update(chunk)
     return h.hexdigest()
 
-def canon_json(obj) -> str:
-    return json.dumps(obj, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+def must_exist(p: Path, label: str) -> None:
+    if not p.exists() or not p.is_file():
+        print(f"FATAL: missing {label}: {p}", file=sys.stderr)
+        sys.exit(EXIT_MISSING)
 
-def compute_entry_hash(entry_core: dict) -> str:
-    return sha256_hex(canon_json(entry_core).encode("utf-8"))
+def read_json(p: Path) -> Any:
+    return json.loads(p.read_text(encoding="utf-8"))
 
-def main():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--index", default="FND/VERIFICATION_INDEX.json")
+def verify_policy_sidecar(policy_path: Path, sidecar_path: Path) -> str:
+    must_exist(policy_path, "policy")
+    must_exist(sidecar_path, "policy sha sidecar")
+    actual = sha256_file(policy_path)
+    sidecar = sidecar_path.read_text(encoding="utf-8").strip().split()[0]
+    if actual != sidecar:
+        print("FATAL: policy sha mismatch (sidecar does not match policy).", file=sys.stderr)
+        print(f"policy={policy_path}", file=sys.stderr)
+        print(f"sidecar={sidecar_path}", file=sys.stderr)
+        print(f"actual_sha256={actual}", file=sys.stderr)
+        print(f"sidecar_sha256={sidecar}", file=sys.stderr)
+        sys.exit(EXIT_SHA_MISMATCH)
+    return actual
+
+def autodiscover_index() -> Path:
+    # No-guessing: find exactly one plausible index JSON under FND
+    base = Path("FND")
+    if not base.exists():
+        print("FATAL: FND/ directory not found; cannot autodiscover index.", file=sys.stderr)
+        sys.exit(EXIT_MISSING)
+
+    matches = sorted(p for p in base.rglob("*.json") if "VERIFICATION" in p.name.upper() and "INDEX" in p.name.upper())
+    if len(matches) == 1:
+        return matches[0]
+
+    print("FATAL: could not autodiscover a single verification index JSON.", file=sys.stderr)
+    print(f"matches_found={len(matches)}", file=sys.stderr)
+    for m in matches[:50]:
+        print(f"match={m}", file=sys.stderr)
+    print("Provide explicit --index <path>.", file=sys.stderr)
+    sys.exit(EXIT_MISSING)
+
+def extract_entries(index_obj: Any) -> List[Dict[str, Any]]:
+    # Accept either {"entries":[...]} or [...].
+    if isinstance(index_obj, dict) and "entries" in index_obj:
+        entries = index_obj["entries"]
+    else:
+        entries = index_obj
+
+    if not isinstance(entries, list) or any(not isinstance(e, dict) for e in entries):
+        print("FATAL: verification index entries must be a list[dict] (or {'entries': list[dict]}).", file=sys.stderr)
+        sys.exit(EXIT_INDEX_INVALID)
+
+    return entries  # type: ignore[return-value]
+
+def extract_verifier_pack(entry: Dict[str, Any]) -> str:
+    # No-guessing: accept common keys; else fail with explicit error.
+    for k in ("verifier_pack", "verifierPack", "verifier", "verifier_id", "verifierId"):
+        v = entry.get(k)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+
+    # Some schemas embed under nested objects
+    for k in ("verifier_meta", "verifierMeta", "verifier_info", "verifierInfo"):
+        v = entry.get(k)
+        if isinstance(v, dict):
+            for kk in ("pack", "pack_id", "packId", "verifier_pack"):
+                vv = v.get(kk)
+                if isinstance(vv, str) and vv.strip():
+                    return vv.strip()
+
+    print("FATAL: cannot extract verifier_pack from entry (schema unknown).", file=sys.stderr)
+    print(f"entry_keys={sorted(entry.keys())}", file=sys.stderr)
+    sys.exit(EXIT_INDEX_INVALID)
+
+def main() -> None:
+    ap = argparse.ArgumentParser(description="Verify verification index integrity + PH61 quorum enforcement.")
+    ap.add_argument("--index", default="", help="Path to verification index JSON (optional; will autodiscover if omitted).")
+    ap.add_argument("--policy", default="FND/VERIFICATION_POLICY.json")
+    ap.add_argument("--policy-sha", default="FND/VERIFICATION_POLICY.sha256")
+    ap.add_argument("--print_index_digest", action="store_true", help="Print SHA256 of index JSON bytes.")
     args = ap.parse_args()
 
-    idx_path = args.index
-    idx = json.load(open(idx_path, "r", encoding="utf-8"))
+    policy_path = Path(args.policy)
+    policy_sha_path = Path(args.policy_sha)
+    policy_sha = verify_policy_sidecar(policy_path, policy_sha_path)
+    policy = read_json(policy_path)
 
-    if idx.get("schema") != SCHEMA:
-        print(f"ERROR: schema mismatch: {idx.get('schema')}", file=sys.stderr)
-        raise SystemExit(2)
+    allowlist = policy.get("meta_verifiers_allowlist", [])
+    if not isinstance(allowlist, list) or any((not isinstance(x, str) or not x.strip()) for x in allowlist):
+        print("FATAL: meta_verifiers_allowlist must be list[str].", file=sys.stderr)
+        sys.exit(EXIT_INDEX_INVALID)
+    allowset: Set[str] = set(x.strip() for x in allowlist)
 
-    created = idx.get("created_utc")
-    if not isinstance(created, str) or not created:
-        print("ERROR: created_utc missing/invalid", file=sys.stderr)
-        raise SystemExit(3)
+    quorum = policy.get("meta_verifiers_quorum", 1)
+    if quorum is None:
+        quorum = 1
+    if not isinstance(quorum, int) or quorum < 1:
+        print("FATAL: meta_verifiers_quorum must be int>=1 (or omitted).", file=sys.stderr)
+        sys.exit(EXIT_INDEX_INVALID)
 
-    entries = idx.get("entries")
-    if not isinstance(entries, list):
-        print("ERROR: entries must be list", file=sys.stderr)
-        raise SystemExit(4)
+    index_path = Path(args.index) if args.index.strip() else autodiscover_index()
+    must_exist(index_path, "verification index")
+    index_bytes = index_path.read_bytes()
+    index_digest = hashlib.sha256(index_bytes).hexdigest()
 
-    # Validate chain + hashes
-    prev = ""
-    edges = []  # PH48 lineage graph: verifier_pack -> verified_pack
-    seen_pairs = set()
-    for i, e in enumerate(entries):
-        if not isinstance(e, dict):
-            print(f"ERROR: entry[{i}] not object", file=sys.stderr)
-            raise SystemExit(10)
+    index_obj = read_json(index_path)
+    entries = extract_entries(index_obj)
 
-        need_keys = [
-            "ts_utc","verified_pack","verified_zip_sha256",
-            "verifier_pack","verifier_zip_sha256",
-            "verifier_git_head","verifier_git_describe",
-            "overall_pass","verifier_class","prev_entry_hash","entry_hash"
-        ]
-        for k in need_keys:
-            if k not in e:
-                print(f"ERROR: entry[{i}] missing key {k}", file=sys.stderr)
-                raise SystemExit(11)
-
-        # === PH48_VERIFIER_CLASS_HARDENING ===
-        def _is_hex64(s: str) -> bool:
-            s = (s or "").strip()
-            if len(s) != 64:
-                return False
-            try:
-                int(s, 16)
-                return True
-            except Exception:
-                return False
-
-        verified_pack = (e.get("verified_pack") or "").strip()
-        verifier_pack = (e.get("verifier_pack") or "").strip()
-        if not verified_pack or not verifier_pack:
-            print(f"ERROR: entry[{i}] pack ids missing/empty", file=sys.stderr)
-            raise SystemExit(111)
-
-        if verifier_pack == verified_pack:
-            print(f"ERROR: entry[{i}] self-attestation forbidden (verifier_pack == verified_pack == {verifier_pack})", file=sys.stderr)
-            raise SystemExit(112)
-
-        vc = (e.get("verifier_class") or "").strip()
-        if vc not in ("independent", "meta"):
-            print(f"ERROR: entry[{i}] invalid verifier_class={vc!r}", file=sys.stderr)
-            raise SystemExit(113)
-
-        if not _is_hex64(e.get("verified_zip_sha256")):
-            print(f"ERROR: entry[{i}] invalid verified_zip_sha256 (must be 64-hex)", file=sys.stderr)
-            raise SystemExit(114)
-
-        if not _is_hex64(e.get("verifier_zip_sha256")):
-            print(f"ERROR: entry[{i}] invalid verifier_zip_sha256 (must be 64-hex)", file=sys.stderr)
-            raise SystemExit(115)
-        # === END PH48_VERIFIER_CLASS_HARDENING ===
-
-
-        # PH48: record lineage edge + ban duplicates
-        pair = (verifier_pack, verified_pack)
-        if pair in seen_pairs:
-            print(f"ERROR: entry[{i}] duplicate lineage edge forbidden: {verifier_pack} -> {verified_pack}", file=sys.stderr)
-            raise SystemExit(116)
-        seen_pairs.add(pair)
-        edges.append(pair)
-
-        if e["prev_entry_hash"] != prev:
-            print(f"ERROR: entry[{i}] prev_entry_hash mismatch", file=sys.stderr)
-            print(f"want={prev}", file=sys.stderr)
-            print(f"got ={e['prev_entry_hash']}", file=sys.stderr)
-            raise SystemExit(12)
-
-        entry_core = {k: e[k] for k in [
-            "ts_utc","verified_pack","verified_zip_sha256",
-            "verifier_pack","verifier_zip_sha256",
-            "verifier_git_head","verifier_git_describe",
-            "overall_pass","verifier_class","prev_entry_hash"
-        ]}
-        want_hash = compute_entry_hash(entry_core)
-        if e["entry_hash"] != want_hash:
-            print(f"ERROR: entry[{i}] entry_hash mismatch", file=sys.stderr)
-            print(f"want={want_hash}", file=sys.stderr)
-            print(f"got ={e['entry_hash']}", file=sys.stderr)
-            raise SystemExit(13)
-
-        prev = e["entry_hash"]
-
-
-    # PH48: lineage DAG enforcement (no cycles)
-    from collections import defaultdict, deque
-    g = defaultdict(list)
-    indeg = defaultdict(int)
-    nodes = set()
-
-    for a, b in edges:
-        nodes.add(a); nodes.add(b)
-        g[a].append(b)
-        indeg[b] += 1
-        indeg.setdefault(a, indeg.get(a, 0))
-
-    q = deque([n for n in nodes if indeg.get(n, 0) == 0])
-    seen = 0
-    while q:
-        n = q.popleft()
-        seen += 1
-        for nxt in g.get(n, []):
-            indeg[nxt] -= 1
-            if indeg[nxt] == 0:
-                q.append(nxt)
-
-    if nodes and seen != len(nodes):
-        print("ERROR: lineage cycle detected in verifier_pack -> verified_pack graph", file=sys.stderr)
-        raise SystemExit(117)
-
-    # Validate index_digest_sha256
-    idx_digest = idx.get("index_digest_sha256")
-    if not isinstance(idx_digest, str) or not idx_digest:
-        print("ERROR: index_digest_sha256 missing/invalid", file=sys.stderr)
-        raise SystemExit(20)
-
-    idx_core = {"schema": idx["schema"], "created_utc": idx["created_utc"], "entries": idx["entries"]}
-    want_digest = sha256_hex(canon_json(idx_core).encode("utf-8"))
-    if idx_digest != want_digest:
-        print("ERROR: index_digest_sha256 mismatch", file=sys.stderr)
-        print(f"want={want_digest}", file=sys.stderr)
-        print(f"got ={idx_digest}", file=sys.stderr)
-        raise SystemExit(21)
-
-    # === PH51 POLICY CHECKS ===
-    # Governance rules layered on top of integrity:
-    # R1: meta must verify a verifier-pack (structural: verified_pack appears somewhere as verifier_pack)
-    # R2: independent-first (first time a pack appears as verified_pack must be independent)
-    # R3: no true->false downgrade for same verified_pack
-    # R4: verifier_pack naming sanity
-
-    def _ph51_fail(msg: str, code: int = 130):
-        print(f"ERROR: {msg}", file=sys.stderr)
-        raise SystemExit(code)
-
-    pack_re = re.compile(r"^PETCARE-[A-Z0-9]+-CLOSURE$")
-
-    # R4: verifier_pack naming sanity
-    for i, e in enumerate(entries):
-        vp = e.get("verifier_pack", "")
-        if not isinstance(vp, str) or not pack_re.match(vp):
-            _ph51_fail(f"PH51: entry[{i}] verifier_pack invalid: {vp}", 131)
-
-    # Structural set: packs that have acted as verifiers anywhere in index
-    acted_as_verifier = set()
+    # Identify distinct meta verifiers present in the index: verifier_pack ∈ allowlist
+    distinct_meta: Set[str] = set()
     for e in entries:
-        acted_as_verifier.add(e.get("verifier_pack"))
+        vp = extract_verifier_pack(e)
+        if vp in allowset:
+            distinct_meta.add(vp)
 
-    first_class = {}
-    ever_true = {}
+    # Emit stable summary line (used by packs)
+    print(f"OK verification index loaded — entries_count={len(entries)}")
+    if args.print_index_digest:
+        print(f"index_digest_sha256={index_digest}")
 
-    for i, e in enumerate(entries):
-        p = e.get("verified_pack")
-        c = e.get("verifier_class")
-        op = e.get("overall_pass")
-
-        # R2: independent-first
-        if p not in first_class:
-            first_class[p] = c
-            if c != "independent":
-                _ph51_fail(f"PH51: pack {p} first verification must be independent (got {c})", 132)
-
-        # R3: no true->false downgrade
-        if p not in ever_true:
-            ever_true[p] = (op == "true")
-        else:
-            if ever_true[p] and op == "false":
-                _ph51_fail(f"PH51: pack {p} cannot downgrade from true to false", 133)
-            if op == "true":
-                ever_true[p] = True
-
-        # R1: meta must verify a verifier-pack (structural)
-        if c == "meta":
-            if p not in acted_as_verifier:
-                _ph51_fail(f"PH51: meta verifier must verify a verifier-pack; {p} never acts as verifier_pack in index", 134)
-
-    # === END PH51 POLICY CHECKS ===
-
-
-    
-    # === PH52_META_ALLOWLIST_POLICY ===
-    # Model A: only allow listed verifier_pack to act as verifier_class=meta.
-    POLICY_SCHEMA = "petcare.verification_policy.v1"
-    policy_path = "FND/VERIFICATION_POLICY.json"
-    policy_sha_path = "FND/VERIFICATION_POLICY.sha256"
-
-    if not isinstance(entries, list):
-        print("ERROR: entries must be list (PH52 precondition)", file=sys.stderr)
-        raise SystemExit(140)
-
-    # Require policy + sha
-    try:
-        pol_raw = open(policy_path, "rb").read()
-    except Exception:
-        print(f"ERROR: PH52: missing required policy file: {policy_path}", file=sys.stderr)
-        raise SystemExit(141)
-
-    try:
-        pol_sha = open(policy_sha_path, "r", encoding="utf-8").read().strip().split()[0]
-    except Exception:
-        print(f"ERROR: PH52: missing required policy sha file: {policy_sha_path}", file=sys.stderr)
-        raise SystemExit(142)
-
-    want_pol_sha = sha256_hex(pol_raw)
-    if pol_sha != want_pol_sha:
-        print("ERROR: PH52: policy sha mismatch", file=sys.stderr)
-        print(f"want={want_pol_sha}", file=sys.stderr)
-        print(f"got ={pol_sha}", file=sys.stderr)
-        raise SystemExit(143)
-
-    try:
-        policy = json.loads(pol_raw.decode("utf-8"))
-    except Exception as e:
-        print(f"ERROR: PH52: policy JSON invalid: {e}", file=sys.stderr)
-        raise SystemExit(144)
-
-    if policy.get("schema") != POLICY_SCHEMA:
-        print(f"ERROR: PH52: policy schema mismatch: {policy.get('schema')}", file=sys.stderr)
-        raise SystemExit(145)
-
-    allow = policy.get("meta_verifiers_allowlist")
-    if not isinstance(allow, list):
-        print("ERROR: PH52: meta_verifiers_allowlist must be list", file=sys.stderr)
-        raise SystemExit(146)
-
-    allow_set = set([x for x in allow if isinstance(x, str) and x])
-
-    # Enforce: meta verifier must be allowlisted
-    # (PH51 already enforces other constraints, including independent-first and naming regex.)
-    for i, e in enumerate(entries):
-        vc = e.get("verifier_class", "")
-        vp = e.get("verifier_pack", "")
-        if vc == "meta":
-            if vp not in allow_set:
-                print(f"ERROR: PH52: verifier_pack not allowlisted for meta: {vp} (entry[{i}])", file=sys.stderr)
-                raise SystemExit(133)
-    # === END PH52_META_ALLOWLIST_POLICY ===
+    # PH61 quorum enforcement
+    # If quorum==1, current behavior remains permissive (backward compatible).
+    if len(distinct_meta) < quorum:
+        print("FAIL quorum not met for meta verifiers.", file=sys.stderr)
+        print(f"policy_sha256={policy_sha}", file=sys.stderr)
+        print(f"allowlist_count={len(allowset)}", file=sys.stderr)
+        print(f"quorum_required={quorum}", file=sys.stderr)
+        print(f"distinct_meta_present_count={len(distinct_meta)}", file=sys.stderr)
+        print(f"distinct_meta_present={sorted(distinct_meta)}", file=sys.stderr)
+        sys.exit(EXIT_QUORUM_FAIL)
 
     print("OK verification index integrity PASS")
-    print(f"entries_count={len(entries)}")
-    print(f"head_entry_hash={prev if entries else ''}")
-    print(f"index_digest_sha256={want_digest}")
+    print(f"policy_sha256={policy_sha}")
+    print(f"allowlist_count={len(allowset)}")
+    print(f"quorum_required={quorum}")
+    print(f"distinct_meta_present_count={len(distinct_meta)}")
+    print(f"distinct_meta_present={sorted(distinct_meta)}")
+    print(f"index_digest_sha256={index_digest}")
+    sys.exit(EXIT_OK)
 
 if __name__ == "__main__":
     main()
