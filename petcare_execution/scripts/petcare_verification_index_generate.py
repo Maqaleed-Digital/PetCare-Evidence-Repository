@@ -216,6 +216,8 @@ def main() -> None:
     out_obj: Any
     if wrapped:
         out_obj = dict(idx_obj)
+        out_obj["schema"] = "petcare.verification_index.v1"
+        out_obj["schema_version"] = 1
         out_obj["entries"] = deduped
     else:
         out_obj = deduped

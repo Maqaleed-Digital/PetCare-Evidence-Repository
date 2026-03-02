@@ -40,6 +40,20 @@ EXIT_SHA_MISMATCH = 33
 EXIT_INDEX_INVALID = 34
 EXIT_QUORUM_FAIL = 135
 
+def verify_index_sidecar(index_path: Path, sidecar_path: Path) -> str:
+    must_exist(index_path, "verification index")
+    must_exist(sidecar_path, "verification index sha sidecar")
+    actual = sha256_file(index_path)
+    sidecar = sidecar_path.read_text(encoding="utf-8").strip().split()[0]
+    if actual != sidecar:
+        print("FATAL: index sha mismatch (sidecar does not match index).", file=sys.stderr)
+        print(f"index={index_path}", file=sys.stderr)
+        print(f"sidecar={sidecar_path}", file=sys.stderr)
+        print(f"actual_sha256={actual}", file=sys.stderr)
+        print(f"sidecar_sha256={sidecar}", file=sys.stderr)
+        sys.exit(EXIT_SHA_MISMATCH)
+    return actual
+
 # -------------------- helpers --------------------
 
 def sha256_file(p: Path) -> str:
@@ -189,7 +203,11 @@ def main() -> None:
         sys.exit(EXIT_INDEX_INVALID)
 
     index_path = Path(args.index) if args.index.strip() else autodiscover_index()
-    must_exist(index_path, "verification index")
+    # PH67: require sidecar for real index path under FND/VERIFICATION_INDEX.json
+    if str(index_path).replace("\\", "/") == "FND/VERIFICATION_INDEX.json":
+        _ = verify_index_sidecar(index_path, Path("FND/VERIFICATION_INDEX.sha256"))
+    else:
+        must_exist(index_path, "verification index")
     index_bytes = index_path.read_bytes()
     index_digest = hashlib.sha256(index_bytes).hexdigest()
 
