@@ -26,3 +26,4 @@ summary=PH52 initial policy created (empty allowlist; all meta verifications blo
 approved_by=PH52
 ---
 PH56|20260302T201929Z|ALLOWLIST_ADD|pack=PETCARE-PH44B-CLOSURE|policy_sha256=d7f3a16dc4969e97c89624513085fe6256ff05dde8532f2ef000f9d9345df9e5
+PH56|20260302T203942Z|ALLOWLIST_ADD|pack=PETCARE-PH45B-CLOSURE|policy_sha256=aa77d720db9be54fe6bc26ea537bdcc451ccec04d44ab6cad80124f3e5c75668
