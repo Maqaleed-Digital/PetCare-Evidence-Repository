@@ -55,5 +55,9 @@ echo "=== GATE 6: Evidence size guard ==="
 bash "${REPO}/scripts/petcare_evidence_size_guard.sh"
 
 echo ""
+echo "=== GATE: verification index quorum ==="
+bash "${REPO}/scripts/petcare_verification_index_quorum_guard.sh"
+
+echo ""
 echo "RESULT=PASS"
 exit 0
