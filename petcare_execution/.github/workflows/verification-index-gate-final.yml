@@ -154,4 +154,75 @@ JSON
             exit 1
           fi
           echo "OK: PH52 negative test failed as expected (rc=${RC})"
+# PH53 negative test (PH52 allowlist must reject meta verifier after independent-first)
+
+      - name: PH53 negative test (PH52 allowlist rejects meta after independent-first)
+        run: |
+          set -euo pipefail
+
+          # 3-entry construction to isolate PH52 rc=133:
+          # Entry 0: A <- B (independent)  => B in acted_as_verifier; first_class[A]=independent
+          # Entry 1: B <- C (independent)  => C in acted_as_verifier; first_class[B]=independent
+          # Entry 2: B <- D (meta)         => B in acted_as_verifier (passes PH51 R1+R2);
+          #                                   D not in allowlist => PH52 fires rc=133
+          TMP_IDX="$(mktemp)"
+          cat > "${TMP_IDX}" <<'JSON'
+          {
+            "schema": "petcare.verification_index.v1",
+            "created_utc": "INIT",
+            "entries": [],
+            "index_digest_sha256": "INIT"
+          }
+JSON
+
+          # Entry 0: A <- B (independent-first for A)
+          python3 scripts/petcare_verification_index_append.py \
+            --index "${TMP_IDX}" \
+            --verified_pack "PETCARE-PH43B-CLOSURE" \
+            --verified_zip_sha256 "0000000000000000000000000000000000000000000000000000000000000000" \
+            --verifier_pack "PETCARE-PH44B-CLOSURE" \
+            --verifier_class "independent" \
+            --verifier_zip_sha256 "1111111111111111111111111111111111111111111111111111111111111111" \
+            --verifier_git_head "deadbeef" \
+            --verifier_git_describe "ci" \
+            --overall_pass "true" \
+            --ts_utc "20260101T000000Z"
+
+          # Entry 1: B <- C (independent-first for B; makes B a known verifier-pack)
+          python3 scripts/petcare_verification_index_append.py \
+            --index "${TMP_IDX}" \
+            --verified_pack "PETCARE-PH44B-CLOSURE" \
+            --verified_zip_sha256 "1111111111111111111111111111111111111111111111111111111111111111" \
+            --verifier_pack "PETCARE-PH45B-CLOSURE" \
+            --verifier_class "independent" \
+            --verifier_zip_sha256 "2222222222222222222222222222222222222222222222222222222222222222" \
+            --verifier_git_head "deadbeef" \
+            --verifier_git_describe "ci" \
+            --overall_pass "true" \
+            --ts_utc "20260101T000001Z"
+
+          # Entry 2: B <- D (meta, D not in allowlist) => PH51 R1+R2 pass, PH52 fires rc=133
+          python3 scripts/petcare_verification_index_append.py \
+            --index "${TMP_IDX}" \
+            --verified_pack "PETCARE-PH44B-CLOSURE" \
+            --verified_zip_sha256 "1111111111111111111111111111111111111111111111111111111111111111" \
+            --verifier_pack "PETCARE-PH46-CLOSURE" \
+            --verifier_class "meta" \
+            --verifier_zip_sha256 "3333333333333333333333333333333333333333333333333333333333333333" \
+            --verifier_git_head "deadbeef" \
+            --verifier_git_describe "ci" \
+            --overall_pass "true" \
+            --ts_utc "20260101T000002Z"
+
+          set +e
+          python3 scripts/petcare_verification_index_verify.py --index "${TMP_IDX}"
+          RC="$?"
+          set -e
+
+          if [ "${RC}" -ne 133 ]; then
+            echo "FAIL: expected PH52 allowlist failure rc=133, got rc=${RC}" >&2
+            exit 1
+          fi
+
+          echo "OK: PH53 negative test hit PH52 allowlist rc=133 as expected"
 
