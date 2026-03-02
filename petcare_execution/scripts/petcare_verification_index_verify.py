@@ -240,7 +240,7 @@ def main():
         raise SystemExit(141)
 
     try:
-        pol_sha = open(policy_sha_path, "r", encoding="utf-8").read().strip()
+        pol_sha = open(policy_sha_path, "r", encoding="utf-8").read().strip().split()[0]
     except Exception:
         print(f"ERROR: PH52: missing required policy sha file: {policy_sha_path}", file=sys.stderr)
         raise SystemExit(142)

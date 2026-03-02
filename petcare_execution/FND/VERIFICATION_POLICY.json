@@ -2,10 +2,9 @@
   "created_utc": "INIT",
   "meta_verifiers_allowlist": [
     "PETCARE-PH44B-CLOSURE",
-    "PETCARE-PH45B-CLOSURE",
-    "PETCARE-PH54-CLOSURE"
+    "PETCARE-PH45B-CLOSURE"
   ],
   "meta_verifiers_allowlist_cap": 3,
-  "meta_verifiers_quorum": 1,
+  "meta_verifiers_quorum": 2,
   "schema": "petcare.verification_policy.v1"
 }
