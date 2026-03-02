@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 import sys
+import re
 
 SCHEMA = "petcare.verification_index.v1"
 
@@ -164,6 +165,61 @@ def main():
         print(f"want={want_digest}", file=sys.stderr)
         print(f"got ={idx_digest}", file=sys.stderr)
         raise SystemExit(21)
+
+    # === PH51 POLICY CHECKS ===
+    # Governance rules layered on top of integrity:
+    # R1: meta must verify a verifier-pack (structural: verified_pack appears somewhere as verifier_pack)
+    # R2: independent-first (first time a pack appears as verified_pack must be independent)
+    # R3: no true->false downgrade for same verified_pack
+    # R4: verifier_pack naming sanity
+
+    def _ph51_fail(msg: str, code: int = 130):
+        print(f"ERROR: {msg}", file=sys.stderr)
+        raise SystemExit(code)
+
+    pack_re = re.compile(r"^PETCARE-[A-Z0-9]+-CLOSURE$")
+
+    # R4: verifier_pack naming sanity
+    for i, e in enumerate(entries):
+        vp = e.get("verifier_pack", "")
+        if not isinstance(vp, str) or not pack_re.match(vp):
+            _ph51_fail(f"PH51: entry[{i}] verifier_pack invalid: {vp}", 131)
+
+    # Structural set: packs that have acted as verifiers anywhere in index
+    acted_as_verifier = set()
+    for e in entries:
+        acted_as_verifier.add(e.get("verifier_pack"))
+
+    first_class = {}
+    ever_true = {}
+
+    for i, e in enumerate(entries):
+        p = e.get("verified_pack")
+        c = e.get("verifier_class")
+        op = e.get("overall_pass")
+
+        # R2: independent-first
+        if p not in first_class:
+            first_class[p] = c
+            if c != "independent":
+                _ph51_fail(f"PH51: pack {p} first verification must be independent (got {c})", 132)
+
+        # R3: no true->false downgrade
+        if p not in ever_true:
+            ever_true[p] = (op == "true")
+        else:
+            if ever_true[p] and op == "false":
+                _ph51_fail(f"PH51: pack {p} cannot downgrade from true to false", 133)
+            if op == "true":
+                ever_true[p] = True
+
+        # R1: meta must verify a verifier-pack (structural)
+        if c == "meta":
+            if p not in acted_as_verifier:
+                _ph51_fail(f"PH51: meta verifier must verify a verifier-pack; {p} never acts as verifier_pack in index", 134)
+
+    # === END PH51 POLICY CHECKS ===
+
 
     print("OK verification index integrity PASS")
     print(f"entries_count={len(entries)}")

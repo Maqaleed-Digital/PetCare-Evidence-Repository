@@ -81,3 +81,40 @@ jobs:
           else
             echo "SKIP: scripts/petcare_verification_policy_check.sh not present"
           fi
+
+      - name: PH51 negative test (meta-first must fail)
+        run: |
+          set -euo pipefail
+          TMP_IDX="$(mktemp)"
+          cat > "${TMP_IDX}" <<'JSON'
+          {
+            "schema": "petcare.verification_index.v1",
+            "created_utc": "INIT",
+            "entries": [],
+            "index_digest_sha256": "INIT"
+          }
+          JSON
+
+          # First verification for a pack is meta => must fail PH51 (independent-first rule)
+          python3 scripts/petcare_verification_index_append.py \
+            --index "${TMP_IDX}" \
+            --verified_pack "PETCARE-PH43B-CLOSURE" \
+            --verified_zip_sha256 "0000000000000000000000000000000000000000000000000000000000000000" \
+            --verifier_pack "PETCARE-PH44B-CLOSURE" \
+            --verifier_class "meta" \
+            --verifier_zip_sha256 "1111111111111111111111111111111111111111111111111111111111111111" \
+            --verifier_git_head "deadbeef" \
+            --verifier_git_describe "ci" \
+            --overall_pass "true" \
+            --ts_utc "20260101T000000Z"
+
+          set +e
+          python3 scripts/petcare_verification_index_verify.py --index "${TMP_IDX}"
+          RC=$?
+          set -e
+          if [ "${RC}" -eq 0 ]; then
+            echo "ERROR: expected PH51 policy failure but verifier returned success"
+            exit 1
+          fi
+          echo "OK PH51 negative test: verifier failed as expected rc=${RC}"
+
