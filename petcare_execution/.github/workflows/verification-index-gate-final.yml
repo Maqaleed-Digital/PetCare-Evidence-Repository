@@ -29,6 +29,36 @@ jobs:
           python3 -m py_compile scripts/petcare_verification_index_verify.py
           python3 scripts/petcare_verification_index_verify.py --index verification_index.json
 
+      - name: PH55 policy change governance (changelog required on policy edits)
+        run: |
+          set -euo pipefail
+
+          # Ensure we have origin/main for diff (works on pull_request and push)
+          git fetch origin main --depth=1 || true
+
+          # Detect policy file changes vs origin/main
+          CHANGED="$(git diff --name-only origin/main...HEAD | tr -d '\r' || true)"
+          echo "${CHANGED}" | sed -n '1,200p'
+
+          POLICY_CHANGED="false"
+          echo "${CHANGED}" | grep -E '^(FND/VERIFICATION_POLICY\.json|FND/VERIFICATION_POLICY\.sha256)$' >/dev/null 2>&1 && POLICY_CHANGED="true"
+
+          if [ "${POLICY_CHANGED}" = "true" ]; then
+            echo "PH55: policy changed -> enforce changelog + guard"
+            test -f "FND/VERIFICATION_POLICY_CHANGELOG.md"
+
+            # changelog must also be changed in same PR/commit range
+            echo "${CHANGED}" | grep -E '^FND/VERIFICATION_POLICY_CHANGELOG\.md$' >/dev/null 2>&1 \
+              || { echo "FAIL: policy changed but changelog not updated" >&2; exit 55; }
+
+            python3 -m py_compile scripts/petcare_verification_policy_change_guard.py
+            python3 scripts/petcare_verification_policy_change_guard.py --require_last_entry_matches
+          else
+            echo "PH55: policy not changed -> SKIP governance check"
+          fi
+
+
+
 
       - name: PH50 main-boundary guard (verification scripts)
         run: |
