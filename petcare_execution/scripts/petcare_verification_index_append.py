@@ -162,6 +162,5 @@ write_json(args.index, idx)
 print("OK appended")
 print("entry_hash=" + entry_hash)
 print("index_digest_sha256=" + idx["index_digest_sha256"])
-
 if __name__ == "__main__":
-main()
+    main()
