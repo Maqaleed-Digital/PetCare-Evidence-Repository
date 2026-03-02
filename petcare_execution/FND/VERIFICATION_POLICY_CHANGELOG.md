@@ -25,3 +25,4 @@ policy_sha256=c60ce1a1d4a86506faef03561e2f22c902aa80986c48804e03d3b57478dcfa17
 summary=PH52 initial policy created (empty allowlist; all meta verifications blocked by default)
 approved_by=PH52
 ---
+PH56|20260302T201929Z|ALLOWLIST_ADD|pack=PETCARE-PH44B-CLOSURE|policy_sha256=d7f3a16dc4969e97c89624513085fe6256ff05dde8532f2ef000f9d9345df9e5
