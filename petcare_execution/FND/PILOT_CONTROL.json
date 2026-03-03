@@ -1,0 +1,11 @@
+{
+  "schema": "petcare.pilot_control.v1",
+  "schema_version": 1,
+  "pilot_enabled": false,
+  "pilot_name": "Pilot-1",
+  "pilot_region": "KSA",
+  "pilot_scope": "Governed pilot activation control plane (repo-level). Mirror into runtime systems before external launch.",
+  "activation_requires_ceo_declaration": true,
+  "ceo_declaration_path": "docs/CEO_GO_LIVE_DECLARATION.md",
+  "notes": "PH-L5 baseline: pilot disabled by default. Enable only after CEO go/no-go sign-off is completed."
+}
