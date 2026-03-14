@@ -8,6 +8,7 @@ const NAV = [
   { href: "/owner", label: "Owner" },
   { href: "/vet", label: "Vet" },
   { href: "/admin", label: "Admin" },
+  { href: "/pharmacy", label: "Pharmacy" },
 ];
 
 export function Sidebar() {
