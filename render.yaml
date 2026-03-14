@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: petcare-ph-l7-min-runtime
+    env: python
+    rootDir: petcare_execution
+    buildCommand: python -m compileall scripts
+    startCommand: python scripts/petcare_min_runtime.py
+    healthCheckPath: /health
+    envVars:
+      - key: PETCARE_SERVICE
+        value: petcare-ph-l7
+      - key: PETCARE_VERSION
+        value: ph-l7-min-runtime
