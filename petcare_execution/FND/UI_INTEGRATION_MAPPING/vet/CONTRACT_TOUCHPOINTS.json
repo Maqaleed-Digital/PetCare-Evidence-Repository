@@ -1,0 +1,89 @@
+{
+  "schema": "petcare-ui-contract-touchpoints-v1",
+  "surface": "vet",
+  "phase": "PH-FND-4",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "touchpoints": [
+    {
+      "component": "VetPatientList",
+      "interaction": "read",
+      "method": "GET",
+      "proxy_path": "/api/vet/patients",
+      "upstream_path": "/v1/vet/patients",
+      "upstream_service": "vet-service",
+      "required_role": "vet",
+      "consent_scope": null,
+      "identity_rbac_check": true,
+      "audit_trigger": false,
+      "current_state": "not_built_ph_ui_3_deferred"
+    },
+    {
+      "component": "PatientRecordViewer",
+      "interaction": "read",
+      "method": "GET",
+      "proxy_path": "/api/vet/records/[petId]",
+      "upstream_path": "/v1/signoff/records",
+      "upstream_service": "clinical_signoff",
+      "required_role": "vet",
+      "consent_scope": "cs-health-read",
+      "consent_check_endpoint": "/v1/consent/{owner_id}/cs-health-read",
+      "identity_rbac_check": true,
+      "audit_trigger": false,
+      "current_state": "not_built_ph_ui_3_deferred"
+    },
+    {
+      "component": "SignoffQueue",
+      "interaction": "read",
+      "method": "GET",
+      "proxy_path": "/api/vet/signoff/queue",
+      "upstream_path": "/v1/signoff/records",
+      "upstream_service": "clinical_signoff",
+      "required_role": "vet",
+      "consent_scope": null,
+      "identity_rbac_check": true,
+      "audit_trigger": false,
+      "current_state": "not_built_ph_ui_3_deferred"
+    },
+    {
+      "component": "SignoffApproveReject — Approve",
+      "interaction": "write",
+      "method": "POST",
+      "proxy_path": "/api/vet/signoff/[recordId]/approve",
+      "upstream_path": "/v1/signoff/records/{recordId}/approve",
+      "upstream_service": "clinical_signoff",
+      "required_role": "vet",
+      "consent_scope": "cs-health-write",
+      "identity_rbac_check": true,
+      "audit_trigger": true,
+      "audit_event_type": "signoff_approved",
+      "current_state": "not_built_ph_ui_3_deferred"
+    },
+    {
+      "component": "SignoffApproveReject — Reject",
+      "interaction": "write",
+      "method": "POST",
+      "proxy_path": "/api/vet/signoff/[recordId]/reject",
+      "upstream_path": "/v1/signoff/records/{recordId}/reject",
+      "upstream_service": "clinical_signoff",
+      "required_role": "vet",
+      "consent_scope": null,
+      "identity_rbac_check": true,
+      "audit_trigger": true,
+      "audit_event_type": "signoff_rejected",
+      "current_state": "not_built_ph_ui_3_deferred"
+    },
+    {
+      "component": "AppointmentSchedule",
+      "interaction": "read",
+      "method": "GET",
+      "proxy_path": "/api/vet/appointments",
+      "upstream_path": "/v1/vet/appointments",
+      "upstream_service": "vet-service",
+      "required_role": "vet",
+      "consent_scope": null,
+      "identity_rbac_check": true,
+      "audit_trigger": false,
+      "current_state": "not_built_ph_ui_3_deferred"
+    }
+  ]
+}

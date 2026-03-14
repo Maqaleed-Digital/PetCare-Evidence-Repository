@@ -1,0 +1,103 @@
+{
+  "schema": "petcare-ui-contract-touchpoints-v1",
+  "surface": "owner",
+  "phase": "PH-FND-4",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "touchpoints": [
+    {
+      "component": "PetProfileCard",
+      "interaction": "read",
+      "method": "GET",
+      "proxy_path": "/api/owner/pets/[petId]",
+      "upstream_path": "/v1/owner/pets/{petId}",
+      "upstream_service": "owner-service",
+      "required_role": "owner",
+      "consent_scope": null,
+      "identity_rbac_check": true,
+      "audit_trigger": false,
+      "current_state": "placeholder_data"
+    },
+    {
+      "component": "AppointmentCard",
+      "interaction": "read",
+      "method": "GET",
+      "proxy_path": "/api/owner/appointments",
+      "upstream_path": "/v1/owner/appointments",
+      "upstream_service": "owner-service",
+      "required_role": "owner",
+      "consent_scope": null,
+      "identity_rbac_check": true,
+      "audit_trigger": false,
+      "current_state": "placeholder_data"
+    },
+    {
+      "component": "HealthTimeline",
+      "interaction": "read",
+      "method": "GET",
+      "proxy_path": "/api/owner/pets/[petId]/timeline",
+      "upstream_path": "/v1/owner/pets/{petId}/timeline",
+      "upstream_service": "clinical-service",
+      "required_role": "owner",
+      "consent_scope": "cs-health-read",
+      "consent_check_endpoint": "/v1/consent/{owner_id}/cs-health-read",
+      "identity_rbac_check": true,
+      "audit_trigger": false,
+      "current_state": "placeholder_data"
+    },
+    {
+      "component": "VaccinationCard",
+      "interaction": "read",
+      "method": "GET",
+      "proxy_path": "/api/owner/pets/[petId]/vaccinations",
+      "upstream_path": "/v1/owner/pets/{petId}/vaccinations",
+      "upstream_service": "clinical-service",
+      "required_role": "owner",
+      "consent_scope": "cs-health-read",
+      "consent_check_endpoint": "/v1/consent/{owner_id}/cs-health-read",
+      "identity_rbac_check": true,
+      "audit_trigger": false,
+      "current_state": "placeholder_data"
+    },
+    {
+      "component": "QuickActions — Book Appointment",
+      "interaction": "write",
+      "method": "POST",
+      "proxy_path": "/api/owner/appointments",
+      "upstream_path": "/v1/owner/appointments",
+      "upstream_service": "owner-service",
+      "required_role": "owner",
+      "consent_scope": null,
+      "identity_rbac_check": true,
+      "audit_trigger": false,
+      "current_state": "disabled_button"
+    },
+    {
+      "component": "QuickActions — Emergency Access",
+      "interaction": "write",
+      "method": "POST",
+      "proxy_path": "/api/emergency/alerts",
+      "upstream_path": "/v1/emergency/alerts",
+      "upstream_service": "emergency-service",
+      "required_role": "owner",
+      "consent_scope": null,
+      "identity_rbac_check": true,
+      "audit_trigger": true,
+      "audit_event_type": "access_denied or allow per identity_rbac",
+      "current_state": "disabled_button"
+    },
+    {
+      "component": "QuickActions — Consent Settings",
+      "interaction": "write",
+      "method": "POST",
+      "proxy_path": "/api/consent/[ownerId]/[scopeId]/grant",
+      "upstream_path": "/v1/consent/{owner_id}/{scope_id}/grant",
+      "upstream_service": "consent_registry",
+      "required_role": "owner",
+      "consent_scope": null,
+      "identity_rbac_check": true,
+      "audit_trigger": true,
+      "audit_event_type": "consent_granted",
+      "current_state": "disabled_button"
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  "schema": "petcare-ui-contract-registry-v1",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "phase": "PH-FND-4",
+  "surfaces": [
+    {
+      "surface": "owner",
+      "route": "/owner",
+      "ui_phase": "PH-UI-2",
+      "status": "built_placeholder",
+      "required_role": "owner",
+      "upstream_services": ["owner-service", "clinical-service", "consent_registry"],
+      "services_ready": ["consent_registry"],
+      "services_blocked": ["owner-service", "clinical-service"],
+      "touchpoints_file": "FND/UI_INTEGRATION_MAPPING/owner/CONTRACT_TOUCHPOINTS.json",
+      "gaps_file": "FND/UI_INTEGRATION_MAPPING/owner/DEFERRED_RUNTIME_GAPS.md",
+      "gap_count": 5,
+      "write_actions_disabled": ["book_appointment", "emergency_access", "consent_settings"]
+    },
+    {
+      "surface": "vet",
+      "route": "/vet",
+      "ui_phase": "PH-UI-3",
+      "status": "not_built",
+      "required_role": "vet",
+      "upstream_services": ["vet-service", "clinical_signoff", "consent_registry"],
+      "services_ready": ["clinical_signoff", "consent_registry"],
+      "services_blocked": ["vet-service"],
+      "touchpoints_file": "FND/UI_INTEGRATION_MAPPING/vet/CONTRACT_TOUCHPOINTS.json",
+      "gaps_file": "FND/UI_INTEGRATION_MAPPING/vet/DEFERRED_RUNTIME_GAPS.md",
+      "gap_count": 5,
+      "write_actions_disabled": ["signoff_approve", "signoff_reject", "prescription_create"]
+    },
+    {
+      "surface": "admin",
+      "route": "/admin",
+      "ui_phase": "PH-UI-4",
+      "status": "built_placeholder",
+      "required_role": "admin",
+      "upstream_services": ["admin-service", "audit_ledger", "evidence_export"],
+      "services_ready": ["audit_ledger", "evidence_export"],
+      "services_blocked": ["admin-service"],
+      "touchpoints_file": "FND/UI_INTEGRATION_MAPPING/admin/CONTRACT_TOUCHPOINTS.json",
+      "gaps_file": "FND/UI_INTEGRATION_MAPPING/admin/DEFERRED_RUNTIME_GAPS.md",
+      "gap_count": 5,
+      "write_actions_disabled": ["export_create", "export_download", "alert_acknowledge", "vet_availability_update"]
+    },
+    {
+      "surface": "pharmacy",
+      "route": "/pharmacy",
+      "ui_phase": "PH-UI-5",
+      "status": "built_placeholder",
+      "required_role": "pharmacy_staff",
+      "upstream_services": ["pharmacy-service", "consent_registry"],
+      "services_ready": ["consent_registry"],
+      "services_blocked": ["pharmacy-service"],
+      "touchpoints_file": "FND/UI_INTEGRATION_MAPPING/pharmacy/CONTRACT_TOUCHPOINTS.json",
+      "gaps_file": "FND/UI_INTEGRATION_MAPPING/pharmacy/DEFERRED_RUNTIME_GAPS.md",
+      "gap_count": 6,
+      "write_actions_disabled": ["dispense", "recall_acknowledge", "inventory_update"]
+    },
+    {
+      "surface": "emergency",
+      "route": "/emergency",
+      "ui_phase": "PH-UI-6",
+      "status": "built_placeholder",
+      "required_role": "emergency_responder",
+      "upstream_services": ["emergency-service", "consent_registry"],
+      "services_ready": ["consent_registry"],
+      "services_blocked": ["emergency-service"],
+      "touchpoints_file": "FND/UI_INTEGRATION_MAPPING/emergency/CONTRACT_TOUCHPOINTS.json",
+      "gaps_file": "FND/UI_INTEGRATION_MAPPING/emergency/DEFERRED_RUNTIME_GAPS.md",
+      "gap_count": 7,
+      "write_actions_disabled": ["alert_acknowledge", "alert_dispatch", "handoff_create", "triage_update"]
+    }
+  ],
+  "shared_contracts": [
+    { "file": "FND/UI_INTEGRATION_MAPPING/shared/UI_INTEGRATION_PRINCIPLES.md", "type": "principles" },
+    { "file": "FND/UI_INTEGRATION_MAPPING/shared/READ_WRITE_BOUNDARIES.md",     "type": "boundary_map" },
+    { "file": "FND/UI_INTEGRATION_MAPPING/shared/ERROR_RENDERING_MATRIX.md",    "type": "error_matrix" }
+  ],
+  "gap_summary": {
+    "total": 28,
+    "blocked": 8,
+    "deferred": 20,
+    "wired": 0
+  }
+}
