@@ -1,0 +1,67 @@
+{
+  "schema": "petcare-consent-scope-map-v1",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "phase": "PH-FND-2",
+  "consent_scopes": [
+    {
+      "scope_id": "cs-health-read",
+      "label": "Health Record Access",
+      "description": "Allow veterinary staff to view pet health records and timelines",
+      "data_categories": ["health_timeline", "vaccination", "lab_results"],
+      "permitted_roles": ["vet"],
+      "purpose": "veterinary_care",
+      "required": true,
+      "default_state": "pending"
+    },
+    {
+      "scope_id": "cs-health-write",
+      "label": "Health Record Updates",
+      "description": "Allow veterinary staff to add entries to pet health records",
+      "data_categories": ["health_timeline", "vaccination", "clinical_notes"],
+      "permitted_roles": ["vet"],
+      "purpose": "veterinary_care",
+      "required": false,
+      "default_state": "pending"
+    },
+    {
+      "scope_id": "cs-pharmacy",
+      "label": "Prescription & Pharmacy Access",
+      "description": "Allow pharmacy staff to view prescriptions and dispense medications",
+      "data_categories": ["prescription", "dispense_record", "medication_history"],
+      "permitted_roles": ["pharmacy_staff"],
+      "purpose": "medication_dispensing",
+      "required": false,
+      "default_state": "pending"
+    },
+    {
+      "scope_id": "cs-emergency",
+      "label": "Emergency Data Sharing",
+      "description": "Allow emergency responders to access pet records and share pre-arrival packets",
+      "data_categories": ["pet_profile", "health_timeline", "vaccination", "medication_history", "vitals"],
+      "permitted_roles": ["emergency_responder", "vet"],
+      "purpose": "emergency_care",
+      "required": false,
+      "default_state": "pending"
+    },
+    {
+      "scope_id": "cs-audit-admin",
+      "label": "Administrative Audit Access",
+      "description": "Allow clinic administrators to view audit logs related to the owner's account",
+      "data_categories": ["audit_log"],
+      "permitted_roles": ["admin"],
+      "purpose": "governance_compliance",
+      "required": true,
+      "default_state": "granted"
+    },
+    {
+      "scope_id": "cs-evidence-export",
+      "label": "Regulatory Evidence Export",
+      "description": "Allow export of anonymised or pseudonymised records for regulatory purposes",
+      "data_categories": ["audit_log", "governance_report"],
+      "permitted_roles": ["admin"],
+      "purpose": "regulatory_compliance",
+      "required": false,
+      "default_state": "pending"
+    }
+  ]
+}

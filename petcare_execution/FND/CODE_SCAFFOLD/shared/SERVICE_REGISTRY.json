@@ -1,0 +1,62 @@
+{
+  "schema": "petcare-service-registry-v1",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "phase": "PH-FND-2",
+  "services": [
+    {
+      "service_id": "svc-identity-rbac",
+      "name": "identity_rbac",
+      "version": "0.1.0-scaffold",
+      "description": "Role-based access control — authentication, role assignment, access decisions",
+      "base_path": "/v1/identity",
+      "health_path": "/v1/identity/health",
+      "owner_team": "platform-foundation",
+      "internal_only": true,
+      "dependencies": ["svc-audit-ledger"]
+    },
+    {
+      "service_id": "svc-consent-registry",
+      "name": "consent_registry",
+      "version": "0.1.0-scaffold",
+      "description": "PDPL consent lifecycle — grant, revoke, purpose-limitation enforcement",
+      "base_path": "/v1/consent",
+      "health_path": "/v1/consent/health",
+      "owner_team": "platform-foundation",
+      "internal_only": true,
+      "dependencies": ["svc-audit-ledger", "svc-identity-rbac"]
+    },
+    {
+      "service_id": "svc-audit-ledger",
+      "name": "audit_ledger",
+      "version": "0.1.0-scaffold",
+      "description": "Append-only, hash-chained audit log for all platform events",
+      "base_path": "/v1/audit",
+      "health_path": "/v1/audit/health",
+      "owner_team": "platform-foundation",
+      "internal_only": true,
+      "dependencies": []
+    },
+    {
+      "service_id": "svc-clinical-signoff",
+      "name": "clinical_signoff",
+      "version": "0.1.0-scaffold",
+      "description": "Clinical record signoff state machine — DRAFT → PENDING → APPROVED | REJECTED",
+      "base_path": "/v1/signoff",
+      "health_path": "/v1/signoff/health",
+      "owner_team": "platform-foundation",
+      "internal_only": true,
+      "dependencies": ["svc-audit-ledger", "svc-identity-rbac", "svc-consent-registry"]
+    },
+    {
+      "service_id": "svc-evidence-export",
+      "name": "evidence_export",
+      "version": "0.1.0-scaffold",
+      "description": "Governed, pseudonymised export packaging for regulatory and compliance use",
+      "base_path": "/v1/export",
+      "health_path": "/v1/export/health",
+      "owner_team": "platform-foundation",
+      "internal_only": true,
+      "dependencies": ["svc-audit-ledger", "svc-identity-rbac", "svc-consent-registry"]
+    }
+  ]
+}

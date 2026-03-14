@@ -1,0 +1,55 @@
+{
+  "schema": "petcare-export-artifact-schema-v1",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "phase": "PH-FND-2",
+  "artifact_envelope": {
+    "description": "Top-level structure of every evidence export ZIP",
+    "fields": {
+      "export_id":          { "type": "string", "format": "uuid-v4",   "required": true },
+      "export_type":        { "type": "string", "enum": ["audit_log", "consent_snapshot", "governance_report", "full_compliance"], "required": true },
+      "requested_by":       { "type": "string", "format": "uuid-v4",   "required": true,  "description": "Admin principal_id" },
+      "requested_at":       { "type": "string", "format": "iso8601",   "required": true },
+      "expires_at":         { "type": "string", "format": "iso8601",   "required": true,  "description": "Artifact auto-purged after this timestamp" },
+      "scope":              { "type": "object",                        "required": true,  "description": "Date range and clinic/phase filters" },
+      "pseudonymised":      { "type": "boolean",                       "required": true,  "description": "Must be true; raw PII export blocked" },
+      "cross_border":       { "type": "boolean",                       "required": true },
+      "sdaia_approval_ref": { "type": "string",                        "required": false, "description": "Required if cross_border == true" },
+      "files":              { "type": "array",  "items": "FileEntry",  "required": true },
+      "manifest_hash":      { "type": "string", "format": "sha256-hex","required": true,  "description": "SHA-256 of MANIFEST.json contents" },
+      "artifact_hmac":      { "type": "string", "format": "hmac-sha256","required": true, "description": "HMAC-SHA-256 of ZIP bytes using server signing key" }
+    }
+  },
+  "file_entry": {
+    "fields": {
+      "path":   { "type": "string", "required": true,  "description": "Relative path within the ZIP" },
+      "sha256": { "type": "string", "format": "sha256-hex", "required": true },
+      "size_bytes": { "type": "integer", "required": true }
+    }
+  },
+  "export_types": [
+    {
+      "type": "audit_log",
+      "description": "All audit events in date range, pseudonymised",
+      "sources": ["audit_ledger"],
+      "default_ttl_days": 30
+    },
+    {
+      "type": "consent_snapshot",
+      "description": "Point-in-time consent state for all data subjects",
+      "sources": ["consent_registry"],
+      "default_ttl_days": 30
+    },
+    {
+      "type": "governance_report",
+      "description": "SLA compliance, response times, and signoff metrics",
+      "sources": ["audit_ledger", "clinical_signoff"],
+      "default_ttl_days": 90
+    },
+    {
+      "type": "full_compliance",
+      "description": "Combined audit log + consent snapshot + governance report",
+      "sources": ["audit_ledger", "consent_registry", "clinical_signoff"],
+      "default_ttl_days": 90
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "schema": "petcare-signoff-state-machine-v1",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "phase": "PH-FND-2",
+  "states": [
+    {
+      "state": "DRAFT",
+      "description": "Record created by clinical staff, not yet submitted for review",
+      "terminal": false,
+      "mutable": true
+    },
+    {
+      "state": "PENDING",
+      "description": "Record submitted and awaiting vet review",
+      "terminal": false,
+      "mutable": false
+    },
+    {
+      "state": "APPROVED",
+      "description": "Record reviewed and approved by a licensed vet — sealed",
+      "terminal": true,
+      "mutable": false
+    },
+    {
+      "state": "REJECTED",
+      "description": "Record rejected by vet with a mandatory reason; allows re-submission as new DRAFT",
+      "terminal": false,
+      "mutable": false
+    },
+    {
+      "state": "SUPERSEDED",
+      "description": "Record was APPROVED but a corrected version has been approved; this record is archived",
+      "terminal": true,
+      "mutable": false
+    }
+  ],
+  "transitions": [
+    {
+      "from": "DRAFT",
+      "to": "PENDING",
+      "trigger": "submit_for_review",
+      "actor_role": "vet",
+      "guards": ["record.fields_complete == true", "consent.active == true"],
+      "audit_event": "signoff_requested"
+    },
+    {
+      "from": "DRAFT",
+      "to": "DRAFT",
+      "trigger": "update_draft",
+      "actor_role": "vet",
+      "guards": ["consent.active == true"],
+      "audit_event": null
+    },
+    {
+      "from": "PENDING",
+      "to": "APPROVED",
+      "trigger": "approve",
+      "actor_role": "vet",
+      "guards": [
+        "actor.id != record.created_by OR clinic.allows_self_signoff == true",
+        "actor.license_status == 'active'"
+      ],
+      "audit_event": "signoff_approved",
+      "side_effects": ["seal_record", "notify_pharmacy_if_prescription"]
+    },
+    {
+      "from": "PENDING",
+      "to": "REJECTED",
+      "trigger": "reject",
+      "actor_role": "vet",
+      "guards": ["rejection_reason.length >= 10"],
+      "audit_event": "signoff_rejected",
+      "side_effects": ["notify_originator"]
+    },
+    {
+      "from": "REJECTED",
+      "to": "DRAFT",
+      "trigger": "resubmit_as_draft",
+      "actor_role": "vet",
+      "guards": [],
+      "audit_event": null,
+      "note": "Creates a new record with parent_record_id pointing to the rejected record"
+    },
+    {
+      "from": "APPROVED",
+      "to": "SUPERSEDED",
+      "trigger": "supersede",
+      "actor_role": "admin",
+      "guards": ["superseding_record.state == 'APPROVED'", "supersede_reason.length >= 20"],
+      "audit_event": "signoff_superseded"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "schema": "petcare-role-matrix-v1",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "phase": "PH-FND-2",
+  "roles": [
+    {
+      "role": "owner",
+      "description": "Pet owner — can view and manage their own pets and appointments",
+      "permissions": [
+        { "resource": "pet_profile",       "actions": ["read", "update"],         "scope": "own" },
+        { "resource": "appointment",       "actions": ["read", "create", "cancel"], "scope": "own" },
+        { "resource": "health_timeline",   "actions": ["read"],                   "scope": "own" },
+        { "resource": "vaccination",       "actions": ["read"],                   "scope": "own" },
+        { "resource": "consent",           "actions": ["read", "grant", "revoke"], "scope": "own" },
+        { "resource": "emergency_alert",   "actions": ["create"],                 "scope": "own" }
+      ]
+    },
+    {
+      "role": "vet",
+      "description": "Licensed veterinarian — can read/write clinical records for assigned patients",
+      "permissions": [
+        { "resource": "pet_profile",       "actions": ["read"],                   "scope": "assigned" },
+        { "resource": "health_timeline",   "actions": ["read", "create"],         "scope": "assigned" },
+        { "resource": "vaccination",       "actions": ["read", "create"],         "scope": "assigned" },
+        { "resource": "appointment",       "actions": ["read", "update"],         "scope": "assigned" },
+        { "resource": "clinical_signoff",  "actions": ["read", "sign"],           "scope": "assigned" },
+        { "resource": "prescription",      "actions": ["read", "create"],         "scope": "assigned" },
+        { "resource": "triage_case",       "actions": ["read", "update"],         "scope": "assigned" }
+      ]
+    },
+    {
+      "role": "admin",
+      "description": "Clinic administrator — can manage clinic operations and view governance data",
+      "permissions": [
+        { "resource": "pet_profile",       "actions": ["read"],                   "scope": "clinic" },
+        { "resource": "appointment",       "actions": ["read", "update", "cancel"], "scope": "clinic" },
+        { "resource": "vet_availability",  "actions": ["read", "update"],         "scope": "clinic" },
+        { "resource": "audit_log",         "actions": ["read"],                   "scope": "clinic" },
+        { "resource": "governance_report", "actions": ["read"],                   "scope": "clinic" },
+        { "resource": "role_assignment",   "actions": ["read", "create", "revoke"], "scope": "clinic" },
+        { "resource": "evidence_export",   "actions": ["create", "read"],         "scope": "clinic" }
+      ]
+    },
+    {
+      "role": "pharmacy_staff",
+      "description": "Pharmacy staff — can view and process prescriptions and manage inventory",
+      "permissions": [
+        { "resource": "prescription",      "actions": ["read", "update"],         "scope": "pharmacy" },
+        { "resource": "inventory",         "actions": ["read", "update"],         "scope": "pharmacy" },
+        { "resource": "dispense_record",   "actions": ["read", "create"],         "scope": "pharmacy" },
+        { "resource": "cold_chain",        "actions": ["read"],                   "scope": "pharmacy" },
+        { "resource": "recall",            "actions": ["read", "acknowledge"],    "scope": "pharmacy" }
+      ]
+    },
+    {
+      "role": "emergency_responder",
+      "description": "Emergency-designated vet or dispatcher — can act on emergency alerts",
+      "permissions": [
+        { "resource": "emergency_alert",   "actions": ["read", "acknowledge", "dispatch"], "scope": "emergency" },
+        { "resource": "triage_case",       "actions": ["read", "create", "update"], "scope": "emergency" },
+        { "resource": "clinic_availability", "actions": ["read", "update"],       "scope": "emergency" },
+        { "resource": "handoff_record",    "actions": ["read", "create"],         "scope": "emergency" },
+        { "resource": "pre_arrival_packet", "actions": ["read"],                  "scope": "emergency" }
+      ]
+    }
+  ]
+}

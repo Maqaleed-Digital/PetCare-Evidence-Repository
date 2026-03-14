@@ -1,0 +1,39 @@
+{
+  "schema": "petcare-audit-event-schema-v1",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "phase": "PH-FND-2",
+  "event_envelope": {
+    "description": "Every audit event stored in audit_ledger conforms to this envelope",
+    "fields": {
+      "event_id":       { "type": "string", "format": "uuid-v4",   "required": true,  "description": "Globally unique event identifier" },
+      "sequence_no":    { "type": "integer",                        "required": true,  "description": "Monotonically increasing per-ledger sequence number" },
+      "prev_hash":      { "type": "string", "format": "sha256-hex", "required": true,  "description": "SHA-256 of the previous event's canonical JSON; genesis block uses 64 × '0'" },
+      "event_hash":     { "type": "string", "format": "sha256-hex", "required": true,  "description": "SHA-256 of this event's canonical JSON (excluding event_hash field)" },
+      "event_type":     { "type": "string", "enum": "see event_types", "required": true },
+      "service_source": { "type": "string",                        "required": true,  "description": "Name of the emitting service" },
+      "principal_id":   { "type": "string", "format": "uuid-v4",   "required": true,  "description": "Opaque principal UUID (never raw PII)" },
+      "resource_type":  { "type": "string",                        "required": false, "description": "Resource category acted upon" },
+      "resource_id":    { "type": "string",                        "required": false, "description": "Opaque resource identifier" },
+      "action":         { "type": "string",                        "required": false, "description": "Action attempted or completed" },
+      "outcome":        { "type": "string", "enum": ["allow", "deny", "error"], "required": true },
+      "detail":         { "type": "object",                        "required": false, "description": "Event-type-specific payload (must not contain raw PII)" },
+      "ts_utc":         { "type": "string", "format": "iso8601",   "required": true,  "description": "Event timestamp in UTC" },
+      "retention_until":{ "type": "string", "format": "iso8601",   "required": true,  "description": "Minimum retention date per PDPL Article 19" }
+    }
+  },
+  "event_types": [
+    { "type": "access_denied",         "source": "identity_rbac",     "description": "Access decision resulted in DENY" },
+    { "type": "role_assigned",         "source": "identity_rbac",     "description": "Role granted to principal" },
+    { "type": "role_revoked",          "source": "identity_rbac",     "description": "Role removed from principal" },
+    { "type": "consent_granted",       "source": "consent_registry",  "description": "Consent scope granted by data subject" },
+    { "type": "consent_revoked",       "source": "consent_registry",  "description": "Consent scope revoked by data subject" },
+    { "type": "consent_checked",       "source": "consent_registry",  "description": "Consent check performed by downstream service" },
+    { "type": "consent_denied",        "source": "consent_registry",  "description": "Access denied due to missing or revoked consent" },
+    { "type": "signoff_requested",     "source": "clinical_signoff",  "description": "Clinical record submitted for vet signoff" },
+    { "type": "signoff_approved",      "source": "clinical_signoff",  "description": "Clinical record approved by vet" },
+    { "type": "signoff_rejected",      "source": "clinical_signoff",  "description": "Clinical record rejected by vet with reason" },
+    { "type": "export_created",        "source": "evidence_export",   "description": "Evidence export artifact created" },
+    { "type": "export_downloaded",     "source": "evidence_export",   "description": "Export artifact downloaded by authorised admin" },
+    { "type": "export_expired",        "source": "evidence_export",   "description": "Export artifact TTL elapsed and purged" }
+  ]
+}
