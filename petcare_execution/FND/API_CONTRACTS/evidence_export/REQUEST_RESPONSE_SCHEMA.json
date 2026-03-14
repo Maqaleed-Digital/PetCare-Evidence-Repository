@@ -1,0 +1,54 @@
+{
+  "schema": "petcare-api-schema-v1",
+  "service": "evidence_export",
+  "phase": "PH-FND-3",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "schemas": {
+    "ExportRequest": {
+      "type": "object",
+      "required": ["export_type", "scope"],
+      "properties": {
+        "export_type": {
+          "type": "string",
+          "enum": ["audit_log", "consent_snapshot", "governance_report", "full_compliance"]
+        },
+        "scope": {
+          "type": "object",
+          "required": ["from_date", "to_date"],
+          "properties": {
+            "from_date":  { "type": "string", "format": "iso8601-date", "description": "Inclusive start date in UTC" },
+            "to_date":    { "type": "string", "format": "iso8601-date", "description": "Inclusive end date in UTC" },
+            "clinic_id":  { "type": "string", "format": "uuid-v4", "nullable": true, "description": "Null = all clinics in admin's scope" }
+          }
+        },
+        "cross_border":       { "type": "boolean", "default": false },
+        "sdaia_approval_ref": { "type": "string",  "nullable": true, "description": "Required if cross_border == true" }
+      }
+    },
+    "ExportRequestResponse": {
+      "type": "object",
+      "properties": {
+        "export_id":       { "type": "string", "format": "uuid-v4" },
+        "export_type":     { "type": "string", "enum": ["audit_log", "consent_snapshot", "governance_report", "full_compliance"] },
+        "status":          { "type": "string", "enum": ["awaiting_approval", "processing", "ready", "expired", "failed"] },
+        "requested_by":    { "type": "string", "format": "uuid-v4" },
+        "requested_at":    { "type": "string", "format": "iso8601" },
+        "approved_by":     { "type": "string", "format": "uuid-v4", "nullable": true, "description": "Second admin for dual-approval exports" },
+        "approved_at":     { "type": "string", "format": "iso8601", "nullable": true },
+        "expires_at":      { "type": "string", "format": "iso8601", "nullable": true },
+        "download_count":  { "type": "integer", "description": "Number of times artifact has been downloaded (max 3)" },
+        "scope":           { "type": "object" },
+        "file_count":      { "type": "integer", "nullable": true },
+        "manifest_hash":   { "type": "string", "format": "sha256-hex", "nullable": true },
+        "pseudonymised":   { "type": "boolean" },
+        "cross_border":    { "type": "boolean" }
+      }
+    },
+    "ApproveRequest": {
+      "type": "object",
+      "properties": {
+        "approval_note": { "type": "string", "nullable": true }
+      }
+    }
+  }
+}

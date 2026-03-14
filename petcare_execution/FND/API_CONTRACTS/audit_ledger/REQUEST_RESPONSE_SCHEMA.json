@@ -1,0 +1,73 @@
+{
+  "schema": "petcare-api-schema-v1",
+  "service": "audit_ledger",
+  "phase": "PH-FND-3",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "schemas": {
+    "AuditEventRequest": {
+      "type": "object",
+      "required": ["event_type", "service_source", "principal_id", "outcome", "ts_utc"],
+      "properties": {
+        "event_type":     { "type": "string", "description": "See AUDIT_EVENT_SCHEMA.json for permitted values" },
+        "service_source": { "type": "string", "description": "Emitting service name" },
+        "principal_id":   { "type": "string", "format": "uuid-v4" },
+        "resource_type":  { "type": "string", "nullable": true },
+        "resource_id":    { "type": "string", "nullable": true },
+        "action":         { "type": "string", "nullable": true },
+        "outcome":        { "type": "string", "enum": ["allow", "deny", "error"] },
+        "detail":         { "type": "object", "nullable": true, "description": "Must not contain raw PII" },
+        "ts_utc":         { "type": "string", "format": "iso8601" }
+      }
+    },
+    "AuditEventResponse": {
+      "type": "object",
+      "properties": {
+        "event_id":       { "type": "string", "format": "uuid-v4" },
+        "sequence_no":    { "type": "integer" },
+        "prev_hash":      { "type": "string", "format": "sha256-hex" },
+        "event_hash":     { "type": "string", "format": "sha256-hex" },
+        "event_type":     { "type": "string" },
+        "service_source": { "type": "string" },
+        "principal_id":   { "type": "string", "format": "uuid-v4" },
+        "resource_type":  { "type": "string", "nullable": true },
+        "resource_id":    { "type": "string", "nullable": true },
+        "action":         { "type": "string", "nullable": true },
+        "outcome":        { "type": "string", "enum": ["allow", "deny", "error"] },
+        "detail":         { "type": "object", "nullable": true },
+        "ts_utc":         { "type": "string", "format": "iso8601" },
+        "retention_until":{ "type": "string", "format": "iso8601" }
+      }
+    },
+    "BatchAppendRequest": {
+      "type": "object",
+      "required": ["events"],
+      "properties": {
+        "events": {
+          "type": "array",
+          "items": { "$ref": "#/schemas/AuditEventRequest" },
+          "minItems": 1,
+          "maxItems": 100
+        }
+      }
+    },
+    "BatchAppendResponse": {
+      "type": "object",
+      "properties": {
+        "appended":          { "type": "integer" },
+        "first_sequence_no": { "type": "integer" },
+        "last_sequence_no":  { "type": "integer" }
+      }
+    },
+    "VerifyResponse": {
+      "type": "object",
+      "properties": {
+        "valid":               { "type": "boolean" },
+        "checked":             { "type": "integer", "description": "Number of events verified" },
+        "from_sequence":       { "type": "integer" },
+        "to_sequence":         { "type": "integer" },
+        "broken_at_sequence":  { "type": "integer", "nullable": true },
+        "verified_at":         { "type": "string", "format": "iso8601" }
+      }
+    }
+  }
+}

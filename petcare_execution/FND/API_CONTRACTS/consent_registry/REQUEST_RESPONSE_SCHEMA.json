@@ -1,0 +1,70 @@
+{
+  "schema": "petcare-api-schema-v1",
+  "service": "consent_registry",
+  "phase": "PH-FND-3",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "schemas": {
+    "ConsentRecord": {
+      "type": "object",
+      "properties": {
+        "record_id":      { "type": "string", "format": "uuid-v4" },
+        "owner_id":       { "type": "string", "format": "uuid-v4" },
+        "scope_id":       { "type": "string", "description": "e.g. cs-health-read" },
+        "status":         { "type": "string", "enum": ["pending", "granted", "revoked", "expired"] },
+        "purpose":        { "type": "string" },
+        "granted_at":     { "type": "string", "format": "iso8601", "nullable": true },
+        "revoked_at":     { "type": "string", "format": "iso8601", "nullable": true },
+        "expires_at":     { "type": "string", "format": "iso8601", "nullable": true },
+        "acknowledged_at":{ "type": "string", "format": "iso8601", "nullable": true },
+        "revocation_reason": { "type": "string", "nullable": true }
+      }
+    },
+    "GrantRequest": {
+      "type": "object",
+      "required": ["purpose", "acknowledged_at"],
+      "properties": {
+        "purpose":         { "type": "string" },
+        "acknowledged_at": { "type": "string", "format": "iso8601", "description": "Timestamp when owner explicitly acknowledged consent terms" }
+      }
+    },
+    "RevokeRequest": {
+      "type": "object",
+      "properties": {
+        "revocation_reason": { "type": "string", "nullable": true }
+      }
+    },
+    "ConsentCheckRequest": {
+      "type": "object",
+      "required": ["owner_id", "scope_id", "caller_role", "purpose"],
+      "properties": {
+        "owner_id":    { "type": "string", "format": "uuid-v4" },
+        "scope_id":    { "type": "string" },
+        "caller_role": { "type": "string" },
+        "purpose":     { "type": "string" }
+      }
+    },
+    "ConsentCheckResponse": {
+      "type": "object",
+      "properties": {
+        "allowed":    { "type": "boolean" },
+        "reason":     { "type": "string" },
+        "scope_id":   { "type": "string" },
+        "status":     { "type": "string", "enum": ["pending", "granted", "revoked", "expired"] },
+        "expires_at": { "type": "string", "format": "iso8601", "nullable": true }
+      }
+    },
+    "ConsentHistoryEntry": {
+      "type": "object",
+      "properties": {
+        "entry_id":    { "type": "string", "format": "uuid-v4" },
+        "owner_id":    { "type": "string", "format": "uuid-v4" },
+        "scope_id":    { "type": "string" },
+        "from_status": { "type": "string", "enum": ["pending", "granted", "revoked", "expired"] },
+        "to_status":   { "type": "string", "enum": ["pending", "granted", "revoked", "expired"] },
+        "actor_id":    { "type": "string", "format": "uuid-v4", "description": "Owner principal_id" },
+        "ts_utc":      { "type": "string", "format": "iso8601" },
+        "reason":      { "type": "string", "nullable": true }
+      }
+    }
+  }
+}

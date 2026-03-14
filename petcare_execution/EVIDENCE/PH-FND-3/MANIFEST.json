@@ -1,0 +1,30 @@
+{
+  "schema": "petcare-evidence-manifest-v1",
+  "phase": "PH-FND-3",
+  "description": "API contract artifacts — shared conventions, 5 service contracts, integration index",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "file_count": 21,
+  "files": [
+    { "path": "petcare_execution/FND/API_CONTRACTS/shared/API_CONVENTIONS.md",                          "sha256": "aedf01c490f8d487d4c397e20c9801d75bad0e2996fe53c20e8e4c85c25d4cd0" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/shared/ERROR_CONTRACT.json",                         "sha256": "7e8843a645699aebf26b0ed5936e421a62530071e9df1abe12d4eac816eea6a1" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/shared/PAGINATION_AND_FILTERING.md",                 "sha256": "9f23a9bbcfa49f42dcfcb39f7f2f8888cdbe2e50e2f47d84e18cc685ff8d0686" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/identity_rbac/ENDPOINTS.md",                         "sha256": "d7209d3c412649c62188e9ab7e7c4cc6596010c66c697b66f2597a4663f63bd1" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/identity_rbac/REQUEST_RESPONSE_SCHEMA.json",         "sha256": "348b46c483da152f80b28e777814d79c7f3e86981e236206fca9412f77b646e1" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/identity_rbac/AUTHORIZATION_RULES.md",               "sha256": "abf44ec0fddf7d81ed56472d4db633c5712418b5fc7212b4deae0d054ac1b6f3" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/consent_registry/ENDPOINTS.md",                      "sha256": "70345f16ef3e8b0b1f22836499f075696ed4eed3d1c5b9d3c14bae1126d3fc1c" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/consent_registry/REQUEST_RESPONSE_SCHEMA.json",      "sha256": "74caf1340e74ca236fd43dcd76b36d0b7919ab0dd7886070c39105180422fab2" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/consent_registry/PURPOSE_ENFORCEMENT.md",            "sha256": "3b78ba6b85145eb1bb5806405ecec2f27bd8a9ad8008e702b239280493c33fa7" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/audit_ledger/ENDPOINTS.md",                          "sha256": "8c3a57fa99ed85612fc4a4fa74b8d5b103541b7730295bd113f000ca45583daa" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/audit_ledger/REQUEST_RESPONSE_SCHEMA.json",          "sha256": "debab577dadb15773e8571dffe93a0e7223bc57fd0ebf6d8e40e9f7039d18fe6" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/audit_ledger/AUDIT_TRIGGER_RULES.md",                "sha256": "d9e91bb78feb3600987638dc4878ab8b9757f46c4aabadd58674b66276150ff6" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/clinical_signoff/ENDPOINTS.md",                      "sha256": "63afa86be116fe3653b3c8e8f84b504e2197d650b639eae01da99ef73a4a2ba1" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/clinical_signoff/REQUEST_RESPONSE_SCHEMA.json",      "sha256": "14ef022b9370b0c211d2fca6a7b5dc6ce05c143432c64fa1ca0a1eb393958092" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/clinical_signoff/SIGNOFF_GUARDS.md",                 "sha256": "9e16d5178b51ef4fcf049ec6687683839f738ab1421609b8701752de6244bb50" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/evidence_export/ENDPOINTS.md",                       "sha256": "734f309ed628f9f8cfcfb3830694ca883e187094485e45699746ba793f21f422" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/evidence_export/REQUEST_RESPONSE_SCHEMA.json",       "sha256": "ab6895ccf18ea5dcbf422199c6c6bd68b96c07cb63951b4c6563b08edd8a8a85" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/evidence_export/EXPORT_GUARDS.md",                   "sha256": "6393f853004ecc72c77edb2ce9458024c9a8b81f95fb146f5a7de959df93bd34" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/integration_index/README.md",                        "sha256": "a0cb302eef9b4764c56e404f6721db367db1afc2273872227127f78116ac4377" },
+    { "path": "petcare_execution/FND/API_CONTRACTS/integration_index/CONTRACT_REGISTRY.json",           "sha256": "8626628e461e8781eace2e9c79f8a743607e6dedd8e4d08e2de48b36bf6cb6a2" },
+    { "path": "petcare_execution/EVIDENCE/PH-FND-3/RUN_LOG.md",                                         "sha256": "84790b447312ed79ed9a7830afaf23edc058ad8ee30083855fd9d39ff5d8b7e2" }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "schema": "petcare-error-contract-v1",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "phase": "PH-FND-3",
+  "description": "Canonical error envelope used by all petcare platform services",
+  "error_envelope": {
+    "fields": {
+      "error_code":   { "type": "string",  "required": true,  "description": "Machine-readable error identifier, e.g. CONSENT_NOT_FOUND" },
+      "message":      { "type": "string",  "required": true,  "description": "Human-readable summary — never contains PII" },
+      "detail":       { "type": "string",  "required": false, "description": "Additional context for debugging — never contains PII" },
+      "request_id":   { "type": "string",  "format": "uuid-v4", "required": true, "description": "Echoed from X-Request-ID header" },
+      "ts_utc":       { "type": "string",  "format": "iso8601", "required": true },
+      "path":         { "type": "string",  "required": true,  "description": "Request path that produced the error" },
+      "violations":   { "type": "array",   "required": false, "description": "Field-level validation errors (422 only)", "items": {
+        "field":      { "type": "string" },
+        "message":    { "type": "string" }
+      }}
+    }
+  },
+  "http_status_map": [
+    { "status": 400, "error_code_prefix": "BAD_REQUEST_",   "description": "Malformed request syntax or invalid JSON" },
+    { "status": 401, "error_code_prefix": "UNAUTHORIZED_",  "description": "Missing or invalid JWT" },
+    { "status": 403, "error_code_prefix": "FORBIDDEN_",     "description": "Authenticated but insufficient role or consent" },
+    { "status": 404, "error_code_prefix": "NOT_FOUND_",     "description": "Resource does not exist" },
+    { "status": 409, "error_code_prefix": "CONFLICT_",      "description": "State conflict, e.g. duplicate idempotency key with different body" },
+    { "status": 422, "error_code_prefix": "VALIDATION_",    "description": "Request body is valid JSON but fails business rules; violations array populated" },
+    { "status": 429, "error_code_prefix": "RATE_LIMITED_",  "description": "Too many requests; see Retry-After header" },
+    { "status": 500, "error_code_prefix": "INTERNAL_",      "description": "Unexpected server error" },
+    { "status": 502, "error_code_prefix": "UPSTREAM_",      "description": "Upstream dependency returned an error" },
+    { "status": 503, "error_code_prefix": "UNAVAILABLE_",   "description": "Service temporarily unavailable" }
+  ],
+  "canonical_error_codes": [
+    { "code": "UNAUTHORIZED_MISSING_TOKEN",      "status": 401, "description": "No Authorization header present" },
+    { "code": "UNAUTHORIZED_INVALID_TOKEN",      "status": 401, "description": "JWT is malformed, expired, or signature invalid" },
+    { "code": "FORBIDDEN_INSUFFICIENT_ROLE",     "status": 403, "description": "Principal's role does not permit this action" },
+    { "code": "FORBIDDEN_CONSENT_REQUIRED",      "status": 403, "description": "Consent scope not active for this owner/purpose" },
+    { "code": "FORBIDDEN_SCOPE_VIOLATION",       "status": 403, "description": "Resource does not belong to the caller's scope" },
+    { "code": "NOT_FOUND_RESOURCE",              "status": 404, "description": "The requested resource ID does not exist" },
+    { "code": "CONFLICT_IDEMPOTENCY_KEY",        "status": 409, "description": "Idempotency key reused with different request body" },
+    { "code": "CONFLICT_STATE_TRANSITION",       "status": 409, "description": "Requested state transition is not permitted from current state" },
+    { "code": "VALIDATION_REQUIRED_FIELD",       "status": 422, "description": "A required field is missing or null" },
+    { "code": "VALIDATION_INVALID_ENUM",         "status": 422, "description": "Field value is not in the permitted enum set" },
+    { "code": "VALIDATION_IMMUTABLE_FIELD",      "status": 422, "description": "Attempt to modify a sealed/immutable field" },
+    { "code": "INTERNAL_UNEXPECTED",             "status": 500, "description": "Unhandled server error — logged internally with request_id" },
+    { "code": "UPSTREAM_AUDIT_LEDGER",           "status": 502, "description": "audit_ledger dependency failed to accept the event" }
+  ],
+  "example": {
+    "error_code": "FORBIDDEN_CONSENT_REQUIRED",
+    "message": "Active consent is required for scope 'cs-health-read' before accessing health timeline.",
+    "detail": "consent_registry returned status=pending for owner_id=<opaque>",
+    "request_id": "a1b2c3d4-e5f6-7890-abcd-ef1234567890",
+    "ts_utc": "2026-03-15T10:42:00Z",
+    "path": "/v1/signoff/records/rec-001"
+  }
+}

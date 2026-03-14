@@ -1,0 +1,73 @@
+{
+  "schema": "petcare-api-schema-v1",
+  "service": "identity_rbac",
+  "phase": "PH-FND-3",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "schemas": {
+    "TokenRequest": {
+      "type": "object",
+      "required": ["principal_id", "credential_hash"],
+      "properties": {
+        "principal_id":     { "type": "string", "format": "uuid-v4" },
+        "credential_hash":  { "type": "string", "description": "bcrypt hash of credential — never plaintext" }
+      }
+    },
+    "TokenResponse": {
+      "type": "object",
+      "properties": {
+        "token":       { "type": "string", "description": "Signed JWT" },
+        "expires_at":  { "type": "string", "format": "iso8601" },
+        "principal_id":{ "type": "string", "format": "uuid-v4" },
+        "roles":       { "type": "array",  "items": { "type": "string" } }
+      }
+    },
+    "RoleAssignment": {
+      "type": "object",
+      "required": ["principal_id", "role"],
+      "properties": {
+        "assignment_id":  { "type": "string", "format": "uuid-v4" },
+        "principal_id":   { "type": "string", "format": "uuid-v4" },
+        "role":           { "type": "string", "enum": ["owner", "vet", "admin", "pharmacy_staff", "emergency_responder", "service_internal"] },
+        "clinic_id":      { "type": "string", "format": "uuid-v4", "description": "Required for vet/admin/pharmacy_staff/emergency_responder" },
+        "assigned_by":    { "type": "string", "format": "uuid-v4" },
+        "assigned_at":    { "type": "string", "format": "iso8601" },
+        "revoked_at":     { "type": "string", "format": "iso8601", "nullable": true }
+      }
+    },
+    "AccessCheckRequest": {
+      "type": "object",
+      "required": ["principal_id", "action", "resource_type"],
+      "properties": {
+        "principal_id":   { "type": "string", "format": "uuid-v4" },
+        "action":         { "type": "string", "enum": ["read", "create", "update", "delete", "cancel", "sign", "acknowledge", "dispatch", "grant", "revoke"] },
+        "resource_type":  { "type": "string" },
+        "resource_id":    { "type": "string", "nullable": true },
+        "context": {
+          "type": "object",
+          "properties": {
+            "owner_id":      { "type": "string", "format": "uuid-v4", "nullable": true },
+            "clinic_id":     { "type": "string", "format": "uuid-v4", "nullable": true },
+            "pharmacy_id":   { "type": "string", "format": "uuid-v4", "nullable": true }
+          }
+        }
+      }
+    },
+    "AccessCheckResponse": {
+      "type": "object",
+      "properties": {
+        "allowed":  { "type": "boolean" },
+        "reason":   { "type": "string" },
+        "principal_id": { "type": "string", "format": "uuid-v4" },
+        "action":   { "type": "string" },
+        "resource_type": { "type": "string" }
+      }
+    },
+    "PrincipalRolesResponse": {
+      "type": "object",
+      "properties": {
+        "principal_id": { "type": "string", "format": "uuid-v4" },
+        "roles":        { "type": "array", "items": { "$ref": "#/schemas/RoleAssignment" } }
+      }
+    }
+  }
+}

@@ -1,0 +1,73 @@
+{
+  "schema": "petcare-contract-registry-v1",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "phase": "PH-FND-3",
+  "shared_contracts": [
+    { "file": "FND/API_CONTRACTS/shared/API_CONVENTIONS.md",          "type": "conventions",  "description": "HTTP conventions, auth, naming, versioning" },
+    { "file": "FND/API_CONTRACTS/shared/ERROR_CONTRACT.json",          "type": "schema",       "description": "Canonical error envelope and error code registry" },
+    { "file": "FND/API_CONTRACTS/shared/PAGINATION_AND_FILTERING.md", "type": "conventions",  "description": "Cursor pagination and filter query syntax" }
+  ],
+  "service_contracts": [
+    {
+      "service": "identity_rbac",
+      "base_path": "/v1/identity",
+      "startup_order": 2,
+      "files": [
+        { "file": "FND/API_CONTRACTS/identity_rbac/ENDPOINTS.md",                 "type": "endpoints"   },
+        { "file": "FND/API_CONTRACTS/identity_rbac/REQUEST_RESPONSE_SCHEMA.json", "type": "schema"      },
+        { "file": "FND/API_CONTRACTS/identity_rbac/AUTHORIZATION_RULES.md",       "type": "rules"       }
+      ]
+    },
+    {
+      "service": "consent_registry",
+      "base_path": "/v1/consent",
+      "startup_order": 3,
+      "files": [
+        { "file": "FND/API_CONTRACTS/consent_registry/ENDPOINTS.md",                 "type": "endpoints" },
+        { "file": "FND/API_CONTRACTS/consent_registry/REQUEST_RESPONSE_SCHEMA.json", "type": "schema"    },
+        { "file": "FND/API_CONTRACTS/consent_registry/PURPOSE_ENFORCEMENT.md",       "type": "rules"     }
+      ]
+    },
+    {
+      "service": "audit_ledger",
+      "base_path": "/v1/audit",
+      "startup_order": 1,
+      "files": [
+        { "file": "FND/API_CONTRACTS/audit_ledger/ENDPOINTS.md",                 "type": "endpoints" },
+        { "file": "FND/API_CONTRACTS/audit_ledger/REQUEST_RESPONSE_SCHEMA.json", "type": "schema"    },
+        { "file": "FND/API_CONTRACTS/audit_ledger/AUDIT_TRIGGER_RULES.md",       "type": "rules"     }
+      ]
+    },
+    {
+      "service": "clinical_signoff",
+      "base_path": "/v1/signoff",
+      "startup_order": 4,
+      "files": [
+        { "file": "FND/API_CONTRACTS/clinical_signoff/ENDPOINTS.md",                 "type": "endpoints" },
+        { "file": "FND/API_CONTRACTS/clinical_signoff/REQUEST_RESPONSE_SCHEMA.json", "type": "schema"    },
+        { "file": "FND/API_CONTRACTS/clinical_signoff/SIGNOFF_GUARDS.md",            "type": "rules"     }
+      ]
+    },
+    {
+      "service": "evidence_export",
+      "base_path": "/v1/export",
+      "startup_order": 5,
+      "files": [
+        { "file": "FND/API_CONTRACTS/evidence_export/ENDPOINTS.md",                 "type": "endpoints" },
+        { "file": "FND/API_CONTRACTS/evidence_export/REQUEST_RESPONSE_SCHEMA.json", "type": "schema"    },
+        { "file": "FND/API_CONTRACTS/evidence_export/EXPORT_GUARDS.md",             "type": "rules"     }
+      ]
+    }
+  ],
+  "integrations": [
+    { "caller": "identity_rbac",    "callee": "audit_ledger",    "purpose": "Emit access_denied, role_assigned, role_revoked events" },
+    { "caller": "consent_registry", "callee": "audit_ledger",    "purpose": "Emit consent_granted, consent_revoked, consent_checked events" },
+    { "caller": "consent_registry", "callee": "identity_rbac",   "purpose": "Validate caller role before consent mutation" },
+    { "caller": "clinical_signoff", "callee": "audit_ledger",    "purpose": "Emit signoff state-change events" },
+    { "caller": "clinical_signoff", "callee": "identity_rbac",   "purpose": "Access check before sign/approve/reject" },
+    { "caller": "clinical_signoff", "callee": "consent_registry","purpose": "Check owner consent before record access" },
+    { "caller": "evidence_export",  "callee": "audit_ledger",    "purpose": "Source data + emit export lifecycle events" },
+    { "caller": "evidence_export",  "callee": "identity_rbac",   "purpose": "Validate admin role before export creation/download" },
+    { "caller": "evidence_export",  "callee": "consent_registry","purpose": "Check cs-evidence-export scope before export creation" }
+  ]
+}

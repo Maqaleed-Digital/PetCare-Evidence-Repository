@@ -1,0 +1,66 @@
+{
+  "schema": "petcare-api-schema-v1",
+  "service": "clinical_signoff",
+  "phase": "PH-FND-3",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "schemas": {
+    "SignoffRecord": {
+      "type": "object",
+      "properties": {
+        "record_id":          { "type": "string", "format": "uuid-v4" },
+        "state":              { "type": "string", "enum": ["DRAFT", "PENDING", "APPROVED", "REJECTED", "SUPERSEDED"] },
+        "record_type":        { "type": "string", "enum": ["diagnosis", "treatment_plan", "prescription", "vaccination", "clinical_note"] },
+        "owner_id":           { "type": "string", "format": "uuid-v4" },
+        "pet_id":             { "type": "string", "format": "uuid-v4" },
+        "created_by":         { "type": "string", "format": "uuid-v4", "description": "Vet principal_id" },
+        "clinic_id":          { "type": "string", "format": "uuid-v4" },
+        "content_hash":       { "type": "string", "format": "sha256-hex", "description": "SHA-256 of the record content — content stored in clinical data service" },
+        "record_seal_hash":   { "type": "string", "format": "sha256-hex", "nullable": true, "description": "Set only when state == APPROVED" },
+        "approved_by":        { "type": "string", "format": "uuid-v4", "nullable": true },
+        "approved_at":        { "type": "string", "format": "iso8601", "nullable": true },
+        "rejected_by":        { "type": "string", "format": "uuid-v4", "nullable": true },
+        "rejected_at":        { "type": "string", "format": "iso8601", "nullable": true },
+        "rejection_reason":   { "type": "string", "nullable": true },
+        "superseded_by":      { "type": "string", "format": "uuid-v4", "nullable": true, "description": "record_id of the replacement" },
+        "parent_record_id":   { "type": "string", "format": "uuid-v4", "nullable": true, "description": "Set if this record was re-submitted after a rejection" },
+        "created_at":         { "type": "string", "format": "iso8601" },
+        "updated_at":         { "type": "string", "format": "iso8601" }
+      }
+    },
+    "SignoffRecordCreateRequest": {
+      "type": "object",
+      "required": ["record_type", "owner_id", "pet_id", "content_hash"],
+      "properties": {
+        "record_type":  { "type": "string", "enum": ["diagnosis", "treatment_plan", "prescription", "vaccination", "clinical_note"] },
+        "owner_id":     { "type": "string", "format": "uuid-v4" },
+        "pet_id":       { "type": "string", "format": "uuid-v4" },
+        "content_hash": { "type": "string", "format": "sha256-hex", "description": "SHA-256 of record content stored in clinical data service" }
+      }
+    },
+    "RejectRequest": {
+      "type": "object",
+      "required": ["reason"],
+      "properties": {
+        "reason": { "type": "string", "minLength": 10 }
+      }
+    },
+    "SupersedeRequest": {
+      "type": "object",
+      "required": ["superseding_record_id", "reason"],
+      "properties": {
+        "superseding_record_id": { "type": "string", "format": "uuid-v4" },
+        "reason":                { "type": "string", "minLength": 20 }
+      }
+    },
+    "SealVerifyResponse": {
+      "type": "object",
+      "properties": {
+        "valid":          { "type": "boolean" },
+        "record_id":      { "type": "string", "format": "uuid-v4" },
+        "expected_hash":  { "type": "string", "format": "sha256-hex" },
+        "actual_hash":    { "type": "string", "format": "sha256-hex" },
+        "verified_at":    { "type": "string", "format": "iso8601" }
+      }
+    }
+  }
+}
