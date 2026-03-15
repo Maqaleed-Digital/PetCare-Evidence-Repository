@@ -1,0 +1,10 @@
+{
+  "pack": "PETCARE-AI-OPS-5",
+  "validationMode": "python_structural_runner",
+  "requiredSymbolsConfirmed": true,
+  "notes": [
+    "Model lifecycle governance detected.",
+    "Promotion rules detected.",
+    "Retirement rules detected."
+  ]
+}
