@@ -1,0 +1,12 @@
+{
+  "packId": "PETCARE-CLINIC-LAUNCH-ACTIVATION",
+  "requiredSymbolsConfirmed": true,
+  "launchActivationRegistryStatus": "ACTIVE",
+  "launchDayChecklistStatus": "pass",
+  "clinicServicesEnablementStatus": "pass",
+  "aiRuntimeLaunchStateStatus": "pass",
+  "launchGovernanceNotificationStatus": "recorded",
+  "launchDecisionPresent": true,
+  "launchDecision": "CLINIC_LAUNCH_ACTIVATED",
+  "nextRecommendedState": "clinic_launch_live_operations"
+}

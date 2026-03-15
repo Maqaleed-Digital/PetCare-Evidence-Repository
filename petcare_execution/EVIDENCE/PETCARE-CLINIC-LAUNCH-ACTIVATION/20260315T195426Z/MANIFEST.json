@@ -1,0 +1,56 @@
+{
+  "packId": "PETCARE-CLINIC-LAUNCH-ACTIVATION",
+  "timestamp": "20260315T195426Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINIC-LAUNCH-ACTIVATION/20260315T195426Z/FILES.txt",
+      "sha256": "a20374faa796f25b55abd3c87b15a9ff436a223991a34f1c41ef14b3069c179a"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINIC-LAUNCH-ACTIVATION/20260315T195426Z/RUN.log",
+      "sha256": "3d235722e426ce308b0729984f99e69c6fbae232e957b9b51180cfceebb3c3b6"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINIC-LAUNCH-ACTIVATION/20260315T195426Z/VALIDATION.json",
+      "sha256": "e86d73fed254af2e798c31b7831664193bd3e1d1dce9b84874bac305fa2b1094"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/LAUNCH_ACTIVATION/CLINIC_LAUNCH_ACTIVATION_SPEC.md",
+      "sha256": "6e5e3dbbece27c49aed560504f8fcdc1afaef29d59d368e55222911a513abc3f"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_ACTIVATION/ai_runtime_launch_state.ts",
+      "sha256": "c1fc5371220e5d793dfb7744ebd5570e6fee16182736e82bf693205607108c66"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_ACTIVATION/clinic_services_enablement.ts",
+      "sha256": "bdffff78103b01b80a9d19cbd0f8e07faf4cc206989da1b9a7c2ea57681bfcb9"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_ACTIVATION/launch_activation_decision.ts",
+      "sha256": "57533b1edecfd01d2b30b10564c31d7996ff7f694a6acfa196c0737c49870d47"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_ACTIVATION/launch_activation_registry.ts",
+      "sha256": "60fe7ff71960d88267bd325cbd82bd21de7038411052b53199acadb653248060"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_ACTIVATION/launch_activation_runner.py",
+      "sha256": "064d4ca74c52bb4d37e6cd3cac9161de459e66218776d4ab449c26289d0d3139"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_ACTIVATION/launch_activation_validation_pack.ts",
+      "sha256": "bd61fc614db27f04df97392f0c4d83c03360a2bbe2a03c123cf209ffe09abd96"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_ACTIVATION/launch_day_activation_checklist.ts",
+      "sha256": "50cb7a472b38c2e24fc6e38d04b2f202bb90ef12122df2ebdeaae8489484777e"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_ACTIVATION/launch_governance_notification.ts",
+      "sha256": "5f7f8dcc3078765822c223b86dcddd21f181af7f2b0c4210b6b52e149ca4400f"
+    }
+  ]
+}
