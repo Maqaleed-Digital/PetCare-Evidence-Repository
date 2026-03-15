@@ -1,0 +1,15 @@
+{
+  "packId": "PETCARE-AI-LIVE-2",
+  "pilotClinicId": "pilot_clinic_001",
+  "cohortId": "AI_PILOT_ALPHA",
+  "requiredSymbolsConfirmed": true,
+  "telemetryAggregationCompleted": true,
+  "clinicalFeedbackReviewed": true,
+  "overrideAnalyticsCompleted": true,
+  "safetyCheckpointStatus": "pass",
+  "assistiveOnlyBoundaryPreserved": true,
+  "humanApprovalStillRequired": true,
+  "cohortClosureDecisionPresent": true,
+  "cohortClosureDecision": "READY_FOR_COHORT_CLOSURE",
+  "nextRecommendedState": "ready_for_launch_readiness_pack"
+}

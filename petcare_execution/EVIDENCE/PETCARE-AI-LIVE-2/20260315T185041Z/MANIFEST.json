@@ -1,0 +1,54 @@
+{
+  "packId": "PETCARE-AI-LIVE-2",
+  "timestamp": "20260315T185041Z",
+  "pilotClinicId": "pilot_clinic_001",
+  "cohortId": "AI_PILOT_ALPHA",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-AI-LIVE-2/20260315T185041Z/FILES.txt",
+      "sha256": "a33459df7dbabc423233914f09ce89178f86bfe92199847724c406cc08a90b96"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-AI-LIVE-2/20260315T185041Z/RUN.log",
+      "sha256": "50db8d16df101ca075608b848d442adc8ad15b578ce9bc05217443c61a865297"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-AI-LIVE-2/20260315T185041Z/VALIDATION.json",
+      "sha256": "4632ef865a62b92a2b0f43f08ad87d17b4c32a29609879e55acec0bec809cab2"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/AI_RUNTIME/live_pilot_ops_review/AI_LIVE_2_OPERATIONS_REVIEW_SPEC.md",
+      "sha256": "386e5c076f5fb3f1022e0d16bfb8c066112c83995b0ea59cce11790acb1a74d8"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/live_pilot_ops_review/clinical_feedback_review.ts",
+      "sha256": "cf90fb2f57b54c1caa5c81133d287a8d71c6f1dd8644afde1b29f918f393d0b8"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/live_pilot_ops_review/live_pilot_ops_review_runner.py",
+      "sha256": "f0e71538a411440eaff3e87da2efda4c8ffeb5df06d73f907499263871021322"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/live_pilot_ops_review/live_pilot_ops_review_validation_pack.ts",
+      "sha256": "25795d087642b851f9a291d3b10ae7b9968fd367072553036ee8d11e3f4502a5"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/live_pilot_ops_review/live_pilot_telemetry_aggregation.ts",
+      "sha256": "670ff41b0ba3998f197b91ec28b43bc733d76415c047e2cbace4a060f69bb86e"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/live_pilot_ops_review/override_analytics.ts",
+      "sha256": "a8e565ec7bd0dd699d90cc4275053baeb0775f72eccf85c44eceb6598e297e44"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/live_pilot_ops_review/pilot_cohort_closure_decision.ts",
+      "sha256": "fae82640e5024adf41feae775dd252b428b1a5556bc3f803c5524b0c1e08df18"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/live_pilot_ops_review/safety_review_checkpoint.ts",
+      "sha256": "7911511f09068353b1ed06ccc50b9cc4be2bae24b2afbe5ad677e8a389da566c"
+    }
+  ]
+}
