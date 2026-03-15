@@ -1,0 +1,17 @@
+{
+  "pack": "PETCARE-AI-FND-4",
+  "validationMode": "python_structural_runner",
+  "checkedFiles": [
+    "petcare_execution/AI_RUNTIME/runtime_hooks/AGENT_RUNTIME_HOOKS_SPEC.md",
+    "petcare_execution/AI_RUNTIME/runtime_hooks/runtime_event_logger.ts",
+    "petcare_execution/AI_RUNTIME/runtime_hooks/override_flow.ts",
+    "petcare_execution/AI_RUNTIME/runtime_hooks/evaluation_hooks.ts",
+    "petcare_execution/AI_RUNTIME/runtime_hooks/runtime_validation_pack.ts"
+  ],
+  "requiredSymbolsConfirmed": true,
+  "notes": [
+    "Validation does not depend on repo-local typescript.",
+    "Structural validation completed successfully.",
+    "Runtime hooks pack is deterministic and assistive-only."
+  ]
+}
