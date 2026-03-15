@@ -1,0 +1,45 @@
+{
+  "schema": "petcare-evidence-manifest-v1",
+  "phase": "PH-FND-5",
+  "timestamp_utc": "20260315T000429Z",
+  "baseline_head": "c97436795abbb3385e749f18b37d76fd0fdaccd2",
+  "file_count": 9,
+  "files": [
+    {
+      "path": "petcare_execution/FND/PH-FND-5/BLOCKED_ITEM_RESOLUTION_SEQUENCE.md",
+      "sha256": "b81ae68137402107afc2e074c0c7802fec1e1f865035c6440af4370f764b9f9e"
+    },
+    {
+      "path": "petcare_execution/FND/PH-FND-5/CONTRACT_TO_SERVICE_REALIZATION_MAP.md",
+      "sha256": "af9799145e0ac17b2be764b5b99be75057d8e8ea087fd00283c384ad90752eca"
+    },
+    {
+      "path": "petcare_execution/FND/PH-FND-5/PH-FND-5_RUNTIME_IMPLEMENTATION_READINESS.md",
+      "sha256": "05b51fba95e5c0babb158ebc86784092211d82949d2065055d3af1b20b1a83c1"
+    },
+    {
+      "path": "petcare_execution/FND/PH-FND-5/RUNTIME_MODULE_BOUNDARIES.md",
+      "sha256": "1ca138f3e790237c2e517aa227ece7f08e9f780663fab39454e987c234223783"
+    },
+    {
+      "path": "petcare_execution/FND/PH-FND-5/RUNTIME_READINESS_CHECKLIST.md",
+      "sha256": "98ded2c50ada64b757149f8458242b99a3a8ba52f526b60768bd4de192188385"
+    },
+    {
+      "path": "petcare_execution/FND/PH-FND-5/RUNTIME_SERVICE_IMPLEMENTATION_ORDER.md",
+      "sha256": "efe36a8f0a1093bf0d74e116e55de283d77acf04ef7abe96350d3c4f7ae58038"
+    },
+    {
+      "path": "petcare_execution/FND/PH-FND-5/VALIDATION_GATES_AND_EVIDENCE.md",
+      "sha256": "fee9edea899a3bc61cbf33b52398db73aa346290a76f6355cc69ddb8781fa7ba"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PH-FND-5/FILE_LISTING.txt",
+      "sha256": "a6a8ee56fff5023cd87aebdd45b19e70ea4a6757f8a04dc8a21ee1325738dad9"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PH-FND-5/RUN_LOG.md",
+      "sha256": "aa2cdbe1948f54936fdfad715c00fd480bb94ee283eb9645f8116fca8c858fbd"
+    }
+  ]
+}
