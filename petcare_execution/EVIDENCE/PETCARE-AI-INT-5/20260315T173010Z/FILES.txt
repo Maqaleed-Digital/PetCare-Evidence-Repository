@@ -1,0 +1,8 @@
+petcare_execution/AI_RUNTIME/telemetry/AI_INTERACTION_TELEMETRY_SPEC.md
+petcare_execution/AI_RUNTIME/telemetry/agent_usage_metrics.ts
+petcare_execution/AI_RUNTIME/telemetry/ai_interaction_logger.ts
+petcare_execution/AI_RUNTIME/telemetry/ai_override_tracker.ts
+petcare_execution/AI_RUNTIME/telemetry/evaluation_summary_export.ts
+petcare_execution/AI_RUNTIME/telemetry/safety_event_monitor.ts
+petcare_execution/AI_RUNTIME/telemetry/telemetry_validation_pack.ts
+petcare_execution/AI_RUNTIME/telemetry/telemetry_validation_runner.py
