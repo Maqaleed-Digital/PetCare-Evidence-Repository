@@ -1,0 +1,39 @@
+{
+  "pack": "PETCARE-AI-FND-8",
+  "baseline_commit": "570a9999a382b1b6e693aebf2f78c720a0762014",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-AI-FND-8/20260315T170851Z",
+  "files": [
+    {
+      "path": "petcare_execution/AI_RUNTIME/runtime_readiness/AGENT_RUNTIME_READINESS_SPEC.md",
+      "sha256": "127e02fe888baf7e39aa39cc15779962c2caa4b56dbec5b2ed1d6537a636f740"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/runtime_readiness/evidence_manifest_chain.ts",
+      "sha256": "b4a9ef4a82d651ab2fad22bd625273cb73520a3bc5e2fce343bd8cb868f5844a"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/runtime_readiness/go_live_ai_readiness_pack.ts",
+      "sha256": "1f17b0fd50288e3627135d700f14fccf9bacf49a23d145746a30f65d71feeaf3"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/runtime_readiness/readiness_validation_pack.ts",
+      "sha256": "ff5662c76c33812f5ebc22c4d045828fb1b515a1e25448cea3df43ffde5a93cd"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/runtime_readiness/readiness_validation_runner.py",
+      "sha256": "7868bc0bad234cd8b2db35a7efcbeed250a0716a78cb0eb232fd304f15c4abd6"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/runtime_readiness/runtime_verification_index.ts",
+      "sha256": "e856d358b3cbf583f3da1335bd0b098295e6bf592e3d2a14c24ea8f05b3332e8"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-AI-FND-8/20260315T170851Z/FILES.txt",
+      "sha256": "249a4e1c6bdb5332a05a417fcc83866f27fd562e3cbc6db5586587c2e652a1bf"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-AI-FND-8/20260315T170851Z/RUN.log",
+      "sha256": "d5fc4f098818ec8e7f7e1b94f628d46ce90cb27d0771f4b40ad8620628309988"
+    }
+  ]
+}
