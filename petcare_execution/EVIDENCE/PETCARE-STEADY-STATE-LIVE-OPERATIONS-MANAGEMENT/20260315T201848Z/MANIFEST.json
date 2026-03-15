@@ -1,0 +1,60 @@
+{
+  "packId": "PETCARE-STEADY-STATE-LIVE-OPERATIONS-MANAGEMENT",
+  "timestamp": "20260315T201848Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-STEADY-STATE-LIVE-OPERATIONS-MANAGEMENT/20260315T201848Z/FILES.txt",
+      "sha256": "6f0cf1d27a15eca814054a3269a6776814768245104922ea2b315317efe9c4fb"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-STEADY-STATE-LIVE-OPERATIONS-MANAGEMENT/20260315T201848Z/RUN.log",
+      "sha256": "4c0dd42db38f27cdfd33b0daed215f4ddfbba1e80215d98479668fa4c629a375"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-STEADY-STATE-LIVE-OPERATIONS-MANAGEMENT/20260315T201848Z/VALIDATION.json",
+      "sha256": "4a80e543497727a92d328928848b03c92024a6ad40321364c79420e956adcb23"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/STEADY_STATE_LIVE_OPERATIONS_MANAGEMENT_SPEC.md",
+      "sha256": "50b86764465d500fa4682105abc2c4d68f0942055700e81d379ac282f131c49c"
+    },
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/ai_governance_and_override_monitoring.ts",
+      "sha256": "869da84aa74d75e15ebf907a2a6f74df97cb919be0c167618e089f4e8d17f276"
+    },
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/clinical_safety_and_audit_monitoring.ts",
+      "sha256": "0b2e5846c192c2873674cd40c95b610500629ebde8eedfff02e4445dc3756fd9"
+    },
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/incident_review_and_continuity_management.ts",
+      "sha256": "9a7312d7c0cc465124c8cd69e091ffffa52a66b4d14fe6cb70d38da561f867ae"
+    },
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/pharmacy_billing_partner_performance_monitoring.ts",
+      "sha256": "8e7cc1bf384c78b104cd5b4f92e03c05bddd2490c810d44b1494137a9c745d54"
+    },
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/service_quality_and_sla_monitoring.ts",
+      "sha256": "6270e924ca2581696b2d3668d7b1b5606a44f0d574b50ca401fb8899edb5f015"
+    },
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/steady_state_operations_decision.ts",
+      "sha256": "170c5a949f984f2391a9e3fa0cd214987f6885dc1e10479fecf410b37f62f76c"
+    },
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/steady_state_operations_registry.ts",
+      "sha256": "a6acb0e4160eb9f1a8317ef21d08c266d98f85d4fd80ae25d30b3e0eb49f65b5"
+    },
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/steady_state_operations_runner.py",
+      "sha256": "95f4a6f64cd500fbf88196ab087854b0caa3a4977070af545ed7979d90f2ce3d"
+    },
+    {
+      "path": "petcare_execution/STEADY_STATE_OPERATIONS/steady_state_operations_validation_pack.ts",
+      "sha256": "80851080d5154ad353486a1a5e13b3cf4a6eb61a58ac085004c459c56dcf7476"
+    }
+  ]
+}

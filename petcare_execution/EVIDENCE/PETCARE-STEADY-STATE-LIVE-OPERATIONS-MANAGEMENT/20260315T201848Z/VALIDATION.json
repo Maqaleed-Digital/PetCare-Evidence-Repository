@@ -1,0 +1,13 @@
+{
+  "packId": "PETCARE-STEADY-STATE-LIVE-OPERATIONS-MANAGEMENT",
+  "requiredSymbolsConfirmed": true,
+  "steadyStateOperationsRegistryStatus": "ACTIVE",
+  "serviceQualityAndSlaMonitoringStatus": "pass",
+  "clinicalSafetyAndAuditMonitoringStatus": "pass",
+  "pharmacyBillingPartnerPerformanceMonitoringStatus": "pass",
+  "aiGovernanceAndOverrideMonitoringStatus": "pass",
+  "incidentReviewAndContinuityManagementStatus": "pass",
+  "steadyStateOperationsDecisionPresent": true,
+  "steadyStateOperationsDecision": "STEADY_STATE_LIVE_OPERATIONS_MANAGEMENT_ACTIVE",
+  "nextRecommendedState": "kpi_reporting_and_scale_readiness_governance"
+}
