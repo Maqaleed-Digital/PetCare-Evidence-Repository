@@ -1,0 +1,8 @@
+petcare_execution/AI_RUNTIME/live_pilot/AI_LIVE_PILOT_SPEC.md
+petcare_execution/AI_RUNTIME/live_pilot/clinic_activation_checklist.ts
+petcare_execution/AI_RUNTIME/live_pilot/human_approval_enforcement.ts
+petcare_execution/AI_RUNTIME/live_pilot/kill_switch_drill.ts
+petcare_execution/AI_RUNTIME/live_pilot/live_evidence_capture.ts
+petcare_execution/AI_RUNTIME/live_pilot/live_pilot_validation_pack.ts
+petcare_execution/AI_RUNTIME/live_pilot/live_pilot_validation_runner.py
+petcare_execution/AI_RUNTIME/live_pilot/pilot_activation_plan.ts
