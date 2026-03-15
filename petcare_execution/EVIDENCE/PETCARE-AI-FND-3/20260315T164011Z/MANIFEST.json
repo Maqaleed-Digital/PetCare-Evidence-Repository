@@ -1,0 +1,39 @@
+{
+  "pack": "PETCARE-AI-FND-3",
+  "baseline_commit": "7ed02ca8db03b3d23a5dc1406eb88873a36ae484",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-AI-FND-3/20260315T164011Z",
+  "files": [
+    {
+      "path": "petcare_execution/AI_RUNTIME/integration/AGENT_RUNTIME_INTEGRATION_SPEC.md",
+      "sha256": "da44beba7e282a83fbe82b54832a2125a082f0c32030b931d9c7dcef7037440d"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/integration/governance_runtime_adapter.ts",
+      "sha256": "5f9b292b06b05686958281f1bc7401d961c12d43b648bae848b4fbbd02bd1f9a"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/integration/integration_test_pack.ts",
+      "sha256": "a99fc8a673fa810d22b60b7b840d31f35d18454ef9ff86f27956c57bdb6d538a"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/integration/model_gateway_adapter.ts",
+      "sha256": "83369b1a82dcbd9ece5203d58fd172ca90419ca86ae9dc3a0a40ac6fa04fe70b"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/integration/prompt_composer.ts",
+      "sha256": "56f4f8a1540dd643e78773e13da44afc5106abcd34a2b21f0c5f51473107bb9c"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/integration/synthetic_requests.ts",
+      "sha256": "4f3dae664f160e2a2eb08cd5b0e2d9276650b3e375a1b108065525357b0d7a60"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-AI-FND-3/20260315T164011Z/FILES.txt",
+      "sha256": "586bdfb6f1a3d1a298bf7520d1ad5146a88c81bf93972c1450eaeb8aa9fdaa9f"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-AI-FND-3/20260315T164011Z/RUN.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+petcare_execution/AI_RUNTIME/integration/AGENT_RUNTIME_INTEGRATION_SPEC.md
+petcare_execution/AI_RUNTIME/integration/governance_runtime_adapter.ts
+petcare_execution/AI_RUNTIME/integration/integration_test_pack.ts
+petcare_execution/AI_RUNTIME/integration/model_gateway_adapter.ts
+petcare_execution/AI_RUNTIME/integration/prompt_composer.ts
+petcare_execution/AI_RUNTIME/integration/synthetic_requests.ts
