@@ -1,0 +1,37 @@
+{
+  "schema": "petcare-evidence-manifest-v1",
+  "phase": "PH-R2",
+  "baseline": "9c631d1e805d06ae04b29d2b49cb0377cf6e6252",
+  "timestamp": "20260315T001504Z",
+  "file_count": 7,
+  "files": [
+    {
+      "path": "petcare_execution/RUNTIME/PH-R2/admin_service_runtime.md",
+      "sha256": "32f5877e13935a9664f89abc8749f47a7eab2a43a89a37104e65c200e9710275"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R2/emergency_service_runtime.md",
+      "sha256": "fadcb9b1ce71c5b7e32beebec31b883a80a4a9f01e151caa2ddeac05986883bc"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R2/owner_service_runtime.md",
+      "sha256": "5f4eeaac35549491e309ffa5f29645a11ee15525d3b63e57c3a0590612c59f93"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R2/pharmacy_service_runtime.md",
+      "sha256": "dd32cd67b998c3fc97cd2a44f03fca9fe6166b0a18cafa69b235230cb0fa9c42"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R2/vet_service_runtime.md",
+      "sha256": "9046bc0d043dcb9df5160520726ea5f82c134251dec3b6f75e6593c46a762a25"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PH-R2/FILE_LISTING.txt",
+      "sha256": "e7f4398b6d1411d47c0e63b31be64ccb2a544b3913c3dfc3baed217051d9422a"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PH-R2/RUN_LOG.md",
+      "sha256": "59f627c8bc9d5082090665e8b071092134c9b974c440e7e034a8a5d5c908f70c"
+    }
+  ]
+}
