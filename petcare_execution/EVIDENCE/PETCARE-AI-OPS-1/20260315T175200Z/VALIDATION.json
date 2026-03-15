@@ -1,0 +1,27 @@
+{
+  "packId": "PETCARE-AI-OPS-1",
+  "validationMode": "python_structural_runner",
+  "overallStatus": "PASS",
+  "fileResults": {
+    "runtime_activation_registry.ts": {
+      "status": "PASS",
+      "symbols_verified": 6
+    },
+    "ai_runtime_kill_switch.ts": {
+      "status": "PASS",
+      "symbols_verified": 6
+    },
+    "pilot_cohort_governance.ts": {
+      "status": "PASS",
+      "symbols_verified": 6
+    },
+    "pilot_release_evidence_export.ts": {
+      "status": "PASS",
+      "symbols_verified": 4
+    }
+  },
+  "assistiveOnlyAsserted": true,
+  "humanApprovalAsserted": true,
+  "killSwitchAsserted": true,
+  "auditLoggingAsserted": true
+}

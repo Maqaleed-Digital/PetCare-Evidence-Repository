@@ -1,0 +1,43 @@
+PETCARE-AI-OPS-1 RUN LOG
+========================
+Timestamp: 20260315T175200Z
+Pack: PETCARE-AI-OPS-1
+BaselineCommit: 2159c2c8aa52ab77daa8e57da35ebddcb4cadfbf
+
+PRE-CHECK
+---------
+HEAD: 2159c2c8aa52ab77daa8e57da35ebddcb4cadfbf [PASS]
+WorkingTree: ## main...origin/main [CLEAN] [PASS]
+
+FILES CREATED
+-------------
+petcare_execution/AI_RUNTIME/production_controls/AI_PRODUCTION_ACTIVATION_SPEC.md
+petcare_execution/AI_RUNTIME/production_controls/runtime_activation_registry.ts
+petcare_execution/AI_RUNTIME/production_controls/ai_runtime_kill_switch.ts
+petcare_execution/AI_RUNTIME/production_controls/pilot_cohort_governance.ts
+petcare_execution/AI_RUNTIME/production_controls/pilot_release_evidence_export.ts
+petcare_execution/AI_RUNTIME/production_controls/production_controls_validation_pack.ts
+petcare_execution/AI_RUNTIME/production_controls/production_controls_validation_runner.py
+
+VALIDATION
+----------
+Runner: production_controls_validation_runner.py
+Mode: python_structural_runner
+Overall: PASS
+  runtime_activation_registry.ts: PASS (6 symbols)
+  ai_runtime_kill_switch.ts: PASS (6 symbols)
+  pilot_cohort_governance.ts: PASS (6 symbols)
+  pilot_release_evidence_export.ts: PASS (4 symbols)
+
+GOVERNANCE ASSERTIONS
+---------------------
+assistiveOnlyEnforced: true
+humanApprovalEnforced: true
+killSwitchAsserted: true
+auditLoggingAsserted: true
+killSwitchState: ACTIVE
+activatedClinics: [pilot_clinic_001]
+activeCohorts: [AI_PILOT_ALPHA]
+governanceReadiness: production_controls_active
+
+STATUS: SUCCESS

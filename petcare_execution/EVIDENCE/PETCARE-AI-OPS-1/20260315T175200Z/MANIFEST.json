@@ -1,0 +1,52 @@
+{
+  "packId": "PETCARE-AI-OPS-1",
+  "baselineCommit": "2159c2c8aa52ab77daa8e57da35ebddcb4cadfbf",
+  "generatedAt": "20260315T175200Z",
+  "files": [
+    {
+      "path": "petcare_execution/AI_RUNTIME/production_controls/AI_PRODUCTION_ACTIVATION_SPEC.md",
+      "sha256": "a448b1955ea84f8831fa808f51d53036362455760f81ab99796865f9565bb285",
+      "sizeBytes": 1670
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/production_controls/ai_runtime_kill_switch.ts",
+      "sha256": "b0a54d0366430e03763cfb7073e98da16cd175fff3563c002f404bf31d968193",
+      "sizeBytes": 1064
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/production_controls/pilot_cohort_governance.ts",
+      "sha256": "2ecd853e995fba5727941a580bd72d509ce01478e4af15a95b18b922f0608e84",
+      "sizeBytes": 1736
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/production_controls/pilot_release_evidence_export.ts",
+      "sha256": "3227d4412ffc00e5288847cbf3126b1af642ade8aaa66e852e65584ae91e0e27",
+      "sizeBytes": 1883
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/production_controls/production_controls_validation_pack.ts",
+      "sha256": "4fdd4b63906d619a583f91267913a98db16b61429bb4c81c8fd728df17fc9e6e",
+      "sizeBytes": 1380
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/production_controls/production_controls_validation_runner.py",
+      "sha256": "e7090c963364b0df19ee0b6c2b10f15e2790530ca8ba70ca48e316ddb01ee427",
+      "sizeBytes": 2256
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/production_controls/runtime_activation_registry.ts",
+      "sha256": "ec76da111fa60beba3c3e187a0d4df984dfddcf9bccfdf7d45bd374673ca92d9",
+      "sizeBytes": 1411
+    }
+  ],
+  "governanceReadiness": "production_controls_active",
+  "assistiveOnlyEnforced": true,
+  "humanApprovalEnforced": true,
+  "killSwitchState": "ACTIVE",
+  "activatedClinics": [
+    "pilot_clinic_001"
+  ],
+  "activeCohorts": [
+    "AI_PILOT_ALPHA"
+  ]
+}
