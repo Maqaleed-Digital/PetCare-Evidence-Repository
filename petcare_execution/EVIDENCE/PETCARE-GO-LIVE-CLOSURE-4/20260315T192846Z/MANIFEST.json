@@ -1,0 +1,56 @@
+{
+  "packId": "PETCARE-GO-LIVE-CLOSURE-4",
+  "timestamp": "20260315T192846Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-GO-LIVE-CLOSURE-4/20260315T192846Z/FILES.txt",
+      "sha256": "23fcd3f2451ce7634de8efe6a57661b523ab7947e90274e88fb5bcf043d9e5ca"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-GO-LIVE-CLOSURE-4/20260315T192846Z/RUN.log",
+      "sha256": "9ba6d91705aae0e09dce6947a71d2f7c89cfa71531f8bde2483417c1092ede3c"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-GO-LIVE-CLOSURE-4/20260315T192846Z/VALIDATION.json",
+      "sha256": "f5c58bbedf9d20b2afe3ece99acd0f4f0dbda45531eb7b7b567439d941493d20"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/partner_network_operational_closure/PARTNER_NETWORK_OPERATIONAL_CLOSURE_SPEC.md",
+      "sha256": "e7363bb13ff593b8e82e3669e6f81e222909f36c43d17161083580d3064e3975"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/partner_network_operational_closure/order_referral_routing_workflow.ts",
+      "sha256": "5bd1100623fd6a18315cbfbc8e310c973c3310f4329e5f1a753951fdbf60b284"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/partner_network_operational_closure/partner_access_rbac_verification.ts",
+      "sha256": "411c0e2c83efecd05378a94a3c2dca28479a3d46ce6f0d181fa2a5e70d012ce2"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/partner_network_operational_closure/partner_network_closure_decision.ts",
+      "sha256": "7687553e0beade85f3615369ba3ab50c37c3fceaa37a7271236370e5c4743a0d"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/partner_network_operational_closure/partner_network_readiness.ts",
+      "sha256": "44ad9f3ca002b74cb408f808e832b7e2a4ce15f13ab7f926d1fbdbd764b97534"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/partner_network_operational_closure/partner_network_runner.py",
+      "sha256": "723ce8035d0be0a270e408ffc93f03d6a616a06834bbd1f8b9b80cc55e9df1b2"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/partner_network_operational_closure/partner_network_validation_pack.ts",
+      "sha256": "d4dce92378fdcae75894fbce1dbcc7738e8d8dbf238bdf9a123508c3edfdff55"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/partner_network_operational_closure/partner_onboarding_workflow.ts",
+      "sha256": "5335d258d4cd7a5bc2c5795d3c4673a875913096dd32028fbd87151d17fb4e10"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/partner_network_operational_closure/sla_operational_controls.ts",
+      "sha256": "bd8f520abb4b90b7121932381f9b335cca12393e0c01fc839c48a5bab823aa18"
+    }
+  ]
+}
