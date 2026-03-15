@@ -1,0 +1,52 @@
+{
+  "packId": "PETCARE-CLINIC-GO-LIVE-DECISION",
+  "timestamp": "20260315T193922Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINIC-GO-LIVE-DECISION/20260315T193922Z/FILES.txt",
+      "sha256": "99926fd3ac3315b47e8c073b56560ee9aec4dfd4af5568298bde38fccbb739d8"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINIC-GO-LIVE-DECISION/20260315T193922Z/RUN.log",
+      "sha256": "49de1c71d0fdf0115f6521d9320407ceca63dd56da33ed80b9cdf7ec65ed2023"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINIC-GO-LIVE-DECISION/20260315T193922Z/VALIDATION.json",
+      "sha256": "6cca7c7b037e14d2399bf49a936aa6aacbf4105bd625d622ada64ba831271924"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/GO_LIVE_DECISION/CLINIC_GO_LIVE_DECISION_SPEC.md",
+      "sha256": "8f0eb7b16edd16fefcbb431a92bda87b7af77641efc9535f03e7f44a9d67d329"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_DECISION/ai_governance_reconfirmation.ts",
+      "sha256": "6f48c52ed255a6f825a4d8d6ab05e3eee809c2380c714cd0b3f231f28425e80d"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_DECISION/clinical_operations_reconfirmation.ts",
+      "sha256": "979fd78a7c07dcf90c0927467a7f4d7d47369f5176f3f9d67749692cf6039dde"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_DECISION/commercial_operations_reconfirmation.ts",
+      "sha256": "effc0be497410e349b949fde4ee7cc558d149ecffa22a828a5cfd09f934e1c04"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_DECISION/go_live_authority_decision.ts",
+      "sha256": "da1c1319c430ac07fcb4301b15572f21527241e15a60a38d9564fc6463be6bdb"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_DECISION/go_live_decision_runner.py",
+      "sha256": "fb7a5db631b9083aeb8b082613378a75a59fa139d80acf9af2aa3a5be1b4c9d7"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_DECISION/go_live_decision_validation_pack.ts",
+      "sha256": "0e7ea22ed458708ce5aec7210174735861956d088f28424f94709ed68b7a58ba"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_DECISION/launch_readiness_reconfirmation.ts",
+      "sha256": "4408d98290fd234a2b4c2407ec017b293012fa9a4bb8ebbd1c45a2a67418a85a"
+    }
+  ]
+}

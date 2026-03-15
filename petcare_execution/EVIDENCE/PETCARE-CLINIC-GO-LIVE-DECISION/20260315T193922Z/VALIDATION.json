@@ -1,0 +1,11 @@
+{
+  "packId": "PETCARE-CLINIC-GO-LIVE-DECISION",
+  "requiredSymbolsConfirmed": true,
+  "launchReadinessReconfirmed": true,
+  "aiGovernanceReconfirmed": true,
+  "clinicalOperationsReconfirmed": true,
+  "commercialOperationsReconfirmed": true,
+  "goLiveDecisionPresent": true,
+  "goLiveDecision": "CLINIC_GO_LIVE_APPROVED",
+  "nextRecommendedState": "proceed_to_clinic_launch_activation"
+}
