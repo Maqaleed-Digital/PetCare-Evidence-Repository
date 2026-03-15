@@ -1,0 +1,39 @@
+{
+  "phase": "PH-R4",
+  "baseline": "558bf2d4cdbc98c43d4218c2bea1396d5983c09b",
+  "timestamp_utc": "20260315T002535Z",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/PH-R4_CONSULTATION_CARE_DELIVERY_SUMMARY.md",
+      "sha256": "c4d1e037f6843a376c3dd928343561d418bdbf0974c5c138bf7c0fd2c2344c8e"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/clinical_signoff_hookup_runtime.md",
+      "sha256": "eec91c4afc06da6a4c238be430664d7b5852bbe995cfa69f7fd105adf1ee1ed8"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/consultation_record_lifecycle_runtime.md",
+      "sha256": "fa535341520a80fc5bc00a23b42e572947491ff67354f79eaf5edb2c758f662a"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/escalation_trigger_runtime.md",
+      "sha256": "8a0d260f2df437b1c2b8ff8625825e2009612b1251730acb2dca08483c5dc411"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/prescription_issuance_trigger_runtime.md",
+      "sha256": "90c6a4408f1f439d4accbf66a59e39fa76bbbd7c6b24177464fbc85cc91f2997"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/scheduling_lifecycle_runtime.md",
+      "sha256": "dd5f91abae4cd60550c26cac59cd4ba3c8752256ca4d6aa7377daa7acea38595"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-R4/FILE_LISTING.txt",
+      "sha256": "8ad198950194f36cd061fc600108cf635d11dd060191237b65fd70652caf805a"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-R4/RUN_LOG.md",
+      "sha256": "178af13e1c3ff04647d94bc3fb698f6d0beef457ce728e2bde08e6837de41dbe"
+    }
+  ]
+}

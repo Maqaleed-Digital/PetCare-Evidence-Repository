@@ -1,0 +1,6 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/PH-R4_CONSULTATION_CARE_DELIVERY_SUMMARY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/clinical_signoff_hookup_runtime.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/consultation_record_lifecycle_runtime.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/escalation_trigger_runtime.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/prescription_issuance_trigger_runtime.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R4/scheduling_lifecycle_runtime.md
