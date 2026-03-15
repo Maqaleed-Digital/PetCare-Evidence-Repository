@@ -1,0 +1,37 @@
+{
+  "schema": "petcare-evidence-manifest-v1",
+  "phase": "PH-R1",
+  "baseline": "36e33e85fb41838473afe6dba9f3569d1b15a1ae",
+  "timestamp": "20260315T001058Z",
+  "file_count": 7,
+  "files": [
+    {
+      "path": "petcare_execution/RUNTIME/PH-R1/audit_ledger_runtime.md",
+      "sha256": "f6a2a3ef841c01124800df89a2ad860d93c47e53bcbf6fc685fa21ff58eabce4"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R1/clinical_signoff_runtime.md",
+      "sha256": "efa88119eae49067d2b83ca5d01f740ddd85d8c9ae1017e70d1394a4ca6cfb27"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R1/consent_registry_runtime.md",
+      "sha256": "6ad614567a746a2c0fceaac27e4b820a5e691018e769e247548006de598fb8fe"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R1/evidence_export_runtime.md",
+      "sha256": "60ac12cde4003e7ff11d430d946d94993e1121d494abec6cf3f43980081c6b23"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R1/identity_rbac_runtime.md",
+      "sha256": "35d2309b3abc83c4c300ff7f3731cb86687fb8b8e480604d95aaf4d3c2594707"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PH-R1/FILE_LISTING.txt",
+      "sha256": "78fa86f51bfebfec6da27d1eb96294a8477025dae93228c50fb121c41e454c37"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PH-R1/RUN_LOG.md",
+      "sha256": "ab7c435203e3adce7d5bbddcc6ec46af1b39867a684d28a9132f9f50c1953fe5"
+    }
+  ]
+}
