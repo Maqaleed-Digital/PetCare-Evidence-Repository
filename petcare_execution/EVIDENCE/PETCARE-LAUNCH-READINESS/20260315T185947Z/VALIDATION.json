@@ -1,0 +1,15 @@
+{
+  "packId": "PETCARE-LAUNCH-READINESS",
+  "requiredSymbolsConfirmed": true,
+  "clinicalReadinessStatus": "pass",
+  "operationalReadinessStatus": "conditional",
+  "technologyReadinessStatus": "pass",
+  "regulatoryReadinessStatus": "pass",
+  "commercialReadinessStatus": "conditional",
+  "assistiveOnlyBoundaryPreserved": true,
+  "humanApprovalStillRequired": true,
+  "launchDecisionPresent": true,
+  "launchDecision": "READY_WITH_LIMITATIONS",
+  "launchLimitationsDocumented": true,
+  "nextRecommendedState": "close_launch_limitations_and_prepare_clinic_go_live"
+}

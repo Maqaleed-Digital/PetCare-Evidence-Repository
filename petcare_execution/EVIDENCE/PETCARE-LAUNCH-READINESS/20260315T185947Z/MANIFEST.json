@@ -1,0 +1,56 @@
+{
+  "packId": "PETCARE-LAUNCH-READINESS",
+  "timestamp": "20260315T185947Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-LAUNCH-READINESS/20260315T185947Z/FILES.txt",
+      "sha256": "d56461cdba5d1b098ec8d3edab42740afb5356a040541d4ba817541e9dca2364"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-LAUNCH-READINESS/20260315T185947Z/RUN.log",
+      "sha256": "b2d2abac6756b720c7cf3d5d59f1f5b0e8bea2a72b4401ac735138570def641c"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-LAUNCH-READINESS/20260315T185947Z/VALIDATION.json",
+      "sha256": "d4351775890d3527a6efff14410e37ecc2e3e9e6d9378e87eecbfe2e07f96c78"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/LAUNCH_READINESS/LAUNCH_READINESS_SPEC.md",
+      "sha256": "3a189820af2a04af6e7ba2e039dcc6617bc4a3aa6708afae91dd3794e00db001"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_READINESS/clinical_readiness_review.ts",
+      "sha256": "faed0b39ba9af5b27649168840c8dbde0091bf7378580ca78cced005e7dbe41d"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_READINESS/commercial_readiness_review.ts",
+      "sha256": "66acff6fc0365a9fcd771a8225063cea0c3e4da428426a8a88be14749edeacae"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_READINESS/launch_readiness_runner.py",
+      "sha256": "74cbbee3d58f0c3e19a3e760d608cf26a2226e496b5517ace7a2cde3c84b6853"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_READINESS/launch_readiness_scorecard.ts",
+      "sha256": "af9642d7d57e9aa8ce1bc6d69aa86a8bc3ec270ab676da1f4de8c3b47872c286"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_READINESS/launch_readiness_validation_pack.ts",
+      "sha256": "6cc5e20eb1f76dd9a7a2e157e60e993dee123f4090242be0a8e6ab95871dc763"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_READINESS/operational_readiness_review.ts",
+      "sha256": "48a7641d935cf9b9a8c6b65e3760e247c3090656678cd780fad9265df8ec7ec9"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_READINESS/regulatory_readiness_review.ts",
+      "sha256": "fc54a931320f60c4e36c04de0ba7aeb1664b55fa25bbb81de75c1a28a8750da0"
+    },
+    {
+      "path": "petcare_execution/LAUNCH_READINESS/technology_readiness_review.ts",
+      "sha256": "8d375cc9fa7efaf24eb3bbb78003097949e92d9c5bb2c129f12ce414c38b5648"
+    }
+  ]
+}
