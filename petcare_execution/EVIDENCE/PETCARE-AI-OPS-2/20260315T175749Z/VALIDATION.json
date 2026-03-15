@@ -1,0 +1,10 @@
+{
+  "pack": "PETCARE-AI-OPS-2",
+  "validationMode": "python_structural_runner",
+  "requiredSymbolsConfirmed": true,
+  "notes": [
+    "Pilot monitoring modules detected.",
+    "Clinical safety review structures detected.",
+    "Deployment approval gates detected."
+  ]
+}
