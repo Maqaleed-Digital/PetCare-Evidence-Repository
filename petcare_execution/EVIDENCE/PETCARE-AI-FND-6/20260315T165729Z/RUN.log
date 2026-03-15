@@ -1,0 +1,17 @@
+{
+  "pack": "PETCARE-AI-FND-6",
+  "validationMode": "python_structural_runner",
+  "checkedFiles": [
+    "petcare_execution/AI_RUNTIME/runtime_policy/AGENT_RUNTIME_POLICY_SPEC.md",
+    "petcare_execution/AI_RUNTIME/runtime_policy/runtime_policy_bundles.ts",
+    "petcare_execution/AI_RUNTIME/runtime_policy/prompt_registry_binding.ts",
+    "petcare_execution/AI_RUNTIME/runtime_policy/audit_bundle_export.ts",
+    "petcare_execution/AI_RUNTIME/runtime_policy/policy_validation_pack.ts"
+  ],
+  "requiredSymbolsConfirmed": true,
+  "notes": [
+    "Validation does not depend on repo-local node packages.",
+    "Policy bundle integrity and prompt binding coverage validated structurally.",
+    "Runtime policy pack is deterministic and assistive-only."
+  ]
+}
