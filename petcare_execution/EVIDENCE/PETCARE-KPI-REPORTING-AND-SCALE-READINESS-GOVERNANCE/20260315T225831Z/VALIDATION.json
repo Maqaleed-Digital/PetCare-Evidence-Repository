@@ -1,0 +1,13 @@
+{
+  "packId": "PETCARE-KPI-REPORTING-AND-SCALE-READINESS-GOVERNANCE",
+  "requiredSymbolsConfirmed": true,
+  "kpiReportingRegistryStatus": "ACTIVE",
+  "clinicalAndServiceKpiReportingStatus": "pass",
+  "pharmacyBillingPartnerKpiReportingStatus": "pass",
+  "aiGovernanceAndOverrideKpiReportingStatus": "pass",
+  "scaleReadinessGovernanceStatus": "pass",
+  "governanceReviewAndReportingCycleStatus": "pass",
+  "kpiScaleGovernanceDecisionPresent": true,
+  "kpiScaleGovernanceDecision": "KPI_REPORTING_AND_SCALE_READINESS_GOVERNANCE_ACTIVE",
+  "nextRecommendedState": "portfolio_reporting_and_multi_clinic_scale_governance"
+}

@@ -1,0 +1,60 @@
+{
+  "packId": "PETCARE-KPI-REPORTING-AND-SCALE-READINESS-GOVERNANCE",
+  "timestamp": "20260315T225831Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-KPI-REPORTING-AND-SCALE-READINESS-GOVERNANCE/20260315T225831Z/FILES.txt",
+      "sha256": "84938be3de4e73d9ba549f3c7c5ca408fc15ce8222162bf2eb6bb55c4f1cb2ae"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-KPI-REPORTING-AND-SCALE-READINESS-GOVERNANCE/20260315T225831Z/RUN.log",
+      "sha256": "e74af2218f154b8d4a3e1dedd3008c24c8652d445814aaa316524bb8c19f5154"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-KPI-REPORTING-AND-SCALE-READINESS-GOVERNANCE/20260315T225831Z/VALIDATION.json",
+      "sha256": "833282dccea1b233ea1e009b2692381b0a4c3fc6b4bae66be5d19cae806b8227"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/KPI_SCALE_GOVERNANCE_SPEC.md",
+      "sha256": "65364bfaf7d494b79936da82ae988a20df4ba70733b8430e38c0af5df521b98d"
+    },
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/ai_governance_and_override_kpi_reporting.ts",
+      "sha256": "afffabac1a3e60dab530d4655808e55ef29eff1eb5584108247a979e5527d5db"
+    },
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/clinical_and_service_kpi_reporting.ts",
+      "sha256": "e17dd5f92e038a46a35a6c2275e0e3471561b0a476c13ae449c384b4ace4063c"
+    },
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/governance_review_and_reporting_cycle.ts",
+      "sha256": "02f81521f63a02cfb34a2ea5147f683f597089c7eeeca8a7892d5cbb567d8404"
+    },
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/kpi_reporting_registry.ts",
+      "sha256": "7b3262486e3361e89b4df18ca198e49a6f351bd61cc6a6fe23c919f4e96fca30"
+    },
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/kpi_scale_governance_decision.ts",
+      "sha256": "cfefec99c932cf69a7b0339ab6abdf4904f549f3a9a09d49c5e2880a9d7be619"
+    },
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/kpi_scale_governance_runner.py",
+      "sha256": "96e36d4e24631a4f57d7ed5b1f8d750c49d00e01b8cead9567e09b759697ff20"
+    },
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/kpi_scale_governance_validation_pack.ts",
+      "sha256": "309c77b012057998572c27db8acf6abbb10fd5beafb3630fb9853a5bd1b536e7"
+    },
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/pharmacy_billing_partner_kpi_reporting.ts",
+      "sha256": "96a3a08b10b03ed39081718fd3dbd8b5ff01c749b029946b1b148e0f8b6eedb7"
+    },
+    {
+      "path": "petcare_execution/KPI_SCALE_GOVERNANCE/scale_readiness_governance.ts",
+      "sha256": "284b5024547f89e12a6861b78125d1d594acae5c40b083ffcf2cef5060ff4936"
+    }
+  ]
+}
