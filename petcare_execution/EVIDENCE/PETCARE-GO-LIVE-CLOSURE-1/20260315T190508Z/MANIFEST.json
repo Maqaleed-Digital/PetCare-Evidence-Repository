@@ -1,0 +1,32 @@
+{
+  "files": [
+    {
+      "file": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/pharmacy_workflow_validation.ts",
+      "sha256": "1ca8d382978c81bd67f28bfb3b7706a7d4b39d90c9735431e2852434acf7bf08"
+    },
+    {
+      "file": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/pharmacy_go_live_validation_pack.ts",
+      "sha256": "0d7ddaa9b370b150854d6f835133b8a4294b7cb51e85fbcf377c95aff92e06ca"
+    },
+    {
+      "file": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/pharmacy_go_live_closure_decision.ts",
+      "sha256": "16cf1eaf9b44dfeb49e25a9fdca0f180e1bd4000375eb213cf0b20a23ac59b80"
+    },
+    {
+      "file": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/pharmacy_go_live_runner.py",
+      "sha256": "da0b80ee92df60df14184766809db483891b201bcc52a18f1a663c19d0b520b9"
+    },
+    {
+      "file": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/pharmacy_operator_confirmation.ts",
+      "sha256": "47cf453f0560ed9ed67d581ce6cbe365c2ec9be25c71e2caf6795f255348b076"
+    },
+    {
+      "file": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/pharmacy_rbac_verification.ts",
+      "sha256": "c9a9f779cdbb5834e374709bcc03ad877f4977d2ceff532bf4efab066cb5d061"
+    },
+    {
+      "file": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/PHARMACY_OPERATOR_GO_LIVE_SPEC.md",
+      "sha256": "b072b27558c94b67fa2aa5c4c83a0f36a0d237885cd33531a59bd28fa52ca0cf"
+    }
+  ]
+}
