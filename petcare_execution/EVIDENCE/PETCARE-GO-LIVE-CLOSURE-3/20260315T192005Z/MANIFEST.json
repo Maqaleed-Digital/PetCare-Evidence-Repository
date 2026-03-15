@@ -1,0 +1,56 @@
+{
+  "packId": "PETCARE-GO-LIVE-CLOSURE-3",
+  "timestamp": "20260315T192005Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-GO-LIVE-CLOSURE-3/20260315T192005Z/FILES.txt",
+      "sha256": "71e9570d654e8f67c45dc637a0a4d99c1735769a78f16b4b2d56571d30b2a22e"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-GO-LIVE-CLOSURE-3/20260315T192005Z/RUN.log",
+      "sha256": "c0f7c114ebe3a2409d691396ccd686c04e4b3f4c9d1023d2f3a976d43990ef9f"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-GO-LIVE-CLOSURE-3/20260315T192005Z/VALIDATION.json",
+      "sha256": "14b6c14b8027c20d844a26bc597d5b852c2fe3cfa7d8497472a68623692ede6a"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/billing_payment_go_live/BILLING_PAYMENT_GO_LIVE_SPEC.md",
+      "sha256": "cb478055f5aaca0d362ca2bfcc0fd2543a3e7e55deb80ec27f1f3fee8f92b4eb"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/billing_payment_go_live/billing_payment_closure_decision.ts",
+      "sha256": "38ca7337c97358b67ee8a491aa2f1b5c9612cb88025212597c8a1861203d6e85"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/billing_payment_go_live/billing_payment_readiness.ts",
+      "sha256": "fbbaea00149fd0e116e12adfbbc9dd928d492e5c6fd1d4782dd43d5aaa9f26bc"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/billing_payment_go_live/billing_payment_runner.py",
+      "sha256": "5ff0bca9ae1710526bcabab80073128dd192b7a2fe64a6ab5b4d8f228be67a40"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/billing_payment_go_live/billing_payment_validation_pack.ts",
+      "sha256": "58f295e4e21ec657d0c06d48478c53be72a628bd5968ecd78de77c45f3366b94"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/billing_payment_go_live/consultation_billing_workflow.ts",
+      "sha256": "59981c535be390b2421c33dfc698106dfff8c40ef8d985ab17ad8f4af9282c1a"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/billing_payment_go_live/payment_access_rbac_verification.ts",
+      "sha256": "843369d9935a4436373c58bee01679ace8c4bd5171c4d4bb390ff6920af9a26d"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/billing_payment_go_live/pharmacy_payment_workflow.ts",
+      "sha256": "c5a8de6104532a4b0dd5ae4b1dc729e00ec7a2fdb2c0181171841bc6dfb2e195"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/billing_payment_go_live/refund_reconciliation_controls.ts",
+      "sha256": "3206bb90d684dd43e942213c6eac61089fec1125a6613a185604a1286ba8234f"
+    }
+  ]
+}
