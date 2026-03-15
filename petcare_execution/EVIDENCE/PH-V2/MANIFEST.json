@@ -1,0 +1,43 @@
+{
+  "phase": "PH-V2",
+  "baseline": "389f76baf44f50ffb7d318cadfd1ea8b954c2e50",
+  "timestamp_utc": "20260315T004416Z",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V2/CONTRACT_TO_RUNTIME_CONTINUITY_MATRIX.md",
+      "sha256": "9e127c9b4df1e6f67dec81cacfa8acd1717872cf10fb9afcfde68106cac7b77c"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V2/CONTROL_PROPAGATION_VERIFICATION.md",
+      "sha256": "3000d4bcb10c69f5b5d70f23e4b3b286d917412d614bd1b244650d826a0e18b6"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V2/CRITICAL_SEAM_VERIFICATION.md",
+      "sha256": "6295575257b5e822df235f01e21b4a6736204dccfb77f2fa09d8754dd72454a6"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V2/CROSS_RUNTIME_INTEGRATION_VERIFICATION.md",
+      "sha256": "a77a6efd7ec3c352e880448ef0ec7c36a481ce9f803dc2f9177cdc736d833660"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V2/PH-V2_INTEGRATION_VERIFICATION_SCOPE.md",
+      "sha256": "acd823f68604e7bfa21eaa4a16d6741157d6c7be19768752421df08b34946c9d"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V2/PH-V2_INTEGRATION_VERIFICATION_SUMMARY.md",
+      "sha256": "5b89c91f41e2f456dfa81dd3661d8fd39f83122643697b71b2672eb556981106"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V2/SURFACE_TO_CONTRACT_CONTINUITY_MATRIX.md",
+      "sha256": "58bbd33586ec1db718eaa7d3c14ee41026b04bd6026a0db7748e8ad813816393"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-V2/FILE_LISTING.txt",
+      "sha256": "18f11f8a72b87eee223bf1602f2e0cdaed7186acf321bee6cc363a8704cda40a"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-V2/RUN_LOG.md",
+      "sha256": "9502975841557a4fb22960ab77b9b6ba6c77e547515a4c43983334fe34fc2922"
+    }
+  ]
+}
