@@ -1,0 +1,60 @@
+{
+  "packId": "PETCARE-CLINIC-LIVE-OPERATIONS",
+  "timestamp": "20260315T200559Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINIC-LIVE-OPERATIONS/20260315T200559Z/FILES.txt",
+      "sha256": "be66e75e0ebc4a75159ea22e17d877dec03f107e580b3509586d0dd1c7a4d451"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINIC-LIVE-OPERATIONS/20260315T200559Z/RUN.log",
+      "sha256": "e8b80fa93695e357973061ff6f902eef2043aadd41a3552adda316a5be77e6c3"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINIC-LIVE-OPERATIONS/20260315T200559Z/VALIDATION.json",
+      "sha256": "b86f9d379c68706b8150cae00f897cbee3b043903c0331eaac897ec5428d7e98"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/CLINIC_LIVE_OPERATIONS_SPEC.md",
+      "sha256": "c212b1ef4ca648d66f5d7a8d599c9449776e94c7ac066655c5112d5dd473ae98"
+    },
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/ai_governance_live_monitoring.ts",
+      "sha256": "38bdc4e663666e46b7d05087e28ef057a8bf28350134bb47c60818d57f4c9beb"
+    },
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/billing_partner_operations_monitoring.ts",
+      "sha256": "c31e0719c8d3eebe74890d71d2f165f162ccbffa46f0e2060be425d6df944e03"
+    },
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/clinical_service_monitoring.ts",
+      "sha256": "0ac1ae2f756c7460a6bba00bc3dc07041ff11b6351689fc2a22a1586a48dfc61"
+    },
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/incident_escalation_and_shift_handover.ts",
+      "sha256": "d70f3dda771259c3dbe2e0d72e2478bbce128565d64971c3bc1c2d39b4f5c2e6"
+    },
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/live_operations_decision.ts",
+      "sha256": "22d0df244a7fd02a2a2e01c16ad7feb33862aed41ffe0cb38997917106f3dd1c"
+    },
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/live_operations_registry.ts",
+      "sha256": "713e4b269ae1c3c62775ee956a78065466102ec75bc5ff786c236f50b66ed3b5"
+    },
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/live_operations_runner.py",
+      "sha256": "000cb0b74648a769f08e99ad10a55490ab78ac4aa9eac57bf6bf31675ebff372"
+    },
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/live_operations_validation_pack.ts",
+      "sha256": "ad5bdf7f8c4bb76561c404e8e3024f7fe12d58aac38a5a1d663367835b32b57d"
+    },
+    {
+      "path": "petcare_execution/LIVE_OPERATIONS/pharmacy_operations_monitoring.ts",
+      "sha256": "0b61167114aeb9cb1a88ca191415e406cd9db04993a7995a288e95427c0f4aa3"
+    }
+  ]
+}

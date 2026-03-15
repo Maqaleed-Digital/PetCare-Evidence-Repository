@@ -1,0 +1,13 @@
+{
+  "packId": "PETCARE-CLINIC-LIVE-OPERATIONS",
+  "requiredSymbolsConfirmed": true,
+  "liveOperationsRegistryStatus": "ACTIVE",
+  "clinicalServiceMonitoringStatus": "pass",
+  "pharmacyOperationsMonitoringStatus": "pass",
+  "billingPartnerOperationsMonitoringStatus": "pass",
+  "aiGovernanceLiveMonitoringStatus": "pass",
+  "incidentEscalationAndShiftHandoverStatus": "pass",
+  "liveOperationsDecisionPresent": true,
+  "liveOperationsDecision": "CLINIC_LIVE_OPERATIONS_ACTIVE",
+  "nextRecommendedState": "steady_state_live_operations_management"
+}
