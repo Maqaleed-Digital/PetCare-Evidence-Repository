@@ -1,0 +1,10 @@
+{
+  "pack": "PETCARE-AI-INT-8",
+  "validationMode": "python_structural_runner",
+  "requiredSymbolsConfirmed": true,
+  "notes": [
+    "Operational monitoring modules detected.",
+    "Drift detection logic detected.",
+    "Safety guardrail classification detected."
+  ]
+}
