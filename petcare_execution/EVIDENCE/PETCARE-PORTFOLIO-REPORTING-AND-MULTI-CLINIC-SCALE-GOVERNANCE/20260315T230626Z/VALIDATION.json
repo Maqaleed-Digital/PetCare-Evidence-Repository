@@ -1,0 +1,13 @@
+{
+  "packId": "PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE",
+  "requiredSymbolsConfirmed": true,
+  "portfolioReportingRegistryStatus": "ACTIVE",
+  "multiClinicOperatingModelGovernanceStatus": "pass",
+  "portfolioKpiAndBoardReportingStatus": "pass",
+  "clinicReplicationReadinessGovernanceStatus": "pass",
+  "aiGovernanceScaleControlsStatus": "pass",
+  "networkRiskAndComplianceGovernanceStatus": "pass",
+  "portfolioScaleGovernanceDecisionPresent": true,
+  "portfolioScaleGovernanceDecision": "PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE_ACTIVE",
+  "nextRecommendedState": "multi_clinic_activation_wave_governance"
+}

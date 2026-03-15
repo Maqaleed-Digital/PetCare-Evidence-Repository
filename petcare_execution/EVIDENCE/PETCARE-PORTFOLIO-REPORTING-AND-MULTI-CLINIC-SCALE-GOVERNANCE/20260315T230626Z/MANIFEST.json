@@ -1,0 +1,60 @@
+{
+  "packId": "PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE",
+  "timestamp": "20260315T230626Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE/20260315T230626Z/FILES.txt",
+      "sha256": "cae5041fe749c46cfe2ebdc6ae43473d1eae43a18ea4b0f6f8ff2e53060ab847"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE/20260315T230626Z/RUN.log",
+      "sha256": "02e93e3ca9ca0edf33e8807c46a7a79c597fa518bfe98921b846b7e55d6922cc"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE/20260315T230626Z/VALIDATION.json",
+      "sha256": "20620a0751805c45cd60c96f000095f482f81a29b2dae069af4763cb1a6e3110"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/PORTFOLIO_SCALE_GOVERNANCE_SPEC.md",
+      "sha256": "9846352f13f518b71c7996df2d63b7ff0d2df8c93f7b10709edbc38fc236cab1"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/ai_governance_scale_controls.ts",
+      "sha256": "69722264123c84c84971013257d2f635341144071e1c4cc84bcce4d5a1a0884c"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/clinic_replication_readiness_governance.ts",
+      "sha256": "e649a12fe1eeae0dcccee5d4faa6706d6142b2f05a84dec931f59799370f13bf"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/multi_clinic_operating_model_governance.ts",
+      "sha256": "d952fa36fc13a6d4472213be0081e0d3619414a95a91c6999c008c2c2ee33963"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/network_risk_and_compliance_governance.ts",
+      "sha256": "c5e89ad1a618c789d0343e16f892ec671b1a492f8fa44a4b2b88fddceabfacb2"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/portfolio_kpi_and_board_reporting.ts",
+      "sha256": "20978930bceefd574bc7f7ec3024e2b0f16ff1ca103b034e0d5efd1761729ebf"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/portfolio_reporting_registry.ts",
+      "sha256": "ef68ad3918f49792068a4c0db057e0eb0af76e4367c6704a2c9734db0fd7f369"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/portfolio_scale_governance_decision.ts",
+      "sha256": "91ab86527096b4c97566e1a83ec1eff05804731146b47524315ac61eae3c4f9b"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/portfolio_scale_governance_runner.py",
+      "sha256": "6485878f26d501c93f8ca81750317193239ddcfac24d91dc5cf4bdaded0fd59e"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_SCALE_GOVERNANCE/portfolio_scale_governance_validation_pack.ts",
+      "sha256": "84553060d95009c514ace0c12138a7af6152c16b674cf0a4c53afaf02fdc24ff"
+    }
+  ]
+}
