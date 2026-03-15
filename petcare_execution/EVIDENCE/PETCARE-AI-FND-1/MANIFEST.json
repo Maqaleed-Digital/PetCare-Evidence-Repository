@@ -1,0 +1,21 @@
+{
+  "phase": "PETCARE-AI-FND-1",
+  "files": [
+    {
+      "path": "petcare_execution/AI_RUNTIME/AGENT_RUNTIME_ARCHITECTURE.md",
+      "sha256": "e396fafed91f90c067008caeab2780d3cac128ae4c3f0aac4a936d9c56782079"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/policy_validator/AGENT_POLICY_RULES.md",
+      "sha256": "924ede18b06b3f8a4e5ffab3243822261aa87956ae1255d0ccd888cd4919cf55"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/prompt_registry/PROMPT_TEMPLATE_SCHEMA.md",
+      "sha256": "7082b900ecc165d0616bb00029c2c6857ec1d2d808522fde1bbf988037a47cf6"
+    },
+    {
+      "path": "petcare_execution/AI_RUNTIME/model_gateway/MODEL_GATEWAY_INTERFACE.md",
+      "sha256": "1808496752404fe61d43b4e5370b24b46f76026ecfb259aba978805e112bcd07"
+    }
+  ]
+}

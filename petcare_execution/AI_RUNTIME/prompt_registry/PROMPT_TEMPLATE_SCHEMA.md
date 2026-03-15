@@ -1,0 +1,9 @@
+Prompt Template Structure
+
+template_id
+version
+allowed_roles
+required_context_fields
+forbidden_context_fields
+expected_output_schema
+safety_disclaimer
