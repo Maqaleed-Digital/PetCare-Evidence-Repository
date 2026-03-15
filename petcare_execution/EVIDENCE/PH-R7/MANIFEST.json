@@ -1,0 +1,39 @@
+{
+  "phase": "PH-R7",
+  "baseline": "6b0537edc3d165a300aeb1e0cdc3edd85e0b1ba5",
+  "timestamp_utc": "20260315T003716Z",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/PH-R7_AI_GOVERNANCE_RUNTIME_SUMMARY.md",
+      "sha256": "4050ec723b8b63dfa2f4c34cbce329eb9401038d12cb2153e89db1e68fc90425"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/ai_evaluation_harness_runtime.md",
+      "sha256": "41a7e08071495a512819b198a469f71b5438285f1a2249f30fde7bcb61994b02"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/ai_intake_runtime.md",
+      "sha256": "0f8ec4a1dfe1dbd1fc85d7d18f12afe30762a6b75223a2c6e7cd27da9c009651"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/ai_override_workflow_runtime.md",
+      "sha256": "7948aef61611dded87aa9905094acc7dc091196be68252ace195054b1fd140e3"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/prompt_output_logging_runtime.md",
+      "sha256": "8074f46f4938e87e32c80c16addf4a142e78e59b50eea0ce2427874d8262a37a"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/vet_copilot_runtime.md",
+      "sha256": "66304e1cd2cd4b8049ea36a662914c0d4f00465507c17096dd32cb21fcd0c6b5"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-R7/FILE_LISTING.txt",
+      "sha256": "afb8994470d12bee532bb9c397a585d9e51b7fdb5afbfe02484ca4cf5de1d7f1"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-R7/RUN_LOG.md",
+      "sha256": "9df45fc8300b3f562f8671a96a2376adb6027fe63127d9b1e328b0d93ae50624"
+    }
+  ]
+}

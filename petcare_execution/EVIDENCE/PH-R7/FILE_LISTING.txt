@@ -1,0 +1,6 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/PH-R7_AI_GOVERNANCE_RUNTIME_SUMMARY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/ai_evaluation_harness_runtime.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/ai_intake_runtime.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/ai_override_workflow_runtime.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/prompt_output_logging_runtime.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R7/vet_copilot_runtime.md
