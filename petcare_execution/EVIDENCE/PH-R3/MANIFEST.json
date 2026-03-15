@@ -1,0 +1,33 @@
+{
+  "schema": "petcare-evidence-manifest-v1",
+  "phase": "PH-R3",
+  "description": "Order-2 shared clinical record runtime modules \u2014 pet_profile, timeline, document_media_access, allergy/medication/vaccination/lab, summary",
+  "generated_at": "2026-03-15T00:00:00Z",
+  "file_count": 6,
+  "files": [
+    {
+      "path": "petcare_execution/RUNTIME/PH-R3/PH-R3_SHARED_CLINICAL_RECORD_SUMMARY.md",
+      "sha256": "1ae093091b1b2a9f93acf055110f69f356c58772e00853046b819c696efa0666"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R3/allergy_medication_vaccination_lab_runtime.md",
+      "sha256": "bbd3f9f8b19a78ba23c762dfe7263dd09ed51d32f4766fae7abce1379b6e2c5a"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R3/document_media_access_runtime.md",
+      "sha256": "4137a4e3c2d408d44e9a148bbe65e4dc6eb6220fb61d7d808d742397b688babd"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R3/pet_profile_runtime.md",
+      "sha256": "997111f1a18dcd21983b079f942203fd9575882c6189d194014ca394dc4dc06f"
+    },
+    {
+      "path": "petcare_execution/RUNTIME/PH-R3/timeline_runtime.md",
+      "sha256": "8e001fac6cf86d833dd3dec27e2bf5f3557eaaab317df0596339898bd73c37a9"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PH-R3/RUN_LOG.md",
+      "sha256": "ff279604aa6f6db20f6bae0978c319b73c00554f133cdc7f42fe0674ff07452b"
+    }
+  ]
+}
