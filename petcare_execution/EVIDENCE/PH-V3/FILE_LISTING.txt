@@ -1,0 +1,7 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V3/AI_GOVERNANCE_READINESS_VERIFICATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V3/CLINICAL_SAFETY_READINESS_VERIFICATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V3/GO_LIVE_EVIDENCE_READINESS_INVENTORY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V3/OPERATIONAL_MONITORING_INCIDENT_READINESS_VERIFICATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V3/PH-V3_OPERATIONAL_READINESS_SCOPE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V3/PH-V3_OPERATIONAL_READINESS_SUMMARY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V3/REGULATORY_PRIVACY_SECURITY_READINESS_VERIFICATION.md
