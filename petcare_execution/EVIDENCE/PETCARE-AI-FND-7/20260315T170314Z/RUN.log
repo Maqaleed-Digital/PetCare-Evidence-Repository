@@ -1,0 +1,17 @@
+{
+  "pack": "PETCARE-AI-FND-7",
+  "validationMode": "python_structural_runner",
+  "checkedFiles": [
+    "petcare_execution/AI_RUNTIME/runtime_ledger/AGENT_RUNTIME_LEDGER_SPEC.md",
+    "petcare_execution/AI_RUNTIME/runtime_ledger/runtime_execution_ledger.ts",
+    "petcare_execution/AI_RUNTIME/runtime_ledger/audit_chain_anchors.ts",
+    "petcare_execution/AI_RUNTIME/runtime_ledger/release_evidence_bundle.ts",
+    "petcare_execution/AI_RUNTIME/runtime_ledger/ledger_validation_pack.ts"
+  ],
+  "requiredSymbolsConfirmed": true,
+  "notes": [
+    "Validation does not depend on repo-local node packages.",
+    "Ledger integrity and anchor completeness validated structurally.",
+    "Runtime ledger pack is deterministic and assistive-only."
+  ]
+}
