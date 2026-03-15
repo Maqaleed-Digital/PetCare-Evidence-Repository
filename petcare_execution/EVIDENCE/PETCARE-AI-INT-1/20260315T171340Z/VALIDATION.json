@@ -1,0 +1,10 @@
+{
+  "pack": "PETCARE-AI-INT-1",
+  "validationMode": "python_structural_runner",
+  "requiredSymbolsConfirmed": true,
+  "notes": [
+    "Surface integration modules detected.",
+    "Human approval enforcement detected.",
+    "Integration remains assistive-only."
+  ]
+}
