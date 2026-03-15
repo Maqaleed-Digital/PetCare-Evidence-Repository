@@ -1,0 +1,7 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/AI_GOVERNANCE_VALIDATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/AUDIT_TRACEABILITY_VALIDATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/CLINICAL_FLOW_VALIDATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/EMERGENCY_FLOW_VALIDATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/OPERATIONAL_RESILIENCE_VALIDATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/PH-V4_GO_LIVE_VALIDATION_SUMMARY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/PHARMACY_FLOW_VALIDATION.md

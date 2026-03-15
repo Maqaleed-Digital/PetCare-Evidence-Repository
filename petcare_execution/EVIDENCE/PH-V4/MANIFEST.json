@@ -1,0 +1,43 @@
+{
+  "phase": "PH-V4",
+  "baseline": "a849921713cbf30866deef5203609662124f9cee",
+  "timestamp": "20260315T005320Z",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/AI_GOVERNANCE_VALIDATION.md",
+      "sha256": "4708c7464aebf04be885583ba35a3cd2425ee59ae7b2a0fb80d1ff000e3c60cb"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/AUDIT_TRACEABILITY_VALIDATION.md",
+      "sha256": "03f189a97fcaccdc5990343e68a760fb1cff7fab2cf2461a37182e16bf75f7b3"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/CLINICAL_FLOW_VALIDATION.md",
+      "sha256": "7e01a9b75e688d2a8baca59b94c263f62a3e7915ed22f52213f41f53562d0eb1"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/EMERGENCY_FLOW_VALIDATION.md",
+      "sha256": "31916f0680547edd00d5f065d8522c9297a79d7b4211ada9b37911d6cd67ed47"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/OPERATIONAL_RESILIENCE_VALIDATION.md",
+      "sha256": "bc8775e35220a2e25f4e4384668fdfc769d46654a4c4ac7aa0bc72ba854797f0"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/PH-V4_GO_LIVE_VALIDATION_SUMMARY.md",
+      "sha256": "f832c73515a8b4878854829d2b65173cdd73774952019bde273630c9414f6690"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V4/PHARMACY_FLOW_VALIDATION.md",
+      "sha256": "58314a4447e271a8d9edf1767ea9cfb05e698a767f7100c7d82ec8d99bbe2b35"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-V4/FILE_LISTING.txt",
+      "sha256": "17126b0b9a58c994a6aa29a09874ecef0a1f6b65ed91760056061d77f8a92d4b"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-V4/RUN_LOG.md",
+      "sha256": "b7f1555d67fba4a14959011c261c2f8110751bcfc251faf2357394ee3a3fca3c"
+    }
+  ]
+}
