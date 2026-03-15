@@ -1,0 +1,39 @@
+{
+  "pack": "PETCARE-AI-FND-2",
+  "baseline_commit": "22a7d54be77a46505af335502643bd848cbf98d4",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-AI-FND-2/20260315T163355Z",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/AI_RUNTIME/orchestrator/AGENT_ORCHESTRATOR_IMPLEMENTATION_SPEC.md",
+      "sha256": "76a466d032d64ce818ac61301f7ebd210fc607757ba3125fd68fda83f5c92c46"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/AI_RUNTIME/orchestrator/agent_router.ts",
+      "sha256": "0b0225fd914d5a410b3d666ecf35f4d05c71acbf2b9a2683833ae89ed96c356a"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/AI_RUNTIME/orchestrator/agent_runtime_controller.ts",
+      "sha256": "5b0691ac6e8befb311c91abbb32886c35844f971466fd58de66a0f8b18b92216"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/AI_RUNTIME/orchestrator/context_assembler.ts",
+      "sha256": "408a9ed6440955b0b9c2f659d410527fc45aa4e8d6578c1d414b1d1f15cddda0"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/AI_RUNTIME/orchestrator/policy_enforcer.ts",
+      "sha256": "87b5f96d8435126dbd758a227339d2565b469e0701446e5ad3a48cae3cfc431d"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/AI_RUNTIME/orchestrator/types.ts",
+      "sha256": "44fcd485b3efdd262faad14b05ed837e842ad2a851c30dcbc4b76acd091e780d"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-AI-FND-2/20260315T163355Z/FILES.txt",
+      "sha256": "bdb39efab321efa76b8dc95d9a1f53c2e39a6211c23d42648f01b7f88d8be389"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-AI-FND-2/20260315T163355Z/RUN.log",
+      "sha256": "066d899f2c2037013de529c2dce7fbc30cb7a6782448968006156dda43745a4d"
+    }
+  ]
+}
