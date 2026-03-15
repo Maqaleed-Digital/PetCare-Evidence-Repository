@@ -1,0 +1,39 @@
+{
+  "phase": "PH-R5",
+  "baseline": "2d4d9d7dc3d413e7329dbd585c5cb68a7070553f",
+  "timestamp_utc": "20260315T002843Z",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R5/PH-R5_PHARMACY_RUNTIME_SUMMARY.md",
+      "sha256": "84fae2cb0182ed2b689a2106615345e5a9a7fce151a7ce3774f802a473f03865"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R5/cold_chain_tagging_boundary_runtime.md",
+      "sha256": "4b1b789c5323aa8e21a2fd4695ccf16b72bb5d473d400c6dc9eaf3f330438d9a"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R5/dispense_state_handling_runtime.md",
+      "sha256": "f2489f7acd3593b04c556de6176101cb81cf1672c6b8d3aa497eb42c2893384b"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R5/medication_safety_checks_runtime.md",
+      "sha256": "6632162bddaaa47edad9f9fb6e6f48c9b37a2743a07085ddb58e2a233ae4ffbf"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R5/prescription_intake_status_lifecycle_runtime.md",
+      "sha256": "f64cc43e016c19de901f4b91722296ae1384372b5f662fbc055a47d69569cf15"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/RUNTIME/PH-R5/recall_workflow_boundary_runtime.md",
+      "sha256": "f8b4cdea8d30dc63c70c597ef7dba74bc06cfa0575f1ade897ef32ecffae014f"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-R5/FILE_LISTING.txt",
+      "sha256": "2a7305e6b890ce5f3fecddddc7bf05709c79e50e17a8bcead725fdc4e80e781d"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-R5/RUN_LOG.md",
+      "sha256": "e11bfdb0a40dfec8d3848c0aa18150c4eeeb4af6ea2f94684034e4a826bae92b"
+    }
+  ]
+}
