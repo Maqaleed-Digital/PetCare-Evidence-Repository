@@ -1,0 +1,6 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/PH-V1_RUNTIME_VERIFICATION_SCOPE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/PH-V1_RUNTIME_VERIFICATION_SUMMARY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/RUNTIME_EVIDENCE_INVENTORY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/RUNTIME_GATE_COVERAGE_VERIFICATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/RUNTIME_ORDER_AND_DEPENDENCY_VERIFICATION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/RUNTIME_PHASE_COMPLETENESS_MATRIX.md

@@ -1,0 +1,39 @@
+{
+  "phase": "PH-V1",
+  "baseline": "1af22f8507f89aae85cfdb72640a7ab73c20e796",
+  "timestamp_utc": "20260315T004107Z",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/PH-V1_RUNTIME_VERIFICATION_SCOPE.md",
+      "sha256": "427df8f90bd13a0434c71a111544f462d2f4c4c806af3eaac782af800789178a"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/PH-V1_RUNTIME_VERIFICATION_SUMMARY.md",
+      "sha256": "c8413ce1526f6eec780e9d32bd64773a46e4b2a1f149ef74404739064d019683"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/RUNTIME_EVIDENCE_INVENTORY.md",
+      "sha256": "85bc8455bc6f8d02e0e03bc8f90ede8788498e240584c329a965652c7a6d1f25"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/RUNTIME_GATE_COVERAGE_VERIFICATION.md",
+      "sha256": "99997a422134441f9a5c4e614d96b10bed6d9f9d75d30a55e2482e102bdd8c54"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/RUNTIME_ORDER_AND_DEPENDENCY_VERIFICATION.md",
+      "sha256": "c80efa2af8fa6d3c261740f6d67982a8f7d8b76d6b74face9bd4d714a0ae4e75"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/VERIFICATION/PH-V1/RUNTIME_PHASE_COMPLETENESS_MATRIX.md",
+      "sha256": "dcf78017ad28a7f85ded7b52742f7ba32ce8ba046bce67e9b2f65004a77b9486"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-V1/FILE_LISTING.txt",
+      "sha256": "90a1efb814dcb539522fcf5e63bf9fb4aa198205ccd13edc038998d822fc3c24"
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PH-V1/RUN_LOG.md",
+      "sha256": "530cf77c069ceebc327cede1aed3a02eb175127878b4827c491e19efe3a012c0"
+    }
+  ]
+}
