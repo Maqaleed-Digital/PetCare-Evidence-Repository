@@ -1,0 +1,14 @@
+{
+  "packId": "PETCARE-GO-LIVE-CLOSURE-2",
+  "requiredSymbolsConfirmed": true,
+  "clinicRunbookStatus": "COMPLETE",
+  "consultationWorkflowStatus": "pass",
+  "pharmacyHandoffWorkflowStatus": "pass",
+  "emergencyEscalationWorkflowStatus": "pass",
+  "shiftChecklistStatus": "pass",
+  "assistiveOnlyBoundaryPreserved": true,
+  "humanApprovalStillRequired": true,
+  "closureDecisionPresent": true,
+  "closureDecision": "CLINIC_OPERATIONAL_RUNBOOK_COMPLETE",
+  "nextRecommendedState": "proceed_to_billing_and_payment_go_live_closure"
+}

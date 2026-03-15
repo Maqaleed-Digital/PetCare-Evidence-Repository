@@ -1,0 +1,56 @@
+{
+  "packId": "PETCARE-GO-LIVE-CLOSURE-2",
+  "timestamp": "20260315T191319Z",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-GO-LIVE-CLOSURE-2/20260315T191319Z/FILES.txt",
+      "sha256": "10455a8680bc920ac834d03a9aa9331daca939783c7a0094904aefbad02c19b8"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-GO-LIVE-CLOSURE-2/20260315T191319Z/RUN.log",
+      "sha256": "9ea74d71212430ac7ff4ad795dc3621ee4875ad28ab555fbf0076c89a43eca37"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-GO-LIVE-CLOSURE-2/20260315T191319Z/VALIDATION.json",
+      "sha256": "068e2e515e3f39774e83a0d9bd454fabc5057059ee5c562c447b0c4ff799da1c"
+    }
+  ],
+  "packFiles": [
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/clinic_operational_runbook/CLINIC_OPERATIONAL_RUNBOOK_SPEC.md",
+      "sha256": "d98696f49efbc8dee6d406e00d9f5b218f17a5e59604715aa39cc4ac1e7f080b"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/clinic_operational_runbook/clinic_runbook_closure_decision.ts",
+      "sha256": "0081ebdd1b80a84b9746203b6ca435bea3863b82e4c67e74405d0f7b93567363"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/clinic_operational_runbook/clinic_runbook_readiness.ts",
+      "sha256": "5abfc9ae753e2b3c0f2eae99e409e5641c20aab0978f16100d6fa5cd2b4e8b56"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/clinic_operational_runbook/clinic_runbook_runner.py",
+      "sha256": "5823fd3d5098e8cb3115ec56f1cc8db7ee19720705b7250f1677d7de5386ac0a"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/clinic_operational_runbook/clinic_runbook_validation_pack.ts",
+      "sha256": "23fb326c55be7479fc27964b02a69f35f39934a9e470333d30a04f3ee476e8be"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/clinic_operational_runbook/clinic_shift_open_close_checklist.ts",
+      "sha256": "928bbd46da07f07db790de0f697f3ffc8a9ab9bc4b2711423eed7f3679f68b85"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/clinic_operational_runbook/consultation_day_workflow.ts",
+      "sha256": "9eda0ac40aab6b4c48e3721725100cde42774e88871994e6be916967f9bd9d60"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/clinic_operational_runbook/emergency_escalation_workflow.ts",
+      "sha256": "6e9ba28744d1959f7e9f950414a91364f72fceeeec16373d4f8986f2566bc636"
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/clinic_operational_runbook/pharmacy_handoff_workflow.ts",
+      "sha256": "a7c189e082a1752b1c12e28a26afabc6b062bc3aaebcbc279c14e3039e39fde7"
+    }
+  ]
+}
