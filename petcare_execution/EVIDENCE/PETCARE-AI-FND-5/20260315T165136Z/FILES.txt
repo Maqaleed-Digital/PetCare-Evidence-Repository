@@ -1,0 +1,6 @@
+petcare_execution/AI_RUNTIME/runtime_registry/AGENT_RUNTIME_REGISTRY_SPEC.md
+petcare_execution/AI_RUNTIME/runtime_registry/evidence_export_hooks.ts
+petcare_execution/AI_RUNTIME/runtime_registry/registry_validation_pack.ts
+petcare_execution/AI_RUNTIME/runtime_registry/registry_validation_runner.py
+petcare_execution/AI_RUNTIME/runtime_registry/runtime_registry.ts
+petcare_execution/AI_RUNTIME/runtime_registry/safety_event_taxonomy.ts

@@ -1,0 +1,17 @@
+{
+  "pack": "PETCARE-AI-FND-5",
+  "validationMode": "python_structural_runner",
+  "checkedFiles": [
+    "petcare_execution/AI_RUNTIME/runtime_registry/AGENT_RUNTIME_REGISTRY_SPEC.md",
+    "petcare_execution/AI_RUNTIME/runtime_registry/runtime_registry.ts",
+    "petcare_execution/AI_RUNTIME/runtime_registry/safety_event_taxonomy.ts",
+    "petcare_execution/AI_RUNTIME/runtime_registry/evidence_export_hooks.ts",
+    "petcare_execution/AI_RUNTIME/runtime_registry/registry_validation_pack.ts"
+  ],
+  "requiredSymbolsConfirmed": true,
+  "notes": [
+    "Validation does not depend on repo-local node packages.",
+    "Registry integrity and safety taxonomy coverage validated structurally.",
+    "Runtime registry pack is deterministic and assistive-only."
+  ]
+}
