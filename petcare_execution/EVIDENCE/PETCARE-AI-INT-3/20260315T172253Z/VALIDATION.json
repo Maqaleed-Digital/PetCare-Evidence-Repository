@@ -1,0 +1,18 @@
+{
+  "pack": "PETCARE-AI-INT-3",
+  "validationMode": "python_structural_runner",
+  "requiredSymbolsConfirmed": true,
+  "notes": [
+    "Clinical workflow integration adapters detected.",
+    "Assistive-only enforcement detected.",
+    "Human approval boundary preserved."
+  ],
+  "checkedFiles": [
+    "petcare_execution/AI_RUNTIME/clinical_workflow/CLINICAL_WORKFLOW_COPILOT_SPEC.md",
+    "petcare_execution/AI_RUNTIME/clinical_workflow/consultation_copilot_integration.ts",
+    "petcare_execution/AI_RUNTIME/clinical_workflow/triage_board_integration.ts",
+    "petcare_execution/AI_RUNTIME/clinical_workflow/pharmacy_review_integration.ts",
+    "petcare_execution/AI_RUNTIME/clinical_workflow/emergency_workflow_integration.ts",
+    "petcare_execution/AI_RUNTIME/clinical_workflow/workflow_validation_pack.ts"
+  ]
+}
