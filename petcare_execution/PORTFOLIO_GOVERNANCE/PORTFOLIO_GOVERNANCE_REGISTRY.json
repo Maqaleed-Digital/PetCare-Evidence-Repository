@@ -1,0 +1,11 @@
+{
+  "registry": "petcare_portfolio_governance",
+  "version": "1.0",
+  "scope": [
+    "clinic_portfolio_membership",
+    "governance_authority_model",
+    "portfolio_intervention_chain",
+    "board_visibility_model",
+    "portfolio_ai_governance_boundary"
+  ]
+}
