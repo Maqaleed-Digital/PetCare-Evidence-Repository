@@ -1,0 +1,20 @@
+{
+  "control_domains": [
+    "site_governance",
+    "clinical_operations",
+    "workforce_readiness",
+    "ai_safety_and_hitl_enforcement",
+    "reporting_and_evidence",
+    "partner_connectivity",
+    "escalation_and_incident_routing",
+    "hypercare_monitoring"
+  ],
+  "hard_stop_controls": [
+    "missing_human_approval_enforcement",
+    "missing_override_capture",
+    "missing_escalation_routing",
+    "missing_evidence_path",
+    "missing_kpi_visibility",
+    "unresolved_material_clinical_safety_issue"
+  ]
+}

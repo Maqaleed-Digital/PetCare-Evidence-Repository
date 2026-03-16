@@ -1,0 +1,36 @@
+{
+  "pack_id": "PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE",
+  "run_id": "20260316T032702Z",
+  "source_of_truth_commit": "160ab4c5dddb6b23dc16e63f5ee16e8cc452e504",
+  "generated_at_utc": "20260316T032702Z",
+  "files": [
+    {
+      "path": "ACTIVATION_WAVE_CONTROLS.json",
+      "sha256": "c8c60089d57db667cafddf3b2b76f98820276720a7c48e8e5c4a8184575fa7d7"
+    },
+    {
+      "path": "AI_SITE_SAFETY_MATRIX.json",
+      "sha256": "1ce9eee3b8808e77e2b95fde6f8597250174954a8dbd3e23298c824d3103c259"
+    },
+    {
+      "path": "CLINIC_WAVE_REGISTRY.json",
+      "sha256": "4c84738f8e24336ab9cfd6b8e85dc80f09686f43f726882442193142b9cbc8c8"
+    },
+    {
+      "path": "PACK_SUMMARY.json",
+      "sha256": "1d160e3cd6d833e02532f75f5e182887e71ac7e85bb7ff4825766143bf0725cb"
+    },
+    {
+      "path": "PARTNER_NETWORK_GOVERNANCE.json",
+      "sha256": "fa1991ff1cab2785ef874fcfc602bb9bbcc8cf065bc407a44ade3d69cf51310b"
+    },
+    {
+      "path": "PORTFOLIO_COMPARISON.json",
+      "sha256": "f52f4ca4d7cbb3d2df5e0c046c3ec79bf76d77c4db8beb6a38d1af8a9ff79cfd"
+    },
+    {
+      "path": "VALIDATION_REPORT.json",
+      "sha256": "77d6f9369e3375cb8b78cc644bd248462bc85b1566998fde7d2c8b9e11be783d"
+    }
+  ]
+}

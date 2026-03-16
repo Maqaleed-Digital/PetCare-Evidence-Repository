@@ -1,0 +1,14 @@
+{
+  "pack_id": "PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE",
+  "source_of_truth_commit": "160ab4c5dddb6b23dc16e63f5ee16e8cc452e504",
+  "previous_governance_state": "governed_multi_clinic_ai_controls_active",
+  "new_governance_state": "multi_clinic_activation_wave_governance_active",
+  "pack_scope": [
+    "clinic_replication_governance",
+    "activation_wave_controls",
+    "multi_site_ai_safety_controls",
+    "partner_network_scaling_governance",
+    "portfolio_performance_comparison"
+  ],
+  "wave_admission_model": "controlled_replication"
+}

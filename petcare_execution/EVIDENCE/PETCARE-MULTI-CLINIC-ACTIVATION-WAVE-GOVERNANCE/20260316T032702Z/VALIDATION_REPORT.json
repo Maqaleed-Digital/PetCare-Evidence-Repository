@@ -1,0 +1,44 @@
+{
+  "pack_id": "PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE",
+  "assertions_passed": 9,
+  "assertions_total": 9,
+  "results": [
+    {
+      "assertion": "baseline_commit_match",
+      "ok": true
+    },
+    {
+      "assertion": "five_governance_docs_present",
+      "ok": true
+    },
+    {
+      "assertion": "four_candidate_clinics_defined",
+      "ok": true
+    },
+    {
+      "assertion": "eight_control_domains_defined",
+      "ok": true
+    },
+    {
+      "assertion": "six_hard_stop_controls_defined",
+      "ok": true
+    },
+    {
+      "assertion": "eight_ai_controls_defined",
+      "ok": true
+    },
+    {
+      "assertion": "three_partner_categories_defined",
+      "ok": true
+    },
+    {
+      "assertion": "eight_portfolio_metrics_defined",
+      "ok": true
+    },
+    {
+      "assertion": "state_transition_defined",
+      "ok": true
+    }
+  ],
+  "status": "OK"
+}

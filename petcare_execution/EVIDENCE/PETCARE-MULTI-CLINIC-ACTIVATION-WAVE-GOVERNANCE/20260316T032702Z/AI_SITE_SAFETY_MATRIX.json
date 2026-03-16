@@ -1,0 +1,20 @@
+{
+  "assistive_ai_boundary": true,
+  "required_controls": [
+    "human_in_the_loop_preserved",
+    "override_event_logging_per_site",
+    "escalation_pathway_per_site",
+    "kill_switch_authority_per_site",
+    "central_policy_consistency_across_sites",
+    "cross_site_comparison_of_override_rates",
+    "hypercare_observation_for_newly_activated_sites",
+    "portfolio_level_review_of_safety_deviations"
+  ],
+  "site_variation_allowed": [
+    "site_code",
+    "local_staffing_roster",
+    "local_escalation_contacts",
+    "local_operating_windows",
+    "clinic_activation_state"
+  ]
+}

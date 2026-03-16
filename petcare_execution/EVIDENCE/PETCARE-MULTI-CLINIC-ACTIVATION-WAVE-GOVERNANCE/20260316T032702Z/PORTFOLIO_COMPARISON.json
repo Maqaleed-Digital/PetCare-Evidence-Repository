@@ -1,0 +1,19 @@
+{
+  "baseline_clinic": "CLINIC-LIVE-BASELINE-001",
+  "comparison_metrics": [
+    "activation_status",
+    "hypercare_status",
+    "override_event_rate",
+    "escalation_event_rate",
+    "kpi_capture_completeness",
+    "partner_dependency_concentration",
+    "staffing_readiness_coverage",
+    "ai_safety_attestation_status"
+  ],
+  "comparison_buckets": [
+    "baseline_clinic",
+    "newly_activated_clinics",
+    "hypercare_clinics",
+    "steady_state_clinics"
+  ]
+}

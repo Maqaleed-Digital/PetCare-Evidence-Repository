@@ -1,0 +1,18 @@
+{
+  "partner_categories": [
+    "pharmacy_and_medication_fulfillment",
+    "diagnostics_and_laboratory",
+    "referral_and_emergency"
+  ],
+  "control_tiers": [
+    "tier_1",
+    "tier_2",
+    "tier_3"
+  ],
+  "required_reporting": [
+    "partner_usage_by_clinic",
+    "incident_count_by_partner_category",
+    "fallback_activation_frequency",
+    "dependency_concentration_view"
+  ]
+}

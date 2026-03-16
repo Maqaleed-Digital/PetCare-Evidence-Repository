@@ -1,0 +1,25 @@
+{
+  "baseline_clinic": "CLINIC-LIVE-BASELINE-001",
+  "activation_wave": [
+    {
+      "clinic_code": "CLINIC-WAVE2-001",
+      "wave": "WAVE_2",
+      "stage": "candidate_registration"
+    },
+    {
+      "clinic_code": "CLINIC-WAVE2-002",
+      "wave": "WAVE_2",
+      "stage": "candidate_registration"
+    },
+    {
+      "clinic_code": "CLINIC-WAVEN-001",
+      "wave": "WAVE_N",
+      "stage": "candidate_registration"
+    },
+    {
+      "clinic_code": "CLINIC-WAVEN-002",
+      "wave": "WAVE_N",
+      "stage": "candidate_registration"
+    }
+  ]
+}
