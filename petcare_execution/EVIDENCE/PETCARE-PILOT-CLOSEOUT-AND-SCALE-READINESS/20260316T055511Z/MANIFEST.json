@@ -1,0 +1,87 @@
+{
+  "pack_id": "PETCARE-PILOT-CLOSEOUT-AND-SCALE-READINESS",
+  "timestamp_utc": "20260316T055511Z",
+  "program_state_input": "live_pilot_governance_established",
+  "closeout_scale_domains": [
+    "pilot-closeout",
+    "outcomes-remediation",
+    "scale-gates",
+    "wave-readiness",
+    "replication-controls",
+    "ai-boundaries"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PILOT-CLOSEOUT-AND-SCALE-READINESS/20260316T055511Z/AUDIT_SAMPLE.log",
+      "sha256": "412aa2cbf2d57c92179246f21a518d67e343daa1e7d1c6c5f196029103565356"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PILOT-CLOSEOUT-AND-SCALE-READINESS/20260316T055511Z/FILE_LISTING.txt",
+      "sha256": "da6647195e13753499918c46909a60440882bc5c05c8651c3ceac43189c94b5d"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PILOT-CLOSEOUT-AND-SCALE-READINESS/20260316T055511Z/TEST_RESULTS.log",
+      "sha256": "5469339d190f19d7c7e4af562feff6d293f56fd69b84cffa455f706bf4fa93c1"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/PETCARE_PILOT_CLOSEOUT_AND_SCALE_READINESS_README.md",
+      "sha256": "82c909e3d11fc6b52491a660e219bcfaaac3d6c5dcb242a8de84894146ae9aa4"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/PILOT_CLOSEOUT_SCALE_API_CONTRACTS.json",
+      "sha256": "efdbd32f0f7e13fb71be18988a7ff0c0e7cf040dd0d8a01776baa8fa1d7270ea"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/PILOT_CLOSEOUT_SCALE_REGISTRY.json",
+      "sha256": "823dc3f62833bc6917bf8ff3578dfc4cfac52fd3fc839338cf55906067160eb6"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/ai-boundaries/SCALE_AI_BOUNDARY.md",
+      "sha256": "b746e359f36cdc0144761fbe17ef247c1b8169f55319b7e96d8c5b026524ceee"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/ai-boundaries/SCALE_AI_OUTPUT_SCHEMA.json",
+      "sha256": "f300b481c843bec3563f2ee6e40b3f049f8908d3961d7d824e9364c74078621e"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/outcomes-remediation/LESSONS_AND_REMEDIATION_REGISTER.md",
+      "sha256": "1a85c827625c3a04f625e4b10a0e4f445a9286ce88dc3df7eb10f8aa96e3a37c"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/outcomes-remediation/PILOT_OUTCOME_SUMMARY_SPEC.md",
+      "sha256": "085f7318be6d92ccd72fd993b7feaafca8678d3e589ffbdc41a03c8225271cf3"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/pilot-closeout/CLOSEOUT_DECISION_POLICY.md",
+      "sha256": "d4e843c33c5f5c4c875a77c97eada3a806c16048226217a1467a9b74f76eed12"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/pilot-closeout/PILOT_CLOSEOUT_CRITERIA.md",
+      "sha256": "1807f08fa3a65d57409c93612b008aaab9b117eb7ab11ebe47d19adb6b616954"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/replication-controls/REPLICATION_CONTROL_MATRIX.md",
+      "sha256": "7e15a9ef630036f6936472c91a895db23976bd4cc524c6941ebad995bedff083"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/replication-controls/TEMPLATE_REUSE_AND_VARIANCE_POLICY.md",
+      "sha256": "83aaa7193b869674a0ae2de6a0c6f7bf3990d22bb6962105b81d40ed0664bfbc"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/scale-gates/SCALE_APPROVAL_POLICY.md",
+      "sha256": "af128c7ea680a12a40d26c18dd3bf6483ed391aaf19349cf337c4450c3b980e0"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/scale-gates/SCALE_GATE_MATRIX.md",
+      "sha256": "729922021c9205175246e5661bfd5a90ad2f1c6fb66c097371a10f6a85fc2bbe"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/wave-readiness/WAVE_READINESS_MATRIX.md",
+      "sha256": "3fad67f1c7a6165b2eb1ecd1f3eac8dd2227f3172718f3b8054a845d469eae2a"
+    },
+    {
+      "path": "petcare_execution/PILOT_CLOSEOUT_AND_SCALE_READINESS/wave-readiness/WAVE_SCOPE_POLICY.md",
+      "sha256": "2d3aa7ec62817971ac0b5696c8e61dc55343568ce4423ea2c864def48e52c911"
+    }
+  ]
+}

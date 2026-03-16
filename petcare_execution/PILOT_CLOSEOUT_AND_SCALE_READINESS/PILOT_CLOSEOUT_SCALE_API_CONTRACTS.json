@@ -1,0 +1,69 @@
+{
+  "pack_id": "PETCARE-PILOT-CLOSEOUT-AND-SCALE-READINESS",
+  "contracts": {
+    "pilot-closeout": {
+      "assert_closeout_readiness": {
+        "input": {
+          "pilot_id": "string",
+          "required_evidence_complete": "boolean",
+          "open_critical_issues": "number",
+          "closeout_owner_role": "platform_admin|ops_lead|clinic_admin"
+        },
+        "output": {
+          "ready": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "outcomes-remediation": {
+      "assert_remediation_register_complete": {
+        "input": {
+          "pilot_id": "string",
+          "open_items": "number",
+          "critical_items": "number",
+          "owner_roles_defined": "boolean"
+        },
+        "output": {
+          "complete": "boolean"
+        }
+      }
+    },
+    "scale-gates": {
+      "evaluate_scale_gate": {
+        "input": {
+          "gate_class": "clinical|ai_governance|security|ops_readiness|replication_readiness",
+          "status": "pass|fail",
+          "evidence_bundle_id": "string"
+        },
+        "output": {
+          "accepted": "boolean"
+        }
+      }
+    },
+    "wave-readiness": {
+      "assert_wave_eligibility": {
+        "input": {
+          "wave_id": "string",
+          "target_clinic_count": "number",
+          "template_ready": "boolean",
+          "gate_passed": "boolean"
+        },
+        "output": {
+          "eligible": "boolean"
+        }
+      }
+    },
+    "replication-controls": {
+      "assert_template_reuse_rules": {
+        "input": {
+          "control_class": "runtime|surface|ops|audit|ai",
+          "template_defined": "boolean",
+          "variance_policy_defined": "boolean"
+        },
+        "output": {
+          "control_ready": "boolean"
+        }
+      }
+    }
+  }
+}

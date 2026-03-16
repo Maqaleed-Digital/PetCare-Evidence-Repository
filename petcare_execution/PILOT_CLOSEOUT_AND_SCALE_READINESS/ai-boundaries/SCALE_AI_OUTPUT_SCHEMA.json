@@ -1,0 +1,19 @@
+{
+  "required_fields": [
+    "case_id",
+    "model_name",
+    "model_version",
+    "draft_type",
+    "risk_flags",
+    "uncertainty_level",
+    "requires_human_review",
+    "timestamp_utc"
+  ],
+  "boundary_rules": [
+    "no_autonomous_closeout_decision",
+    "no_autonomous_scale_approval",
+    "no_autonomous_wave_activation",
+    "no_autonomous_governance_override",
+    "human_review_required"
+  ]
+}

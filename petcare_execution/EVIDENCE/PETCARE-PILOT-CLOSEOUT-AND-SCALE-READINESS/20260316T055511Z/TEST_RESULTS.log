@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-PILOT-CLOSEOUT-AND-SCALE-READINESS
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=pilot_closeout_scale_registry_present RESULT=PASS
+CHECK=pilot_closeout_scale_api_contracts_present RESULT=PASS
+CHECK=pilot_closeout_specs_present RESULT=PASS
+CHECK=outcomes_remediation_specs_present RESULT=PASS
+CHECK=scale_gate_specs_present RESULT=PASS
+CHECK=wave_readiness_specs_present RESULT=PASS
+CHECK=replication_control_specs_present RESULT=PASS
+CHECK=scale_ai_boundary_present RESULT=PASS

@@ -1,0 +1,60 @@
+{
+  "pack_id": "PETCARE-PILOT-CLOSEOUT-AND-SCALE-READINESS",
+  "program_state_input": "live_pilot_governance_established",
+  "domains": [
+    {
+      "domain_id": "pilot-closeout",
+      "purpose": "Define pilot completion, closeout criteria, and governed closure decision",
+      "interfaces": [
+        "read_closeout_criteria",
+        "assert_closeout_readiness",
+        "read_closeout_decision"
+      ]
+    },
+    {
+      "domain_id": "outcomes-remediation",
+      "purpose": "Capture pilot outcomes, lessons, open issues, and remediation actions",
+      "interfaces": [
+        "read_outcome_summary",
+        "read_lessons_learned",
+        "assert_remediation_register_complete"
+      ]
+    },
+    {
+      "domain_id": "scale-gates",
+      "purpose": "Define gate classes required before post-pilot scaling",
+      "interfaces": [
+        "read_scale_gate_matrix",
+        "evaluate_scale_gate",
+        "read_scale_decision"
+      ]
+    },
+    {
+      "domain_id": "wave-readiness",
+      "purpose": "Define readiness rules for next clinic wave activation",
+      "interfaces": [
+        "read_wave_readiness_matrix",
+        "assert_wave_eligibility",
+        "read_wave_scope"
+      ]
+    },
+    {
+      "domain_id": "replication-controls",
+      "purpose": "Define multi-clinic replication controls and consistency expectations",
+      "interfaces": [
+        "read_replication_control_matrix",
+        "assert_template_reuse_rules",
+        "read_control_variance_policy"
+      ]
+    },
+    {
+      "domain_id": "ai-boundaries",
+      "purpose": "Preserve assistive-only AI controls during closeout and scale decisions",
+      "interfaces": [
+        "read_scale_ai_boundary",
+        "assert_human_review_required",
+        "read_governance_ai_constraints"
+      ]
+    }
+  ]
+}
