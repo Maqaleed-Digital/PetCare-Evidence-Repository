@@ -1,0 +1,83 @@
+{
+  "pack_id": "PETCARE-MULTI-SURFACE-ORCHESTRATION",
+  "timestamp_utc": "20260316T052903Z",
+  "program_state_input": "integrated_surface_readiness_established",
+  "orchestration_flows": [
+    "owner-to-appointment",
+    "appointment-to-consultation",
+    "consultation-to-prescription",
+    "prescription-to-fulfillment",
+    "redflag-to-emergency",
+    "cross-domain-audit-propagation"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-MULTI-SURFACE-ORCHESTRATION/20260316T052903Z/AUDIT_SAMPLE.log",
+      "sha256": "1fc18e96803ff0b44e244fe9e70de3c1bbda9832ab0727093e8179e714efbb58"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-MULTI-SURFACE-ORCHESTRATION/20260316T052903Z/FILE_LISTING.txt",
+      "sha256": "be603daa9cf664ea8050a5a3706494ea0b06c44e288e5b34ea1aa940ea744973"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-MULTI-SURFACE-ORCHESTRATION/20260316T052903Z/TEST_RESULTS.log",
+      "sha256": "40fd4387ba4cd11387b1abd63b026d896406bad1750c670999adf421b85ba528"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/ORCHESTRATION_API_CONTRACTS.json",
+      "sha256": "6e4a7718e4dd90d6e594d4da56b3a6ecdb773946f56ab5d184ed6888d66d5a05"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/ORCHESTRATION_FLOW_REGISTRY.json",
+      "sha256": "506ad2b021b3c050753c7349381b8c2487c84d74ceba3564f406fe522df6d9ba"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/PETCARE_MULTI_SURFACE_ORCHESTRATION_README.md",
+      "sha256": "a76d12d36e23200df4e0c76d7c138de36fea7b97e256e1dce41872589d38b965"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/ai-boundaries/ORCHESTRATION_AI_BOUNDARY.md",
+      "sha256": "9f899f85ef60806e922ece75660d9b2975af54b83a70a70c0f0a12d0bde1d5a6"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/ai-boundaries/ORCHESTRATION_AI_OUTPUT_SCHEMA.json",
+      "sha256": "e543f98e67f1443d4354a0fda78124fd2d8fcc04253cdec48997aa6e774fb226"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/event-propagation/CROSS_DOMAIN_AUDIT_PROPAGATION.md",
+      "sha256": "cfc4d135f7ea6265f7b8ce6aa119d8d5bca5b329e6e31e7b3ad787c9b76a5646"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/event-propagation/ORCHESTRATION_EVENT_MODEL.md",
+      "sha256": "eec8ca771e1bdd6c05e3bd40d9ceaa6fb9249e8cecf8baa49f66fe22adcd6c8a"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/flows/APPOINTMENT_TO_CONSULTATION_FLOW.md",
+      "sha256": "00f47c4ee99d4a914ede703bf60cc4f1eaa91085b913d7bc124994b91826e3cc"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/flows/CONSULTATION_TO_PRESCRIPTION_FLOW.md",
+      "sha256": "dcb8b23b96ddd8528262f4a72afab9eb40af9a25b933d8b4f192664fad74feb3"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/flows/OWNER_TO_APPOINTMENT_FLOW.md",
+      "sha256": "4d148a4b02ef78861510bac31964cf4d2327d2bea9d72305a40203a26b40cc9d"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/flows/PRESCRIPTION_TO_FULFILLMENT_FLOW.md",
+      "sha256": "76bc144ebbfcefcbcacc201a50d7820008946dc434a55de6da51c580d421d24d"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/flows/REDFLAG_TO_EMERGENCY_FLOW.md",
+      "sha256": "5a69d97151757ba39ce5f067b8235bd9894500b4f1fbcc6dcf6882f4b38ec9ec"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/policy-gates/CONSENT_GATE_POLICY.md",
+      "sha256": "3253ee9a4b8109ff17ee9dfa5d65462de78650ef4cc755330804b6f5cef3d342"
+    },
+    {
+      "path": "petcare_execution/MULTI_SURFACE_ORCHESTRATION/policy-gates/ROLE_GATE_POLICY.md",
+      "sha256": "a29b9e94ec059bafdc2edfd3e83fca2138c9dfc75c339c706facc1dc2c3ff3a3"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-MULTI-SURFACE-ORCHESTRATION
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=orchestration_flow_registry_present RESULT=PASS
+CHECK=orchestration_api_contracts_present RESULT=PASS
+CHECK=flow_specs_present RESULT=PASS
+CHECK=event_propagation_specs_present RESULT=PASS
+CHECK=consent_gate_policy_present RESULT=PASS
+CHECK=role_gate_policy_present RESULT=PASS
+CHECK=orchestration_ai_boundary_present RESULT=PASS
+CHECK=manifest_generation_ready RESULT=PASS

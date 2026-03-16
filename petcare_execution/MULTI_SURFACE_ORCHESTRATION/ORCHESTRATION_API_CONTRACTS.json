@@ -1,0 +1,74 @@
+{
+  "pack_id": "PETCARE-MULTI-SURFACE-ORCHESTRATION",
+  "contracts": {
+    "owner-to-appointment": {
+      "advance_flow": {
+        "input": {
+          "owner_id": "string",
+          "pet_id": "string",
+          "appointment_id": "string",
+          "clinic_id": "string",
+          "flow_state": "requested|confirmed|reschedule_requested|cancelled"
+        },
+        "output": {
+          "advanced": "boolean",
+          "next_state": "string"
+        }
+      }
+    },
+    "appointment-to-consultation": {
+      "advance_flow": {
+        "input": {
+          "appointment_id": "string",
+          "consultation_id": "string",
+          "vet_id": "string",
+          "owner_id": "string"
+        },
+        "output": {
+          "advanced": "boolean",
+          "consultation_state": "opened|in_progress|ready_for_signoff"
+        }
+      }
+    },
+    "consultation-to-prescription": {
+      "advance_flow": {
+        "input": {
+          "consultation_id": "string",
+          "prescription_id": "string",
+          "consultation_status": "signed",
+          "vet_id": "string"
+        },
+        "output": {
+          "advanced": "boolean",
+          "prescription_state": "created|under_review"
+        }
+      }
+    },
+    "prescription-to-fulfillment": {
+      "advance_flow": {
+        "input": {
+          "prescription_id": "string",
+          "approval_state": "approved|safety_blocked",
+          "requires_cold_chain": "boolean"
+        },
+        "output": {
+          "advanced": "boolean",
+          "fulfillment_state": "ready_for_dispense|routing_review|required_block"
+        }
+      }
+    },
+    "redflag-to-emergency": {
+      "advance_flow": {
+        "input": {
+          "case_id": "string",
+          "matched_rules": ["string"],
+          "consent_status": "granted|revoked|not_found"
+        },
+        "output": {
+          "advanced": "boolean",
+          "emergency_state": "escalated|blocked_for_consent|review_required"
+        }
+      }
+    }
+  }
+}

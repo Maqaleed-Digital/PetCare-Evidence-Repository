@@ -1,0 +1,42 @@
+{
+  "pack_id": "PETCARE-MULTI-SURFACE-ORCHESTRATION",
+  "program_state_input": "integrated_surface_readiness_established",
+  "flows": [
+    {
+      "flow_id": "owner-to-appointment",
+      "source_surface": "owner",
+      "target_domain": "owner_experience",
+      "purpose": "Create and manage governed appointment requests"
+    },
+    {
+      "flow_id": "appointment-to-consultation",
+      "source_surface": "owner|vet",
+      "target_domain": "clinical_runtime",
+      "purpose": "Transition confirmed appointments into consultation context"
+    },
+    {
+      "flow_id": "consultation-to-prescription",
+      "source_surface": "vet",
+      "target_domain": "pharmacy_runtime",
+      "purpose": "Promote signed clinical outcomes into governed prescription lifecycle"
+    },
+    {
+      "flow_id": "prescription-to-fulfillment",
+      "source_surface": "pharmacy",
+      "target_domain": "pharmacy_runtime",
+      "purpose": "Move approved prescriptions toward dispense and delivery readiness"
+    },
+    {
+      "flow_id": "redflag-to-emergency",
+      "source_surface": "owner|vet",
+      "target_domain": "clinical_runtime|platform_operations",
+      "purpose": "Escalate matched red flags into emergency referral workflow"
+    },
+    {
+      "flow_id": "cross-domain-audit-propagation",
+      "source_surface": "all",
+      "target_domain": "audit-runtime",
+      "purpose": "Ensure cross-domain transitions emit audit-compatible events"
+    }
+  ]
+}
