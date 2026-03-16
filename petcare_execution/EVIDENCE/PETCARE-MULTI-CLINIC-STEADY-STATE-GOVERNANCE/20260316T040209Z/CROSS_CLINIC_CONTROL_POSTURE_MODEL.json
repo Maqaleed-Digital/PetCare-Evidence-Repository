@@ -1,0 +1,17 @@
+{
+  "required_cross_clinic_controls": [
+    "assistive_ai_boundary_preserved",
+    "human_approval_enforcement_preserved",
+    "override_capture_preserved",
+    "escalation_routing_preserved",
+    "kpi_reporting_preserved",
+    "partner_dependency_visibility_preserved",
+    "portfolio_comparison_participation_preserved",
+    "remediation_reentry_path_preserved"
+  ],
+  "control_posture_states": [
+    "control_posture_compliant",
+    "control_posture_watch",
+    "control_posture_issue_open"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "pack_id": "PETCARE-MULTI-CLINIC-STEADY-STATE-GOVERNANCE",
+  "run_id": "20260316T040209Z",
+  "source_of_truth_commit": "f598743438b3884ce2f3a4e19b2c3a7d465e9a1b",
+  "generated_at_utc": "20260316T040209Z",
+  "files": [
+    {
+      "path": "CROSS_CLINIC_CONTROL_POSTURE_MODEL.json",
+      "sha256": "39781f9b57dd615030d5a567de7c13d5eabb7ef080b692f8993e8b21866c02d3"
+    },
+    {
+      "path": "DRIFT_AND_REMEDIATION_GOVERNANCE_MODEL.json",
+      "sha256": "d94babfedd225a93c374d9b3e79f060b580dced8b4c538eda8fe1ba66caeaa57"
+    },
+    {
+      "path": "MULTI_CLINIC_STEADY_STATE_REGISTRY.json",
+      "sha256": "ce9e44ba938214728ce4ad9b715b15f69d377eddc6b7e68e89e04dd6ff24fdab"
+    },
+    {
+      "path": "PACK_SUMMARY.json",
+      "sha256": "ad7a3142bc060d6f8bf7dbe94817cfd70c299228ef6a799869c515b6610f5668"
+    },
+    {
+      "path": "PORTFOLIO_OPERATING_REVIEW_MODEL.json",
+      "sha256": "4c006abac7483db265a5493de4efd098d716b44bce2be57a54d71da9bd2d4b17"
+    },
+    {
+      "path": "STEADY_STATE_EXECUTIVE_VISIBILITY_MODEL.json",
+      "sha256": "573a6bd597537b9da210bef0426faf811d9819e11c979057dbd6c391f658bb71"
+    },
+    {
+      "path": "VALIDATION_REPORT.json",
+      "sha256": "611bcfdc686fdf2ea004688c53fb956976a0addd1c6de8bf96169d2b02f5d865"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "required_reporting_outputs": [
+    "clinic_steady_state_status",
+    "control_posture_status",
+    "override_posture_status",
+    "escalation_posture_status",
+    "kpi_completeness_status",
+    "partner_fallback_posture_status",
+    "drift_status",
+    "remediation_status"
+  ],
+  "required_clinic_states": [
+    "steady_state_operational",
+    "steady_state_watch",
+    "drift_issue_open",
+    "remediation_reentry_required",
+    "executive_review_required"
+  ]
+}

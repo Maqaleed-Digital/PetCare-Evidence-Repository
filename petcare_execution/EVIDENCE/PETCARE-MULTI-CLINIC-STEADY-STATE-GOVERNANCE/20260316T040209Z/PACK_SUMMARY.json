@@ -1,0 +1,8 @@
+{
+  "pack_id": "PETCARE-MULTI-CLINIC-STEADY-STATE-GOVERNANCE",
+  "source_of_truth_commit": "f598743438b3884ce2f3a4e19b2c3a7d465e9a1b",
+  "previous_governance_state": "clinic_wave_steady_state_admission_active",
+  "new_governance_state": "multi_clinic_steady_state_governance_active",
+  "portfolio_clinic_count": 5,
+  "operating_mode": "portfolio_governed_multi_clinic_steady_state"
+}

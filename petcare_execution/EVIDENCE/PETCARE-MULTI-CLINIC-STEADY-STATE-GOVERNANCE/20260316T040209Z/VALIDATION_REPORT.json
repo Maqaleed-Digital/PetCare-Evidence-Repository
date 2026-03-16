@@ -1,0 +1,44 @@
+{
+  "pack_id": "PETCARE-MULTI-CLINIC-STEADY-STATE-GOVERNANCE",
+  "assertions_passed": 9,
+  "assertions_total": 9,
+  "results": [
+    {
+      "assertion": "baseline_commit_match",
+      "ok": true
+    },
+    {
+      "assertion": "five_steady_state_governance_docs_present",
+      "ok": true
+    },
+    {
+      "assertion": "five_clinics_in_portfolio_scope",
+      "ok": true
+    },
+    {
+      "assertion": "eight_cross_clinic_controls_defined",
+      "ok": true
+    },
+    {
+      "assertion": "eight_review_domains_defined",
+      "ok": true
+    },
+    {
+      "assertion": "six_drift_categories_defined",
+      "ok": true
+    },
+    {
+      "assertion": "four_governance_responses_defined",
+      "ok": true
+    },
+    {
+      "assertion": "eight_reporting_outputs_defined",
+      "ok": true
+    },
+    {
+      "assertion": "state_transition_defined",
+      "ok": true
+    }
+  ],
+  "status": "OK"
+}

@@ -1,0 +1,18 @@
+{
+  "required_review_domains": [
+    "admission_status",
+    "override_posture",
+    "escalation_posture",
+    "kpi_completeness",
+    "partner_fallback_posture",
+    "staffing_exception_posture",
+    "drift_posture",
+    "remediation_exposure"
+  ],
+  "comparison_groups": [
+    "baseline_live_clinic",
+    "newly_admitted_steady_state_clinics",
+    "clinics_on_watch",
+    "clinics_under_remediation_review"
+  ]
+}

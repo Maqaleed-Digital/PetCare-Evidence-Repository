@@ -1,0 +1,16 @@
+{
+  "drift_categories": [
+    "reporting_drift",
+    "operational_drift",
+    "ai_safety_drift",
+    "escalation_drift",
+    "partner_dependency_drift",
+    "kpi_drift"
+  ],
+  "governance_responses": [
+    "portfolio_watch",
+    "targeted_remediation",
+    "steady_state_reclassification",
+    "controlled_reentry_to_remediation"
+  ]
+}
