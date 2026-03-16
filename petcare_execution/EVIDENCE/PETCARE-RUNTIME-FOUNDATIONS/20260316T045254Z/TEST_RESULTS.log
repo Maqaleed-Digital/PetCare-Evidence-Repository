@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-RUNTIME-FOUNDATIONS
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=service_registry_present RESULT=PASS
+CHECK=api_contracts_present RESULT=PASS
+CHECK=identity_spec_present RESULT=PASS
+CHECK=consent_spec_present RESULT=PASS
+CHECK=audit_spec_present RESULT=PASS
+CHECK=evidence_spec_present RESULT=PASS
+CHECK=ai_governance_spec_present RESULT=PASS
+CHECK=protected_zone_docs_present RESULT=PASS

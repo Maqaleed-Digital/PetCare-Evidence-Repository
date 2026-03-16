@@ -1,0 +1,53 @@
+{
+  "pack_id": "PETCARE-RUNTIME-FOUNDATIONS",
+  "program_state_input": "completed_governance_baseline",
+  "services": [
+    {
+      "service_id": "identity-service",
+      "purpose": "Role matrix enforcement, permission checks, tenant isolation",
+      "interfaces": [
+        "authorize_action",
+        "resolve_actor_permissions",
+        "assert_tenant_scope"
+      ]
+    },
+    {
+      "service_id": "consent-service",
+      "purpose": "Consent capture, revoke, purpose limitation enforcement",
+      "interfaces": [
+        "grant_consent",
+        "revoke_consent",
+        "assert_purpose_allowed"
+      ]
+    },
+    {
+      "service_id": "audit-service",
+      "purpose": "Immutable audit event recording and retrieval",
+      "interfaces": [
+        "append_audit_event",
+        "query_audit_events",
+        "export_audit_bundle"
+      ]
+    },
+    {
+      "service_id": "evidence-service",
+      "purpose": "Deterministic evidence bundle production",
+      "interfaces": [
+        "build_manifest",
+        "compute_sha256",
+        "emit_evidence_bundle"
+      ]
+    },
+    {
+      "service_id": "ai-governance-service",
+      "purpose": "Prompt/output logging, override tracking, evaluation hooks",
+      "interfaces": [
+        "log_prompt",
+        "log_output",
+        "record_override",
+        "register_model_version",
+        "emit_eval_hook"
+      ]
+    }
+  ]
+}

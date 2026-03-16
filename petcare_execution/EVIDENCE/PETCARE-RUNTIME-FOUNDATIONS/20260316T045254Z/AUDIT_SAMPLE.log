@@ -1,0 +1,3 @@
+{"event_name":"consultation.opened","actor_id":"vet_001","tenant_id":"clinic_live_baseline_001","entity_type":"consultation","entity_id":"consult_1001","timestamp_utc":"2026-03-16T00:00:00Z"}
+{"event_name":"consent.updated","actor_id":"owner_001","tenant_id":"clinic_live_baseline_001","entity_type":"consent","entity_id":"consent_2001","timestamp_utc":"2026-03-16T00:01:00Z"}
+{"event_name":"audit.exported","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"evidence_bundle","entity_id":"bundle_3001","timestamp_utc":"2026-03-16T00:02:00Z"}

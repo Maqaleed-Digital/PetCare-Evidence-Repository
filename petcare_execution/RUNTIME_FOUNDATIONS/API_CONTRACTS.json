@@ -1,0 +1,97 @@
+{
+  "pack_id": "PETCARE-RUNTIME-FOUNDATIONS",
+  "contracts": {
+    "identity-service": {
+      "authorize_action": {
+        "input": {
+          "actor_id": "string",
+          "actor_role": "owner|vet|pharmacy_operator|clinic_admin|platform_admin",
+          "tenant_id": "string",
+          "resource": "string",
+          "action": "string"
+        },
+        "output": {
+          "allowed": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "consent-service": {
+      "grant_consent": {
+        "input": {
+          "owner_id": "string",
+          "pet_id": "string",
+          "consent_scope": "clinical|pharmacy|partner_sharing|emergency",
+          "purpose": "string"
+        },
+        "output": {
+          "status": "granted"
+        }
+      },
+      "assert_purpose_allowed": {
+        "input": {
+          "owner_id": "string",
+          "pet_id": "string",
+          "purpose": "string"
+        },
+        "output": {
+          "allowed": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "audit-service": {
+      "append_audit_event": {
+        "input": {
+          "event_name": "string",
+          "actor_id": "string",
+          "tenant_id": "string",
+          "entity_type": "string",
+          "entity_id": "string",
+          "timestamp_utc": "string"
+        },
+        "output": {
+          "written": "boolean",
+          "event_id": "string"
+        }
+      }
+    },
+    "evidence-service": {
+      "emit_evidence_bundle": {
+        "input": {
+          "bundle_id": "string",
+          "scope": "runtime_foundations"
+        },
+        "output": {
+          "manifest_path": "string",
+          "bundle_state": "generated"
+        }
+      }
+    },
+    "ai-governance-service": {
+      "log_prompt": {
+        "input": {
+          "request_id": "string",
+          "actor_role": "string",
+          "model_name": "string",
+          "model_version": "string",
+          "case_id": "string",
+          "prompt_policy_class": "string"
+        },
+        "output": {
+          "logged": "boolean"
+        }
+      },
+      "record_override": {
+        "input": {
+          "request_id": "string",
+          "reviewer_role": "vet|pharmacist|admin",
+          "override_reason_code": "string"
+        },
+        "output": {
+          "recorded": "boolean"
+        }
+      }
+    }
+  }
+}

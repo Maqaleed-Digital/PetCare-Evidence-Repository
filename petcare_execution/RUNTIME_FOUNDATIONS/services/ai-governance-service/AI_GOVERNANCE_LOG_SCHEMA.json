@@ -1,0 +1,24 @@
+{
+  "required_fields": [
+    "request_id",
+    "actor_role",
+    "tenant_id",
+    "case_id",
+    "model_name",
+    "model_version",
+    "prompt_policy_class",
+    "timestamp_utc"
+  ],
+  "override_fields": [
+    "request_id",
+    "reviewer_role",
+    "override_reason_code",
+    "timestamp_utc"
+  ],
+  "boundary_rules": [
+    "no_autonomous_diagnosis",
+    "no_autonomous_prescription",
+    "no_autonomous_triage_finalization",
+    "human_approval_required"
+  ]
+}

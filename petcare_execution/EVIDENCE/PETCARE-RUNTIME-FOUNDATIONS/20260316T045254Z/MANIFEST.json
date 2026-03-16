@@ -1,0 +1,78 @@
+{
+  "pack_id": "PETCARE-RUNTIME-FOUNDATIONS",
+  "timestamp_utc": "20260316T045254Z",
+  "program_state_input": "completed_governance_baseline",
+  "services": [
+    "identity-service",
+    "consent-service",
+    "audit-service",
+    "evidence-service",
+    "ai-governance-service"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-RUNTIME-FOUNDATIONS/20260316T045254Z/AUDIT_SAMPLE.log",
+      "sha256": "77286bc942cbc63e86bccc43f417d557e19eb76e19693b909a92a17a3e68c3b8"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-RUNTIME-FOUNDATIONS/20260316T045254Z/FILE_LISTING.txt",
+      "sha256": "c32c7e969b3a381ea80294164e416bd3de31ceb7b0b3fc5d308c9c3f06056a06"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-RUNTIME-FOUNDATIONS/20260316T045254Z/TEST_RESULTS.log",
+      "sha256": "99788edacc1e9ced6c2927b1e146f904e26e2065f5081dc9a81e007ca6876ae5"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/API_CONTRACTS.json",
+      "sha256": "ecba8e6f87d172ed545d4d7d5a1bfe603bd4699d15d94bedeaf8a86b9500dfbd"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/PETCARE_RUNTIME_FOUNDATIONS_README.md",
+      "sha256": "b3b7fbd8a94980f3d0247037ad8b644ef7241b2dc6796c1ff112d703579bb5c7"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/SERVICE_REGISTRY.json",
+      "sha256": "4387c941568b6ae9784abac74f6cb77f2fb16483307d4f04e422fee81c3ce7a9"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/ai-governance-service/AI_GOVERNANCE_LOG_SCHEMA.json",
+      "sha256": "674c50a0f32550a17c08fc599d81088faa8a06c93b58b37ff506116d72a40302"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/ai-governance-service/AI_GOVERNANCE_RUNTIME_SPEC.md",
+      "sha256": "24cfd97a016c2e0224091cb1aecac20f16af9d2a9c4c51724f0231788fe04d49"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/audit-service/AUDIT_EVENT_TAXONOMY.md",
+      "sha256": "cc719c77612311a1c0fd3958fef38e386671ddb9d856f8a159a21c2d693ab1d0"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/audit-service/AUDIT_SERVICE_SPEC.md",
+      "sha256": "6fb7a8a0244f502a25b8df9a939341c3dbfc83225bbece7bbe1d1d949b5348e6"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/consent-service/CONSENT_SCOPES.md",
+      "sha256": "4acb4572b2441430413c9f0782af9f6101ec0b9d67ff20c593a89e5aa0e78311"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/consent-service/CONSENT_SERVICE_SPEC.md",
+      "sha256": "d69c74c87e798cc9c8e6d131fba665b8f564494c8468147e8ade9fceaa52ea7b"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/evidence-service/EVIDENCE_EXPORT_SPEC.md",
+      "sha256": "cdf2160f3770f08304ebac4bac5bed7f51915b56b74364f910cc69d77e9245b7"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/evidence-service/EVIDENCE_SERVICE_SPEC.md",
+      "sha256": "ac15f5452a725d6b8f76f61864d9ad962752c41975a1e66ef2c6f8e96a174955"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/identity-service/IDENTITY_SERVICE_SPEC.md",
+      "sha256": "f90c31440b3611343242d1c6e3425392d7489539fbe9282076576f6e8f44133f"
+    },
+    {
+      "path": "petcare_execution/RUNTIME_FOUNDATIONS/services/identity-service/RBAC_ROLE_MATRIX.md",
+      "sha256": "79d9f65ad63db5d4aae5d82c6f7e020011a03e819b1ce20bc7c9056ad9bbfe35"
+    }
+  ]
+}
