@@ -1,0 +1,96 @@
+{
+  "pack_id": "PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE",
+  "timestamp_utc": "20260316T060307Z",
+  "program_state_input": "pilot_closeout_and_scale_readiness_established",
+  "wave_domains": [
+    "wave-model",
+    "cohort-readiness",
+    "wave-gates",
+    "control-propagation",
+    "variance-exceptions",
+    "wave-evidence",
+    "ai-boundaries"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE/20260316T060307Z/AUDIT_SAMPLE.log",
+      "sha256": "458e552eba377885360825c6fb38b1b229d5cdd1413926aef2361b01f5bc6332"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE/20260316T060307Z/FILE_LISTING.txt",
+      "sha256": "bbd0eba30453c973f92f8fd9fc0a308e1d148f330079df52bf4833288fdde979"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE/20260316T060307Z/TEST_RESULTS.log",
+      "sha256": "1489186f6a7dae47cec4c64e3d59668df5b26938190aab873caff49066e37342"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/MULTI_CLINIC_WAVE_API_CONTRACTS.json",
+      "sha256": "ae3b164e75eb38010e46984a5bcf6fc79d4b09120fa3595343088df6a8ad0487"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/MULTI_CLINIC_WAVE_REGISTRY.json",
+      "sha256": "de6d695a6a025f051abfe43899a39d13fd9de406408eed8e21fc1a720857a4e0"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/PETCARE_MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE_README.md",
+      "sha256": "1b009e54215f7485fa0ad1e0504e44c4b7498c9e227748bbeb1586de356d73c6"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/ai-boundaries/WAVE_AI_BOUNDARY.md",
+      "sha256": "44e9fba42a50826ab4791cc98afbce40fb2275e0aea6b28b46c5bf21b3bebceb"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/ai-boundaries/WAVE_AI_OUTPUT_SCHEMA.json",
+      "sha256": "f59587fa2709bb5b1995ae3b8e6ed2485876a57dffd7d5d251dc0a15c581a581"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/cohort-readiness/CLINIC_COHORT_READINESS_MATRIX.md",
+      "sha256": "64b35151d1696d4a0bb2c09a8721c5360fbdbf54d75ba4ae9d56c0130ec2bb8f"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/cohort-readiness/COHORT_INCLUSION_POLICY.md",
+      "sha256": "6e73c5c7d0d3f9d251d26867e9ce7f62fa5a111343548537b81fbdd2585cd88c"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/control-propagation/BASELINE_TEMPLATE_INHERITANCE.md",
+      "sha256": "15f3ff5439e66366272a58bf4892b37dfe09a5acd3df4825733530d2388eb5aa"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/control-propagation/CONTROL_PROPAGATION_MATRIX.md",
+      "sha256": "a9fb3dd2a1416bf12294d232a4981b02ee3132e654a3d249bc0a3a11c681d9f9"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/variance-exceptions/EXCEPTION_OWNER_MATRIX.md",
+      "sha256": "557d243e2b863b17591c17efd1a81843d35fa7180baa4a827f044969fd7b3700"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/variance-exceptions/VARIANCE_EXCEPTION_POLICY.md",
+      "sha256": "d7b2a73ba19d526049c02379d1c0f49b2932e9bd5a26ecc0b478db45c718bd9d"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/wave-evidence/WAVE_AUDIT_CAPTURE_SPEC.md",
+      "sha256": "80a62b33d9f7af96f7fc53ea9abb7cd8df9a6e964f8f892074cf7070ed995561"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/wave-evidence/WAVE_EVIDENCE_CONTRACT.md",
+      "sha256": "a3b1b7c540f761723c1abaf2560e6ed4fb8c89edb55f39b83a7d44487dcd34c0"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/wave-gates/WAVE_APPROVAL_POLICY.md",
+      "sha256": "a213c7a83d4a38c0bb663f0c2b931c580f35cc02f49527f8e92850129c309b61"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/wave-gates/WAVE_GATE_MATRIX.md",
+      "sha256": "20c6a5a8fbc297ecd461c441b65667c3ffd7f0c6e3324c2c0c9b37a6aed8d580"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/wave-model/ACTIVATION_WAVE_MODEL.md",
+      "sha256": "4bed26f88e220df028e0ef41d9751f9364d7209db5eda331e9c8add408a1bd46"
+    },
+    {
+      "path": "petcare_execution/MULTI_CLINIC_ACTIVATION_WAVE_GOVERNANCE/wave-model/WAVE_STATUS_POLICY.md",
+      "sha256": "8625c1721fb30909bbcf3788f69c8e6363f61889502b75c2c6d8e8f17c50ba53"
+    }
+  ]
+}

@@ -1,0 +1,78 @@
+{
+  "pack_id": "PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE",
+  "contracts": {
+    "wave-model": {
+      "assert_wave_scope": {
+        "input": {
+          "wave_id": "string",
+          "clinic_ids": ["string"],
+          "target_clinic_count": "number"
+        },
+        "output": {
+          "scope_valid": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "cohort-readiness": {
+      "assert_clinic_readiness": {
+        "input": {
+          "clinic_id": "string",
+          "readiness_classes": ["runtime","surface","ops","monitoring","evidence"],
+          "status": "ready|blocked|review_required"
+        },
+        "output": {
+          "clinic_ready": "boolean"
+        }
+      }
+    },
+    "wave-gates": {
+      "evaluate_wave_gate": {
+        "input": {
+          "gate_class": "clinical|ai_governance|security|ops_readiness|replication_readiness",
+          "status": "pass|fail",
+          "evidence_bundle_id": "string"
+        },
+        "output": {
+          "accepted": "boolean"
+        }
+      }
+    },
+    "control-propagation": {
+      "assert_control_inheritance": {
+        "input": {
+          "control_class": "runtime|surface|ops|audit|ai",
+          "baseline_template_defined": "boolean",
+          "clinic_override_requested": "boolean"
+        },
+        "output": {
+          "propagation_valid": "boolean"
+        }
+      }
+    },
+    "variance-exceptions": {
+      "assert_exception_path": {
+        "input": {
+          "exception_class": "runtime|surface|ops|audit|ai",
+          "owner_role": "platform_admin|ops_lead|clinic_admin",
+          "approval_recorded": "boolean"
+        },
+        "output": {
+          "exception_valid": "boolean"
+        }
+      }
+    },
+    "wave-evidence": {
+      "assert_wave_evidence_complete": {
+        "input": {
+          "bundle_id": "string",
+          "required_components": ["activation","readiness","gates","exceptions","audit"],
+          "manifest_present": "boolean"
+        },
+        "output": {
+          "complete": "boolean"
+        }
+      }
+    }
+  }
+}

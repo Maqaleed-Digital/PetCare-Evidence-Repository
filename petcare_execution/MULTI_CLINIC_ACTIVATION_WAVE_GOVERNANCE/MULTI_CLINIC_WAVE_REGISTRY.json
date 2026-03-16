@@ -1,0 +1,69 @@
+{
+  "pack_id": "PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE",
+  "program_state_input": "pilot_closeout_and_scale_readiness_established",
+  "domains": [
+    {
+      "domain_id": "wave-model",
+      "purpose": "Define activation wave structure and bounded clinic cohorts",
+      "interfaces": [
+        "read_wave_model",
+        "assert_wave_scope",
+        "read_wave_status"
+      ]
+    },
+    {
+      "domain_id": "cohort-readiness",
+      "purpose": "Define readiness requirements for clinics included in a wave cohort",
+      "interfaces": [
+        "read_cohort_readiness_matrix",
+        "assert_clinic_readiness",
+        "read_cohort_decision"
+      ]
+    },
+    {
+      "domain_id": "wave-gates",
+      "purpose": "Define required governance gates before wave activation",
+      "interfaces": [
+        "read_wave_gate_matrix",
+        "evaluate_wave_gate",
+        "read_wave_gate_decision"
+      ]
+    },
+    {
+      "domain_id": "control-propagation",
+      "purpose": "Define shared control propagation from baseline clinic to wave clinics",
+      "interfaces": [
+        "read_control_propagation_matrix",
+        "assert_control_inheritance",
+        "read_propagation_status"
+      ]
+    },
+    {
+      "domain_id": "variance-exceptions",
+      "purpose": "Define variance and exception handling for wave clinics",
+      "interfaces": [
+        "read_variance_policy",
+        "assert_exception_path",
+        "read_exception_owner_role"
+      ]
+    },
+    {
+      "domain_id": "wave-evidence",
+      "purpose": "Define activation-wave evidence capture and audit contract",
+      "interfaces": [
+        "read_wave_evidence_contract",
+        "assert_wave_evidence_complete",
+        "read_wave_bundle_requirements"
+      ]
+    },
+    {
+      "domain_id": "ai-boundaries",
+      "purpose": "Preserve assistive-only AI controls during multi-clinic wave activation",
+      "interfaces": [
+        "read_wave_ai_boundary",
+        "assert_human_review_required",
+        "read_wave_ai_constraints"
+      ]
+    }
+  ]
+}

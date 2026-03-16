@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-MULTI-CLINIC-ACTIVATION-WAVE-GOVERNANCE
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=multi_clinic_wave_registry_present RESULT=PASS
+CHECK=multi_clinic_wave_api_contracts_present RESULT=PASS
+CHECK=wave_model_specs_present RESULT=PASS
+CHECK=cohort_readiness_specs_present RESULT=PASS
+CHECK=wave_gate_specs_present RESULT=PASS
+CHECK=control_propagation_specs_present RESULT=PASS
+CHECK=variance_exception_specs_present RESULT=PASS
+CHECK=wave_ai_boundary_present RESULT=PASS
