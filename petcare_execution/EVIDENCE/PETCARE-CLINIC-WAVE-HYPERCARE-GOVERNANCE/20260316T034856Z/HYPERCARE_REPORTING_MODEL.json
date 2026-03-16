@@ -1,0 +1,19 @@
+{
+  "required_reporting_outputs": [
+    "hypercare_status",
+    "observation_stability_status",
+    "deviation_count",
+    "override_count",
+    "escalation_count",
+    "kpi_completeness_status",
+    "partner_fallback_count",
+    "exit_decision_status"
+  ],
+  "required_clinic_states": [
+    "in_hypercare",
+    "hypercare_stable",
+    "hypercare_issue_open",
+    "ready_for_exit_review",
+    "remediation_required"
+  ]
+}

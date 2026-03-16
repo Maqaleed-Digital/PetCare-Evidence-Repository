@@ -1,0 +1,36 @@
+{
+  "pack_id": "PETCARE-CLINIC-WAVE-HYPERCARE-GOVERNANCE",
+  "run_id": "20260316T034856Z",
+  "source_of_truth_commit": "4207ba0015370d3c3bc85f162fd0da91ed9bac3a",
+  "generated_at_utc": "20260316T034856Z",
+  "files": [
+    {
+      "path": "CLINIC_HYPERCARE_REGISTRY.json",
+      "sha256": "70d9caf0e610e5b886a9697e50bcd973307485ab4fd66ce9cd396e2cab068375"
+    },
+    {
+      "path": "HYPERCARE_DEVIATION_RULES.json",
+      "sha256": "6e0396be84764c1bb2141b858392c744c65ff5544ec20b228b4477dc1be8efc8"
+    },
+    {
+      "path": "HYPERCARE_EXIT_FRAMEWORK.json",
+      "sha256": "8f305e1e4bf437e3c21072cac00186377361923dc1186693ff356259eba1316c"
+    },
+    {
+      "path": "HYPERCARE_OBSERVATION_MODEL.json",
+      "sha256": "7fab77f838105e108d871863a7c3d10b9b51a182a12f63d41294dfe6050690e4"
+    },
+    {
+      "path": "HYPERCARE_REPORTING_MODEL.json",
+      "sha256": "b06f1a179d9e91fe36c7c5398add2f292ac8ce17a22317405e7cc147054d3a67"
+    },
+    {
+      "path": "PACK_SUMMARY.json",
+      "sha256": "aac7ef7c83b9859b079d0c751b984e666917a29685d49cf8e3004309bdb04549"
+    },
+    {
+      "path": "VALIDATION_REPORT.json",
+      "sha256": "1f0a5004f045e37d0582798b0fe658bf4f03150ae98dfd5eb50b64c715f136d8"
+    }
+  ]
+}

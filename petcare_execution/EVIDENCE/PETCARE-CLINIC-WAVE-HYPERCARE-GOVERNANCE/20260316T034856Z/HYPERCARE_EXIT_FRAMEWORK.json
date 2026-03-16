@@ -1,0 +1,17 @@
+{
+  "exit_inputs": [
+    "observation_stability",
+    "unresolved_deviation_count",
+    "override_posture",
+    "escalation_posture",
+    "kpi_completeness_posture",
+    "partner_fallback_posture",
+    "portfolio_command_approval",
+    "steady_state_readiness_confirmation"
+  ],
+  "exit_outcomes": [
+    "approved_for_steady_state",
+    "remain_in_hypercare",
+    "return_to_remediation"
+  ]
+}

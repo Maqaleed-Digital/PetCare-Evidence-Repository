@@ -1,0 +1,17 @@
+{
+  "required_observation_controls": [
+    "override_event_monitoring",
+    "escalation_event_monitoring",
+    "kpi_completeness_monitoring",
+    "staffing_exception_monitoring",
+    "incident_review_monitoring",
+    "partner_fallback_monitoring",
+    "command_review_cadence",
+    "ai_safety_posture_review"
+  ],
+  "observation_states": [
+    "under_observation",
+    "observation_issue_detected",
+    "observation_stable"
+  ]
+}

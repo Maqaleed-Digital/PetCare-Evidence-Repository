@@ -1,0 +1,24 @@
+{
+  "clinics": [
+    {
+      "clinic_code": "CLINIC-WAVE2-001",
+      "wave": "WAVE_2",
+      "hypercare_state": "in_hypercare"
+    },
+    {
+      "clinic_code": "CLINIC-WAVE2-002",
+      "wave": "WAVE_2",
+      "hypercare_state": "in_hypercare"
+    },
+    {
+      "clinic_code": "CLINIC-WAVEN-001",
+      "wave": "WAVE_N",
+      "hypercare_state": "in_hypercare"
+    },
+    {
+      "clinic_code": "CLINIC-WAVEN-002",
+      "wave": "WAVE_N",
+      "hypercare_state": "in_hypercare"
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "deviation_categories": [
+    "reporting_deviation",
+    "staffing_deviation",
+    "operational_deviation",
+    "ai_safety_deviation",
+    "escalation_deviation",
+    "partner_dependency_deviation"
+  ],
+  "remediation_responses": [
+    "monitor_within_hypercare",
+    "targeted_remediation",
+    "extend_hypercare",
+    "block_steady_state_exit"
+  ]
+}

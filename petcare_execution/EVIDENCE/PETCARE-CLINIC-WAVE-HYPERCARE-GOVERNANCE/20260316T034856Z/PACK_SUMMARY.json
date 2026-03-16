@@ -1,0 +1,12 @@
+{
+  "pack_id": "PETCARE-CLINIC-WAVE-HYPERCARE-GOVERNANCE",
+  "source_of_truth_commit": "4207ba0015370d3c3bc85f162fd0da91ed9bac3a",
+  "previous_governance_state": "clinic_wave_controlled_activation_active",
+  "new_governance_state": "clinic_wave_hypercare_governance_active",
+  "wave_scope": [
+    "WAVE_2",
+    "WAVE_N"
+  ],
+  "clinic_count": 4,
+  "hypercare_mode": "supervised_post_activation_observation"
+}
