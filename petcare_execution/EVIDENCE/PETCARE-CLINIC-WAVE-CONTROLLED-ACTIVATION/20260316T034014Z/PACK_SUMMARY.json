@@ -1,0 +1,12 @@
+{
+  "pack_id": "PETCARE-CLINIC-WAVE-CONTROLLED-ACTIVATION",
+  "source_of_truth_commit": "037f7c26fb36b9ce10f58a63a66b473c64ca918e",
+  "previous_governance_state": "clinic_wave_execution_readiness_active",
+  "new_governance_state": "clinic_wave_controlled_activation_active",
+  "wave_scope": [
+    "WAVE_2",
+    "WAVE_N"
+  ],
+  "clinic_count": 4,
+  "activation_mode": "controlled_sequenced_activation"
+}

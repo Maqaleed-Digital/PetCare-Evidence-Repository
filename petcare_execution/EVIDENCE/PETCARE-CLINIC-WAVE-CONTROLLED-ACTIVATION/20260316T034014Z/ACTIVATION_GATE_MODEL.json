@@ -1,0 +1,17 @@
+{
+  "required_gate_inputs": [
+    "execution_readiness_status",
+    "ai_safety_readiness",
+    "staffing_coverage_confirmation",
+    "escalation_routing_confirmation",
+    "partner_dependency_readiness",
+    "reporting_visibility_confirmation",
+    "first_day_operational_control_readiness",
+    "portfolio_command_approval"
+  ],
+  "decision_outcomes": [
+    "approved_for_activation",
+    "blocked_pending_remediation",
+    "deferred_for_wave_resequencing"
+  ]
+}

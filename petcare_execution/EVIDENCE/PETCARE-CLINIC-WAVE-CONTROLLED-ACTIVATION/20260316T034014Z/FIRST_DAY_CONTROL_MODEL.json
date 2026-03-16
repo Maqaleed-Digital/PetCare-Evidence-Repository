@@ -1,0 +1,13 @@
+{
+  "required_controls": [
+    "human_approval_enforcement_active",
+    "override_capture_active",
+    "escalation_contact_path_reachable",
+    "first_day_reporting_snapshot_enabled",
+    "command_monitoring_active",
+    "incident_logging_active",
+    "partner_fallback_path_available",
+    "end_of_day_control_review_scheduled"
+  ],
+  "failure_rule": "material_failure_requires_immediate_command_review"
+}

@@ -1,0 +1,15 @@
+{
+  "default_sequence": [
+    "CLINIC-WAVE2-001",
+    "CLINIC-WAVE2-002",
+    "CLINIC-WAVEN-001",
+    "CLINIC-WAVEN-002"
+  ],
+  "required_window_fields": [
+    "activation_window_assigned",
+    "command_owner_assigned",
+    "first_day_control_checklist_assigned",
+    "hypercare_entry_record_assigned"
+  ],
+  "resequencing_allowed": true
+}

@@ -1,0 +1,36 @@
+{
+  "pack_id": "PETCARE-CLINIC-WAVE-CONTROLLED-ACTIVATION",
+  "run_id": "20260316T034014Z",
+  "source_of_truth_commit": "037f7c26fb36b9ce10f58a63a66b473c64ca918e",
+  "generated_at_utc": "20260316T034014Z",
+  "files": [
+    {
+      "path": "ACTIVATION_GATE_MODEL.json",
+      "sha256": "3c4847e0cab57d62fd955072b43d9bde0f3e2aece5db4fb7b6f4f49f0c68d75f"
+    },
+    {
+      "path": "ACTIVATION_REPORTING_AND_ESCALATION.json",
+      "sha256": "9554744b695365d0444394c843f3aaa243941ea20419ae5a9bcbbebc03927629"
+    },
+    {
+      "path": "ACTIVATION_SEQUENCE_PLAN.json",
+      "sha256": "dc740a04eb3589e8d75ed69defba29d10fb0dd78f4ba97adaaacd8df1ddce6af"
+    },
+    {
+      "path": "CLINIC_ACTIVATION_SEQUENCE.json",
+      "sha256": "2ec60ca54bd6046a2fa3d433220dd72463fa02f849248f595dc1ac0611ce4a1d"
+    },
+    {
+      "path": "FIRST_DAY_CONTROL_MODEL.json",
+      "sha256": "7a338ab1b5157931bd198aba3c50ab8d8d4c1286af31658c5e98e10053ac1668"
+    },
+    {
+      "path": "PACK_SUMMARY.json",
+      "sha256": "78eecf6f59a17266c2f47dd2532feb6dfc3374e36511b3d23eb8ed73f583e964"
+    },
+    {
+      "path": "VALIDATION_REPORT.json",
+      "sha256": "d8a1d9260f26654679f2ad73dca51f078ca47d794027bbffb4f9042e13c27ba7"
+    }
+  ]
+}

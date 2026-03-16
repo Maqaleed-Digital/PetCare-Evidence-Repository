@@ -1,0 +1,19 @@
+{
+  "required_reporting_outputs": [
+    "gate_decision_status",
+    "activation_sequence_position",
+    "activation_window_assignment",
+    "first_day_control_status",
+    "incident_count",
+    "override_count",
+    "escalation_count",
+    "hypercare_entry_status"
+  ],
+  "required_outcome_states": [
+    "awaiting_gate_decision",
+    "approved_for_activation",
+    "activation_in_progress",
+    "activation_issue_escalated",
+    "hypercare_started"
+  ]
+}
