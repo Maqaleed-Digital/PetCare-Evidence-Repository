@@ -1,0 +1,12 @@
+{
+  "pack_id": "PETCARE-CLINIC-WAVE-STEADY-STATE-ADMISSION",
+  "source_of_truth_commit": "a0bffda0bba161bd001edadfdd4366f19c0924a4",
+  "previous_governance_state": "clinic_wave_hypercare_governance_active",
+  "new_governance_state": "clinic_wave_steady_state_admission_active",
+  "wave_scope": [
+    "WAVE_2",
+    "WAVE_N"
+  ],
+  "clinic_count": 4,
+  "admission_mode": "portfolio_governed_steady_state_admission"
+}

@@ -1,0 +1,19 @@
+{
+  "required_reporting_outputs": [
+    "steady_state_admission_status",
+    "last_hypercare_decision_outcome",
+    "unresolved_deviation_count",
+    "override_posture_status",
+    "escalation_posture_status",
+    "kpi_completeness_status",
+    "partner_fallback_posture_status",
+    "portfolio_comparison_status"
+  ],
+  "required_clinic_states": [
+    "ready_for_admission_review",
+    "admitted_to_steady_state",
+    "remain_in_hypercare",
+    "remediation_required",
+    "post_admission_monitoring"
+  ]
+}

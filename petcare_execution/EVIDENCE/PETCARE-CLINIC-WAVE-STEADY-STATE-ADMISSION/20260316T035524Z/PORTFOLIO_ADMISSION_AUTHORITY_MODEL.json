@@ -1,0 +1,12 @@
+{
+  "authority_layers": [
+    "portfolio_governance_authority",
+    "clinic_wave_review_authority",
+    "local_clinic_operating_authority"
+  ],
+  "portfolio_only_decisions": [
+    "steady_state_admission",
+    "return_to_remediation_after_failed_exit_review",
+    "post_admission_reclassification_due_to_control_drift"
+  ]
+}

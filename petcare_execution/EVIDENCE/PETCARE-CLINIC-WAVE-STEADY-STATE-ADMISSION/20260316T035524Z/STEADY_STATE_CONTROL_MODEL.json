@@ -1,0 +1,13 @@
+{
+  "required_controls": [
+    "assistive_ai_boundary_preserved",
+    "human_approval_enforcement_preserved",
+    "override_capture_preserved",
+    "escalation_routing_preserved",
+    "kpi_reporting_preserved",
+    "partner_dependency_visibility_preserved",
+    "portfolio_comparison_participation_preserved",
+    "remediation_reentry_path_preserved"
+  ],
+  "drift_rule": "material_drift_may_trigger_reclassification"
+}

@@ -1,0 +1,17 @@
+{
+  "mandatory_criteria": [
+    "hypercare_exit_review_completed",
+    "no_unresolved_material_deviation",
+    "override_posture_within_controlled_tolerance",
+    "escalation_posture_confirmed_operational",
+    "kpi_completeness_confirmed_stable",
+    "partner_fallback_posture_reviewed",
+    "portfolio_comparison_visibility_active",
+    "steady_state_control_posture_confirmed"
+  ],
+  "admission_outcomes": [
+    "admitted_to_steady_state",
+    "remain_in_hypercare",
+    "return_to_remediation"
+  ]
+}

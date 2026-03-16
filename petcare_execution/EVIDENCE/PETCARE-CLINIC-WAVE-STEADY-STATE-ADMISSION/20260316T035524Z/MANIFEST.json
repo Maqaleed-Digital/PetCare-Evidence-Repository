@@ -1,0 +1,36 @@
+{
+  "pack_id": "PETCARE-CLINIC-WAVE-STEADY-STATE-ADMISSION",
+  "run_id": "20260316T035524Z",
+  "source_of_truth_commit": "a0bffda0bba161bd001edadfdd4366f19c0924a4",
+  "generated_at_utc": "20260316T035524Z",
+  "files": [
+    {
+      "path": "CLINIC_STEADY_STATE_ADMISSION_REGISTRY.json",
+      "sha256": "0d9320572a358921a9ebe85d3960b3c8cf6603d978849ade1609f62719c365cb"
+    },
+    {
+      "path": "PACK_SUMMARY.json",
+      "sha256": "873cfcfbceaad73ffccdce4cef455099bb0040c0681b35ad6c7ec99526029382"
+    },
+    {
+      "path": "PORTFOLIO_ADMISSION_AUTHORITY_MODEL.json",
+      "sha256": "e0edf0bed20b22bf4aff930b2a17c217a9f0696d3e4ad8a6c9c850cdcdb7b54c"
+    },
+    {
+      "path": "POST_HYPERCARE_REPORTING_MODEL.json",
+      "sha256": "b7e73e7a4e5d288973004893582932c88190569f9b4cfccee3bc2391c4426580"
+    },
+    {
+      "path": "STEADY_STATE_ADMISSION_CRITERIA_MODEL.json",
+      "sha256": "e7ad93ee358cdb3b0bd56f1eb843bb41be1308bc66624f90f46204b90bd391bf"
+    },
+    {
+      "path": "STEADY_STATE_CONTROL_MODEL.json",
+      "sha256": "85be028e99b15d99fdf186091fdfc7f9a5d539031afe2a7c37fd7d7643876f13"
+    },
+    {
+      "path": "VALIDATION_REPORT.json",
+      "sha256": "e76124d8d6332004c3b7d2a1e5405846f498b752e4c861f5c14ede4e1a39e26f"
+    }
+  ]
+}

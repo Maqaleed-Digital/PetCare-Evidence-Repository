@@ -1,0 +1,44 @@
+{
+  "pack_id": "PETCARE-CLINIC-WAVE-STEADY-STATE-ADMISSION",
+  "assertions_passed": 9,
+  "assertions_total": 9,
+  "results": [
+    {
+      "assertion": "baseline_commit_match",
+      "ok": true
+    },
+    {
+      "assertion": "five_steady_state_docs_present",
+      "ok": true
+    },
+    {
+      "assertion": "four_clinics_in_admission_scope",
+      "ok": true
+    },
+    {
+      "assertion": "eight_admission_criteria_defined",
+      "ok": true
+    },
+    {
+      "assertion": "three_admission_outcomes_defined",
+      "ok": true
+    },
+    {
+      "assertion": "eight_steady_state_controls_defined",
+      "ok": true
+    },
+    {
+      "assertion": "three_authority_layers_defined",
+      "ok": true
+    },
+    {
+      "assertion": "eight_reporting_outputs_defined",
+      "ok": true
+    },
+    {
+      "assertion": "state_transition_defined",
+      "ok": true
+    }
+  ],
+  "status": "OK"
+}
