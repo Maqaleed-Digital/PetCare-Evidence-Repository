@@ -1,0 +1,75 @@
+{
+  "pack_id": "PETCARE-PILOT-ACTIVATION-READINESS",
+  "contracts": {
+    "pilot-clinic": {
+      "assert_pilot_scope": {
+        "input": {
+          "clinic_id": "string",
+          "surface_set": ["owner","vet","pharmacy","clinic_admin","emergency"],
+          "pilot_mode": "governed_live_pilot"
+        },
+        "output": {
+          "allowed": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "activation-gates": {
+      "evaluate_activation_gate": {
+        "input": {
+          "gate_class": "clinical|ai_governance|security|ops_readiness|deployment_readiness",
+          "evidence_bundle_id": "string",
+          "status": "pass|fail"
+        },
+        "output": {
+          "accepted": "boolean"
+        }
+      }
+    },
+    "live-validation": {
+      "assert_surface_readiness": {
+        "input": {
+          "surface_id": "owner|vet|pharmacy|clinic_admin|emergency",
+          "validation_state": "ready|blocked|review_required"
+        },
+        "output": {
+          "surface_ready": "boolean"
+        }
+      }
+    },
+    "human-approval": {
+      "assert_approval_required": {
+        "input": {
+          "action_class": "clinical_signoff|prescription_issue|dispense_release|emergency_referral|pilot_activation",
+          "human_review_recorded": "boolean"
+        },
+        "output": {
+          "approval_ok": "boolean"
+        }
+      }
+    },
+    "kill-switch": {
+      "assert_halt_path_defined": {
+        "input": {
+          "halt_scope": "ai_only|surface_only|clinic_pilot|full_pilot",
+          "owner_role": "platform_admin|ops_lead|clinic_admin"
+        },
+        "output": {
+          "halt_ready": "boolean"
+        }
+      }
+    },
+    "pilot-evidence": {
+      "assert_evidence_capture_scope": {
+        "input": {
+          "bundle_id": "string",
+          "required_components": ["audit","validation","safety","approval","activation"],
+          "manifest_present": "boolean"
+        },
+        "output": {
+          "capture_complete": "boolean"
+        }
+      }
+    }
+  }
+}

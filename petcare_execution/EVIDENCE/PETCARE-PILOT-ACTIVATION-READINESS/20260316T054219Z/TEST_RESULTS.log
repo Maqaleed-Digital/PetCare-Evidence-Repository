@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-PILOT-ACTIVATION-READINESS
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=pilot_activation_registry_present RESULT=PASS
+CHECK=pilot_activation_api_contracts_present RESULT=PASS
+CHECK=pilot_clinic_specs_present RESULT=PASS
+CHECK=activation_gate_specs_present RESULT=PASS
+CHECK=live_validation_specs_present RESULT=PASS
+CHECK=human_approval_specs_present RESULT=PASS
+CHECK=kill_switch_specs_present RESULT=PASS
+CHECK=pilot_ai_boundary_present RESULT=PASS

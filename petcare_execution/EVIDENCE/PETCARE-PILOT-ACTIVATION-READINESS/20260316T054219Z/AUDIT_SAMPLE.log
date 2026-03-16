@@ -1,0 +1,3 @@
+{"event_name":"pilot.activation.reviewed","actor_id":"ops_lead_001","tenant_id":"platform","entity_type":"pilot_clinic","entity_id":"clinic_pilot_12001","timestamp_utc":"2026-03-16T00:00:00Z"}
+{"event_name":"pilot.human.approval.recorded","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"approval_chain","entity_id":"approval_12002","timestamp_utc":"2026-03-16T00:03:00Z"}
+{"event_name":"pilot.kill_switch.verified","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"kill_switch","entity_id":"halt_12003","timestamp_utc":"2026-03-16T00:06:00Z"}

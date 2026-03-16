@@ -1,0 +1,96 @@
+{
+  "pack_id": "PETCARE-PILOT-ACTIVATION-READINESS",
+  "timestamp_utc": "20260316T054219Z",
+  "program_state_input": "deployment_readiness_established",
+  "pilot_domains": [
+    "pilot-clinic",
+    "activation-gates",
+    "live-validation",
+    "human-approval",
+    "kill-switch",
+    "pilot-evidence",
+    "ai-boundaries"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PILOT-ACTIVATION-READINESS/20260316T054219Z/AUDIT_SAMPLE.log",
+      "sha256": "a49599de8bb5b1d7ba8ea210d0994471dbdbe79c168b0e60a04418cabc5b0721"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PILOT-ACTIVATION-READINESS/20260316T054219Z/FILE_LISTING.txt",
+      "sha256": "ad2b9d08d0fcfc7064dfad2a47b2cde62bfa8a7adae90c03f6c13defdbacb881"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PILOT-ACTIVATION-READINESS/20260316T054219Z/TEST_RESULTS.log",
+      "sha256": "bb72e36e6da492b9cd4b99f12beaede56294e7eb515a160043d20ca73a16bd9a"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/PETCARE_PILOT_ACTIVATION_README.md",
+      "sha256": "186ffb411c65bd1c2f1be67d690596901af3c6cb001ef53997a8ac1951ed056e"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/PILOT_ACTIVATION_API_CONTRACTS.json",
+      "sha256": "0a18145769dcfa6d3a2812557dbe61052d9936d834e2b3fbc422122bb3e2eb05"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/PILOT_ACTIVATION_REGISTRY.json",
+      "sha256": "f50468b6227e14d9290b241553c1ea2b26d91b0130266a551457ad68421d2243"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/activation-gates/ACTIVATION_CHECKLIST.md",
+      "sha256": "7b5afd231c93487f59f9cfc164de52a5985a31e3a6b5dc974e56c8ae01ee00c2"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/activation-gates/ACTIVATION_GATE_MATRIX.md",
+      "sha256": "9cba135aa693d1d3d25b50fcf363bac58215788dbabab81d08b09ff3c5056374"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/ai-boundaries/PILOT_AI_BOUNDARY.md",
+      "sha256": "df61dde8a8139d192028ef03117f0b7d6bb87de12aa259f988b050de9f5573d1"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/ai-boundaries/PILOT_AI_OUTPUT_SCHEMA.json",
+      "sha256": "112b45a5b1b0a3bf95f1f8bf6d91886d081ee90011065e3fdbd796f68c2e46ec"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/human-approval/APPROVAL_CHAIN_POLICY.md",
+      "sha256": "ffb2400773d052c645b5e58d7e4799b3392ef905ed727dbce83155f7162f636c"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/human-approval/HUMAN_APPROVAL_MATRIX.md",
+      "sha256": "20b13f04a46712847fc1aaed5add2fcee009f6773a5f34e3001c545a75d94b4c"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/kill-switch/KILL_SWITCH_POLICY.md",
+      "sha256": "48bb747276c3ba4a034466670d6c0e0b7cdf6dfe12c7b6d47268b817a258af7b"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/kill-switch/SAFE_DISABLE_RECOVERY.md",
+      "sha256": "19944e8c69efde47324e217e722da0c2f2b8aec5b05299d9e492d4f14697ace0"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/live-validation/LIVE_RUNTIME_VALIDATION.md",
+      "sha256": "45e5e6dce6bb922d8da76b7ea7ee4bf3c1cec5749944dd77f341e0b091c1747a"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/live-validation/SURFACE_VALIDATION_MATRIX.md",
+      "sha256": "32b60d18eb642c17ce4c9615546a69bf597f7dfd62d6cdd7cb115e65b21a219e"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/pilot-clinic/PILOT_CLINIC_PROFILE.md",
+      "sha256": "0ab9d21ac9e7920441a1d276d7a66bdd401d8b66ad6f17b303b83dc1e4a1133b"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/pilot-clinic/PILOT_SCOPE_BOUNDARY.md",
+      "sha256": "3ad93c82db78a0432c0b215816dbd06f0c3f7b3b4d939816ace81c73de64f934"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/pilot-evidence/LIVE_EVIDENCE_CAPTURE_SPEC.md",
+      "sha256": "c0b2a290ada4a0ec7dcc16d6663e7f224c3cbd6c45f4513fe158fd220fc0754a"
+    },
+    {
+      "path": "petcare_execution/PILOT_ACTIVATION_READINESS/pilot-evidence/PILOT_EVIDENCE_CONTRACT.md",
+      "sha256": "6215076feb0b7e37ed8ee9781d0cfa8bc54593dbc9a73cebab8c8465bd8b9d42"
+    }
+  ]
+}
