@@ -1,0 +1,22 @@
+{
+ "pack_id": "PETCARE-INTEGRATED-SURFACE-READINESS",
+ "surfaces":[
+  "owner",
+  "vet",
+  "pharmacy",
+  "clinic_admin",
+  "emergency"
+ ],
+ "runtime_domains":[
+  "clinical_runtime",
+  "pharmacy_runtime",
+  "platform_operations",
+  "owner_experience"
+ ],
+ "integration_principles":[
+  "read_models_for_ui",
+  "write_actions_governed_by_roles",
+  "audit_event_emission_required",
+  "consent_validation_before_data_access"
+ ]
+}

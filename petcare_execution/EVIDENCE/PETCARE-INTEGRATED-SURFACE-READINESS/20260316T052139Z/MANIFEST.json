@@ -1,0 +1,30 @@
+{
+  "pack_id": "PETCARE-INTEGRATED-SURFACE-READINESS",
+  "timestamp_utc": "20260316T052139Z",
+  "tracked_files": [
+    {
+      "path": "petcare_execution/INTEGRATED_SURFACES/INTEGRATED_SURFACE_READINESS.md",
+      "sha256": "2b3dcd69288faa0f34d0adb98169e344c45741a090e0467ae153fd4fc5bb35d6"
+    },
+    {
+      "path": "petcare_execution/INTEGRATED_SURFACES/ai-surface-controls/AI_SURFACE_BOUNDARY.md",
+      "sha256": "b102e3771bad01b16e379e2049a9b61f9a76d72551ea8e1a092663c9510316f4"
+    },
+    {
+      "path": "petcare_execution/INTEGRATED_SURFACES/surface-contracts/SURFACE_RUNTIME_CONTRACTS.json",
+      "sha256": "4f90b99d77e84fb3726cfd96b16973bec4ac06d8c4e5e40cafe25bdd9ab84bc9"
+    },
+    {
+      "path": "petcare_execution/INTEGRATED_SURFACES/integration-policies/INTEGRATION_POLICY.md",
+      "sha256": "57f8d167c6f75c6ecc226ea48db597441766fe7032c1caf14d1b97fb308f3ec5"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-INTEGRATED-SURFACE-READINESS/20260316T052139Z/FILE_LISTING.txt",
+      "sha256": "a8c4f0ed464f0b49c0297cb5433bc4e4938673807f2e268bcb68175839f93980"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-INTEGRATED-SURFACE-READINESS/20260316T052139Z/TEST_RESULTS.log",
+      "sha256": "d9762aff0b2fcf30535ac76a2f62a48ebb6dc0e1f3935fe24ab74cfaa72445c7"
+    }
+  ]
+}
