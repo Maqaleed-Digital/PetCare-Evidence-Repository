@@ -1,0 +1,78 @@
+{
+  "pack_id": "PETCARE-CLINICAL-RUNTIME",
+  "timestamp_utc": "20260316T045919Z",
+  "program_state_input": "runtime_foundations_established",
+  "domains": [
+    "uphr",
+    "consultation",
+    "clinical-signoff",
+    "escalation",
+    "ai-assist"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/CLINICAL_API_CONTRACTS.json",
+      "sha256": "a18eca0a725b4b376780fa8ebdaf3fb4edebf03350271c9e8b16af329fb6970b"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/CLINICAL_SERVICE_REGISTRY.json",
+      "sha256": "2419fe5250712d6cfec80cc6dc72f872e343346bdec2f5964d73aea7d57f298e"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/PETCARE_CLINICAL_RUNTIME_README.md",
+      "sha256": "41c16f76347d77ef75ed254c61399abfa9a8f5ce2b599c4a3e7a5268effd5054"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/ai-assist/AI_ASSIST_CLINICAL_BOUNDARY.md",
+      "sha256": "2a1360b25c2a6eda86ce1e9c72084e1acdc1de1098a116fbcdedfc0305e24c01"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/ai-assist/CLINICAL_AI_OUTPUT_SCHEMA.json",
+      "sha256": "403f8f065979322606b13baede63c6460a1baeef652b1a1c813497fa8d2c14f5"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/clinical-signoff/CLINICAL_SIGNOFF_POLICY.md",
+      "sha256": "35abed3f549216e8289d162cecb2baf68a7198a9b2d721b4e6d7c20dd9546462"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/clinical-signoff/POST_SIGN_AMENDMENT_RULES.md",
+      "sha256": "243a8f3e7695ccf6b031b3aa16eed9da5f39d9ae64bd62bb5615b9b54feb3937"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/consultation/CONSULTATION_WORKFLOW_SPEC.md",
+      "sha256": "bde2ab7c943e59b9472ce09afb45c9b7570ce7861071c396cb1e8bed86ac2bc8"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/consultation/SOAP_NOTE_CONTRACT.md",
+      "sha256": "bc939863c3c79ba7b969d8f2011b5755381c2ba26b7b797c5dad20a6acd88345"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/escalation/RED_FLAG_RULESET.md",
+      "sha256": "b3d5fa8c7ff785d6171a0c1a530d3223755ce28d8e6c3d841f98543a58fb6949"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/escalation/REFERRAL_PACKET_SPEC.md",
+      "sha256": "95a083576795cc098ecdcdd45400008c9618bbc621a2752bba52885d0f9c7e96"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/uphr/UPHR_SCHEMA.md",
+      "sha256": "8b4406c60ec67d8ddd045f605a4a63386572b9912ee401bd8ed5cd7fb58eddab"
+    },
+    {
+      "path": "petcare_execution/CLINICAL_RUNTIME/uphr/UPHR_TIMELINE_READ_MODEL.md",
+      "sha256": "a8a5f989c9310cbf19b7fe69632f9c4fa82e1736d7a66e3a6315c31b35f225b5"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINICAL-RUNTIME/20260316T045919Z/AUDIT_SAMPLE.log",
+      "sha256": "96de3a0e82f9801376173b752ab1b2c7f718eb8362339a5127cf0ad89091379b"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINICAL-RUNTIME/20260316T045919Z/FILE_LISTING.txt",
+      "sha256": "c92a173629d5960901588226d4fde7b05301bd8ce09528c8c4e518acc26870c7"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-CLINICAL-RUNTIME/20260316T045919Z/TEST_RESULTS.log",
+      "sha256": "85fc99f05efce4f74085a86e307ac8e0c99ae80086e0cdacbde3b2eaa0d218b7"
+    }
+  ]
+}

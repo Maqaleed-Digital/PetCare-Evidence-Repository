@@ -1,0 +1,100 @@
+{
+  "pack_id": "PETCARE-CLINICAL-RUNTIME",
+  "contracts": {
+    "uphr": {
+      "append_clinical_timeline_event": {
+        "input": {
+          "pet_id": "string",
+          "tenant_id": "string",
+          "event_type": "consultation|prescription|vaccination|lab|emergency",
+          "event_id": "string",
+          "timestamp_utc": "string"
+        },
+        "output": {
+          "written": "boolean",
+          "timeline_event_id": "string"
+        }
+      }
+    },
+    "consultation": {
+      "open_consultation": {
+        "input": {
+          "consultation_id": "string",
+          "pet_id": "string",
+          "owner_id": "string",
+          "vet_id": "string",
+          "tenant_id": "string"
+        },
+        "output": {
+          "status": "opened"
+        }
+      },
+      "finalize_consultation_for_signoff": {
+        "input": {
+          "consultation_id": "string",
+          "vet_id": "string"
+        },
+        "output": {
+          "status": "ready_for_signoff"
+        }
+      }
+    },
+    "clinical-signoff": {
+      "sign_consultation": {
+        "input": {
+          "consultation_id": "string",
+          "vet_id": "string",
+          "signature_timestamp_utc": "string"
+        },
+        "output": {
+          "status": "signed",
+          "record_locked": "boolean"
+        }
+      }
+    },
+    "escalation": {
+      "evaluate_red_flags": {
+        "input": {
+          "species": "string",
+          "symptoms": ["string"],
+          "severity_inputs": ["string"]
+        },
+        "output": {
+          "escalation_required": "boolean",
+          "matched_rules": ["string"]
+        }
+      },
+      "generate_referral_packet": {
+        "input": {
+          "consultation_id": "string",
+          "pet_id": "string",
+          "owner_id": "string"
+        },
+        "output": {
+          "packet_generated": "boolean",
+          "required_sections": [
+            "summary",
+            "allergies",
+            "medications",
+            "last_notes",
+            "consent_status"
+          ]
+        }
+      }
+    },
+    "ai-assist": {
+      "draft_soap_note": {
+        "input": {
+          "consultation_id": "string",
+          "case_id": "string",
+          "model_name": "string",
+          "model_version": "string"
+        },
+        "output": {
+          "draft_generated": "boolean",
+          "requires_human_approval": "boolean"
+        }
+      }
+    }
+  }
+}

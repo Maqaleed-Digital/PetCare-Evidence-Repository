@@ -1,0 +1,53 @@
+{
+  "pack_id": "PETCARE-CLINICAL-RUNTIME",
+  "program_state_input": "runtime_foundations_established",
+  "domains": [
+    {
+      "domain_id": "uphr",
+      "purpose": "Longitudinal pet health record and timeline",
+      "interfaces": [
+        "create_pet_record",
+        "append_clinical_timeline_event",
+        "read_pet_record",
+        "query_pet_timeline"
+      ]
+    },
+    {
+      "domain_id": "consultation",
+      "purpose": "Consultation session lifecycle and clinical note handling",
+      "interfaces": [
+        "open_consultation",
+        "save_consultation_draft",
+        "finalize_consultation_for_signoff",
+        "read_consultation"
+      ]
+    },
+    {
+      "domain_id": "clinical-signoff",
+      "purpose": "Vet sign-off immutability and post-sign lock",
+      "interfaces": [
+        "sign_consultation",
+        "assert_record_locked_after_sign",
+        "read_signed_record"
+      ]
+    },
+    {
+      "domain_id": "escalation",
+      "purpose": "Red-flag rules and emergency referral workflow",
+      "interfaces": [
+        "evaluate_red_flags",
+        "generate_referral_packet",
+        "assert_escalation_required"
+      ]
+    },
+    {
+      "domain_id": "ai-assist",
+      "purpose": "Assistive note drafting and structured clinical support",
+      "interfaces": [
+        "draft_soap_note",
+        "draft_case_summary",
+        "emit_uncertainty_and_flags"
+      ]
+    }
+  ]
+}

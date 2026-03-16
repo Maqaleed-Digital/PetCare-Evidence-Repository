@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-CLINICAL-RUNTIME
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=clinical_service_registry_present RESULT=PASS
+CHECK=clinical_api_contracts_present RESULT=PASS
+CHECK=uphr_specs_present RESULT=PASS
+CHECK=consultation_specs_present RESULT=PASS
+CHECK=clinical_signoff_specs_present RESULT=PASS
+CHECK=escalation_specs_present RESULT=PASS
+CHECK=ai_assist_specs_present RESULT=PASS
+CHECK=clinical_boundary_preserved RESULT=PASS

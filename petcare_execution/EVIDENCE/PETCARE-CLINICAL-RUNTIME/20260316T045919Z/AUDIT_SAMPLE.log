@@ -1,0 +1,3 @@
+{"event_name":"consultation.opened","actor_id":"vet_001","tenant_id":"clinic_live_baseline_001","entity_type":"consultation","entity_id":"consult_2001","timestamp_utc":"2026-03-16T00:00:00Z"}
+{"event_name":"consultation.signed","actor_id":"vet_001","tenant_id":"clinic_live_baseline_001","entity_type":"consultation","entity_id":"consult_2001","timestamp_utc":"2026-03-16T00:10:00Z"}
+{"event_name":"emergency.referral.generated","actor_id":"vet_001","tenant_id":"clinic_live_baseline_001","entity_type":"referral_packet","entity_id":"ref_3001","timestamp_utc":"2026-03-16T00:11:00Z"}

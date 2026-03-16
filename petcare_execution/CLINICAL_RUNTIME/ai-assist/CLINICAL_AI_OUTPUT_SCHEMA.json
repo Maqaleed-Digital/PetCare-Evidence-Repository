@@ -1,0 +1,20 @@
+{
+  "required_fields": [
+    "consultation_id",
+    "case_id",
+    "model_name",
+    "model_version",
+    "draft_type",
+    "uncertainty_level",
+    "flags",
+    "requires_human_approval",
+    "timestamp_utc"
+  ],
+  "boundary_rules": [
+    "no_autonomous_diagnosis",
+    "no_autonomous_prescription",
+    "no_autonomous_consultation_closure",
+    "no_autonomous_triage_finalization",
+    "human_approval_required"
+  ]
+}
