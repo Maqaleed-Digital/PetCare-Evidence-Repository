@@ -1,0 +1,12 @@
+{
+  "pack_id": "PETCARE-CLINIC-WAVE-EXECUTION-READINESS",
+  "source_of_truth_commit": "40794c8fd02e038ed89f6b2556810bf55c1ed94e",
+  "previous_governance_state": "multi_clinic_activation_wave_governance_active",
+  "new_governance_state": "clinic_wave_execution_readiness_active",
+  "wave_scope": [
+    "WAVE_2",
+    "WAVE_N"
+  ],
+  "clinic_count": 4,
+  "execution_mode": "governed_wave_execution_readiness"
+}

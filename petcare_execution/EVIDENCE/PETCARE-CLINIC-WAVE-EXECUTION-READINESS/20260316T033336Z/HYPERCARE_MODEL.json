@@ -1,0 +1,21 @@
+{
+  "entry_criteria": [
+    "admission_checklist_passes",
+    "activation_approval_issued",
+    "local_command_ownership_assigned",
+    "first_day_evidence_capture_ready"
+  ],
+  "monitoring_focus": [
+    "override_events",
+    "escalation_events",
+    "kpi_completeness",
+    "staffing_exceptions",
+    "partner_fallback_usage",
+    "ai_safety_deviations"
+  ],
+  "exit_outcomes": [
+    "admitted_to_steady_state",
+    "remain_in_hypercare",
+    "return_to_remediation"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "command_layers": [
+    "portfolio_governance_layer",
+    "wave_execution_command_layer",
+    "clinic_local_operating_layer"
+  ],
+  "required_roles": [
+    "portfolio_governance_owner",
+    "wave_execution_owner",
+    "clinical_safety_owner",
+    "ai_safety_owner",
+    "reporting_owner",
+    "escalation_owner",
+    "clinic_local_owner"
+  ],
+  "portfolio_only_decisions": [
+    "execution_start",
+    "hypercare_exit",
+    "remediation_closure",
+    "steady_state_admission"
+  ]
+}

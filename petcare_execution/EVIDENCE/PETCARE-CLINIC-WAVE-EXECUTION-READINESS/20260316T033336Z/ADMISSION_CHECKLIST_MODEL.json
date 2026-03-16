@@ -1,0 +1,18 @@
+{
+  "required_items": [
+    "clinic_code_assigned",
+    "wave_assignment_confirmed",
+    "local_clinical_lead_assigned",
+    "staffing_minimum_confirmed",
+    "human_approval_boundary_confirmed",
+    "override_capture_enabled",
+    "escalation_contact_chain_assigned",
+    "reporting_path_enabled",
+    "partner_dependency_map_recorded",
+    "evidence_directory_generation_confirmed"
+  ],
+  "decision_outcomes": [
+    "admitted_to_execution_readiness",
+    "blocked_pending_remediation"
+  ]
+}

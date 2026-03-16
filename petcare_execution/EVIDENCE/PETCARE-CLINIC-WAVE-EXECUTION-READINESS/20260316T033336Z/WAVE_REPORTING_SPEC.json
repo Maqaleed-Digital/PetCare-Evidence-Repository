@@ -1,0 +1,24 @@
+{
+  "reporting_entities": [
+    "clinic_level",
+    "wave_level",
+    "portfolio_level"
+  ],
+  "minimum_reporting_metrics": [
+    "clinic_admission_status",
+    "execution_readiness_status",
+    "hypercare_status",
+    "override_event_count",
+    "escalation_event_count",
+    "kpi_capture_completeness",
+    "staffing_exception_count",
+    "partner_fallback_count"
+  ],
+  "required_outcome_states": [
+    "not_ready",
+    "ready_for_execution",
+    "in_hypercare",
+    "ready_for_steady_state",
+    "remediation_required"
+  ]
+}

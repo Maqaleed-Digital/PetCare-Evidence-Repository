@@ -1,0 +1,36 @@
+{
+  "pack_id": "PETCARE-CLINIC-WAVE-EXECUTION-READINESS",
+  "run_id": "20260316T033336Z",
+  "source_of_truth_commit": "40794c8fd02e038ed89f6b2556810bf55c1ed94e",
+  "generated_at_utc": "20260316T033336Z",
+  "files": [
+    {
+      "path": "ADMISSION_CHECKLIST_MODEL.json",
+      "sha256": "d0de978839ad76f343cbfb7288db82bb1a6e862eec8182f30c37b225f437162e"
+    },
+    {
+      "path": "CLINIC_EXECUTION_REGISTRY.json",
+      "sha256": "5ad26219952926039f3ceb523fdd913889d2655bcf6a00a01540e994bcd1e2c3"
+    },
+    {
+      "path": "HYPERCARE_MODEL.json",
+      "sha256": "ca099cc0d9f2ed89b87b11b47bed5246939fb26ef7f13e4fe0a52e70116ed6f5"
+    },
+    {
+      "path": "OPERATING_COMMAND_MODEL.json",
+      "sha256": "0526e1643afe56dc8d3979066543799af27aab404ccc4845e94d643cabe6fa23"
+    },
+    {
+      "path": "PACK_SUMMARY.json",
+      "sha256": "7e3224550d3b8b90107ea59cbe186efcf3076d913b10023e3dc739b7d78ecc6d"
+    },
+    {
+      "path": "VALIDATION_REPORT.json",
+      "sha256": "94eab335f312444f397b929c6b858efacc8733c76a8aa3e909d02a4311465835"
+    },
+    {
+      "path": "WAVE_REPORTING_SPEC.json",
+      "sha256": "606de45c9fa80a5b488ac72cc2c2615a6a98f3e6f351727a852d3a792b8525b5"
+    }
+  ]
+}
