@@ -1,0 +1,87 @@
+{
+  "pack_id": "PETCARE-PHARMACY-RUNTIME",
+  "timestamp_utc": "20260316T050636Z",
+  "program_state_input": "clinical_runtime_established",
+  "domains": [
+    "prescription",
+    "medication-safety",
+    "dose-guardrails",
+    "cold-chain",
+    "recall",
+    "ai-assist"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHARMACY-RUNTIME/20260316T050636Z/AUDIT_SAMPLE.log",
+      "sha256": "06147979f39e6dd2d34b01295d7acd3374adb6d7cfc517829d58f9a08d22084f"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHARMACY-RUNTIME/20260316T050636Z/FILE_LISTING.txt",
+      "sha256": "c057d8668df9803bce905087beada747a78150112d9ca32cb97cc345a61546b9"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHARMACY-RUNTIME/20260316T050636Z/TEST_RESULTS.log",
+      "sha256": "41326d8dac2b5e587995edbf723db48a98a8bc4569e846db254c92ae01444da5"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/PETCARE_PHARMACY_RUNTIME_README.md",
+      "sha256": "282ce028ee40c9b0d8c392d5759331bf1a6bc62f8a270bfacf96a239f9c5b20b"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/PHARMACY_API_CONTRACTS.json",
+      "sha256": "0ed8ae666c8080be7d6c14c0089820adc6e5722b94919166dc08740fdf04b604"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/PHARMACY_SERVICE_REGISTRY.json",
+      "sha256": "26ab8c55c6074141ced66b0553ae91d60095ccafad278d92810060a281dd5625"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/ai-assist/PHARMACY_AI_BOUNDARY.md",
+      "sha256": "3239c64e94b7e29b880145da939ad1a763c1b5947e1d5e8893a7147a4a83c207"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/ai-assist/PHARMACY_AI_OUTPUT_SCHEMA.json",
+      "sha256": "14c69f6d065e7337f27c005ea2f09cb25f1ff9778f0eced9a28f02815b10ce68"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/cold-chain/COLD_CHAIN_ROUTING_SPEC.md",
+      "sha256": "f20b406c2a10fc18acd6ef2576a7a080e7e5c7662b26c237dc0f2e225ce57fd4"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/cold-chain/COURIER_COMPLIANCE_RULES.md",
+      "sha256": "f70bd82d1b5c4af41396c7933438d8826f457a2c2728ef61040f6b7d462367f0"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/dose-guardrails/DOSE_EDGE_CASE_MATRIX.md",
+      "sha256": "bc2f69f626a8b5182f24ba581e8a4b3ab5ff2cc4c0f3181d59b0667ec1ff3219"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/dose-guardrails/DOSE_GUARDRAIL_SPEC.md",
+      "sha256": "2b37e1e921d78fe7d8eb3f34fe9f5238f564fff58d50a40a5b9cbb51f5309d39"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/medication-safety/MEDICATION_SAFETY_ENGINE_SPEC.md",
+      "sha256": "d58961d96bb99850050091aafa700cfa608165eb6102cff5f8e8596a3fc4294e"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/medication-safety/SAFETY_OVERRIDE_POLICY.md",
+      "sha256": "db2ed9510de7a1b4563d368af7829eea62d6fa14c1947a5e92150882f3163547"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/prescription/PRESCRIPTION_LIFECYCLE_SPEC.md",
+      "sha256": "7eb14ae442914f46ea8f14d632f19b2995f07f282ba60703233bec73dcc31d7b"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/prescription/PRESCRIPTION_ROLE_ENFORCEMENT.md",
+      "sha256": "6eabcdb9b7e55bdb8cae4e546fca8d936f71cdd809e660547bdab6db3ee29cd1"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/recall/IMPACTED_PATIENT_DETECTION_RULES.md",
+      "sha256": "51586f41807b109200f24bbe273817802d3269f2da7376268a1151930c5ccf59"
+    },
+    {
+      "path": "petcare_execution/PHARMACY_RUNTIME/recall/RECALL_WORKFLOW_SPEC.md",
+      "sha256": "a245c5f335b83bcefef65b1e446ee967d70946f01f799a0e4a675ab500acf082"
+    }
+  ]
+}

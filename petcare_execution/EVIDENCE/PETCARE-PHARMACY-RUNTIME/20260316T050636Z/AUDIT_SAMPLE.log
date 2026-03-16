@@ -1,0 +1,3 @@
+{"event_name":"prescription.created","actor_id":"vet_001","tenant_id":"clinic_live_baseline_001","entity_type":"prescription","entity_id":"rx_4001","timestamp_utc":"2026-03-16T00:00:00Z"}
+{"event_name":"medication.safety.reviewed","actor_id":"pharmacy_operator_001","tenant_id":"clinic_live_baseline_001","entity_type":"prescription","entity_id":"rx_4001","timestamp_utc":"2026-03-16T00:03:00Z"}
+{"event_name":"recall.outreach.generated","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"recall_outreach","entity_id":"recall_5001","timestamp_utc":"2026-03-16T00:05:00Z"}

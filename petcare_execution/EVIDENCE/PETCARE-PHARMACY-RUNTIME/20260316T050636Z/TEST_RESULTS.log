@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-PHARMACY-RUNTIME
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=pharmacy_service_registry_present RESULT=PASS
+CHECK=pharmacy_api_contracts_present RESULT=PASS
+CHECK=prescription_specs_present RESULT=PASS
+CHECK=medication_safety_specs_present RESULT=PASS
+CHECK=dose_guardrail_specs_present RESULT=PASS
+CHECK=cold_chain_specs_present RESULT=PASS
+CHECK=recall_specs_present RESULT=PASS
+CHECK=pharmacy_ai_boundary_preserved RESULT=PASS

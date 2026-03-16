@@ -1,0 +1,63 @@
+{
+  "pack_id": "PETCARE-PHARMACY-RUNTIME",
+  "program_state_input": "clinical_runtime_established",
+  "domains": [
+    {
+      "domain_id": "prescription",
+      "purpose": "Prescription lifecycle, role-controlled status transitions, and fulfillment readiness",
+      "interfaces": [
+        "create_prescription",
+        "review_prescription",
+        "approve_prescription",
+        "mark_ready_for_dispense",
+        "read_prescription"
+      ]
+    },
+    {
+      "domain_id": "medication-safety",
+      "purpose": "Interaction, allergy, contraindication, and substitution safety checks",
+      "interfaces": [
+        "evaluate_interactions",
+        "evaluate_allergies",
+        "evaluate_contraindications",
+        "emit_safety_decision"
+      ]
+    },
+    {
+      "domain_id": "dose-guardrails",
+      "purpose": "Species, breed, weight, and age-aware dose validation",
+      "interfaces": [
+        "calculate_dose_window",
+        "validate_prescribed_dose",
+        "emit_dose_guardrail_result"
+      ]
+    },
+    {
+      "domain_id": "cold-chain",
+      "purpose": "Cold-chain requirement tagging and compliant routing controls",
+      "interfaces": [
+        "tag_cold_chain_requirement",
+        "validate_courier_compliance",
+        "emit_routing_decision"
+      ]
+    },
+    {
+      "domain_id": "recall",
+      "purpose": "Recall identification, impacted-patient detection, and outreach workflow",
+      "interfaces": [
+        "register_recall_notice",
+        "identify_impacted_prescriptions",
+        "generate_recall_outreach_list"
+      ]
+    },
+    {
+      "domain_id": "ai-assist",
+      "purpose": "Assistive pharmacy safety support and structured warning surfacing",
+      "interfaces": [
+        "draft_safety_summary",
+        "surface_risk_flags",
+        "emit_uncertainty_and_requires_human_review"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,105 @@
+{
+  "pack_id": "PETCARE-PHARMACY-RUNTIME",
+  "contracts": {
+    "prescription": {
+      "create_prescription": {
+        "input": {
+          "prescription_id": "string",
+          "consultation_id": "string",
+          "pet_id": "string",
+          "vet_id": "string",
+          "tenant_id": "string",
+          "medication_code": "string",
+          "dose_text": "string"
+        },
+        "output": {
+          "status": "created"
+        }
+      },
+      "approve_prescription": {
+        "input": {
+          "prescription_id": "string",
+          "reviewer_role": "vet|pharmacy_operator",
+          "approval_timestamp_utc": "string"
+        },
+        "output": {
+          "status": "approved",
+          "ready_for_dispense": "boolean"
+        }
+      }
+    },
+    "medication-safety": {
+      "emit_safety_decision": {
+        "input": {
+          "prescription_id": "string",
+          "pet_id": "string",
+          "active_medications": ["string"],
+          "allergies": ["string"],
+          "contraindication_context": ["string"]
+        },
+        "output": {
+          "blocked": "boolean",
+          "warnings": ["string"],
+          "override_allowed": "boolean"
+        }
+      }
+    },
+    "dose-guardrails": {
+      "validate_prescribed_dose": {
+        "input": {
+          "prescription_id": "string",
+          "species": "string",
+          "breed": "string",
+          "weight_kg": "number",
+          "age_months": "number",
+          "prescribed_dose": "string"
+        },
+        "output": {
+          "within_guardrails": "boolean",
+          "reason_codes": ["string"]
+        }
+      }
+    },
+    "cold-chain": {
+      "emit_routing_decision": {
+        "input": {
+          "prescription_id": "string",
+          "requires_cold_chain": "boolean",
+          "courier_id": "string",
+          "courier_capabilities": ["string"]
+        },
+        "output": {
+          "routing_allowed": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "recall": {
+      "generate_recall_outreach_list": {
+        "input": {
+          "recall_id": "string",
+          "medication_code": "string",
+          "affected_lot_codes": ["string"]
+        },
+        "output": {
+          "impacted_count": "number",
+          "outreach_list_generated": "boolean"
+        }
+      }
+    },
+    "ai-assist": {
+      "draft_safety_summary": {
+        "input": {
+          "prescription_id": "string",
+          "case_id": "string",
+          "model_name": "string",
+          "model_version": "string"
+        },
+        "output": {
+          "draft_generated": "boolean",
+          "requires_human_review": "boolean"
+        }
+      }
+    }
+  }
+}
