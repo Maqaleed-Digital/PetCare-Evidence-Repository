@@ -1,0 +1,3 @@
+{"event_name":"portfolio.kpi.aggregated","actor_id":"ops_lead_001","tenant_id":"platform","entity_type":"portfolio_report","entity_id":"report_16001","timestamp_utc":"2026-03-16T00:00:00Z"}
+{"event_name":"portfolio.intervention.reviewed","actor_id":"executive_001","tenant_id":"platform","entity_type":"intervention","entity_id":"intervention_16002","timestamp_utc":"2026-03-16T00:04:00Z"}
+{"event_name":"portfolio.variance.reviewed","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"variance_review","entity_id":"variance_16003","timestamp_utc":"2026-03-16T00:08:00Z"}

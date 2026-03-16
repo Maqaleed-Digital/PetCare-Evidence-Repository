@@ -1,0 +1,69 @@
+{
+  "pack_id": "PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE",
+  "program_state_input": "multi_clinic_activation_wave_governance_established",
+  "domains": [
+    {
+      "domain_id": "portfolio-model",
+      "purpose": "Define portfolio reporting scope and clinic aggregation boundaries",
+      "interfaces": [
+        "read_portfolio_scope",
+        "assert_clinic_membership",
+        "read_portfolio_status"
+      ]
+    },
+    {
+      "domain_id": "kpi-aggregation",
+      "purpose": "Define multi-clinic KPI aggregation and reporting classes",
+      "interfaces": [
+        "read_kpi_matrix",
+        "assert_kpi_aggregation_rule",
+        "read_aggregate_status"
+      ]
+    },
+    {
+      "domain_id": "executive-visibility",
+      "purpose": "Define executive reporting views and visibility controls",
+      "interfaces": [
+        "read_executive_view_model",
+        "assert_visibility_scope",
+        "read_reporting_cadence"
+      ]
+    },
+    {
+      "domain_id": "intervention-governance",
+      "purpose": "Define portfolio intervention thresholds and action governance",
+      "interfaces": [
+        "read_intervention_matrix",
+        "assert_intervention_threshold",
+        "read_intervention_owner_role"
+      ]
+    },
+    {
+      "domain_id": "cross-clinic-comparison",
+      "purpose": "Define comparative reporting and variance review across clinics",
+      "interfaces": [
+        "read_comparison_model",
+        "assert_comparison_scope",
+        "read_variance_review_state"
+      ]
+    },
+    {
+      "domain_id": "portfolio-evidence",
+      "purpose": "Define portfolio evidence bundles and reporting audit contract",
+      "interfaces": [
+        "read_portfolio_evidence_contract",
+        "assert_portfolio_bundle_complete",
+        "read_reporting_bundle_requirements"
+      ]
+    },
+    {
+      "domain_id": "ai-boundaries",
+      "purpose": "Preserve assistive-only AI controls during portfolio reporting and scale governance",
+      "interfaces": [
+        "read_portfolio_ai_boundary",
+        "assert_human_review_required",
+        "read_portfolio_ai_constraints"
+      ]
+    }
+  ]
+}

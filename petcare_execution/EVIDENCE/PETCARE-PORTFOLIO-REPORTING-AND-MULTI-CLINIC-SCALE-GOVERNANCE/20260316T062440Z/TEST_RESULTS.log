@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=portfolio_scale_registry_present RESULT=PASS
+CHECK=portfolio_scale_api_contracts_present RESULT=PASS
+CHECK=portfolio_model_specs_present RESULT=PASS
+CHECK=kpi_aggregation_specs_present RESULT=PASS
+CHECK=executive_visibility_specs_present RESULT=PASS
+CHECK=intervention_governance_specs_present RESULT=PASS
+CHECK=cross_clinic_comparison_specs_present RESULT=PASS
+CHECK=portfolio_ai_boundary_present RESULT=PASS

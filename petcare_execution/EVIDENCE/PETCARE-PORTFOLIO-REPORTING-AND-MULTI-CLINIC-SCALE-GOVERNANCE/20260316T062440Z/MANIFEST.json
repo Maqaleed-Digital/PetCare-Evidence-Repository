@@ -1,0 +1,96 @@
+{
+  "pack_id": "PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE",
+  "timestamp_utc": "20260316T062440Z",
+  "program_state_input": "multi_clinic_activation_wave_governance_established",
+  "portfolio_domains": [
+    "portfolio-model",
+    "kpi-aggregation",
+    "executive-visibility",
+    "intervention-governance",
+    "cross-clinic-comparison",
+    "portfolio-evidence",
+    "ai-boundaries"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE/20260316T062440Z/AUDIT_SAMPLE.log",
+      "sha256": "7781bffcb3e0b09275c9d352a79a486778e5731052eabb4f9774e7338c8a72d1"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE/20260316T062440Z/FILE_LISTING.txt",
+      "sha256": "467ffaf9c773218afe42256f8cb61329f370c0d84b0552a2ad4ee4d03b653afc"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE/20260316T062440Z/TEST_RESULTS.log",
+      "sha256": "74c161adbeae16d979afbc48e0486f625570274d9aa3a5943b650662f8d47736"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/PETCARE_PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE_README.md",
+      "sha256": "8cbc5216b74fac06398b4782a238a078dcf2a29a3d976def8ddcd31d33daecea"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/PORTFOLIO_SCALE_API_CONTRACTS.json",
+      "sha256": "4f095ac003cf4d438d5e043507741bd3b6481d85ae4499baf47b2eebee1806c3"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/PORTFOLIO_SCALE_REGISTRY.json",
+      "sha256": "ecd502db6d48e31f7cd1e8dcec881c18b846bf32f843b319fe13c4bdf7586173"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/ai-boundaries/PORTFOLIO_AI_BOUNDARY.md",
+      "sha256": "28556ed483c017c4ff56e6cc395eccaa178a9a0453ae2847cc64fd62ad9092bd"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/ai-boundaries/PORTFOLIO_AI_OUTPUT_SCHEMA.json",
+      "sha256": "586eb2d450361e19a027c1ec5efcaa8e2fc8380ed69947676ee23ddd4975c195"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/cross-clinic-comparison/CROSS_CLINIC_COMPARISON_MODEL.md",
+      "sha256": "e5e66e47bc75daebe06274f603394b1acfb0ca42cb37fe3b918ed41fc3ab1444"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/cross-clinic-comparison/VARIANCE_REVIEW_POLICY.md",
+      "sha256": "cb3bcb3448f5b92b389e98b50ef6080b951e32689cecf2afadcbc7ef2114e24f"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/executive-visibility/EXECUTIVE_VISIBILITY_MODEL.md",
+      "sha256": "1f34db8b2c803499ed5f01e4b77151736f354f7bb17bf3ffa888bbd434f4a2e1"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/executive-visibility/REPORT_VIEW_ACCESS_POLICY.md",
+      "sha256": "e92a2b0518fe481b310b2aabfce6a829cb96ef6e456995e50b50c739da4a994a"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/intervention-governance/EXECUTIVE_INTERVENTION_POLICY.md",
+      "sha256": "6dd3954291866681b057dab3eea4e5253e7484a14a1417a3e2ed900a4577b9f3"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/intervention-governance/INTERVENTION_THRESHOLD_MATRIX.md",
+      "sha256": "dcf253be29e4ee42f61222cbe27c14f17aaa041772166a11de74671d07fd6917"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/kpi-aggregation/KPI_AGGREGATION_MATRIX.md",
+      "sha256": "159e40cc5bf7ee3a040c69dd89996f80959f53f5151edc42597b95f3856f4f64"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/kpi-aggregation/REPORTING_CADENCE_POLICY.md",
+      "sha256": "4f0a07405f7412b373a4489ec2bc54ddbb769d4ca8e599e8c43ed3eede14227e"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/portfolio-evidence/PORTFOLIO_AUDIT_CAPTURE_SPEC.md",
+      "sha256": "c502eab27a735357ecf2abcc8ed71a9765808c44d4ffd694d52b4f73e50d0f09"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/portfolio-evidence/PORTFOLIO_EVIDENCE_CONTRACT.md",
+      "sha256": "a2654cd137083779c490600fbb7d970e6e0ea6fcc9b0e309dec53a7a992b5e74"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/portfolio-model/CLINIC_MEMBERSHIP_POLICY.md",
+      "sha256": "5d517e479e5223caf5688f7a7284f02cfdd75fd7ed5aa931f1a5a23066d2e5cb"
+    },
+    {
+      "path": "petcare_execution/PORTFOLIO_REPORTING_AND_MULTI_CLINIC_SCALE_GOVERNANCE/portfolio-model/PORTFOLIO_REPORTING_MODEL.md",
+      "sha256": "f2d0fa405820664e44c2110f570ec7b19ec13a5cbf69ee6892afa632fd710af9"
+    }
+  ]
+}

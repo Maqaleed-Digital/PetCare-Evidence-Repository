@@ -1,0 +1,78 @@
+{
+  "pack_id": "PETCARE-PORTFOLIO-REPORTING-AND-MULTI-CLINIC-SCALE-GOVERNANCE",
+  "contracts": {
+    "portfolio-model": {
+      "assert_clinic_membership": {
+        "input": {
+          "portfolio_id": "string",
+          "clinic_id": "string",
+          "membership_state": "included|excluded|review_required"
+        },
+        "output": {
+          "valid": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "kpi-aggregation": {
+      "assert_kpi_aggregation_rule": {
+        "input": {
+          "kpi_class": "clinical|ops|safety|ai_governance|financial_proxy",
+          "aggregation_method": "sum|average|rate|count",
+          "clinic_count": "number"
+        },
+        "output": {
+          "rule_valid": "boolean"
+        }
+      }
+    },
+    "executive-visibility": {
+      "assert_visibility_scope": {
+        "input": {
+          "view_id": "string",
+          "viewer_role": "platform_admin|ops_lead|executive",
+          "scope_class": "portfolio|wave|clinic"
+        },
+        "output": {
+          "allowed": "boolean"
+        }
+      }
+    },
+    "intervention-governance": {
+      "assert_intervention_threshold": {
+        "input": {
+          "threshold_class": "clinical|ops|safety|ai|scale",
+          "threshold_breached": "boolean",
+          "owner_role": "platform_admin|ops_lead|executive"
+        },
+        "output": {
+          "intervention_required": "boolean"
+        }
+      }
+    },
+    "cross-clinic-comparison": {
+      "assert_comparison_scope": {
+        "input": {
+          "comparison_id": "string",
+          "clinic_ids": ["string"],
+          "metric_class": "clinical|ops|safety|ai_governance"
+        },
+        "output": {
+          "comparison_valid": "boolean"
+        }
+      }
+    },
+    "portfolio-evidence": {
+      "assert_portfolio_bundle_complete": {
+        "input": {
+          "bundle_id": "string",
+          "required_components": ["kpi","visibility","intervention","comparison","audit"],
+          "manifest_present": "boolean"
+        },
+        "output": {
+          "complete": "boolean"
+        }
+      }
+    }
+  }
+}
