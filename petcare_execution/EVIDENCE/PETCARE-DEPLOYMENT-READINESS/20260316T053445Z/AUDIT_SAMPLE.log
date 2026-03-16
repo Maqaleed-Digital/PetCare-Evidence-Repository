@@ -1,0 +1,3 @@
+{"event_name":"release.gate.evaluated","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"release_candidate","entity_id":"rel_11001","timestamp_utc":"2026-03-16T00:00:00Z"}
+{"event_name":"deployment.readiness.reviewed","actor_id":"ops_lead_001","tenant_id":"platform","entity_type":"deployment_bundle","entity_id":"bundle_11002","timestamp_utc":"2026-03-16T00:05:00Z"}
+{"event_name":"rollback.path.verified","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"deployment_unit","entity_id":"unit_11003","timestamp_utc":"2026-03-16T00:08:00Z"}

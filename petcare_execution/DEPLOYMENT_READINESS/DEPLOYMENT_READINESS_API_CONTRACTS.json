@@ -1,0 +1,67 @@
+{
+  "pack_id": "PETCARE-DEPLOYMENT-READINESS",
+  "contracts": {
+    "environment-topology": {
+      "assert_promotion_path": {
+        "input": {
+          "source_environment": "dev|test|stage",
+          "target_environment": "test|stage|prod",
+          "release_candidate_id": "string"
+        },
+        "output": {
+          "allowed": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "release-gates": {
+      "evaluate_release_gate": {
+        "input": {
+          "release_candidate_id": "string",
+          "evidence_bundle_id": "string",
+          "gate_classes": ["security","clinical","ai_governance","ops_readiness"]
+        },
+        "output": {
+          "passed": "boolean",
+          "failed_gates": ["string"]
+        }
+      }
+    },
+    "runtime-dependencies": {
+      "assert_dependency_classification": {
+        "input": {
+          "dependency_id": "string",
+          "dependency_class": "core_runtime|integration|observability|security|ai_support",
+          "required_for_pilot": "boolean"
+        },
+        "output": {
+          "recorded": "boolean"
+        }
+      }
+    },
+    "observability": {
+      "assert_alert_coverage": {
+        "input": {
+          "signal_class": "availability|latency|audit|safety|integration",
+          "alert_defined": "boolean",
+          "runbook_defined": "boolean"
+        },
+        "output": {
+          "coverage_ok": "boolean"
+        }
+      }
+    },
+    "rollback-incident": {
+      "assert_recovery_path": {
+        "input": {
+          "deployment_unit": "string",
+          "rollback_path_defined": "boolean",
+          "incident_owner_role": "platform_admin|clinic_admin|ops_lead"
+        },
+        "output": {
+          "recovery_ready": "boolean"
+        }
+      }
+    }
+  }
+}

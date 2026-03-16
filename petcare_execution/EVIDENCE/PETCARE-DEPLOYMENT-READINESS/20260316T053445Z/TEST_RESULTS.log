@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-DEPLOYMENT-READINESS
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=deployment_readiness_registry_present RESULT=PASS
+CHECK=deployment_readiness_api_contracts_present RESULT=PASS
+CHECK=environment_topology_specs_present RESULT=PASS
+CHECK=release_gate_specs_present RESULT=PASS
+CHECK=runtime_dependency_specs_present RESULT=PASS
+CHECK=observability_specs_present RESULT=PASS
+CHECK=rollback_incident_specs_present RESULT=PASS
+CHECK=deployment_ai_boundary_present RESULT=PASS
