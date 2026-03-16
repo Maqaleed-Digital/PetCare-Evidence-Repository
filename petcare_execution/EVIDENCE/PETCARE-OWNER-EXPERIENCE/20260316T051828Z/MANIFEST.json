@@ -1,0 +1,87 @@
+{
+  "pack_id": "PETCARE-OWNER-EXPERIENCE",
+  "timestamp_utc": "20260316T051828Z",
+  "program_state_input": "platform_operations_established",
+  "domains": [
+    "pet-profile",
+    "health-timeline",
+    "appointments",
+    "consent-management",
+    "tele-vet-access",
+    "ai-assist"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-OWNER-EXPERIENCE/20260316T051828Z/AUDIT_SAMPLE.log",
+      "sha256": "c6a5ef04065f6dd571b70cf43d9fff5b751fba1ff5704075725c0eda4e2defbd"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-OWNER-EXPERIENCE/20260316T051828Z/FILE_LISTING.txt",
+      "sha256": "5399552d4bf04f7c72e0e59666f0fc3ab3d54c9553f0c5ab8fd292773ed9de6e"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-OWNER-EXPERIENCE/20260316T051828Z/TEST_RESULTS.log",
+      "sha256": "3425b18e59a28fc44b125a27ebf2f1f0bf92fb81ff037e597a05ac593105a1e4"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/OWNER_EXPERIENCE_API_CONTRACTS.json",
+      "sha256": "c6f1aa083bde21714d38b467ecb00f33e7d63bb22a7d704ee2b7da735b899704"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/OWNER_EXPERIENCE_SERVICE_REGISTRY.json",
+      "sha256": "02a95e869ae40afa1092ecb042f6347ba3f0da77e988e7c24cf859db817dcce8"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/PETCARE_OWNER_EXPERIENCE_README.md",
+      "sha256": "9faec758764e065e6a289da339c9c191dc1bec5cd530dafaf882ee61ab1c77f1"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/ai-assist/OWNER_AI_INTAKE_BOUNDARY.md",
+      "sha256": "e0f54fe3c2251fef205f4f7dba70c64f288f74c84f0394074a6cfae6e2ba67d3"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/ai-assist/OWNER_AI_OUTPUT_SCHEMA.json",
+      "sha256": "bb6aab7dddaefe7e7c4ade87e22884c7f26d1c78f728b0607ece007367c7b5dd"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/appointments/APPOINTMENT_BOOKING_WORKFLOW.md",
+      "sha256": "7ed9b5326025e54c193fcf4de7c0f60a1765f44454e0e5c084e75e41e01a3a1c"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/appointments/APPOINTMENT_HISTORY_READ_MODEL.md",
+      "sha256": "7672f185016174400f077cae5689652f9d01b12c3a73b706bcbe5d8a32f5644c"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/consent-management/CONSENT_AUDIT_EVENT_MAPPING.md",
+      "sha256": "aa4a80f97e8cddb60045d3a745af7f2e4ca7da3a3d48e94c988a019e4b9d83b8"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/consent-management/OWNER_CONSENT_SURFACE_SPEC.md",
+      "sha256": "db2f51b62a36b2da2093c9bbcbeec77f35cd274a2ee8fbaee15f2442bf956c88"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/health-timeline/HEALTH_TIMELINE_VIEW_SPEC.md",
+      "sha256": "f9e352eba9185d52000197305b780fa86afcfcc02ea72f6a8f3110bedac89081"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/health-timeline/TIMELINE_ACCESS_POLICY.md",
+      "sha256": "cbd6e5a21887e30fa355b115208f0daa3bc161f8868bc8836ef47b7603ba60ba"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/pet-profile/PET_PROFILE_UPDATE_RULES.md",
+      "sha256": "80088d5f22f7434ae2e9fa4484e4db5817dfb4fc565c33f42d54171a92232aa1"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/pet-profile/PET_PROFILE_VIEW_SPEC.md",
+      "sha256": "f7dbef77f45bf8706dbfa8c3e825bf4d2876dae4a13884e4a99d38530ca5ff50"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/tele-vet-access/SESSION_ACCESS_STATE_MODEL.md",
+      "sha256": "e9d58c65c71a12b3411a2be1155d9b522606bbf2fef49b270e6bc595092d4a83"
+    },
+    {
+      "path": "petcare_execution/OWNER_EXPERIENCE/tele-vet-access/TELE_VET_ACCESS_SPEC.md",
+      "sha256": "79b3caab89d756ad445f451a002175edb9749d0622164c8ebf9bd053ab700302"
+    }
+  ]
+}

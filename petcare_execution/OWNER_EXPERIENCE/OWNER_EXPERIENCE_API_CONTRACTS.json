@@ -1,0 +1,108 @@
+{
+  "pack_id": "PETCARE-OWNER-EXPERIENCE",
+  "contracts": {
+    "pet-profile": {
+      "read_pet_profile": {
+        "input": {
+          "owner_id": "string",
+          "pet_id": "string",
+          "tenant_id": "string"
+        },
+        "output": {
+          "pet_profile_found": "boolean",
+          "profile_version": "string"
+        }
+      }
+    },
+    "health-timeline": {
+      "read_health_timeline": {
+        "input": {
+          "owner_id": "string",
+          "pet_id": "string",
+          "page_size": "number",
+          "cursor": "string"
+        },
+        "output": {
+          "events": ["object"],
+          "next_cursor": "string"
+        }
+      }
+    },
+    "appointments": {
+      "create_appointment_request": {
+        "input": {
+          "owner_id": "string",
+          "pet_id": "string",
+          "clinic_id": "string",
+          "requested_slot": "string",
+          "appointment_type": "tele_vet|clinic_visit"
+        },
+        "output": {
+          "appointment_id": "string",
+          "status": "requested"
+        }
+      },
+      "reschedule_appointment": {
+        "input": {
+          "appointment_id": "string",
+          "owner_id": "string",
+          "new_requested_slot": "string"
+        },
+        "output": {
+          "status": "reschedule_requested"
+        }
+      }
+    },
+    "consent-management": {
+      "grant_owner_consent": {
+        "input": {
+          "owner_id": "string",
+          "pet_id": "string",
+          "consent_scope": "clinical|pharmacy|partner_sharing|emergency",
+          "purpose": "string"
+        },
+        "output": {
+          "status": "granted"
+        }
+      },
+      "revoke_owner_consent": {
+        "input": {
+          "owner_id": "string",
+          "pet_id": "string",
+          "consent_scope": "clinical|pharmacy|partner_sharing|emergency"
+        },
+        "output": {
+          "status": "revoked"
+        }
+      }
+    },
+    "tele-vet-access": {
+      "join_session_request": {
+        "input": {
+          "owner_id": "string",
+          "appointment_id": "string",
+          "session_id": "string"
+        },
+        "output": {
+          "access_granted": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "ai-assist": {
+      "draft_symptom_intake": {
+        "input": {
+          "owner_id": "string",
+          "pet_id": "string",
+          "case_id": "string",
+          "model_name": "string",
+          "model_version": "string"
+        },
+        "output": {
+          "draft_generated": "boolean",
+          "requires_vet_review": "boolean"
+        }
+      }
+    }
+  }
+}

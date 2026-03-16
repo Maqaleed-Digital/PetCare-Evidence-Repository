@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-OWNER-EXPERIENCE
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=owner_experience_service_registry_present RESULT=PASS
+CHECK=owner_experience_api_contracts_present RESULT=PASS
+CHECK=pet_profile_specs_present RESULT=PASS
+CHECK=health_timeline_specs_present RESULT=PASS
+CHECK=appointment_specs_present RESULT=PASS
+CHECK=consent_management_specs_present RESULT=PASS
+CHECK=tele_vet_access_specs_present RESULT=PASS
+CHECK=owner_ai_boundary_preserved RESULT=PASS

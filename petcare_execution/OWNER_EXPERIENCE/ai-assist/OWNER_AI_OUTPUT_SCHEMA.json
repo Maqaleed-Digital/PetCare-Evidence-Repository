@@ -1,0 +1,21 @@
+{
+  "required_fields": [
+    "owner_id",
+    "pet_id",
+    "case_id",
+    "model_name",
+    "model_version",
+    "draft_type",
+    "red_flags",
+    "uncertainty_level",
+    "requires_vet_review",
+    "timestamp_utc"
+  ],
+  "boundary_rules": [
+    "no_autonomous_diagnosis",
+    "no_autonomous_prescription_recommendation",
+    "no_autonomous_emergency_finalization",
+    "no_autonomous_clinical_decision",
+    "vet_review_required"
+  ]
+}

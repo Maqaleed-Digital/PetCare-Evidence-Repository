@@ -1,0 +1,65 @@
+{
+  "pack_id": "PETCARE-OWNER-EXPERIENCE",
+  "program_state_input": "platform_operations_established",
+  "domains": [
+    {
+      "domain_id": "pet-profile",
+      "purpose": "Owner-facing pet identity, species, breed, age, and baseline medical summary view",
+      "interfaces": [
+        "create_pet_profile",
+        "update_pet_profile",
+        "read_pet_profile",
+        "read_pet_summary"
+      ]
+    },
+    {
+      "domain_id": "health-timeline",
+      "purpose": "Owner-facing health history timeline and event browsing",
+      "interfaces": [
+        "read_health_timeline",
+        "filter_health_timeline",
+        "paginate_health_timeline",
+        "read_timeline_event_detail"
+      ]
+    },
+    {
+      "domain_id": "appointments",
+      "purpose": "Booking, reschedule, cancel, and appointment history access",
+      "interfaces": [
+        "create_appointment_request",
+        "reschedule_appointment",
+        "cancel_appointment",
+        "read_appointment_history"
+      ]
+    },
+    {
+      "domain_id": "consent-management",
+      "purpose": "Owner-facing consent grant, revoke, and sharing-scope visibility",
+      "interfaces": [
+        "grant_owner_consent",
+        "revoke_owner_consent",
+        "read_active_consent_scopes",
+        "assert_owner_sharing_scope"
+      ]
+    },
+    {
+      "domain_id": "tele-vet-access",
+      "purpose": "Owner entry path to tele-vet session context and consultation access state",
+      "interfaces": [
+        "read_session_access_state",
+        "join_session_request",
+        "read_consultation_access_packet",
+        "read_session_history"
+      ]
+    },
+    {
+      "domain_id": "ai-assist",
+      "purpose": "Assistive owner intake support with uncertainty and escalation flagging",
+      "interfaces": [
+        "draft_symptom_intake",
+        "emit_red_flags",
+        "emit_uncertainty_and_requires_vet_review"
+      ]
+    }
+  ]
+}

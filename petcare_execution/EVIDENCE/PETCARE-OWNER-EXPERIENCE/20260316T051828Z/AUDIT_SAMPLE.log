@@ -1,0 +1,3 @@
+{"event_name":"pet.viewed","actor_id":"owner_001","tenant_id":"clinic_live_baseline_001","entity_type":"pet","entity_id":"pet_9001","timestamp_utc":"2026-03-16T00:00:00Z"}
+{"event_name":"appointment.created","actor_id":"owner_001","tenant_id":"clinic_live_baseline_001","entity_type":"appointment","entity_id":"appt_9002","timestamp_utc":"2026-03-16T00:03:00Z"}
+{"event_name":"consent.updated","actor_id":"owner_001","tenant_id":"clinic_live_baseline_001","entity_type":"consent","entity_id":"consent_9003","timestamp_utc":"2026-03-16T00:05:00Z"}
