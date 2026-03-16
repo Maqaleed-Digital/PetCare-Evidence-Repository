@@ -1,0 +1,36 @@
+{
+  "pack_id": "PETCARE-EXECUTIVE-PORTFOLIO-STEADY-STATE-VISIBILITY",
+  "run_id": "20260316T041201Z",
+  "source_of_truth_commit": "173208936a65ed8db0550f8be4850225988ced6d",
+  "generated_at_utc": "20260316T041201Z",
+  "files": [
+    {
+      "path": "EXECUTIVE_INTERVENTION_ATTENTION_MODEL.json",
+      "sha256": "94e5627d6a28740f8842c421df80a0f212558fdf7c32996ab6f052675136743f"
+    },
+    {
+      "path": "EXECUTIVE_KPI_AND_EXCEPTION_MODEL.json",
+      "sha256": "2b3c0959f99861c551234386f7ecb4fd048358ec86d10d80bcad1334a0f9d720"
+    },
+    {
+      "path": "EXECUTIVE_PORTFOLIO_CLINIC_REGISTRY.json",
+      "sha256": "50236f16b1159aa0cc2a08ddff5b34a53c23a4dad68b3c17f604c0809c95f1f9"
+    },
+    {
+      "path": "EXECUTIVE_REVIEW_REPORTING_MODEL.json",
+      "sha256": "c9e217ebc05aff1bdd43360b1d6915d43cc2a49b62d6504fbc8b16bd8359f6b4"
+    },
+    {
+      "path": "PACK_SUMMARY.json",
+      "sha256": "9649cbc1111703106cee8845232e4b2a6888814f4a1a3122240547dbf6ac977d"
+    },
+    {
+      "path": "PORTFOLIO_COMPARISON_SUMMARY_MODEL.json",
+      "sha256": "60c9bad0aa6a1fc6541471caea1e86bee25ae11cf23ad6f0c0cc8b499fe2aa5a"
+    },
+    {
+      "path": "VALIDATION_REPORT.json",
+      "sha256": "19e31966f44047e4142ae57d580d572622e4e84072e3eaa480f82c6f3dd2f1ba"
+    }
+  ]
+}

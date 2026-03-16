@@ -1,0 +1,8 @@
+{
+  "pack_id": "PETCARE-EXECUTIVE-PORTFOLIO-STEADY-STATE-VISIBILITY",
+  "source_of_truth_commit": "173208936a65ed8db0550f8be4850225988ced6d",
+  "previous_governance_state": "multi_clinic_steady_state_governance_active",
+  "new_governance_state": "executive_portfolio_steady_state_visibility_active",
+  "portfolio_clinic_count": 5,
+  "executive_visibility_mode": "portfolio_summary_and_exception_visibility"
+}

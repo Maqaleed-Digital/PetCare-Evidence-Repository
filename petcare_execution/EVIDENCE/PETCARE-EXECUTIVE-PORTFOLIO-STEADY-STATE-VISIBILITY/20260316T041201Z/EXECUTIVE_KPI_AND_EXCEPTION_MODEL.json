@@ -1,0 +1,18 @@
+{
+  "required_executive_kpis": [
+    "clinic_count_in_portfolio",
+    "steady_state_operational_count",
+    "clinics_on_watch_count",
+    "open_drift_issue_count",
+    "remediation_reentry_count",
+    "override_posture_summary",
+    "escalation_posture_summary",
+    "kpi_completeness_summary"
+  ],
+  "required_exception_views": [
+    "clinics_requiring_executive_review",
+    "clinics_with_drift_issues_open",
+    "clinics_under_remediation_reentry",
+    "clinics_under_watch_posture"
+  ]
+}

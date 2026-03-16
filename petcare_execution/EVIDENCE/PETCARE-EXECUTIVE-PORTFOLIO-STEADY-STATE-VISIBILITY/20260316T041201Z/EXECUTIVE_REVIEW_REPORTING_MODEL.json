@@ -1,0 +1,19 @@
+{
+  "required_executive_reporting_outputs": [
+    "portfolio_clinic_count",
+    "steady_state_posture_summary",
+    "watch_posture_summary",
+    "drift_issue_summary",
+    "remediation_reentry_summary",
+    "override_posture_summary",
+    "escalation_posture_summary",
+    "kpi_completeness_summary"
+  ],
+  "required_clinic_states": [
+    "steady_state_operational",
+    "steady_state_watch",
+    "drift_issue_open",
+    "remediation_reentry_required",
+    "executive_review_required"
+  ]
+}

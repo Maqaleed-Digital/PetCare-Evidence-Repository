@@ -1,0 +1,16 @@
+{
+  "attention_categories": [
+    "routine_visibility",
+    "watch_visibility",
+    "intervention_attention",
+    "urgent_portfolio_review"
+  ],
+  "attention_triggers": [
+    "control_posture_issue",
+    "drift_issue",
+    "remediation_reentry",
+    "kpi_completeness_concern",
+    "escalation_posture_concern",
+    "cross_clinic_comparison_deterioration"
+  ]
+}

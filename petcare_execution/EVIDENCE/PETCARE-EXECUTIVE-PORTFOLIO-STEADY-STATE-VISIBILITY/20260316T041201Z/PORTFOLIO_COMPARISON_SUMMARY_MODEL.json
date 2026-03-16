@@ -1,0 +1,18 @@
+{
+  "required_comparison_summary_domains": [
+    "steady_state_status_by_clinic",
+    "control_posture_by_clinic",
+    "override_posture_by_clinic",
+    "escalation_posture_by_clinic",
+    "kpi_completeness_by_clinic",
+    "drift_posture_by_clinic",
+    "remediation_posture_by_clinic",
+    "comparison_against_baseline_clinic"
+  ],
+  "required_portfolio_groupings": [
+    "baseline_live_clinic",
+    "steady_state_operational_clinics",
+    "clinics_on_watch",
+    "clinics_under_remediation_attention"
+  ]
+}

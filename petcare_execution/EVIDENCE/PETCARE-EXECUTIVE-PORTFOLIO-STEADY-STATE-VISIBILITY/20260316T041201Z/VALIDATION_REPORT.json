@@ -1,0 +1,44 @@
+{
+  "pack_id": "PETCARE-EXECUTIVE-PORTFOLIO-STEADY-STATE-VISIBILITY",
+  "assertions_passed": 9,
+  "assertions_total": 9,
+  "results": [
+    {
+      "assertion": "baseline_commit_match",
+      "ok": true
+    },
+    {
+      "assertion": "five_executive_visibility_docs_present",
+      "ok": true
+    },
+    {
+      "assertion": "five_clinics_in_executive_scope",
+      "ok": true
+    },
+    {
+      "assertion": "eight_executive_kpis_defined",
+      "ok": true
+    },
+    {
+      "assertion": "four_exception_views_defined",
+      "ok": true
+    },
+    {
+      "assertion": "eight_comparison_domains_defined",
+      "ok": true
+    },
+    {
+      "assertion": "four_attention_categories_defined",
+      "ok": true
+    },
+    {
+      "assertion": "eight_executive_reporting_outputs_defined",
+      "ok": true
+    },
+    {
+      "assertion": "state_transition_defined",
+      "ok": true
+    }
+  ],
+  "status": "OK"
+}
