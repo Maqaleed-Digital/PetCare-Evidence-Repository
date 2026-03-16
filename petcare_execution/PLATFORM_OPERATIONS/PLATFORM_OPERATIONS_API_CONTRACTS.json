@@ -1,0 +1,89 @@
+{
+  "pack_id": "PETCARE-PLATFORM-OPERATIONS",
+  "contracts": {
+    "partner-onboarding": {
+      "record_verification_status": {
+        "input": {
+          "partner_id": "string",
+          "partner_type": "clinic|pharmacy|service_partner",
+          "verification_status": "pending|verified|rejected",
+          "reviewer_role": "platform_admin|clinic_admin",
+          "timestamp_utc": "string"
+        },
+        "output": {
+          "written": "boolean",
+          "activation_allowed": "boolean"
+        }
+      }
+    },
+    "clinic-operations": {
+      "update_operating_hours": {
+        "input": {
+          "clinic_id": "string",
+          "operating_hours": ["string"],
+          "timezone": "string",
+          "reviewer_role": "clinic_admin|platform_admin"
+        },
+        "output": {
+          "updated": "boolean"
+        }
+      }
+    },
+    "sla": {
+      "evaluate_sla_breach": {
+        "input": {
+          "sla_id": "string",
+          "service_window_minutes": "number",
+          "actual_response_minutes": "number",
+          "threshold_type": "response|fulfillment|availability"
+        },
+        "output": {
+          "breach_detected": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "catalog-pricing": {
+      "evaluate_pricing_rule": {
+        "input": {
+          "partner_id": "string",
+          "catalog_item_id": "string",
+          "base_price": "number",
+          "margin_rule": "string",
+          "promo_rule": "string"
+        },
+        "output": {
+          "computed_price": "number",
+          "requires_human_approval": "boolean"
+        }
+      }
+    },
+    "settlement-scorecards": {
+      "calculate_partner_settlement": {
+        "input": {
+          "partner_id": "string",
+          "statement_period": "string",
+          "transaction_ids": ["string"]
+        },
+        "output": {
+          "statement_total": "number",
+          "reconciliation_ready": "boolean"
+        }
+      }
+    },
+    "ai-assist": {
+      "draft_partner_review_summary": {
+        "input": {
+          "partner_id": "string",
+          "case_id": "string",
+          "model_name": "string",
+          "model_version": "string"
+        },
+        "output": {
+          "draft_generated": "boolean",
+          "requires_human_review": "boolean"
+        }
+      }
+    }
+  }
+}

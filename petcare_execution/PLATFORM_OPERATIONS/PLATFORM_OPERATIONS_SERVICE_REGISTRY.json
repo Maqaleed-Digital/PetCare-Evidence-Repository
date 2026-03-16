@@ -1,0 +1,65 @@
+{
+  "pack_id": "PETCARE-PLATFORM-OPERATIONS",
+  "program_state_input": "pharmacy_runtime_established",
+  "domains": [
+    {
+      "domain_id": "partner-onboarding",
+      "purpose": "Partner verification, onboarding gating, and activation readiness",
+      "interfaces": [
+        "create_partner_profile",
+        "record_verification_status",
+        "assert_partner_activation_allowed",
+        "read_partner_profile"
+      ]
+    },
+    {
+      "domain_id": "clinic-operations",
+      "purpose": "Clinic profile, roster, operating hours, and operational state",
+      "interfaces": [
+        "create_clinic_profile",
+        "update_operating_hours",
+        "assign_vet_roster",
+        "read_clinic_operating_state"
+      ]
+    },
+    {
+      "domain_id": "sla",
+      "purpose": "SLA configuration, breach event generation, and operational service thresholds",
+      "interfaces": [
+        "create_sla_contract",
+        "evaluate_sla_breach",
+        "emit_sla_event",
+        "read_sla_status"
+      ]
+    },
+    {
+      "domain_id": "catalog-pricing",
+      "purpose": "Catalog normalization, pricing rule evaluation, and controlled commercial changes",
+      "interfaces": [
+        "ingest_catalog_item",
+        "normalize_catalog_record",
+        "evaluate_pricing_rule",
+        "read_catalog_price_state"
+      ]
+    },
+    {
+      "domain_id": "settlement-scorecards",
+      "purpose": "Settlement calculations, reconciliation references, and partner scorecard reporting",
+      "interfaces": [
+        "calculate_partner_settlement",
+        "generate_reconciliation_statement",
+        "build_partner_scorecard",
+        "read_partner_performance_metrics"
+      ]
+    },
+    {
+      "domain_id": "ai-assist",
+      "purpose": "Assistive partner and operations support with human-reviewed outputs",
+      "interfaces": [
+        "draft_partner_review_summary",
+        "surface_operational_risk_flags",
+        "emit_uncertainty_and_requires_human_review"
+      ]
+    }
+  ]
+}

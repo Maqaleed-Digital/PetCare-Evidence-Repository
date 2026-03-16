@@ -1,0 +1,3 @@
+{"event_name":"partner.verification.recorded","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"partner","entity_id":"partner_6001","timestamp_utc":"2026-03-16T00:00:00Z"}
+{"event_name":"sla.breach.detected","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"sla","entity_id":"sla_7001","timestamp_utc":"2026-03-16T00:02:00Z"}
+{"event_name":"partner.scorecard.generated","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"scorecard","entity_id":"scorecard_8001","timestamp_utc":"2026-03-16T00:05:00Z"}

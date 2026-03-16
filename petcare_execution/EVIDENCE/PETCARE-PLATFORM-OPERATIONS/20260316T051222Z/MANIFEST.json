@@ -1,0 +1,87 @@
+{
+  "pack_id": "PETCARE-PLATFORM-OPERATIONS",
+  "timestamp_utc": "20260316T051222Z",
+  "program_state_input": "pharmacy_runtime_established",
+  "domains": [
+    "partner-onboarding",
+    "clinic-operations",
+    "sla",
+    "catalog-pricing",
+    "settlement-scorecards",
+    "ai-assist"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PLATFORM-OPERATIONS/20260316T051222Z/AUDIT_SAMPLE.log",
+      "sha256": "944fd8d4d5b91c051d40bef77f14011ca895e01251d45f330e1fd5bff8d77b88"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PLATFORM-OPERATIONS/20260316T051222Z/FILE_LISTING.txt",
+      "sha256": "4eb5aeaf177bdcf74caed59f5578b4d0baf4f0f5fad11fe805ce72800fcf8506"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PLATFORM-OPERATIONS/20260316T051222Z/TEST_RESULTS.log",
+      "sha256": "fe09d79b421595e744eec552775c4c9b91f2e897b1913010e37415d6ff24766e"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/PETCARE_PLATFORM_OPERATIONS_README.md",
+      "sha256": "8efb89208c2b2c3888948cc5a6440561203a8135c2a3ba72dde8c5dbf17b388b"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/PLATFORM_OPERATIONS_API_CONTRACTS.json",
+      "sha256": "ad7c53dd88c32f4e1d23af375e499e94e7759940175298b821157c8eda726cb6"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/PLATFORM_OPERATIONS_SERVICE_REGISTRY.json",
+      "sha256": "a40fcf174b4ec580b7bc85eb483bd24345496a3f7dc0084d2a5f30374acec4c4"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/ai-assist/OPERATIONS_AI_BOUNDARY.md",
+      "sha256": "6217fda58d97c5bef0163ad9765b0bd2d1241a65bd13639474ae09fa30ff95ac"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/ai-assist/OPERATIONS_AI_OUTPUT_SCHEMA.json",
+      "sha256": "1f70334a9e0625188e85d538cb33eeced9f336806f0f00f0f802d57c6492902c"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/catalog-pricing/CATALOG_NORMALIZATION_SPEC.md",
+      "sha256": "d23d6d50565c796a9fd44a26dd683e9e1c29ff56f96fa9a0b9f7e38826a33694"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/catalog-pricing/PRICING_RULE_CONTROL_SPEC.md",
+      "sha256": "4190a3f7a6ad6fb60c774ace27800422475a343c4e39fd49615dabe23397b337"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/clinic-operations/CLINIC_PROFILE_OPERATING_MODEL.md",
+      "sha256": "5e717c9af7b476ed4eec1e960a3d56d4eeda516e91788413002fd5ca60620f1b"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/clinic-operations/VET_ROSTER_ASSIGNMENT_RULES.md",
+      "sha256": "cd09ae5beca68714f1cfe3498a8c53df79a8125ca2bb8a3b9695e1c0f661f169"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/partner-onboarding/PARTNER_ONBOARDING_SPEC.md",
+      "sha256": "836fe2c04982b7917a272d731bec732363cba191c4cec356a574e01066c515b6"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/partner-onboarding/PARTNER_VERIFICATION_RULES.md",
+      "sha256": "15187e9d36f87cf24cb2fb903d37f51935974564a2a48908a5e4bda1aa3dbe18"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/settlement-scorecards/PARTNER_SCORECARD_SPEC.md",
+      "sha256": "19740feb880a3055aedf8210ce07dbc2adb7c35900e8bfdf86361fb853acc0a2"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/settlement-scorecards/SETTLEMENT_CALCULATION_SPEC.md",
+      "sha256": "65064ca10e5b4593c084db0c7e01a30bb70f6e7448de0bdb2c6e6d616f33f9c1"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/sla/SLA_BREACH_EVENT_MODEL.md",
+      "sha256": "f70cb4c28f1b84ae81c5b4ffaefa21c75b8eddeafecf1f6520624eb618e96f4d"
+    },
+    {
+      "path": "petcare_execution/PLATFORM_OPERATIONS/sla/SLA_CONFIGURATION_SPEC.md",
+      "sha256": "232ebb76b408f46d7108dd776c06def2d9b42536ef43f90556399ac1637f6043"
+    }
+  ]
+}

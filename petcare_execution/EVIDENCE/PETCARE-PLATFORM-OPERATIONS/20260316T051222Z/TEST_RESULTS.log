@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-PLATFORM-OPERATIONS
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=platform_operations_service_registry_present RESULT=PASS
+CHECK=platform_operations_api_contracts_present RESULT=PASS
+CHECK=partner_onboarding_specs_present RESULT=PASS
+CHECK=clinic_operations_specs_present RESULT=PASS
+CHECK=sla_specs_present RESULT=PASS
+CHECK=catalog_pricing_specs_present RESULT=PASS
+CHECK=settlement_scorecard_specs_present RESULT=PASS
+CHECK=operations_ai_boundary_preserved RESULT=PASS

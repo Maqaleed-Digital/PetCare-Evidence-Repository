@@ -1,0 +1,20 @@
+{
+  "required_fields": [
+    "partner_id",
+    "case_id",
+    "model_name",
+    "model_version",
+    "draft_type",
+    "risk_flags",
+    "uncertainty_level",
+    "requires_human_review",
+    "timestamp_utc"
+  ],
+  "boundary_rules": [
+    "no_autonomous_partner_approval",
+    "no_autonomous_sla_exception_approval",
+    "no_autonomous_pricing_override",
+    "no_autonomous_settlement_finalization",
+    "human_review_required"
+  ]
+}
