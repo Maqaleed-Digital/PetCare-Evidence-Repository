@@ -1,0 +1,8 @@
+{
+  "pack_id": "PETCARE-PORTFOLIO-GOVERNANCE-COMPLETE",
+  "source_of_truth_commit": "2a8f67249f6f4b2655eac86e9b06e7469f3e4746",
+  "previous_governance_state": "executive_portfolio_intervention_governance_active",
+  "new_governance_state": "portfolio_governance_complete",
+  "portfolio_clinic_count": 5,
+  "completion_mode": "formal_portfolio_governance_closure"
+}

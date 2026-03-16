@@ -1,0 +1,44 @@
+{
+  "pack_id": "PETCARE-PORTFOLIO-GOVERNANCE-COMPLETE",
+  "assertions_passed": 9,
+  "assertions_total": 9,
+  "results": [
+    {
+      "assertion": "baseline_commit_match",
+      "ok": true
+    },
+    {
+      "assertion": "five_closure_docs_present",
+      "ok": true
+    },
+    {
+      "assertion": "five_clinics_in_final_scope",
+      "ok": true
+    },
+    {
+      "assertion": "nine_closure_criteria_defined",
+      "ok": true
+    },
+    {
+      "assertion": "two_closure_outcomes_defined",
+      "ok": true
+    },
+    {
+      "assertion": "seven_closure_evidence_requirements_defined",
+      "ok": true
+    },
+    {
+      "assertion": "assistive_ai_boundary_preserved",
+      "ok": true
+    },
+    {
+      "assertion": "intervention_auditability_preserved",
+      "ok": true
+    },
+    {
+      "assertion": "state_transition_defined",
+      "ok": true
+    }
+  ],
+  "status": "OK"
+}

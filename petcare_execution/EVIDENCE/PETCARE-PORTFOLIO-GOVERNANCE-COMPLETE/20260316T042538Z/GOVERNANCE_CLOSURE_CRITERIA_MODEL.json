@@ -1,0 +1,17 @@
+{
+  "criteria": [
+    "live_operations_governance_established",
+    "wave_activation_governance_established",
+    "hypercare_governance_established",
+    "steady_state_admission_governance_established",
+    "multi_clinic_steady_state_governance_established",
+    "executive_visibility_governance_established",
+    "executive_intervention_governance_established",
+    "audit_evidence_chain_established",
+    "source_of_truth_continuity_preserved"
+  ],
+  "closure_outcomes": [
+    "governance_complete",
+    "governance_incomplete"
+  ]
+}

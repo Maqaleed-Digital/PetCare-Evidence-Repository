@@ -1,0 +1,12 @@
+{
+  "required_closure_evidence": [
+    "source_of_truth_commit_at_closure",
+    "closure_pack_validation_result",
+    "final_governance_state",
+    "portfolio_clinic_scope",
+    "closure_criteria_satisfaction_result",
+    "evidence_manifest",
+    "manifest_hash"
+  ],
+  "deterministic_evidence_required": true
+}

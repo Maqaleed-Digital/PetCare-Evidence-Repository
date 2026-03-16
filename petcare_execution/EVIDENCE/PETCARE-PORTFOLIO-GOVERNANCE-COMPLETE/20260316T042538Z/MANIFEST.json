@@ -1,0 +1,32 @@
+{
+  "pack_id": "PETCARE-PORTFOLIO-GOVERNANCE-COMPLETE",
+  "run_id": "20260316T042538Z",
+  "source_of_truth_commit": "2a8f67249f6f4b2655eac86e9b06e7469f3e4746",
+  "generated_at_utc": "20260316T042538Z",
+  "files": [
+    {
+      "path": "CLOSURE_AUDIT_SPEC.json",
+      "sha256": "844f94da6f48dcad4034ad7f1d1dd16c72be9c777e2c10d5d92ea7a1a41046d4"
+    },
+    {
+      "path": "FINAL_PORTFOLIO_SCOPE.json",
+      "sha256": "65d6d578786daf889ae148159fdd4cd24555965da1348fa42be05e0dcb3f7ddc"
+    },
+    {
+      "path": "FINAL_PORTFOLIO_STATE.json",
+      "sha256": "aaa0a35314e71755b1d9a691d3a0e8cc1da5db7b4d96ef417d2f31393d4caf7f"
+    },
+    {
+      "path": "GOVERNANCE_CLOSURE_CRITERIA_MODEL.json",
+      "sha256": "70cd71dd12213fe1d25662285791b487248829d18a93df1f8607eb1c4393c3ee"
+    },
+    {
+      "path": "PACK_SUMMARY.json",
+      "sha256": "3454fb8ead6219090879eeb783880acfecf2431ea9bb3e54ca4e1e264d694553"
+    },
+    {
+      "path": "VALIDATION_REPORT.json",
+      "sha256": "39bc9d2b6cf9946d6858b4307dbe3f6a80ee6abfb644cc6380e27370dece4f4e"
+    }
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "clinics": [
+    {
+      "clinic_code": "CLINIC-LIVE-BASELINE-001",
+      "state": "steady_state_operational"
+    },
+    {
+      "clinic_code": "CLINIC-WAVE2-001",
+      "state": "steady_state_operational"
+    },
+    {
+      "clinic_code": "CLINIC-WAVE2-002",
+      "state": "steady_state_operational"
+    },
+    {
+      "clinic_code": "CLINIC-WAVEN-001",
+      "state": "steady_state_operational"
+    },
+    {
+      "clinic_code": "CLINIC-WAVEN-002",
+      "state": "steady_state_operational"
+    }
+  ]
+}
