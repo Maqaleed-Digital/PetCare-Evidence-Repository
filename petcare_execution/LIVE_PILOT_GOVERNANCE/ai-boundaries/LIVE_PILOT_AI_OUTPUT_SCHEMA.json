@@ -1,0 +1,20 @@
+{
+  "required_fields": [
+    "case_id",
+    "model_name",
+    "model_version",
+    "draft_type",
+    "risk_flags",
+    "uncertainty_level",
+    "requires_human_review",
+    "timestamp_utc"
+  ],
+  "boundary_rules": [
+    "no_autonomous_diagnosis",
+    "no_autonomous_prescription",
+    "no_autonomous_clinical_signoff",
+    "no_autonomous_emergency_finalization",
+    "no_autonomous_pilot_governance_override",
+    "human_review_required"
+  ]
+}

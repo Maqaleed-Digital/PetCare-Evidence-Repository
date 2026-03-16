@@ -1,0 +1,74 @@
+{
+  "pack_id": "PETCARE-LIVE-PILOT-GOVERNANCE",
+  "contracts": {
+    "operating-mode": {
+      "assert_governed_live_scope": {
+        "input": {
+          "clinic_id": "string",
+          "pilot_status": "ready|live|halted|closed",
+          "enabled_surfaces": ["owner","vet","pharmacy","clinic_admin","emergency"]
+        },
+        "output": {
+          "allowed": "boolean",
+          "reason_code": "string"
+        }
+      }
+    },
+    "decision-boundaries": {
+      "assert_human_authority_required": {
+        "input": {
+          "action_class": "clinical_signoff|prescription_issue|dispense_release|emergency_referral|pilot_governance_override",
+          "human_review_recorded": "boolean"
+        },
+        "output": {
+          "authority_ok": "boolean"
+        }
+      }
+    },
+    "monitoring-review": {
+      "assert_governance_checkpoint": {
+        "input": {
+          "checkpoint_class": "daily_ops|clinical_review|safety_review|governance_review",
+          "completed": "boolean"
+        },
+        "output": {
+          "checkpoint_ok": "boolean"
+        }
+      }
+    },
+    "override-escalation": {
+      "assert_escalation_path_defined": {
+        "input": {
+          "issue_class": "clinical|pharmacy|ops|ai|safety",
+          "owner_role": "vet|pharmacy_operator|clinic_admin|platform_admin|ops_lead"
+        },
+        "output": {
+          "path_ready": "boolean"
+        }
+      }
+    },
+    "safety-adverse-events": {
+      "assert_adverse_event_path": {
+        "input": {
+          "event_class": "clinical_safety|medication_safety|operational_safety|ai_safety",
+          "triage_state": "open|contained|escalated|closed"
+        },
+        "output": {
+          "path_valid": "boolean"
+        }
+      }
+    },
+    "pilot-evidence-closeout": {
+      "assert_evidence_bundle_complete": {
+        "input": {
+          "bundle_id": "string",
+          "required_components": ["audit","monitoring","approval","safety","closeout"],
+          "manifest_present": "boolean"
+        },
+        "output": {
+          "complete": "boolean"
+        }
+      }
+    }
+  }
+}

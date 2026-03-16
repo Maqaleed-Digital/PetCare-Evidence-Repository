@@ -1,0 +1,69 @@
+{
+  "pack_id": "PETCARE-LIVE-PILOT-GOVERNANCE",
+  "program_state_input": "pilot_activation_readiness_established",
+  "domains": [
+    {
+      "domain_id": "operating-mode",
+      "purpose": "Define governed live pilot operating posture and activation mode",
+      "interfaces": [
+        "read_live_pilot_mode",
+        "assert_governed_live_scope",
+        "read_pilot_status"
+      ]
+    },
+    {
+      "domain_id": "decision-boundaries",
+      "purpose": "Define authority boundaries during live pilot operation",
+      "interfaces": [
+        "read_decision_boundary_matrix",
+        "assert_human_authority_required",
+        "read_boundary_exception_state"
+      ]
+    },
+    {
+      "domain_id": "monitoring-review",
+      "purpose": "Define monitoring cadence, review loops, and pilot governance checkpoints",
+      "interfaces": [
+        "read_monitoring_matrix",
+        "read_review_cadence",
+        "assert_governance_checkpoint"
+      ]
+    },
+    {
+      "domain_id": "override-escalation",
+      "purpose": "Define override, escalation, and intervention handling during live pilot",
+      "interfaces": [
+        "read_override_policy",
+        "assert_escalation_path_defined",
+        "read_intervention_owner_role"
+      ]
+    },
+    {
+      "domain_id": "safety-adverse-events",
+      "purpose": "Define safety review and adverse event handling during pilot operation",
+      "interfaces": [
+        "read_safety_event_classes",
+        "assert_adverse_event_path",
+        "read_safety_review_owner"
+      ]
+    },
+    {
+      "domain_id": "pilot-evidence-closeout",
+      "purpose": "Define evidence capture and governed live pilot closeout requirements",
+      "interfaces": [
+        "read_pilot_closeout_contract",
+        "assert_evidence_bundle_complete",
+        "read_closeout_readiness"
+      ]
+    },
+    {
+      "domain_id": "ai-boundaries",
+      "purpose": "Preserve assistive-only AI controls during governed live pilot operation",
+      "interfaces": [
+        "read_live_pilot_ai_boundary",
+        "assert_human_review_required",
+        "read_operational_ai_constraints"
+      ]
+    }
+  ]
+}

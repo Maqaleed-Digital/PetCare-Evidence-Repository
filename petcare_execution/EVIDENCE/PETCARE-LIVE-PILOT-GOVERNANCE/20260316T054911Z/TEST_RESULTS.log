@@ -1,0 +1,10 @@
+PACK_ID=PETCARE-LIVE-PILOT-GOVERNANCE
+CHECK=source_of_truth_match RESULT=PASS
+CHECK=live_pilot_governance_registry_present RESULT=PASS
+CHECK=live_pilot_governance_api_contracts_present RESULT=PASS
+CHECK=operating_mode_specs_present RESULT=PASS
+CHECK=decision_boundary_specs_present RESULT=PASS
+CHECK=monitoring_review_specs_present RESULT=PASS
+CHECK=override_escalation_specs_present RESULT=PASS
+CHECK=safety_adverse_event_specs_present RESULT=PASS
+CHECK=live_pilot_ai_boundary_present RESULT=PASS

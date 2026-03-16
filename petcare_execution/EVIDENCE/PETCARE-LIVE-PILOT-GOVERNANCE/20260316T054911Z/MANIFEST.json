@@ -1,0 +1,96 @@
+{
+  "pack_id": "PETCARE-LIVE-PILOT-GOVERNANCE",
+  "timestamp_utc": "20260316T054911Z",
+  "program_state_input": "pilot_activation_readiness_established",
+  "live_pilot_domains": [
+    "operating-mode",
+    "decision-boundaries",
+    "monitoring-review",
+    "override-escalation",
+    "safety-adverse-events",
+    "pilot-evidence-closeout",
+    "ai-boundaries"
+  ],
+  "tracked_files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-LIVE-PILOT-GOVERNANCE/20260316T054911Z/AUDIT_SAMPLE.log",
+      "sha256": "f9f5f1acd5acef74f61b2cad2a62191816f4bfc6ddd8f4a361547483c23c1ec2"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-LIVE-PILOT-GOVERNANCE/20260316T054911Z/FILE_LISTING.txt",
+      "sha256": "469f1c60d85c86757f086b68e10d7e3d2e8ca6cd0392a561af84c8d59cfa6605"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-LIVE-PILOT-GOVERNANCE/20260316T054911Z/TEST_RESULTS.log",
+      "sha256": "57a6bd6c540bb14e3026638e19c3936421aeecffd541e43922944c3e82095775"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/LIVE_PILOT_GOVERNANCE_API_CONTRACTS.json",
+      "sha256": "da574a70dc25abb20f766c9a13b8bf51fb4e77948290eba0b2dde59b42ac9c06"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/LIVE_PILOT_GOVERNANCE_REGISTRY.json",
+      "sha256": "46045e0c5797c05b0ccba0e13fb4e820ec9233fc7526e5a7bc7bdef60a12cb6b"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/PETCARE_LIVE_PILOT_GOVERNANCE_README.md",
+      "sha256": "d7407559c0ce15b14aafdb0404e94999a8a0cb1e3be5a732e6eb37236e0e3325"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/ai-boundaries/LIVE_PILOT_AI_BOUNDARY.md",
+      "sha256": "20d0c9a024890a0ff51ddbb1e81e8a35ff8d0a3fe9d3eb5f180b3adadc1fc92b"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/ai-boundaries/LIVE_PILOT_AI_OUTPUT_SCHEMA.json",
+      "sha256": "1993a74caaee1f5d32548e46050781f684bffe007895985832ecfed6a6c9f90e"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/decision-boundaries/DECISION_BOUNDARY_MATRIX.md",
+      "sha256": "da8686f037395859476c8d271e0b07b47849857d712006751f84f5ba65e3745c"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/decision-boundaries/HUMAN_AUTHORITY_POLICY.md",
+      "sha256": "1b0cbe202120099484e814b7a44236851af15d8e24496243497d7defc03a8cda"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/monitoring-review/MONITORING_REVIEW_CADENCE.md",
+      "sha256": "f28b6e9440128722403e95e6402dd2529ddf45e3990a97d0c2b3e606854840f0"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/monitoring-review/PILOT_GOVERNANCE_CHECKPOINTS.md",
+      "sha256": "20e9b1e563d1a8ece33ef49e6d0720bdf8c5d80ea4fb22d0a9794b4c04958107"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/operating-mode/GOVERNED_LIVE_SCOPE.md",
+      "sha256": "53794cd3525a24ec6f06cfc0858b529ad35dd41ebc831af953172e45db553ffa"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/operating-mode/LIVE_PILOT_OPERATING_MODE.md",
+      "sha256": "1cf64475860afe915b7287a888ebe321d54021e283eab394f6ac5a2854bd0d9a"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/override-escalation/INTERVENTION_RESPONSE_MATRIX.md",
+      "sha256": "51aded518f1e1ed366021937bd5a8c4027afebd4856b56ce06fb6ef57418bba7"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/override-escalation/OVERRIDE_ESCALATION_POLICY.md",
+      "sha256": "e6161808e607ab5228d4c88ed54a05b3c2cf0e08b865f3e1bc98a5cfbc7309d3"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/pilot-evidence-closeout/LIVE_PILOT_EVIDENCE_MATRIX.md",
+      "sha256": "754d527caaa3dd927de9da3ba0fbd695a249de78f89689642570d3607ff595b1"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/pilot-evidence-closeout/PILOT_CLOSEOUT_CONTRACT.md",
+      "sha256": "dcaa5966b8ad1fef359a16327e09ed38e9ddccc76d157268c579cd02dfb455fc"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/safety-adverse-events/ADVERSE_EVENT_POLICY.md",
+      "sha256": "aac3d04900a47984b2f9c8f28485d8cf8f2310699906e03e49af9909dc537974"
+    },
+    {
+      "path": "petcare_execution/LIVE_PILOT_GOVERNANCE/safety-adverse-events/SAFETY_REVIEW_WORKFLOW.md",
+      "sha256": "977ae44349fee8db39fe1225eeff129df130efc240854bf591c579eb8d2e1005"
+    }
+  ]
+}

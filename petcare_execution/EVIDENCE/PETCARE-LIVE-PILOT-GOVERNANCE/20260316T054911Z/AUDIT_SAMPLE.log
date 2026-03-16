@@ -1,0 +1,3 @@
+{"event_name":"pilot.live.status.changed","actor_id":"ops_lead_001","tenant_id":"platform","entity_type":"pilot_clinic","entity_id":"clinic_pilot_13001","timestamp_utc":"2026-03-16T00:00:00Z"}
+{"event_name":"pilot.governance.checkpoint.completed","actor_id":"platform_admin_001","tenant_id":"platform","entity_type":"governance_checkpoint","entity_id":"checkpoint_13002","timestamp_utc":"2026-03-16T00:04:00Z"}
+{"event_name":"pilot.safety.review.opened","actor_id":"vet_001","tenant_id":"clinic_live_baseline_001","entity_type":"safety_event","entity_id":"safety_13003","timestamp_utc":"2026-03-16T00:07:00Z"}
