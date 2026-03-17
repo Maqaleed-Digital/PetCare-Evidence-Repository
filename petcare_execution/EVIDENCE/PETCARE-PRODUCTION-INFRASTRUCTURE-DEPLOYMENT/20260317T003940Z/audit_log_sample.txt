@@ -1,0 +1,2 @@
+{"event":"production_infra_pack_generated","pack_id":"PETCARE-PRODUCTION-INFRASTRUCTURE-DEPLOYMENT","state":"production_infrastructure_activation","result":"ok"}
+{"event":"hard_gate_reference","gates":["G-S1","G-R1","G-A1","G-O1"],"result":"tracked"}

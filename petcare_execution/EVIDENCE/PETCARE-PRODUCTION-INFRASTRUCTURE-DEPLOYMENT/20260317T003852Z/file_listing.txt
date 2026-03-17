@@ -1,0 +1,9 @@
+petcare_execution/INFRASTRUCTURE/CI_CD_PIPELINE.md
+petcare_execution/INFRASTRUCTURE/CLOUD_DEPLOYMENT_MODEL.md
+petcare_execution/INFRASTRUCTURE/NETWORK_TOPOLOGY.md
+petcare_execution/INFRASTRUCTURE/OBSERVABILITY_STACK.md
+petcare_execution/INFRASTRUCTURE/PRODUCTION_ARCHITECTURE_BLUEPRINT.md
+petcare_execution/INFRASTRUCTURE/SECRETS_MANAGEMENT.md
+petcare_execution/INFRASTRUCTURE/SECURITY_MODEL.md
+scripts/petcare_production_infra_manifest.sh
+scripts/petcare_production_infra_validate.sh
