@@ -1,0 +1,63 @@
+{
+  "pack_id": "PETCARE-ENTERPRISE-NETWORK-OPTIMIZATION-AND-NATIONAL-ORCHESTRATION-GOVERNANCE",
+  "state": "petcare_national_service_network_governed",
+  "target_state": "petcare_enterprise_network_orchestration_governed",
+  "files": [
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/ENTERPRISE_NETWORK_ORCHESTRATION_MODEL.md",
+      "sha256": "1e17077e7095bbfe6146b1d8e3655eef5c9cb13debff54aa9ee58a7d61a707f8"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NATIONAL_COMMAND_CADENCE.md",
+      "sha256": "21067474cca546aec0ad2ab09b661861d8167675efa7e4073c2f2870d93566f5"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/CROSS_REGION_OPTIMIZATION_GOVERNANCE.md",
+      "sha256": "2d49db077f8ba36cff81ef220e71f30b23cc772e57c0a67928c886ca9276158c"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NATIONAL_REFERRAL_LOAD_BALANCING_GOVERNANCE.md",
+      "sha256": "024b01d27168a0cfdfc39411ea369644f63882e2765e5285ae4b1c71fd1e138f"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NETWORK_WIDE_SERVICE_QUALITY_SCORECARD.md",
+      "sha256": "ec153f0a9065c4682471d0b72ae1fc89fca9366e50d5ef7f1b1e3721a5c9d1e2"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/ENTERPRISE_DEPENDENCY_AND_RESILIENCE_CONTROL.md",
+      "sha256": "589ec470a864007673aa1a283a6f17e5cd104c28f0e18226cac8d9c8078e5ae9"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/EXPANSION_OPTIMIZATION_BACKLOG_GOVERNANCE.md",
+      "sha256": "24ab69775ecb57ac1ed33cc3a5ca6e1baa0e933ffe65b9622604304c2186a04a"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NATIONAL_OPERATING_REVIEW_PACK.md",
+      "sha256": "e5b2a8b299f29bc46f7b318d75abb81894a59dcbe9ed4ec3d552d2af9fa44b6e"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NETWORK_MATURITY_TRANSITION_CLOSEOUT.md",
+      "sha256": "2b83a23a1cfd888a2722c98fc89ff46e117104343309db3f6734fa4fde6904da"
+    },
+    {
+      "path": "scripts/petcare_enterprise_network_validate.sh",
+      "sha256": "e2b342b63082d6526c336cf3f9178b67732083165ea475e0bbb9c00872e5b156"
+    },
+    {
+      "path": "scripts/petcare_enterprise_network_manifest.sh",
+      "sha256": "7eb8877d7606c2e3d7774bc7c762aec529d292f795310b996913058ac64f1568"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-ENTERPRISE-NETWORK-OPTIMIZATION-AND-NATIONAL-ORCHESTRATION-GOVERNANCE/20260317T040930Z/file_listing.txt",
+      "sha256": "7b43886c017385c835d4ecdaaaa5f06c2f9cc0305527d9a43aa0c51e5c21571b"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-ENTERPRISE-NETWORK-OPTIMIZATION-AND-NATIONAL-ORCHESTRATION-GOVERNANCE/20260317T040930Z/test_log_sample.txt",
+      "sha256": "4262ae57a66a29f881aa5006dcbca649a7abc39cec9160fdbace68b7fa994d4f"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-ENTERPRISE-NETWORK-OPTIMIZATION-AND-NATIONAL-ORCHESTRATION-GOVERNANCE/20260317T040930Z/audit_log_sample.txt",
+      "sha256": "96866668e0256270661c97341897a290329d45253ac477ad6c243015463e1c3b"
+    }
+  ]
+}
