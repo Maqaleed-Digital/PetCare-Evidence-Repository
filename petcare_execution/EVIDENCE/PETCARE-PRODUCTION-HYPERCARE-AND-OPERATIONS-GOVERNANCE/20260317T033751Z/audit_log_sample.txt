@@ -1,0 +1,2 @@
+{"event":"production_hypercare_pack_generated","pack_id":"PETCARE-PRODUCTION-HYPERCARE-AND-OPERATIONS-GOVERNANCE","state":"petcare_live_production_verified","target_state":"petcare_hypercare_governed_operations_active","result":"ok"}
+{"event":"hard_gate_reference","gates":["G-S1","G-R1","G-A1","G-O1"],"result":"tracked"}

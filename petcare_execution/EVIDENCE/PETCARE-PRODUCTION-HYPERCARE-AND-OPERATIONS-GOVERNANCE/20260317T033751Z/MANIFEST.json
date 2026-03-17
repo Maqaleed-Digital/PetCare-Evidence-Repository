@@ -1,0 +1,59 @@
+{
+  "pack_id": "PETCARE-PRODUCTION-HYPERCARE-AND-OPERATIONS-GOVERNANCE",
+  "state": "petcare_live_production_verified",
+  "target_state": "petcare_hypercare_governed_operations_active",
+  "files": [
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/HYPERCARE_OPERATING_WINDOW.md",
+      "sha256": "aea5b33c95c77b3ddd7e035a8b0a0146d7e0a804377ecc7aab5502be05650f45"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/INCIDENT_AND_ESCALATION_GOVERNANCE.md",
+      "sha256": "3103a2dcfdb0e2b7cc5f0eeb0ee300c52b17fe766a30936a6cec8aed007da7fd"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/PRODUCTION_KPI_SLO_CONTROL_PACK.md",
+      "sha256": "eb029a52337dc62cf36870d5b8e344074043f5e4b5ba002e9996f0ff7d43f9d4"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/DAILY_OPERATIONAL_REVIEW_TEMPLATE.md",
+      "sha256": "6c4d2cf518fed705dc9f2f4abcf5e9493fb6900bad3b080378eb83f6a3a25a35"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/LIVE_ISSUE_TRIAGE_AND_SEVERITY_MODEL.md",
+      "sha256": "b398713ab0f4feff7f50cc42c3c95b8318c5b3b77a5d5052a554cdde22ccbdc8"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/CHANGE_FREEZE_AND_EMERGENCY_CHANGE_RULES.md",
+      "sha256": "2a28f052a4180810f1a22737fe6ccd727e2fd8c42aa13ec004f819a2c787ab81"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/POST_GO_LIVE_REPORTING_PACK.md",
+      "sha256": "f39d0ba59fa043c3dbf4048a0e30ba5ddb7d13aae7339b3a11f2a999fd5a575d"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/HYPERCARE_CLOSEOUT_CRITERIA.md",
+      "sha256": "185cfba9bb34525785f0f393bbef56e77d8f68da87a829adbf99843b9ac1441f"
+    },
+    {
+      "path": "scripts/petcare_hypercare_validate.sh",
+      "sha256": "04df1d74be451d99e461ac23660413898ef0a6f58e624107ebc096a7a2ae5ad1"
+    },
+    {
+      "path": "scripts/petcare_hypercare_manifest.sh",
+      "sha256": "632f17c61bf9109e71b282ce989bd8ae7decc746e86d54f78f2c136fdb624d0d"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PRODUCTION-HYPERCARE-AND-OPERATIONS-GOVERNANCE/20260317T033751Z/file_listing.txt",
+      "sha256": "215e8b071a842b851c366ae4ab4006a23390fe8bd8023131eac6006f1032c262"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PRODUCTION-HYPERCARE-AND-OPERATIONS-GOVERNANCE/20260317T033751Z/test_log_sample.txt",
+      "sha256": "3b1b1f292e33c8b9fef75011003c8df78325c409bed52aa95be4e32e27181fd2"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PRODUCTION-HYPERCARE-AND-OPERATIONS-GOVERNANCE/20260317T033751Z/audit_log_sample.txt",
+      "sha256": "d54a36f8184fc5415bdf73cd1d0533164dd4658263626ba31fabe2d3f1e5641b"
+    }
+  ]
+}
