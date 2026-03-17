@@ -1,0 +1,63 @@
+{
+  "pack_id": "PETCARE-SCALE-EXPANSION-READINESS-AND-MULTI-CLINIC-EXECUTION-GOVERNANCE",
+  "state": "petcare_executive_service_governance_active",
+  "target_state": "petcare_multi_clinic_scale_execution_governed",
+  "files": [
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/MULTI_CLINIC_SCALE_GOVERNANCE_MODEL.md",
+      "sha256": "29acff7dfb4adce95992017f0eddc5c7822d51950cffac9ddbbb953aefadbdd2"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/EXPANSION_WAVE_PLANNING_PACK.md",
+      "sha256": "6982d8c0e2a83c38aa7b0b01336fec33d2014ea1cf99f7c800ad699c3c68d104"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/CLINIC_LAUNCH_READINESS_CHECKLIST.md",
+      "sha256": "80dd26acb7b94e70eb83b58e58af2455353311111dae5ce34ca867cd8700502c"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/SCALED_SERVICE_CAPACITY_MODEL.md",
+      "sha256": "04ef51eeaa92f55e132de6871cba0bd8cfcfb2b8ae8c6843076a36b87c71dc4b"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/REGIONAL_PARTNER_ONBOARDING_GOVERNANCE.md",
+      "sha256": "4cbd9d9eebc55f699523700b53058c84ce6001212118e40c2876952d128f2e4e"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/EXPANSION_RISK_REGISTER.md",
+      "sha256": "351e0a2f7b37c52638f49c1c809a35969d6cbd431b34fac953ddbaef6799cb69"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/ROLLOUT_SEQUENCING_AND_DEPENDENCY_CONTROL.md",
+      "sha256": "f1ded865c2a410744090ccdee1c29cf77c532a187ff91de4fed9a1762eed44aa"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/POST_EXPANSION_STABILIZATION_GOVERNANCE.md",
+      "sha256": "f67d5e02eb21878bbe8857e781d0c70b73ec4c1ea6d1c69205b64b070fc3c365"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/EXECUTIVE_SCALE_REVIEW_PACK.md",
+      "sha256": "f49588442359f751bfb64442aaab27681ccc74128781e2be02de944cece4847a"
+    },
+    {
+      "path": "scripts/petcare_scale_execution_validate.sh",
+      "sha256": "cff6ce9ac1ea613cc195ad5cf474e5fd6e3c95332c2f514c344781a745b4154d"
+    },
+    {
+      "path": "scripts/petcare_scale_execution_manifest.sh",
+      "sha256": "64385f2ffb9dd554cf9bb5afc5e402d012204a47d82fd80cafd11de6584e7861"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-SCALE-EXPANSION-READINESS-AND-MULTI-CLINIC-EXECUTION-GOVERNANCE/20260317T035652Z/file_listing.txt",
+      "sha256": "c8d926868b5b91b3c3b96c89ef56baeb2b11544f3843d30b1ffbf2d6527206c8"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-SCALE-EXPANSION-READINESS-AND-MULTI-CLINIC-EXECUTION-GOVERNANCE/20260317T035652Z/test_log_sample.txt",
+      "sha256": "b59aebe3678ba35203ef917939de92b552169c588bfc43ba2532716c90232381"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-SCALE-EXPANSION-READINESS-AND-MULTI-CLINIC-EXECUTION-GOVERNANCE/20260317T035652Z/audit_log_sample.txt",
+      "sha256": "7b3fa91450e56049d842c990dd52a81db920126ea1bdad830deccfb5b8df808e"
+    }
+  ]
+}

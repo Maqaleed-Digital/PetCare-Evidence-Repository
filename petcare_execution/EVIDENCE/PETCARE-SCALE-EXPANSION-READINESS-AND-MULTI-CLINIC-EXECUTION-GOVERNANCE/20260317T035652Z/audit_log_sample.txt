@@ -1,0 +1,2 @@
+{"event":"scale_execution_pack_generated","pack_id":"PETCARE-SCALE-EXPANSION-READINESS-AND-MULTI-CLINIC-EXECUTION-GOVERNANCE","state":"petcare_executive_service_governance_active","target_state":"petcare_multi_clinic_scale_execution_governed","result":"ok"}
+{"event":"hard_gate_reference","gates":["G-S1","G-R1","G-A1","G-O1"],"result":"tracked"}
