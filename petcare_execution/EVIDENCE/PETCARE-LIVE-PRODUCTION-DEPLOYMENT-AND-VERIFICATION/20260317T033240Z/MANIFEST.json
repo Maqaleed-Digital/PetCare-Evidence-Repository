@@ -1,0 +1,59 @@
+{
+  "pack_id": "PETCARE-LIVE-PRODUCTION-DEPLOYMENT-AND-VERIFICATION",
+  "state": "petcare_production_environment_ready",
+  "target_state": "petcare_live_production_verified",
+  "files": [
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/LIVE_PRODUCTION_DEPLOYMENT_EXECUTION_RECORD.md",
+      "sha256": "698d5eda5520b0bf152c5c1a184de56946e41fc9fcf445498b16a6d112ad02dd"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/LIVE_RELEASE_REGISTRATION.md",
+      "sha256": "0f7def71e487fcdb01a505a28b19a171a97f697d219aeb78720aff9d0f65d215"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/LIVE_HEALTH_VERIFICATION.md",
+      "sha256": "1e3b853d265089376648fc5b69bce97b6d9aecc9c37ef6973570da0bf8968317"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/LIVE_AUDIT_PATH_VERIFICATION.md",
+      "sha256": "96efde5cf0a5be6186b032c0e204a0b2e83583520e8312568691cd90756df905"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/LIVE_AI_GOVERNANCE_PATH_VERIFICATION.md",
+      "sha256": "62ece2b525a95817a73beee781743579a505e8789e605c6bc216611aeed69f2a"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/LIVE_OBSERVABILITY_VERIFICATION.md",
+      "sha256": "45b9196cee84f73d81f704fb25897cd830e3ed3b3221ba8ea498e499d1b3453d"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/ROLLBACK_DRILL_CONFIRMATION.md",
+      "sha256": "da88d20a014ed321622d302cd6b12b68856a58bd609ce3e7d55e8150474d9425"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/GO_LIVE_CLOSEOUT_EVIDENCE.md",
+      "sha256": "7895ec098dfea20aed886af4ece3b36d9a5958f2584f2971a45755b7293d1ec7"
+    },
+    {
+      "path": "scripts/petcare_live_production_validate.sh",
+      "sha256": "11d27b7b237ad694f5ae356b79919c4c78b31e3834908bf03edc330183b27651"
+    },
+    {
+      "path": "scripts/petcare_live_production_manifest.sh",
+      "sha256": "d1807105f440000c584a93b4c3497277b80939603a7b7f4bc7588d9fed4832ac"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-LIVE-PRODUCTION-DEPLOYMENT-AND-VERIFICATION/20260317T033240Z/file_listing.txt",
+      "sha256": "dd127a1630d7093c564661d156f47af1bf1efa76fa7116f662ce425ad2a317e5"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-LIVE-PRODUCTION-DEPLOYMENT-AND-VERIFICATION/20260317T033240Z/test_log_sample.txt",
+      "sha256": "10701a73602e642a685a62d19f240beb72572ed0aaf6b46072a4989765175f4a"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-LIVE-PRODUCTION-DEPLOYMENT-AND-VERIFICATION/20260317T033240Z/audit_log_sample.txt",
+      "sha256": "b04e5e08dc5698207b082404e345b29c9e58a58eb2d26952a2edfe4229aefd78"
+    }
+  ]
+}

@@ -1,0 +1,2 @@
+{"event":"live_production_pack_generated","pack_id":"PETCARE-LIVE-PRODUCTION-DEPLOYMENT-AND-VERIFICATION","state":"petcare_production_environment_ready","target_state":"petcare_live_production_verified","result":"ok"}
+{"event":"hard_gate_reference","gates":["G-S1","G-R1","G-A1","G-O1"],"result":"tracked"}
