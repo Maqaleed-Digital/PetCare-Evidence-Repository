@@ -1,0 +1,2 @@
+{"event":"sovereign_maturity_pack_generated","pack_id":"PETCARE-SOVEREIGN-PLATFORM-MATURITY-AND-BOARD-LEVEL-NATIONAL-CONTROL-GOVERNANCE","state":"petcare_enterprise_network_orchestration_governed","target_state":"petcare_sovereign_platform_maturity_governed","result":"ok"}
+{"event":"hard_gate_reference","gates":["G-S1","G-R1","G-A1","G-O1"],"result":"tracked"}

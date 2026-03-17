@@ -1,0 +1,59 @@
+{
+  "pack_id": "PETCARE-SOVEREIGN-PLATFORM-MATURITY-AND-BOARD-LEVEL-NATIONAL-CONTROL-GOVERNANCE",
+  "state": "petcare_enterprise_network_orchestration_governed",
+  "target_state": "petcare_sovereign_platform_maturity_governed",
+  "files": [
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/SOVEREIGN_NATIONAL_CONTROL_MODEL.md",
+      "sha256": "6ad1a6c56337e812decc25b8f59a2be978aa8c49fd97d1836d88c3235063e794"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/BOARD_LEVEL_NATIONAL_SERVICE_OVERSIGHT_PACK.md",
+      "sha256": "f679fe83794354314b1fe8aafa74b33f9e846654ad0c74b5c1fc3b5d335b93ab"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/ENTERPRISE_GOVERNANCE_MATURITY_SCORECARD.md",
+      "sha256": "61af9c374cf9f766a67fd23bbecf1c43c83767577492d6a67861344f53ac3dab"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NATIONAL_RESILIENCE_AND_CONTINUITY_GOVERNANCE.md",
+      "sha256": "7418df453779f8b144e9fa983977d16e4e928d11a552b80b595ef3d8b047e49e"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/REGULATOR_AND_COMPLIANCE_OVERSIGHT_PACK.md",
+      "sha256": "ac403c84149136d066d2bd0cf1583114a33970c81f0dc2ef1ef32deb3632ebe8"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NATIONAL_AI_AND_AUDIT_ASSURANCE_REVIEW.md",
+      "sha256": "727481556d992f5acf7536113e8a79754bb48b96936f56b50bcc7f14c45f537a"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/STRATEGIC_CAPITAL_AND_SCALE_INVESTMENT_GOVERNANCE.md",
+      "sha256": "f4affd4e26419933917030d9ecde2d13fb7f6dc034137315e34d3777ab5e4a00"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/PLATFORM_MATURITY_TRANSITION_CLOSEOUT.md",
+      "sha256": "8b9cf9a572904167fd478a4a7b3819b72253b99b4bb31478895ca5a6999df098"
+    },
+    {
+      "path": "scripts/petcare_sovereign_maturity_validate.sh",
+      "sha256": "e37d0b108acb8f66a3b223fbe9042ea155c06e3b8bcdbc796784b9521bd6909a"
+    },
+    {
+      "path": "scripts/petcare_sovereign_maturity_manifest.sh",
+      "sha256": "4cccd45c87e2487937400fe7fcb59d976df840aba3df077eb468a3752e44dcfc"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-SOVEREIGN-PLATFORM-MATURITY-AND-BOARD-LEVEL-NATIONAL-CONTROL-GOVERNANCE/20260317T041626Z/file_listing.txt",
+      "sha256": "a7de6550602388384aa8f2049f7a3ede996eb1619a84437de2696859485a1e3d"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-SOVEREIGN-PLATFORM-MATURITY-AND-BOARD-LEVEL-NATIONAL-CONTROL-GOVERNANCE/20260317T041626Z/test_log_sample.txt",
+      "sha256": "4fa052e03589acecaff6a7e18336242018deb8a16ca83fddafecd0cbaac9b381"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-SOVEREIGN-PLATFORM-MATURITY-AND-BOARD-LEVEL-NATIONAL-CONTROL-GOVERNANCE/20260317T041626Z/audit_log_sample.txt",
+      "sha256": "fa38602729156bd519e5473f4e69c29a151000c6b07156aee7e232786dd82140"
+    }
+  ]
+}
