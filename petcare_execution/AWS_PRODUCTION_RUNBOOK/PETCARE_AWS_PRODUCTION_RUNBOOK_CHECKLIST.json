@@ -1,0 +1,16 @@
+{
+  "pack_id": "PETCARE-AWS-PRODUCTION-RUNBOOK-EXECUTION",
+  "state_transition": {
+    "from": "petcare_production_infrastructure_activation_governed",
+    "to": "petcare_aws_production_execution_governed"
+  },
+  "gates": [
+    {"id":"G-RUN-1","status":"REQUIRED"},
+    {"id":"G-RUN-2","status":"REQUIRED"},
+    {"id":"G-RUN-3","status":"REQUIRED"},
+    {"id":"G-RUN-4","status":"REQUIRED"},
+    {"id":"G-RUN-5","status":"REQUIRED"},
+    {"id":"G-RUN-6","status":"REQUIRED"}
+  ],
+  "rule":"NO_GUESSING_INFRA"
+}
