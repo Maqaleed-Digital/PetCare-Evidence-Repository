@@ -1,0 +1,69 @@
+{
+  "pack_id": "PETCARE-PRODUCTION-INFRASTRUCTURE-ACTIVATION",
+  "state_transition": {
+    "from": "petcare_sovereign_platform_maturity_governed",
+    "to": "petcare_production_infrastructure_activation_governed"
+  },
+  "gates": [
+    {
+      "gate_id": "G-ACT-1",
+      "name": "Environment Isolation",
+      "status": "REQUIRED",
+      "checks": [
+        "prod_staging_dev_isolated",
+        "no_shared_credentials",
+        "no_shared_database",
+        "no_cross_environment_direct_access"
+      ]
+    },
+    {
+      "gate_id": "G-ACT-2",
+      "name": "AI Boundary Enforcement",
+      "status": "REQUIRED",
+      "checks": [
+        "assistive_only_ai",
+        "no_autonomous_diagnosis",
+        "no_autonomous_prescribing",
+        "human_approval_enforced"
+      ]
+    },
+    {
+      "gate_id": "G-ACT-3",
+      "name": "Audit and Evidence",
+      "status": "REQUIRED",
+      "checks": [
+        "audit_enabled",
+        "activation_logged",
+        "manifest_generated",
+        "hashes_recorded"
+      ]
+    },
+    {
+      "gate_id": "G-ACT-4",
+      "name": "Tenant and Data Controls",
+      "status": "REQUIRED",
+      "checks": [
+        "tenant_id_required",
+        "rls_checkpoint_documented",
+        "phi_controls_preserved",
+        "ksa_residency_posture_preserved"
+      ]
+    },
+    {
+      "gate_id": "G-ACT-5",
+      "name": "Operational Readiness",
+      "status": "REQUIRED",
+      "checks": [
+        "observability_checkpoint_documented",
+        "rollback_path_documented",
+        "fail_safe_documented",
+        "dr_target_checkpoint_documented"
+      ]
+    }
+  ],
+  "operator_notes": [
+    "No infrastructure facts may be invented",
+    "Only evidenced production facts may be marked PASS",
+    "Pushed commit hash is the only source of truth"
+  ]
+}
