@@ -1,0 +1,2 @@
+{"event":"executive_service_governance_pack_generated","pack_id":"PETCARE-EXECUTIVE-OPERATING-SYSTEM-AND-PORTFOLIO-SERVICE-GOVERNANCE","state":"petcare_steady_state_governed_operations_active","target_state":"petcare_executive_service_governance_active","result":"ok"}
+{"event":"hard_gate_reference","gates":["G-S1","G-R1","G-A1","G-O1"],"result":"tracked"}

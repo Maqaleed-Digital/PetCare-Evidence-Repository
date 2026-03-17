@@ -1,0 +1,63 @@
+{
+  "pack_id": "PETCARE-EXECUTIVE-OPERATING-SYSTEM-AND-PORTFOLIO-SERVICE-GOVERNANCE",
+  "state": "petcare_steady_state_governed_operations_active",
+  "target_state": "petcare_executive_service_governance_active",
+  "files": [
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/EXECUTIVE_SERVICE_GOVERNANCE_MODEL.md",
+      "sha256": "4354874dc6ae8a785accded8596cbafee016bcbc8a7b58843deec351f813c882"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/QUARTERLY_OPERATING_REVIEW_PACK.md",
+      "sha256": "7c92cb72ab72fcf452d69f1c7d8b581b7e78b32bcde4f9340435254fa25c8224"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/SERVICE_PORTFOLIO_HEALTH_MODEL.md",
+      "sha256": "822973a06156f7c4aecc57614f994d9875646c80e8aa62e6049f6238ac773cff"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/STRATEGIC_RISK_AND_DEPENDENCY_GOVERNANCE.md",
+      "sha256": "dc06a14324ec78a3bb894ad877607f876c6c421b3290f2e6d6e37705632d4e73"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/CLINIC_EXPANSION_READINESS_GOVERNANCE.md",
+      "sha256": "e8a4a46682927363ea135005c98c1446930613879da198bfb8610634218a0a1a"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/PARTNER_PERFORMANCE_GOVERNANCE.md",
+      "sha256": "b32a3c8fdc5df0e73c03c15dddc1880cbfb09b8b9b36c5aa476c981576e387f9"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/SERVICE_INVESTMENT_PRIORITIZATION_MODEL.md",
+      "sha256": "fd8bc246380c853a5869edbd4654d7fd617934c7165ce4f1403de8bd3c9c2f23"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/ANNUAL_OPERATING_PLAN_LINKAGE.md",
+      "sha256": "254e2efd5619e6857dbda15a14333f924bfae2c6b0189f42844a78392fb9128f"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/BAU_TO_SCALE_TRANSITION_CONTROL.md",
+      "sha256": "155f69723e4b575f9fb28c81997da4b137ae9e20b6f74c8931783f43672b31a2"
+    },
+    {
+      "path": "scripts/petcare_executive_governance_validate.sh",
+      "sha256": "9e48d8bf4888d94c977783a390c72ab2cc794e3e095c9d04844c29e1f8ea86f8"
+    },
+    {
+      "path": "scripts/petcare_executive_governance_manifest.sh",
+      "sha256": "e8cad47672ca13d53a84bfdae8c0f479628c009fd141ba476c5ef177a79b7318"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-EXECUTIVE-OPERATING-SYSTEM-AND-PORTFOLIO-SERVICE-GOVERNANCE/20260317T035117Z/file_listing.txt",
+      "sha256": "ec094cc21acfd49f71031cf81116f29100558f4df3bbfc1ba171bfaaa258d96b"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-EXECUTIVE-OPERATING-SYSTEM-AND-PORTFOLIO-SERVICE-GOVERNANCE/20260317T035117Z/test_log_sample.txt",
+      "sha256": "aa647eda8960ce1e258d9eeefaab0d5a40d4049734a3cd863ded66bb4b32af44"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-EXECUTIVE-OPERATING-SYSTEM-AND-PORTFOLIO-SERVICE-GOVERNANCE/20260317T035117Z/audit_log_sample.txt",
+      "sha256": "11033702e04c0e763c3d128c83260e6f0ddac7166945f7c9fa80efc21614a91d"
+    }
+  ]
+}
