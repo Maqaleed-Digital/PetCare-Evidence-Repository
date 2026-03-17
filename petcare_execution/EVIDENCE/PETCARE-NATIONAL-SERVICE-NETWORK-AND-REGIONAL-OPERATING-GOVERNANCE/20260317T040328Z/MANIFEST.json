@@ -1,0 +1,63 @@
+{
+  "pack_id": "PETCARE-NATIONAL-SERVICE-NETWORK-AND-REGIONAL-OPERATING-GOVERNANCE",
+  "state": "petcare_multi_clinic_scale_execution_governed",
+  "target_state": "petcare_national_service_network_governed",
+  "files": [
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NATIONAL_SERVICE_NETWORK_GOVERNANCE_MODEL.md",
+      "sha256": "14998422917428ea79cd014520800a2901ddbbf06eb312ff4398d805d71b472f"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/REGIONAL_OPERATING_UNIT_GOVERNANCE.md",
+      "sha256": "cd4cee42a04046664d6ba89d54766d2e2a7fa01dd348c0eb73328f306516c186"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/CROSS_REGION_SERVICE_CONSISTENCY_CONTROLS.md",
+      "sha256": "6f4803ebd747bdf28d63ae6a282eb654af21deccd1ef6af4b8b3abe90a920cae"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NATIONAL_PARTNER_NETWORK_GOVERNANCE.md",
+      "sha256": "e6c93c01361fe144e53ec9593b15f0ceeabefd055380dc77d623b0267b3dae6b"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/REGIONAL_PERFORMANCE_REVIEW_PACK.md",
+      "sha256": "505934cf33c11705cb91d0afceb76c54960b4ffb20871aefdc33058b800bd89d"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/INTER_CLINIC_ESCALATION_AND_REFERRAL_GOVERNANCE.md",
+      "sha256": "0463dbbd93f23544aba6a4dd72384a914415d66048c7a54b723e8596d9b6ffea"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/NATIONAL_CAPACITY_BALANCING_MODEL.md",
+      "sha256": "5f75279c0cf18d89f0939f20f2427325f583d9eca13c8dda9ffd8676d5939144"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/REGIONAL_RISK_AND_RESILIENCE_GOVERNANCE.md",
+      "sha256": "767ec7e57df3b5379174abd82a5ac00c14223ee98a7131e85ae5a3ed764a8e9d"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/SCALE_TO_NETWORK_TRANSITION_CLOSEOUT.md",
+      "sha256": "6bd739c4f72b0bd33e49eaf2af4b3e9e68095acee115417016e8359ce58a37bc"
+    },
+    {
+      "path": "scripts/petcare_national_network_validate.sh",
+      "sha256": "29fbeb3ddfd934c4a392285aa8f0ec01a6306fac114199a65f292f29fc9e9c24"
+    },
+    {
+      "path": "scripts/petcare_national_network_manifest.sh",
+      "sha256": "5beddc474889fdb820e07ccbea1d3c68f462ccdafc7a3a3de43a6a0a68ffe81c"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-NATIONAL-SERVICE-NETWORK-AND-REGIONAL-OPERATING-GOVERNANCE/20260317T040328Z/file_listing.txt",
+      "sha256": "16c84cd88d1ffcbf41b984373347eea079158ac36538b8d5ee0d2bc3dd9ae2db"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-NATIONAL-SERVICE-NETWORK-AND-REGIONAL-OPERATING-GOVERNANCE/20260317T040328Z/test_log_sample.txt",
+      "sha256": "2674aa57a1d4f538579c1e39df2313df15a343aaf91eb7618593de063188aa0a"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-NATIONAL-SERVICE-NETWORK-AND-REGIONAL-OPERATING-GOVERNANCE/20260317T040328Z/audit_log_sample.txt",
+      "sha256": "c2adea0c8f9608cfa1c732bec5c844e58b284b9bcbf361514074eff17ab96550"
+    }
+  ]
+}

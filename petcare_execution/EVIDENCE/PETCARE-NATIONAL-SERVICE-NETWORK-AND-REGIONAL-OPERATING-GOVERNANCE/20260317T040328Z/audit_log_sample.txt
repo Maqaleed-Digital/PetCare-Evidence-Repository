@@ -1,0 +1,2 @@
+{"event":"national_network_pack_generated","pack_id":"PETCARE-NATIONAL-SERVICE-NETWORK-AND-REGIONAL-OPERATING-GOVERNANCE","state":"petcare_multi_clinic_scale_execution_governed","target_state":"petcare_national_service_network_governed","result":"ok"}
+{"event":"hard_gate_reference","gates":["G-S1","G-R1","G-A1","G-O1"],"result":"tracked"}
