@@ -1,0 +1,63 @@
+{
+  "pack_id": "PETCARE-STEADY-STATE-OPERATIONS-AND-CONTINUOUS-IMPROVEMENT-GOVERNANCE",
+  "state": "petcare_hypercare_governed_operations_active",
+  "target_state": "petcare_steady_state_governed_operations_active",
+  "files": [
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/STEADY_STATE_OPERATING_MODEL.md",
+      "sha256": "5129f5d65455c12cf20894270f66d2d81e73fe4667bdaf4987aee94cac65ef92"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/WEEKLY_SERVICE_REVIEW_GOVERNANCE.md",
+      "sha256": "e209a9eb217ef08adcc0c37954cffddaeabbb73687ec33c9a0aeb85d79f37c75"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/MONTHLY_KPI_SLO_BOARD_PACK.md",
+      "sha256": "040cd9efb52bb60d9312ecee18a0271c0301c2f7c8f0bb27a793a66ea45c290e"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/PROBLEM_MANAGEMENT_AND_RCA_GOVERNANCE.md",
+      "sha256": "12a36cef3c3b7571c7a7e992d007cac31147338d210dd3234e50e1b0e3a9641a"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/CAPACITY_AND_AVAILABILITY_PLANNING.md",
+      "sha256": "7cb9604169c10eec48b11d513cfa38bea10ac3dda852c4a8f6ccec48acda79f9"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/RELEASE_CALENDAR_GOVERNANCE.md",
+      "sha256": "3b638ead78289e9f49e34e9b1787fb9e012b58134fb3cc5e297d637887e35473"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/VENDOR_AND_PARTNER_OPERATIONS_REVIEW.md",
+      "sha256": "960e53a4f0c7fac7f2bfc0305c30d41ccb4e56c1134829071a886a89840f4dc7"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/CONTINUOUS_IMPROVEMENT_BACKLOG_GOVERNANCE.md",
+      "sha256": "cd52f2cd328a3501d27ca67a568c5882d553ab87b1b6d3d755cc7923b993faba"
+    },
+    {
+      "path": "petcare_execution/INFRASTRUCTURE/HYPERCARE_TO_BAU_TRANSITION_CLOSEOUT.md",
+      "sha256": "1bbb10a009c29a60747b98faa477b9fba6e113b97437f6f1f392b82d39dd864a"
+    },
+    {
+      "path": "scripts/petcare_steady_state_validate.sh",
+      "sha256": "45726602774b0b8fc2fa56a960a02116aa3141429b04b1b4006330478c16f087"
+    },
+    {
+      "path": "scripts/petcare_steady_state_manifest.sh",
+      "sha256": "83787abba9bb0f07873f36bf6ef9eb015c7f1efb713f2a9f9a6a07c0032b293f"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-STEADY-STATE-OPERATIONS-AND-CONTINUOUS-IMPROVEMENT-GOVERNANCE/20260317T034448Z/file_listing.txt",
+      "sha256": "79375f9ffe5fbebe4f915731c8a350b3372ee7a113de6489b3a67b42dbde6c82"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-STEADY-STATE-OPERATIONS-AND-CONTINUOUS-IMPROVEMENT-GOVERNANCE/20260317T034448Z/test_log_sample.txt",
+      "sha256": "e482934c28f7df159eb1544073cb6811e30d59f923d99a2050950d2742e34d91"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-STEADY-STATE-OPERATIONS-AND-CONTINUOUS-IMPROVEMENT-GOVERNANCE/20260317T034448Z/audit_log_sample.txt",
+      "sha256": "f2b5d0aeb2fd9865619d17bdb70950bc295a46d3819632ec4b91b34d1b7d1410"
+    }
+  ]
+}
