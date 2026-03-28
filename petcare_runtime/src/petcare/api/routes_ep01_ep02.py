@@ -9,16 +9,77 @@ from petcare.auth.access_control import (
     authorize_view_timeline,
 )
 from petcare.audit.audit_service import emit_audit_event
-from petcare.consent.consent_service import create_consent_record, revoke_consent_record
+from petcare.consent.consent_repository import ConsentRepository
+from petcare.consent.consent_service import (
+    consent_allows_document_access,
+    create_consent_record,
+    revoke_consent_record,
+)
 from petcare.uphr.service import UPHRService
 
 
 uphr_service = UPHRService()
+consent_repository = ConsentRepository("petcare_runtime/data/consent_store.json")
 
 
 def create_pet_profile(tenant_id: str, owner_id: str, name: str, species: str) -> dict:
     pet = uphr_service.create_pet(tenant_id=tenant_id, owner_id=owner_id, name=name, species=species)
     return {"pet_id": pet.pet_id, "status": "created"}
+
+
+def upload_document(
+    pet_id: str,
+    document_type: str,
+    object_storage_key: str,
+    mime_type: str,
+    size_bytes: int,
+    uploaded_by_actor_id: str,
+    visibility_scope: str,
+    checksum_sha256: str,
+    correlation_id: str,
+    tenant_id: str,
+    actor_role: str,
+    clinic_id: str | None = None,
+) -> dict:
+    try:
+        document = uphr_service.create_document(
+            pet_id=pet_id,
+            document_type=document_type,
+            object_storage_key=object_storage_key,
+            mime_type=mime_type,
+            size_bytes=size_bytes,
+            uploaded_by_actor_id=uploaded_by_actor_id,
+            visibility_scope=visibility_scope,
+            checksum_sha256=checksum_sha256,
+        )
+    except ValueError as exc:
+        audit = emit_audit_event(
+            event_name="uphr.document.upload_failed",
+            actor_id=uploaded_by_actor_id,
+            actor_role=actor_role,
+            tenant_id=tenant_id,
+            clinic_id=clinic_id,
+            resource_type="pet",
+            resource_id=pet_id,
+            action_result="denied",
+            reason_code=str(exc),
+            correlation_id=correlation_id,
+        )
+        raise ValueError({"reason_code": str(exc), "audit_event": audit})
+
+    audit = emit_audit_event(
+        event_name="uphr.document.uploaded",
+        actor_id=uploaded_by_actor_id,
+        actor_role=actor_role,
+        tenant_id=tenant_id,
+        clinic_id=clinic_id,
+        resource_type="pet",
+        resource_id=pet_id,
+        action_result="allowed",
+        reason_code="document_uploaded",
+        correlation_id=correlation_id,
+    )
+    return {"uphr_document_id": document.uphr_document_id, "status": "created", "audit_event": audit}
 
 
 def get_pet_profile(access: AccessContext, resource: ResourceContext, correlation_id: str) -> dict:
@@ -111,74 +172,6 @@ def get_prompt_safe_timeline_summary(access: AccessContext, resource: ResourceCo
     return {"allowed": True, "summary": summary, "audit_event": audit}
 
 
-def upload_document(
-    access: AccessContext,
-    resource: ResourceContext,
-    correlation_id: str,
-    document_type: str,
-    object_storage_key: str,
-    mime_type: str,
-    size_bytes: int,
-    visibility_scope: str,
-    checksum_sha256: str,
-) -> dict:
-    decision = authorize_view_pet_profile(access, resource)
-    if not decision.allowed:
-        audit = emit_audit_event(
-            event_name="access.denied",
-            actor_id=access.actor_id,
-            actor_role=access.actor_role,
-            tenant_id=access.tenant_id,
-            clinic_id=access.clinic_id,
-            resource_type=resource.resource_type,
-            resource_id=resource.resource_id,
-            action_result="denied",
-            reason_code=decision.reason_code,
-            correlation_id=correlation_id,
-        )
-        return {"allowed": False, "reason_code": decision.reason_code, "audit_event": audit}
-
-    try:
-        doc = uphr_service.create_document(
-            pet_id=resource.resource_id,
-            document_type=document_type,
-            object_storage_key=object_storage_key,
-            mime_type=mime_type,
-            size_bytes=size_bytes,
-            uploaded_by_actor_id=access.actor_id,
-            visibility_scope=visibility_scope,
-            checksum_sha256=checksum_sha256,
-        )
-    except ValueError as exc:
-        audit = emit_audit_event(
-            event_name="uphr.document.upload_rejected",
-            actor_id=access.actor_id,
-            actor_role=access.actor_role,
-            tenant_id=access.tenant_id,
-            clinic_id=access.clinic_id,
-            resource_type=resource.resource_type,
-            resource_id=resource.resource_id,
-            action_result="rejected",
-            reason_code=str(exc),
-            correlation_id=correlation_id,
-        )
-        return {"allowed": True, "uploaded": False, "reason_code": str(exc), "audit_event": audit}
-
-    audit = emit_audit_event(
-        event_name="uphr.document.uploaded",
-        actor_id=access.actor_id,
-        actor_role=access.actor_role,
-        tenant_id=access.tenant_id,
-        clinic_id=access.clinic_id,
-        resource_type=resource.resource_type,
-        resource_id=resource.resource_id,
-        action_result="allowed",
-        reason_code="document_uploaded",
-        correlation_id=correlation_id,
-    )
-    return {"allowed": True, "uploaded": True, "document_id": doc.uphr_document_id, "audit_event": audit}
-
-
 def create_consent(
     access: AccessContext,
     resource: ResourceContext,
@@ -211,6 +204,7 @@ def create_consent(
         captured_by_actor_id=access.actor_id,
         audit_reference_id=correlation_id,
     )
+    consent_repository.add_record(record)
     audit = emit_audit_event(
         event_name="consent.created",
         actor_id=access.actor_id,
@@ -249,6 +243,7 @@ def revoke_consent(
         return {"allowed": False, "reason_code": decision.reason_code, "audit_event": audit}
 
     revoked = revoke_consent_record(consent_record)
+    consent_repository.add_record(revoked)
     audit = emit_audit_event(
         event_name="consent.revoked",
         actor_id=access.actor_id,
@@ -262,3 +257,20 @@ def revoke_consent(
         correlation_id=correlation_id,
     )
     return {"allowed": True, "consent_record": revoked, "audit_event": audit}
+
+
+def latest_document_consent_allows(pet_id: str) -> bool:
+    latest = consent_repository.latest_matching_record(
+        pet_id=pet_id,
+        required_scope="SCOPE_DOCUMENT_SHARING",
+        required_purpose="purpose_consultation",
+        required_role="Veterinarian",
+    )
+    if latest is None:
+        return False
+    return consent_allows_document_access(
+        latest,
+        required_scope="SCOPE_DOCUMENT_SHARING",
+        required_purpose="purpose_consultation",
+        required_role="Veterinarian",
+    )

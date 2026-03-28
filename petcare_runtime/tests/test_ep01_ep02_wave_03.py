@@ -38,7 +38,8 @@ def test_timeline_can_filter_by_category(tmp_path: Path) -> None:
     pet_id = seed_pet_records(service)
 
     timeline = service.get_timeline(pet_id, category="vaccinations")
-    assert list(timeline.keys()) == ["vaccinations", "pet_id"]
+    assert "vaccinations" in timeline
+    assert "pet_id" in timeline
     assert len(timeline["vaccinations"]) == 1
 
 

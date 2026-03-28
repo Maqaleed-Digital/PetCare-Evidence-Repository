@@ -223,19 +223,21 @@ def test_upload_document_owner_valid(tmp_path: Path) -> None:
         owner_id="owner-1",
     )
     result = upload_document(
-        access=access,
-        resource=resource,
-        correlation_id="corr-wave04-upload",
+        pet_id=pet.pet_id,
         document_type="lab_report",
         object_storage_key="pets/luna/lab_report.pdf",
         mime_type="application/pdf",
         size_bytes=500_000,
+        uploaded_by_actor_id=access.actor_id,
         visibility_scope="owner_and_vet",
         checksum_sha256="abc123def456",
+        correlation_id="corr-wave04-upload",
+        tenant_id=access.tenant_id,
+        actor_role=access.actor_role,
+        clinic_id=access.clinic_id,
     )
-    assert result["allowed"] is True
-    assert result["uploaded"] is True
-    assert "document_id" in result
+    assert result["status"] == "created"
+    assert "uphr_document_id" in result
     assert result["audit_event"].event_name == "uphr.document.uploaded"
 
 
@@ -262,18 +264,24 @@ def test_upload_document_rejected_bad_mime(tmp_path: Path) -> None:
         clinic_id=None,
         owner_id="owner-1",
     )
-    result = upload_document(
-        access=access,
-        resource=resource,
-        correlation_id="corr-wave04-reject",
-        document_type="lab_report",
-        object_storage_key="pets/luna/malware.exe",
-        mime_type="application/exe",
-        size_bytes=100,
-        visibility_scope="owner_only",
-        checksum_sha256="abc123def456",
-    )
-    assert result["allowed"] is True
-    assert result["uploaded"] is False
-    assert result["reason_code"] == "unsupported_mime_type"
-    assert result["audit_event"].event_name == "uphr.document.upload_rejected"
+    try:
+        upload_document(
+            pet_id=pet.pet_id,
+            document_type="lab_report",
+            object_storage_key="pets/luna/malware.exe",
+            mime_type="application/exe",
+            size_bytes=100,
+            uploaded_by_actor_id=access.actor_id,
+            visibility_scope="owner_only",
+            checksum_sha256="abc123def456",
+            correlation_id="corr-wave04-reject",
+            tenant_id=access.tenant_id,
+            actor_role=access.actor_role,
+            clinic_id=access.clinic_id,
+        )
+    except ValueError as exc:
+        payload = exc.args[0]
+        assert payload["reason_code"] == "unsupported_mime_type"
+        assert payload["audit_event"].event_name == "uphr.document.upload_failed"
+    else:
+        raise AssertionError("Expected ValueError for invalid upload")

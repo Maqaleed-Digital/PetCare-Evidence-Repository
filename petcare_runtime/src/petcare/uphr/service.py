@@ -199,8 +199,8 @@ class UPHRService:
         search_term: str | None = None,
         page: int = 1,
         page_size: int = 50,
-    ) -> Dict[str, List[dict] | str]:
-        timeline: Dict[str, List[dict] | str] = {
+    ) -> Dict[str, List[dict] | str | int]:
+        timeline: Dict[str, List[dict] | str | int] = {
             "pet_id": pet_id,
             "allergies": list(self._cache["allergies"].get(pet_id, [])),
             "medications": list(self._cache["medications"].get(pet_id, [])),
@@ -211,7 +211,7 @@ class UPHRService:
         }
 
         if category:
-            filtered: Dict[str, List[dict] | str] = {category: timeline.get(category, [])}
+            filtered: Dict[str, List[dict] | str | int] = {category: timeline.get(category, [])}
             filtered["pet_id"] = pet_id
             timeline = filtered
 
@@ -225,12 +225,21 @@ class UPHRService:
                     if lowered in str(item).lower()
                 ]
 
-        for key, items in list(timeline.items()):
-            if key == "pet_id":
-                continue
-            timeline[key] = FileBackedRepository.paginate(items, page, page_size)  # type: ignore[arg-type]
+        ordered_keys = [key for key in timeline.keys() if key != "pet_id"]
+        ordered_keys = self.repository.ordered_timeline_keys(ordered_keys)
 
-        return timeline
+        paged_timeline: Dict[str, List[dict] | str | int] = {"pet_id": pet_id}
+        total_items = 0
+        for key in ordered_keys:
+            items = timeline[key]  # type: ignore[assignment]
+            total_items += len(items)  # type: ignore[arg-type]
+            paged_timeline[key] = self.repository.paginate(items, page=page, page_size=page_size)  # type: ignore[arg-type]
+
+        paged_timeline["page"] = page
+        paged_timeline["page_size"] = page_size
+        paged_timeline["page_count"] = self.repository.page_count(total_items, page_size)
+        paged_timeline["timeline_order"] = ordered_keys  # type: ignore[assignment]
+        return paged_timeline
 
     def build_prompt_safe_timeline_summary(self, pet_id: str) -> str:
         timeline = self.get_timeline(pet_id=pet_id)

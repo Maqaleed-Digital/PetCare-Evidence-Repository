@@ -6,6 +6,16 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 
+TIMELINE_ORDER = [
+    "clinical_notes",
+    "labs",
+    "medications",
+    "allergies",
+    "vaccinations",
+    "documents",
+]
+
+
 class FileBackedRepository:
     def __init__(self, storage_path: str) -> None:
         self.storage_path = Path(storage_path)
@@ -34,8 +44,18 @@ class FileBackedRepository:
         bucket.setdefault(pet_id, []).append(asdict(record))
 
     @staticmethod
-    def paginate(items: List[Any], page: int, page_size: int) -> List[Any]:
+    def paginate(items: List[dict], page: int, page_size: int) -> List[dict]:
+        start = max(page - 1, 0) * page_size
+        end = start + page_size
+        return items[start:end]
+
+    @staticmethod
+    def page_count(total_items: int, page_size: int) -> int:
         if page_size <= 0:
-            return items
-        start = (page - 1) * page_size
-        return items[start: start + page_size]
+            return 0
+        return (total_items + page_size - 1) // page_size
+
+    @staticmethod
+    def ordered_timeline_keys(keys: List[str]) -> List[str]:
+        order_index = {name: idx for idx, name in enumerate(TIMELINE_ORDER)}
+        return sorted(keys, key=lambda key: order_index.get(key, 999))

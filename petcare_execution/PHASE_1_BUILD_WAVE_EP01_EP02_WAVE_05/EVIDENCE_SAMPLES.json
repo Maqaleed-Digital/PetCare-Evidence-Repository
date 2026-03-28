@@ -1,0 +1,47 @@
+{
+  "pack_id": "PETCARE-PHASE-1-BUILD-WAVE-EP01-EP02-WAVE-05",
+  "predecessor_commit": "5136c3f359d0cd463d722fc53fe75e3e4131b129",
+  "evidence_samples": {
+    "timeline_sample": {
+      "pet_id": "735d89b1-764a-42f2-821e-e98575fafd85",
+      "clinical_notes": [
+        {
+          "clinical_note_id": "bf5fa00b-12c3-49ea-938b-539a63dfa67c",
+          "pet_id": "735d89b1-764a-42f2-821e-e98575fafd85",
+          "consultation_id_nullable": null,
+          "note_type": "soap",
+          "content_structured_or_text": "Sample note for evidence",
+          "author_actor_id": "vet-1",
+          "signed_by_actor_id_nullable": null,
+          "signed_at_nullable": null,
+          "status": "draft",
+          "created_at": "2026-03-28T19:38:00.622681+00:00",
+          "updated_at": "2026-03-28T19:38:00.622681+00:00",
+          "version_no": 1
+        }
+      ],
+      "labs": [],
+      "medications": [],
+      "allergies": [],
+      "vaccinations": [],
+      "documents": [],
+      "page": 1,
+      "page_size": 10,
+      "page_count": 1,
+      "timeline_order": [
+        "clinical_notes",
+        "labs",
+        "medications",
+        "allergies",
+        "vaccinations",
+        "documents"
+      ]
+    },
+    "upload_audit_event": {
+      "event_name": "uphr.document.uploaded",
+      "action_result": "allowed",
+      "reason_code": "document_uploaded"
+    },
+    "pytest_output_path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_BUILD_WAVE_EP01_EP02_WAVE_05/pytest_output.txt"
+  }
+}

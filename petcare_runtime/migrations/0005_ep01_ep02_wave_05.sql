@@ -1,0 +1,7 @@
+-- No schema change in wave 05.
+-- This migration reserves the governed build-wave checkpoint for:
+-- consent record persistence and lookup baseline
+-- upload route audit success and failure baseline
+-- timeline ordering guarantees
+-- page count metadata baseline
+-- richer evidence sample bundles

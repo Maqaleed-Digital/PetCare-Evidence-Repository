@@ -1,0 +1,42 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /usr/local/opt/python@3.14/bin/python3.14
+cachedir: .pytest_cache
+rootdir: /Users/waheebmahmoud/dev/petcare-evidence-repository
+collecting ... collected 34 items
+
+petcare_runtime/tests/test_ep01_ep02_baseline.py::test_owner_can_view_own_pet_profile PASSED [  2%]
+petcare_runtime/tests/test_ep01_ep02_baseline.py::test_vet_denied_without_scope PASSED [  5%]
+petcare_runtime/tests/test_ep01_ep02_baseline.py::test_vet_allowed_with_care_delivery_scope PASSED [  8%]
+petcare_runtime/tests/test_ep01_ep02_baseline.py::test_owner_can_create_consent PASSED [ 11%]
+petcare_runtime/tests/test_ep01_ep02_baseline.py::test_create_pet_profile_returns_created PASSED [ 14%]
+petcare_runtime/tests/test_ep01_ep02_wave_02.py::test_create_vaccination_lab_note_and_document_records PASSED [ 17%]
+petcare_runtime/tests/test_ep01_ep02_wave_02.py::test_repository_persists_records PASSED [ 20%]
+petcare_runtime/tests/test_ep01_ep02_wave_02.py::test_owner_can_view_document PASSED [ 23%]
+petcare_runtime/tests/test_ep01_ep02_wave_02.py::test_vet_can_view_shared_document_with_scope PASSED [ 26%]
+petcare_runtime/tests/test_ep01_ep02_wave_02.py::test_vet_denied_document_without_scope PASSED [ 29%]
+petcare_runtime/tests/test_ep01_ep02_wave_02.py::test_platform_admin_can_view_document_for_audit PASSED [ 32%]
+petcare_runtime/tests/test_ep01_ep02_wave_03.py::test_timeline_can_filter_by_category PASSED [ 35%]
+petcare_runtime/tests/test_ep01_ep02_wave_03.py::test_timeline_can_search PASSED [ 38%]
+petcare_runtime/tests/test_ep01_ep02_wave_03.py::test_document_validation_rejects_bad_mime_type PASSED [ 41%]
+petcare_runtime/tests/test_ep01_ep02_wave_03.py::test_document_validation_rejects_large_document PASSED [ 44%]
+petcare_runtime/tests/test_ep01_ep02_wave_03.py::test_prompt_safe_timeline_summary_redacts_sensitive_values PASSED [ 47%]
+petcare_runtime/tests/test_ep01_ep02_wave_03.py::test_owner_can_view_timeline_route PASSED [ 50%]
+petcare_runtime/tests/test_ep01_ep02_wave_03.py::test_vet_can_get_prompt_safe_summary_with_care_scope PASSED [ 52%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_consent_allows_document_access_active_match PASSED [ 55%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_consent_allows_document_access_revoked_denied PASSED [ 58%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_consent_allows_document_access_wrong_role_denied PASSED [ 61%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_vet_document_access_denied_without_active_consent PASSED [ 64%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_vet_document_access_allowed_with_active_consent PASSED [ 67%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_timeline_pagination_page_1 PASSED [ 70%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_timeline_pagination_page_2 PASSED [ 73%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_timeline_pagination_route_passes_params PASSED [ 76%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_upload_document_owner_valid PASSED [ 79%]
+petcare_runtime/tests/test_ep01_ep02_wave_04.py::test_upload_document_rejected_bad_mime PASSED [ 82%]
+petcare_runtime/tests/test_ep01_ep02_wave_05.py::test_consent_repository_persists_and_lists_records PASSED [ 85%]
+petcare_runtime/tests/test_ep01_ep02_wave_05.py::test_latest_document_consent_allows_true PASSED [ 88%]
+petcare_runtime/tests/test_ep01_ep02_wave_05.py::test_latest_document_consent_allows_false_without_match PASSED [ 91%]
+petcare_runtime/tests/test_ep01_ep02_wave_05.py::test_upload_document_route_success_emits_audit PASSED [ 94%]
+petcare_runtime/tests/test_ep01_ep02_wave_05.py::test_upload_document_route_failure_emits_audit_payload PASSED [ 97%]
+petcare_runtime/tests/test_ep01_ep02_wave_05.py::test_timeline_page_count_and_order PASSED [100%]
+
+============================== 34 passed in 0.33s ==============================
