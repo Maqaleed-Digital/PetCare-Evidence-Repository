@@ -1,0 +1,68 @@
+{
+  "pack_id": "PETCARE-PHASE-1-BUILD-WAVE-EP01-EP02",
+  "predecessor_commit": "1206df7df9445e317cd8f0371b16301c107237e3",
+  "test_result": "5 passed",
+  "artifact_root": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_BUILD_WAVE_EP01_EP02",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime/src/petcare/__init__.py",
+      "sha256": "c33779cc35cb68e718a176d83c37639257f1c45ec869b4078cdfbe3f0a8f8cd8",
+      "size_bytes": 40
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime/src/petcare/auth/access_control.py",
+      "sha256": "e11c51d55ec726d29546e335d09414bdf4866f68a50a563cb2083bdbad6c40e9",
+      "size_bytes": 3995
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime/src/petcare/consent/consent_service.py",
+      "sha256": "43747d21e43b5c77cc4f454343d7c093c393076d3723d8165c34437cb61df1ba",
+      "size_bytes": 1390
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime/src/petcare/audit/audit_service.py",
+      "sha256": "3a8e8f128f4c9d7d567a6229031b4735666098aef665eed5e8c61f747792975b",
+      "size_bytes": 1338
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime/src/petcare/uphr/models.py",
+      "sha256": "b2c57c0adb8ed6d3d6fcb12b1357f167493088be1d23c927a19e753584289b89",
+      "size_bytes": 1205
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime/src/petcare/uphr/service.py",
+      "sha256": "4c81dde566fd5d2d1da89b9a4437af6fd2147d880b09849872f033cefe227047",
+      "size_bytes": 2812
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime/src/petcare/api/routes_ep01_ep02.py",
+      "sha256": "3723c6b435a88b0c73066e8687f318f45cdf197b488b9a564abebf73813759e7",
+      "size_bytes": 4318
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime/migrations/0001_ep01_ep02_baseline.sql",
+      "sha256": "f97c85417df42f71d140a874a3a8dfb8ff26506f199cccddff6b0b9a8ff63f9c",
+      "size_bytes": 1906
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime/tests/test_ep01_ep02_baseline.py",
+      "sha256": "7b89d0abd2cdaf71a091ff1c644507e00e5769759932ea0a53b88f89428c4be4",
+      "size_bytes": 3172
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_BUILD_WAVE_EP01_EP02/BUILD_WAVE_SUMMARY.md",
+      "sha256": "6555808ef2df9aa48541e10b0283e4e0fa38cf61e15d2e6b238c44803210c19e",
+      "size_bytes": 950
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_BUILD_WAVE_EP01_EP02/NOTION_READY_UPDATE.md",
+      "sha256": "d60b1e4b4b35fe48ff175473b27494df19eb980338fbdbe7d2220f029d40ba4c",
+      "size_bytes": 1367
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_BUILD_WAVE_EP01_EP02/EMERGENT_READY_PROMPT.md",
+      "sha256": "62a8d7315bfd371ec5e573cf0ae03deb2f9ca1d75b8e08e3c92989b9e29ea22f",
+      "size_bytes": 1368
+    }
+  ]
+}
