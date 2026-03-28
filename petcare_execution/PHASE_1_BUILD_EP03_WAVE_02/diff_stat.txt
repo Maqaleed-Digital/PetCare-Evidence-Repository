@@ -1,0 +1,5 @@
+ petcare_runtime/src/petcare/api/routes_ep03.py     | 159 +++++++++++++++++++++
+ petcare_runtime/src/petcare/auth/access_control.py |  15 ++
+ .../consultation/consultation_repository.py        |   9 ++
+ .../petcare/consultation/consultation_service.py   |  36 +++++
+ 4 files changed, 219 insertions(+)

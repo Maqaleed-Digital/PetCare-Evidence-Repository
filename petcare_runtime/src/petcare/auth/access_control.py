@@ -186,3 +186,18 @@ def authorize_manage_consultation(access: AccessContext, resource: ResourceConte
             return AccessDecision(True, "vet_manage_consultation")
         return AccessDecision(False, "vet_wrong_purpose")
     return AccessDecision(False, "consultation_manage_denied")
+
+
+def authorize_view_consultation(access: AccessContext, resource: ResourceContext) -> AccessDecision:
+    """Owner or Veterinarian may view consultation sessions and notes."""
+    if not _tenant_match(access, resource):
+        return AccessDecision(False, "tenant_mismatch")
+    if access.actor_role == ROLE_OWNER:
+        if access.owner_id == resource.owner_id and access.purpose_of_use == PURPOSE_OWNER_SELF_SERVICE:
+            return AccessDecision(True, "owner_view_consultation")
+        return AccessDecision(False, "owner_not_authorized")
+    if access.actor_role == ROLE_VETERINARIAN:
+        if access.purpose_of_use == PURPOSE_CONSULTATION:
+            return AccessDecision(True, "vet_view_consultation")
+        return AccessDecision(False, "vet_wrong_purpose")
+    return AccessDecision(False, "consultation_view_denied")

@@ -6,6 +6,7 @@ from petcare.auth.access_control import (
     ResourceContext,
     authorize_manage_consultation,
     authorize_request_consultation,
+    authorize_view_consultation,
     ROLE_VETERINARIAN,
 )
 from petcare.consultation.consultation_repository import ConsultationRepository
@@ -16,6 +17,7 @@ from petcare.consultation.consultation_service import (
     cancel_consultation,
     complete_consultation,
     create_draft_note,
+    get_note_read_model,
     request_consultation,
     request_escalation,
     sign_note,
@@ -393,3 +395,160 @@ def request_consultation_escalation(
         correlation_id=correlation_id,
     )
     return {"allowed": True, "session": escalated, "audit_event": audit}
+
+
+# --- retrieval and listing (Wave 02) ---
+
+def get_consultation_session_route(
+    access: AccessContext,
+    resource: ResourceContext,
+    session_id: str,
+    correlation_id: str,
+) -> dict:
+    decision = authorize_view_consultation(access, resource)
+    if not decision.allowed:
+        audit = emit_audit_event(
+            event_name="access.denied",
+            actor_id=access.actor_id,
+            actor_role=access.actor_role,
+            tenant_id=access.tenant_id,
+            clinic_id=access.clinic_id,
+            resource_type=resource.resource_type,
+            resource_id=resource.resource_id,
+            action_result="denied",
+            reason_code=decision.reason_code,
+            correlation_id=correlation_id,
+        )
+        return {"allowed": False, "reason_code": decision.reason_code, "audit_event": audit}
+
+    session = consultation_repository.get_session(session_id)
+    audit = emit_audit_event(
+        event_name="consultation.session.viewed",
+        actor_id=access.actor_id,
+        actor_role=access.actor_role,
+        tenant_id=access.tenant_id,
+        clinic_id=access.clinic_id,
+        resource_type=resource.resource_type,
+        resource_id=resource.resource_id,
+        action_result="allowed",
+        reason_code=decision.reason_code,
+        correlation_id=correlation_id,
+    )
+    return {"allowed": True, "session": session, "audit_event": audit}
+
+
+def list_consultation_sessions(
+    access: AccessContext,
+    resource: ResourceContext,
+    correlation_id: str,
+) -> dict:
+    decision = authorize_view_consultation(access, resource)
+    if not decision.allowed:
+        audit = emit_audit_event(
+            event_name="access.denied",
+            actor_id=access.actor_id,
+            actor_role=access.actor_role,
+            tenant_id=access.tenant_id,
+            clinic_id=access.clinic_id,
+            resource_type=resource.resource_type,
+            resource_id=resource.resource_id,
+            action_result="denied",
+            reason_code=decision.reason_code,
+            correlation_id=correlation_id,
+        )
+        return {"allowed": False, "reason_code": decision.reason_code, "audit_event": audit}
+
+    sessions = consultation_repository.list_sessions_for_pet(resource.resource_id)
+    audit = emit_audit_event(
+        event_name="consultation.session.listed",
+        actor_id=access.actor_id,
+        actor_role=access.actor_role,
+        tenant_id=access.tenant_id,
+        clinic_id=access.clinic_id,
+        resource_type=resource.resource_type,
+        resource_id=resource.resource_id,
+        action_result="allowed",
+        reason_code=decision.reason_code,
+        correlation_id=correlation_id,
+    )
+    return {"allowed": True, "sessions": sessions, "audit_event": audit}
+
+
+def get_consultation_note_route(
+    access: AccessContext,
+    resource: ResourceContext,
+    session_id: str,
+    note_id: str,
+    correlation_id: str,
+) -> dict:
+    decision = authorize_view_consultation(access, resource)
+    if not decision.allowed:
+        audit = emit_audit_event(
+            event_name="access.denied",
+            actor_id=access.actor_id,
+            actor_role=access.actor_role,
+            tenant_id=access.tenant_id,
+            clinic_id=access.clinic_id,
+            resource_type=resource.resource_type,
+            resource_id=resource.resource_id,
+            action_result="denied",
+            reason_code=decision.reason_code,
+            correlation_id=correlation_id,
+        )
+        return {"allowed": False, "reason_code": decision.reason_code, "audit_event": audit}
+
+    notes = consultation_repository.list_notes_for_session(session_id)
+    note = next((n for n in notes if n.note_id == note_id), None)
+    audit = emit_audit_event(
+        event_name="consultation.note.viewed",
+        actor_id=access.actor_id,
+        actor_role=access.actor_role,
+        tenant_id=access.tenant_id,
+        clinic_id=access.clinic_id,
+        resource_type=resource.resource_type,
+        resource_id=resource.resource_id,
+        action_result="allowed",
+        reason_code=decision.reason_code,
+        correlation_id=correlation_id,
+    )
+    read_model = get_note_read_model(note) if note is not None else None
+    return {"allowed": True, "note": read_model, "audit_event": audit}
+
+
+def list_consultation_notes_route(
+    access: AccessContext,
+    resource: ResourceContext,
+    session_id: str,
+    correlation_id: str,
+) -> dict:
+    decision = authorize_view_consultation(access, resource)
+    if not decision.allowed:
+        audit = emit_audit_event(
+            event_name="access.denied",
+            actor_id=access.actor_id,
+            actor_role=access.actor_role,
+            tenant_id=access.tenant_id,
+            clinic_id=access.clinic_id,
+            resource_type=resource.resource_type,
+            resource_id=resource.resource_id,
+            action_result="denied",
+            reason_code=decision.reason_code,
+            correlation_id=correlation_id,
+        )
+        return {"allowed": False, "reason_code": decision.reason_code, "audit_event": audit}
+
+    notes = consultation_repository.list_notes_for_session(session_id)
+    read_models = [get_note_read_model(n) for n in notes]
+    audit = emit_audit_event(
+        event_name="consultation.note.listed",
+        actor_id=access.actor_id,
+        actor_role=access.actor_role,
+        tenant_id=access.tenant_id,
+        clinic_id=access.clinic_id,
+        resource_type=resource.resource_type,
+        resource_id=resource.resource_id,
+        action_result="allowed",
+        reason_code=decision.reason_code,
+        correlation_id=correlation_id,
+    )
+    return {"allowed": True, "notes": read_models, "audit_event": audit}

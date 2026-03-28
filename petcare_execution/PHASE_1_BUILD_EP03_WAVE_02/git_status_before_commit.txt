@@ -1,0 +1,6 @@
+ M petcare_runtime/src/petcare/api/routes_ep03.py
+ M petcare_runtime/src/petcare/auth/access_control.py
+ M petcare_runtime/src/petcare/consultation/consultation_repository.py
+ M petcare_runtime/src/petcare/consultation/consultation_service.py
+?? petcare_execution/PHASE_1_BUILD_EP03_WAVE_02/
+?? petcare_runtime/tests/test_ep03_wave_02.py

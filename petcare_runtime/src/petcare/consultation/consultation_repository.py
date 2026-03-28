@@ -40,6 +40,15 @@ class ConsultationRepository:
             return None
         return ConsultationSession(**raw)
 
+    def list_sessions_for_pet(self, pet_id: str) -> List[ConsultationSession]:
+        """Return all sessions for a given pet_id regardless of status."""
+        data = self.load()
+        return [
+            ConsultationSession(**raw)
+            for raw in data.get("sessions", {}).values()
+            if raw.get("pet_id") == pet_id
+        ]
+
     def add_note(self, note: ConsultationNote) -> None:
         data = self.load()
         data.setdefault("notes", {}).setdefault(note.session_id, []).append(asdict(note))

@@ -1,0 +1,18 @@
+Objective:
+- strengthen consultation audit contract and deterministic serialization for EP-03 events
+- add consultation retrieval and listing behavior with governed access boundaries
+- formalize signed consultation read model behavior
+- expand state-transition negative tests and immutability coverage
+- prepare EP-03 closure-readiness evidence without expanding into Emergency or Pharmacy domains
+
+Constraints:
+- no guessing
+- full file outputs only
+- overwrite-safe writes only
+- explicit file paths
+- deterministic evidence output
+- minimum files only
+- no protected-zone semantic drift
+- preserve closed EP-01 / EP-02 baseline
+- no Emergency domain expansion
+- pushed commit hash is the only source of truth

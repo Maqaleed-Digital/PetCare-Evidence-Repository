@@ -1,0 +1,59 @@
+{
+  "required_sections": [
+    "consultation_audit_contract_samples",
+    "consultation_serialization_samples",
+    "consultation_retrieval_samples",
+    "consultation_listing_samples",
+    "signed_read_model_samples",
+    "negative_transition_samples",
+    "immutability_samples",
+    "ep03_closure_readiness_samples"
+  ],
+  "required_fields": {
+    "consultation_audit_contract_samples": [
+      "event_type",
+      "required_fields_present",
+      "missing_fields",
+      "deterministic"
+    ],
+    "consultation_serialization_samples": [
+      "event_type",
+      "serialized_keys_sorted",
+      "serialized_output"
+    ],
+    "consultation_retrieval_samples": [
+      "session_id",
+      "actor_role",
+      "access_result",
+      "read_model"
+    ],
+    "consultation_listing_samples": [
+      "actor_role",
+      "listing_scope",
+      "result_count",
+      "access_result"
+    ],
+    "signed_read_model_samples": [
+      "session_id",
+      "note_id",
+      "note_state",
+      "signed_read_only"
+    ],
+    "negative_transition_samples": [
+      "session_id",
+      "from_status",
+      "to_status",
+      "result"
+    ],
+    "immutability_samples": [
+      "session_id",
+      "note_id",
+      "mutation_attempt_result"
+    ],
+    "ep03_closure_readiness_samples": [
+      "check_id",
+      "status",
+      "evidence_ref"
+    ]
+  }
+}

@@ -6,6 +6,23 @@ from typing import Optional, Set
 from uuid import uuid4
 
 
+CONSULTATION_AUDIT_EVENTS = [
+    "consultation.session.requested",
+    "consultation.session.started",
+    "consultation.session.cancelled",
+    "consultation.session.completed",
+    "consultation.session.complete_denied",
+    "consultation.session.escalation_requested",
+    "consultation.session.viewed",
+    "consultation.session.listed",
+    "consultation.note.created",
+    "consultation.note.updated",
+    "consultation.note.update_denied",
+    "consultation.note.signed",
+    "consultation.note.viewed",
+    "consultation.note.listed",
+]
+
 SESSION_REQUESTED = "REQUESTED"
 SESSION_ACTIVE = "ACTIVE"
 SESSION_COMPLETED = "COMPLETED"
@@ -141,6 +158,25 @@ def sign_note(note: ConsultationNote, signing_actor_id: str) -> ConsultationNote
     note.signed_at = utc_now_iso()
     note.signed_by_actor_id = signing_actor_id
     return note
+
+
+def get_note_read_model(note: ConsultationNote) -> dict:
+    """Return a deterministic read model dict for a ConsultationNote.
+    Includes read_only flag: True for SIGNED notes, False for DRAFT.
+    Keys returned in sorted order for determinism.
+    """
+    return dict(sorted({
+        "note_id": note.note_id,
+        "session_id": note.session_id,
+        "pet_id": note.pet_id,
+        "veterinarian_id": note.veterinarian_id,
+        "content": note.content,
+        "status": note.status,
+        "read_only": note.status == NOTE_SIGNED,
+        "created_at": note.created_at,
+        "signed_at": note.signed_at,
+        "signed_by_actor_id": note.signed_by_actor_id,
+    }.items()))
 
 
 def request_escalation(session: ConsultationSession) -> ConsultationSession:
