@@ -99,6 +99,9 @@ def test_vet_can_view_shared_document_with_scope() -> None:
         clinic_id="clinic-1",
         owner_id="owner-1",
         document_shared=True,
+        consent_record_active=True,
+        consent_granted_role="Veterinarian",
+        consent_purpose_of_use="purpose_consultation",
     )
     result = get_document(access, resource, correlation_id="corr-doc-vet")
     assert result["allowed"] is True

@@ -197,19 +197,21 @@ class UPHRService:
         pet_id: str,
         category: str | None = None,
         search_term: str | None = None,
+        page: int = 1,
+        page_size: int = 50,
     ) -> Dict[str, List[dict] | str]:
-        timeline = {
+        timeline: Dict[str, List[dict] | str] = {
             "pet_id": pet_id,
-            "allergies": self._cache["allergies"].get(pet_id, []),
-            "medications": self._cache["medications"].get(pet_id, []),
-            "vaccinations": self._cache["vaccinations"].get(pet_id, []),
-            "labs": self._cache["labs"].get(pet_id, []),
-            "clinical_notes": self._cache["clinical_notes"].get(pet_id, []),
-            "documents": self._cache["documents"].get(pet_id, []),
+            "allergies": list(self._cache["allergies"].get(pet_id, [])),
+            "medications": list(self._cache["medications"].get(pet_id, [])),
+            "vaccinations": list(self._cache["vaccinations"].get(pet_id, [])),
+            "labs": list(self._cache["labs"].get(pet_id, [])),
+            "clinical_notes": list(self._cache["clinical_notes"].get(pet_id, [])),
+            "documents": list(self._cache["documents"].get(pet_id, [])),
         }
 
         if category:
-            filtered = {category: timeline.get(category, [])}
+            filtered: Dict[str, List[dict] | str] = {category: timeline.get(category, [])}
             filtered["pet_id"] = pet_id
             timeline = filtered
 
@@ -219,9 +221,14 @@ class UPHRService:
                 if key == "pet_id":
                     continue
                 timeline[key] = [
-                    item for item in items
+                    item for item in items  # type: ignore[union-attr]
                     if lowered in str(item).lower()
                 ]
+
+        for key, items in list(timeline.items()):
+            if key == "pet_id":
+                continue
+            timeline[key] = FileBackedRepository.paginate(items, page, page_size)  # type: ignore[arg-type]
 
         return timeline
 

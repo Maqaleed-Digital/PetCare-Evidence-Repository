@@ -32,3 +32,10 @@ class FileBackedRepository:
     @staticmethod
     def append_record(bucket: Dict[str, List[Dict[str, Any]]], pet_id: str, record: Any) -> None:
         bucket.setdefault(pet_id, []).append(asdict(record))
+
+    @staticmethod
+    def paginate(items: List[Any], page: int, page_size: int) -> List[Any]:
+        if page_size <= 0:
+            return items
+        start = (page - 1) * page_size
+        return items[start: start + page_size]

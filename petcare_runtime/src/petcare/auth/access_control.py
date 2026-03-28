@@ -48,6 +48,9 @@ class ResourceContext:
     assigned_pharmacy_operator_id: Optional[str] = None
     document_shared: bool = False
     document_visibility_scope: Optional[str] = None
+    consent_record_active: bool = False
+    consent_granted_role: Optional[str] = None
+    consent_purpose_of_use: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -106,6 +109,12 @@ def authorize_view_document(access: AccessContext, resource: ResourceContext) ->
             return AccessDecision(False, "vet_missing_document_scope")
         if not resource.document_shared:
             return AccessDecision(False, "document_not_shared")
+        if not resource.consent_record_active:
+            return AccessDecision(False, "document_missing_active_consent")
+        if resource.consent_granted_role != ROLE_VETERINARIAN:
+            return AccessDecision(False, "document_wrong_consent_role")
+        if resource.consent_purpose_of_use != PURPOSE_CONSULTATION:
+            return AccessDecision(False, "document_wrong_consent_purpose")
         return AccessDecision(True, "vet_document_shared")
 
     if access.actor_role == ROLE_PLATFORM_ADMIN:

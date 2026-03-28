@@ -57,3 +57,17 @@ def revoke_consent_record(record: ConsentRecord) -> ConsentRecord:
     record.status = STATUS_REVOKED
     record.revoked_at = utc_now_iso()
     return record
+
+
+def consent_allows_document_access(
+    record: ConsentRecord,
+    required_scope: str,
+    required_purpose: str,
+    required_role: str,
+) -> bool:
+    return (
+        record.status == STATUS_ACTIVE
+        and record.consent_scope == required_scope
+        and record.purpose_of_use == required_purpose
+        and record.granted_to_role == required_role
+    )

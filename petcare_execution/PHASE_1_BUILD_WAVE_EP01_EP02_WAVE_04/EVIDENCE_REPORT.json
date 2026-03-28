@@ -1,0 +1,30 @@
+{
+  "pack_id": "PETCARE-PHASE-1-BUILD-WAVE-EP01-EP02-WAVE-04",
+  "predecessor_commit": "a0b8decb418ac39db50549c3a93b51c2f58770cb",
+  "hard_gate": "PASS",
+  "test_run": {
+    "total": 28,
+    "passed": 28,
+    "failed": 0,
+    "tool": "pytest",
+    "python": "3.14.3"
+  },
+  "gates": {
+    "G-C1": "PASS",
+    "G-A1": "PASS",
+    "G-R1": "PASS",
+    "G-S1": "PASS",
+    "G-O1": "PASS"
+  },
+  "protected_zone_changed": false,
+  "files_sha256": {
+    "petcare_runtime/src/petcare/consent/consent_service.py": "507ee3e85ddadcdcd1b7e5ea0a0e5d0cdbfb9aab8bb18f6a3ecc427a2b446f99",
+    "petcare_runtime/src/petcare/auth/access_control.py": "131bb1e72f54df174d67270ad6d5692e7978da0271fcdc2a65ce8c3f695e44a4",
+    "petcare_runtime/src/petcare/uphr/repository.py": "b00d21afe99b2398c3d000290ea769530f0e04d26e4ebb347c7b94cb9706c707",
+    "petcare_runtime/src/petcare/uphr/service.py": "4218973b6d426bfb95f1775642c03c35267c08ea256bffee66d951eff455e6a9",
+    "petcare_runtime/src/petcare/api/routes_ep01_ep02.py": "8986864031e924b05a9aa546f55237b7e09bc6aabb2569b3c765395b377a8e9d",
+    "petcare_runtime/migrations/0004_ep01_ep02_wave_04.sql": "d625c19f08781292ef09ee4f575efdde05a9eb373402c244e85afa67fc8b122f",
+    "petcare_runtime/tests/test_ep01_ep02_wave_04.py": "0128b821f6ecc018851bf64ed39d7629df04792d76890264d9cd3ff25cb0bfbd",
+    "petcare_runtime/tests/test_ep01_ep02_wave_02.py": "2f0b928fcf10f287c1404095ab5a4b3c8e44cd0766258dd8e8692f7c5ae1e212"
+  }
+}
