@@ -19,8 +19,24 @@ from petcare.uphr.prompt_redaction import redact_prompt_safe_text
 from petcare.uphr.repository import FileBackedRepository
 
 
+# Explicit sort key per timeline bucket — most recent first.
+BUCKET_SORT_KEY: Dict[str, str] = {
+    "clinical_notes": "created_at",
+    "labs": "recorded_at",
+    "medications": "recorded_at",
+    "allergies": "recorded_at",
+    "vaccinations": "administered_at",
+    "documents": "created_at",
+}
+
+
 def utc_now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()
+
+
+def _sort_key_for_item(item: dict, bucket_key: str) -> str:
+    primary = BUCKET_SORT_KEY.get(bucket_key, "recorded_at")
+    return item.get(primary) or item.get("recorded_at") or item.get("created_at") or ""
 
 
 class UPHRService:
@@ -231,9 +247,11 @@ class UPHRService:
         paged_timeline: Dict[str, List[dict] | str | int] = {"pet_id": pet_id}
         total_items = 0
         for key in ordered_keys:
-            items = timeline[key]  # type: ignore[assignment]
-            total_items += len(items)  # type: ignore[arg-type]
-            paged_timeline[key] = self.repository.paginate(items, page=page, page_size=page_size)  # type: ignore[arg-type]
+            items = list(timeline[key])  # type: ignore[arg-type]
+            # Sort within bucket by explicit timestamp key, most recent first.
+            items = sorted(items, key=lambda item: _sort_key_for_item(item, key), reverse=True)
+            total_items += len(items)
+            paged_timeline[key] = self.repository.paginate(items, page=page, page_size=page_size)
 
         paged_timeline["page"] = page
         paged_timeline["page_size"] = page_size

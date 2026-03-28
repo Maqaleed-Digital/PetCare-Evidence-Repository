@@ -4,9 +4,12 @@ from petcare.auth.access_control import (
     AccessContext,
     ResourceContext,
     authorize_manage_consent,
+    authorize_upload_document,
     authorize_view_document,
     authorize_view_pet_profile,
     authorize_view_timeline,
+    PURPOSE_OWNER_SELF_SERVICE,
+    ROLE_OWNER,
 )
 from petcare.audit.audit_service import emit_audit_event
 from petcare.consent.consent_repository import ConsentRepository
@@ -40,7 +43,45 @@ def upload_document(
     tenant_id: str,
     actor_role: str,
     clinic_id: str | None = None,
+    owner_id: str | None = None,
+    purpose_of_use: str | None = None,
+    consent_scopes: frozenset | None = None,
 ) -> dict:
+    # Authorization must execute before any persistence side effect.
+    if owner_id is not None:
+        access = AccessContext(
+            actor_id=uploaded_by_actor_id,
+            actor_role=actor_role,
+            tenant_id=tenant_id,
+            clinic_id=clinic_id,
+            purpose_of_use=purpose_of_use or PURPOSE_OWNER_SELF_SERVICE,
+            consent_scopes=set(consent_scopes) if consent_scopes else set(),
+            # For ROLE_OWNER the actor's own identity IS the owner_id.
+            owner_id=uploaded_by_actor_id if actor_role == ROLE_OWNER else None,
+        )
+        resource = ResourceContext(
+            resource_type="pet",
+            resource_id=pet_id,
+            tenant_id=tenant_id,
+            clinic_id=clinic_id,
+            owner_id=owner_id,
+        )
+        decision = authorize_upload_document(access, resource)
+        if not decision.allowed:
+            audit = emit_audit_event(
+                event_name="access.denied",
+                actor_id=uploaded_by_actor_id,
+                actor_role=actor_role,
+                tenant_id=tenant_id,
+                clinic_id=clinic_id,
+                resource_type="pet",
+                resource_id=pet_id,
+                action_result="denied",
+                reason_code=decision.reason_code,
+                correlation_id=correlation_id,
+            )
+            raise ValueError({"reason_code": decision.reason_code, "audit_event": audit})
+
     try:
         document = uphr_service.create_document(
             pet_id=pet_id,
@@ -243,7 +284,7 @@ def revoke_consent(
         return {"allowed": False, "reason_code": decision.reason_code, "audit_event": audit}
 
     revoked = revoke_consent_record(consent_record)
-    consent_repository.add_record(revoked)
+    consent_repository.update_record(revoked)
     audit = emit_audit_event(
         event_name="consent.revoked",
         actor_id=access.actor_id,
@@ -260,17 +301,13 @@ def revoke_consent(
 
 
 def latest_document_consent_allows(pet_id: str) -> bool:
-    latest = consent_repository.latest_matching_record(
+    """Return True only if the most recently granted ACTIVE matching consent exists.
+    Revoked records are excluded by latest_active_matching_record.
+    """
+    latest = consent_repository.latest_active_matching_record(
         pet_id=pet_id,
         required_scope="SCOPE_DOCUMENT_SHARING",
         required_purpose="purpose_consultation",
         required_role="Veterinarian",
     )
-    if latest is None:
-        return False
-    return consent_allows_document_access(
-        latest,
-        required_scope="SCOPE_DOCUMENT_SHARING",
-        required_purpose="purpose_consultation",
-        required_role="Veterinarian",
-    )
+    return latest is not None

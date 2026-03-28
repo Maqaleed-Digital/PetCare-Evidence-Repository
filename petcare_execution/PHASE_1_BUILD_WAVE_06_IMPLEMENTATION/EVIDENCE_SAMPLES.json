@@ -1,0 +1,20 @@
+{
+  "required_sections": [
+    "consent_precedence_samples",
+    "upload_authorization_samples",
+    "audit_event_samples",
+    "timeline_order_samples"
+  ],
+  "required_fields": {
+    "audit_event_samples": [
+      "event_type",
+      "actor_id",
+      "actor_role",
+      "action",
+      "resource_type",
+      "resource_id",
+      "result",
+      "timestamp"
+    ]
+  }
+}

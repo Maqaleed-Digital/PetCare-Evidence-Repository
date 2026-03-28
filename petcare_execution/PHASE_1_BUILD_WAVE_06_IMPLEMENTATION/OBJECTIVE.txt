@@ -1,0 +1,16 @@
+Objective:
+- implement consent revocation-aware lookup
+- enforce upload route authorization before persistence
+- strengthen audit sampling contract with deterministic required fields
+- formalize timeline sort key ordering inside categories
+- expand evidence pack contract with structured sample validation
+
+Constraints:
+- no guessing
+- full file outputs only
+- overwrite-safe writes only
+- explicit file paths
+- deterministic evidence output
+- minimum files only
+- no protected-zone semantic drift
+- pushed commit hash is the only source of truth

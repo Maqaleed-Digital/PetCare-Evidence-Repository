@@ -1,0 +1,5 @@
+ .../src/petcare/api/routes_ep01_ep02.py            | 57 ++++++++++++++++++----
+ petcare_runtime/src/petcare/auth/access_control.py | 17 +++++++
+ .../src/petcare/consent/consent_repository.py      | 39 ++++++++++++++-
+ petcare_runtime/src/petcare/uphr/service.py        | 24 +++++++--
+ 4 files changed, 123 insertions(+), 14 deletions(-)

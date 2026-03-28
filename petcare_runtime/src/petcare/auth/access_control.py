@@ -145,3 +145,20 @@ def authorize_view_timeline(access: AccessContext, resource: ResourceContext) ->
         return AccessDecision(False, "platform_admin_wrong_purpose")
 
     return AccessDecision(False, "timeline_access_denied")
+
+
+def authorize_upload_document(access: AccessContext, resource: ResourceContext) -> AccessDecision:
+    if not _tenant_match(access, resource):
+        return AccessDecision(False, "tenant_mismatch")
+
+    if access.actor_role == ROLE_OWNER:
+        if access.owner_id == resource.owner_id and access.purpose_of_use == PURPOSE_OWNER_SELF_SERVICE:
+            return AccessDecision(True, "owner_upload_document")
+        return AccessDecision(False, "owner_not_authorized")
+
+    if access.actor_role == ROLE_VETERINARIAN:
+        if access.purpose_of_use == PURPOSE_CONSULTATION and SCOPE_CARE_DELIVERY in access.consent_scopes:
+            return AccessDecision(True, "vet_upload_document")
+        return AccessDecision(False, "vet_missing_scope_or_purpose")
+
+    return AccessDecision(False, "upload_access_denied")
