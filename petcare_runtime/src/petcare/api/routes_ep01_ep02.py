@@ -6,6 +6,7 @@ from petcare.auth.access_control import (
     authorize_manage_consent,
     authorize_view_document,
     authorize_view_pet_profile,
+    authorize_view_timeline,
 )
 from petcare.audit.audit_service import emit_audit_event
 from petcare.consent.consent_service import create_consent_record, revoke_consent_record
@@ -52,6 +53,48 @@ def get_document(access: AccessContext, resource: ResourceContext, correlation_i
         correlation_id=correlation_id,
     )
     return {"allowed": decision.allowed, "reason_code": decision.reason_code, "audit_event": audit}
+
+
+def get_timeline(access: AccessContext, resource: ResourceContext, correlation_id: str, category: str | None = None, search_term: str | None = None) -> dict:
+    decision = authorize_view_timeline(access, resource)
+    audit = emit_audit_event(
+        event_name="uphr.timeline.viewed" if decision.allowed else "access.denied",
+        actor_id=access.actor_id,
+        actor_role=access.actor_role,
+        tenant_id=access.tenant_id,
+        clinic_id=access.clinic_id,
+        resource_type=resource.resource_type,
+        resource_id=resource.resource_id,
+        action_result="allowed" if decision.allowed else "denied",
+        reason_code=decision.reason_code,
+        correlation_id=correlation_id,
+    )
+    if not decision.allowed:
+        return {"allowed": False, "reason_code": decision.reason_code, "audit_event": audit}
+
+    timeline = uphr_service.get_timeline(resource.resource_id, category=category, search_term=search_term)
+    return {"allowed": True, "timeline": timeline, "audit_event": audit}
+
+
+def get_prompt_safe_timeline_summary(access: AccessContext, resource: ResourceContext, correlation_id: str) -> dict:
+    decision = authorize_view_timeline(access, resource)
+    audit = emit_audit_event(
+        event_name="uphr.ai_redaction.applied" if decision.allowed else "access.denied",
+        actor_id=access.actor_id,
+        actor_role=access.actor_role,
+        tenant_id=access.tenant_id,
+        clinic_id=access.clinic_id,
+        resource_type=resource.resource_type,
+        resource_id=resource.resource_id,
+        action_result="allowed" if decision.allowed else "denied",
+        reason_code=decision.reason_code,
+        correlation_id=correlation_id,
+    )
+    if not decision.allowed:
+        return {"allowed": False, "reason_code": decision.reason_code, "audit_event": audit}
+
+    summary = uphr_service.build_prompt_safe_timeline_summary(resource.resource_id)
+    return {"allowed": True, "summary": summary, "audit_event": audit}
 
 
 def create_consent(access: AccessContext, resource: ResourceContext, consent_scope: str, purpose_of_use: str, correlation_id: str) -> dict:

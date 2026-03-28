@@ -5,6 +5,7 @@ from datetime import datetime, timezone
 from typing import Dict, List
 from uuid import uuid4
 
+from petcare.uphr.document_validation import validate_document_metadata
 from petcare.uphr.models import (
     AllergyRecord,
     ClinicalNote,
@@ -14,6 +15,7 @@ from petcare.uphr.models import (
     UPHRDocument,
     VaccinationRecord,
 )
+from petcare.uphr.prompt_redaction import redact_prompt_safe_text
 from petcare.uphr.repository import FileBackedRepository
 
 
@@ -162,6 +164,14 @@ class UPHRService:
         visibility_scope: str,
         checksum_sha256: str,
     ) -> UPHRDocument:
+        validation = validate_document_metadata(
+            mime_type=mime_type,
+            size_bytes=size_bytes,
+            checksum_sha256=checksum_sha256,
+        )
+        if not validation.valid:
+            raise ValueError(validation.reason_code)
+
         now = utc_now_iso()
         record = UPHRDocument(
             uphr_document_id=str(uuid4()),
@@ -182,8 +192,13 @@ class UPHRService:
     def get_pet(self, pet_id: str) -> Pet:
         return Pet(**self._cache["pets"][pet_id])
 
-    def get_timeline(self, pet_id: str) -> Dict[str, List[dict]]:
-        return {
+    def get_timeline(
+        self,
+        pet_id: str,
+        category: str | None = None,
+        search_term: str | None = None,
+    ) -> Dict[str, List[dict] | str]:
+        timeline = {
             "pet_id": pet_id,
             "allergies": self._cache["allergies"].get(pet_id, []),
             "medications": self._cache["medications"].get(pet_id, []),
@@ -192,3 +207,26 @@ class UPHRService:
             "clinical_notes": self._cache["clinical_notes"].get(pet_id, []),
             "documents": self._cache["documents"].get(pet_id, []),
         }
+
+        if category:
+            filtered = {category: timeline.get(category, [])}
+            filtered["pet_id"] = pet_id
+            timeline = filtered
+
+        if search_term:
+            lowered = search_term.lower()
+            for key, items in list(timeline.items()):
+                if key == "pet_id":
+                    continue
+                timeline[key] = [
+                    item for item in items
+                    if lowered in str(item).lower()
+                ]
+
+        return timeline
+
+    def build_prompt_safe_timeline_summary(self, pet_id: str) -> str:
+        timeline = self.get_timeline(pet_id=pet_id)
+        raw_text = str(timeline)
+        redaction = redact_prompt_safe_text(raw_text)
+        return redaction.redacted_text

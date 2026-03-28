@@ -47,6 +47,7 @@ class ResourceContext:
     assigned_veterinarian_id: Optional[str] = None
     assigned_pharmacy_operator_id: Optional[str] = None
     document_shared: bool = False
+    document_visibility_scope: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -99,13 +100,13 @@ def authorize_view_document(access: AccessContext, resource: ResourceContext) ->
         return AccessDecision(True, "owner_document_access")
 
     if access.actor_role == ROLE_VETERINARIAN:
-        if (
-            access.purpose_of_use == PURPOSE_CONSULTATION
-            and SCOPE_DOCUMENT_SHARING in access.consent_scopes
-            and resource.document_shared
-        ):
-            return AccessDecision(True, "vet_document_shared")
-        return AccessDecision(False, "vet_document_denied")
+        if access.purpose_of_use != PURPOSE_CONSULTATION:
+            return AccessDecision(False, "vet_wrong_purpose")
+        if SCOPE_DOCUMENT_SHARING not in access.consent_scopes:
+            return AccessDecision(False, "vet_missing_document_scope")
+        if not resource.document_shared:
+            return AccessDecision(False, "document_not_shared")
+        return AccessDecision(True, "vet_document_shared")
 
     if access.actor_role == ROLE_PLATFORM_ADMIN:
         if access.purpose_of_use in {PURPOSE_PLATFORM_AUDIT, PURPOSE_SECURITY_INVESTIGATION}:
@@ -113,3 +114,25 @@ def authorize_view_document(access: AccessContext, resource: ResourceContext) ->
         return AccessDecision(False, "platform_admin_wrong_purpose")
 
     return AccessDecision(False, "document_access_denied")
+
+
+def authorize_view_timeline(access: AccessContext, resource: ResourceContext) -> AccessDecision:
+    if not _tenant_match(access, resource):
+        return AccessDecision(False, "tenant_mismatch")
+
+    if access.actor_role == ROLE_OWNER:
+        if access.owner_id == resource.owner_id and access.purpose_of_use == PURPOSE_OWNER_SELF_SERVICE:
+            return AccessDecision(True, "owner_timeline_access")
+        return AccessDecision(False, "owner_timeline_denied")
+
+    if access.actor_role == ROLE_VETERINARIAN:
+        if access.purpose_of_use == PURPOSE_CONSULTATION and SCOPE_CARE_DELIVERY in access.consent_scopes:
+            return AccessDecision(True, "vet_timeline_access")
+        return AccessDecision(False, "vet_timeline_denied")
+
+    if access.actor_role == ROLE_PLATFORM_ADMIN:
+        if access.purpose_of_use in {PURPOSE_PLATFORM_AUDIT, PURPOSE_SECURITY_INVESTIGATION}:
+            return AccessDecision(True, "platform_admin_timeline_purpose_limited")
+        return AccessDecision(False, "platform_admin_wrong_purpose")
+
+    return AccessDecision(False, "timeline_access_denied")

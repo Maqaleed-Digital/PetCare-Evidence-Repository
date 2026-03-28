@@ -1,0 +1,6 @@
+-- No schema change in wave 03.
+-- This migration reserves the governed build-wave checkpoint for:
+-- timeline filtering baseline
+-- consent-to-resource enforcement expansion
+-- document validation baseline
+-- AI prompt-redaction baseline
