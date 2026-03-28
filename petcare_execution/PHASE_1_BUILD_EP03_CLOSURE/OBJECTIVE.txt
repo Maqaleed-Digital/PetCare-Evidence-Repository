@@ -1,0 +1,18 @@
+Objective:
+- execute final EP-03 closure pack
+- validate EP-03 evidence completeness
+- confirm deterministic artifact set for consultation workflow baseline
+- produce final EP-03 closure summary
+- lock closure-ready source of truth for Tele-Vet and Care Delivery foundation
+
+Constraints:
+- no guessing
+- full file outputs only
+- overwrite-safe writes only
+- explicit file paths
+- deterministic evidence output
+- minimum files only
+- no protected-zone semantic drift
+- preserve closed EP-01 / EP-02 baseline
+- no Emergency or Pharmacy expansion
+- pushed commit hash is the only source of truth

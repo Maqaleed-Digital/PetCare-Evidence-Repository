@@ -1,0 +1,30 @@
+{
+  "required_sections": [
+    "ep03_scope_completion_samples",
+    "ep03_validation_samples",
+    "ep03_deterministic_artifact_samples",
+    "ep03_closure_decision_samples"
+  ],
+  "required_fields": {
+    "ep03_scope_completion_samples": [
+      "scope_area",
+      "status",
+      "evidence_ref"
+    ],
+    "ep03_validation_samples": [
+      "validation_type",
+      "result",
+      "evidence_ref"
+    ],
+    "ep03_deterministic_artifact_samples": [
+      "artifact_path",
+      "artifact_type",
+      "deterministic_status"
+    ],
+    "ep03_closure_decision_samples": [
+      "decision",
+      "reason",
+      "evidence_ref"
+    ]
+  }
+}
