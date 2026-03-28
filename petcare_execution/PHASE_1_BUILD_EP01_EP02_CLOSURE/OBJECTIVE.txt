@@ -1,0 +1,16 @@
+Objective:
+- execute final EP-01 / EP-02 closure pack
+- validate closure evidence completeness
+- confirm deterministic artifact set for Phase 1 governed baseline
+- produce final closure summary for EP-01 / EP-02
+- lock closure-ready source of truth
+
+Constraints:
+- no guessing
+- full file outputs only
+- overwrite-safe writes only
+- explicit file paths
+- deterministic evidence output
+- minimum files only
+- no protected-zone semantic drift
+- pushed commit hash is the only source of truth

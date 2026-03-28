@@ -1,0 +1,74 @@
+{
+  "files": [
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/BUILD_SUMMARY.md",
+      "sha256": "20778a10c275a32092eb0b1157002ddbd70e80c204f0807c9476cd8cac68a005"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/EMERGENT_READY_PROMPT.md",
+      "sha256": "2ea7bdab7432456c63e68b7b894389c23024d7e4aa5804fde493a790eeb8c8d1"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/EVIDENCE_SAMPLES.json",
+      "sha256": "9068e5fd695498f957ea276f334789c890e6cb69e29579c614143e33b68177b7"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/NOTION_READY_UPDATE.md",
+      "sha256": "9d0398623998e66ecc85f6297c1e9809581b4f46733eae50560d751541410b52"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/OBJECTIVE.txt",
+      "sha256": "eae8e9535bd12b49095e8f36b98a612280ab39faa079ba604fde5b01f8355595"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/PHASE1_ARTIFACT_INVENTORY.md",
+      "sha256": "c64c7dad1035a6f70f989413d269397e3bdbe442db12bb859a37272aa59d399b"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/PHASE1_CLOSURE_DECISION.md",
+      "sha256": "1092588036a866c21deb49e0ae1f01afbba1c15924ea190047769fbb428cf013"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/PHASE1_DETERMINISTIC_BASELINE.md",
+      "sha256": "d7e66989688b79500d036f73d3486a1a31aadafe828b5fd7018c002acf65e6b3"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/PHASE1_FINAL_CLOSURE_SUMMARY.md",
+      "sha256": "5e6effc8e68462804b1c45772c3d89e6756e40512e2f7d0161a796db8de3673b"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/WAVE_ID.txt",
+      "sha256": "5412db9884edce9709f4fb0d2a14f0f6c6fdded509b7e5b08ba0f5f3f10a0bb6"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/changed_files.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/diff_stat.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/discovered_prior_artifacts.txt",
+      "sha256": "7f75419a672458e371a4e5288bb2193cd3b10a77a9121aeca6d91bf5beae35f2"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/discovered_test_files.txt",
+      "sha256": "040eaf5ab06b60b53a8f2932eb6d7edd2e5ca0e9bcac3c5d9e79b81c4c339274"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/file_listing.txt",
+      "sha256": "51248cafd701cf7d83d902542257bbae9359ed864bbba490023ec988e7851b6b"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/git_status_before_commit.txt",
+      "sha256": "dd9335f9b8ca0f575e1bc50f910205e09c42e0d697c5b7f1dfb6ec654b0dc8a8"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_EP01_EP02_CLOSURE/pytest_output.txt",
+      "sha256": "28a7b5a4c22d7dd5a3710b4ae4cea05ed0d771760d5e301a2a6d4e39a636f7d8"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-WAVE-EP01-EP02-CLOSURE",
+  "source_of_truth_commit": "408efde76d28be0c66fb341cf0062931397cd005"
+}

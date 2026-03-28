@@ -1,0 +1,31 @@
+{
+  "required_sections": [
+    "phase1_scope_completion_samples",
+    "phase1_validation_samples",
+    "phase1_deterministic_artifact_samples",
+    "phase1_closure_decision_samples"
+  ],
+  "required_fields": {
+    "phase1_scope_completion_samples": [
+      "epic_id",
+      "scope_area",
+      "status",
+      "evidence_ref"
+    ],
+    "phase1_validation_samples": [
+      "validation_type",
+      "result",
+      "evidence_ref"
+    ],
+    "phase1_deterministic_artifact_samples": [
+      "artifact_path",
+      "artifact_type",
+      "deterministic_status"
+    ],
+    "phase1_closure_decision_samples": [
+      "decision",
+      "reason",
+      "evidence_ref"
+    ]
+  }
+}
