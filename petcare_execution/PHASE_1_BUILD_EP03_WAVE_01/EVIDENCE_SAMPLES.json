@@ -1,0 +1,48 @@
+{
+  "required_sections": [
+    "consultation_session_samples",
+    "state_transition_samples",
+    "note_boundary_samples",
+    "vet_signoff_samples",
+    "immutability_samples",
+    "escalation_boundary_samples"
+  ],
+  "required_fields": {
+    "consultation_session_samples": [
+      "session_id",
+      "pet_id",
+      "owner_id",
+      "vet_id",
+      "status"
+    ],
+    "state_transition_samples": [
+      "session_id",
+      "from_status",
+      "to_status",
+      "allowed",
+      "reason"
+    ],
+    "note_boundary_samples": [
+      "session_id",
+      "note_state",
+      "signed",
+      "updated_by_role"
+    ],
+    "vet_signoff_samples": [
+      "session_id",
+      "actor_id",
+      "actor_role",
+      "signoff_result"
+    ],
+    "immutability_samples": [
+      "session_id",
+      "signed_state",
+      "mutation_attempt_result"
+    ],
+    "escalation_boundary_samples": [
+      "session_id",
+      "escalation_flag",
+      "boundary_only"
+    ]
+  }
+}

@@ -162,3 +162,27 @@ def authorize_upload_document(access: AccessContext, resource: ResourceContext) 
         return AccessDecision(False, "vet_missing_scope_or_purpose")
 
     return AccessDecision(False, "upload_access_denied")
+
+
+# --- EP-03: Tele-Vet and Care Delivery ---
+
+def authorize_request_consultation(access: AccessContext, resource: ResourceContext) -> AccessDecision:
+    """Owner may request a consultation session for their own pet."""
+    if not _tenant_match(access, resource):
+        return AccessDecision(False, "tenant_mismatch")
+    if access.actor_role == ROLE_OWNER:
+        if access.owner_id == resource.owner_id and access.purpose_of_use == PURPOSE_OWNER_SELF_SERVICE:
+            return AccessDecision(True, "owner_request_consultation")
+        return AccessDecision(False, "owner_not_authorized")
+    return AccessDecision(False, "consultation_request_denied")
+
+
+def authorize_manage_consultation(access: AccessContext, resource: ResourceContext) -> AccessDecision:
+    """Veterinarian may manage (start, complete, sign, escalate) a consultation session."""
+    if not _tenant_match(access, resource):
+        return AccessDecision(False, "tenant_mismatch")
+    if access.actor_role == ROLE_VETERINARIAN:
+        if access.purpose_of_use == PURPOSE_CONSULTATION:
+            return AccessDecision(True, "vet_manage_consultation")
+        return AccessDecision(False, "vet_wrong_purpose")
+    return AccessDecision(False, "consultation_manage_denied")
