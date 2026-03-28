@@ -1,0 +1,16 @@
+Objective:
+- define the next governed build scope after EP-01 / EP-02 closure
+- identify the highest-priority Phase 1 domain for continuation
+- map closure-ready baseline dependencies into the next execution pack
+- prepare Notion-ready and execution-ready scope definition
+- preserve the closed EP-01 / EP-02 baseline without reopening it
+
+Constraints:
+- no guessing
+- full file outputs only
+- overwrite-safe writes only
+- explicit file paths
+- deterministic evidence output
+- minimum files only
+- no protected-zone semantic drift
+- pushed commit hash is the only source of truth

@@ -1,0 +1,74 @@
+{
+  "files": [
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/BUILD_SUMMARY.md",
+      "sha256": "14553fd771ce32bf7fb4c67db48f05a3b6d4506b6b711e63ffd594a057245b5e"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/EMERGENT_READY_PROMPT.md",
+      "sha256": "2cdbdc4d40604d87e17ab54a1336f0e05d3c1523aee93af9b77b4a81627fa276"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/EVIDENCE_SAMPLES.json",
+      "sha256": "4ec3b13e14676a6e96f01089c1fbba93f616e99a6e8fe841b97d444d846f39a1"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/NEXT_SCOPE_DECISION.md",
+      "sha256": "115167d326a17f50f2c7142289d36e2eb2e5e906a2c4f7ccfb2deff62da1724e"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/NEXT_SCOPE_DEPENDENCY_MAP.md",
+      "sha256": "61f11d2ffb23be7ca14a1f8f959d3bbb08dfe091933614e2a5a6becef652bfba"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/NEXT_SCOPE_EXECUTION_SPEC.md",
+      "sha256": "3befcc5c4e5d25f3b766c760db22ec259cff60b664fa6d379ee60ee2fbb14b45"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/NOTION_READY_UPDATE.md",
+      "sha256": "a116bd1246c44ef7966a9371c480270bb5b8ed0f5138b02e3742266aacd1e9b0"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/OBJECTIVE.txt",
+      "sha256": "5aace2eecb69844e771eec8079558d264d8e92652dea74c28933cc2bd60a9f77"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/PHASE1_SCOPE_SEQUENCE.md",
+      "sha256": "f8969a20aa5709056f15190d1c75e724acde90bf159f031aa7273652ea6b8118"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/WAVE_ID.txt",
+      "sha256": "c70a1cb3988cdcb03322cb5ad1adfddb86de281f3b9dfb6070a206d98606c47b"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/changed_files.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/diff_stat.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/discovered_prior_artifacts.txt",
+      "sha256": "811f2a4fcf3bf1d5e6839ff6f742dd2a6d0606b41a855adabfe1beeaeb541ef7"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/discovered_runtime_files.txt",
+      "sha256": "4db49d1d8278cea9e043499c98fa15431f7561b31ecb10d4cdc8e126e247e0db"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/file_listing.txt",
+      "sha256": "349f32fe8ec0d4c9f21462f1ce338e584bd75bfb1cda78ddc99c689c7ff5c97a"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/git_status_before_commit.txt",
+      "sha256": "e56b22ef4c5c4edfb4ee031dc16653524bbfbe2500af108d038db842dff28c3b"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING/pytest_output.txt",
+      "sha256": "e5fa25de4203d527715b5d7125370a5f5b5fc2965d790bb67ea8f73a066ce60a"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-NEXT-SCOPE-PLANNING",
+  "source_of_truth_commit": "a5c16a8492a85b99ff2f5b2a27fbe8c3eead5ce0"
+}
