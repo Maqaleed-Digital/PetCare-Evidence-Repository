@@ -1,0 +1,29 @@
+{
+  "required_sections": [
+    "next_scope_decision_samples",
+    "dependency_mapping_samples",
+    "execution_scope_samples",
+    "phase1_sequence_samples"
+  ],
+  "required_fields": {
+    "next_scope_decision_samples": [
+      "selected_scope",
+      "selection_reason",
+      "baseline_preservation_status"
+    ],
+    "dependency_mapping_samples": [
+      "dependency_source",
+      "dependency_name",
+      "consumption_mode"
+    ],
+    "execution_scope_samples": [
+      "scope_name",
+      "included_slice",
+      "excluded_slice"
+    ],
+    "phase1_sequence_samples": [
+      "scope_id",
+      "sequence_state"
+    ]
+  }
+}
