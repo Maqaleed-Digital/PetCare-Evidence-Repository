@@ -107,4 +107,9 @@ def authorize_view_document(access: AccessContext, resource: ResourceContext) ->
             return AccessDecision(True, "vet_document_shared")
         return AccessDecision(False, "vet_document_denied")
 
+    if access.actor_role == ROLE_PLATFORM_ADMIN:
+        if access.purpose_of_use in {PURPOSE_PLATFORM_AUDIT, PURPOSE_SECURITY_INVESTIGATION}:
+            return AccessDecision(True, "platform_admin_document_purpose_limited")
+        return AccessDecision(False, "platform_admin_wrong_purpose")
+
     return AccessDecision(False, "document_access_denied")

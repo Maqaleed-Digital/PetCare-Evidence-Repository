@@ -52,3 +52,65 @@ class MedicationRecord:
     recorded_at: str
     updated_at: str
     version_no: int
+
+
+@dataclass
+class VaccinationRecord:
+    vaccination_record_id: str
+    pet_id: str
+    vaccine_name: str
+    administered_at: str
+    next_due_at_nullable: Optional[str]
+    provider_name_nullable: Optional[str]
+    batch_number_nullable: Optional[str]
+    status: str
+    recorded_at: str
+    updated_at: str
+    version_no: int
+
+
+@dataclass
+class LabResult:
+    lab_result_id: str
+    pet_id: str
+    lab_name: str
+    test_name: str
+    result_value_nullable: Optional[str]
+    result_unit_nullable: Optional[str]
+    result_flag_nullable: Optional[str]
+    collected_at_nullable: Optional[str]
+    reported_at_nullable: Optional[str]
+    attachment_document_id_nullable: Optional[str]
+    recorded_at: str
+    updated_at: str
+    version_no: int
+
+
+@dataclass
+class ClinicalNote:
+    clinical_note_id: str
+    pet_id: str
+    consultation_id_nullable: Optional[str]
+    note_type: str
+    content_structured_or_text: str
+    author_actor_id: str
+    signed_by_actor_id_nullable: Optional[str]
+    signed_at_nullable: Optional[str]
+    status: str
+    created_at: str
+    updated_at: str
+    version_no: int
+
+
+@dataclass
+class UPHRDocument:
+    uphr_document_id: str
+    pet_id: str
+    document_type: str
+    object_storage_key: str
+    mime_type: str
+    size_bytes: int
+    uploaded_by_actor_id: str
+    visibility_scope: str
+    checksum_sha256: str
+    created_at: str

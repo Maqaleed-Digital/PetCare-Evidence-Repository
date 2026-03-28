@@ -1,6 +1,12 @@
 from __future__ import annotations
 
-from petcare.auth.access_control import AccessContext, ResourceContext, authorize_manage_consent, authorize_view_pet_profile
+from petcare.auth.access_control import (
+    AccessContext,
+    ResourceContext,
+    authorize_manage_consent,
+    authorize_view_document,
+    authorize_view_pet_profile,
+)
 from petcare.audit.audit_service import emit_audit_event
 from petcare.consent.consent_service import create_consent_record, revoke_consent_record
 from petcare.uphr.service import UPHRService
@@ -18,6 +24,23 @@ def get_pet_profile(access: AccessContext, resource: ResourceContext, correlatio
     decision = authorize_view_pet_profile(access, resource)
     audit = emit_audit_event(
         event_name="pet.profile.viewed" if decision.allowed else "access.denied",
+        actor_id=access.actor_id,
+        actor_role=access.actor_role,
+        tenant_id=access.tenant_id,
+        clinic_id=access.clinic_id,
+        resource_type=resource.resource_type,
+        resource_id=resource.resource_id,
+        action_result="allowed" if decision.allowed else "denied",
+        reason_code=decision.reason_code,
+        correlation_id=correlation_id,
+    )
+    return {"allowed": decision.allowed, "reason_code": decision.reason_code, "audit_event": audit}
+
+
+def get_document(access: AccessContext, resource: ResourceContext, correlation_id: str) -> dict:
+    decision = authorize_view_document(access, resource)
+    audit = emit_audit_event(
+        event_name="uphr.document.viewed" if decision.allowed else "uphr.document.access_denied",
         actor_id=access.actor_id,
         actor_role=access.actor_role,
         tenant_id=access.tenant_id,
