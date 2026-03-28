@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from dataclasses import replace
+
 from petcare.auth.access_control import (
     AccessContext,
     ResourceContext,
@@ -8,8 +10,11 @@ from petcare.auth.access_control import (
     authorize_view_document,
     authorize_view_pet_profile,
     authorize_view_timeline,
+    PURPOSE_CONSULTATION,
     PURPOSE_OWNER_SELF_SERVICE,
     ROLE_OWNER,
+    ROLE_VETERINARIAN,
+    SCOPE_DOCUMENT_SHARING,
 )
 from petcare.audit.audit_service import emit_audit_event
 from petcare.consent.consent_repository import ConsentRepository
@@ -141,6 +146,22 @@ def get_pet_profile(access: AccessContext, resource: ResourceContext, correlatio
 
 
 def get_document(access: AccessContext, resource: ResourceContext, correlation_id: str) -> dict:
+    # For ROLE_VETERINARIAN, auto-populate consent fields from the consent store so
+    # callers don't need to pre-fetch the consent record themselves.
+    if access.actor_role == ROLE_VETERINARIAN:
+        active_consent = consent_repository.latest_active_matching_record(
+            pet_id=resource.resource_id,
+            required_scope=SCOPE_DOCUMENT_SHARING,
+            required_purpose=PURPOSE_CONSULTATION,
+            required_role=ROLE_VETERINARIAN,
+        )
+        if active_consent is not None:
+            resource = replace(
+                resource,
+                consent_record_active=True,
+                consent_granted_role=active_consent.granted_to_role,
+                consent_purpose_of_use=active_consent.purpose_of_use,
+            )
     decision = authorize_view_document(access, resource)
     audit = emit_audit_event(
         event_name="uphr.document.viewed" if decision.allowed else "uphr.document.access_denied",

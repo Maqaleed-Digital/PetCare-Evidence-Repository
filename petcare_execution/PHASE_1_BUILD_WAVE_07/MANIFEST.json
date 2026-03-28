@@ -1,0 +1,23 @@
+{
+  "files": {
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/BUILD_SUMMARY.md": "5490d9b44af33530413cd3dd0e13830c64f6d52b055656fbdf4b98a2e58d7bc4",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/EMERGENT_READY_PROMPT.md": "4cf03ee7f86312f8b051e42da408dc981d8ee37a87c339696103c36b11f37ba4",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/EVIDENCE_SAMPLES.json": "7a6b52fe703beef49039e1be86361242adc612436017dcd968cb25f6758bd2d1",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/NOTION_READY_UPDATE.md": "ae6b4c4988c193fb0ddf1de69e158296e8786fbde714f8f669f27eaeeaef2143",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/OBJECTIVE.txt": "e25ed54d6f944349db0b871d9c70bfe9c25f75edb5e809bff8e581692af0a661",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/PHASE1_CLOSURE_READINESS.md": "67fd42de7d4d2bcc6766e9032760299bc0f17cb6f5639e57ff22242f92fec937",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/PHASE1_INTEGRITY_GAPS.md": "084f50c9edfdf829b6dce2adf3b07d79c556117139d6827678d6ea905a7b7ab7",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/WAVE_ID.txt": "18934178c26246ab72e2a2ab625e8cab671ea45025f23d0df1eb9cb1a4d1f031",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/changed_files.txt": "c779a595743bd7dd5739f61e51387b371ca8ca126e2f02b89a0fad4a2b0ed05d",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/diff_stat.txt": "52a889c5e2fba708fa96614fa51bd79db6019b23dd37055d88012804d1c6910e",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/file_listing.txt": "c5c9cf7daa71ea985aa01431ce7247f22237cd160986d774692de58d6c78fea2",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/git_status_before_commit.txt": "243de62d639b8ce694ada05fd11dc6866e4d2821fa67077ad6b1af4ba0b58740",
+    "petcare_execution/PHASE_1_BUILD_WAVE_07/pytest_output.txt": "150408e1ea348ef66bb52a4df4908d853bbd18f902d329554dcec88f532d82af",
+    "petcare_runtime/src/petcare/api/routes_ep01_ep02.py": "79a3997e1ce72429ea9f365a21d3ef737d9b203f1716b158f9fd044f635bdfa0",
+    "petcare_runtime/src/petcare/audit/audit_service.py": "b0c9156a0dd701e8a578faea0fe8e1381d64676c9bbc5fdbbff347610e664bc0",
+    "petcare_runtime/src/petcare/consent/consent_repository.py": "97ad77e2a5e919356be8b2fede99c85844be016cd109a1844292eaaad7b815c4",
+    "petcare_runtime/tests/test_ep01_ep02_wave_07.py": "5d41717c1cba8ee3f13f67dfb7d25e083047dc1a00b2322aa0c7bcfc86273574"
+  },
+  "generated_at": "2026-03-28",
+  "pack_id": "PETCARE-PHASE-1-BUILD-WAVE-EP01-EP02-WAVE-07"
+}

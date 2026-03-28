@@ -1,0 +1,5 @@
+- assess remaining Phase 1 integrity gaps
+- strengthen document consent verification correctness across historical states
+- formalize deterministic audit event serialization contract
+- expand evidence validation for runtime behavioral samples
+- prepare Phase 1 closure readiness evaluation

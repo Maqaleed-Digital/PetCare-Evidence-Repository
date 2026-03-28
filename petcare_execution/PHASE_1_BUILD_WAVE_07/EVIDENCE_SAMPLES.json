@@ -1,0 +1,33 @@
+{
+  "required_sections": [
+    "audit_serialization_samples",
+    "consent_history_samples",
+    "document_consent_auto_population_samples",
+    "validate_audit_event_samples"
+  ],
+  "required_fields": {
+    "audit_serialization_samples": [
+      "keys_sorted",
+      "deterministic_across_calls"
+    ],
+    "validate_audit_event_samples": [
+      "event_type",
+      "actor_id",
+      "actor_role",
+      "action_result",
+      "resource_type",
+      "resource_id",
+      "correlation_id",
+      "occurred_at"
+    ],
+    "consent_history_samples": [
+      "pet_id",
+      "status",
+      "consent_record_id"
+    ],
+    "document_consent_auto_population_samples": [
+      "allowed",
+      "reason_code"
+    ]
+  }
+}

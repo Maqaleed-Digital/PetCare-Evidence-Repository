@@ -43,6 +43,10 @@ class ConsentRepository:
         entries.append(asdict(record))
         self.save(data)
 
+    def list_history_for_pet(self, pet_id: str) -> List[ConsentRecord]:
+        """Return all consent records for the pet regardless of status (full history)."""
+        return self.list_records_for_pet(pet_id)
+
     def list_records_for_pet(self, pet_id: str) -> List[ConsentRecord]:
         data = self.load()
         raw = data.get("consent_records", {}).get(pet_id, [])

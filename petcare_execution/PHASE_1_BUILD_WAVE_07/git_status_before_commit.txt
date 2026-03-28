@@ -1,0 +1,16 @@
+On branch petcare/ep01-ep02-build-wave-05
+Your branch is up to date with 'origin/petcare/ep01-ep02-build-wave-05'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   petcare_runtime/src/petcare/api/routes_ep01_ep02.py
+	modified:   petcare_runtime/src/petcare/audit/audit_service.py
+	modified:   petcare_runtime/src/petcare/consent/consent_repository.py
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	petcare_execution/PHASE_1_BUILD_WAVE_07/
+	petcare_runtime/tests/test_ep01_ep02_wave_07.py
+
+no changes added to commit (use "git add" and/or "git commit -a")
