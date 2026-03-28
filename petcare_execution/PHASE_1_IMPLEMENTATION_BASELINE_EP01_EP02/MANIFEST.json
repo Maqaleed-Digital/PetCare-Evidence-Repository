@@ -1,0 +1,57 @@
+{
+  "pack_id": "PETCARE-EP01-EP02-IMPLEMENTATION-BASELINE",
+  "predecessor_commit": "6cc8e3647ca2e21f87960f30f23ec4398d4c77e1",
+  "artifact_root": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP01_EP02_IMPLEMENTATION_BASELINE.md",
+      "sha256": "c2bc2cafb2f654370abfdf822838897e30445fd56c0933061489d53f1b87b902",
+      "size_bytes": 2464
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP01_RBAC_ROLE_MATRIX.md",
+      "sha256": "ff21658d4f8a1646f55ca893b31956cbb2936045b7d35256f61f7ac7a20263e9",
+      "size_bytes": 2883
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP01_CONSENT_SCOPE_MODEL.md",
+      "sha256": "5655f8dcccbb9170d7beb843ac47d6c6aadfd43000b11750f480f5d6f27f444e",
+      "size_bytes": 2293
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP01_AUDIT_EVENT_TAXONOMY.md",
+      "sha256": "ae752aa3ba1e756cf2d8f36d6ee519795b0b45c08caea52fa8cc5652589da386",
+      "size_bytes": 1564
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP02_UPHR_DATA_MODEL_BASELINE.md",
+      "sha256": "57a48ab9b54177a61bea58c77478d8d49589a4bcfffdcbe8dccac9dc87884e4f",
+      "size_bytes": 3720
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP02_API_CONTRACT_BASELINE.yaml",
+      "sha256": "09084de8e93cb87f19b8f8ccecdfc91b30582ed483733c93dca3d9fbf602e9fa",
+      "size_bytes": 3780
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP02_UI_SURFACE_MAPPING.md",
+      "sha256": "5ceb5a8bc9879b46b0aed340f065ba2bf3e5af654502e767f542c058bf392d68",
+      "size_bytes": 1645
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP01_EP02_EVIDENCE_AND_GATE_MAP.md",
+      "sha256": "7164a5a08e3d08d3196f6676a9c4ae5ecf67e044ea8f738d8e7ff7d9eb38592d",
+      "size_bytes": 1120
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP01_EP02_NOTION_READY_UPDATE.md",
+      "sha256": "17a62aaab5685d9423e2c8eef07cc24cb86a8db4abeb2c838fadbe32aeab68a4",
+      "size_bytes": 1609
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_IMPLEMENTATION_BASELINE_EP01_EP02/EP01_EP02_EMERGENT_READY_PROMPT.md",
+      "sha256": "4937dfbaf2b3a5913b6f7cc19a723901c84a8e4063bc04ecfc097f75168c9244",
+      "size_bytes": 1678
+    }
+  ]
+}

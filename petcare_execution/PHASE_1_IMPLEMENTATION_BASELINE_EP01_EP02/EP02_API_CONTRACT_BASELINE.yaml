@@ -1,0 +1,155 @@
+openapi: 3.0.3
+info:
+  title: PetCare EP-01 EP-02 API Contract Baseline
+  version: 1.0.0
+  description: Implementation-ready baseline for EP-01 Identity Access Consent and EP-02 UPHR Core.
+paths:
+  /v1/pets:
+    post:
+      summary: Create pet profile
+      operationId: createPetProfile
+      responses:
+        '201':
+          description: created
+    get:
+      summary: List pets for authorized context
+      operationId: listPets
+      responses:
+        '200':
+          description: ok
+  /v1/pets/{pet_id}:
+    get:
+      summary: Get pet profile
+      operationId: getPetProfile
+      responses:
+        '200':
+          description: ok
+        '403':
+          description: forbidden
+    patch:
+      summary: Update pet profile demographics
+      operationId: updatePetProfile
+      responses:
+        '200':
+          description: ok
+        '403':
+          description: forbidden
+  /v1/pets/{pet_id}/timeline:
+    get:
+      summary: Get UPHR timeline
+      operationId: getPetTimeline
+      responses:
+        '200':
+          description: ok
+        '403':
+          description: forbidden
+  /v1/pets/{pet_id}/allergies:
+    post:
+      summary: Create allergy record
+      operationId: createAllergyRecord
+      responses:
+        '201':
+          description: created
+    get:
+      summary: List allergy records
+      operationId: listAllergyRecords
+      responses:
+        '200':
+          description: ok
+  /v1/pets/{pet_id}/medications:
+    post:
+      summary: Create medication record
+      operationId: createMedicationRecord
+      responses:
+        '201':
+          description: created
+    get:
+      summary: List medication records
+      operationId: listMedicationRecords
+      responses:
+        '200':
+          description: ok
+  /v1/pets/{pet_id}/vaccinations:
+    post:
+      summary: Create vaccination record
+      operationId: createVaccinationRecord
+      responses:
+        '201':
+          description: created
+    get:
+      summary: List vaccination records
+      operationId: listVaccinationRecords
+      responses:
+        '200':
+          description: ok
+  /v1/pets/{pet_id}/labs:
+    post:
+      summary: Create lab result
+      operationId: createLabResult
+      responses:
+        '201':
+          description: created
+    get:
+      summary: List lab results
+      operationId: listLabResults
+      responses:
+        '200':
+          description: ok
+  /v1/pets/{pet_id}/notes:
+    post:
+      summary: Create clinical note
+      operationId: createClinicalNote
+      responses:
+        '201':
+          description: created
+    get:
+      summary: List clinical notes
+      operationId: listClinicalNotes
+      responses:
+        '200':
+          description: ok
+  /v1/pets/{pet_id}/documents:
+    post:
+      summary: Upload UPHR document
+      operationId: uploadUPHRDocument
+      responses:
+        '201':
+          description: created
+    get:
+      summary: List UPHR documents
+      operationId: listUPHRDocuments
+      responses:
+        '200':
+          description: ok
+        '403':
+          description: forbidden
+  /v1/pets/{pet_id}/consents:
+    post:
+      summary: Create consent record
+      operationId: createConsentRecord
+      responses:
+        '201':
+          description: created
+    get:
+      summary: List consent records
+      operationId: listConsentRecords
+      responses:
+        '200':
+          description: ok
+  /v1/pets/{pet_id}/consents/{consent_id}/revoke:
+    post:
+      summary: Revoke consent record
+      operationId: revokeConsentRecord
+      responses:
+        '200':
+          description: ok
+        '403':
+          description: forbidden
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+security:
+  - bearerAuth: []
