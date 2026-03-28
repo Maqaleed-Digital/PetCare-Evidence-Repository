@@ -1,0 +1,46 @@
+{
+  "files": [
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/BUILD_SUMMARY.md",
+      "sha256": "6590e4f949089b869f97ccf902effb259b996eb5a1a634b2ebade99fed551161"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/EMERGENT_READY_PROMPT.md",
+      "sha256": "e710a443add5f205f387f398bb9ef190527e073fd77d7131aa5f60050db07fc5"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/NOTION_READY_UPDATE.md",
+      "sha256": "166ae5dfb60850c631c141dc817b6d36d0249d928358fc6f384f1bf731d725ee"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/OBJECTIVE.txt",
+      "sha256": "783eb8094884b021e6f1e0c16e5ad921ff093f7c74ccd3a622db2e29b459ee48"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/WAVE_ID.txt",
+      "sha256": "49dcc9ae8b947143c1542396430e8176b8e50dc8cb7bb70a8f70c68cd7f9652b"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/changed_files.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/diff_stat.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/file_listing.txt",
+      "sha256": "3fb5697dd5673a69fa8b96b4644d825fce2018db3223249eafe9909f62270337"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/git_status_before_commit.txt",
+      "sha256": "8dd1d9040938eb055e2623f8be5b95d5bc1ed82bf9ce7a4d6a88654eec097ae9"
+    },
+    {
+      "path": "petcare_execution/PHASE_1_BUILD_WAVE_06/pytest_output.txt",
+      "sha256": "f731aa0119265cbca02c6bebd75dda79df919a59c2a28f7c50a89600e03aa1aa"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-WAVE-EP01-EP02-WAVE-06",
+  "source_of_truth_commit": "6a38b3689ebe1068607b5fa0678c9dbb846eba26"
+}
