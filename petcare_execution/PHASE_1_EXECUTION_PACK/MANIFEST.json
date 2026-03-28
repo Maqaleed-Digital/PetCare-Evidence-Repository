@@ -1,0 +1,31 @@
+{
+  "pack_id": "PETCARE-PHASE-1-EXECUTION-PACK",
+  "artifact_root": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_EXECUTION_PACK",
+  "files": [
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_EXECUTION_PACK/PHASE1_EXECUTION_MASTER_PLAN.md",
+      "sha256": "6ca156407007fde6183a751493030cc7fe308292bd359e42e2ede50434965784",
+      "size_bytes": 4997
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_EXECUTION_PACK/PHASE1_SCOPE_GATES_ACCEPTANCE.md",
+      "sha256": "7f00f235c513e56cad39a26c067124e1353c0814607c45e2db8e202628938347",
+      "size_bytes": 4148
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_EXECUTION_PACK/PHASE1_NOTION_READY_UPDATE.md",
+      "sha256": "8bd3e52f5c7923a51d39ffaa59bfb89db20f29ed91f41521e3eeffe7386f5ab8",
+      "size_bytes": 3103
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_EXECUTION_PACK/PHASE1_EMERGENT_READY_PROMPT.md",
+      "sha256": "f289aa457358be8b5d5d0806a121d6c94abf051deb162b58649a3358099e1c01",
+      "size_bytes": 1780
+    },
+    {
+      "path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_1_EXECUTION_PACK/PHASE1_BACKLOG.csv",
+      "sha256": "9c9a6122afc7d44a2462748e557f19d244aa48fc1695fbf3beb16365bc5a4957",
+      "size_bytes": 3278
+    }
+  ]
+}

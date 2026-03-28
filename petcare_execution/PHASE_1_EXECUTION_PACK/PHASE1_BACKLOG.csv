@@ -1,0 +1,28 @@
+epic_id,epic_title,story_id,story_title,hard_gate,status,depends_on,notes
+EP-01,Identity Access Consent Baseline,S-01,Define PHASE 1 role matrix,"G-S1",Ready,,Owner Vet Pharmacy Partner Admin
+EP-01,Identity Access Consent Baseline,S-02,Define RBAC enforcement baseline,"G-S1",Ready,S-01,Least privilege and unauthorized path
+EP-01,Identity Access Consent Baseline,S-03,Define consent capture and revoke baseline,"G-R1",Ready,S-01,Owner-controlled consent
+EP-01,Identity Access Consent Baseline,S-04,Define purpose limitation enforcement baseline,"G-R1",Ready,S-03,Access purpose constraint
+EP-01,Identity Access Consent Baseline,S-05,Define PHASE 1 identity and consent audit taxonomy,"G-S1|G-R1",Ready,S-02;S-03,Protected zone
+EP-02,UPHR Core,S-01,Define structured pet health schema,"G-C1",Ready,EP-01,Allergies meds vaccines labs notes
+EP-02,UPHR Core,S-02,Define timeline and versioning model,,Ready,S-01,Longitudinal system of record
+EP-02,UPHR Core,S-03,Define audit-linked CRUD baseline,"G-C1|G-S1",Ready,S-01;S-02,Clinical traceability
+EP-02,UPHR Core,S-04,Define secure attachment and document rules,"G-S1",Ready,S-01,Access control required
+EP-02,UPHR Core,S-05,Define AI prompt redaction boundary,"G-A1",Ready,S-03;S-04,Prompt-safe policy
+EP-03,Tele-Vet MVP,S-01,Define booking and session lifecycle,,Ready,EP-02,Booking reschedule cancel
+EP-03,Tele-Vet MVP,S-02,Define consultation notes and sign-off rule,"G-C1",Ready,S-01,Immutable after sign
+EP-03,Tele-Vet MVP,S-03,Define red-flag escalation baseline,"G-C1",Ready,S-02,Protected zone
+EP-03,Tele-Vet MVP,S-04,Define emergency referral packet baseline,"G-C1",Ready,S-03,Summary allergies meds consent
+EP-04,Pharmacy MVP,S-01,Define Rx lifecycle and role model,"G-R1",Ready,EP-02,Create review approve fulfill
+EP-04,Pharmacy MVP,S-02,Define safety warning and block rule model,"G-C1",Ready,S-01,Interactions allergies contraindications
+EP-04,Pharmacy MVP,S-03,Define dose guardrail baseline,"G-C1",Ready,S-02,Species weight age
+EP-04,Pharmacy MVP,S-04,Define fulfillment status lifecycle,"G-O1",Ready,S-01,Dispatch delivery completion
+EP-05,AI Controlled Activation,S-01,Define AI intake MVP baseline,"G-C1|G-A1",Ready,EP-02;EP-03,Assistive only
+EP-05,AI Controlled Activation,S-02,Define vet copilot note drafting baseline,"G-C1|G-A1",Ready,EP-02;EP-03,Approval required
+EP-05,AI Controlled Activation,S-03,Define prompt output logging baseline,"G-A1",Ready,S-01;S-02,Role case id version timestamp
+EP-05,AI Controlled Activation,S-04,Define override workflow and reason codes,"G-A1",Ready,S-03,Human authority preserved
+EP-05,AI Controlled Activation,S-05,Define prohibited AI actions boundary,"G-C1|G-A1",Ready,S-01;S-02;S-03;S-04,No sign no prescribe no finalize
+EP-06,Security Audit Evidence Ops Baseline,S-01,Define PHASE 1 security checklist,"G-S1",Ready,EP-01;EP-02,Permissions encryption audit
+EP-06,Security Audit Evidence Ops Baseline,S-02,Define evidence attachment rules,"G-O1",Ready,EP-01;EP-02;EP-03;EP-04;EP-05,No done without evidence
+EP-06,Security Audit Evidence Ops Baseline,S-03,Define audit sample expectations,"G-S1|G-O1",Ready,S-02,Deterministic evidence
+EP-06,Security Audit Evidence Ops Baseline,S-04,Define ops dependency list,"G-O1",Ready,S-01;S-02;S-03,Monitoring alerts runbooks later
