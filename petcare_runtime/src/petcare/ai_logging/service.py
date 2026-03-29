@@ -13,7 +13,7 @@ from .repository import FileAITraceRepository
 class AITraceService:
     REDACTION_PATTERNS = [
         (re.compile(r"\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b", re.IGNORECASE), "[REDACTED_EMAIL]"),
-        (re.compile(r"(?<!\w)\+?\d[\d\-\s]{7,}\d(?!\w)"), "[REDACTED_PHONE]"),
+        (re.compile(r"(?<!\w)\+?\d(?:[\d\-\s]{7,}\d)?(?!\w)"), "[REDACTED_PHONE]"),
         (re.compile(r"\b(?:[A-Fa-f0-9]{32,}|sk-[A-Za-z0-9_\-]{12,})\b"), "[REDACTED_SECRET]"),
     ]
 
