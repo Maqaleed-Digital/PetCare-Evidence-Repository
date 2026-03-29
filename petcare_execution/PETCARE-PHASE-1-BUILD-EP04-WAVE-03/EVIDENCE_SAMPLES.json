@@ -1,0 +1,20 @@
+{
+  "wave_03_scope": [
+    "dose_context_foundation",
+    "dose_matrix_guardrail_warning",
+    "contraindication_context_warning",
+    "pharmacist_review_read_model",
+    "reviewable_prescription_listing",
+    "review_decision_audit_boundary"
+  ],
+  "review_decisions": [
+    "APPROVE_FOR_DISPENSE_QUEUE",
+    "ACKNOWLEDGE_WARNINGS",
+    "RETURN_TO_VET_REVIEW"
+  ],
+  "review_audit_events": [
+    "prescription.review.read_model_viewed",
+    "prescription.review.list_viewed",
+    "prescription.review.decision_recorded"
+  ]
+}
