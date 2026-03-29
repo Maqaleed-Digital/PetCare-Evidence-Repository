@@ -1,0 +1,37 @@
+{
+  "pack_id": "PETCARE-PHASE-1-CLOSE-EP04",
+  "files": [
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-CLOSE-EP04/BUILD_SUMMARY.md",
+      "sha256": "fde5129c61a9b39d60f891061daf70eddf4f97efc79206b3f164d934ab642c2e"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-CLOSE-EP04/ARTIFACT_INVENTORY.md",
+      "sha256": "3ff095bd7582ffa8072fe2845275f71406e828489815cf00ccd4468438754561"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-CLOSE-EP04/FINAL_CLOSURE_SUMMARY.md",
+      "sha256": "eec7e8187075590c4cf77945f05025fc59f3577c04a7859a456c00f3352f2bc5"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-CLOSE-EP04/CLOSURE_DECISION.md",
+      "sha256": "5f6e93e43f7a6c5489f141a42db03c1e45bd35101dcc98a155b85070d1f1fc65"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-CLOSE-EP04/NOTION_READY_UPDATE.md",
+      "sha256": "0c455e752b3abfda7876102de646ae4ab9e99e695016e2b0ff0cb70222fffa3d"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-CLOSE-EP04/EMERGENT_READY_PROMPT.md",
+      "sha256": "890b2d94a8fd1700c116dea4d45bfd57ae7e921cf836b0adf23253731384522a"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-CLOSE-EP04/pytest_output.txt",
+      "sha256": "67fa5ffac2b1746367d91937f86ea31427a2cba2f85881374ebb16ca0a45892c"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-CLOSE-EP04/EVIDENCE_SAMPLES.json",
+      "sha256": "0a1f7925cf5bfa5f1c6e1aa234bb4e63165bf578fd49998e5637377679bb6985"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "ep04_status": "CLOSED",
+  "ep04_sealed": true,
+  "wave_count": 11,
+  "wave_labels": {
+    "W01": "Prescription lifecycle + RBAC",
+    "W02": "Advisory safety extensions",
+    "W03": "Safety rule engine + dose context",
+    "W04": "Pharmacist review workflow",
+    "W05": "Handoff + dispense queue",
+    "W06": "Visibility + access audit surfaces",
+    "W07": "Repository + query composition",
+    "W08": "Read-only API surfaces",
+    "W09": "Contracts + endpoint registry",
+    "W10": "HTTP adapter boundary",
+    "W11": "Google deployment service boundary"
+  },
+  "closure_rule": "Future EP-04 work requires explicit new governed pack."
+}
