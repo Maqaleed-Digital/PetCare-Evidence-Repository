@@ -1,6 +1,6 @@
 Continue PetCare execution from source-of-truth commit:
 
-SOT_COMMIT: PENDING_PUSH
+SOT_COMMIT: 2e683181213737f71a4c67c5fc07aec5b331806d
 
 Repository:
 "/Users/waheebmahmoud/dev/petcare-evidence-repository"
