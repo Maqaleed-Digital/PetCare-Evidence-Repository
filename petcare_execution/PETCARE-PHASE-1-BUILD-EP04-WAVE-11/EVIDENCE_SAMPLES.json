@@ -1,0 +1,21 @@
+{
+  "wave_11_scope": [
+    "google_deployment_service_boundary",
+    "fastapi_app_factory",
+    "gateway_auth_context",
+    "gateway_observability_payloads",
+    "read_only_dispatch_wrapper",
+    "health_and_readiness_surfaces"
+  ],
+  "gateway_auth_policies": [
+    "AUTHORIZATION_BEARER_REQUIRED",
+    "ACTOR_HEADER_REQUIRED",
+    "TENANT_HEADER_OPTIONAL"
+  ],
+  "gateway_observability_events": [
+    "gateway.health.reported",
+    "gateway.readiness.reported",
+    "gateway.request.handled"
+  ],
+  "fastapi_route_count": 13
+}
