@@ -1,0 +1,33 @@
+{
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP04-WAVE-04",
+  "files": [
+    {
+      "path": "petcare_runtime/src/petcare/pharmacy/review.py",
+      "sha256": "a0336f4abc8cf8d02b6e4ea2db0d5d544a78eee3d69eedd24410e416b98b7778"
+    },
+    {
+      "path": "petcare_runtime/tests/test_ep04_wave04.py",
+      "sha256": "92b47219a8375b8623b6f7d3079ce84235ebb3410315a598ebb337c1def84c8a"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-04/BUILD_SUMMARY.md",
+      "sha256": "2310ae3fef25870e46e8510987a3923ab8608fe513f15b520b755b83a5c0301e"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-04/NOTION_READY_UPDATE.md",
+      "sha256": "cef2ad2def57add0096dc6f9a71bf8c90a3ae651475290214f6ecd0def5db3ab"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-04/EMERGENT_READY_PROMPT.md",
+      "sha256": "8b7d01e8923dbfc2c215c1180a773f3f7db0329e8e0a0056fb02b2d3bacc1beb"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-04/pytest_output.txt",
+      "sha256": "dfffb630a488d2e9e7f2ab4b12fa597119199c812e1a324ff76ede6cf07cc01e"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-04/EVIDENCE_SAMPLES.json",
+      "sha256": "706cc5ae299ff255d2499ed5d917e84964c4509927ab539ab493e6f7358f3d1d"
+    }
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "wave_04_scope": [
+    "pharmacist_review_workflow_boundary",
+    "review_note_structure",
+    "review_reason_taxonomy",
+    "return_to_vet_path",
+    "review_read_model",
+    "review_list_model"
+  ],
+  "review_statuses": [
+    "PENDING",
+    "ACKNOWLEDGED",
+    "READY_FOR_DISPENSE_QUEUE",
+    "RETURNED_TO_VET"
+  ],
+  "review_reason_codes": [
+    "WARNING_ACKNOWLEDGED",
+    "CLARIFICATION_REQUIRED",
+    "RETURN_TO_VET_DUE_TO_SAFETY_CONTEXT",
+    "READY_FOR_QUEUE_CONFIRMATION"
+  ]
+}
