@@ -1,0 +1,26 @@
+{
+  "wave_08_scope": [
+    "read_only_api_surface_contract",
+    "review_context_endpoint",
+    "review_handoff_endpoint",
+    "review_history_endpoint",
+    "review_timeline_endpoint",
+    "return_to_vet_follow_up_endpoint",
+    "review_disposition_registry_endpoint",
+    "ready_for_dispense_queue_endpoint",
+    "operational_review_status_summary_endpoint"
+  ],
+  "read_only_api_surfaces": [
+    "get_review_context_endpoint",
+    "list_reviews_for_prescription_endpoint",
+    "get_review_handoff_endpoint",
+    "list_review_handoffs_endpoint",
+    "get_latest_review_summary_endpoint",
+    "list_ready_for_dispense_queue_endpoint",
+    "get_review_history_endpoint",
+    "get_review_timeline_endpoint",
+    "get_return_to_vet_follow_up_endpoint",
+    "get_review_disposition_registry_endpoint",
+    "get_operational_review_status_summary_endpoint"
+  ]
+}
