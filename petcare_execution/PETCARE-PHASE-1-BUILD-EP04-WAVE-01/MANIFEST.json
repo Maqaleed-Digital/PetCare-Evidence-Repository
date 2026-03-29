@@ -1,0 +1,9 @@
+{
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP04-WAVE-01",
+  "files": {
+    "petcare_runtime/src/petcare/pharmacy/__init__.py": "871f1e1d8d717d16b7f97c5dbeacc4301e83cfbeb2f0de06e743ad9886d2bd42",
+    "petcare_runtime/src/petcare/pharmacy/models.py": "fb5416779a3c7268df2e9413cd09fe1e113dad9a40be58d43dab3ac0143458ab",
+    "petcare_runtime/src/petcare/pharmacy/service.py": "f39baed41c53f79cf437b66befd953c41229bc447378004e76250c060bf0e8c8",
+    "petcare_runtime/tests/test_ep04_wave01.py": "47005bc08fae3c6b9aff02bfbcbb01845c44e6e6f11ba400cc3e084bd8bba4fd"
+  }
+}

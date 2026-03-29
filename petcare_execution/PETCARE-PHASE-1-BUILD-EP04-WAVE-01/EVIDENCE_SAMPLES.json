@@ -1,0 +1,34 @@
+{
+  "next_scope_decision_samples": [
+    {
+      "selected_scope": "EP-04 Pharmacy and Medication Lifecycle",
+      "selection_reason": "highest-priority remaining Phase 1 domain; all upstream dependencies (EP-01, EP-02, EP-03) in closed state",
+      "baseline_preservation_status": "EP-01, EP-02, EP-03 closed baselines preserved unchanged"
+    }
+  ],
+  "dependency_mapping_samples": [
+    {
+      "dependency_source": "EP-01",
+      "dependency_name": "ROLE_VETERINARIAN",
+      "consumption_mode": "local constant mirror in pharmacy.models"
+    },
+    {
+      "dependency_source": "EP-03",
+      "dependency_name": "signed_note_id",
+      "consumption_mode": "required field on Prescription; signed_note_present gate in authorize_prescription"
+    }
+  ],
+  "execution_scope_samples": [
+    {
+      "scope_name": "EP-04 Wave 01",
+      "included_slice": "Prescription lifecycle: DRAFT\u2192AUTHORIZED\u2192SUBMITTED\u2192DISPENSED/CANCELLED; pharmacy review queue; advisory safety warnings",
+      "excluded_slice": "pharmacy integration API routes, external dispensing system, fulfillment notifications"
+    }
+  ],
+  "phase1_sequence_samples": [
+    {
+      "scope_id": "EP-04",
+      "sequence_state": "WAVE-01 COMPLETE"
+    }
+  ]
+}
