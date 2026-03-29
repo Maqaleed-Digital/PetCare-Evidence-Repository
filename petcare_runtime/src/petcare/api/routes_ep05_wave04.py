@@ -10,7 +10,6 @@ from petcare.ai_runtime.service import build_default_ai_runtime_service
 
 
 router = APIRouter(prefix="/api/ep05/ai-runtime", tags=["ep05-ai-runtime"])
-service = build_default_ai_runtime_service()
 
 
 class CreateAIIntakeRequest(BaseModel):
@@ -42,12 +41,14 @@ class CreateVetCopilotDraftRequest(BaseModel):
 
 @router.post("/intake")
 def create_ai_intake(payload: CreateAIIntakeRequest) -> dict:
+    service = build_default_ai_runtime_service()
     record = service.create_ai_intake(**payload.model_dump())
     return asdict(record)
 
 
 @router.get("/intake/{record_id}")
 def get_ai_intake(record_id: str) -> dict:
+    service = build_default_ai_runtime_service()
     record = service.get_intake(record_id)
     if record is None:
         raise HTTPException(status_code=404, detail="ai_intake_not_found")
@@ -56,6 +57,7 @@ def get_ai_intake(record_id: str) -> dict:
 
 @router.get("/cases/{case_id}/intake")
 def list_case_intake(case_id: str) -> dict:
+    service = build_default_ai_runtime_service()
     return {
         "case_id": case_id,
         "records": [asdict(record) for record in service.list_case_intake(case_id)],
@@ -64,12 +66,14 @@ def list_case_intake(case_id: str) -> dict:
 
 @router.post("/vet-copilot")
 def create_vet_copilot_draft(payload: CreateVetCopilotDraftRequest) -> dict:
+    service = build_default_ai_runtime_service()
     record = service.create_vet_copilot_draft(**payload.model_dump())
     return asdict(record)
 
 
 @router.get("/vet-copilot/{record_id}")
 def get_vet_copilot_draft(record_id: str) -> dict:
+    service = build_default_ai_runtime_service()
     record = service.get_vet_copilot_draft(record_id)
     if record is None:
         raise HTTPException(status_code=404, detail="vet_copilot_draft_not_found")
@@ -78,6 +82,7 @@ def get_vet_copilot_draft(record_id: str) -> dict:
 
 @router.get("/cases/{case_id}/vet-copilot")
 def list_case_vet_copilot_drafts(case_id: str) -> dict:
+    service = build_default_ai_runtime_service()
     return {
         "case_id": case_id,
         "records": [asdict(record) for record in service.list_case_vet_copilot_drafts(case_id)],
