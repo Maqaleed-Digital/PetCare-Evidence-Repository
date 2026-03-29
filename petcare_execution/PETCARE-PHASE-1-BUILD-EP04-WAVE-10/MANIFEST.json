@@ -1,0 +1,11 @@
+{
+  "wave": "EP04-WAVE-10",
+  "generated_at": "2026-03-29T19:58:30.828895Z",
+  "files": {
+    "petcare_runtime/src/petcare/pharmacy/http_adapter.py": "3f762fe67c49629218a3d0659917c52d9645ffa459970a53adc5ad4a6206bba6",
+    "petcare_runtime/tests/test_ep04_wave10.py": "94f2e31c144051586669f9a70c31fddc95c4071e4a350552c521541077f66fff",
+    "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-10/BUILD_SUMMARY.md": "0e5b6e92eb7d310f931db91bcac394753f29819001adc611ac563e5aeaf42dc9",
+    "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-10/NOTION_READY_UPDATE.md": "8a9ac2c6cc05f857322ca4dd6dbeac3121a1802ce280fc46a87841318109be6f",
+    "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-10/pytest_output.txt": "8924691282ed68af2aec796f793c267367729203c5c381a423a8c87dbebee5af"
+  }
+}
