@@ -1,0 +1,45 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /usr/local/opt/python@3.14/bin/python3.14
+cachedir: .pytest_cache
+rootdir: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime
+collecting ... collected 37 items
+
+tests/test_ep04_wave01.py::test_prescription_authorization_requires_veterinarian_role PASSED [  2%]
+tests/test_ep04_wave01.py::test_prescription_authorization_requires_signed_note PASSED [  5%]
+tests/test_ep04_wave01.py::test_authorization_adds_advisory_safety_warnings_without_blocking PASSED [  8%]
+tests/test_ep04_wave01.py::test_lifecycle_progresses_draft_to_authorized_to_submitted_to_dispensed PASSED [ 10%]
+tests/test_ep04_wave01.py::test_queue_boundary_returns_authorized_and_submitted_in_deterministic_order PASSED [ 13%]
+tests/test_ep04_wave01.py::test_cancel_prevents_post_dispense_mutation PASSED [ 16%]
+tests/test_ep04_wave01.py::test_audit_contract_contains_expected_events PASSED [ 18%]
+tests/test_ep04_wave02.py::test_dose_guardrail_warning PASSED            [ 21%]
+tests/test_ep04_wave02.py::test_dose_guardrail_not_added_for_normal_dosage PASSED [ 24%]
+tests/test_ep04_wave02.py::test_contraindication_warning_for_steroid PASSED [ 27%]
+tests/test_ep04_wave02.py::test_no_contraindication_for_non_steroid PASSED [ 29%]
+tests/test_ep04_wave02.py::test_read_model_deterministic PASSED          [ 32%]
+tests/test_ep04_wave02.py::test_list_prescriptions_sorted PASSED         [ 35%]
+tests/test_ep04_wave03.py::test_build_dose_context_is_deterministic PASSED [ 37%]
+tests/test_ep04_wave03.py::test_evaluate_medication_safety_rules_returns_advisory_warnings PASSED [ 40%]
+tests/test_ep04_wave03.py::test_apply_wave03_safety_rules_preserves_existing_and_adds_new PASSED [ 43%]
+tests/test_ep04_wave03.py::test_get_pharmacy_review_read_model_is_deterministic PASSED [ 45%]
+tests/test_ep04_wave03.py::test_list_reviewable_prescriptions_filters_and_sorts PASSED [ 48%]
+tests/test_ep04_wave03.py::test_record_pharmacy_review_decision_records_audit_event_without_state_change PASSED [ 51%]
+tests/test_ep04_wave03.py::test_review_decision_requires_pharmacy_role PASSED [ 54%]
+tests/test_ep04_wave03.py::test_wave03_audit_and_decision_contracts_are_locked PASSED [ 56%]
+tests/test_ep04_wave04.py::test_start_pharmacy_review_requires_pharmacy_role PASSED [ 59%]
+tests/test_ep04_wave04.py::test_start_pharmacy_review_creates_pending_review_record PASSED [ 62%]
+tests/test_ep04_wave04.py::test_progress_review_to_acknowledged_keeps_prescription_boundary_separate PASSED [ 64%]
+tests/test_ep04_wave04.py::test_progress_review_to_return_to_vet_is_formalized PASSED [ 67%]
+tests/test_ep04_wave04.py::test_review_read_model_is_deterministic PASSED [ 70%]
+tests/test_ep04_wave04.py::test_review_listing_is_sorted_deterministically PASSED [ 72%]
+tests/test_ep04_wave04.py::test_reason_taxonomy_is_locked PASSED         [ 75%]
+tests/test_ep04_wave04.py::test_wave04_audit_contract_is_locked PASSED   [ 78%]
+tests/test_ep04_wave05.py::test_build_review_handoff_record_is_deterministic PASSED [ 81%]
+tests/test_ep04_wave05.py::test_get_review_handoff_read_model_returns_boundary_only_data PASSED [ 83%]
+tests/test_ep04_wave05.py::test_list_review_handoff_records_is_sorted_deterministically PASSED [ 86%]
+tests/test_ep04_wave05.py::test_latest_review_decision_summary_returns_last_note_and_outcome PASSED [ 89%]
+tests/test_ep04_wave05.py::test_ready_for_dispense_queue_from_reviews_filters_only_ready_reviews PASSED [ 91%]
+tests/test_ep04_wave05.py::test_return_to_vet_outcome_is_preserved_in_summary PASSED [ 94%]
+tests/test_ep04_wave05.py::test_handoff_requires_matching_prescription_and_review_record PASSED [ 97%]
+tests/test_ep04_wave05.py::test_wave05_contracts_are_locked PASSED       [100%]
+
+============================== 37 passed in 0.09s ==============================

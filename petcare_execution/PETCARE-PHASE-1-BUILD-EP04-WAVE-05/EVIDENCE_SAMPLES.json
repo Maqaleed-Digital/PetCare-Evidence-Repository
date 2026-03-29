@@ -1,0 +1,19 @@
+{
+  "wave_05_scope": [
+    "review_to_dispense_queue_handoff_boundary",
+    "handoff_read_model",
+    "handoff_list_model",
+    "latest_review_decision_summary",
+    "return_to_vet_outcome_handling"
+  ],
+  "handoff_outcomes": [
+    "READY_FOR_DISPENSE_QUEUE",
+    "RETURNED_TO_VET",
+    "REVIEW_IN_PROGRESS"
+  ],
+  "handoff_audit_events": [
+    "prescription.review.handoff.read_model_viewed",
+    "prescription.review.handoff.list_viewed",
+    "prescription.review.handoff.summary_viewed"
+  ]
+}
