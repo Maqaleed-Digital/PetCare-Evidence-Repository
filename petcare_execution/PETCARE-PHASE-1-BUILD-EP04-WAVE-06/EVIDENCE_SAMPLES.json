@@ -1,0 +1,21 @@
+{
+  "wave_06_scope": [
+    "review_access_audit_surfaces",
+    "review_history_read_model",
+    "review_timeline_read_model",
+    "return_to_vet_follow_up_linkage",
+    "review_disposition_registry_helper",
+    "operational_review_status_summary"
+  ],
+  "review_access_audit_events": [
+    "prescription.review.history_viewed",
+    "prescription.review.timeline_viewed",
+    "prescription.review.follow_up_link_viewed",
+    "prescription.review.disposition_registry_viewed",
+    "prescription.review.operational_summary_viewed"
+  ],
+  "return_to_vet_reason_codes": [
+    "CLARIFICATION_REQUIRED",
+    "RETURN_TO_VET_DUE_TO_SAFETY_CONTEXT"
+  ]
+}
