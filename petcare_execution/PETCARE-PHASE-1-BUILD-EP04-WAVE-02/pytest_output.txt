@@ -1,0 +1,21 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.14.3, pytest-9.0.2, pluggy-1.6.0 -- /usr/local/opt/python@3.14/bin/python3.14
+cachedir: .pytest_cache
+rootdir: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_runtime
+collecting ... collected 13 items
+
+tests/test_ep04_wave01.py::test_prescription_authorization_requires_veterinarian_role PASSED [  7%]
+tests/test_ep04_wave01.py::test_prescription_authorization_requires_signed_note PASSED [ 15%]
+tests/test_ep04_wave01.py::test_authorization_adds_advisory_safety_warnings_without_blocking PASSED [ 23%]
+tests/test_ep04_wave01.py::test_lifecycle_progresses_draft_to_authorized_to_submitted_to_dispensed PASSED [ 30%]
+tests/test_ep04_wave01.py::test_queue_boundary_returns_authorized_and_submitted_in_deterministic_order PASSED [ 38%]
+tests/test_ep04_wave01.py::test_cancel_prevents_post_dispense_mutation PASSED [ 46%]
+tests/test_ep04_wave01.py::test_audit_contract_contains_expected_events PASSED [ 53%]
+tests/test_ep04_wave02.py::test_dose_guardrail_warning PASSED            [ 61%]
+tests/test_ep04_wave02.py::test_dose_guardrail_not_added_for_normal_dosage PASSED [ 69%]
+tests/test_ep04_wave02.py::test_contraindication_warning_for_steroid PASSED [ 76%]
+tests/test_ep04_wave02.py::test_no_contraindication_for_non_steroid PASSED [ 84%]
+tests/test_ep04_wave02.py::test_read_model_deterministic PASSED          [ 92%]
+tests/test_ep04_wave02.py::test_list_prescriptions_sorted PASSED         [100%]
+
+============================== 13 passed in 0.04s ==============================

@@ -216,3 +216,57 @@ def get_pharmacy_review_queue(
         )
         for p in eligible
     ]
+
+
+# === WAVE-02 ADDITIONS (ADVISORY ONLY) ===
+
+def _dose_guardrail_warning(
+    medication_name: str,
+    dosage: str,
+) -> PrescriptionSafetyWarning | None:
+    if not dosage:
+        return None
+    if "high" in dosage.lower():
+        return PrescriptionSafetyWarning(
+            code="DOSE_GUARDRAIL",
+            severity="MEDIUM",
+            message=f"Dose may be high for {medication_name}",
+        )
+    return None
+
+
+def _contraindication_warning(
+    medication_name: str,
+) -> PrescriptionSafetyWarning | None:
+    if "steroid" in medication_name.lower():
+        return PrescriptionSafetyWarning(
+            code="CONTRAINDICATION",
+            severity="HIGH",
+            message=f"Potential contraindication detected for {medication_name}",
+        )
+    return None
+
+
+def extend_safety_warnings(prescription: Prescription) -> Prescription:
+    warnings = list(prescription.safety_warnings)
+    dose_warning = _dose_guardrail_warning(
+        prescription.medication_name,
+        prescription.dosage_instructions,
+    )
+    if dose_warning:
+        warnings.append(dose_warning)
+    contraindication = _contraindication_warning(prescription.medication_name)
+    if contraindication:
+        warnings.append(contraindication)
+    return replace(prescription, safety_warnings=tuple(warnings))
+
+
+def get_prescription_read_model(prescription: Prescription) -> dict:
+    return prescription.to_read_model()
+
+
+def list_prescriptions(prescriptions: list[Prescription]) -> list[dict]:
+    return sorted(
+        [p.to_read_model() for p in prescriptions],
+        key=lambda x: (x["created_at"], x["prescription_id"]),
+    )
