@@ -1,0 +1,20 @@
+{
+  "wave_07_scope": [
+    "pharmacy_repository_store",
+    "get_full_review_context_query",
+    "list_reviews_for_prescription_query"
+  ],
+  "repository_operations": [
+    "add_prescription",
+    "add_review",
+    "get_prescription",
+    "get_review",
+    "list_reviews_by_prescription_id",
+    "list_reviews_by_consultation_id",
+    "list_reviews_by_tenant_id"
+  ],
+  "query_surfaces": [
+    "get_full_review_context",
+    "list_reviews_for_prescription"
+  ]
+}
