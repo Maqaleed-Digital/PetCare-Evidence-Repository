@@ -1,0 +1,41 @@
+{
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP04-WAVE-09",
+  "files": [
+    {
+      "path": "petcare_runtime/src/petcare/pharmacy/contracts.py",
+      "sha256": "892ce87d8c3661d8b316b6b0072c89c86e21f41d58c77f1a64f0eb4bffdf27a8"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/pharmacy/registry.py",
+      "sha256": "57ceaa5f0e12a609fdbbf04a7d2487671f626a4f52da826e5f9eae0fb8d9cf0f"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/pharmacy/api.py",
+      "sha256": "6d203087c046209e61f83555d380e65c94745dc6b0573db22ef72fe53eccaf09"
+    },
+    {
+      "path": "petcare_runtime/tests/test_ep04_wave09.py",
+      "sha256": "513d567c9568d5201df88c3297e92110718daa179a16d8eedc47909dcad19ffd"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-09/BUILD_SUMMARY.md",
+      "sha256": "238145222dcf6f0dce5de2488ef3b64fe22f0fa4377bb8020391f1d3d0a29554"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-09/NOTION_READY_UPDATE.md",
+      "sha256": "9405d9aa3947299ccd9ee0f31a5b4fa7004deaaea52afd0baa93515471ada051"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-09/EMERGENT_READY_PROMPT.md",
+      "sha256": "34528005e439f6827407b4af382d835dca3674fc6264f58815ee40630bc133ab"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-09/pytest_output.txt",
+      "sha256": "7adf60742440495161be136fe0ad8a4d6086c21e6c69045d89951caf1e1a867e"
+    },
+    {
+      "path": "petcare_execution/PETCARE-PHASE-1-BUILD-EP04-WAVE-09/EVIDENCE_SAMPLES.json",
+      "sha256": "206a8a94ee42a80720ca44c2d84fd18d2f396d94829bbb411f8844b745db763b"
+    }
+  ]
+}

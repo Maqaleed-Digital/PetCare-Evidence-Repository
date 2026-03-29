@@ -228,4 +228,26 @@ __all__ = [
     "list_ready_for_dispense_queue_endpoint",
     "list_review_handoffs_endpoint",
     "list_reviews_for_prescription_endpoint",
+    "normalize_error",
+    "normalize_response",
 ]
+
+
+from .contracts import error_envelope, success_envelope
+
+
+def normalize_response(surface: str, actor_user_id: str, payload: dict) -> dict:
+    return success_envelope(
+        surface=surface,
+        actor_user_id=actor_user_id,
+        payload=payload,
+    )
+
+
+def normalize_error(surface: str, actor_user_id: str, code: str, message: str) -> dict:
+    return error_envelope(
+        surface=surface,
+        actor_user_id=actor_user_id,
+        error_code=code,
+        message=message,
+    )

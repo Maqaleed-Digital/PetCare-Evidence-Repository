@@ -1,0 +1,11 @@
+{
+  "wave_09_scope": [
+    "api_contract_normalization",
+    "success_error_envelope",
+    "read_only_endpoint_registry",
+    "normalize_response_helper",
+    "normalize_error_helper"
+  ],
+  "contract_version": "v1",
+  "registry_count": 11
+}
