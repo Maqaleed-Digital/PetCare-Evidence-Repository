@@ -1,0 +1,5 @@
+ai_execution_authority=false
+explicit_human_authorization_required=true
+treasury_control_required=true
+dual_control_supported=true
+payment_activation_layer_present=true

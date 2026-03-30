@@ -1,0 +1,3 @@
+-- PETCARE EP-11 checkpoint migration
+-- This migration marks activation of controlled payment activation scaffolding.
+-- No schema mutation is introduced in this checkpoint migration.

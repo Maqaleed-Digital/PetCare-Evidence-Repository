@@ -1,0 +1,74 @@
+{
+  "entries": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION/20260330T193519Z/file_listing.txt",
+      "sha256": "8c949f5f52b49e837df5287f738a235796998fe9dfaafb2783384ed9812b761f"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION/20260330T193519Z/phase_assertions.txt",
+      "sha256": "a38c5bf65a97ed8cf70fcb12360edd147fa56f0c3035553c6ac18b3d7ca2bebb"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION/20260330T193519Z/pytest.log",
+      "sha256": "c2c6b596f6326dec34c3110029f10ae752a6b80ef7dd9f3d368c2793a9363a31"
+    },
+    {
+      "path": "petcare_execution/EP11/EP11_EXECUTION_MASTER_SPEC.md",
+      "sha256": "6dbc57a34bf27e238bcab0c34a76caa9db65992020c3b42c4b3699d4357b0ca4"
+    },
+    {
+      "path": "petcare_execution/EP11/EP11_HARD_GATES.md",
+      "sha256": "af3ea795d5aceb4bde5a733408a6e830ed721ac73f09221ede5c871e4c9595e5"
+    },
+    {
+      "path": "petcare_execution/EP11/EP11_NOTION_EXECUTION_MAP.md",
+      "sha256": "45174fddb753f3b1050ec984ae83f69ca8fc508145555cf4f34e849b6b0be566"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/payment_activation/__init__.py",
+      "sha256": "e92c498f6e8b8676e41e33cac4d5d4b4e1ea692e4bbc85afd9d950c1a7167aed"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/payment_activation/authorization.py",
+      "sha256": "0a2b0066ea274753f005a4f7e82944ab053312f048f65b9ad4195cdf992f5141"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/payment_activation/treasury.py",
+      "sha256": "ab947f9746eb937ee6687f07ca6c042bec5234b07187d9d37424d5550c8b54cb"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/payment_activation/dispatch.py",
+      "sha256": "bb0e8672a8da980736c9ebd0b7f2d8f91f98aa9fec7769135bb216318b212333"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/payment_activation/safeguards.py",
+      "sha256": "5089329e1d1dcba4ae46d3ebc6b5317b8cd74a8785905c2084153c94fa74d120"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/payment_activation/finalization.py",
+      "sha256": "aeeafd2ae086e9ecb537f33d2ca3e8db431710bbf1550cb8cf79907731cfc4f6"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/payment_activation/workflow.py",
+      "sha256": "5d15981e2b18f23eaf5c4799ba205b397369641ffb72c9236d00db1bbe273c03"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/payment_activation/audit.py",
+      "sha256": "96c73821ed7c44ccfe84af9ce4ef659545fa750e7cf774516247e3babad4517c"
+    },
+    {
+      "path": "petcare_runtime/tests/payment_activation/test_payment_activation.py",
+      "sha256": "bf0ede46a908d1a623a28a26c40cc60fa852fed59159ab3c92fd2ec0b0d829ba"
+    },
+    {
+      "path": "petcare_runtime/migrations/0011_ep11_controlled_payment_activation_checkpoint.sql",
+      "sha256": "73f7e96e75c67ad25ab76e829d966265e42c6a6115954589562f7cbcd4e8ca19"
+    },
+    {
+      "path": "scripts/petcare_ep11_all_waves_pack.sh",
+      "sha256": "c716203b188e8040db8bb4a17b99f8be7785e28a9fc5e1c2ddd836cf1413840d"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION/20260330T193519Z"
+}
