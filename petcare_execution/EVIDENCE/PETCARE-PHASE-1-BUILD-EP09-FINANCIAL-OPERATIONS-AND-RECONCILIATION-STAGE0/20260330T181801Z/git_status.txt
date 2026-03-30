@@ -1,0 +1,4 @@
+## petcare/ep09-stage0-architecture-lock
+?? petcare_execution/EP09_STAGE0/
+?? petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION-STAGE0/
+?? scripts/petcare_ep09_stage0_architecture_lock.sh

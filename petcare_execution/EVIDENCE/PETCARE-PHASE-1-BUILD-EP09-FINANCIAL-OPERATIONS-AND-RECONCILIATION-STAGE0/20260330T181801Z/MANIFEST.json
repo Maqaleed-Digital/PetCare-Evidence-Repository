@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION-STAGE0/20260330T181801Z/file_listing.txt",
+      "sha256": "2664d999842e946ef55706958e04bd8e531d8b973aa5b4bcc753743674d385cf"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION-STAGE0/20260330T181801Z/git_head.txt",
+      "sha256": "141f80dde304ae865d60fc316f1c97b140e96dcd358576a1bfb34072306b60ed"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION-STAGE0/20260330T181801Z/git_status.txt",
+      "sha256": "5e97f311af019da8b351e7f22e24202179ab3acd3cefed0ad173f4cc49d51a78"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION-STAGE0/20260330T181801Z/phase_assertions.txt",
+      "sha256": "9dd0836c8aae15f72a2dff9c36c2b256493c02727aca2ae9392deb260c59f4c7"
+    },
+    {
+      "path": "petcare_execution/EP09_STAGE0/EP09_ARCHITECTURE_LOCK.md",
+      "sha256": "cd33cafc4bc0e6597ba988384317d47275dcb9fd735196de3f077a0184373979"
+    },
+    {
+      "path": "petcare_execution/EP09_STAGE0/EP09_HARD_GATES.md",
+      "sha256": "21a242841f9c08112f031f7a32a154e8d5434958750877d912ae79008f44b8cc"
+    },
+    {
+      "path": "petcare_execution/EP09_STAGE0/EP09_DEPENDENCY_MAP.md",
+      "sha256": "1f2ca87b7089cd88aa490922c99052a0ddf7590a42386ad1548e8b00af53df66"
+    },
+    {
+      "path": "petcare_execution/EP09_STAGE0/EP09_EXECUTION_SPEC.md",
+      "sha256": "235e66442436c4ccbfe06f8e1cf31607869a3cf85811070eebc1c68e77d917fb"
+    },
+    {
+      "path": "petcare_execution/EP09_STAGE0/EP09_NOTION_EXECUTION_MAP.md",
+      "sha256": "3515b3e3d1180430c813210b626868766802a83c2f99a650120f32badf459ab2"
+    },
+    {
+      "path": "scripts/petcare_ep09_stage0_architecture_lock.sh",
+      "sha256": "278bc9a0003592410b48e1b6a5fa399ee0959f1590b3b47c5b2481c0bd69bca7"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION-STAGE0",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION-STAGE0/20260330T181801Z"
+}
