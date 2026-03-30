@@ -1,0 +1,6 @@
+petcare_execution/EP10_STAGE0/EP10_ARCHITECTURE_LOCK.md
+petcare_execution/EP10_STAGE0/EP10_DEPENDENCY_MAP.md
+petcare_execution/EP10_STAGE0/EP10_EXECUTION_SPEC.md
+petcare_execution/EP10_STAGE0/EP10_HARD_GATES.md
+petcare_execution/EP10_STAGE0/EP10_NOTION_EXECUTION_MAP.md
+scripts/petcare_ep10_stage0_architecture_lock.sh

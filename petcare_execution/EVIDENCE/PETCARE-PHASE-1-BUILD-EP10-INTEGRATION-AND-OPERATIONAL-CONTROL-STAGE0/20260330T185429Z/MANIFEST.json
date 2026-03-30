@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL-STAGE0/20260330T185429Z/file_listing.txt",
+      "sha256": "ef9c2ad784a1e26a524958afe5d00af014e6b61cec0943bc5c448b9e9c233a01"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL-STAGE0/20260330T185429Z/git_head.txt",
+      "sha256": "a53ee26ee72cb20ea3c026417eb3ce019e78614dfd9900e732be11867f645933"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL-STAGE0/20260330T185429Z/git_status.txt",
+      "sha256": "dcd7857195c44cda020095eef8ddf7ba9f3f5f1f226391f0db89e289b861779c"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL-STAGE0/20260330T185429Z/phase_assertions.txt",
+      "sha256": "4ee3e7605e49840b726856b823c9073041847d917031f70143afd0ae493d7c6c"
+    },
+    {
+      "path": "petcare_execution/EP10_STAGE0/EP10_ARCHITECTURE_LOCK.md",
+      "sha256": "37cf8ea2b7c024b930884bcf1574d3d24dd9c9e2ee5d5cf6fa371824b5673ba8"
+    },
+    {
+      "path": "petcare_execution/EP10_STAGE0/EP10_HARD_GATES.md",
+      "sha256": "80e13572f4d695f10ba0f80b677c1a38e1d3087a871b22038f53cbdb1157a588"
+    },
+    {
+      "path": "petcare_execution/EP10_STAGE0/EP10_DEPENDENCY_MAP.md",
+      "sha256": "0b4b920b3adf763708223d851e81728c4a6ddd991e2aef2cc86d1dfdff3cfc7d"
+    },
+    {
+      "path": "petcare_execution/EP10_STAGE0/EP10_EXECUTION_SPEC.md",
+      "sha256": "662a3fc8c2b76def86416197e1777ac61af6ad25fe5763236fb378554370331d"
+    },
+    {
+      "path": "petcare_execution/EP10_STAGE0/EP10_NOTION_EXECUTION_MAP.md",
+      "sha256": "ef33a07e25a86cbadbe2349986476211abb439bf1b0c771cbe7593b15b07a870"
+    },
+    {
+      "path": "scripts/petcare_ep10_stage0_architecture_lock.sh",
+      "sha256": "9a45292cf51dfa2c10b936b0d6b5f7b669e8b31f6e7cbbeb4ea5277f55a995a2"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL-STAGE0",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL-STAGE0/20260330T185429Z"
+}

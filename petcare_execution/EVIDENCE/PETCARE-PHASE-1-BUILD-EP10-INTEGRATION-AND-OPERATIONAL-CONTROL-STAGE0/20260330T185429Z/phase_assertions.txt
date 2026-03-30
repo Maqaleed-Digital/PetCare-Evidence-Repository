@@ -1,0 +1,7 @@
+architecture_lock_created=true
+runtime_code_changed=false
+live_payment_rails_enabled=false
+ai_execution_authority=false
+reconciliation_auto_resolution_enabled=false
+adapter_mode=passive_or_instruction_only
+stage_type=architecture_lock
