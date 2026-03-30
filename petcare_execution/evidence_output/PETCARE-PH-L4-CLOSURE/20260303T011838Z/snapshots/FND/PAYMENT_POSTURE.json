@@ -1,7 +1,0 @@
-{
-  "schema": "petcare.payment_posture.v1",
-  "schema_version": 1,
-  "payments_enabled": false,
-  "payment_provider": null,
-  "notes": "PH-L4 baseline: payments disabled unless explicitly enabled via governed change."
-}

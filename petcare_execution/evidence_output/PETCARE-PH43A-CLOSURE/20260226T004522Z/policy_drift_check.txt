@@ -1,7 +1,0 @@
-=== POLICY DRIFT CHECK ===
-repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-policy=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/POLICY.md
-pin=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/POLICY.sha256
-POLICY_SHA_HAVE=c4ddaf269c3b0cb41795c72c46425e9972d0a0de19c4867ba450311762da8f12
-POLICY_SHA_WANT=c4ddaf269c3b0cb41795c72c46425e9972d0a0de19c4867ba450311762da8f12
-RESULT=PASS

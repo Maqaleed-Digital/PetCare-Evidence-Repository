@@ -1,6 +1,0 @@
-python_bin=.venv/bin/python
-.venv/bin/python
-Python 3.9.6
-pip 26.0.1 from /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.venv/lib/python3.9/site-packages/pip (python 3.9)
-date_local=Sat Feb 21 17:15:50 +03 2026
-date_utc=Sat Feb 21 14:15:50 UTC 2026

@@ -1,7 +1,0 @@
-http_code=200
-remote_ip=216.24.57.251
-time_namelookup=0.004708
-time_connect=0.102807
-time_appconnect=0.245463
-time_starttransfer=0.549992
-time_total=0.563646

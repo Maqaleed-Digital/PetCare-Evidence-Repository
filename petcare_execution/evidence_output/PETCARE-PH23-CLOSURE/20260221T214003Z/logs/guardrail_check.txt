@@ -1,9 +1,0 @@
-=== GUARDRAIL CHECK (LOGGED) ===
-=== EMERGENT GUARDRAIL CHECK ===
-CWD=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-GIT_TOPLEVEL=/Users/waheebmahmoud/dev/petcare-evidence-repository
-Traceback (most recent call last):
-  File "<stdin>", line 2, in <module>
-IndexError: list index out of range
-/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/scripts/petcare_emergent_guardrail_check.sh: line 42: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution: is a directory
-GUARD_RC=126

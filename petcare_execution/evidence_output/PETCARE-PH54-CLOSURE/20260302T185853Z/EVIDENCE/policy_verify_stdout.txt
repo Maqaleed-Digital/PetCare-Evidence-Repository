@@ -1,4 +1,0 @@
-OK verification policy PASS
-policy=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/VERIFICATION_POLICY.json
-policy_sha=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/VERIFICATION_POLICY.sha256
-allowlist_count=0

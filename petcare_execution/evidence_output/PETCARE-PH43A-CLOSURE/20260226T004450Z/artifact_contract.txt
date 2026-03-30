@@ -1,4 +1,0 @@
-=== PROD DEPLOY ARTIFACT CONTRACT ===
-repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-NOTE=No artifact provided; contract is SKIP (PASS-by-absence)
-RESULT=PASS

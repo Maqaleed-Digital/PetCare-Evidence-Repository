@@ -1,4 +1,0 @@
-=== PROD DEPLOY ARTIFACT CONTRACT ===
-repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-RESULT=FAIL
-MISSING_ARTIFACT=path/to/artifact.file

@@ -1,6 +1,0 @@
-TS_UTC=20260224T201719Z
-REPO=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-true
----
-145869c39705e32551b814fa89ab540f91034be9
-main

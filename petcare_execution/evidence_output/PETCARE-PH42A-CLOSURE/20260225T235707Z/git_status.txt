@@ -1,1 +1,0 @@
-git_status=## main...origin/main ?? EVIDENCE/ ?? FND/AI_ENVIRONMENT_LOG_ISOLATION.md ?? FND/ENVIRONMENT_ISOLATION_MATRIX.md ?? FND/PROD_ENVIRONMENT_POLICY.md ?? FND/PROD_SECRET_ROTATION_SOP.md ?? scripts/petcare_env_guard_check.sh ?? scripts/petcare_ph42a_closure_pack.sh ?? tests/ENVIRONMENT_NEGATIVE_CASES.md 

@@ -1,6 +1,0 @@
-
-=== GIT STATUS ===
-## main...origin/main
-
-=== HEAD ===
-145869c petcare: ignore venv + evidence outputs

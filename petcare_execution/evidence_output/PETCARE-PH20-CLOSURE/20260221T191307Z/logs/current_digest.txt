@@ -1,7 +1,0 @@
-=== CURRENT DIGEST (V2) ===
-=== PH20 REGISTRY DIGEST COMPUTE ===
-ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-SCOPE=ops
-REGISTRY_FILE_COUNT=15
-REGISTRY_DIGEST_SHA256=b2fad799093522d9e6352ebe34f85f9f241eb4c87c8f4e3f760f240d4cf4abc9
-WROTE=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH20-CLOSURE/20260221T191307Z/snapshots/registry_digest.sha256.current_v2

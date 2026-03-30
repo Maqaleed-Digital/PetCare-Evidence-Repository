@@ -1,9 +1,0 @@
-OK verification index loaded — entries_count=2
-index_digest_sha256=0a51833b9dddb5c4f84a6e0220a5e03630dd415313bbb64156b272758f0d9ee1
-OK verification index integrity PASS
-policy_sha256=354d0e3326da2b1591451e9ce7e20593c450267dfe3ecb95bfbce78630a1a6a2
-allowlist_count=2
-quorum_required=2
-distinct_meta_present_count=2
-distinct_meta_present=['PETCARE-PH44B-CLOSURE', 'PETCARE-PH45B-CLOSURE']
-index_digest_sha256=0a51833b9dddb5c4f84a6e0220a5e03630dd415313bbb64156b272758f0d9ee1

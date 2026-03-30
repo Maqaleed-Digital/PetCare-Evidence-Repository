@@ -1,7 +1,0 @@
-{
-  "generated_at_utc": "2026-02-18T22:21:53Z",
-  "mode": "REGULATED",
-  "policy_path": "FND/security/policy.json",
-  "policy_sha256_canonical": "073f350c6e28a646ee1dec3bc774b804be941010a117cecebddb7f5d82c7bd52",
-  "schema": "PETCARE_SECURITY_POLICY_V1"
-}

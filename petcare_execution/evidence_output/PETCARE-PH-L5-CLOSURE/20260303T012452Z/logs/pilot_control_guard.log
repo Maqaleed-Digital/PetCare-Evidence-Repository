@@ -1,4 +1,0 @@
-pilot_enabled=false
-activation_requires_ceo_declaration=true
-ceo_declaration_path=docs/CEO_GO_LIVE_DECLARATION.md
-OK: pilot control guard PASS (pilot not enabled, or CEO declaration not required)

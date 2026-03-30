@@ -1,6 +1,0 @@
-=== CI PREFLIGHT ===
-repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-python_bin=.venv/bin/python
-.venv/bin/python
-Python 3.9.6
-PREFLIGHT_OK

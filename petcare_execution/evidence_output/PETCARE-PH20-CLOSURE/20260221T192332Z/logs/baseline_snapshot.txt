@@ -1,3 +1,0 @@
-=== BASELINE SNAPSHOT ===
-BASELINE_FILE=ops/ci_baselines/registry_digest.sha256
-BASELINE_DIGEST=b2fad799093522d9e6352ebe34f85f9f241eb4c87c8f4e3f760f240d4cf4abc9

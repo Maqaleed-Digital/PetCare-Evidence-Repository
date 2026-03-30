@@ -1,3 +1,0 @@
-POLICY_DRIFT_OK
-artifact=ops/ph12_policy_digest.json
-sha256=fca92e6a0ba41fbb855dccfde401f02d9830fc53ce23f852415bcb84bddfe560

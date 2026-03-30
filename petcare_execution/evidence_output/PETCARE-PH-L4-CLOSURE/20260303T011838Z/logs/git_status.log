@@ -1,9 +1,0 @@
-## main...origin/main
-?? FND/PAYMENT_POSTURE.json
-?? docs/DATA_RETENTION_POLICY.md
-?? docs/PDPL_COMPLIANCE.md
-?? docs/SECURITY_BASELINE.md
-?? scripts/petcare_payment_posture_guard.sh
-?? scripts/petcare_ph_l1b_closure_pack.sh
-?? scripts/petcare_ph_l3_closure_pack.sh
-?? scripts/petcare_ph_l4_closure_pack.sh

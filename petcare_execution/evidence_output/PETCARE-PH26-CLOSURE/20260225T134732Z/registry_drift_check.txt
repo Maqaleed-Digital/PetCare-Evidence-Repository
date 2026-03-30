@@ -1,8 +1,0 @@
-=== REGISTRY DRIFT CHECK ===
-repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-registry=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/REGISTRY.json
-pin=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/REGISTRY.sha256
-REGISTRY_JSON=VALID
-REGISTRY_SHA_HAVE=cf5f76ff0d79fdaf8d18463e1112726d2d4df311326937988e3bf2c987d13a58
-REGISTRY_SHA_WANT=cf5f76ff0d79fdaf8d18463e1112726d2d4df311326937988e3bf2c987d13a58
-RESULT=PASS

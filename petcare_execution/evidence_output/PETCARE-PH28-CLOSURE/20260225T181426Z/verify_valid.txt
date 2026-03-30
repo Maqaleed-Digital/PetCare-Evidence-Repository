@@ -1,7 +1,0 @@
-AUDIT_BUNDLE_VERIFY
-tenant_id=tenant_001
-event_count=3
-bundle_checksum_ok=True
-signature_present=False
-signature_ok=True
-RESULT=PASS

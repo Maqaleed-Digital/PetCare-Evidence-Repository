@@ -1,4 +1,0 @@
-SNAPSHOT_MISSING=pyproject.toml
-SNAPSHOT_MISSING=requirements.lock
-SNAPSHOT_MISSING=requirements-dev.txt
-SNAPSHOT_MISSING=Makefile

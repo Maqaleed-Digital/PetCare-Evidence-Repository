@@ -1,5 +1,0 @@
-## main...origin/main
- M .gitignore
- M scripts/petcare_release_integrity_check.sh
-?? scripts/petcare_ph_l1_closure_pack.sh
-?? scripts/petcare_ph_l1b_closure_pack.sh

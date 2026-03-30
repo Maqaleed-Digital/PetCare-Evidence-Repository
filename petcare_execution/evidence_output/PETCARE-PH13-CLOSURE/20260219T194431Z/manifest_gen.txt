@@ -1,2 +1,0 @@
-MANIFEST_WRITTEN /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH13-CLOSURE/20260219T194431Z/MANIFEST.json
-MANIFEST_PATCHED_ZIP ../PETCARE-PH13-CLOSURE_20260219T194431Z.zip 5aa3077c0d4e7a2fdcf9a894955eb968dcdb993c8dbfd576104ce74611f085c8

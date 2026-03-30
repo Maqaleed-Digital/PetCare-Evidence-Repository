@@ -1,2 +1,0 @@
-total_recovery_seconds=16
-PASS: RTO within budget (dt=16s <= max=900s)

@@ -1,3 +1,0 @@
-OK verification policy changelog guard PASS
-policy_sha256=c60ce1a1d4a86506faef03561e2f22c902aa80986c48804e03d3b57478dcfa17
-changelog_path=FND/VERIFICATION_POLICY_CHANGELOG.md

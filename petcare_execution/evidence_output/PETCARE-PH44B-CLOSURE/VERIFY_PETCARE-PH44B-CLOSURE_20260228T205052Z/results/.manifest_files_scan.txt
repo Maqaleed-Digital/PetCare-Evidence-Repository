@@ -1,2 +1,0 @@
-total=4
-missing=verifier_report verify/results/VERIFY_REPORT.md

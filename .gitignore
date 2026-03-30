@@ -4,3 +4,4 @@ __pycache__/
 *.pyd
 .env
 .DS_Store
+petcare_execution/evidence_output/

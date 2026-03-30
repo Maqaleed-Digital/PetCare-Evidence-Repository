@@ -1,2 +1,0 @@
-timestamp_utc=20260219T192050Z
-repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution

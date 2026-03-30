@@ -1,8 +1,0 @@
-=== ENV FINGERPRINT ===
-=== PH19 ENV FINGERPRINT ===
-{
-  "pip_version": "pip 26.0.1 from /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.venv/lib/python3.9/site-packages/pip (python 3.9)",
-  "pytest_version": "8.4.2",
-  "python_version": "Python 3.9.6",
-  "requirements_lock_sha256": "5a291d142f1018091c1a16360d3babf6f38ddfa6b5a27a6f3be4b4f08c4090ef"
-}

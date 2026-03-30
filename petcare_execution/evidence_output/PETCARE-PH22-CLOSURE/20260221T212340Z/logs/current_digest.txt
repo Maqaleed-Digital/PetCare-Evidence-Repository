@@ -1,8 +1,0 @@
-=== CURRENT DIGEST (V2) ===
-=== PH22 POLICY DIGEST COMPUTE (V2) ===
-ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-SCOPE=ops
-EXCLUDE=.git/* evidence_output/* ops/ci_baselines/*
-POLICY_FILE_COUNT=15
-POLICY_DIGEST_SHA256=a951da7ad76bc853ea5c6f73f7209bce0a921dc4c6243294344868dbe7c21202
-WROTE=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH22-CLOSURE/20260221T212340Z/snapshots/policy_digest.sha256.current_v2

@@ -1,8 +1,0 @@
-=== DRIFT CHECK ===
-=== PH22 POLICY DRIFT CHECK ===
-BASELINE_FILE=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/ops/ci_baselines/policy_digest.sha256
-BASELINE_DIGEST=a951da7ad76bc853ea5c6f73f7209bce0a921dc4c6243294344868dbe7c21202
-CURRENT_DIGEST=a951da7ad76bc853ea5c6f73f7209bce0a921dc4c6243294344868dbe7c21202
-DRIFT=0
-PASS
-DRIFT_RC=0

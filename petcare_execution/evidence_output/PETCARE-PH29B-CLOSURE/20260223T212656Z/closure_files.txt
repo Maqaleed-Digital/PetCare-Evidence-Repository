@@ -1,4 +1,0 @@
-FND/CODE_SCAFFOLD/app.py
-FND/CODE_SCAFFOLD/api/routes_audit_verify.py
-scripts/petcare_ph29b_inject_audit_verify_routes.py
-TESTS/test_audit_verify_http_endpoint.py

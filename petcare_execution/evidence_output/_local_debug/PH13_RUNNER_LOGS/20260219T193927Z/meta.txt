@@ -1,3 +1,0 @@
-timestamp_utc=20260219T193927Z
-repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
-shell=/bin/zsh

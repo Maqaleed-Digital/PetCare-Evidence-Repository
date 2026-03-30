@@ -1,8 +1,0 @@
-AUDIT_BUNDLE_VERIFY
-tenant_id=tenant_001
-event_count=2
-bundle_checksum_ok=False
-signature_present=False
-signature_ok=True
-error=bundle_checksum mismatch
-RESULT=FAIL

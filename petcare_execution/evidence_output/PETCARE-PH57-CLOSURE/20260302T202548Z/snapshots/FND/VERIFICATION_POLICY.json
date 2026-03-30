@@ -1,7 +1,0 @@
-{
-  "created_utc": "INIT",
-  "meta_verifiers_allowlist": [
-    "PETCARE-PH44B-CLOSURE"
-  ],
-  "schema": "petcare.verification_policy.v1"
-}
