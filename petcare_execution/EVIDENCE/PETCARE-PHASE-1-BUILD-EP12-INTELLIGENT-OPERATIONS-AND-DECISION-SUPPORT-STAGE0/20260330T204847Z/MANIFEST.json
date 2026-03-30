@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT-STAGE0/20260330T204847Z/file_listing.txt",
+      "sha256": "bedefc1ed0767d68c5817cc55f501872f938cc7336df81f5d51bb3c3faf67573"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT-STAGE0/20260330T204847Z/git_head.txt",
+      "sha256": "8eb4ceb842e6885c3a844c2f0bc970f2d59b8786fb5c11857445b702cf5a8f74"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT-STAGE0/20260330T204847Z/git_status.txt",
+      "sha256": "ee517c3af07fa8cd699fe06b416dabf1f7dfac284565524653f11c93db0baa35"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT-STAGE0/20260330T204847Z/phase_assertions.txt",
+      "sha256": "601c9e353406573ddc7debd4b105ed2d8fa569ba8c5151e9e32d9029d04c53c4"
+    },
+    {
+      "path": "petcare_execution/EP12_STAGE0/EP12_ARCHITECTURE_LOCK.md",
+      "sha256": "0597867d36382891e77b872848785a3a3d10a71cfa0a97175696e3dfb8a2022f"
+    },
+    {
+      "path": "petcare_execution/EP12_STAGE0/EP12_HARD_GATES.md",
+      "sha256": "07fa357142ace581b12f001ccb3439b57830a24b4c3a260f235a0b09f714930a"
+    },
+    {
+      "path": "petcare_execution/EP12_STAGE0/EP12_DEPENDENCY_MAP.md",
+      "sha256": "c49a63ab0e58521c306ab99faebc8feb6ac1ff9909ccae4c3099c8194da771ac"
+    },
+    {
+      "path": "petcare_execution/EP12_STAGE0/EP12_EXECUTION_SPEC.md",
+      "sha256": "4333a6153213b530812d7619ea0fc1340c56239abeb55268ed0c2222037f7688"
+    },
+    {
+      "path": "petcare_execution/EP12_STAGE0/EP12_NOTION_EXECUTION_MAP.md",
+      "sha256": "df7fb2e645dee5a21eac988bb00aca366309c04ca7972c2d37ebac4e2bc67f53"
+    },
+    {
+      "path": "scripts/petcare_ep12_stage0_architecture_lock.sh",
+      "sha256": "e284ed8d40eadf50c5fbd3fe8460182b9e54b6b2e28b09bdd7244eefbfdc8b11"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT-STAGE0",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT-STAGE0/20260330T204847Z"
+}

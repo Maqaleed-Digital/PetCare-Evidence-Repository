@@ -1,0 +1,4 @@
+## petcare/ep12-stage0-architecture-lock
+?? petcare_execution/EP12_STAGE0/
+?? petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT-STAGE0/
+?? scripts/petcare_ep12_stage0_architecture_lock.sh

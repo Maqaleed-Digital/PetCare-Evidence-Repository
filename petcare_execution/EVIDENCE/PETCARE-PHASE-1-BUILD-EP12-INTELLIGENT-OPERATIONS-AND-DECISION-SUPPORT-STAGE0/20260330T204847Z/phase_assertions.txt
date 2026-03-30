@@ -1,0 +1,7 @@
+architecture_lock_created=true
+runtime_code_changed=false
+ai_execution_authority=false
+ai_approval_authority=false
+advisory_only=true
+silent_influence_allowed=false
+stage_type=architecture_lock
