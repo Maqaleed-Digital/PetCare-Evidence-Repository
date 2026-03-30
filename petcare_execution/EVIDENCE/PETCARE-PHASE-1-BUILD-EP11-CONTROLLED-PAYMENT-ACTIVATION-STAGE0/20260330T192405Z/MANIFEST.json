@@ -1,0 +1,46 @@
+{
+  "entries": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION-STAGE0/20260330T192405Z/file_listing.txt",
+      "sha256": "e50b204302a1f89c01cad59b77e1e8683afac25b9d4f3355bfa9aa027f44edc4"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION-STAGE0/20260330T192405Z/git_head.txt",
+      "sha256": "218cffa124fcd443fed3554845902df72415ab47b965d2ec781f26b258f1af5e"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION-STAGE0/20260330T192405Z/git_status.txt",
+      "sha256": "a5bb0259ee3cd1dd73ef5b1e13028dc826eaee9585e7faf05c05d4bd1b9dabef"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION-STAGE0/20260330T192405Z/phase_assertions.txt",
+      "sha256": "ff88796a12d98f40f7b69fbf34c0bc27c20d56e0830ed15b05af23618c8eba02"
+    },
+    {
+      "path": "petcare_execution/EP11_STAGE0/EP11_ARCHITECTURE_LOCK.md",
+      "sha256": "e6e7004dde237527da8f1a5f6d28acd21aec873021a50031b920daa60ce6f8cc"
+    },
+    {
+      "path": "petcare_execution/EP11_STAGE0/EP11_HARD_GATES.md",
+      "sha256": "6b8fad9969f5808ff1847cfbbf468bce08bcd878f176df1db3c65799c2b4089e"
+    },
+    {
+      "path": "petcare_execution/EP11_STAGE0/EP11_DEPENDENCY_MAP.md",
+      "sha256": "66f081e1605ef9608aeb83e2d5ee49a1ced19e8d6e75aebc932b6d724429b634"
+    },
+    {
+      "path": "petcare_execution/EP11_STAGE0/EP11_EXECUTION_SPEC.md",
+      "sha256": "1a860c636fdcc1c2072f5e545d66772b7961d41a9b0175225e694ddd4a86a95b"
+    },
+    {
+      "path": "petcare_execution/EP11_STAGE0/EP11_NOTION_EXECUTION_MAP.md",
+      "sha256": "d7cc00ba70aa0df475bc0bddb9ac0875dbcc97bbf1887ed543a335e20c644284"
+    },
+    {
+      "path": "scripts/petcare_ep11_stage0_architecture_lock.sh",
+      "sha256": "e01be529e6874fb99c8a430385475c91978ba086044e894346b4fcbaeccc72ea"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION-STAGE0",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION-STAGE0/20260330T192405Z"
+}

@@ -1,0 +1,7 @@
+architecture_lock_created=true
+runtime_code_changed=false
+ai_execution_authority=false
+payment_activation_live=false
+treasury_control_required=true
+dual_control_policy_planned=true
+stage_type=architecture_lock

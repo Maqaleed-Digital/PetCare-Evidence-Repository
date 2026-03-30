@@ -1,0 +1,4 @@
+## petcare/ep11-stage0-architecture-lock
+?? petcare_execution/EP11_STAGE0/
+?? petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP11-CONTROLLED-PAYMENT-ACTIVATION-STAGE0/
+?? scripts/petcare_ep11_stage0_architecture_lock.sh
