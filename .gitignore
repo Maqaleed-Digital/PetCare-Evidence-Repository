@@ -1,7 +1,6 @@
-petcare_execution/.venv/
-petcare_execution/__pycache__/
-petcare_execution/.DS_Store
-petcare_execution/*.pyc
-petcare_execution/evidence_output/
-
-.tmp_release_*/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.DS_Store
