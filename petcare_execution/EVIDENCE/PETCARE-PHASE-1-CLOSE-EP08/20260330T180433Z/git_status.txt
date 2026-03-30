@@ -1,0 +1,4 @@
+## petcare/close-ep08
+?? petcare_execution/EP08_CLOSURE/
+?? petcare_execution/EVIDENCE/PETCARE-PHASE-1-CLOSE-EP08/
+?? scripts/petcare_close_ep08.sh

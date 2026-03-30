@@ -1,0 +1,5 @@
+PACK_ID              : PETCARE-PHASE-1-CLOSE-EP08
+VALIDATION           : OK
+GOVERNANCE_STATE     : ep08_closed_governed
+FINANCIAL_BOUNDARY   : controlled_financial_execution_non_autonomous
+EVIDENCE_RUN_DIR     : petcare_execution/EVIDENCE/PETCARE-PHASE-1-CLOSE-EP08/20260330T180433Z

@@ -1,0 +1,5 @@
+settlement_requires_approval_before_instruction=True
+export_mode_is_non_autonomous=True
+ai_execution_authority=False
+live_payment_rails_enabled=False
+reconciliation_auto_resolution_enabled=False
