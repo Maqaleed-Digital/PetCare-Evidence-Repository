@@ -1,0 +1,3 @@
+-- PETCARE EP-10 checkpoint migration
+-- This migration marks activation of integration and operational control scaffolding.
+-- No schema mutation is introduced in this checkpoint migration.

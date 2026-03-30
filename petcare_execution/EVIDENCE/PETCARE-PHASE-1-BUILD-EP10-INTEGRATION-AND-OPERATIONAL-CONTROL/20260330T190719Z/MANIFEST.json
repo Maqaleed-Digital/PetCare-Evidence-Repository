@@ -1,0 +1,78 @@
+{
+  "entries": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL/20260330T190719Z/file_listing.txt",
+      "sha256": "895d91b4f0352444db74df2fc271864c893104a936afb9a9160a547ce4813240"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL/20260330T190719Z/phase_assertions.txt",
+      "sha256": "1a515c0a6ed59a40c51372c2309260943c7b7bb52c38650ef839734d62be84e7"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL/20260330T190719Z/pytest.log",
+      "sha256": "4729102e59db75b5820273a0249979ca622611e03b653c221e4dadacd7a4b70d"
+    },
+    {
+      "path": "petcare_execution/EP10/EP10_EXECUTION_MASTER_SPEC.md",
+      "sha256": "6251c2857dbd0c62cddb594509180f07e6be262748359c66e7623f26e490bebf"
+    },
+    {
+      "path": "petcare_execution/EP10/EP10_HARD_GATES.md",
+      "sha256": "e390fa7c7fe586212f19b305711cc54063b60e89dc3401aab565754f78e87b85"
+    },
+    {
+      "path": "petcare_execution/EP10/EP10_NOTION_EXECUTION_MAP.md",
+      "sha256": "9e230ee4c32621f2044db3095e828583c63d5b87d8e573211f58d3cffdfa95e5"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/integration_control/__init__.py",
+      "sha256": "6a82dce1bf24dc83e49beb330a2d7c56daab44c985d129a8a612b8d31e657818"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/integration_control/adapters.py",
+      "sha256": "8f4ff758fcc3266cd47fa594d4d95ee3b89b1f7520c5bea6e202ec149a5a1098"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/integration_control/signals.py",
+      "sha256": "7ff3a17373386763a3cd6679ec47e7cb08c4f501a5f2837a9f23b14a3a95f789"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/integration_control/queues.py",
+      "sha256": "4aa5ce76de5127817b50714990959693f945e967d72d8eacbc9ab39cebf5c7d8"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/integration_control/tasks.py",
+      "sha256": "7add1c3e25125d8ed7cc6a00efcce312d731a3a93d91216a021d57a78ec39c37"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/integration_control/actions.py",
+      "sha256": "9855c803af35df369d0b1bf1242955036b799c16168b2eee52bdf66856615a6d"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/integration_control/exceptions.py",
+      "sha256": "7d8ff8915a0c8af625bd901141eab2877dd5e567ac41ccfa8b6b3ff673ed1c38"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/integration_control/visibility.py",
+      "sha256": "02067dbb99a2571a06d4cadb4ec0a5c74767b2b3c21ebd716f23623e4d1ddafe"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/integration_control/audit.py",
+      "sha256": "0057851ca9885e3e47335baa519f88205c784de49b8a3cbec3c0e61ac2dcfa6c"
+    },
+    {
+      "path": "petcare_runtime/tests/integration_control/test_integration_control.py",
+      "sha256": "dc14e68871e1ce0ab0c3a39b393b358fffe45f37226a646d7634d23c69ae97a7"
+    },
+    {
+      "path": "petcare_runtime/migrations/0010_ep10_integration_operational_control_checkpoint.sql",
+      "sha256": "015dac59f9c4dae989c98db221f7837c8e30dce8f56435ca7b7b82de44b51129"
+    },
+    {
+      "path": "scripts/petcare_ep10_all_waves_pack.sh",
+      "sha256": "df363b3d544bf7a945e511df1a7c061149d1fc3a8b15586eb9b135e7aa1b7b17"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP10-INTEGRATION-AND-OPERATIONAL-CONTROL/20260330T190719Z"
+}

@@ -1,0 +1,5 @@
+live_payment_rails_enabled=false
+ai_execution_authority=false
+reconciliation_auto_resolution_enabled=false
+adapter_mode=passive_or_instruction_only
+ep10_real_world_operability_layer=true
