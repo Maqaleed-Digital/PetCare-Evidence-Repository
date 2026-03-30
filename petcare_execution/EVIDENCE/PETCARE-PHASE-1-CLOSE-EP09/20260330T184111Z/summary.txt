@@ -1,0 +1,5 @@
+PACK_ID              : PETCARE-PHASE-1-CLOSE-EP09
+VALIDATION           : OK
+GOVERNANCE_STATE     : ep09_closed_governed
+OPERATING_BOUNDARY   : financial_operations_layer_non_autonomous
+EVIDENCE_RUN_DIR     : petcare_execution/EVIDENCE/PETCARE-PHASE-1-CLOSE-EP09/20260330T184111Z

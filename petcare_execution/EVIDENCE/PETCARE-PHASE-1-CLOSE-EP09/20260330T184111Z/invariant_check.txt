@@ -1,0 +1,7 @@
+invoice_state_machine_transition_guarded=True
+external_signal_recording_is_non_autonomous=True
+reconciliation_auto_resolution_enabled=False
+dispute_resolution_requires_reason=True
+financial_visibility_is_deterministic=True
+ai_execution_authority=False
+live_payment_rails_enabled=False
