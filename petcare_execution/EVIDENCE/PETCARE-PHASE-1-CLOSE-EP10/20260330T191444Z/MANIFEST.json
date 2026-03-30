@@ -1,0 +1,50 @@
+{
+  "entries": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-CLOSE-EP10/20260330T191444Z/file_listing.txt",
+      "sha256": "39d199dcd1cec1c48a6ed6fa710d2c175a15d9e65f610556348c80cb29637bb7"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-CLOSE-EP10/20260330T191444Z/git_head.txt",
+      "sha256": "743a0826a705636b8c34de01f83e7359a0291e5ccc5a1157709c1c3720d327d2"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-CLOSE-EP10/20260330T191444Z/git_status.txt",
+      "sha256": "1105db96d5bc55bbad395932d0659f7ee737b5c2c5b2027d957ff2b7f77b7558"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-CLOSE-EP10/20260330T191444Z/invariant_check.txt",
+      "sha256": "f8eafce6a1c2f0052fcf1a2dd64e25267a61b739327f11ed4eb4a9b689498779"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-CLOSE-EP10/20260330T191444Z/tests.log",
+      "sha256": "4729102e59db75b5820273a0249979ca622611e03b653c221e4dadacd7a4b70d"
+    },
+    {
+      "path": "petcare_execution/EP10_CLOSURE/EP10_CLOSURE_SUMMARY.md",
+      "sha256": "586f1fb8ed60bdc5298f440274fea1e89826e33d9924432d52321a3c43b993a8"
+    },
+    {
+      "path": "petcare_execution/EP10_CLOSURE/EP10_ACCEPTANCE_RECORD.md",
+      "sha256": "9124439efa6d7f216b6515e83adfa1ee07b76d91d5921a61fbe7a52774585e89"
+    },
+    {
+      "path": "petcare_execution/EP10_CLOSURE/EP10_INTEGRATION_AND_CONTROL_INVARIANTS_REGISTRY.md",
+      "sha256": "fe4787f4274bc83ec28dbbfe665ac2c7fea1c615838e6e3bfedec60d076df31a"
+    },
+    {
+      "path": "petcare_execution/EP10_CLOSURE/EP10_GOVERNANCE_SEAL.md",
+      "sha256": "a7dfe09db6c5aa1ba1b62fbd970768d7783fd480acdd0088b228c97b7245e8c7"
+    },
+    {
+      "path": "petcare_execution/EP10_CLOSURE/EP10_EVIDENCE_INDEX.md",
+      "sha256": "1e06f3cbae672fc0a80a4b5fac9dfb770dfe7f3197e0911d9160e4806b70a2b2"
+    },
+    {
+      "path": "scripts/petcare_close_ep10.sh",
+      "sha256": "31269e13d5f6bc945ab0be1afc8105d948503eca9dfc8337cafb1db99fa8ab15"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-CLOSE-EP10",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-CLOSE-EP10/20260330T191444Z"
+}

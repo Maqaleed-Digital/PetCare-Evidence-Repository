@@ -1,0 +1,9 @@
+adapters_passive_only=True
+external_signal_review_boundary_enforced=True
+queue_ordering_is_deterministic=True
+human_action_traceability_required=True
+task_assignment_is_attributable=True
+exception_escalation_is_reviewable=True
+operational_visibility_is_deterministic=True
+ai_execution_authority=False
+live_payment_rails_enabled=False
