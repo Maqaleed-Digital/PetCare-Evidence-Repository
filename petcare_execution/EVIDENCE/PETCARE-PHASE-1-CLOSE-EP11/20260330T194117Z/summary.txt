@@ -1,0 +1,2 @@
+VALIDATION=OK
+GOVERNANCE=ep11_closed_governed

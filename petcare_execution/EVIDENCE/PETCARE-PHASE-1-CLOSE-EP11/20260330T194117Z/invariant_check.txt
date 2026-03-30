@@ -1,0 +1,6 @@
+ai_execution_authority=false
+explicit_human_authorization_required=true
+treasury_control_required=true
+dual_control_supported=true
+dispatch_requires_authorization_and_treasury=true
+execution_reversible=true
