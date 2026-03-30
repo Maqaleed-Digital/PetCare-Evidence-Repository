@@ -1,0 +1,5 @@
+live_payment_rails_enabled=false
+ai_execution_authority=false
+reconciliation_auto_resolution_enabled=false
+export_mode=non_autonomous_export_only
+ep09_operational_finance_layer=true

@@ -1,0 +1,78 @@
+{
+  "entries": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION/20260330T183205Z/file_listing.txt",
+      "sha256": "6f857e4679900ea77ed6402cae28d3bb928313cfdb7b6efacc2452252e96c0c1"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION/20260330T183205Z/phase_assertions.txt",
+      "sha256": "eda628e7732cf329dedab44a62471d72a653464921fe0df2eeb22ce02a3503bf"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION/20260330T183205Z/pytest.log",
+      "sha256": "d271bc4c61476139fa75efa8c67eb55e8dd295b53d6f286ec6f1c70f6a20e581"
+    },
+    {
+      "path": "petcare_execution/EP09/EP09_EXECUTION_MASTER_SPEC.md",
+      "sha256": "2780fd9f98e9bea2b50148c8642209c9e04503fee8dfde3d8fbd8b40af75f39e"
+    },
+    {
+      "path": "petcare_execution/EP09/EP09_HARD_GATES.md",
+      "sha256": "a04abc36b4781ce754655a95fd4f1c20c479d38f12f62cb143a21e9bbf4afd96"
+    },
+    {
+      "path": "petcare_execution/EP09/EP09_NOTION_EXECUTION_MAP.md",
+      "sha256": "f9fae3ce7e61d6e74f6903f1f3d8c63e2bd66291ba06a8bbed8221b1da72a1f0"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/financial_operations/__init__.py",
+      "sha256": "ae6d5bd2e3a7a5a27bf205e0d9a9012c776a7cc92cdb405b64934f0454767142"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/financial_operations/models.py",
+      "sha256": "e6bc547bd688d9f4c0049ea204adf25e25577330dd6434aba45b1709f18830d8"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/financial_operations/invoices.py",
+      "sha256": "1e6068b4e2a27d22499d806b7329024d88c3a0ce64877646d39bfdedbb173d45"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/financial_operations/payment_tracking.py",
+      "sha256": "702d34061338386a5a4b743991e501871514335ea3cd0d0fadb414d5d0981a66"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/financial_operations/reconciliation_ops.py",
+      "sha256": "db2e45f6746965f68adada49a59af4d2be78e85553cfb9a5209ccbca5fa07f0f"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/financial_operations/disputes.py",
+      "sha256": "bc629f2fe19fff737a197297ac88e916714c5639c09e618da6b2df9e7aa928ce"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/financial_operations/statements.py",
+      "sha256": "df159afa8d9f1803ea6d96333c474ca8a8f7b6bf137bcb621b163d5426af8359"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/financial_operations/visibility.py",
+      "sha256": "80338c6e391239a6915c3a9428168558bf93e96d52ba94cf3006f5f46cb5e860"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/financial_operations/audit.py",
+      "sha256": "610f9df45968d006867d80080276bba2707ee7a43cfcabc9e0cf4e1f136da3e7"
+    },
+    {
+      "path": "petcare_runtime/tests/financial_operations/test_financial_operations.py",
+      "sha256": "0e61156a7b1cb0b628a16f79b7d7ca8f3aac68e18a5389cf6b575083060cefc8"
+    },
+    {
+      "path": "petcare_runtime/migrations/0009_ep09_financial_operations_checkpoint.sql",
+      "sha256": "983e0610c4bcfd721b0cf5e16eaccf64ef2e7e49a97ecbcf456acaa1f4f213a1"
+    },
+    {
+      "path": "scripts/petcare_ep09_all_waves_pack.sh",
+      "sha256": "9c3f195d76901386c237494af01cfa1bc4c7eff9679a70066760509ec8d8d76e"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP09-FINANCIAL-OPERATIONS-AND-RECONCILIATION/20260330T183205Z"
+}

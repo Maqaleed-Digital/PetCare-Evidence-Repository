@@ -1,0 +1,3 @@
+-- PETCARE EP-09 checkpoint migration
+-- This migration marks activation of financial operations and reconciliation scaffolding.
+-- No schema mutation is introduced in this checkpoint migration.
