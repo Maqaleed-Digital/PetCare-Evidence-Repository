@@ -1,0 +1,46 @@
+{
+  "artifacts": {
+    "ci_preflight": "ci_preflight.txt",
+    "ci_preflight_rc": "ci_preflight_rc.txt",
+    "closure_sha256_pre_manifest": "closure_sha256_pre_manifest.txt",
+    "fail_marker": "FAIL_MARKER.txt",
+    "manifest_gen_log": "manifest_gen.txt",
+    "policy_drift": "policy_drift.txt",
+    "policy_drift_rc": "policy_drift_rc.txt",
+    "pytest_log": "pytest.txt",
+    "pytest_rc": "pytest_rc.txt",
+    "registry_drift": "registry_drift.txt",
+    "registry_drift_rc": "registry_drift_rc.txt",
+    "runtime": "runtime.txt"
+  },
+  "ci": {
+    "preflight_log_tail": "=== CI PREFLIGHT ===\nrepo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution\npython_bin=.venv/bin/python\n.venv/bin/python\nPython 3.9.6\nPREFLIGHT_OK",
+    "preflight_rc": 0
+  },
+  "drift": {
+    "policy_rc": 2,
+    "policy_tail": "scripts/petcare_policy_drift_check.sh: line 86: syntax error: unexpected end of file",
+    "registry_rc": 2,
+    "registry_tail": "scripts/petcare_registry_drift_check.sh: line 85: syntax error: unexpected end of file"
+  },
+  "git": {
+    "head": "145869c petcare: ignore venv + evidence outputs",
+    "status": "## main...origin/main"
+  },
+  "name": "Policy + Registry Drift Enforcement Closure Pack",
+  "out_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH15-CLOSURE/20260219T221325Z",
+  "pack_id": "PETCARE-PH15-CLOSURE",
+  "phase": "PH15",
+  "repo_root": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution",
+  "runtime": "python_bin=.venv/bin/python\n.venv/bin/python\nPython 3.9.6\npip 26.0.1 from /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.venv/lib/python3.9/site-packages/pip (python 3.9)\ndate_local=Fri Feb 20 01:13:26 +03 2026\ndate_utc=Thu Feb 19 22:13:26 UTC 2026",
+  "status": "FAIL",
+  "tests": {
+    "raw_tail": "..........ss........................................                     [100%]",
+    "rc": 0
+  },
+  "timestamp_utc": "20260219T221325Z",
+  "zip": {
+    "path": "../PETCARE-PH15-CLOSURE_20260219T221325Z.zip",
+    "sha256": "a7241f14c4e8e1efa072502eb87467453e85e0e97d50b3bc561ea409fb5000dc"
+  }
+}

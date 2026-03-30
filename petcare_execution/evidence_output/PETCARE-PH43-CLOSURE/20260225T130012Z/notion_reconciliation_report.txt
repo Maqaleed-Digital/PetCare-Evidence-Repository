@@ -1,0 +1,28 @@
+PETCARE PHASE REGISTRY RECONCILIATION REPORT
+registry=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/REGISTRY.json
+notion_csv=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/notion_exports/PETCARE_PHASE_REGISTRY_EXPORT.csv
+
+DETECTED COLUMNS
+phase_col=Phase
+status_col=Status
+weight_col=Weight
+domain_col=PR Domain
+
+REGISTRY SUMMARY
+phases_total=40
+weighted_total=145
+weighted_closed=130
+weighted_percent=89.66
+
+NOTION SUMMARY (weights: notion if present else registry fallback)
+phases_detected=41
+weighted_total=145
+weighted_closed=130
+weighted_percent=89.66
+
+DIFFS
+missing_in_notion_count=0
+extra_in_notion_count=0
+mismatch_count=0
+
+RESULT=PASS

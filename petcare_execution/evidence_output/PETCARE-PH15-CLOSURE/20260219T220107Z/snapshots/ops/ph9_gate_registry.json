@@ -1,0 +1,32 @@
+{
+  "gates": {
+    "G-PH9-01": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH9-02": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH9-03": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH9-04": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH9-05": {
+      "evidence": [],
+      "status": "PASS"
+    }
+  },
+  "pack_id": "PETCARE-PH9-TRUST-GRADE",
+  "required_gates": [
+    "G-PH9-01",
+    "G-PH9-02",
+    "G-PH9-03",
+    "G-PH9-04",
+    "G-PH9-05"
+  ]
+}

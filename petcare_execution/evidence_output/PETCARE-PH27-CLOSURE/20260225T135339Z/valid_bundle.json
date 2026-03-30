@@ -1,0 +1,17 @@
+{
+  "tenant_id": "tenant_001",
+  "events": [
+    {
+      "event": "CREATE",
+      "entity": "invoice",
+      "id": "INV-001"
+    },
+    {
+      "event": "UPDATE",
+      "entity": "invoice",
+      "id": "INV-001"
+    }
+  ],
+  "generated_utc": "2026-02-25T13:53:41Z",
+  "bundle_checksum": "fce171c95fb81f209c94cddc85cb1b850a4e0a38399f73abb6753da4d4e93611"
+}

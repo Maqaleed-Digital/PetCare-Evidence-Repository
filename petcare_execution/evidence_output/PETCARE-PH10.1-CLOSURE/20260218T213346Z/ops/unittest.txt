@@ -1,0 +1,13 @@
+======================================================================
+ERROR: test_invalid_actor_id_fails (TESTS.test_ph10_1_runtime_enforcement.TestPH10_1RuntimeEnforcement.test_invalid_actor_id_fails)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_ph10_1_runtime_enforcement.py", line 17, in test_invalid_actor_id_fails
+    ok, reason = validate_actor_id("not-a-uuid")
+    ^^^^^^^^^^
+TypeError: cannot unpack non-iterable ActorValidationResult object
+
+----------------------------------------------------------------------
+Ran 43 tests in 0.194s
+
+FAILED (errors=1)

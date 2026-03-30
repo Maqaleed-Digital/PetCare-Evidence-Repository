@@ -1,0 +1,8 @@
+=== REQUIRED STATUS CHECK NAMES (BRANCH PROTECTION) ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+
+ADD THESE IN GITHUB BRANCH PROTECTION > Required status checks:
+  - ci / ci
+  - required-checks / required
+
+RESULT=PASS

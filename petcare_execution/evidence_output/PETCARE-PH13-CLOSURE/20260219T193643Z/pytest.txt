@@ -1,0 +1,215 @@
+
+==================================== ERRORS ====================================
+_ ERROR collecting evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH10.1-CLOSURE/20260218T213519Z/repo_snapshot/TESTS/test_ph10_1_runtime_enforcement.py _
+import file mismatch:
+imported module 'test_ph10_1_runtime_enforcement' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH10.1-CLOSURE/20260218T213346Z/repo_snapshot/TESTS/test_ph10_1_runtime_enforcement.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH10.1-CLOSURE/20260218T213519Z/repo_snapshot/TESTS/test_ph10_1_runtime_enforcement.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH11-CLOSURE/20260218T215402Z/repo_snapshot/TESTS/test_ph11_export_and_audit.py _
+import file mismatch:
+imported module 'test_ph11_export_and_audit' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH11-CLOSURE/20260218T215206Z/repo_snapshot/TESTS/test_ph11_export_and_audit.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH11-CLOSURE/20260218T215402Z/repo_snapshot/TESTS/test_ph11_export_and_audit.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH11-CLOSURE/20260218T215402Z/repo_snapshot/TESTS/test_ph11_http_adversarial.py _
+import file mismatch:
+imported module 'test_ph11_http_adversarial' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH11-CLOSURE/20260218T215206Z/repo_snapshot/TESTS/test_ph11_http_adversarial.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH11-CLOSURE/20260218T215402Z/repo_snapshot/TESTS/test_ph11_http_adversarial.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_ph12_export_audit_chain_enforced.py _
+import file mismatch:
+imported module 'test_ph12_export_audit_chain_enforced' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH12-CLOSURE/20260218T222152Z/repo_snapshot/TESTS/test_ph12_export_audit_chain_enforced.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_ph12_export_audit_chain_enforced.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_ph12_policy_digest_artifact.py _
+import file mismatch:
+imported module 'test_ph12_policy_digest_artifact' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH12-CLOSURE/20260218T222152Z/repo_snapshot/TESTS/test_ph12_policy_digest_artifact.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_ph12_policy_digest_artifact.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_ph12_registry_tamper_evidence.py _
+import file mismatch:
+imported module 'test_ph12_registry_tamper_evidence' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH12-CLOSURE/20260218T222152Z/repo_snapshot/TESTS/test_ph12_registry_tamper_evidence.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_ph12_registry_tamper_evidence.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/snapshots/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/snapshots/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/snapshots/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/snapshots/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'TESTS.test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'TESTS.test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/test_sqlite_store.py _
+import file mismatch:
+imported module 'TESTS.test_sqlite_store' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_store.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/test_sqlite_store.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'TESTS.test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/repo_snapshot/TESTS/test_sqlite_governance.py _
+import file mismatch:
+imported module 'TESTS.test_sqlite_governance' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_governance.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/repo_snapshot/TESTS/test_sqlite_governance.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/repo_snapshot/TESTS/test_sqlite_store.py _
+import file mismatch:
+imported module 'TESTS.test_sqlite_store' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_store.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/repo_snapshot/TESTS/test_sqlite_store.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/repo_snapshot/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'TESTS.test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/repo_snapshot/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/repo_snapshot/TESTS/test_sqlite_governance.py _
+import file mismatch:
+imported module 'TESTS.test_sqlite_governance' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_governance.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/repo_snapshot/TESTS/test_sqlite_governance.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/repo_snapshot/TESTS/test_sqlite_store.py _
+import file mismatch:
+imported module 'TESTS.test_sqlite_store' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_store.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/repo_snapshot/TESTS/test_sqlite_store.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/repo_snapshot/TESTS/test_tenant_isolation.py _
+import file mismatch:
+imported module 'TESTS.test_tenant_isolation' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_tenant_isolation.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/repo_snapshot/TESTS/test_tenant_isolation.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH8-CLOSURE/20260218T210130Z/repo_snapshot/TESTS/test_ph8_security_and_audit.py _
+import file mismatch:
+imported module 'test_ph8_security_and_audit' has this __file__ attribute:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH8-CLOSURE/20260218T205732Z/repo_snapshot/TESTS/test_ph8_security_and_audit.py
+which is not the same as the test file we want to collect:
+  /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH8-CLOSURE/20260218T210130Z/repo_snapshot/TESTS/test_ph8_security_and_audit.py
+HINT: remove __pycache__ / .pyc files and/or use a unique basename for your test file modules
+_ ERROR collecting evidence_output/PETCARE-PH8-PREFLIGHT/20260218T202149Z/snapshots/.venv__lib__python3.9__site-packages__setuptools__command__test.py _
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:122: in import_module
+    raise TypeError(msg.format(name))
+E   TypeError: the 'package' argument is required to perform a relative import for '.venv__lib__python3.9__site-packages__setuptools__command__test'
+_ ERROR collecting evidence_output/PETCARE-PH8-PREFLIGHT/20260218T202351Z/snapshots/.venv__lib__python3.9__site-packages__setuptools__command__test.py _
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:122: in import_module
+    raise TypeError(msg.format(name))
+E   TypeError: the 'package' argument is required to perform a relative import for '.venv__lib__python3.9__site-packages__setuptools__command__test'
+_ ERROR collecting evidence_output/PETCARE-PH8-PREFLIGHT/20260218T202351Z/snapshots/evidence_output__PETCARE-PH8-PREFLIGHT__20260218T202149Z__snapshots__.venv__lib__python3.9__site-packages__setuptools__command__test.py _
+ImportError while importing test module '/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH8-PREFLIGHT/20260218T202351Z/snapshots/evidence_output__PETCARE-PH8-PREFLIGHT__20260218T202149Z__snapshots__.venv__lib__python3.9__site-packages__setuptools__command__test.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/importlib/__init__.py:127: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+E   ModuleNotFoundError: No module named 'evidence_output__PETCARE-PH8-PREFLIGHT__20260218T202149Z__snapshots__'
+=========================== short test summary info ============================
+ERROR evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH10.1-CLOSURE/20260218T213519Z/repo_snapshot/TESTS/test_ph10_1_runtime_enforcement.py
+ERROR evidence_output/PETCARE-PH11-CLOSURE/20260218T215402Z/repo_snapshot/TESTS/test_ph11_export_and_audit.py
+ERROR evidence_output/PETCARE-PH11-CLOSURE/20260218T215402Z/repo_snapshot/TESTS/test_ph11_http_adversarial.py
+ERROR evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_ph12_export_audit_chain_enforced.py
+ERROR evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_ph12_policy_digest_artifact.py
+ERROR evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_ph12_registry_tamper_evidence.py
+ERROR evidence_output/PETCARE-PH12-CLOSURE/20260218T222446Z/snapshots/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/snapshots/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/snapshots/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/test_sqlite_store.py
+ERROR evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/repo_snapshot/TESTS/test_sqlite_governance.py
+ERROR evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/repo_snapshot/TESTS/test_sqlite_store.py
+ERROR evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/repo_snapshot/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/repo_snapshot/TESTS/test_sqlite_governance.py
+ERROR evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/repo_snapshot/TESTS/test_sqlite_store.py
+ERROR evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/repo_snapshot/TESTS/test_tenant_isolation.py
+ERROR evidence_output/PETCARE-PH8-CLOSURE/20260218T210130Z/repo_snapshot/TESTS/test_ph8_security_and_audit.py
+ERROR evidence_output/PETCARE-PH8-PREFLIGHT/20260218T202149Z/snapshots/.venv__lib__python3.9__site-packages__setuptools__command__test.py
+ERROR evidence_output/PETCARE-PH8-PREFLIGHT/20260218T202351Z/snapshots/.venv__lib__python3.9__site-packages__setuptools__command__test.py
+ERROR evidence_output/PETCARE-PH8-PREFLIGHT/20260218T202351Z/snapshots/evidence_output__PETCARE-PH8-PREFLIGHT__20260218T202149Z__snapshots__.venv__lib__python3.9__site-packages__setuptools__command__test.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 27 errors during collection !!!!!!!!!!!!!!!!!!!
+27 errors in 1.88s

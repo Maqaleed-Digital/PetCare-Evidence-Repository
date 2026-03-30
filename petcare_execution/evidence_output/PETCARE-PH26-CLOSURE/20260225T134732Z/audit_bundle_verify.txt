@@ -1,0 +1,2 @@
+VERIFIER_RC=0
+OK audit bundle verification PASS

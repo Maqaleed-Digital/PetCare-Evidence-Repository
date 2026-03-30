@@ -1,0 +1,46 @@
+{
+  "artifacts": {
+    "ci_preflight": "ci_preflight.txt",
+    "ci_preflight_rc": "ci_preflight_rc.txt",
+    "closure_sha256_pre_manifest": "closure_sha256_pre_manifest.txt",
+    "fail_marker": "FAIL_MARKER.txt",
+    "manifest_gen_log": "manifest_gen.txt",
+    "policy_drift": "policy_drift.txt",
+    "policy_drift_rc": "policy_drift_rc.txt",
+    "pytest_log": "pytest.txt",
+    "pytest_rc": "pytest_rc.txt",
+    "registry_drift": "registry_drift.txt",
+    "registry_drift_rc": "registry_drift_rc.txt",
+    "runtime": "runtime.txt"
+  },
+  "ci": {
+    "preflight_log_tail": "=== CI PREFLIGHT ===\nrepo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution\npython_bin=.venv/bin/python\n.venv/bin/python\nPython 3.9.6\nPREFLIGHT_OK",
+    "preflight_rc": 0
+  },
+  "drift": {
+    "policy_rc": 0,
+    "policy_tail": "POLICY_DRIFT_OK\nartifact=ops/ph12_policy_digest.json\nsha256=fca92e6a0ba41fbb855dccfde401f02d9830fc53ce23f852415bcb84bddfe560",
+    "registry_rc": 0,
+    "registry_tail": "REGISTRY_DRIFT_OK\nartifact=ops/ph12_gate_registry.json\nsha256=044d78d7c6041453c8aa4ee084723e3c590d76451d6ac4cd95cc149d24736361"
+  },
+  "git": {
+    "head": "145869c petcare: ignore venv + evidence outputs",
+    "status": "## main...origin/main"
+  },
+  "name": "CI Required Checks + Drift Enforcement Closure Pack",
+  "out_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH16-CLOSURE/20260221T140303Z",
+  "pack_id": "PETCARE-PH16-CLOSURE",
+  "phase": "PH16",
+  "repo_root": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution",
+  "runtime": "python_bin=.venv/bin/python\n.venv/bin/python\nPython 3.9.6\npip 26.0.1 from /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.venv/lib/python3.9/site-packages/pip (python 3.9)\ndate_local=Sat Feb 21 17:03:04 +03 2026\ndate_utc=Sat Feb 21 14:03:04 UTC 2026",
+  "status": "FAIL",
+  "tests": {
+    "raw_tail": "ERROR: not found: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/tests\n(no match in any of [<Dir petcare_execution>])\n\n",
+    "rc": 4
+  },
+  "timestamp_utc": "20260221T140303Z",
+  "zip": {
+    "path": "../PETCARE-PH16-CLOSURE_20260221T140303Z.zip",
+    "sha256": "4bcbfc7131cc0997e2bbfb94af0bd1d91ab76542e106a75d7470f9e74d38ed12"
+  }
+}

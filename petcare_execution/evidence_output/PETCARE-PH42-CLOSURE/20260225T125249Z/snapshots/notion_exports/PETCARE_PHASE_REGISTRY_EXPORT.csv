@@ -1,0 +1,42 @@
+﻿Phase,Status,Weight,PR Domain,Evidence link
+PH01,Planned,3,Foundation,
+PH02,Closed,3,Foundation,petcare_execution/evidence_output/PETCARE-PH2-CLOSURE/PETCARE-PH2-CLOSURE_20260217T085354Z.zip
+PH03,Closed,3,Foundation,petcare_execution/evidence_output/PETCARE-PH3-P1-CLOSURE/PETCARE-PH3-P1-CLOSURE_20260217T104807Z.zip ; petcare_execution/evidence_output/PETCARE-PH3-P2-CLOSURE/PETCARE-PH3-P2-CLOSURE_20260217T112255Z.zip ; petcare_execution/evidence_output/PETCARE-PH3-P3-CLOSURE/PETCARE-PH3-P3-CLOSURE_20260217T113820Z.zip
+PH04,Closed,3,Foundation,petcare_execution/evidence_output/PETCARE-PH4-CLOSURE/PETCARE-PH4-CLOSURE_20260217T134016Z.zip
+PH05,Closed,3,Architecture,petcare_execution/evidence_output/PETCARE-PH5-CLOSURE/PETCARE-PH5-CLOSURE_20260217T143204Z.zip
+PH06,Closed,3,Architecture,petcare_execution/evidence_output/PETCARE-PH6-CLOSURE/PETCARE-PH6-CLOSURE_20260217T145345Z.zip
+PH07,Closed,3,Architecture,petcare_execution/evidence_output/PETCARE-PH7-CLOSURE/PETCARE-PH7-CLOSURE_20260217T190409Z.zip
+PH08,Closed,3,Architecture,petcare_execution/evidence_output/PETCARE-PH8-CLOSURE/PETCARE-PH8-CLOSURE_20260218T210130Z.zip
+PH09,Closed,3,Architecture,petcare_execution/evidence_output/PETCARE-PH9-CLOSURE/PETCARE-PH9-CLOSURE_20260218T211546Z.zip
+PH10,Closed,3,Architecture,petcare_execution/evidence_output/PETCARE-PH10-CLOSURE/PETCARE-PH10-CLOSURE_20260218T212615Z.zip
+PH11,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH11-CLOSURE/PETCARE-PH11-CLOSURE_20260218T215402Z.zip
+PH12,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH12-CLOSURE/PETCARE-PH12-CLOSURE_20260218T222446Z.zip
+PH13,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH13-CLOSURE/PETCARE-PH13-CLOSURE_20260219T195936Z.zip
+PH14,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH14-CLOSURE/PETCARE-PH14-CLOSURE_20260219T201247Z.zip
+PH15,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH15-CLOSURE/PETCARE-PH15-CLOSURE_20260221T135550Z.zip
+PH16,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH16-CLOSURE/PETCARE-PH16-CLOSURE_20260221T141548Z.zip
+PH17,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH17-CLOSURE/PETCARE-PH17-CLOSURE_20260221T184712Z.zip
+PH18,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH18-CLOSURE/PETCARE-PH18-CLOSURE_20260221T185435Z.zip
+PH19,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH19-CLOSURE/PETCARE-PH19-CLOSURE_20260221T190305Z.zip
+PH20,Closed,3,Product,petcare_execution/evidence_output/PETCARE-PH20-CLOSURE/PETCARE-PH20-CLOSURE_20260221T193027Z.zip
+PH21,Closed,4,"Ops, Security",petcare_execution/evidence_output/PETCARE-PH21-CLOSURE/PETCARE-PH21-CLOSURE_20260221T203503Z.zip
+PH22,Closed,4,"Ops, Security",petcare_execution/evidence_output/PETCARE-PH22-CLOSURE/PETCARE-PH22-CLOSURE_20260221T212340Z.zip
+PH23,Closed,4,"Ops, Security",petcare_execution/evidence_output/PETCARE-PH23-CLOSURE/PETCARE-PH23-CLOSURE_20260221T214311Z.zip
+PH24,Closed,4,"Ops, Security",petcare_execution/evidence_output/PETCARE-PH24-CLOSURE/PETCARE-PH24-CLOSURE_20260221T220702Z.zip
+PH25,Closed,4,"Ops, Security",petcare_execution/evidence_output/PETCARE-PH25-CLOSURE/PETCARE-PH25-CLOSURE_20260221T223114Z.zip
+PH26,Planned,4,Evidence,
+PH27,Planned,4,Evidence,
+PH28,Planned,4,Evidence,
+PH29,Closed,4,Evidence,petcare_execution/evidence_output/PETCARE-PH29B-CLOSURE/PETCARE-PH29B-CLOSURE_20260223T212656Z.zip
+PH30,Closed,4,Governance,petcare_execution/evidence_output/PETCARE-PH30-CLOSURE/PETCARE-PH30-CLOSURE_20260223T232135Z.zip
+PH31,Closed,4,CI,petcare_execution/evidence_output/PETCARE-PH31-CLOSURE/PETCARE-PH31-CLOSURE_20260224T234828Z.zip
+PH32,Closed,4,CI,petcare_execution/evidence_output/PETCARE-PH32-CLOSURE/PETCARE-PH32-CLOSURE_20260224T201713Z.zip
+PH33,Closed,4,CI,petcare_execution/evidence_output/PETCARE-PH33-CLOSURE/PETCARE-PH33-CLOSURE_20260224T213206Z.zip
+PH34,Closed,5,"CI, Ops, Security",petcare_execution/evidence_output/PETCARE-PH34-CLOSURE/PETCARE-PH34-CLOSURE_20260224T214301Z.zip
+PH35,Closed,5,Governance,petcare_execution/evidence_output/PETCARE-PH35-CLOSURE/PETCARE-PH35-CLOSURE_20260224T215410Z.zip
+PH36,Closed,5,Governance,petcare_execution/evidence_output/PETCARE-PH36-CLOSURE/PETCARE-PH36-CLOSURE_20260224T230152Z.zip
+PH37,Closed,4,Governance,petcare_execution/evidence_output/PETCARE-PH37-CLOSURE/PETCARE-PH37-CLOSURE_20260224T231111Z.zip
+PH38,Closed,4,Governance,petcare_execution/evidence_output/PETCARE-PH38-CLOSURE/PETCARE-PH38-CLOSURE_20260224T232946Z.zip
+PH39,Closed,5,Evidence,petcare_execution/evidence_output/PETCARE-PH39-CLOSURE/PETCARE-PH39-CLOSURE_20260224T234828Z.zip
+PH40,Closed,5,Evidence,petcare_execution/evidence_output/PETCARE-PH40-CLOSURE/PETCARE-PH40-CLOSURE_20260225T002300Z.zip
+PH41,Closed,0,Governance,petcare_execution/evidence_output/PETCARE-PH41-CLOSURE/PETCARE-PH41-CLOSURE_20260225T111240Z.zip

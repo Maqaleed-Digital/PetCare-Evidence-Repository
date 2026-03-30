@@ -1,0 +1,4 @@
+git_root=/Users/waheebmahmoud/dev/petcare-evidence-repository
+branch=main
+head=145869c petcare: ignore venv + evidence outputs
+status=## main...origin/main

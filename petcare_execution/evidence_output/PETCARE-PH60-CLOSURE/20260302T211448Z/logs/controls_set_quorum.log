@@ -1,0 +1,6 @@
+OK: policy controls set
+changed=true
+allowlist_count=3
+cap=3
+quorum=2
+policy_sha256=9600aa37b645a6d7516e7a6acae02006c6185407558b37d785a9e89594c72c62

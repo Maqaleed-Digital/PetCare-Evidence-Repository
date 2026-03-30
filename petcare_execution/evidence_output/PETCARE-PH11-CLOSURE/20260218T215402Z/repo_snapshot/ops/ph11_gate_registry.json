@@ -1,0 +1,32 @@
+{
+  "gates": {
+    "G-PH11-01": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH11-02": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH11-03": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH11-04": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH11-05": {
+      "evidence": [],
+      "status": "PASS"
+    }
+  },
+  "pack_id": "PETCARE-PH11-TRUST",
+  "required_gates": [
+    "G-PH11-01",
+    "G-PH11-02",
+    "G-PH11-03",
+    "G-PH11-04",
+    "G-PH11-05"
+  ]
+}

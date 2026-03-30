@@ -1,0 +1,105 @@
+=== CI GATES ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+python=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.venv/bin/python
+
+=== GATE 0: Workflow required steps assert ===
+=== REQUIRED CHECKS ASSERT ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+workflow=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.github/workflows/ci.yml
+PATTERN_OK=bash scripts/petcare_ci_gates.sh
+PATTERN_OK=bash scripts/petcare_ph31_closure_pack.sh
+PATTERN_OK=bash scripts/petcare_evidence_size_guard.sh
+PATTERN_OK=bash scripts/petcare_evidence_prune.sh --dry-run --keep 5
+PATTERN_OK=bash scripts/petcare_evidence_contract.sh
+PATTERN_OK=pip install -r requirements.lock
+PATTERN_OK=actions/upload-artifact
+PATTERN_OK=retention-days: 30
+RESULT=PASS
+
+=== GATE 0b: Policy drift check ===
+=== POLICY DRIFT CHECK ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+policy=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/POLICY.md
+pin=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/POLICY.sha256
+POLICY_SHA_HAVE=c4ddaf269c3b0cb41795c72c46425e9972d0a0de19c4867ba450311762da8f12
+POLICY_SHA_WANT=c4ddaf269c3b0cb41795c72c46425e9972d0a0de19c4867ba450311762da8f12
+RESULT=PASS
+
+=== GATE 0c: Registry drift check ===
+=== REGISTRY DRIFT CHECK ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+registry=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/REGISTRY.json
+pin=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/REGISTRY.sha256
+REGISTRY_JSON=VALID
+REGISTRY_SHA_HAVE=2141102e0160d9885698742567114f3c6763e1b7c7503482da4ef220a5254fb3
+REGISTRY_SHA_WANT=2141102e0160d9885698742567114f3c6763e1b7c7503482da4ef220a5254fb3
+RESULT=PASS
+
+=== GATE 1: Python version ===
+Python 3.14.3
+
+=== GATE 2: Dependency sanity (pip check) ===
+No broken requirements found.
+
+=== GATE 3: Syntax check (compileall) ===
+
+=== GATE 4: Unit tests (pytest) ===
+pytest 9.0.2
+
+RUN=pytest -q
+.....ssss............ss....................                              [100%]
+37 passed, 6 skipped in 1.16s
+
+=== GATE 5: Lockfile determinism (requirements.lock) ===
+=== LOCK VERIFY ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+python=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.venv/bin/python
+lock=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/requirements.lock
+LOCK_VERIFY=PASS
+
+=== GATE 6: Evidence size guard ===
+=== EVIDENCE SIZE GUARD ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+dir=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output
+max_mb=4096
+evidence_kb=53528
+evidence_mb=53
+RESULT=PASS
+
+=== GATE: verification index no-patch (PH66) ===
+=== PH66 NO-PATCH GUARD ===
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+OK: no references to deprecated patch tool in active scripts/workflows
+
+=== GATE: verification index sidecar (PH67) ===
+index_sha256_actual=2bd3ae947fe1092cbd01f9494dcbed11b3349fa1b817575644f2a90267fe7025
+index_sha256_sidecar=2bd3ae947fe1092cbd01f9494dcbed11b3349fa1b817575644f2a90267fe7025
+OK: index sidecar matches
+
+=== GATE: verification index generation (drift) ===
+OK generation computed
+policy_sha256=354d0e3326da2b1591451e9ce7e20593c450267dfe3ecb95bfbce78630a1a6a2
+old_index_text_sha256=2bd3ae947fe1092cbd01f9494dcbed11b3349fa1b817575644f2a90267fe7025
+new_index_text_sha256=2bd3ae947fe1092cbd01f9494dcbed11b3349fa1b817575644f2a90267fe7025
+quorum_required=2
+distinct_meta_present_count=2
+distinct_meta_present=['PETCARE-PH44B-CLOSURE', 'PETCARE-PH45B-CLOSURE']
+added_meta=[]
+entries_out_count=3
+OK no change
+
+=== GATE: verification index quorum ===
+=== PH64 INDEX QUORUM GUARD ===
+index=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/VERIFICATION_INDEX.json
+OK verification index loaded — entries_count=3
+index_digest_sha256=2bd3ae947fe1092cbd01f9494dcbed11b3349fa1b817575644f2a90267fe7025
+OK verification index integrity PASS
+policy_sha256=354d0e3326da2b1591451e9ce7e20593c450267dfe3ecb95bfbce78630a1a6a2
+allowlist_count=2
+quorum_required=2
+distinct_meta_present_count=2
+distinct_meta_present=['PETCARE-PH44B-CLOSURE', 'PETCARE-PH45B-CLOSURE']
+verifier_rc=0
+OK: real verification index satisfies quorum/integrity
+
+RESULT=PASS

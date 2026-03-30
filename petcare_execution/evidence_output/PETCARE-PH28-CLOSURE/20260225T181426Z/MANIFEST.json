@@ -1,0 +1,22 @@
+{
+  "pack": "PETCARE-PH28-CLOSURE",
+  "timestamp_utc": "20260225T181426Z",
+  "file_count": 15,
+  "files": [
+    "bundle_a.json",
+    "bundle_b.json",
+    "bundle_tampered.json",
+    "ci_gates.txt",
+    "closure_sha256.txt",
+    "pytest.txt",
+    "registry_pin.txt",
+    "snapshots/POLICY.md",
+    "snapshots/POLICY.sha256",
+    "snapshots/REGISTRY.json",
+    "snapshots/REGISTRY.sha256",
+    "snapshots/audit_bundle_verifier.py",
+    "snapshots/scripts_petcare_ph28_closure_pack.sh",
+    "verify_tampered.txt",
+    "verify_valid.txt"
+  ]
+}

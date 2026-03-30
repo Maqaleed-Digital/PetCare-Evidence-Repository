@@ -1,0 +1,20 @@
+=== VERIFY CLOSURE ZIP ===
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+zip_path=evidence_output/PETCARE-PH44B-CLOSURE/PETCARE-PH44B-CLOSURE_20260228T205052Z.zip
+out_dir=evidence_output/PETCARE-PH44B-CLOSURE/VERIFY_PETCARE-PH44B-CLOSURE_20260228T205052Z
+zip_sha256=dea2312f0b1f77e14fddc0beaff83d781b3ecd141be3a592085b6ffe17cf5982
+sidecar_sha256=dea2312f0b1f77e14fddc0beaff83d781b3ecd141be3a592085b6ffe17cf5982
+sidecar_match=true
+=== EXTRACT (SAFE) ===
+EXTRACT_OK
+base_dir=evidence_output/PETCARE-PH44B-CLOSURE/VERIFY_PETCARE-PH44B-CLOSURE_20260228T205052Z/work/extracted/20260228T205052Z
+=== MANIFEST JSON PARSE ===
+MANIFEST_JSON_OK
+=== VERIFY closure_sha256.txt ===
+CLOSURE_SHA256_VERIFY_OK count= 16
+closure_sha256_verify_ok=true
+=== VERIFY MANIFEST FILE REFERENCES (files.* must exist) ===
+MANIFEST_FILE_MISSING: verifier_report verify/results/VERIFY_REPORT.md
+manifest_files_ok=false
+result_json_path=evidence_output/PETCARE-PH44B-CLOSURE/VERIFY_PETCARE-PH44B-CLOSURE_20260228T205052Z/results/VERIFY_RESULT.json
+report_md_path=evidence_output/PETCARE-PH44B-CLOSURE/VERIFY_PETCARE-PH44B-CLOSURE_20260228T205052Z/results/VERIFY_REPORT.md

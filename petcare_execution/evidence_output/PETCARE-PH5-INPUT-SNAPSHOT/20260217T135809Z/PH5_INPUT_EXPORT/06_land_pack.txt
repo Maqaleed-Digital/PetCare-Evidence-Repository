@@ -1,0 +1,12 @@
+=== RUN LAND PACK ===
+PetCare LAND PACK
+root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+compile: app.py
+compile: scaffold python files
+manifest: regenerate
+PASS manifest
+file_count 274
+dirs 405
+ui2 5 ui3 5 ui5 5 ui6 5 tests 8 fnd 18 evid 1 scripts 8 other 231
+manifest_record True
+DONE

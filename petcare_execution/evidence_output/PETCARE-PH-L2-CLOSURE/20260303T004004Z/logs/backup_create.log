@@ -1,0 +1,10 @@
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+ts_utc=20260303T004004Z
+out_dir=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH-L2-CLOSURE/20260303T004004Z/backup
+rto_max_seconds=900
+DB_SKIPPED: no known DB file found (expected in current repo state).
+OK wrote MANIFEST.json
+backup_duration_seconds=1
+backup_zip=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH-L2-CLOSURE/20260303T004004Z/backup.zip
+backup_zip_sha=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH-L2-CLOSURE/20260303T004004Z/backup.zip.sha256
+OK backup created

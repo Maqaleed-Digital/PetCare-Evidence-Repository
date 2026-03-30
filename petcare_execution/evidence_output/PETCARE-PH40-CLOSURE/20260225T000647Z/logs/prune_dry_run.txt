@@ -1,0 +1,5 @@
+=== EVIDENCE PRUNE ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output
+keep=5
+apply=0

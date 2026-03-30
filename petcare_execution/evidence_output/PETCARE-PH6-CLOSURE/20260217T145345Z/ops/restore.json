@@ -1,0 +1,7 @@
+{
+  "bytes": 28672,
+  "db_path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/tenants/44444444-4444-4444-4444-444444444444.sqlite",
+  "restored_from": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/backups/44444444-4444-4444-4444-444444444444_20260217T145347Z.sqlite",
+  "sha256": "312d48135f6ac5f626f23edac6846f4ff0c5fc36711701c9b2bed95ab787cccf",
+  "tenant_id": "44444444-4444-4444-4444-444444444444"
+}

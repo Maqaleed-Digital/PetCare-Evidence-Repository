@@ -1,0 +1,27 @@
+{
+  "gates": {
+    "G-PH10.1-01": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH10.1-02": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH10.1-03": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH10.1-04": {
+      "evidence": [],
+      "status": "PASS"
+    }
+  },
+  "pack_id": "PETCARE-PH10.1-RUNTIME",
+  "required_gates": [
+    "G-PH10.1-01",
+    "G-PH10.1-02",
+    "G-PH10.1-03",
+    "G-PH10.1-04"
+  ]
+}

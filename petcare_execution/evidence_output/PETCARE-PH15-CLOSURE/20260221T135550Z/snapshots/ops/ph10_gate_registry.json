@@ -1,0 +1,32 @@
+{
+  "gates": {
+    "G-PH10-01": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH10-02": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH10-03": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH10-04": {
+      "evidence": [],
+      "status": "PASS"
+    },
+    "G-PH10-05": {
+      "evidence": [],
+      "status": "PASS"
+    }
+  },
+  "pack_id": "PETCARE-PH10-TRUST-ENFORCE",
+  "required_gates": [
+    "G-PH10-01",
+    "G-PH10-02",
+    "G-PH10-03",
+    "G-PH10-04",
+    "G-PH10-05"
+  ]
+}

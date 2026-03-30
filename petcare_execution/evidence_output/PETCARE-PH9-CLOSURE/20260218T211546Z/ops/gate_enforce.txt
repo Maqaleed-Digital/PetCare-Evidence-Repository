@@ -1,0 +1,5 @@
+{
+  "ok": true,
+  "pack_id": "PETCARE-PH9-TRUST-GRADE",
+  "reason": "all_required_gates_pass"
+}

@@ -1,0 +1,18 @@
+{
+  "pack": "PETCARE-PH43B-CLOSURE",
+  "ts_utc": "20260227T001413Z",
+  "repo_root": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution",
+  "git_head": "d0190833fe6e940b354533966236f0878a65563a",
+  "git_describe": "petcare-prod-20260226.1-7-gd019083",
+  "release_tag": "(unset)",
+  "artifact": {
+    "path_provided": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH43A-CLOSURE/PETCARE-PH43A-CLOSURE_20260226T005729Z.zip",
+    "name": "PETCARE-PH43A-CLOSURE_20260226T005729Z.zip",
+    "sha256": "918abdf91468df11d916410336d11f72d264f93bb859918ed101232e3b5dca36"
+  },
+  "files": {
+    "attestation_record": "attestation/ARTIFACT_BOUND_ATTESTATION.json",
+    "evidence_report": "EVIDENCE/PH43B_ARTIFACT_BOUND_ATTESTATION_REPORT.md",
+    "artifact_copy": "artifact/PETCARE-PH43A-CLOSURE_20260226T005729Z.zip"
+  }
+}

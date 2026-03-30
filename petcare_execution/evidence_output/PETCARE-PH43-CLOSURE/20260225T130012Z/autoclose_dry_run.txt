@@ -1,0 +1,7 @@
+PETCARE REGISTRY AUTOCLOSE FROM EVIDENCE
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+registry=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/REGISTRY.json
+open_before=4
+closable_found=0
+
+RESULT=DRY_RUN

@@ -1,0 +1,14 @@
+{
+  "schema": "petcare.ph44.verify_result.v1",
+  "input_zip": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH44A-CLOSURE/20260227T001432Z/input/PH43B_INPUT.zip",
+  "zip_sha256": "f892322128ac15a0a1d586d81dc9fdf995a31bec73b92802d1e49cb4aa3bc7e1",
+  "sidecar_present": "true",
+  "sidecar_match": "true",
+  "closure_sha256_verify_ok": "false",
+  "artifact_name": "PETCARE-PH43A-CLOSURE_20260226T005729Z.zip",
+  "manifest_artifact_sha256": "918abdf91468df11d916410336d11f72d264f93bb859918ed101232e3b5dca36",
+  "attestation_artifact_sha256": "918abdf91468df11d916410336d11f72d264f93bb859918ed101232e3b5dca36",
+  "artifact_copy_sha256": "918abdf91468df11d916410336d11f72d264f93bb859918ed101232e3b5dca36",
+  "artifact_sha_all_match": "true",
+  "overall_pass": "false"
+}

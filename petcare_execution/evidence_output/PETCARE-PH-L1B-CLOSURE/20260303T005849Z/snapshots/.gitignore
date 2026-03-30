@@ -1,0 +1,17 @@
+# === PETCARE: generated artifacts (do not commit) ===
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+dist/
+build/
+*.bak.*
+# ================================================
+
+.tmp_lock_verify/
+tests/ENVIRONMENT_NEGATIVE_CASES.md
+
+baseline_input/
+
+*.ph[0-9]*.bak

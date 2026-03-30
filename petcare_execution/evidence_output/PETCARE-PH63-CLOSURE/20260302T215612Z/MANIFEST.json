@@ -1,0 +1,20 @@
+{
+  "phase": "PETCARE-PH63-CLOSURE",
+  "timestamp_utc": "20260302T215612Z",
+  "file_count": 13,
+  "files": [
+    "logs/changelog_add.log",
+    "logs/ci_gates.log",
+    "logs/index_patch_quorum.log",
+    "logs/index_verify_after.log",
+    "logs/index_verify_before.log",
+    "logs/policy_verify.log",
+    "snapshots/FND/VERIFICATION_INDEX.json",
+    "snapshots/FND/VERIFICATION_POLICY.json",
+    "snapshots/FND/VERIFICATION_POLICY.sha256",
+    "snapshots/FND/VERIFICATION_POLICY_CHANGELOG.md",
+    "snapshots/scripts/petcare_ph63_closure_pack.sh",
+    "snapshots/scripts/petcare_verification_index_patch_quorum.py",
+    "snapshots/scripts/petcare_verification_index_verify.py"
+  ]
+}

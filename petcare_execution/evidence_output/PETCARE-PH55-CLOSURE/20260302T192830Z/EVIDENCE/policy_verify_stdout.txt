@@ -1,0 +1,4 @@
+OK verification policy PASS
+policy=FND/VERIFICATION_POLICY.json
+policy_sha=FND/VERIFICATION_POLICY.sha256
+allowlist_count=0

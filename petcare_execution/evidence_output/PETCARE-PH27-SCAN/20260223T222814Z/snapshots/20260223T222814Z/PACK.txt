@@ -1,0 +1,4 @@
+PETCARE-PH27-SCAN
+timestamp_utc=20260223T222814Z
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+git_head=145869c39705e32551b814fa89ab540f91034be9

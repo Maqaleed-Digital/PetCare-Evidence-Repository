@@ -1,0 +1,76 @@
+==============================================
+PetCare PH7 CLOSURE PACK
+pack=PETCARE-PH7-CLOSURE
+timestamp_utc=20260217T185521Z
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+out=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH7-CLOSURE/20260217T185521Z
+zip=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH7-CLOSURE/PETCARE-PH7-CLOSURE_20260217T185521Z.zip
+smoke_host=127.0.0.1
+smoke_port=8004
+store_backend=sqlite
+python=Python 3.9.6
+==============================================
+
+STEP 1: UNITTEST
+test_backup_restore_roundtrip (test_sqlite_governance.TestSqliteGovernance) ... ok
+test_integrity_check_ok (test_sqlite_governance.TestSqliteGovernance) ... ok
+test_meta_schema_version_present (test_sqlite_governance.TestSqliteGovernance) ... ok
+test_delete_audit_existed_flag (test_sqlite_store.TestSqliteStore) ... ok
+test_export_items_stable (test_sqlite_store.TestSqliteStore) ... ok
+test_list_keys_sorted_and_prefix (test_sqlite_store.TestSqliteStore) ... ok
+test_put_get_persists_across_instances (test_sqlite_store.TestSqliteStore) ... ok
+test_tenant_isolation_by_file (test_sqlite_store.TestSqliteStore) ... ok
+test_bundle_deterministic_when_generated_at_fixed (test_tenant_isolation.TestExportBundleHardening) ... ok
+test_bundle_requires_valid_tenant (test_tenant_isolation.TestExportBundleHardening) ... ok
+test_bundle_schema_and_hashes_present (test_tenant_isolation.TestExportBundleHardening) ... ok
+test_bundle_sorts_items_by_key (test_tenant_isolation.TestExportBundleHardening) ... ok
+test_cross_tenant_read_blocked_by_scope (test_tenant_isolation.TestStorageIsolation) ... ok
+test_delete_scoped (test_tenant_isolation.TestStorageIsolation) ... ok
+test_export_items_scoped_and_sorted (test_tenant_isolation.TestStorageIsolation) ... ok
+test_export_prefix_filter (test_tenant_isolation.TestStorageIsolation) ... ok
+test_list_scoped (test_tenant_isolation.TestStorageIsolation) ... ok
+test_put_get_same_tenant (test_tenant_isolation.TestStorageIsolation) ... ok
+test_put_normalizes_tenant_lower (test_tenant_isolation.TestStorageIsolation) ... ok
+test_put_requires_tenant (test_tenant_isolation.TestStorageIsolation) ... ok
+test_put_requires_uuid_tenant (test_tenant_isolation.TestStorageIsolation) ... ok
+test_empty (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_header_constant (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_invalid_uuid (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_missing (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_normalizes_lower (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_require_context_missing (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_require_context_ok (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+
+----------------------------------------------------------------------
+Ran 28 tests in 0.276s
+
+OK
+UNITTEST: PASS
+
+STEP 2: START API SERVER (uvicorn) [sqlite backend]
+uvicorn_pid=58733
+wait_for_health...
+SERVER: READY
+
+STEP 3: SMOKE [sqlite backend]
+=== HEALTH ===
+{"ok":true}
+=== PUT missing tenant (expect error) ===
+{"error":"x-tenant-id is required"}
+=== PUT with tenant (expect ok) ===
+{"ok":true}
+=== GET with tenant (expect value v1) ===
+{"value":"v1"}
+=== EXPORT with tenant (expect bundle_sha256 present) ===
+{"schema_version":"PH4_EXPORT_BUNDLE_V1","tenant_id":"11111111-1111-1111-1111-111111111111","generated_at":"20260217T185524Z","items":[{"key":"k1","value":"v1"}],"audit":[{"ts":"2026-02-17T14:31:19+00:00","action":"put","key":"k1","actor_id":"a"},{"ts":"2026-02-17T14:32:07+00:00","action":"put","key":"k1","actor_id":"a"},{"ts":"2026-02-17T14:53:46+00:00","action":"put","key":"k1","actor_id":"a"},{"ts":"2026-02-17T18:51:12+00:00","action":"put","key":"k1","actor_id":"a"},{"ts":"2026-02-17T18:55:24+00:00","action":"put","key":"k1","actor_id":"a"}],"counts":{"items":1,"audit":5},"hashes":{"items_sha256":"43eb6d529f8c716e16b6312197dd5645cd17594a7d4af92ff3b11c289ec5e8be","audit_sha256":"db184e57c0f01677874f8163a978f49fdd4dbf06a60c6c2fc2bf9fb138ce38f8","bundle_sha256":"6405af34c1bcc1e8c2f95b30dbba7112bdbd5ea24682270fdca46cf55dd53df8"}}
+PASS smoke
+SMOKE: PASS
+
+STEP 4: STOP API SERVER
+scripts/petcare_ph7_closure_pack.sh: line 105: 58733 Terminated: 15          PETCARE_STORE_BACKEND="sqlite" PORT="${SMOKE_PORT}" HOST="${HOST}" bash "scripts/run_api.sh" serve > "${SERVER_LOG}" 2>&1
+SERVER: STOPPED
+
+STEP 5: STORE LIFECYCLE OPS (isolated temp base_dir)
+Traceback (most recent call last):
+  File "<stdin>", line 16, in <module>
+TypeError: _pc__backup_tenant_db() got an unexpected keyword argument 'backup_path'

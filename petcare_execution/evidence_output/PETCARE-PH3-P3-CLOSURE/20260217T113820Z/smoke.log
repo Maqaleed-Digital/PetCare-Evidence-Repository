@@ -1,0 +1,10 @@
+=== RECORD: smoke (API must be running) ===
+=== HEALTH ===
+{"ok":true}
+=== PUT missing tenant (expect error) ===
+{"error":"x-tenant-id is required"}
+=== PUT with tenant (expect ok) ===
+{"ok":true}
+=== GET with tenant (expect value v1) ===
+{"value":"v1"}
+PASS smoke

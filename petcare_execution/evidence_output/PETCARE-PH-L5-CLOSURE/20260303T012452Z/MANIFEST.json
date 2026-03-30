@@ -1,0 +1,15 @@
+{
+  "phase": "PETCARE-PH-L5-CLOSURE",
+  "timestamp_utc": "20260303T012452Z",
+  "file_count": 8,
+  "files": [
+    "logs/ci_gates.log",
+    "logs/pilot_control_guard.log",
+    "logs/release_integrity.log",
+    "snapshots/FND/PILOT_CONTROL.json",
+    "snapshots/docs/CEO_GO_LIVE_DECLARATION.md",
+    "snapshots/docs/PILOT_ACCEPTANCE_CRITERIA.md",
+    "snapshots/docs/PILOT_MONITORING_CHECKLIST.md",
+    "snapshots/scripts/petcare_pilot_control_guard.sh"
+  ]
+}

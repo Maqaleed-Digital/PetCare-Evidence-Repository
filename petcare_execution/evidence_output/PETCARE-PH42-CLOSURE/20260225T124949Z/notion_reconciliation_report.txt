@@ -1,0 +1,35 @@
+PETCARE PHASE REGISTRY RECONCILIATION REPORT
+registry=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/REGISTRY.json
+notion_csv=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/notion_exports/PETCARE_PHASE_REGISTRY_EXPORT.csv
+
+DETECTED COLUMNS
+phase_col=Phase
+status_col=Status
+weight_col=Weight
+domain_col=PR Domain
+
+REGISTRY SUMMARY
+phases_total=40
+weighted_total=145
+weighted_closed=130
+weighted_percent=89.66
+
+NOTION SUMMARY (weights: notion if present else registry fallback)
+phases_detected=41
+weighted_total=145
+weighted_closed=130
+weighted_percent=89.66
+
+DIFFS
+missing_in_notion_count=0
+extra_in_notion_count=1
+- extra_in_notion: PH41
+mismatch_count=6
+- mismatch PH21: registry(status=Closed, weight=4, domain=Security/Ops) vs notion(status=Closed, weight=4, domain=Ops, Security)
+- mismatch PH22: registry(status=Closed, weight=4, domain=Security/Ops) vs notion(status=Closed, weight=4, domain=Ops, Security)
+- mismatch PH23: registry(status=Closed, weight=4, domain=Security/Ops) vs notion(status=Closed, weight=4, domain=Ops, Security)
+- mismatch PH24: registry(status=Closed, weight=4, domain=Security/Ops) vs notion(status=Closed, weight=4, domain=Ops, Security)
+- mismatch PH25: registry(status=Closed, weight=4, domain=Security/Ops) vs notion(status=Closed, weight=4, domain=Ops, Security)
+- mismatch PH34: registry(status=Closed, weight=5, domain=CI/Security/Ops) vs notion(status=Closed, weight=5, domain=CI, Ops, Security)
+
+RESULT=FAIL

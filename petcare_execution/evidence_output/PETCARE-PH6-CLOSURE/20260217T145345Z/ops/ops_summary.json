@@ -1,0 +1,9 @@
+{
+  "base_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/tenants",
+  "integrity_after_first": "ok",
+  "integrity_before_first": "ok",
+  "ok_restore": true,
+  "tenant_id": "44444444-4444-4444-4444-444444444444",
+  "value_after_mutation": "v2",
+  "value_after_restore": "v1"
+}

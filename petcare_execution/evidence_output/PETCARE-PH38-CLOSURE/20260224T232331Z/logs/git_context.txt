@@ -1,0 +1,7 @@
+GIT_TOPLEVEL=/Users/waheebmahmoud/dev/petcare-evidence-repository
+GIT_BRANCH=main
+145869c petcare: ignore venv + evidence outputs
+1f58b34 chore: ignore petcare_execution venv + evidence outputs
+7768a6c Sprint 6 Day-3: refresh evidence bundle index after security addendum
+9474054 Sprint 6 Day-3: addendum — role table grants for app.audit_events
+d7126ef Sprint 6 Day-3: addendum — prove policy count on app.audit_events

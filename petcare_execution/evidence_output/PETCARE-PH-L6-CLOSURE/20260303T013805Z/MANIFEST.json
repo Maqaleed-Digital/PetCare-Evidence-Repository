@@ -1,0 +1,15 @@
+{
+  "phase": "PETCARE-PH-L6-CLOSURE",
+  "timestamp_utc": "20260303T013805Z",
+  "file_count": 8,
+  "files": [
+    "logs/ci_gates.log",
+    "logs/release_integrity.log",
+    "logs/server.log",
+    "logs/smoke.log",
+    "snapshots/docs/RUNTIME_HEALTH_CONTRACT.md",
+    "snapshots/scripts/petcare_health_server.py",
+    "snapshots/scripts/petcare_runtime_smoke.sh",
+    "snapshots/scripts/petcare_runtime_smoke_guard.sh"
+  ]
+}

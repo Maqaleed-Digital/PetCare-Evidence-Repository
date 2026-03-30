@@ -1,0 +1,73 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Create venv + install deps (lockfile-first)
+        shell: bash
+        run: |
+          set -euo pipefail
+          python -m venv .venv
+          . .venv/bin/activate
+          python -m pip install --upgrade pip
+
+          if [ -f requirements.lock ]; then
+            pip install -r requirements.lock
+          else
+            pip install -r requirements.txt
+          fi
+
+          if [ -f requirements-dev.txt ]; then
+            pip install -r requirements-dev.txt
+          fi
+
+      - name: CI gates (local simulation)
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/petcare_ci_gates.sh
+
+      - name: Evidence publication (PH31)
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/petcare_ph31_closure_pack.sh
+
+      - name: Evidence size guard (PH40)
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/petcare_evidence_size_guard.sh
+
+      - name: Evidence prune (PH40, dry-run)
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/petcare_evidence_prune.sh --dry-run --keep 5
+
+      - name: Evidence contract gate (PH39)
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/petcare_evidence_contract.sh
+
+      - name: Upload evidence artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: petcare-evidence-${{ github.run_id }}
+          retention-days: 30
+          path: |
+            evidence_output/**/*

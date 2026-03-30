@@ -1,0 +1,19 @@
+=== GUARDRAIL CHECK (LOGGED) ===
+=== EMERGENT GUARDRAIL CHECK ===
+CWD=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+GIT_TOPLEVEL=/Users/waheebmahmoud/dev/petcare-evidence-repository
+PROTECTED_PREFIXES=
+evidence_output/
+ops/ci_baselines/
+ops/phases/
+ops/emergent/
+PROTECTED_GLOB_RULES=
+scripts/petcare_ph*_closure_pack.sh
+scripts/petcare_ph*_bootstrap_*.sh
+scripts/petcare_ph*_validate_*.sh
+scripts/petcare_ph*_test*.sh
+scripts/petcare_emergent_guardrail_check.sh
+scripts/petcare_increment_close.sh
+CHANGED_FILES=0
+PASS
+GUARD_RC=0

@@ -1,0 +1,18 @@
+=== PH44 VERIFY (PH43-B ZIP) ===
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+input_zip=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH44A-CLOSURE/20260227T001432Z/input/PH43B_INPUT.zip
+out_dir=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH44A-CLOSURE/20260227T001432Z/verify
+zip_sha256=f892322128ac15a0a1d586d81dc9fdf995a31bec73b92802d1e49cb4aa3bc7e1
+sidecar_sha256=f892322128ac15a0a1d586d81dc9fdf995a31bec73b92802d1e49cb4aa3bc7e1
+sidecar_match=true
+=== EXTRACT ===
+EXTRACT_OK
+base_dir=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH44A-CLOSURE/20260227T001432Z/verify/work/extracted/20260227T001413Z
+=== MANIFEST JSON ===
+MANIFEST_JSON_OK
+=== VERIFY closure_sha256.txt ===
+HASH_MISMATCH: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH43B-CLOSURE/20260227T001413Z/closure_sha256.txt want c60e71911287495506eeaf3b82746cbbeb1f62540a4607adfd1d4db40e9cdc9e got be95b1a87cad94ac4222eceae175b411f70eeb9593f0886f506b2832938fcde2
+CLOSURE_SHA256_VERIFY_FAIL count= 1
+closure_sha256_verify_ok=false
+=== EXTRACT ARTIFACT BINDING VALUES ===
+FAIL PH44 verify

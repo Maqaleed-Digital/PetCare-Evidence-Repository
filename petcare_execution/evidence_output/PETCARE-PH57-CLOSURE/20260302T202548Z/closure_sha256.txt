@@ -1,0 +1,6 @@
+9b9fdc79cbbe9850b95fa5d7d6661e42f5d3cf9ba3b733a6eb09288ffa8e4332  ./MANIFEST.json
+926bfc25c8e0a37bfa95f7f52a4d98c8ed2814d2db46badb4adeec4f36a99117  ./closure_sha256.txt
+2dd94ff0c72a5fe9304366bdb28a6f746af5d1d150c5c27b8a33ab81c712389a  ./logs/meta_chain_verify.log
+45e4cec740f1cee8f5799468073b3ce8257105ea44c7fe75715b5eb5c458931d  ./logs/policy_verify.log
+d7f3a16dc4969e97c89624513085fe6256ff05dde8532f2ef000f9d9345df9e5  ./snapshots/FND/VERIFICATION_POLICY.json
+a112a1a36ea5362fe0c9abe31563b87d887264ecf3ca7eba726ca4adcb0cd108  ./snapshots/FND/VERIFICATION_POLICY.sha256

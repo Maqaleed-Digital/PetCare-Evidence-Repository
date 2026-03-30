@@ -1,0 +1,1966 @@
+{
+  "file_count": 392,
+  "files": [
+    {
+      "bytes": 53,
+      "path": ".gitignore",
+      "sha256": "564238d7ef83da5d86589dd563e7e76ced6c7200524d317531d8cefb162e0206"
+    },
+    {
+      "bytes": 3647,
+      "path": "BACKUP_BASELINE_20260216T203805Z.tgz",
+      "sha256": "19234ac67309ba1c34320b7d115bd62b13d1060e99725950b50974625a050b0e"
+    },
+    {
+      "bytes": 1645,
+      "path": "BACKUP_FIX_LAND_20260216T202208Z/scripts/_manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2174,
+      "path": "BACKUP_FIX_LAND_20260216T202208Z/scripts/petcare_land_pack.sh",
+      "sha256": "56200435e13e0081de20ab9d2b8321683899131beb87b7bd99e7cf05fe52bea2"
+    },
+    {
+      "bytes": 83892,
+      "path": "EVIDENCE/MANIFEST.json",
+      "sha256": "aa599bc3cd17f5c3262116b02755362ee3cef134fbd26c9810dadb2533ddbe7a"
+    },
+    {
+      "bytes": 96,
+      "path": "FND/CODE_SCAFFOLD/api/routes_platform_admin.py",
+      "sha256": "efc1c715c5b749e63711fbd7a4304c52f49ce8d5308f76d5b1e0cdaa896ae62f"
+    },
+    {
+      "bytes": 3122,
+      "path": "FND/CODE_SCAFFOLD/app.py",
+      "sha256": "3678ffd3c5dae2d3cc9be62ca06054c585d683b04f933ea41bf48e802ff9ae8e"
+    },
+    {
+      "bytes": 50,
+      "path": "FND/CODE_SCAFFOLD/interfaces/init.py",
+      "sha256": "c0ae5228bc5c6d7d4e2045bdb1f83f762f26441d91c41cab26701effd25a6ce6"
+    },
+    {
+      "bytes": 640,
+      "path": "FND/CODE_SCAFFOLD/interfaces/storage_interface.py",
+      "sha256": "cc1bab3458620f49c97b4fce8b7f42d5371dec5b4c38b09c1b42fadf6c7559e5"
+    },
+    {
+      "bytes": 204,
+      "path": "FND/CODE_SCAFFOLD/storage/__init__.py",
+      "sha256": "ca82f720c2872b937b5d28dc0d97789f7afb7a03bad59a4826e051e59add1e6e"
+    },
+    {
+      "bytes": 2830,
+      "path": "FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "6a7094af5e88c443a5fb74ed9299f0b80a8fe071362e98b41d74e2b5abfb46b4"
+    },
+    {
+      "bytes": 47,
+      "path": "FND/CODE_SCAFFOLD/storage/init.py",
+      "sha256": "c8b5feca41da02102e6967bc743bfb879323faf52f5cb963245d57560cc693de"
+    },
+    {
+      "bytes": 2625,
+      "path": "FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "4ee055e6ed442ce37c562c3002bcee2984c6bc97be0ec7e2fab8e2673ae607ed"
+    },
+    {
+      "bytes": 4180,
+      "path": "FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py",
+      "sha256": "1d3e8e0986b6943ccdbb3a217d0bd9c1b350199e2f7ea43b11bcccb64f2c231d"
+    },
+    {
+      "bytes": 8815,
+      "path": "FND/CODE_SCAFFOLD/storage/sqlite_store.py",
+      "sha256": "266df5f75ccba9738e312611ebee2c24d4e499c3427a28976abe5a693023362b"
+    },
+    {
+      "bytes": 1108,
+      "path": "FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "99eb0a2edf5f24847ae08637c6b2fdc42707058adf8ebd7f6aca1e6aa8bd4f56"
+    },
+    {
+      "bytes": 0,
+      "path": "FND/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 100,
+      "path": "TESTS/TEST_PLAN.md",
+      "sha256": "b49734009e0784fe8257e21c2a6a5a2c3e23072dd81daad7ec6fa952d2f38531"
+    },
+    {
+      "bytes": 357,
+      "path": "TESTS/UI5_TEST_CHECKLIST.md",
+      "sha256": "8a0ff3a5b030b155b6fa204e80f0370cf2be72fad2b3953639fc42cb0cf4fcda"
+    },
+    {
+      "bytes": 119,
+      "path": "TESTS/__init__.py",
+      "sha256": "9778fca6229a3104f48f74996de416b3474fb919871388a01cdba6cce2fcff09"
+    },
+    {
+      "bytes": 2210,
+      "path": "TESTS/test_sqlite_governance.py",
+      "sha256": "43ee44ca34166aaa0d2e05be96d8def2883370f7b9fc89cbc3d2c4df01dc3a26"
+    },
+    {
+      "bytes": 2875,
+      "path": "TESTS/test_sqlite_store.py",
+      "sha256": "9d2c889fff6225fe39e9f9baf5f9f0947780c5fd2de50b10d1167f70208c6ba4"
+    },
+    {
+      "bytes": 5030,
+      "path": "TESTS/test_tenant_isolation.py",
+      "sha256": "8b74a8265adb4ebe2e17d031a1b51dbdf30b0c06a88774a0db46d1720f6ae6f8"
+    },
+    {
+      "bytes": 1711,
+      "path": "TESTS/ui5_deterministic_proof.py",
+      "sha256": "50dd09ca92a8970a052e99d45922c9661254bee4f19250af9d9f3b7e4f9e13dc"
+    },
+    {
+      "bytes": 369,
+      "path": "UI2/ACCEPTANCE_CHECKS.md",
+      "sha256": "d3454de1c6392822410c26606aabfb39a1857941ecfb0b4175d730afb4113a05"
+    },
+    {
+      "bytes": 572,
+      "path": "UI2/API_SURFACE.md",
+      "sha256": "4bd866a8274720d236212fd187af941c003b393c327aa0b98e6d7cd122f08ac2"
+    },
+    {
+      "bytes": 600,
+      "path": "UI2/DOMAIN_MODEL.md",
+      "sha256": "5562ca4d6812e1f4366b3d78f930447012e01c2878eae777a816963efffe7831"
+    },
+    {
+      "bytes": 335,
+      "path": "UI2/SCOPE.md",
+      "sha256": "442d4c4e5c6709bc2b84d955fcd78122ad196fa1bc6b90b5bc860ad8f0b483e7"
+    },
+    {
+      "bytes": 154,
+      "path": "UI2/UI2_PACK_SUMMARY.md",
+      "sha256": "6933f0b51f2a64c1683042da342d14badbc977d08d0947309a711b78fe80c239"
+    },
+    {
+      "bytes": 237,
+      "path": "UI3/ERROR_STATES.md",
+      "sha256": "27f73fd6e7adc69b68c5e332a03aec27ec46cdec9929d8a9e9276496a0b275f6"
+    },
+    {
+      "bytes": 916,
+      "path": "UI3/FLOWS.md",
+      "sha256": "204f4f96d1e2874b9f8e26f147136dfcf71cad3d148cc9c7274ad5417fc29d25"
+    },
+    {
+      "bytes": 674,
+      "path": "UI3/JOURNEYS.md",
+      "sha256": "f083a291afde374ac1f0ef957c6455ae2984c38c6249425d07fb4e47108ae5da"
+    },
+    {
+      "bytes": 352,
+      "path": "UI3/SCOPE.md",
+      "sha256": "61f1edd0a191d8934b7809000f36b04ba52f2a3d6b06ce6952f05c4fe0d8036d"
+    },
+    {
+      "bytes": 154,
+      "path": "UI3/UI3_PACK_SUMMARY.md",
+      "sha256": "9975778928b7ca450e4f27845c09aa20644aafafd6945e38d3d611ca190c14f1"
+    },
+    {
+      "bytes": 453,
+      "path": "UI5/GOVERNANCE_EVIDENCE_POLICY.md",
+      "sha256": "1b536a3fee37c3d51173e2b4e5bf13f68622156858cfc354ff69a37cd7c5691c"
+    },
+    {
+      "bytes": 316,
+      "path": "UI5/NEGATIVE_CASES.md",
+      "sha256": "130f9184c4d25ca2c572d5ed77c2ea14dcc02db7255d4c9a6741b67dabd71285"
+    },
+    {
+      "bytes": 365,
+      "path": "UI5/SCOPE.md",
+      "sha256": "6e3e19ddb9ddb637ec0b9e1cddda308ac00bef83027344b7a8cca2695a0bec35"
+    },
+    {
+      "bytes": 416,
+      "path": "UI5/TENANT_ISOLATION_POLICY.md",
+      "sha256": "f2f3a09d35c58b0e74c8d72b4ac26db3c0b9036ab59a9bc3f8e1f9d4f1769d60"
+    },
+    {
+      "bytes": 154,
+      "path": "UI5/UI5_PACK_SUMMARY.md",
+      "sha256": "6831aba0f95e4451ce06634511e109b95503bb01566c15ebbbc530950e4208aa"
+    },
+    {
+      "bytes": 3,
+      "path": "UI6/DAL_CONTRACT.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "UI6/EVIDENCE_EXPORT_BUNDLE_SPEC.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "UI6/NEGATIVE_CASES_UI6.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "UI6/TENANT_BOUND_STORAGE_MODEL.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "UI6/UI6_PACK_SUMMARY.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 28672,
+      "path": "data/tenants/11111111-1111-1111-1111-111111111111.sqlite",
+      "sha256": "ec21712ca410e78c87b0941d2a631fbc9f0ef02dfb4fa809a8b1c35623fd5167"
+    },
+    {
+      "bytes": 32768,
+      "path": "data/tenants/11111111-1111-1111-1111-111111111111.sqlite-shm",
+      "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "bytes": 0,
+      "path": "data/tenants/11111111-1111-1111-1111-111111111111.sqlite-wal",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 10477,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/MANIFEST.json",
+      "sha256": "05072cafcaf1e16d1e7c60e400117ccdc9b1bfa3b39b07ec5f0b278f8fd502da"
+    },
+    {
+      "bytes": 271,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/allowed_touch_files.txt",
+      "sha256": "cc43f649168b56b013840c399511af77f90535845ff15dabb070bcc962a5e94c"
+    },
+    {
+      "bytes": 143484,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/repo_files_sha256.txt",
+      "sha256": "a56b367e11dc15fac8edcdf98a0e15d610c04a8f44635ef7d4dc4c845e2c4ecb"
+    },
+    {
+      "bytes": 2279,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "571a7b0ed0fac4d37400093bf03e288d523ba9a3627058f14d75a3e14f23bc70"
+    },
+    {
+      "bytes": 541,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/FND/CODE_SCAFFOLD/interfaces/storage_interface.py",
+      "sha256": "262698d1f520f83596fbcd14f7d1dad4522cf418c821ff142f4803b7b1e276ed"
+    },
+    {
+      "bytes": 909,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "68bd84c8b62e1b13f004d5a1bfd2efd588eb2b16d4810f36593bc932fd4e14e9"
+    },
+    {
+      "bytes": 2268,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "18b7c129a858ff65f1ceb5d3428f1d81c26a8853bb50441a3c117fb73c2cdd77"
+    },
+    {
+      "bytes": 978,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "82ef7e171f8b46a5ed3f86e4dc2f775d65591b8021ab59b8c8b8d7463aeb4a84"
+    },
+    {
+      "bytes": 2408,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/TESTS/test_tenant_isolation.py",
+      "sha256": "1ad8f7180717dcbf10f97b48b7b6c28998cd5af7b2c7446e18f7e6c063f88879"
+    },
+    {
+      "bytes": 236,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/requirements.txt",
+      "sha256": "a2ad355ae5c19a66acedc8c3b203c36b5fc9c5c376d27a4d2ef8f547b17ab884"
+    },
+    {
+      "bytes": 293,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091134Z/snapshots/scripts/run_api.sh",
+      "sha256": "9ff900616dd5771f1f5e7174a6440e190d43c18a44cae4da10822269b31d987c"
+    },
+    {
+      "bytes": 10477,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/MANIFEST.json",
+      "sha256": "05072cafcaf1e16d1e7c60e400117ccdc9b1bfa3b39b07ec5f0b278f8fd502da"
+    },
+    {
+      "bytes": 271,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/allowed_touch_files.txt",
+      "sha256": "cc43f649168b56b013840c399511af77f90535845ff15dabb070bcc962a5e94c"
+    },
+    {
+      "bytes": 143484,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/repo_files_sha256.txt",
+      "sha256": "a56b367e11dc15fac8edcdf98a0e15d610c04a8f44635ef7d4dc4c845e2c4ecb"
+    },
+    {
+      "bytes": 2279,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "571a7b0ed0fac4d37400093bf03e288d523ba9a3627058f14d75a3e14f23bc70"
+    },
+    {
+      "bytes": 541,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/FND/CODE_SCAFFOLD/interfaces/storage_interface.py",
+      "sha256": "262698d1f520f83596fbcd14f7d1dad4522cf418c821ff142f4803b7b1e276ed"
+    },
+    {
+      "bytes": 909,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "68bd84c8b62e1b13f004d5a1bfd2efd588eb2b16d4810f36593bc932fd4e14e9"
+    },
+    {
+      "bytes": 2268,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "18b7c129a858ff65f1ceb5d3428f1d81c26a8853bb50441a3c117fb73c2cdd77"
+    },
+    {
+      "bytes": 978,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "82ef7e171f8b46a5ed3f86e4dc2f775d65591b8021ab59b8c8b8d7463aeb4a84"
+    },
+    {
+      "bytes": 2408,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/TESTS/test_tenant_isolation.py",
+      "sha256": "1ad8f7180717dcbf10f97b48b7b6c28998cd5af7b2c7446e18f7e6c063f88879"
+    },
+    {
+      "bytes": 236,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/requirements.txt",
+      "sha256": "a2ad355ae5c19a66acedc8c3b203c36b5fc9c5c376d27a4d2ef8f547b17ab884"
+    },
+    {
+      "bytes": 293,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/20260217T091428Z/snapshots/scripts/run_api.sh",
+      "sha256": "9ff900616dd5771f1f5e7174a6440e190d43c18a44cae4da10822269b31d987c"
+    },
+    {
+      "bytes": 59769,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/PETCARE-EMERGENT-HANDOFF_20260217T091134Z.zip",
+      "sha256": "16514b1efd06642d51f6bee16d793939f9a3e087f81244212b30b69733cac546"
+    },
+    {
+      "bytes": 112,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/PETCARE-EMERGENT-HANDOFF_20260217T091134Z.zip.sha256",
+      "sha256": "42d8c0efddb56ba055a23a6d745c97f0a69cd4df7dd24ca0cbdda36cad46991c"
+    },
+    {
+      "bytes": 59769,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/PETCARE-EMERGENT-HANDOFF_20260217T091428Z.zip",
+      "sha256": "7b5d4d71e0c6202c3f2950d303b27ca174498f6603ac7109d945cfd86950a3f6"
+    },
+    {
+      "bytes": 112,
+      "path": "evidence_output/PETCARE-EMERGENT-HANDOFF/PETCARE-EMERGENT-HANDOFF_20260217T091428Z.zip.sha256",
+      "sha256": "25209d6f21fbe2fde43d52350875804b695e9d547f55c138d3efb298dde133ae"
+    },
+    {
+      "bytes": 1586,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/closure_sha256.txt",
+      "sha256": "82b4df5d8f69a8aa32b4c32532de3061b7f3d82ea45c66201228e4469e70380e"
+    },
+    {
+      "bytes": 288,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/petcare_land_pack_phase2.log",
+      "sha256": "bb168f2a481b8f29050b72ab5c7d124f036e73f55ef0e6c3a0be588584552cce"
+    },
+    {
+      "bytes": 7905,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/EVIDENCE/MANIFEST.json",
+      "sha256": "c6c0202528ea459cf7346e0c249202ec22a754e78a5b78df2448f35874f3c2bc"
+    },
+    {
+      "bytes": 2349,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "faadbb73d4a64b6de8646da43dd9fb438a300bba1243963db5cb3b73333dcce0"
+    },
+    {
+      "bytes": 541,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/FND/CODE_SCAFFOLD/interfaces/storage_interface.py",
+      "sha256": "262698d1f520f83596fbcd14f7d1dad4522cf418c821ff142f4803b7b1e276ed"
+    },
+    {
+      "bytes": 909,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "68bd84c8b62e1b13f004d5a1bfd2efd588eb2b16d4810f36593bc932fd4e14e9"
+    },
+    {
+      "bytes": 2268,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "18b7c129a858ff65f1ceb5d3428f1d81c26a8853bb50441a3c117fb73c2cdd77"
+    },
+    {
+      "bytes": 978,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "82ef7e171f8b46a5ed3f86e4dc2f775d65591b8021ab59b8c8b8d7463aeb4a84"
+    },
+    {
+      "bytes": 2408,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/snapshots/TESTS/test_tenant_isolation.py",
+      "sha256": "1ad8f7180717dcbf10f97b48b7b6c28998cd5af7b2c7446e18f7e6c063f88879"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/20260217T085354Z/unittest_phase2.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 10677,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/PETCARE-PH2-CLOSURE_20260217T085354Z.zip",
+      "sha256": "246197f9165169864f58312c70c9babd8370391ce90936903b2716cbad77ceae"
+    },
+    {
+      "bytes": 107,
+      "path": "evidence_output/PETCARE-PH2-CLOSURE/PETCARE-PH2-CLOSURE_20260217T085354Z.zip.sha256",
+      "sha256": "2a47c1024ef82c92373afa0d98fe691d2b20e5b6e978d656d5e6a87d41528d55"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH2-INPUTS/20260217T081959Z/repo_file_count.txt",
+      "sha256": "4f161ce61824a7eecebfbc2b7a39915233ef937def7ab8fd668468f9d69ece3f"
+    },
+    {
+      "bytes": 3574,
+      "path": "evidence_output/PETCARE-PH2-INPUTS/20260217T081959Z/repo_files_sha256.txt",
+      "sha256": "5c5bf67ea0920d862155d8f5ddcaecff33e6945dc33f3777280ae1655d97206f"
+    },
+    {
+      "bytes": 3606,
+      "path": "evidence_output/PETCARE-PH2-INPUTS/20260217T081959Z/tenant_storage_grep.txt",
+      "sha256": "2baa31aa55133ef86466796d9019fa2c859c24d6f018a5635288aaaf4a0e975f"
+    },
+    {
+      "bytes": 3913,
+      "path": "evidence_output/PETCARE-PH2-INPUTS/PETCARE-PH2-INPUTS_20260217T081959Z.zip",
+      "sha256": "a04b69223093f99b837f08be26dd676e5b815019748b09b615e1d1885b617063"
+    },
+    {
+      "bytes": 106,
+      "path": "evidence_output/PETCARE-PH2-INPUTS/PETCARE-PH2-INPUTS_20260217T081959Z.zip.sha256",
+      "sha256": "743a11d84058333e085075b70ae1c8719cac83a68303e6fefc0ee6d110a8a222"
+    },
+    {
+      "bytes": 294,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/closure_files.txt",
+      "sha256": "f070f2b4e06ed7b803291a96dc8e923e403828d1b2b96f3bc85da27af8b47330"
+    },
+    {
+      "bytes": 2166,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/closure_sha256.txt",
+      "sha256": "2ae256eb7d42c79bc9f656f4902133958a2fc4be84b10151e1daf895e0959348"
+    },
+    {
+      "bytes": 315,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/land_pack.log",
+      "sha256": "12f7746ba8d045deb1e9ebd7ac2531a9c63885d2e1430e594c9b52119709b05e"
+    },
+    {
+      "bytes": 243,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/smoke.log",
+      "sha256": "f0ca7901c0f4a0531f269f2c70e4cf4cf16340c2239920e33cb30299e90c8927"
+    },
+    {
+      "bytes": 17019,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/EVIDENCE/MANIFEST.json",
+      "sha256": "c7109c7a9bd51655bfb49078f6d5370cf0a43b4db63a0cdd743462279d40cc04"
+    },
+    {
+      "bytes": 2279,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "571a7b0ed0fac4d37400093bf03e288d523ba9a3627058f14d75a3e14f23bc70"
+    },
+    {
+      "bytes": 541,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/FND/CODE_SCAFFOLD/interfaces/storage_interface.py",
+      "sha256": "262698d1f520f83596fbcd14f7d1dad4522cf418c821ff142f4803b7b1e276ed"
+    },
+    {
+      "bytes": 909,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "68bd84c8b62e1b13f004d5a1bfd2efd588eb2b16d4810f36593bc932fd4e14e9"
+    },
+    {
+      "bytes": 2268,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "18b7c129a858ff65f1ceb5d3428f1d81c26a8853bb50441a3c117fb73c2cdd77"
+    },
+    {
+      "bytes": 978,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "82ef7e171f8b46a5ed3f86e4dc2f775d65591b8021ab59b8c8b8d7463aeb4a84"
+    },
+    {
+      "bytes": 2408,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/TESTS/test_tenant_isolation.py",
+      "sha256": "1ad8f7180717dcbf10f97b48b7b6c28998cd5af7b2c7446e18f7e6c063f88879"
+    },
+    {
+      "bytes": 236,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/requirements.txt",
+      "sha256": "a2ad355ae5c19a66acedc8c3b203c36b5fc9c5c376d27a4d2ef8f547b17ab884"
+    },
+    {
+      "bytes": 1728,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/snapshots/scripts/run_api.sh",
+      "sha256": "ffe692d8bf6ce5613b829931768c6b48efdb05c2b877c01cd05b1861adb0d913"
+    },
+    {
+      "bytes": 25,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/20260217T104807Z/unittest.log",
+      "sha256": "a0a7f57954757884e697e1a2a085dc14fb6c535872572092fb243d886e051816"
+    },
+    {
+      "bytes": 14229,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/PETCARE-PH3-P1-CLOSURE_20260217T104807Z.zip",
+      "sha256": "cd3e96274c5e8762b25487d5f353340c8d3385690393ead3347d96eb2a6d9c17"
+    },
+    {
+      "bytes": 110,
+      "path": "evidence_output/PETCARE-PH3-P1-CLOSURE/PETCARE-PH3-P1-CLOSURE_20260217T104807Z.zip.sha256",
+      "sha256": "8f5cf6dec91d8e639b55e4b728b356f4167cd0a0a08df85edd587f35cb97fb24"
+    },
+    {
+      "bytes": 159,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/closure_files.txt",
+      "sha256": "be5d14d91aebff62864ca6fbd028f58a7586f3b821a494f2667a6130706c3941"
+    },
+    {
+      "bytes": 1635,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/closure_sha256.txt",
+      "sha256": "b274b23d10106e2c287c405cd82abbe0093a00333099a62bbd04251f9fe7d545"
+    },
+    {
+      "bytes": 316,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/land_pack.log",
+      "sha256": "2d1e46e11ae3d165ba2b457465f4c7eb302f608d98a657cdc007a6e72965fc13"
+    },
+    {
+      "bytes": 265,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/smoke.log",
+      "sha256": "6b18282557bf1a8fccab606fcff3409b959399f926c669cb093c5c82062abec9"
+    },
+    {
+      "bytes": 20572,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/snapshots/EVIDENCE/MANIFEST.json",
+      "sha256": "2a24bc14a03cd0095aedff04f7828529fe36bdef639bcd157e7d7806f13d9c9f"
+    },
+    {
+      "bytes": 2303,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/snapshots/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "e6408c5da2f25cceb91df5356cdeb158cc82f7f60380a4cf1efa976161a72c89"
+    },
+    {
+      "bytes": 1108,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/snapshots/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "99eb0a2edf5f24847ae08637c6b2fdc42707058adf8ebd7f6aca1e6aa8bd4f56"
+    },
+    {
+      "bytes": 2905,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/snapshots/TESTS/test_tenant_isolation.py",
+      "sha256": "e8b8b8e0b627c3a60c767af3fbc4be1d34928125fc1221f424d7ef11e39bc005"
+    },
+    {
+      "bytes": 236,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/snapshots/requirements.txt",
+      "sha256": "a2ad355ae5c19a66acedc8c3b203c36b5fc9c5c376d27a4d2ef8f547b17ab884"
+    },
+    {
+      "bytes": 1728,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/snapshots/scripts/run_api.sh",
+      "sha256": "ffe692d8bf6ce5613b829931768c6b48efdb05c2b877c01cd05b1861adb0d913"
+    },
+    {
+      "bytes": 25,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/20260217T112255Z/unittest.log",
+      "sha256": "a0a7f57954757884e697e1a2a085dc14fb6c535872572092fb243d886e051816"
+    },
+    {
+      "bytes": 12134,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/PETCARE-PH3-P2-CLOSURE_20260217T112255Z.zip",
+      "sha256": "6e4d515717e86798341fee6bca644857b99150421db083b802f34f84f189c062"
+    },
+    {
+      "bytes": 110,
+      "path": "evidence_output/PETCARE-PH3-P2-CLOSURE/PETCARE-PH3-P2-CLOSURE_20260217T112255Z.zip.sha256",
+      "sha256": "64970aac90f3d22ab3dbef988415594c4dade2539bf6b4798a21cc426fc3055a"
+    },
+    {
+      "bytes": 184,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/closure_files.txt",
+      "sha256": "40b3ebfd37b550bca30b18829634f1a59893a4d400eee87915a36da2c94ee19a"
+    },
+    {
+      "bytes": 1660,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/closure_sha256.txt",
+      "sha256": "8c4b43dcae2219da593b1cf4103fc54c35ada31cda2071a995b84cec25bcc9ba"
+    },
+    {
+      "bytes": 316,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/land_pack.log",
+      "sha256": "10a86ae5f511b4e898ae7fe79a87e6b68fe0d186e220ba7e4c5e321f44fcaf8c"
+    },
+    {
+      "bytes": 265,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/smoke.log",
+      "sha256": "6b18282557bf1a8fccab606fcff3409b959399f926c669cb093c5c82062abec9"
+    },
+    {
+      "bytes": 23391,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/snapshots/EVIDENCE/MANIFEST.json",
+      "sha256": "f5746104575c7e69f70e13f17f0ea85950f9d6e618681548c7cef7fc546804d5"
+    },
+    {
+      "bytes": 2303,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/snapshots/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "e6408c5da2f25cceb91df5356cdeb158cc82f7f60380a4cf1efa976161a72c89"
+    },
+    {
+      "bytes": 2232,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/snapshots/FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "c1ad808f5bee7674c664f2b6944c049eced05db9a569ecdbf9fe5c6346d13f06"
+    },
+    {
+      "bytes": 1108,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/snapshots/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "99eb0a2edf5f24847ae08637c6b2fdc42707058adf8ebd7f6aca1e6aa8bd4f56"
+    },
+    {
+      "bytes": 3215,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/snapshots/TESTS/test_tenant_isolation.py",
+      "sha256": "e0be2eaef674d1432ae33ed1b9fa731db3138c493fdf9569bfcbd32c29af733e"
+    },
+    {
+      "bytes": 1728,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/snapshots/scripts/run_api.sh",
+      "sha256": "ffe692d8bf6ce5613b829931768c6b48efdb05c2b877c01cd05b1861adb0d913"
+    },
+    {
+      "bytes": 25,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/20260217T113820Z/unittest.log",
+      "sha256": "a0a7f57954757884e697e1a2a085dc14fb6c535872572092fb243d886e051816"
+    },
+    {
+      "bytes": 13494,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/PETCARE-PH3-P3-CLOSURE_20260217T113820Z.zip",
+      "sha256": "1447a997301e280c1de12a13ccf2d9a5caf8428b956f58756108a9cffdb072af"
+    },
+    {
+      "bytes": 110,
+      "path": "evidence_output/PETCARE-PH3-P3-CLOSURE/PETCARE-PH3-P3-CLOSURE_20260217T113820Z.zip.sha256",
+      "sha256": "89c5efe7e73550ae228c38859b30eb1906ce4c1588f8ba380f194ba5b3f6e6e5"
+    },
+    {
+      "bytes": 5240,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/closure.log",
+      "sha256": "9af2965f0b65868ed3aa333d830aa12e21bda9da08cf0510e1becf2a067315d2"
+    },
+    {
+      "bytes": 25,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/health_poll.log",
+      "sha256": "4b07f322d32b39d26e6b701bcd9764d9a40eb8cf1c0d4d1debe7d302da0616eb"
+    },
+    {
+      "bytes": 292,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/land_pack.log",
+      "sha256": "138d344933909a4a72d1ca3eb187ab6edca9713e54e2338ec62de2a96274e6d4"
+    },
+    {
+      "bytes": 53,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/.gitignore",
+      "sha256": "564238d7ef83da5d86589dd563e7e76ced6c7200524d317531d8cefb162e0206"
+    },
+    {
+      "bytes": 3647,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/BACKUP_BASELINE_20260216T203805Z.tgz",
+      "sha256": "19234ac67309ba1c34320b7d115bd62b13d1060e99725950b50974625a050b0e"
+    },
+    {
+      "bytes": 1645,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/BACKUP_FIX_LAND_20260216T202208Z/scripts/_manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2174,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/BACKUP_FIX_LAND_20260216T202208Z/scripts/petcare_land_pack.sh",
+      "sha256": "56200435e13e0081de20ab9d2b8321683899131beb87b7bd99e7cf05fe52bea2"
+    },
+    {
+      "bytes": 32731,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/EVIDENCE/MANIFEST.json",
+      "sha256": "f509aaa6e2f69341006eb990afa9bfa3242c7798b7efa8c3db17dde7be77e62d"
+    },
+    {
+      "bytes": 96,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/FND/CODE_SCAFFOLD/api/routes_platform_admin.py",
+      "sha256": "efc1c715c5b749e63711fbd7a4304c52f49ce8d5308f76d5b1e0cdaa896ae62f"
+    },
+    {
+      "bytes": 2848,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "2ac0041f9e43626b873321d0bd5c4102692fa4ce90b52b7bdc2c09baa3664697"
+    },
+    {
+      "bytes": 50,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/FND/CODE_SCAFFOLD/interfaces/init.py",
+      "sha256": "c0ae5228bc5c6d7d4e2045bdb1f83f762f26441d91c41cab26701effd25a6ce6"
+    },
+    {
+      "bytes": 640,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/FND/CODE_SCAFFOLD/interfaces/storage_interface.py",
+      "sha256": "cc1bab3458620f49c97b4fce8b7f42d5371dec5b4c38b09c1b42fadf6c7559e5"
+    },
+    {
+      "bytes": 2830,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "6a7094af5e88c443a5fb74ed9299f0b80a8fe071362e98b41d74e2b5abfb46b4"
+    },
+    {
+      "bytes": 47,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/init.py",
+      "sha256": "c8b5feca41da02102e6967bc743bfb879323faf52f5cb963245d57560cc693de"
+    },
+    {
+      "bytes": 2625,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "4ee055e6ed442ce37c562c3002bcee2984c6bc97be0ec7e2fab8e2673ae607ed"
+    },
+    {
+      "bytes": 1108,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "99eb0a2edf5f24847ae08637c6b2fdc42707058adf8ebd7f6aca1e6aa8bd4f56"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/FND/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 100,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/TESTS/TEST_PLAN.md",
+      "sha256": "b49734009e0784fe8257e21c2a6a5a2c3e23072dd81daad7ec6fa952d2f38531"
+    },
+    {
+      "bytes": 357,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/TESTS/UI5_TEST_CHECKLIST.md",
+      "sha256": "8a0ff3a5b030b155b6fa204e80f0370cf2be72fad2b3953639fc42cb0cf4fcda"
+    },
+    {
+      "bytes": 119,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/TESTS/__init__.py",
+      "sha256": "9778fca6229a3104f48f74996de416b3474fb919871388a01cdba6cce2fcff09"
+    },
+    {
+      "bytes": 5030,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/TESTS/test_tenant_isolation.py",
+      "sha256": "8b74a8265adb4ebe2e17d031a1b51dbdf30b0c06a88774a0db46d1720f6ae6f8"
+    },
+    {
+      "bytes": 1711,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/TESTS/ui5_deterministic_proof.py",
+      "sha256": "50dd09ca92a8970a052e99d45922c9661254bee4f19250af9d9f3b7e4f9e13dc"
+    },
+    {
+      "bytes": 369,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI2/ACCEPTANCE_CHECKS.md",
+      "sha256": "d3454de1c6392822410c26606aabfb39a1857941ecfb0b4175d730afb4113a05"
+    },
+    {
+      "bytes": 572,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI2/API_SURFACE.md",
+      "sha256": "4bd866a8274720d236212fd187af941c003b393c327aa0b98e6d7cd122f08ac2"
+    },
+    {
+      "bytes": 600,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI2/DOMAIN_MODEL.md",
+      "sha256": "5562ca4d6812e1f4366b3d78f930447012e01c2878eae777a816963efffe7831"
+    },
+    {
+      "bytes": 335,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI2/SCOPE.md",
+      "sha256": "442d4c4e5c6709bc2b84d955fcd78122ad196fa1bc6b90b5bc860ad8f0b483e7"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI2/UI2_PACK_SUMMARY.md",
+      "sha256": "6933f0b51f2a64c1683042da342d14badbc977d08d0947309a711b78fe80c239"
+    },
+    {
+      "bytes": 237,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI3/ERROR_STATES.md",
+      "sha256": "27f73fd6e7adc69b68c5e332a03aec27ec46cdec9929d8a9e9276496a0b275f6"
+    },
+    {
+      "bytes": 916,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI3/FLOWS.md",
+      "sha256": "204f4f96d1e2874b9f8e26f147136dfcf71cad3d148cc9c7274ad5417fc29d25"
+    },
+    {
+      "bytes": 674,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI3/JOURNEYS.md",
+      "sha256": "f083a291afde374ac1f0ef957c6455ae2984c38c6249425d07fb4e47108ae5da"
+    },
+    {
+      "bytes": 352,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI3/SCOPE.md",
+      "sha256": "61f1edd0a191d8934b7809000f36b04ba52f2a3d6b06ce6952f05c4fe0d8036d"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI3/UI3_PACK_SUMMARY.md",
+      "sha256": "9975778928b7ca450e4f27845c09aa20644aafafd6945e38d3d611ca190c14f1"
+    },
+    {
+      "bytes": 453,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI5/GOVERNANCE_EVIDENCE_POLICY.md",
+      "sha256": "1b536a3fee37c3d51173e2b4e5bf13f68622156858cfc354ff69a37cd7c5691c"
+    },
+    {
+      "bytes": 316,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI5/NEGATIVE_CASES.md",
+      "sha256": "130f9184c4d25ca2c572d5ed77c2ea14dcc02db7255d4c9a6741b67dabd71285"
+    },
+    {
+      "bytes": 365,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI5/SCOPE.md",
+      "sha256": "6e3e19ddb9ddb637ec0b9e1cddda308ac00bef83027344b7a8cca2695a0bec35"
+    },
+    {
+      "bytes": 416,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI5/TENANT_ISOLATION_POLICY.md",
+      "sha256": "f2f3a09d35c58b0e74c8d72b4ac26db3c0b9036ab59a9bc3f8e1f9d4f1769d60"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI5/UI5_PACK_SUMMARY.md",
+      "sha256": "6831aba0f95e4451ce06634511e109b95503bb01566c15ebbbc530950e4208aa"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI6/DAL_CONTRACT.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI6/EVIDENCE_EXPORT_BUNDLE_SPEC.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI6/NEGATIVE_CASES_UI6.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI6/TENANT_BOUND_STORAGE_MODEL.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/UI6/UI6_PACK_SUMMARY.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 236,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/requirements.txt",
+      "sha256": "a2ad355ae5c19a66acedc8c3b203c36b5fc9c5c376d27a4d2ef8f547b17ab884"
+    },
+    {
+      "bytes": 1645,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/scripts/_manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2030,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/scripts/petcare_land_pack.sh",
+      "sha256": "eacc45e8ffb3d314785b6b6e4c4d25845aac689201b22772a9513d07a3d3011c"
+    },
+    {
+      "bytes": 4792,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/scripts/petcare_ph4_closure_pack.sh",
+      "sha256": "48a0db2c7de34c66b43faf21982902274fc4c18626d432798546fd951eb54fed"
+    },
+    {
+      "bytes": 5046,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/scripts/petcare_ph4_discovery_pack.sh",
+      "sha256": "8954b80dee9f20c59bbcf459ef4b1094bfa9d5e62ce44647989efe9f24700454"
+    },
+    {
+      "bytes": 983,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/scripts/petcare_ph4_git_hardening.sh",
+      "sha256": "ada3f849455668436b6395e5f81805de91051eed8ad12e96a5be6b0ff1e0312e"
+    },
+    {
+      "bytes": 2501,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/scripts/petcare_ph4_inputs_pack.sh",
+      "sha256": "7bc45562f1192a56013ea42d17c1d30c4182149b119c39de887142faf3219c56"
+    },
+    {
+      "bytes": 683,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/scripts/petcare_ph4_unittest.sh",
+      "sha256": "c3298cb71a4fba91e25635298c5bad8ed1d04b7ee6c6a0ee7114055efa7cbb11"
+    },
+    {
+      "bytes": 2149,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/repo_snapshot/scripts/run_api.sh",
+      "sha256": "73b8778c12f2e64dab17061f5b196343e93f365189aa49de0fdbfff9a855e585"
+    },
+    {
+      "bytes": 893,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/smoke.log",
+      "sha256": "999eb621211efb4f30ff05518d2578dd5dd694679ba21884cb6c84efd12f683d"
+    },
+    {
+      "bytes": 1743,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/unittest.log",
+      "sha256": "e160bdd00bf5a2be82183bd19a53f6b3f730be3d477c6a2f1a972b2e5ddb89a6"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/uvicorn.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 6,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T133616Z/uvicorn.pid",
+      "sha256": "c06742ba54f26615038826d09db2b1ce2cb8b8ff4b3979619d503e4af960a921"
+    },
+    {
+      "bytes": 9853,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/MANIFEST.json",
+      "sha256": "e866cdd1c3d2198108ce73272a10414c80d9352c7940ddf5dab68249ff5a8612"
+    },
+    {
+      "bytes": 4364,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/closure.log",
+      "sha256": "799100333a879e2a9b81e4421109ed0e5f8e54e68289812e07bec1403e429a1f"
+    },
+    {
+      "bytes": 25,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/health_poll.log",
+      "sha256": "4b07f322d32b39d26e6b701bcd9764d9a40eb8cf1c0d4d1debe7d302da0616eb"
+    },
+    {
+      "bytes": 292,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/land_pack.log",
+      "sha256": "f7088b5dc35f8621a44e030bfa19a975145cb59510d3b08332ac72c9b8bc6037"
+    },
+    {
+      "bytes": 53,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/.gitignore",
+      "sha256": "564238d7ef83da5d86589dd563e7e76ced6c7200524d317531d8cefb162e0206"
+    },
+    {
+      "bytes": 3647,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/BACKUP_BASELINE_20260216T203805Z.tgz",
+      "sha256": "19234ac67309ba1c34320b7d115bd62b13d1060e99725950b50974625a050b0e"
+    },
+    {
+      "bytes": 1645,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/BACKUP_FIX_LAND_20260216T202208Z/scripts/_manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2174,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/BACKUP_FIX_LAND_20260216T202208Z/scripts/petcare_land_pack.sh",
+      "sha256": "56200435e13e0081de20ab9d2b8321683899131beb87b7bd99e7cf05fe52bea2"
+    },
+    {
+      "bytes": 45096,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/EVIDENCE/MANIFEST.json",
+      "sha256": "a393a2f26a555ebc3fd787fc4122ed50becb984f4d9e5289eb7e09241b5e09a2"
+    },
+    {
+      "bytes": 96,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/FND/CODE_SCAFFOLD/api/routes_platform_admin.py",
+      "sha256": "efc1c715c5b749e63711fbd7a4304c52f49ce8d5308f76d5b1e0cdaa896ae62f"
+    },
+    {
+      "bytes": 2848,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "2ac0041f9e43626b873321d0bd5c4102692fa4ce90b52b7bdc2c09baa3664697"
+    },
+    {
+      "bytes": 50,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/FND/CODE_SCAFFOLD/interfaces/init.py",
+      "sha256": "c0ae5228bc5c6d7d4e2045bdb1f83f762f26441d91c41cab26701effd25a6ce6"
+    },
+    {
+      "bytes": 640,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/FND/CODE_SCAFFOLD/interfaces/storage_interface.py",
+      "sha256": "cc1bab3458620f49c97b4fce8b7f42d5371dec5b4c38b09c1b42fadf6c7559e5"
+    },
+    {
+      "bytes": 2830,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "6a7094af5e88c443a5fb74ed9299f0b80a8fe071362e98b41d74e2b5abfb46b4"
+    },
+    {
+      "bytes": 47,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/init.py",
+      "sha256": "c8b5feca41da02102e6967bc743bfb879323faf52f5cb963245d57560cc693de"
+    },
+    {
+      "bytes": 2625,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "4ee055e6ed442ce37c562c3002bcee2984c6bc97be0ec7e2fab8e2673ae607ed"
+    },
+    {
+      "bytes": 1108,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "99eb0a2edf5f24847ae08637c6b2fdc42707058adf8ebd7f6aca1e6aa8bd4f56"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/FND/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 100,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/TESTS/TEST_PLAN.md",
+      "sha256": "b49734009e0784fe8257e21c2a6a5a2c3e23072dd81daad7ec6fa952d2f38531"
+    },
+    {
+      "bytes": 357,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/TESTS/UI5_TEST_CHECKLIST.md",
+      "sha256": "8a0ff3a5b030b155b6fa204e80f0370cf2be72fad2b3953639fc42cb0cf4fcda"
+    },
+    {
+      "bytes": 119,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/TESTS/__init__.py",
+      "sha256": "9778fca6229a3104f48f74996de416b3474fb919871388a01cdba6cce2fcff09"
+    },
+    {
+      "bytes": 5030,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/TESTS/test_tenant_isolation.py",
+      "sha256": "8b74a8265adb4ebe2e17d031a1b51dbdf30b0c06a88774a0db46d1720f6ae6f8"
+    },
+    {
+      "bytes": 1711,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/TESTS/ui5_deterministic_proof.py",
+      "sha256": "50dd09ca92a8970a052e99d45922c9661254bee4f19250af9d9f3b7e4f9e13dc"
+    },
+    {
+      "bytes": 369,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI2/ACCEPTANCE_CHECKS.md",
+      "sha256": "d3454de1c6392822410c26606aabfb39a1857941ecfb0b4175d730afb4113a05"
+    },
+    {
+      "bytes": 572,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI2/API_SURFACE.md",
+      "sha256": "4bd866a8274720d236212fd187af941c003b393c327aa0b98e6d7cd122f08ac2"
+    },
+    {
+      "bytes": 600,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI2/DOMAIN_MODEL.md",
+      "sha256": "5562ca4d6812e1f4366b3d78f930447012e01c2878eae777a816963efffe7831"
+    },
+    {
+      "bytes": 335,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI2/SCOPE.md",
+      "sha256": "442d4c4e5c6709bc2b84d955fcd78122ad196fa1bc6b90b5bc860ad8f0b483e7"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI2/UI2_PACK_SUMMARY.md",
+      "sha256": "6933f0b51f2a64c1683042da342d14badbc977d08d0947309a711b78fe80c239"
+    },
+    {
+      "bytes": 237,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI3/ERROR_STATES.md",
+      "sha256": "27f73fd6e7adc69b68c5e332a03aec27ec46cdec9929d8a9e9276496a0b275f6"
+    },
+    {
+      "bytes": 916,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI3/FLOWS.md",
+      "sha256": "204f4f96d1e2874b9f8e26f147136dfcf71cad3d148cc9c7274ad5417fc29d25"
+    },
+    {
+      "bytes": 674,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI3/JOURNEYS.md",
+      "sha256": "f083a291afde374ac1f0ef957c6455ae2984c38c6249425d07fb4e47108ae5da"
+    },
+    {
+      "bytes": 352,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI3/SCOPE.md",
+      "sha256": "61f1edd0a191d8934b7809000f36b04ba52f2a3d6b06ce6952f05c4fe0d8036d"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI3/UI3_PACK_SUMMARY.md",
+      "sha256": "9975778928b7ca450e4f27845c09aa20644aafafd6945e38d3d611ca190c14f1"
+    },
+    {
+      "bytes": 453,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI5/GOVERNANCE_EVIDENCE_POLICY.md",
+      "sha256": "1b536a3fee37c3d51173e2b4e5bf13f68622156858cfc354ff69a37cd7c5691c"
+    },
+    {
+      "bytes": 316,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI5/NEGATIVE_CASES.md",
+      "sha256": "130f9184c4d25ca2c572d5ed77c2ea14dcc02db7255d4c9a6741b67dabd71285"
+    },
+    {
+      "bytes": 365,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI5/SCOPE.md",
+      "sha256": "6e3e19ddb9ddb637ec0b9e1cddda308ac00bef83027344b7a8cca2695a0bec35"
+    },
+    {
+      "bytes": 416,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI5/TENANT_ISOLATION_POLICY.md",
+      "sha256": "f2f3a09d35c58b0e74c8d72b4ac26db3c0b9036ab59a9bc3f8e1f9d4f1769d60"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI5/UI5_PACK_SUMMARY.md",
+      "sha256": "6831aba0f95e4451ce06634511e109b95503bb01566c15ebbbc530950e4208aa"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI6/DAL_CONTRACT.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI6/EVIDENCE_EXPORT_BUNDLE_SPEC.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI6/NEGATIVE_CASES_UI6.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI6/TENANT_BOUND_STORAGE_MODEL.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/UI6/UI6_PACK_SUMMARY.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 236,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/requirements.txt",
+      "sha256": "a2ad355ae5c19a66acedc8c3b203c36b5fc9c5c376d27a4d2ef8f547b17ab884"
+    },
+    {
+      "bytes": 1645,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/scripts/_manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2030,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/scripts/petcare_land_pack.sh",
+      "sha256": "eacc45e8ffb3d314785b6b6e4c4d25845aac689201b22772a9513d07a3d3011c"
+    },
+    {
+      "bytes": 4887,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/scripts/petcare_ph4_closure_pack.sh",
+      "sha256": "719145bfcac212ebeac0aa91fd310d6dc117e20e967555f2061bc0733d6d2933"
+    },
+    {
+      "bytes": 5046,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/scripts/petcare_ph4_discovery_pack.sh",
+      "sha256": "8954b80dee9f20c59bbcf459ef4b1094bfa9d5e62ce44647989efe9f24700454"
+    },
+    {
+      "bytes": 983,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/scripts/petcare_ph4_git_hardening.sh",
+      "sha256": "ada3f849455668436b6395e5f81805de91051eed8ad12e96a5be6b0ff1e0312e"
+    },
+    {
+      "bytes": 2501,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/scripts/petcare_ph4_inputs_pack.sh",
+      "sha256": "7bc45562f1192a56013ea42d17c1d30c4182149b119c39de887142faf3219c56"
+    },
+    {
+      "bytes": 683,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/scripts/petcare_ph4_unittest.sh",
+      "sha256": "c3298cb71a4fba91e25635298c5bad8ed1d04b7ee6c6a0ee7114055efa7cbb11"
+    },
+    {
+      "bytes": 2149,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/repo_snapshot/scripts/run_api.sh",
+      "sha256": "73b8778c12f2e64dab17061f5b196343e93f365189aa49de0fdbfff9a855e585"
+    },
+    {
+      "bytes": 969,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/smoke.log",
+      "sha256": "0aea50f2c456cb35012a995a3d8f069be4bc0a8f875f062043a324a2639f0b49"
+    },
+    {
+      "bytes": 1743,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/unittest.log",
+      "sha256": "e160bdd00bf5a2be82183bd19a53f6b3f730be3d477c6a2f1a972b2e5ddb89a6"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/uvicorn.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 6,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/20260217T134016Z/uvicorn.pid",
+      "sha256": "d4d5fd265c8c74fc0d11413fdd44d5b2821c99272897d8e29c9ecd65a126376b"
+    },
+    {
+      "bytes": 53583,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/PETCARE-PH4-CLOSURE_20260217T134016Z.zip",
+      "sha256": "cb61421349933e8011042e3583f22c2629d352331771eff3a87a60d3b49fb4ce"
+    },
+    {
+      "bytes": 107,
+      "path": "evidence_output/PETCARE-PH4-CLOSURE/PETCARE-PH4-CLOSURE_20260217T134016Z.zip.sha256",
+      "sha256": "17935ed536458e227e7214a6e3d160c5f2b521a0ce6e54077c25620b75361a12"
+    },
+    {
+      "bytes": 45891,
+      "path": "evidence_output/PETCARE-PH4-DISCOVERY/20260217T114627Z/DISCOVERY_REPORT.md",
+      "sha256": "791f37c9e559931cfeab4125d0a673d993a6302091c076896ad365c5a43da17f"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH4-DISCOVERY/20260217T114627Z/LOGS.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 61129,
+      "path": "evidence_output/PETCARE-PH4-DISCOVERY/20260217T114922Z/DISCOVERY_REPORT.md",
+      "sha256": "408f0e845b1d9315b3dbbc56906572c97191e144d5569d00c3b241e310fdb798"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH4-DISCOVERY/20260217T114922Z/LOGS.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 464,
+      "path": "evidence_output/PETCARE-PH4-DISCOVERY/20260217T114922Z/MANIFEST.json",
+      "sha256": "8e0db810b519cc76a9303cb3b1d12618366544105603bf60a876234529d683b0"
+    },
+    {
+      "bytes": 6136,
+      "path": "evidence_output/PETCARE-PH4-DISCOVERY/PETCARE-PH4-DISCOVERY_20260217T114922Z.zip",
+      "sha256": "53ed0e0acd632bbe19f036858b7e3e43a3fe891372caa54747f4fa4fc93b7ba3"
+    },
+    {
+      "bytes": 109,
+      "path": "evidence_output/PETCARE-PH4-DISCOVERY/PETCARE-PH4-DISCOVERY_20260217T114922Z.zip.sha256",
+      "sha256": "ddd3951b8f8582259e5664c8cae18f6d7c22a34b5bea7c94414ba65883d779de"
+    },
+    {
+      "bytes": 1177,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/PH4_INPUTS_REPORT.md",
+      "sha256": "91fa759e667f21ed5c5ec1794ffae5dd4b9b7c019a43f7acf26f2bf0fd548f76"
+    },
+    {
+      "bytes": 16472,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/SNAPSHOT_BODIES.txt",
+      "sha256": "3a9a07d72a0191cfa1687bfaedda8d78f92cef7ab0e957931868f19ee6ad683b"
+    },
+    {
+      "bytes": 2303,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "e6408c5da2f25cceb91df5356cdeb158cc82f7f60380a4cf1efa976161a72c89"
+    },
+    {
+      "bytes": 541,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/FND/CODE_SCAFFOLD/interfaces/storage_interface.py",
+      "sha256": "262698d1f520f83596fbcd14f7d1dad4522cf418c821ff142f4803b7b1e276ed"
+    },
+    {
+      "bytes": 909,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "68bd84c8b62e1b13f004d5a1bfd2efd588eb2b16d4810f36593bc932fd4e14e9"
+    },
+    {
+      "bytes": 2232,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "c1ad808f5bee7674c664f2b6944c049eced05db9a569ecdbf9fe5c6346d13f06"
+    },
+    {
+      "bytes": 1108,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "99eb0a2edf5f24847ae08637c6b2fdc42707058adf8ebd7f6aca1e6aa8bd4f56"
+    },
+    {
+      "bytes": 3215,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/TESTS/test_tenant_isolation.py",
+      "sha256": "e0be2eaef674d1432ae33ed1b9fa731db3138c493fdf9569bfcbd32c29af733e"
+    },
+    {
+      "bytes": 236,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/requirements.txt",
+      "sha256": "a2ad355ae5c19a66acedc8c3b203c36b5fc9c5c376d27a4d2ef8f547b17ab884"
+    },
+    {
+      "bytes": 1645,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/scripts/_manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2030,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/scripts/petcare_land_pack.sh",
+      "sha256": "eacc45e8ffb3d314785b6b6e4c4d25845aac689201b22772a9513d07a3d3011c"
+    },
+    {
+      "bytes": 1728,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/20260217T115438Z/snapshots/scripts/run_api.sh",
+      "sha256": "ffe692d8bf6ce5613b829931768c6b48efdb05c2b877c01cd05b1861adb0d913"
+    },
+    {
+      "bytes": 15440,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/PETCARE-PH4-INPUTS_20260217T115438Z.zip",
+      "sha256": "1a7a9df5e9ee5bb1a345c7fca672d250878753b237e08e6979a1828950b1391a"
+    },
+    {
+      "bytes": 106,
+      "path": "evidence_output/PETCARE-PH4-INPUTS/PETCARE-PH4-INPUTS_20260217T115438Z.zip.sha256",
+      "sha256": "bf269e1f2c1d8704fe7001f34026fc0ef224615fdc3d50f6ed519a49498a02ae"
+    },
+    {
+      "bytes": 11391,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/MANIFEST.json",
+      "sha256": "7d79ddffe9f4ee8367493ca11723f6b57b3dbfc7f6cdade273cea800fe1480dc"
+    },
+    {
+      "bytes": 4749,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/closure.log",
+      "sha256": "bb84ca1bb18b5bf46875f1728aa1d3088f9170fe484d8b5d193c70ddb762191c"
+    },
+    {
+      "bytes": 81,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/health_poll.log",
+      "sha256": "30de46006fafef1a91146a3956b8d27c2a3b394223240efb33249dfa5c57452b"
+    },
+    {
+      "bytes": 294,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/land_pack.log",
+      "sha256": "febbae72c0faa7343355990ee9d6f2bf323567857361860817917bc8a96f40ed"
+    },
+    {
+      "bytes": 53,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/.gitignore",
+      "sha256": "564238d7ef83da5d86589dd563e7e76ced6c7200524d317531d8cefb162e0206"
+    },
+    {
+      "bytes": 3647,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/BACKUP_BASELINE_20260216T203805Z.tgz",
+      "sha256": "19234ac67309ba1c34320b7d115bd62b13d1060e99725950b50974625a050b0e"
+    },
+    {
+      "bytes": 1645,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/BACKUP_FIX_LAND_20260216T202208Z/scripts/_manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2174,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/BACKUP_FIX_LAND_20260216T202208Z/scripts/petcare_land_pack.sh",
+      "sha256": "56200435e13e0081de20ab9d2b8321683899131beb87b7bd99e7cf05fe52bea2"
+    },
+    {
+      "bytes": 62743,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/EVIDENCE/MANIFEST.json",
+      "sha256": "94444f91e8e0cf6a8d75200155de49ee6ea738ae147239ccdd7cc5bc5843746f"
+    },
+    {
+      "bytes": 96,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/api/routes_platform_admin.py",
+      "sha256": "efc1c715c5b749e63711fbd7a4304c52f49ce8d5308f76d5b1e0cdaa896ae62f"
+    },
+    {
+      "bytes": 3122,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "3678ffd3c5dae2d3cc9be62ca06054c585d683b04f933ea41bf48e802ff9ae8e"
+    },
+    {
+      "bytes": 50,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/interfaces/init.py",
+      "sha256": "c0ae5228bc5c6d7d4e2045bdb1f83f762f26441d91c41cab26701effd25a6ce6"
+    },
+    {
+      "bytes": 640,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/interfaces/storage_interface.py",
+      "sha256": "cc1bab3458620f49c97b4fce8b7f42d5371dec5b4c38b09c1b42fadf6c7559e5"
+    },
+    {
+      "bytes": 204,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/__init__.py",
+      "sha256": "ca82f720c2872b937b5d28dc0d97789f7afb7a03bad59a4826e051e59add1e6e"
+    },
+    {
+      "bytes": 2830,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "6a7094af5e88c443a5fb74ed9299f0b80a8fe071362e98b41d74e2b5abfb46b4"
+    },
+    {
+      "bytes": 47,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/init.py",
+      "sha256": "c8b5feca41da02102e6967bc743bfb879323faf52f5cb963245d57560cc693de"
+    },
+    {
+      "bytes": 2625,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/memory_store.py",
+      "sha256": "4ee055e6ed442ce37c562c3002bcee2984c6bc97be0ec7e2fab8e2673ae607ed"
+    },
+    {
+      "bytes": 6098,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/storage/sqlite_store.py",
+      "sha256": "68f3d78b70c4c9f444bb0de983be26f093baa00234d4c5241800068a999c7181"
+    },
+    {
+      "bytes": 1108,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/CODE_SCAFFOLD/tenant_isolation_guard.py",
+      "sha256": "99eb0a2edf5f24847ae08637c6b2fdc42707058adf8ebd7f6aca1e6aa8bd4f56"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/FND/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 100,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/TEST_PLAN.md",
+      "sha256": "b49734009e0784fe8257e21c2a6a5a2c3e23072dd81daad7ec6fa952d2f38531"
+    },
+    {
+      "bytes": 357,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/UI5_TEST_CHECKLIST.md",
+      "sha256": "8a0ff3a5b030b155b6fa204e80f0370cf2be72fad2b3953639fc42cb0cf4fcda"
+    },
+    {
+      "bytes": 119,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/__init__.py",
+      "sha256": "9778fca6229a3104f48f74996de416b3474fb919871388a01cdba6cce2fcff09"
+    },
+    {
+      "bytes": 2875,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/test_sqlite_store.py",
+      "sha256": "9d2c889fff6225fe39e9f9baf5f9f0947780c5fd2de50b10d1167f70208c6ba4"
+    },
+    {
+      "bytes": 5030,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/test_tenant_isolation.py",
+      "sha256": "8b74a8265adb4ebe2e17d031a1b51dbdf30b0c06a88774a0db46d1720f6ae6f8"
+    },
+    {
+      "bytes": 1711,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/TESTS/ui5_deterministic_proof.py",
+      "sha256": "50dd09ca92a8970a052e99d45922c9661254bee4f19250af9d9f3b7e4f9e13dc"
+    },
+    {
+      "bytes": 369,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI2/ACCEPTANCE_CHECKS.md",
+      "sha256": "d3454de1c6392822410c26606aabfb39a1857941ecfb0b4175d730afb4113a05"
+    },
+    {
+      "bytes": 572,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI2/API_SURFACE.md",
+      "sha256": "4bd866a8274720d236212fd187af941c003b393c327aa0b98e6d7cd122f08ac2"
+    },
+    {
+      "bytes": 600,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI2/DOMAIN_MODEL.md",
+      "sha256": "5562ca4d6812e1f4366b3d78f930447012e01c2878eae777a816963efffe7831"
+    },
+    {
+      "bytes": 335,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI2/SCOPE.md",
+      "sha256": "442d4c4e5c6709bc2b84d955fcd78122ad196fa1bc6b90b5bc860ad8f0b483e7"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI2/UI2_PACK_SUMMARY.md",
+      "sha256": "6933f0b51f2a64c1683042da342d14badbc977d08d0947309a711b78fe80c239"
+    },
+    {
+      "bytes": 237,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI3/ERROR_STATES.md",
+      "sha256": "27f73fd6e7adc69b68c5e332a03aec27ec46cdec9929d8a9e9276496a0b275f6"
+    },
+    {
+      "bytes": 916,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI3/FLOWS.md",
+      "sha256": "204f4f96d1e2874b9f8e26f147136dfcf71cad3d148cc9c7274ad5417fc29d25"
+    },
+    {
+      "bytes": 674,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI3/JOURNEYS.md",
+      "sha256": "f083a291afde374ac1f0ef957c6455ae2984c38c6249425d07fb4e47108ae5da"
+    },
+    {
+      "bytes": 352,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI3/SCOPE.md",
+      "sha256": "61f1edd0a191d8934b7809000f36b04ba52f2a3d6b06ce6952f05c4fe0d8036d"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI3/UI3_PACK_SUMMARY.md",
+      "sha256": "9975778928b7ca450e4f27845c09aa20644aafafd6945e38d3d611ca190c14f1"
+    },
+    {
+      "bytes": 453,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI5/GOVERNANCE_EVIDENCE_POLICY.md",
+      "sha256": "1b536a3fee37c3d51173e2b4e5bf13f68622156858cfc354ff69a37cd7c5691c"
+    },
+    {
+      "bytes": 316,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI5/NEGATIVE_CASES.md",
+      "sha256": "130f9184c4d25ca2c572d5ed77c2ea14dcc02db7255d4c9a6741b67dabd71285"
+    },
+    {
+      "bytes": 365,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI5/SCOPE.md",
+      "sha256": "6e3e19ddb9ddb637ec0b9e1cddda308ac00bef83027344b7a8cca2695a0bec35"
+    },
+    {
+      "bytes": 416,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI5/TENANT_ISOLATION_POLICY.md",
+      "sha256": "f2f3a09d35c58b0e74c8d72b4ac26db3c0b9036ab59a9bc3f8e1f9d4f1769d60"
+    },
+    {
+      "bytes": 154,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI5/UI5_PACK_SUMMARY.md",
+      "sha256": "6831aba0f95e4451ce06634511e109b95503bb01566c15ebbbc530950e4208aa"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI6/DAL_CONTRACT.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI6/EVIDENCE_EXPORT_BUNDLE_SPEC.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI6/NEGATIVE_CASES_UI6.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI6/TENANT_BOUND_STORAGE_MODEL.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 3,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/UI6/UI6_PACK_SUMMARY.md",
+      "sha256": "4ee4d9ee15405c4d220174946c874817f435c3b40eb249319aa2a01ed6c648dd"
+    },
+    {
+      "bytes": 20480,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/data/tenants/11111111-1111-1111-1111-111111111111.sqlite",
+      "sha256": "b4266d0783a0bc5131b64a4d7303eb13a406a455acf8a73dd00d3487fe5b0f27"
+    },
+    {
+      "bytes": 32768,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/data/tenants/11111111-1111-1111-1111-111111111111.sqlite-shm",
+      "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/data/tenants/11111111-1111-1111-1111-111111111111.sqlite-wal",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 236,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/requirements.txt",
+      "sha256": "a2ad355ae5c19a66acedc8c3b203c36b5fc9c5c376d27a4d2ef8f547b17ab884"
+    },
+    {
+      "bytes": 1645,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/_manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2030,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/petcare_land_pack.sh",
+      "sha256": "eacc45e8ffb3d314785b6b6e4c4d25845aac689201b22772a9513d07a3d3011c"
+    },
+    {
+      "bytes": 4887,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/petcare_ph4_closure_pack.sh",
+      "sha256": "719145bfcac212ebeac0aa91fd310d6dc117e20e967555f2061bc0733d6d2933"
+    },
+    {
+      "bytes": 5046,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/petcare_ph4_discovery_pack.sh",
+      "sha256": "8954b80dee9f20c59bbcf459ef4b1094bfa9d5e62ce44647989efe9f24700454"
+    },
+    {
+      "bytes": 983,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/petcare_ph4_git_hardening.sh",
+      "sha256": "ada3f849455668436b6395e5f81805de91051eed8ad12e96a5be6b0ff1e0312e"
+    },
+    {
+      "bytes": 2501,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/petcare_ph4_inputs_pack.sh",
+      "sha256": "7bc45562f1192a56013ea42d17c1d30c4182149b119c39de887142faf3219c56"
+    },
+    {
+      "bytes": 683,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/petcare_ph4_unittest.sh",
+      "sha256": "c3298cb71a4fba91e25635298c5bad8ed1d04b7ee6c6a0ee7114055efa7cbb11"
+    },
+    {
+      "bytes": 5011,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/petcare_ph5_closure_pack.sh",
+      "sha256": "3ecbd80563e2f0927388a9fd91943eeee887ad9ea1a5d9f8ef33df4133242cc9"
+    },
+    {
+      "bytes": 509,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/petcare_ph5_unittest.sh",
+      "sha256": "271a93a75db1ee20c393562fbb796c80d1a45e7ad36131faffe2c7acca6d4c52"
+    },
+    {
+      "bytes": 2149,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/repo_snapshot/scripts/run_api.sh",
+      "sha256": "73b8778c12f2e64dab17061f5b196343e93f365189aa49de0fdbfff9a855e585"
+    },
+    {
+      "bytes": 893,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/smoke.log",
+      "sha256": "aed24e14061ee6be7428b66cd351c2a01289e679509a96fb76eabb730ddb7522"
+    },
+    {
+      "bytes": 2116,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/unittest.log",
+      "sha256": "8e33b4f0b439510fb236ca2f4eead0cc7a21487d02ebab6af6d315e436be321c"
+    },
+    {
+      "bytes": 809,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/uvicorn.log",
+      "sha256": "d8ef560895d45fb29962b727f593ff476198b49e63d80ed18f35cf1fae6bd2f3"
+    },
+    {
+      "bytes": 6,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/20260217T143204Z/uvicorn.pid",
+      "sha256": "0964befdb92c62b430968b1e828093434d42772ddc0b8463582b0357ec266d03"
+    },
+    {
+      "bytes": 64707,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/PETCARE-PH5-CLOSURE_20260217T143204Z.zip",
+      "sha256": "9598d3df4a83f2747b21347b850ec706bcf68576b5c2c72095b5564a286ef566"
+    },
+    {
+      "bytes": 107,
+      "path": "evidence_output/PETCARE-PH5-CLOSURE/PETCARE-PH5-CLOSURE_20260217T143204Z.zip.sha256",
+      "sha256": "b2eeed9eeddfc1023169cc5dd16d3f60406df132ffd1c5c8094c43d15e36ba3a"
+    },
+    {
+      "bytes": 90,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/00_whereami.txt",
+      "sha256": "1cf7ad46921c4183d89754e985b786f8b9e40b3010f8368aece5387ca3e3581b"
+    },
+    {
+      "bytes": 104,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/01_git.txt",
+      "sha256": "f0a54d11bd48854a7cf333cc6a09c6208bc3ecde72fc48a2c1bfe5c05b46a138"
+    },
+    {
+      "bytes": 8998,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/02_tree.txt",
+      "sha256": "dd504d768a1d3fe466b914e8099465c2811aecafd581f6ecd32060f95186aea5"
+    },
+    {
+      "bytes": 398,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/03_keyfiles.txt",
+      "sha256": "1c4a18fa5464ed1aed300168200069319c3cc0d594346ee1dfb70b437c9b4420"
+    },
+    {
+      "bytes": 908,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/04_keyfile_snips.txt",
+      "sha256": "b2de5ac66b614acccfe8e10e7b3c5cb1b753671f59c3b25f8876d59933d15ce6"
+    },
+    {
+      "bytes": 146,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/05_tests.txt",
+      "sha256": "1cec5df39bf3e29183cbe225a8359255edbb066770c15ad8dd97efdc0ad2aebb"
+    },
+    {
+      "bytes": 314,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/06_land_pack.txt",
+      "sha256": "747f5f676d4f697c84183c41c6fdb71814ae98da6fc62aa5af679b5ce6ea91ae"
+    },
+    {
+      "bytes": 145748,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/07_hashes.sha256",
+      "sha256": "8c61388dded669f7d1cd63bd084891fdf0f0548da65f1ff6b6caeca3035976cd"
+    },
+    {
+      "bytes": 104,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/PH5_INPUT_EXPORT/01_git.txt",
+      "sha256": "f0a54d11bd48854a7cf333cc6a09c6208bc3ecde72fc48a2c1bfe5c05b46a138"
+    },
+    {
+      "bytes": 398,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/PH5_INPUT_EXPORT/03_keyfiles.txt",
+      "sha256": "1c4a18fa5464ed1aed300168200069319c3cc0d594346ee1dfb70b437c9b4420"
+    },
+    {
+      "bytes": 908,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/PH5_INPUT_EXPORT/04_keyfile_snips.txt",
+      "sha256": "b2de5ac66b614acccfe8e10e7b3c5cb1b753671f59c3b25f8876d59933d15ce6"
+    },
+    {
+      "bytes": 146,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/PH5_INPUT_EXPORT/05_tests.txt",
+      "sha256": "1cec5df39bf3e29183cbe225a8359255edbb066770c15ad8dd97efdc0ad2aebb"
+    },
+    {
+      "bytes": 314,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/PH5_INPUT_EXPORT/06_land_pack.txt",
+      "sha256": "747f5f676d4f697c84183c41c6fdb71814ae98da6fc62aa5af679b5ce6ea91ae"
+    },
+    {
+      "bytes": 23972,
+      "path": "evidence_output/PETCARE-PH5-INPUT-SNAPSHOT/20260217T135809Z/PH5_INPUT_EXPORT/08_grep_candidates.txt",
+      "sha256": "06da36600060913d65e475a019be3304777b36c31ead97415a02e1bc6ea0936f"
+    },
+    {
+      "bytes": 4782,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/closure.log",
+      "sha256": "3181ad873875bdda8bda94fa7da2db2d49e808c766ea99b2a56cb4a0258ff42b"
+    },
+    {
+      "bytes": 53,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/health_poll.log",
+      "sha256": "8e8edf0f35120d000a3374257845d37dc716a854d2bce8fe4e999873351e986c"
+    },
+    {
+      "bytes": 162,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/land_pack.log",
+      "sha256": "4363010445251e8fae5a45f4f6def427d62a12ad12d1410a881faf85dc6700ca"
+    },
+    {
+      "bytes": 571,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/backup.json",
+      "sha256": "7838c2a6b589820d6724bd63b9f04838cdd5922533b1b99a1eaf2a224985a8e6"
+    },
+    {
+      "bytes": 28672,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/backups/44444444-4444-4444-4444-444444444444_20260217T145347Z.sqlite",
+      "sha256": "312d48135f6ac5f626f23edac6846f4ff0c5fc36711701c9b2bed95ab787cccf"
+    },
+    {
+      "bytes": 381,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/integrity_after.json",
+      "sha256": "c02c53443a82c3bf2939bd2c30e027b10b0a49b77514dfed9433b0fda0998e87"
+    },
+    {
+      "bytes": 381,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/integrity_before.json",
+      "sha256": "c02c53443a82c3bf2939bd2c30e027b10b0a49b77514dfed9433b0fda0998e87"
+    },
+    {
+      "bytes": 363,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/ops_summary.json",
+      "sha256": "d00155bdd2e24d51baa4f4beee0bab84d89cd45144d8fb09ca029cdd1e2bebf7"
+    },
+    {
+      "bytes": 571,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/restore.json",
+      "sha256": "0b18935f17e7ac3dfe0e6426f913ee55312b3de141741dacb45b77b626d08a14"
+    },
+    {
+      "bytes": 28672,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/tenants/44444444-4444-4444-4444-444444444444.sqlite",
+      "sha256": "312d48135f6ac5f626f23edac6846f4ff0c5fc36711701c9b2bed95ab787cccf"
+    },
+    {
+      "bytes": 32768,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/tenants/44444444-4444-4444-4444-444444444444.sqlite-shm",
+      "sha256": "fd4c9fda9cd3f9ae7c962b0ddf37232294d55580e1aa165aa06129b8549389eb"
+    },
+    {
+      "bytes": 0,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops/tenants/44444444-4444-4444-4444-444444444444.sqlite-wal",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 165,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/ops_governance.log",
+      "sha256": "ccd69e6ec0de19e23de8088acbb4e4cf3e4794be79b3020947d9049c0ce6cd77"
+    },
+    {
+      "bytes": 969,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/smoke.log",
+      "sha256": "159128f14f1d474771cdcf2d1a4a08f9ebd8efc22193910d77b4597d61ac473b"
+    },
+    {
+      "bytes": 2362,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/unittest.log",
+      "sha256": "fb9e69caf6b046f4d6dc06e2b9bb282b29aa216f437d72276a355d24283542a6"
+    },
+    {
+      "bytes": 809,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/uvicorn.log",
+      "sha256": "8d97040934ee85fcbb2e8dc7a73fa21bab5456f6e53f21c35a086dfe7fe20942"
+    },
+    {
+      "bytes": 6,
+      "path": "evidence_output/PETCARE-PH6-CLOSURE/20260217T145345Z/uvicorn.pid",
+      "sha256": "7c89c77b5970479a068bb37d30efd4653864c4b421be6a9ef991740d019ee977"
+    },
+    {
+      "bytes": 3122,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/FND__CODE_SCAFFOLD__app.py",
+      "sha256": "3678ffd3c5dae2d3cc9be62ca06054c585d683b04f933ea41bf48e802ff9ae8e"
+    },
+    {
+      "bytes": 640,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/FND__CODE_SCAFFOLD__interfaces__storage_interface.py",
+      "sha256": "cc1bab3458620f49c97b4fce8b7f42d5371dec5b4c38b09c1b42fadf6c7559e5"
+    },
+    {
+      "bytes": 204,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/FND__CODE_SCAFFOLD__storage____init__.py",
+      "sha256": "ca82f720c2872b937b5d28dc0d97789f7afb7a03bad59a4826e051e59add1e6e"
+    },
+    {
+      "bytes": 2830,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/FND__CODE_SCAFFOLD__storage__export_bundle.py",
+      "sha256": "6a7094af5e88c443a5fb74ed9299f0b80a8fe071362e98b41d74e2b5abfb46b4"
+    },
+    {
+      "bytes": 2625,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/FND__CODE_SCAFFOLD__storage__memory_store.py",
+      "sha256": "4ee055e6ed442ce37c562c3002bcee2984c6bc97be0ec7e2fab8e2673ae607ed"
+    },
+    {
+      "bytes": 6098,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/FND__CODE_SCAFFOLD__storage__sqlite_store.py",
+      "sha256": "68f3d78b70c4c9f444bb0de983be26f093baa00234d4c5241800068a999c7181"
+    },
+    {
+      "bytes": 1108,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/FND__CODE_SCAFFOLD__tenant_isolation_guard.py",
+      "sha256": "99eb0a2edf5f24847ae08637c6b2fdc42707058adf8ebd7f6aca1e6aa8bd4f56"
+    },
+    {
+      "bytes": 58,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/TESTS_list.txt",
+      "sha256": "25e9ab390b6e3920e8f661274b25bc0fdd2476f84791fcbac04f2dd86c768adb"
+    },
+    {
+      "bytes": 1645,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/scripts___manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2030,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/scripts__petcare_land_pack.sh",
+      "sha256": "eacc45e8ffb3d314785b6b6e4c4d25845aac689201b22772a9513d07a3d3011c"
+    },
+    {
+      "bytes": 5011,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/scripts__petcare_ph5_closure_pack.sh",
+      "sha256": "3ecbd80563e2f0927388a9fd91943eeee887ad9ea1a5d9f8ef33df4133242cc9"
+    },
+    {
+      "bytes": 2149,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/scripts__run_api.sh",
+      "sha256": "73b8778c12f2e64dab17061f5b196343e93f365189aa49de0fdbfff9a855e585"
+    },
+    {
+      "bytes": 2266,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/20260217T144121Z/tree_maxdepth4.txt",
+      "sha256": "3c5a00adb5f3c4e290ac58e085e27eddd99ab9d181895f5b97fb06c264d55daf"
+    },
+    {
+      "bytes": 13607,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/PETCARE-PH6-INPUT-SNAPSHOT_20260217T144121Z.zip",
+      "sha256": "6cf57b8e135cb514911cdb15461866652f265911406f039b2499945d4f4250ce"
+    },
+    {
+      "bytes": 65,
+      "path": "evidence_output/PETCARE-PH6-INPUT-SNAPSHOT/PETCARE-PH6-INPUT-SNAPSHOT_20260217T144121Z.zip.sha256",
+      "sha256": "5a66c004dc7575b801267a9c94d85a597a6781c19f7cf4c22ce290b39ad6bd5c"
+    },
+    {
+      "bytes": 69,
+      "path": "evidence_output/_local_debug_ph5_closure_20260217T142018Z.log",
+      "sha256": "c447753cc10249533ce8deed99706bd7e0de8eee7f2fe160766a2f445110dc75"
+    },
+    {
+      "bytes": 236,
+      "path": "requirements.txt",
+      "sha256": "a2ad355ae5c19a66acedc8c3b203c36b5fc9c5c376d27a4d2ef8f547b17ab884"
+    },
+    {
+      "bytes": 1645,
+      "path": "scripts/_manifest_gen.py",
+      "sha256": "7377f16f532a19c57d1ea3c0e3b05156cd5fa9b307dbd566d4e49c52211727d6"
+    },
+    {
+      "bytes": 2030,
+      "path": "scripts/petcare_land_pack.sh",
+      "sha256": "eacc45e8ffb3d314785b6b6e4c4d25845aac689201b22772a9513d07a3d3011c"
+    },
+    {
+      "bytes": 4887,
+      "path": "scripts/petcare_ph4_closure_pack.sh",
+      "sha256": "719145bfcac212ebeac0aa91fd310d6dc117e20e967555f2061bc0733d6d2933"
+    },
+    {
+      "bytes": 5046,
+      "path": "scripts/petcare_ph4_discovery_pack.sh",
+      "sha256": "8954b80dee9f20c59bbcf459ef4b1094bfa9d5e62ce44647989efe9f24700454"
+    },
+    {
+      "bytes": 983,
+      "path": "scripts/petcare_ph4_git_hardening.sh",
+      "sha256": "ada3f849455668436b6395e5f81805de91051eed8ad12e96a5be6b0ff1e0312e"
+    },
+    {
+      "bytes": 2501,
+      "path": "scripts/petcare_ph4_inputs_pack.sh",
+      "sha256": "7bc45562f1192a56013ea42d17c1d30c4182149b119c39de887142faf3219c56"
+    },
+    {
+      "bytes": 683,
+      "path": "scripts/petcare_ph4_unittest.sh",
+      "sha256": "c3298cb71a4fba91e25635298c5bad8ed1d04b7ee6c6a0ee7114055efa7cbb11"
+    },
+    {
+      "bytes": 5011,
+      "path": "scripts/petcare_ph5_closure_pack.sh",
+      "sha256": "3ecbd80563e2f0927388a9fd91943eeee887ad9ea1a5d9f8ef33df4133242cc9"
+    },
+    {
+      "bytes": 509,
+      "path": "scripts/petcare_ph5_unittest.sh",
+      "sha256": "271a93a75db1ee20c393562fbb796c80d1a45e7ad36131faffe2c7acca6d4c52"
+    },
+    {
+      "bytes": 7413,
+      "path": "scripts/petcare_ph6_closure_pack.sh",
+      "sha256": "4140f8e14fe2094b471613d2b7e0d15429c0c3b338c3d46cc7c2b51087461cfe"
+    },
+    {
+      "bytes": 2307,
+      "path": "scripts/petcare_ph6_inputs_snapshot.sh",
+      "sha256": "b5bab5b033ac035bab60c1633fb8622d7edf7d6d057a03fb322849b71b8b4a22"
+    },
+    {
+      "bytes": 2149,
+      "path": "scripts/run_api.sh",
+      "sha256": "73b8778c12f2e64dab17061f5b196343e93f365189aa49de0fdbfff9a855e585"
+    }
+  ],
+  "root": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution"
+}

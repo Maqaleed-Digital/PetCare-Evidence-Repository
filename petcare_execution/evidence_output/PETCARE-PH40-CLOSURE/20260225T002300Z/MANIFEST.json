@@ -1,0 +1,68 @@
+{
+  "file_count": 15,
+  "files": [
+    {
+      "path": "logs/git_context.txt",
+      "sha256": "87b2925b0af81814f4ef47628e42fa58324d668647165e2cf01793fc49f5bc0b"
+    },
+    {
+      "path": "logs/workflows_list.txt",
+      "sha256": "5f6cbdb268d97f1c6552d43163458615d7aee97ad8b594fe3f0d753d1f1bcbc3"
+    },
+    {
+      "path": "snapshots/.github/workflows/ci.yml",
+      "sha256": "845e44289355db0851476e1143cf73a5d35cbecd4258fa06a3976d598affc941"
+    },
+    {
+      "path": "snapshots/.github/workflows/required_checks.yml",
+      "sha256": "37957f6c71efb5680dbb0c980390b810d87c007715e920f94ee4460127a11b77"
+    },
+    {
+      "path": "snapshots/POLICY.md",
+      "sha256": "c4ddaf269c3b0cb41795c72c46425e9972d0a0de19c4867ba450311762da8f12"
+    },
+    {
+      "path": "snapshots/POLICY.sha256",
+      "sha256": "4a67132f21e6217a02a34fe0eafdc2455d3ce876007b7ddefb5b78504bd1ca2e"
+    },
+    {
+      "path": "snapshots/REGISTRY.json",
+      "sha256": "7f9c6c834ad7e7c964476cad7f92354e069b07941c0d4e7594229e71e5c1ebee"
+    },
+    {
+      "path": "snapshots/REGISTRY.sha256",
+      "sha256": "b561d561931ab9ad0459d4c778ebdf8ddc22c0dca8abae1340cc0fc5a05bf551"
+    },
+    {
+      "path": "snapshots/requirements.lock",
+      "sha256": "e234a1b53647d83204b0b9515ab15952678e2a436e49eacf163d7b03e8833eea"
+    },
+    {
+      "path": "snapshots/scripts/petcare_ci_gates.sh",
+      "sha256": "44d4a3de421d91c87e6e04611044ec19581a07938a660a817d663dbf68ade062"
+    },
+    {
+      "path": "snapshots/scripts/petcare_evidence_contract.sh",
+      "sha256": "7f6a5b946c7f7b802811499a5c4bb8245fc023f0283ac7ff58c7d922112b75fe"
+    },
+    {
+      "path": "snapshots/scripts/petcare_evidence_prune.sh",
+      "sha256": "896bc3eb2375f5596cc9320dbb2f9b5e189719059eaed5aaa6f52a4e68e92128"
+    },
+    {
+      "path": "snapshots/scripts/petcare_evidence_size_guard.sh",
+      "sha256": "fe231fb7a6d61fd13bb8b0a7f47a819df8a1841a58de94bfc63da63c7206c3a2"
+    },
+    {
+      "path": "snapshots/scripts/petcare_ph31_closure_pack.sh",
+      "sha256": "110c37e99b87648c858fccd916df64da35408cd16b5edd75b3a74763a914bb40"
+    },
+    {
+      "path": "snapshots/scripts/petcare_required_checks_assert.sh",
+      "sha256": "b7907ccefd35446348a913bfa5a36bfce8cb6c47b70274628ae40248c1dc994a"
+    }
+  ],
+  "out_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH40-CLOSURE/20260225T002300Z",
+  "pack": "PETCARE-PH40-CLOSURE",
+  "timestamp_utc": "20260225T002300Z"
+}

@@ -1,0 +1,29 @@
+{
+  "tenant_id": "tenant_001",
+  "export_id": "exp-001",
+  "exported_at_utc": "2026-01-01T00:00:00Z",
+  "events": [
+    {
+      "tenant_id": "tenant_001",
+      "sequence": 1,
+      "event": "CREATE",
+      "entity": "invoice",
+      "id": "INV-TAMPERED"
+    },
+    {
+      "tenant_id": "tenant_001",
+      "sequence": 2,
+      "event": "UPDATE",
+      "entity": "invoice",
+      "id": "INV-001"
+    },
+    {
+      "tenant_id": "tenant_001",
+      "sequence": 3,
+      "event": "APPROVE",
+      "entity": "invoice",
+      "id": "INV-001"
+    }
+  ],
+  "bundle_checksum": "ba04221c0fda82364695bea47380abe42310b4bb4641f5e893cc0f4a8b549002"
+}

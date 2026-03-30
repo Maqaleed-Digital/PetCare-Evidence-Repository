@@ -1,0 +1,12 @@
+{
+  "schema": "petcare.verify_closure_zip.v1",
+  "zip_path": "evidence_output/PETCARE-PH43B-CLOSURE/PETCARE-PH43B-CLOSURE_20260227T002618Z.zip",
+  "zip_sha256": "6d2de27b2681d915b81f54fb39fb12282dccee54e02463e6436140bd37914fe9",
+  "sidecar_present": "true",
+  "sidecar_match": "true",
+  "base_dir": "evidence_output/_SMOKE_VERIFY_REPORT_WRITE/work/extracted/20260227T002618Z",
+  "manifest_json_ok": true,
+  "closure_sha256_verify_ok": "true",
+  "manifest_files_ok": "true",
+  "overall_pass": "true"
+}

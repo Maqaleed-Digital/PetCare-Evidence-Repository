@@ -1,0 +1,16 @@
+{
+  "ts_utc": "20260303T004004Z",
+  "bundle_file_count": 9,
+  "bundle_files": [
+    "FND/VERIFICATION_INDEX.json",
+    "FND/VERIFICATION_INDEX.sha256",
+    "FND/VERIFICATION_POLICY.json",
+    "FND/VERIFICATION_POLICY.sha256",
+    "POLICY.md",
+    "POLICY.sha256",
+    "REGISTRY.json",
+    "REGISTRY.sha256",
+    "requirements.lock"
+  ],
+  "db_included": false
+}

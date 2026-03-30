@@ -1,0 +1,57 @@
+name: required-checks
+
+on:
+  pull_request:
+
+jobs:
+  required:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Assert CI workflow exists
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -f ".github/workflows/ci.yml" ]; then
+            echo "FAIL: missing .github/workflows/ci.yml"
+            exit 10
+          fi
+          echo "CI_WORKFLOW_EXISTS=PASS"
+
+      - name: Assert required CI steps are present
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ ! -x "scripts/petcare_required_checks_assert.sh" ]; then
+            echo "FAIL: missing scripts/petcare_required_checks_assert.sh"
+            exit 11
+          fi
+          bash "scripts/petcare_required_checks_assert.sh"
+          echo "REQUIRED_CHECKS_ASSERT=PASS"
+
+      - name: Governance drift checks (strict)
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          if [ ! -x "scripts/petcare_policy_drift_check.sh" ]; then
+            echo "FAIL: missing scripts/petcare_policy_drift_check.sh"
+            exit 12
+          fi
+          if [ ! -x "scripts/petcare_registry_drift_check.sh" ]; then
+            echo "FAIL: missing scripts/petcare_registry_drift_check.sh"
+            exit 13
+          fi
+
+          bash "scripts/petcare_policy_drift_check.sh"
+          bash "scripts/petcare_registry_drift_check.sh"
+
+          echo "DRIFT_CHECKS=PASS"
+
+      - name: Summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          echo "REQUIRED_CHECKS=PASS"

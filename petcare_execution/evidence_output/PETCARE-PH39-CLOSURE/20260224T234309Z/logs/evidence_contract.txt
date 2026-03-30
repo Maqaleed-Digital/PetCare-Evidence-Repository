@@ -1,0 +1,16 @@
+=== EVIDENCE CONTRACT (PH39) ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+zip=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH31-CLOSURE/PETCARE-PH31-CLOSURE_20260224T234309Z.zip
+sha=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH31-CLOSURE/PETCARE-PH31-CLOSURE_20260224T234309Z.zip.sha256
+
+=== ZIP SHA VERIFY ===
+PETCARE-PH31-CLOSURE_20260224T234309Z.zip: OK
+ZIP_SHA_VERIFY=PASS
+
+=== MANIFEST CHECKS ===
+out_dir=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH31-CLOSURE/20260224T234309Z
+manifest=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH31-CLOSURE/20260224T234309Z/MANIFEST.json
+MANIFEST_FILES=20
+MANIFEST_REFERENCES=PASS
+
+RESULT=PASS

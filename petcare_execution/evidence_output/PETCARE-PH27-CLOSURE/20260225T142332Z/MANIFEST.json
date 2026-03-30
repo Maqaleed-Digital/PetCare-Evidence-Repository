@@ -1,0 +1,14 @@
+{
+  "pack": "PETCARE-PH27-CLOSURE",
+  "timestamp_utc": "20260225T142332Z",
+  "file_count": 7,
+  "files": [
+    "closure_sha256.txt",
+    "pytest_run.txt",
+    "snapshots/FND/CODE_SCAFFOLD/storage/audit_bundle_verifier.py",
+    "tampered_bundle.json",
+    "valid_bundle.json",
+    "verify_tampered.txt",
+    "verify_valid.txt"
+  ]
+}

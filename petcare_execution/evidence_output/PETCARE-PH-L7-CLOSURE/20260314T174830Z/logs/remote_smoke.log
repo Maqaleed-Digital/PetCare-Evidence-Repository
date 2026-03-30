@@ -1,0 +1,36 @@
+=== PH-L7 REMOTE SMOKE ===
+base_url=https://api.myveticare.com
+host=api.myveticare.com
+health_url=https://api.myveticare.com/health
+ready_url=https://api.myveticare.com/ready
+retries=5
+sleep_seconds=2
+max_total_seconds=12
+max_connect_seconds=5
+
+=== DNS RESOLUTION (python) ===
+resolved_addrs_count=2
+addr=216.24.57.251
+addr=216.24.57.7
+=== ATTEMPT 1/5 ===
+OK contract validate PASS for health
+OK health: http_code=200
+http_code=200
+remote_ip=216.24.57.251
+time_namelookup=0.007652
+time_connect=0.115501
+time_appconnect=0.248301
+time_starttransfer=0.544090
+time_total=0.544770
+
+OK contract validate PASS for ready
+OK ready: http_code=200
+http_code=200
+remote_ip=216.24.57.251
+time_namelookup=0.004708
+time_connect=0.102807
+time_appconnect=0.245463
+time_starttransfer=0.549992
+time_total=0.563646
+
+OK PH-L7 REMOTE SMOKE PASS

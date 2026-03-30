@@ -1,0 +1,125 @@
+test_sqlite_governance (unittest.loader._FailedTest) ... ERROR
+test_delete_audit_existed_flag (test_sqlite_store.TestSqliteStore) ... ERROR
+test_export_items_stable (test_sqlite_store.TestSqliteStore) ... ERROR
+test_list_keys_sorted_and_prefix (test_sqlite_store.TestSqliteStore) ... ERROR
+test_put_get_persists_across_instances (test_sqlite_store.TestSqliteStore) ... ERROR
+test_tenant_isolation_by_file (test_sqlite_store.TestSqliteStore) ... ERROR
+test_bundle_deterministic_when_generated_at_fixed (test_tenant_isolation.TestExportBundleHardening) ... ok
+test_bundle_requires_valid_tenant (test_tenant_isolation.TestExportBundleHardening) ... ok
+test_bundle_schema_and_hashes_present (test_tenant_isolation.TestExportBundleHardening) ... ok
+test_bundle_sorts_items_by_key (test_tenant_isolation.TestExportBundleHardening) ... ok
+test_cross_tenant_read_blocked_by_scope (test_tenant_isolation.TestStorageIsolation) ... ok
+test_delete_scoped (test_tenant_isolation.TestStorageIsolation) ... ok
+test_export_items_scoped_and_sorted (test_tenant_isolation.TestStorageIsolation) ... ok
+test_export_prefix_filter (test_tenant_isolation.TestStorageIsolation) ... ok
+test_list_scoped (test_tenant_isolation.TestStorageIsolation) ... ok
+test_put_get_same_tenant (test_tenant_isolation.TestStorageIsolation) ... ok
+test_put_normalizes_tenant_lower (test_tenant_isolation.TestStorageIsolation) ... ok
+test_put_requires_tenant (test_tenant_isolation.TestStorageIsolation) ... ok
+test_put_requires_uuid_tenant (test_tenant_isolation.TestStorageIsolation) ... ok
+test_empty (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_header_constant (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_invalid_uuid (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_missing (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_normalizes_lower (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_require_context_missing (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+test_require_context_ok (test_tenant_isolation.TestTenantHeaderValidation) ... ok
+
+======================================================================
+ERROR: test_sqlite_governance (unittest.loader._FailedTest)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_sqlite_governance
+Traceback (most recent call last):
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/loader.py", line 436, in _find_test_path
+    module = self._get_module_from_name(name)
+  File "/Library/Developer/CommandLineTools/Library/Frameworks/Python3.framework/Versions/3.9/lib/python3.9/unittest/loader.py", line 377, in _get_module_from_name
+    __import__(name)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_governance.py", line 9, in <module>
+    from FND.CODE_SCAFFOLD.storage.sqlite_lifecycle import backup_tenant_db, restore_tenant_db, integrity_check
+ImportError: cannot import name 'backup_tenant_db' from 'FND.CODE_SCAFFOLD.storage.sqlite_lifecycle' (/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py)
+
+
+======================================================================
+ERROR: test_delete_audit_existed_flag (test_sqlite_store.TestSqliteStore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_store.py", line 45, in test_delete_audit_existed_flag
+    s.put(tenant_id=TENANT_A, key="k", value=1, actor_id="u1")
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 87, in put
+    with self._connect(t) as conn:
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 53, in _connect
+    return self._lc.connect(db)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 33, in connect
+    self.ensure_schema_and_migrate(conn)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 46, in ensure_schema_and_migrate
+    self._set_meta(conn, "last_migrated_at_utc", _utc_iso())
+AttributeError: 'SqliteLifecycle' object has no attribute '_set_meta'
+
+======================================================================
+ERROR: test_export_items_stable (test_sqlite_store.TestSqliteStore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_store.py", line 62, in test_export_items_stable
+    s.put(tenant_id=TENANT_A, key="b", value=2, actor_id="u1")
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 87, in put
+    with self._connect(t) as conn:
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 53, in _connect
+    return self._lc.connect(db)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 33, in connect
+    self.ensure_schema_and_migrate(conn)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 46, in ensure_schema_and_migrate
+    self._set_meta(conn, "last_migrated_at_utc", _utc_iso())
+AttributeError: 'SqliteLifecycle' object has no attribute '_set_meta'
+
+======================================================================
+ERROR: test_list_keys_sorted_and_prefix (test_sqlite_store.TestSqliteStore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_store.py", line 35, in test_list_keys_sorted_and_prefix
+    s.put(tenant_id=TENANT_A, key="b/2", value=2, actor_id="u1")
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 87, in put
+    with self._connect(t) as conn:
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 53, in _connect
+    return self._lc.connect(db)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 33, in connect
+    self.ensure_schema_and_migrate(conn)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 46, in ensure_schema_and_migrate
+    self._set_meta(conn, "last_migrated_at_utc", _utc_iso())
+AttributeError: 'SqliteLifecycle' object has no attribute '_set_meta'
+
+======================================================================
+ERROR: test_put_get_persists_across_instances (test_sqlite_store.TestSqliteStore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_store.py", line 17, in test_put_get_persists_across_instances
+    s1.put(tenant_id=TENANT_A, key="k1", value={"a": 1}, actor_id="u1")
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 87, in put
+    with self._connect(t) as conn:
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 53, in _connect
+    return self._lc.connect(db)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 33, in connect
+    self.ensure_schema_and_migrate(conn)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 46, in ensure_schema_and_migrate
+    self._set_meta(conn, "last_migrated_at_utc", _utc_iso())
+AttributeError: 'SqliteLifecycle' object has no attribute '_set_meta'
+
+======================================================================
+ERROR: test_tenant_isolation_by_file (test_sqlite_store.TestSqliteStore)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/TESTS/test_sqlite_store.py", line 26, in test_tenant_isolation_by_file
+    s.put(tenant_id=TENANT_A, key="shared", value="A", actor_id="u1")
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 87, in put
+    with self._connect(t) as conn:
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_store.py", line 53, in _connect
+    return self._lc.connect(db)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 33, in connect
+    self.ensure_schema_and_migrate(conn)
+  File "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py", line 46, in ensure_schema_and_migrate
+    self._set_meta(conn, "last_migrated_at_utc", _utc_iso())
+AttributeError: 'SqliteLifecycle' object has no attribute '_set_meta'
+
+----------------------------------------------------------------------
+Ran 26 tests in 0.063s
+
+FAILED (errors=6)

@@ -1,0 +1,15 @@
+=== VERIFY CLOSURE ZIP ===
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+zip_path=evidence_output/PETCARE-PH43B-CLOSURE/PETCARE-PH43B-CLOSURE_20260227T002618Z.zip
+out_dir=evidence_output/_tmp_verify_20260228T203704Z
+zip_sha256=6d2de27b2681d915b81f54fb39fb12282dccee54e02463e6436140bd37914fe9
+sidecar_sha256=6d2de27b2681d915b81f54fb39fb12282dccee54e02463e6436140bd37914fe9
+sidecar_match=true
+=== EXTRACT (SAFE) ===
+EXTRACT_OK
+base_dir=evidence_output/_tmp_verify_20260228T203704Z/work/extracted/20260227T002618Z
+=== MANIFEST JSON PARSE ===
+  File "<stdin>", line 4
+    PY "${MANIFEST}"
+       ^^^^^^^^^^^^^
+SyntaxError: invalid syntax

@@ -1,0 +1,5 @@
+{
+  "schema": "petcare.verification_policy.v1",
+  "created_utc": "INIT",
+  "meta_verifiers_allowlist": []
+}

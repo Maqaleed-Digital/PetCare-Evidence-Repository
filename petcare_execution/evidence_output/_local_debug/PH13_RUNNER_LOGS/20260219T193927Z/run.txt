@@ -1,0 +1,92 @@
+=== CAPTURE ENV IDENTITY ===
+whoami=waheebmahmoud
+pwd=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+python3=/usr/local/bin/python3
+Python 3.14.3
+date_local=Thu Feb 19 22:39:27 +03 2026
+date_utc=Thu Feb 19 19:39:27 UTC 2026
+
+=== RUN PH13 (LOGGED) ===
+==============================================
+PetCare PH13 CLOSURE PACK
+pack=PETCARE-PH13-CLOSURE
+timestamp_utc=20260219T193927Z
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+out=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH13-CLOSURE/20260219T193927Z
+python_bin=.venv/bin/python
+==============================================
+=== CAPTURE RUNTIME CONTEXT ===
+=== CAPTURE GIT CONTEXT ===
+=== RUN TESTS (DETERMINISTIC LOG) ===
+=== BUILD CLOSURE FILE LIST ===
+=== SNAPSHOT FILES (COPY) ===
+=== HASH PACK TREE (PRE-MANIFEST) ===
+=== GENERATE MANIFEST.json (PRE-ZIP) ===
+scripts/petcare_ph13_closure_pack.sh: line 127: import json, os, re
+repo_root = ${REPO_ROOT!r}
+out = os.path.join(repo_root, ${OUT!r})
+pack_id = ${PACK_ID!r}
+ts = ${ts!r}
+
+def read_text(p):
+  try:
+    with open(p, "r", encoding="utf-8", errors="replace") as f:
+      return f.read()
+  except FileNotFoundError:
+    return ""
+
+pytest_txt = read_text(os.path.join(out, "pytest.txt"))
+pytest_rc_txt = read_text(os.path.join(out, "pytest_rc.txt")).strip()
+
+passed = None
+m = re.search(r"^(\\d+) passed", pytest_txt, flags=re.M)
+if m:
+  passed = int(m.group(1))
+
+rc = None
+if "pytest_rc=" in pytest_rc_txt:
+  try:
+    rc = int(pytest_rc_txt.split("=", 1)[1].strip())
+  except Exception:
+    rc = None
+
+status = "PASS" if rc == 0 else "FAIL"
+
+manifest = {
+  "pack_id": pack_id,
+  "phase": "PH13",
+  "name": "Operational Governance Hardening Closure Pack",
+  "status": status,
+  "timestamp_utc": ts,
+  "repo_root": repo_root,
+  "out_dir": out,
+  "runtime": read_text(os.path.join(out, "runtime.txt")).strip(),
+  "git": {
+    "head": read_text(os.path.join(out, "git_head.txt")).strip(),
+    "status": read_text(os.path.join(out, "git_status.txt")).strip()
+  },
+  "tests": {
+    "rc": rc,
+    "passed": passed,
+    "raw_tail": "\\n".join(pytest_txt.strip().splitlines()[-40:]) if pytest_txt.strip() else ""
+  },
+  "artifacts": {
+    "runtime": "runtime.txt",
+    "pytest_log": "pytest.txt",
+    "pytest_rc": "pytest_rc.txt",
+    "closure_sha256_pre_manifest": "closure_sha256_pre_manifest.txt",
+    "fail_marker": "FAIL_MARKER.txt"
+  },
+  "zip": {
+    "path": None,
+    "sha256": None
+  }
+}
+
+p = os.path.join(out, "MANIFEST.json")
+with open(p, "w", encoding="utf-8") as f:
+  json.dump(manifest, f, indent=2, sort_keys=True)
+  f.write("\\n")
+: bad substitution
+
+exit_rc=

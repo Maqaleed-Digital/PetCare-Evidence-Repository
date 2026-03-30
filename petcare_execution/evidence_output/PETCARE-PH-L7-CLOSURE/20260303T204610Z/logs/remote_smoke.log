@@ -1,0 +1,474 @@
+=== PH-L7 REMOTE SMOKE ===
+base_url=https://myveticare.com
+host=myveticare.com
+health_url=https://myveticare.com/health
+ready_url=https://myveticare.com/ready
+retries=5
+sleep_seconds=2
+max_total_seconds=12
+max_connect_seconds=5
+
+=== DNS RESOLUTION (python) ===
+resolved_addrs_count=2
+addr=13.248.243.5
+addr=76.223.105.230
+=== ATTEMPT 1/5 ===
+FAIL health: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 13.248.243.5, 76.223.105.230
+*   Trying 13.248.243.5:443...
+* Connected to myveticare.com (13.248.243.5) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=13.248.243.5
+time_namelookup=0.003613
+time_connect=0.091540
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.330020
+FAIL ready: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=76.223.105.230
+time_namelookup=0.002898
+time_connect=0.060789
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.223933
+Retrying in 2s...
+=== ATTEMPT 2/5 ===
+FAIL health: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=76.223.105.230
+time_namelookup=0.004314
+time_connect=0.088437
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.265351
+FAIL ready: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=76.223.105.230
+time_namelookup=0.002870
+time_connect=0.086801
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.274558
+Retrying in 2s...
+=== ATTEMPT 3/5 ===
+FAIL health: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=76.223.105.230
+time_namelookup=0.003234
+time_connect=0.083094
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.250344
+FAIL ready: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=76.223.105.230
+time_namelookup=0.002893
+time_connect=0.074676
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.229824
+Retrying in 2s...
+=== ATTEMPT 4/5 ===
+FAIL health: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=76.223.105.230
+time_namelookup=0.003459
+time_connect=0.077063
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.240167
+FAIL ready: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=76.223.105.230
+time_namelookup=0.002758
+time_connect=0.069167
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.235693
+Retrying in 2s...
+=== ATTEMPT 5/5 ===
+FAIL health: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=76.223.105.230
+time_namelookup=0.002783
+time_connect=0.080441
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.255599
+FAIL ready: curl rc=60
+* Host myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [319 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.
+http_code=000
+remote_ip=76.223.105.230
+time_namelookup=0.003012
+time_connect=0.100676
+time_appconnect=0.000000
+time_starttransfer=0.000000
+time_total=0.279444
+FATAL: PH-L7 REMOTE SMOKE FAIL after 5 attempts

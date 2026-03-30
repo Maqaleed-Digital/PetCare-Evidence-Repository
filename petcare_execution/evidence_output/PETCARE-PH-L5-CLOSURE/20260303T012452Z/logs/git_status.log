@@ -1,0 +1,10 @@
+## main...origin/main
+?? FND/PILOT_CONTROL.json
+?? docs/CEO_GO_LIVE_DECLARATION.md
+?? docs/PILOT_ACCEPTANCE_CRITERIA.md
+?? docs/PILOT_MONITORING_CHECKLIST.md
+?? scripts/petcare_ph_l1b_closure_pack.sh
+?? scripts/petcare_ph_l3_closure_pack.sh
+?? scripts/petcare_ph_l4_closure_pack.sh
+?? scripts/petcare_ph_l5_closure_pack.sh
+?? scripts/petcare_pilot_control_guard.sh

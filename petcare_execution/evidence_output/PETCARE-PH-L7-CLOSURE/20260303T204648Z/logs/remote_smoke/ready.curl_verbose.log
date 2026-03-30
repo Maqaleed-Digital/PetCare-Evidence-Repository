@@ -1,0 +1,37 @@
+* Host www.myveticare.com:443 was resolved.
+* IPv6: (none)
+* IPv4: 76.223.105.230, 13.248.243.5
+*   Trying 76.223.105.230:443...
+* Connected to www.myveticare.com (76.223.105.230) port 443
+* ALPN: curl offers h2,http/1.1
+* (304) (OUT), TLS handshake, Client hello (1):
+} [323 bytes data]
+*  CAfile: /etc/ssl/cert.pem
+*  CApath: none
+* (304) (IN), TLS handshake, Server hello (2):
+{ [122 bytes data]
+* (304) (IN), TLS handshake, Unknown (8):
+{ [43 bytes data]
+* (304) (IN), TLS handshake, Certificate (11):
+{ [3055 bytes data]
+* (304) (IN), TLS handshake, CERT verify (15):
+{ [264 bytes data]
+* (304) (IN), TLS handshake, Finished (20):
+{ [36 bytes data]
+* (304) (OUT), TLS handshake, Finished (20):
+} [36 bytes data]
+* SSL connection using TLSv1.3 / AEAD-AES128-GCM-SHA256 / [blank] / UNDEF
+* ALPN: server accepted http/1.1
+* Server certificate:
+*  subject: CN=*.secureserversites.net
+*  start date: Sep 12 16:32:51 2025 GMT
+*  expire date: Oct 14 16:32:51 2026 GMT
+*  subjectAltName does not match host name www.myveticare.com
+* SSL: no alternative certificate subject name matches target host name 'www.myveticare.com'
+* Closing connection
+curl: (60) SSL: no alternative certificate subject name matches target host name 'www.myveticare.com'
+More details here: https://curl.se/docs/sslcerts.html
+
+curl failed to verify the legitimacy of the server and therefore could not
+establish a secure connection to it. To learn more about this situation and
+how to fix it, please visit the web page mentioned above.

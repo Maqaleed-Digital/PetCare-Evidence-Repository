@@ -1,0 +1,19 @@
+{
+  "artifacts": {
+    "closure_sha256_txt": "closure_sha256.txt",
+    "file_listing_txt": "file_listing.txt",
+    "logs": [
+      "logs/allowlist_snapshot.txt",
+      "logs/guardrail_check.txt",
+      "logs/pytest_q.txt"
+    ],
+    "snapshots": [
+      "snapshots/ALLOWED_PRODUCT_PATHS.md"
+    ]
+  },
+  "file_count": 4221,
+  "pack_id": "PETCARE-PH23-CLOSURE",
+  "repo_root": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution",
+  "sha256_lines_count": 4221,
+  "timestamp_utc": "20260221T214311Z"
+}

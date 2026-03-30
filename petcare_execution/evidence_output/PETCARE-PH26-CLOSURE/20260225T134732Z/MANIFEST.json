@@ -1,0 +1,36 @@
+{
+  "pack": "PETCARE-PH26-CLOSURE",
+  "timestamp_utc": "20260225T134732Z",
+  "out_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH26-CLOSURE/20260225T134732Z",
+  "snapshot_count": 6,
+  "snapshots": [
+    {
+      "path": "snapshots/POLICY.md",
+      "sha256": "c4ddaf269c3b0cb41795c72c46425e9972d0a0de19c4867ba450311762da8f12"
+    },
+    {
+      "path": "snapshots/POLICY.sha256",
+      "sha256": "4a67132f21e6217a02a34fe0eafdc2455d3ce876007b7ddefb5b78504bd1ca2e"
+    },
+    {
+      "path": "snapshots/REGISTRY.json",
+      "sha256": "cf5f76ff0d79fdaf8d18463e1112726d2d4df311326937988e3bf2c987d13a58"
+    },
+    {
+      "path": "snapshots/REGISTRY.sha256",
+      "sha256": "ac16147ea1c305b319f935a0fdf3195cadb9e100800d86b163e262740a0e0f23"
+    },
+    {
+      "path": "snapshots/scripts/petcare_ph26_closure_pack.sh",
+      "sha256": "b839a41fe432cf9f8c804c38b14e4b02868c3f226690ff2b5069c18bcdbcfe91"
+    },
+    {
+      "path": "snapshots/scripts/petcare_progress_report.sh",
+      "sha256": "28e15a8be94664026309ee90234e247262010487117a28b4b4d81211838b13aa"
+    }
+  ],
+  "notes": [
+    "PH26 closure pack: pytest + drift checks + (optional) audit bundle verification if verifier exists.",
+    "Deterministic snapshot tree hashed and zipped."
+  ]
+}

@@ -1,0 +1,101 @@
+{
+  "file_count": 23,
+  "files": [
+    {
+      "path": "00_context.txt",
+      "sha256": "4b1d08f488e9c2bf5d67843e62646c7a50ed9a5355bb85cffe5782c2b440051f"
+    },
+    {
+      "path": "01_registry_digest.txt",
+      "sha256": "f9943dcc6945f6182073542621eb3d3d5db50eb27f33df9de313a6205dc29b3c"
+    },
+    {
+      "path": "02_policy_digest.txt",
+      "sha256": "a4acf10fab9ca5c267a55f8b082a7a516c5fa0e22ff612835c922b50a2d44f6a"
+    },
+    {
+      "path": "03_unittest.txt",
+      "sha256": "20805e100316750ae0e4d0288f23a2fd84c730ed54cc90ad21cce819903b1a2f"
+    },
+    {
+      "path": "04_gate_enforce.json",
+      "sha256": "84e797b3209dadea8ceb2a873a4864a01a8b142c6f24471fb5ff3897ab61015f"
+    },
+    {
+      "path": "repo_snapshot/FND/CODE_SCAFFOLD/storage/export_bundle.py",
+      "sha256": "d874d601a345f46a31cdcf1da2b29c2f7adafba3c8530a7e846156fcb285ff35"
+    },
+    {
+      "path": "repo_snapshot/FND/security/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "repo_snapshot/FND/security/actor_id.py",
+      "sha256": "2acd4a537eafce0f095ad08096ffbd85b990eb4d0d166d25f32df2d90df06854"
+    },
+    {
+      "path": "repo_snapshot/FND/security/audit_chain.py",
+      "sha256": "6d83fda7d8c000fcbd72bd9ca2f1a5cf7fe46a054f9f00408c7ac23be36d3295"
+    },
+    {
+      "path": "repo_snapshot/FND/security/auth_stub.py",
+      "sha256": "df0f5c356f8afa0a69eb0585a0e7f94dcd5c32fb3ef60f99bd4bea69424849dc"
+    },
+    {
+      "path": "repo_snapshot/FND/security/flask_guard.py",
+      "sha256": "6d10c1ba88323d3e7c4d25393b67db8b217623b08f9b6ec5d3a9cf15e6046012"
+    },
+    {
+      "path": "repo_snapshot/FND/security/policy.json",
+      "sha256": "761944ccd3c0e4922277bf44662c02de2121dda6cbd7a2d36e238c856ab1ada4"
+    },
+    {
+      "path": "repo_snapshot/FND/security/policy_guard.py",
+      "sha256": "d3603259071c96e4fe87631f0f103aa55f8d92ff383fed9054d694d511d5d579"
+    },
+    {
+      "path": "repo_snapshot/TESTS/test_ph12_export_audit_chain_enforced.py",
+      "sha256": "e5c74769e674f0fd7ad93975fed64e494c42cd6ab993939b55096d3ded6b153e"
+    },
+    {
+      "path": "repo_snapshot/TESTS/test_ph12_policy_digest_artifact.py",
+      "sha256": "62c40917c6ddded1a58d48280f7c787dee00d8793369be42d8478d1684468830"
+    },
+    {
+      "path": "repo_snapshot/TESTS/test_ph12_registry_tamper_evidence.py",
+      "sha256": "3ff9ce0c181c0111bc681bf319f5d4cd3d490fd4eaaa9d37ae55b08de2133182"
+    },
+    {
+      "path": "repo_snapshot/ops/ph12_gate_registry.json",
+      "sha256": "215f3b04c8c263987b29df0c478923088393258a4b2114aae3fe94b56a3e810a"
+    },
+    {
+      "path": "repo_snapshot/ops/ph12_gate_registry.sha256",
+      "sha256": "9e00b911287b80d7b2bd5c1fee5602709398d7e61e9686e4b2b56f98ba1b4c48"
+    },
+    {
+      "path": "repo_snapshot/ops/ph12_policy_digest.json",
+      "sha256": "c69e518c2c7b5adec00705d342921741eaa8602b2afb480412572d09c002ecde"
+    },
+    {
+      "path": "repo_snapshot/scripts/petcare_ph12_closure_pack.sh",
+      "sha256": "c731508dfe7d0c88bc7372ea9be2fe224ed64091b18d047a4cae54ecfaf0c4c0"
+    },
+    {
+      "path": "repo_snapshot/scripts/petcare_ph12_enforce_gates.py",
+      "sha256": "02e5181d4166e6d6ded8aed5ed322bf62ca9e21b540770f0426d62d502aff15c"
+    },
+    {
+      "path": "repo_snapshot/scripts/petcare_ph12_policy_digest.py",
+      "sha256": "816e90726df5be041071e8263e77259241bf7a59a3060acb419758176f4ef7fb"
+    },
+    {
+      "path": "repo_snapshot/scripts/petcare_ph12_registry_digest.py",
+      "sha256": "b5aadbf5edf0165e4d05835e45b4aad34d3211ac7c2c8cac8dc056ecf3558b1e"
+    }
+  ],
+  "manifest_version": "1.0",
+  "pack": "PETCARE-PH12-CLOSURE",
+  "repo_root": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution",
+  "timestamp_utc": "20260218T222152Z"
+}

@@ -1,0 +1,3 @@
+=== PH18 TEST (VENV ONLY) ===
+ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+..........ss........................................                     [100%]

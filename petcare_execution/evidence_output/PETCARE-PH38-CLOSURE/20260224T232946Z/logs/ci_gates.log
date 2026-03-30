@@ -1,0 +1,56 @@
+=== CI GATES ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+python=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.venv/bin/python
+
+=== GATE 0: Workflow required steps assert ===
+=== REQUIRED CHECKS ASSERT ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+workflow=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.github/workflows/ci.yml
+PATTERN_OK=bash scripts/petcare_ci_gates.sh
+PATTERN_OK=bash scripts/petcare_ph31_closure_pack.sh
+PATTERN_OK=actions/upload-artifact
+PATTERN_OK=pip install -r requirements.lock
+RESULT=PASS
+
+=== GATE 0b: Policy drift check ===
+=== POLICY DRIFT CHECK ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+policy=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/POLICY.md
+pin=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/POLICY.sha256
+POLICY_SHA_HAVE=c4ddaf269c3b0cb41795c72c46425e9972d0a0de19c4867ba450311762da8f12
+POLICY_SHA_WANT=c4ddaf269c3b0cb41795c72c46425e9972d0a0de19c4867ba450311762da8f12
+RESULT=PASS
+
+=== GATE 0c: Registry drift check ===
+=== REGISTRY DRIFT CHECK ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+registry=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/REGISTRY.json
+pin=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/REGISTRY.sha256
+REGISTRY_JSON=VALID
+REGISTRY_SHA_HAVE=7f9c6c834ad7e7c964476cad7f92354e069b07941c0d4e7594229e71e5c1ebee
+REGISTRY_SHA_WANT=7f9c6c834ad7e7c964476cad7f92354e069b07941c0d4e7594229e71e5c1ebee
+RESULT=PASS
+
+=== GATE 1: Python version ===
+Python 3.9.6
+
+=== GATE 2: Dependency sanity (pip check) ===
+No broken requirements found.
+
+=== GATE 3: Syntax check (compileall) ===
+
+=== GATE 4: Unit tests (pytest) ===
+pytest 8.4.2
+
+RUN=pytest -q
+.....ssss............ss...................s............................. [ 64%]
+........................................                                 [100%]
+
+=== GATE 5: Lockfile determinism (requirements.lock) ===
+=== LOCK VERIFY ===
+repo=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+python=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/.venv/bin/python
+lock=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/requirements.lock
+LOCK_VERIFY=PASS
+
+RESULT=PASS

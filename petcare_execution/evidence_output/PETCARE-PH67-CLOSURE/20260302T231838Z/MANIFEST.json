@@ -1,0 +1,20 @@
+{
+  "phase": "PETCARE-PH67-CLOSURE",
+  "timestamp_utc": "20260302T231838Z",
+  "file_count": 13,
+  "files": [
+    "logs/ci_gates.log",
+    "logs/index_generate_write.log",
+    "logs/index_sidecar_guard.log",
+    "logs/index_sidecar_write.log",
+    "logs/index_verify.log",
+    "snapshots/FND/VERIFICATION_INDEX.json",
+    "snapshots/FND/VERIFICATION_INDEX.sha256",
+    "snapshots/scripts/petcare_ci_gates.sh",
+    "snapshots/scripts/petcare_ph67_closure_pack.sh",
+    "snapshots/scripts/petcare_verification_index_generate.py",
+    "snapshots/scripts/petcare_verification_index_sidecar_guard.sh",
+    "snapshots/scripts/petcare_verification_index_sidecar_write.sh",
+    "snapshots/scripts/petcare_verification_index_verify.py"
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "backup": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/ops/backup.sqlite",
+  "base_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/ops/tenants",
+  "integrity": {
+    "checked_at_utc": "2026-02-17T19:04:13+00:00",
+    "db_path": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH7-CLOSURE/20260217T190409Z/ops/tenants/aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa.sqlite",
+    "results": [
+      "ok"
+    ],
+    "tenant_id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+  },
+  "meta_schema_version": "1",
+  "tenant": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "value_after_mutation": {
+    "v": 2
+  },
+  "value_after_restore": {
+    "v": 1
+  }
+}

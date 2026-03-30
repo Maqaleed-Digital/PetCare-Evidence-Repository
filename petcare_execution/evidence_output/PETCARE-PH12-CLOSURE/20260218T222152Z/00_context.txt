@@ -1,0 +1,4 @@
+=== REPO CONTEXT ===
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+## main...origin/main
+145869c petcare: ignore venv + evidence outputs

@@ -1,0 +1,4 @@
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+/Users/waheebmahmoud/dev/petcare-evidence-repository
+main
+145869c39705e32551b814fa89ab540f91034be9

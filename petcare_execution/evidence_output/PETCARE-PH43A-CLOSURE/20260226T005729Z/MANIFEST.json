@@ -1,0 +1,63 @@
+{
+  "pack": "PETCARE-PH43A-CLOSURE",
+  "timestamp_utc": "20260226T005729Z",
+  "out_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH43A-CLOSURE/20260226T005729Z",
+  "snapshot_count": 13,
+  "snapshots": [
+    {
+      "path": "snapshots/EVIDENCE/PH43A_RELEASE_BOUNDARY_REPORT.md",
+      "sha256": "073f3e31a5ecab6a64c280fb63205be88d200c44dfcc550235405293248433ce"
+    },
+    {
+      "path": "snapshots/FND/PROD_DEPLOYMENT_BOUNDARY_CONTRACT.md",
+      "sha256": "4637bc552d2cf47f8aa50dba3372b0e18e62c20b2ccf2880e078f065d86a115a"
+    },
+    {
+      "path": "snapshots/FND/PROD_DEPLOYMENT_PIPELINE_SPEC.md",
+      "sha256": "5013425c677526efe75a8d001d938ff2ce8005519fd1c929f308d9b6f4350903"
+    },
+    {
+      "path": "snapshots/FND/RELEASE_TAGGING_POLICY.md",
+      "sha256": "194e374c3bc8aefe367d20f819e5d04e0d3083aba8d9162786104a037b787447"
+    },
+    {
+      "path": "snapshots/PH43A_RELEASE_BOUNDARY_REPORT_FILLED.md",
+      "sha256": "f64ff376ebce3b692f3c4f41fb6de4ce176411345eab24ac049c77d09c378b18"
+    },
+    {
+      "path": "snapshots/POLICY.md",
+      "sha256": "c4ddaf269c3b0cb41795c72c46425e9972d0a0de19c4867ba450311762da8f12"
+    },
+    {
+      "path": "snapshots/POLICY.sha256",
+      "sha256": "4a67132f21e6217a02a34fe0eafdc2455d3ce876007b7ddefb5b78504bd1ca2e"
+    },
+    {
+      "path": "snapshots/REGISTRY.json",
+      "sha256": "2141102e0160d9885698742567114f3c6763e1b7c7503482da4ef220a5254fb3"
+    },
+    {
+      "path": "snapshots/REGISTRY.sha256",
+      "sha256": "3e1ce3ba43cea870a8d762f37b529811d4cd805fe07d70be4533172cc5863ab8"
+    },
+    {
+      "path": "snapshots/scripts/petcare_ph43a_closure_pack.sh",
+      "sha256": "ab2a78efce75c5296eed061ec57773bcee1b80dcaedf71fe57370368480a2e0a"
+    },
+    {
+      "path": "snapshots/scripts/petcare_prod_deploy_artifact_contract.sh",
+      "sha256": "3323519232f9a1b222e2c7e5923d9ed04229798bcfc7a7076d1223825e85b755"
+    },
+    {
+      "path": "snapshots/scripts/petcare_progress_report.sh",
+      "sha256": "28e15a8be94664026309ee90234e247262010487117a28b4b4d81211838b13aa"
+    },
+    {
+      "path": "snapshots/scripts/petcare_release_tag_verify.sh",
+      "sha256": "969b22d2b3f52aad5baba8e691bd66bccc4c9a901555a607bdf18f31df7ec5f3"
+    }
+  ],
+  "notes": [
+    "PH43-A: production release boundary contract + release tag verify + optional artifact digest contract + deterministic attestation report"
+  ]
+}

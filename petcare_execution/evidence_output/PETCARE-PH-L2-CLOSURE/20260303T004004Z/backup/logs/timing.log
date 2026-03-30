@@ -1,0 +1,3 @@
+backup_duration_seconds=1
+backup_zip=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH-L2-CLOSURE/20260303T004004Z/backup.zip
+backup_zip_sha=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH-L2-CLOSURE/20260303T004004Z/backup.zip.sha256

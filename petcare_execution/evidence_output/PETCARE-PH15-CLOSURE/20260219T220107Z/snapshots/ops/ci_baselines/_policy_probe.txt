@@ -1,0 +1,1 @@
+scripts/petcare_policy_drift_check.sh: line 86: syntax error: unexpected end of file

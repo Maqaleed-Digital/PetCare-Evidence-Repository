@@ -1,0 +1,10 @@
+last_prod_tag=petcare-prod-20260303.1
+current_branch=main
+## main...origin/main
+?? docs/
+?? scripts/petcare_ops_runbook_guard.sh
+?? scripts/petcare_ph_l1b_closure_pack.sh
+?? scripts/petcare_ph_l3_closure_pack.sh
+checkout_tag=petcare-prod-20260303.1
+run_ci_on_tag
+return_to_branch=main

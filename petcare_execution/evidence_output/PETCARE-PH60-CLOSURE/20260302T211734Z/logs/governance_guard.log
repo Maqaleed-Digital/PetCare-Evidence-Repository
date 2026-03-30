@@ -1,0 +1,5 @@
+OK: PH59 meta verifier governance guard PASS
+allowlist_count=2
+cap=3
+quorum=2
+policy_sha256=354d0e3326da2b1591451e9ce7e20593c450267dfe3ecb95bfbce78630a1a6a2

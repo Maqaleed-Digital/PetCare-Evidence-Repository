@@ -1,0 +1,10 @@
+=== DRIFT CHECK ===
+=== PH20 REGISTRY DRIFT CHECK ===
+BASELINE_FILE=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/ops/ci_baselines/registry_digest.sha256
+BASELINE_DIGEST=b2fad799093522d9e6352ebe34f85f9f241eb4c87c8f4e3f760f240d4cf4abc9
+CURRENT_DIGEST=3d8f1203220e217be76f6b22beff66cecd767aac96252579e132826d330e5083
+DRIFT=1
+FAIL
+ACTION: Investigate registry changes OR re-anchor baseline intentionally using:
+bash scripts/petcare_ph20_registry_baseline_reanchor.sh
+DRIFT_RC=4

@@ -1,0 +1,39 @@
+{
+  "pack_id": "PETCARE-PH8-CLOSURE",
+  "generated_utc": "20260218T210130Z",
+  "file_count": 8,
+  "files": [
+    {
+      "path": "ops/repo_context.txt",
+      "sha256": "fb483eeafe06c9416b9c693dfdf0728f31ca144b42d4faba8158d85a89b9228f"
+    },
+    {
+      "path": "ops/unittest.txt",
+      "sha256": "9324d709e2747547967833c75ec09035f201ec6f173d7164a5e58680bf4f98f5"
+    },
+    {
+      "path": "repo_snapshot/FND/CODE_SCAFFOLD/storage/sqlite_lifecycle.py",
+      "sha256": "2ef079cf6036c986e18585f8bdaa5e774f9d24cec6372d8317934a81dfab762f"
+    },
+    {
+      "path": "repo_snapshot/FND/audit/immutable_audit.py",
+      "sha256": "cccef3ede7db8bf4bde42b140444253a7f37d61aea97e85f35d37f95bfc7961e"
+    },
+    {
+      "path": "repo_snapshot/FND/security/actor_id.py",
+      "sha256": "2acd4a537eafce0f095ad08096ffbd85b990eb4d0d166d25f32df2d90df06854"
+    },
+    {
+      "path": "repo_snapshot/FND/security/auth_stub.py",
+      "sha256": "df0f5c356f8afa0a69eb0585a0e7f94dcd5c32fb3ef60f99bd4bea69424849dc"
+    },
+    {
+      "path": "repo_snapshot/TESTS/test_ph8_security_and_audit.py",
+      "sha256": "8134ed008f6ca971cae8be84fb410656cadfe72c75f223efcd4f684afd0cad84"
+    },
+    {
+      "path": "repo_snapshot/scripts/petcare_ph8_closure_pack.sh",
+      "sha256": "82d54341059db8522d932b71175ecb43a4c309cf0960f2cba87f1427544e0af0"
+    }
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "gates": {
+    "G-PH12-AUD-001": {
+      "description": "Export bundle rejects invalid audit chain; negative tests confirm bypass fails",
+      "name": "Audit Hash-Chain Enforced in Export Bundle",
+      "status": "PASS"
+    },
+    "G-PH12-CP-001": {
+      "description": "MANIFEST.json + zip + sha256 created and PASS stop-check prints",
+      "name": "Closure Pack Deterministic Outputs",
+      "status": "PASS"
+    },
+    "G-PH12-GR-001": {
+      "description": "ops/ph12_gate_registry.sha256 matches computed sha256 of ops/ph12_gate_registry.json",
+      "name": "Gate Registry Tamper-Evident",
+      "status": "PASS"
+    },
+    "G-PH12-POL-001": {
+      "description": "ops/ph12_policy_digest.json generated from FND/security/policy.json",
+      "name": "Policy Snapshot Digest",
+      "status": "PASS"
+    },
+    "G-PH12-UT-001": {
+      "description": "python3 -m unittest -q passes",
+      "name": "Unit Tests Pass",
+      "status": "PASS"
+    }
+  },
+  "pack_id": "PETCARE-PH12-TRUST-CONSOLIDATION",
+  "phase": "P12",
+  "registry_version": "1.0",
+  "required_gates_for_pass": [
+    "G-PH12-UT-001",
+    "G-PH12-GR-001",
+    "G-PH12-POL-001",
+    "G-PH12-AUD-001",
+    "G-PH12-CP-001"
+  ],
+  "updated_at_utc": "2026-02-18T00:00:00Z"
+}

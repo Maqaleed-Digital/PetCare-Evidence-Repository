@@ -1,0 +1,3 @@
+scripts/petcare_release_tag_verify.sh
+scripts/petcare_prod_artifact_bound_attest.sh
+scripts/petcare_ph43b_closure_pack.sh

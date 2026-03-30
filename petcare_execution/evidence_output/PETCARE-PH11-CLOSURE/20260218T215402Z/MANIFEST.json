@@ -1,0 +1,59 @@
+{
+  "pack_id": "PETCARE-PH11-CLOSURE",
+  "generated_utc": "20260218T215402Z",
+  "file_count": 13,
+  "files": [
+    {
+      "path": "ops/audit_verify.json",
+      "sha256": "0254d979703012894bb8d6087b441895557314aa3f30eca8b2df59ae013890a8"
+    },
+    {
+      "path": "ops/gate_enforce.txt",
+      "sha256": "4b075f09b69b512da90edb9738acac549a157d6764d8926e9873b2d037e4fbb2"
+    },
+    {
+      "path": "ops/repo_context.txt",
+      "sha256": "fb483eeafe06c9416b9c693dfdf0728f31ca144b42d4faba8158d85a89b9228f"
+    },
+    {
+      "path": "ops/unittest.txt",
+      "sha256": "a0e9457f55e8c55f6d2b934a456113a3413bebebd24137c09b3aca5aedbeea8b"
+    },
+    {
+      "path": "repo_snapshot/FND/CODE_SCAFFOLD/app.py",
+      "sha256": "1cfabe68ba2c84d1a158c8185d0c27390199dd50d8f7faede4cb7d7ab21e8229"
+    },
+    {
+      "path": "repo_snapshot/FND/security/audit_chain.py",
+      "sha256": "6d83fda7d8c000fcbd72bd9ca2f1a5cf7fe46a054f9f00408c7ac23be36d3295"
+    },
+    {
+      "path": "repo_snapshot/FND/security/policy_guard.py",
+      "sha256": "d3603259071c96e4fe87631f0f103aa55f8d92ff383fed9054d694d511d5d579"
+    },
+    {
+      "path": "repo_snapshot/TESTS/test_ph11_export_and_audit.py",
+      "sha256": "2d9b149665173aa41dc6385e2689c648fda1253e559d8df6bbd51e67f4f992a4"
+    },
+    {
+      "path": "repo_snapshot/TESTS/test_ph11_http_adversarial.py",
+      "sha256": "2a8a4019244d158c86f7a840ac46701383a484623760b6ed7cf4b9ad5885b1a6"
+    },
+    {
+      "path": "repo_snapshot/ops/ph11_gate_registry.json",
+      "sha256": "63cee1ba4f695b17f85a1f9ee63d6d9f5bb643e61e1cd35501266cffbcfd6cb1"
+    },
+    {
+      "path": "repo_snapshot/scripts/petcare_ph11_audit_verify.py",
+      "sha256": "1cd4638cd30e1b9a6bb4cd4d479b693b01d1ce459d6486b091191caa387b0768"
+    },
+    {
+      "path": "repo_snapshot/scripts/petcare_ph11_closure_pack.sh",
+      "sha256": "e8e993345ff3480720bc3a9ca98f7c287ada6a60502a97baa9a4d2cc316a2ba3"
+    },
+    {
+      "path": "repo_snapshot/scripts/petcare_ph11_enforce_gates.py",
+      "sha256": "98a4889cdb764c9671b956e97d86781db0b2d5f909cfde131c5cbed7b53a1ae3"
+    }
+  ]
+}

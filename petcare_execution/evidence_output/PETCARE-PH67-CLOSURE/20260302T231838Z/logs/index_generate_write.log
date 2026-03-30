@@ -1,0 +1,10 @@
+OK generation computed
+policy_sha256=354d0e3326da2b1591451e9ce7e20593c450267dfe3ecb95bfbce78630a1a6a2
+old_index_text_sha256=2bd3ae947fe1092cbd01f9494dcbed11b3349fa1b817575644f2a90267fe7025
+new_index_text_sha256=2bd3ae947fe1092cbd01f9494dcbed11b3349fa1b817575644f2a90267fe7025
+quorum_required=2
+distinct_meta_present_count=2
+distinct_meta_present=['PETCARE-PH44B-CLOSURE', 'PETCARE-PH45B-CLOSURE']
+added_meta=[]
+entries_out_count=3
+OK no change

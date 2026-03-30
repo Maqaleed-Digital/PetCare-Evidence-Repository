@@ -1,0 +1,11 @@
+=== KEY FILES (IF PRESENT) ===
+--- FOUND: scripts/petcare_land_pack.sh
+--- FOUND: FND/CODE_SCAFFOLD/interfaces/storage_interface.py
+--- MISSING: FND/CODE_SCAFFOLD/storage/__init__.py
+--- FOUND: UI6/DAL_CONTRACT.md
+--- FOUND: UI6/TENANT_BOUND_STORAGE_MODEL.md
+--- FOUND: UI6/EVIDENCE_EXPORT_BUNDLE_SPEC.md
+--- MISSING: app.py
+--- FOUND: requirements.txt
+--- MISSING: pyproject.toml
+--- FOUND: tests

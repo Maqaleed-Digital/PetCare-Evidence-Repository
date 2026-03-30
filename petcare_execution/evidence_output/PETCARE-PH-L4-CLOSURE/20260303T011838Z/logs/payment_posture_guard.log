@@ -1,0 +1,3 @@
+payments_enabled=false
+payment_provider=None
+OK: payment posture guard PASS (payments disabled; no provider refs found)

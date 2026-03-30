@@ -1,0 +1,19 @@
+{
+  "pack": "PETCARE-PH01-CLOSURE",
+  "timestamp_utc": "20260225T182003Z",
+  "file_count": 12,
+  "files": [
+    "ci_gates.txt",
+    "closure_sha256.txt",
+    "policy_drift.txt",
+    "pytest.txt",
+    "registry_drift.txt",
+    "registry_pin.txt",
+    "snapshots/POLICY.md",
+    "snapshots/POLICY.sha256",
+    "snapshots/REGISTRY.after.json",
+    "snapshots/REGISTRY.after.sha256",
+    "snapshots/REGISTRY.before.json",
+    "snapshots/REGISTRY.before.sha256"
+  ]
+}

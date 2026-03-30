@@ -1,0 +1,5 @@
+repo_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution
+ts_utc=20260303T003853Z
+out_dir=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/evidence_output/PETCARE-PH-L2-CLOSURE/20260303T003853Z/backup
+rto_max_seconds=900
+DB_SKIPPED: no known DB file found (expected in current repo state).
