@@ -1,0 +1,14 @@
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZObWXgbww=
+version: 1
+  role: roles/secretmanager.secretAccessor
+etag: BwZObWb9IN0=
+version: 1
+  role: roles/iam.serviceAccountUser
+etag: BwZObWdLcyE=
+version: 1
+Done
+All grants done
+Done

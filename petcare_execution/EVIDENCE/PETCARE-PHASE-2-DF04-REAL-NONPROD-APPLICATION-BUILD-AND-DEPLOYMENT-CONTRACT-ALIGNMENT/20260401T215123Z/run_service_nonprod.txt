@@ -1,0 +1,26 @@
+✔ Service petcare-api-nonprod in region me-central2
+ 
+URL:     https://petcare-api-nonprod-823816970477.me-central2.run.app
+Ingress: all
+Traffic:
+  100% LATEST (currently petcare-api-nonprod-00001-vl6)
+ 
+Scaling: Auto (Min: 0, Max: 100)
+ 
+Last updated on 2026-04-01T17:41:57.531946Z by admin@maqaleed.tech:
+  Revision petcare-api-nonprod-00001-vl6
+  Container None
+    Image:           us-docker.pkg.dev/cloudrun/container/hello
+    Port:            8080
+    Memory:          512Mi
+    CPU:             1000m
+    Startup Probe:
+      TCP every 240s
+      Port:          8080
+      Initial delay: 0s
+      Timeout:       240s
+      Failure threshold: 1
+      Type:          Default
+  Service account:   petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  Concurrency:       80
+  Timeout:           300s

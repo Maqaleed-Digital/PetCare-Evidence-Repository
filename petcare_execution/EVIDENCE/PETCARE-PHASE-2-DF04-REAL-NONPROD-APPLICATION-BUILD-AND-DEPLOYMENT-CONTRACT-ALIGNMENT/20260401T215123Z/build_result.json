@@ -1,0 +1,100 @@
+{
+  "buildTriggerId": "384e7e8d-cef7-45cf-97d9-2b3f9e3ee145",
+  "createTime": "2026-04-01T21:52:21.600740Z",
+  "failureInfo": {
+    "detail": "Build step failure: build step 0 \"gcr.io/google.com/cloudsdktool/cloud-sdk:slim\" failed: step exited with non-zero status: 1",
+    "type": "USER_BUILD_STEP"
+  },
+  "finishTime": "2026-04-01T21:53:41.598945Z",
+  "id": "57605e65-31f9-458d-8a34-5fb9caa84b35",
+  "logUrl": "https://console.cloud.google.com/cloud-build/builds;region=me-central2/57605e65-31f9-458d-8a34-5fb9caa84b35?project=823816970477",
+  "name": "projects/823816970477/locations/me-central2/builds/57605e65-31f9-458d-8a34-5fb9caa84b35",
+  "options": {
+    "dynamicSubstitutions": true,
+    "logging": "CLOUD_LOGGING_ONLY",
+    "pool": {},
+    "substitutionOption": "ALLOW_LOOSE"
+  },
+  "projectId": "prj-maq-petcare-nonprod",
+  "queueTtl": "3600s",
+  "results": {
+    "buildStepImages": [
+      "sha256:bc12b41388a0dc1bdc7ed0e051d50a2f15c7e8479914bc1c21f913aa3f6d7cf7"
+    ],
+    "buildStepOutputs": [
+      ""
+    ]
+  },
+  "serviceAccount": "projects/prj-maq-petcare-nonprod/serviceAccounts/petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com",
+  "source": {
+    "gitSource": {
+      "revision": "f49b4a876cf1bc7617558d5479db12b73887490d",
+      "url": "https://github.com/Maqaleed-Digital/PetCare-Platform.git"
+    }
+  },
+  "sourceProvenance": {
+    "resolvedGitSource": {
+      "revision": "f49b4a876cf1bc7617558d5479db12b73887490d",
+      "url": "https://github.com/Maqaleed-Digital/PetCare-Platform.git"
+    }
+  },
+  "startTime": "2026-04-01T21:52:22.785944629Z",
+  "status": "FAILURE",
+  "steps": [
+    {
+      "args": [
+        "-euo",
+        "pipefail",
+        "-c",
+        "echo \"DF04_NONPROD_APP_START\"\ntest -d backend\necho \"CONNECTED_REPO_ROOT=$(pwd)\"\necho \"BACKEND_PATH_EXISTS=true\"\necho \"BACKEND_FILE_LIST_BEGIN\"\nfind backend -maxdepth 3 -type f | sort | sed -n '1,200p'\necho \"BACKEND_FILE_LIST_END\"\n\ngcloud run deploy \"petcare-api-nonprod\" \\\n  --project=\"prj-maq-petcare-nonprod\" \\\n  --region=\"me-central2\" \\\n  --source=\"backend\" \\\n  --service-account=\"petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com\" \\\n  --allow-unauthenticated \\\n  --quiet \\\n  --update-secrets=\"PETCARE_RUNTIME_CONFIG=petcare-runtime-config-nonprod:latest\" \\\n  --labels=\"env=nonprod,phase=df04,managed-by=cloud-build\"\n\ngcloud run services describe \"petcare-api-nonprod\" \\\n  --project=\"prj-maq-petcare-nonprod\" \\\n  --region=\"me-central2\" \\\n  --format=\"value(metadata.name,status.url)\"\n\necho \"DF04_NONPROD_APP_PASS\"\n"
+      ],
+      "entrypoint": "bash",
+      "exitCode": 1,
+      "id": "backend-contract-check-and-deploy",
+      "name": "gcr.io/google.com/cloudsdktool/cloud-sdk:slim",
+      "pullTiming": {
+        "endTime": "2026-04-01T21:53:30.336899903Z",
+        "startTime": "2026-04-01T21:52:27.133232627Z"
+      },
+      "status": "FAILURE",
+      "timing": {
+        "endTime": "2026-04-01T21:53:31.082106770Z",
+        "startTime": "2026-04-01T21:52:27.133232627Z"
+      }
+    }
+  ],
+  "substitutions": {
+    "BRANCH_NAME": "main",
+    "COMMIT_SHA": "f49b4a876cf1bc7617558d5479db12b73887490d",
+    "REF_NAME": "main",
+    "REPO_FULL_NAME": "Maqaleed-Digital/PetCare-Platform",
+    "REPO_NAME": "PetCare-Platform",
+    "REVISION_ID": "f49b4a876cf1bc7617558d5479db12b73887490d",
+    "SHORT_SHA": "f49b4a8",
+    "TRIGGER_BUILD_CONFIG_PATH": "",
+    "TRIGGER_NAME": "petcare-nonprod-main",
+    "_DEPLOY_SA_EMAIL": "petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com",
+    "_PLATFORM_PROJECT": "prj-maq-petcare-nonprod",
+    "_REGION": "me-central2",
+    "_RUNTIME_SECRET_NAME": "petcare-runtime-config-nonprod",
+    "_SERVICE_NAME": "petcare-api-nonprod"
+  },
+  "tags": [
+    "trigger-384e7e8d-cef7-45cf-97d9-2b3f9e3ee145"
+  ],
+  "timeout": "3600s",
+  "timing": {
+    "BUILD": {
+      "endTime": "2026-04-01T21:53:31.082170329Z",
+      "startTime": "2026-04-01T21:52:26.517850129Z"
+    },
+    "FETCHSOURCE": {
+      "endTime": "2026-04-01T21:52:26.517769861Z",
+      "startTime": "2026-04-01T21:52:23.382028546Z"
+    },
+    "GIT_SOURCE": {
+      "endTime": "2026-04-01T21:52:26.517769861Z",
+      "startTime": "2026-04-01T21:52:23.382028546Z"
+    }
+  }
+}

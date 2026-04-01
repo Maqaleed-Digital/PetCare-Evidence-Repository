@@ -1,0 +1,74 @@
+{
+  "metadata": {
+    "@type": "type.googleapis.com/google.devtools.cloudbuild.v1.BuildOperationMetadata",
+    "build": {
+      "buildTriggerId": "384e7e8d-cef7-45cf-97d9-2b3f9e3ee145",
+      "createTime": "2026-04-01T21:58:54.975245Z",
+      "id": "e269f1f2-aa20-442a-81e4-d1a4f732c796",
+      "logUrl": "https://console.cloud.google.com/cloud-build/builds;region=me-central2/e269f1f2-aa20-442a-81e4-d1a4f732c796?project=823816970477",
+      "name": "projects/823816970477/locations/me-central2/builds/e269f1f2-aa20-442a-81e4-d1a4f732c796",
+      "options": {
+        "dynamicSubstitutions": true,
+        "logging": "CLOUD_LOGGING_ONLY",
+        "pool": {},
+        "substitutionOption": "ALLOW_LOOSE"
+      },
+      "projectId": "prj-maq-petcare-nonprod",
+      "queueTtl": "3600s",
+      "serviceAccount": "projects/prj-maq-petcare-nonprod/serviceAccounts/petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com",
+      "source": {
+        "gitSource": {
+          "revision": "f49b4a876cf1bc7617558d5479db12b73887490d",
+          "url": "https://github.com/Maqaleed-Digital/PetCare-Platform.git"
+        }
+      },
+      "sourceProvenance": {
+        "resolvedGitSource": {
+          "revision": "f49b4a876cf1bc7617558d5479db12b73887490d",
+          "url": "https://github.com/Maqaleed-Digital/PetCare-Platform.git"
+        }
+      },
+      "status": "QUEUED",
+      "steps": [
+        {
+          "args": [
+            "-euo",
+            "pipefail",
+            "-c",
+            "echo \"DF04_REPO_INSPECT_START\"
+echo \"COMMIT_SHA=f49b4a876cf1bc7617558d5479db12b73887490d\"
+echo \"DIR_TREE_BEGIN\"
+find . -maxdepth 3 -not -path \"./.git/*\" | sort
+echo \"DIR_TREE_END\"
+echo \"DF04_REPO_INSPECT_PASS\"
+"
+          ],
+          "entrypoint": "bash",
+          "id": "repo-structure-inspect",
+          "name": "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
+        }
+      ],
+      "substitutions": {
+        "BRANCH_NAME": "main",
+        "COMMIT_SHA": "f49b4a876cf1bc7617558d5479db12b73887490d",
+        "REF_NAME": "main",
+        "REPO_FULL_NAME": "Maqaleed-Digital/PetCare-Platform",
+        "REPO_NAME": "PetCare-Platform",
+        "REVISION_ID": "f49b4a876cf1bc7617558d5479db12b73887490d",
+        "SHORT_SHA": "f49b4a8",
+        "TRIGGER_BUILD_CONFIG_PATH": "",
+        "TRIGGER_NAME": "petcare-nonprod-main",
+        "_DEPLOY_SA_EMAIL": "petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com",
+        "_PLATFORM_PROJECT": "prj-maq-petcare-nonprod",
+        "_REGION": "me-central2",
+        "_RUNTIME_SECRET_NAME": "petcare-runtime-config-nonprod",
+        "_SERVICE_NAME": "petcare-api-nonprod"
+      },
+      "tags": [
+        "trigger-384e7e8d-cef7-45cf-97d9-2b3f9e3ee145"
+      ],
+      "timeout": "3600s"
+    }
+  },
+  "name": "operations/build/prj-maq-petcare-nonprod/ZTI2OWYxZjItYWEyMC00NDJhLTgxZTQtZDFhNGY3MzJjNzk2"
+}

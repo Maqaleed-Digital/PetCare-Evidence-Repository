@@ -1,0 +1,77 @@
+metadata:
+  '@type': type.googleapis.com/google.devtools.cloudbuild.v1.BuildOperationMetadata
+  build:
+    buildTriggerId: 384e7e8d-cef7-45cf-97d9-2b3f9e3ee145
+    createTime: '2026-04-01T21:52:21.600740Z'
+    id: 57605e65-31f9-458d-8a34-5fb9caa84b35
+    logUrl: https://console.cloud.google.com/cloud-build/builds;region=me-central2/57605e65-31f9-458d-8a34-5fb9caa84b35?project=823816970477
+    name: projects/823816970477/locations/me-central2/builds/57605e65-31f9-458d-8a34-5fb9caa84b35
+    options:
+      dynamicSubstitutions: true
+      logging: CLOUD_LOGGING_ONLY
+      pool: {}
+      substitutionOption: ALLOW_LOOSE
+    projectId: prj-maq-petcare-nonprod
+    queueTtl: 3600s
+    serviceAccount: projects/prj-maq-petcare-nonprod/serviceAccounts/petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+    source:
+      gitSource:
+        revision: f49b4a876cf1bc7617558d5479db12b73887490d
+        url: https://github.com/Maqaleed-Digital/PetCare-Platform.git
+    sourceProvenance:
+      resolvedGitSource:
+        revision: f49b4a876cf1bc7617558d5479db12b73887490d
+        url: https://github.com/Maqaleed-Digital/PetCare-Platform.git
+    status: QUEUED
+    steps:
+    - args:
+      - -euo
+      - pipefail
+      - -c
+      - |
+        echo "DF04_NONPROD_APP_START"
+        test -d backend
+        echo "CONNECTED_REPO_ROOT=$(pwd)"
+        echo "BACKEND_PATH_EXISTS=true"
+        echo "BACKEND_FILE_LIST_BEGIN"
+        find backend -maxdepth 3 -type f | sort | sed -n '1,200p'
+        echo "BACKEND_FILE_LIST_END"
+
+        gcloud run deploy "petcare-api-nonprod" \
+          --project="prj-maq-petcare-nonprod" \
+          --region="me-central2" \
+          --source="backend" \
+          --service-account="petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com" \
+          --allow-unauthenticated \
+          --quiet \
+          --update-secrets="PETCARE_RUNTIME_CONFIG=petcare-runtime-config-nonprod:latest" \
+          --labels="env=nonprod,phase=df04,managed-by=cloud-build"
+
+        gcloud run services describe "petcare-api-nonprod" \
+          --project="prj-maq-petcare-nonprod" \
+          --region="me-central2" \
+          --format="value(metadata.name,status.url)"
+
+        echo "DF04_NONPROD_APP_PASS"
+      entrypoint: bash
+      id: backend-contract-check-and-deploy
+      name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    substitutions:
+      BRANCH_NAME: main
+      COMMIT_SHA: f49b4a876cf1bc7617558d5479db12b73887490d
+      REF_NAME: main
+      REPO_FULL_NAME: Maqaleed-Digital/PetCare-Platform
+      REPO_NAME: PetCare-Platform
+      REVISION_ID: f49b4a876cf1bc7617558d5479db12b73887490d
+      SHORT_SHA: f49b4a8
+      TRIGGER_BUILD_CONFIG_PATH: ''
+      TRIGGER_NAME: petcare-nonprod-main
+      _DEPLOY_SA_EMAIL: petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+      _PLATFORM_PROJECT: prj-maq-petcare-nonprod
+      _REGION: me-central2
+      _RUNTIME_SECRET_NAME: petcare-runtime-config-nonprod
+      _SERVICE_NAME: petcare-api-nonprod
+    tags:
+    - trigger-384e7e8d-cef7-45cf-97d9-2b3f9e3ee145
+    timeout: 3600s
+name: operations/build/prj-maq-petcare-nonprod/NTc2MDVlNjUtMzFmOS00NThkLThhMzQtNWZiOWNhYTg0YjM1

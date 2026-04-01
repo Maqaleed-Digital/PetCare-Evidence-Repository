@@ -1,0 +1,33 @@
+DIR_TREE_BEGIN
+.
+./.git
+./.gitignore
+./app
+./app/backend
+./app/backend/server.py
+./app/frontend
+./app/frontend/.gitignore
+./app/frontend/README.md
+./app/frontend/eslint.config.js
+./app/frontend/index.html
+./app/frontend/package-lock.json
+./app/frontend/package.json
+./app/frontend/public
+./app/frontend/src
+./app/frontend/vite.config.js
+./app/petcare-evidence
+./docs
+./docs/PetCare BRD_v1.1.docx
+./docs/normalized
+./docs/normalized/PetCare BRD_v1.1.docx
+./docs/source
+./docs/source/desktop-dump
+./repos
+./repos/petcare-evidence-closed-v2
+./repos/petcare-pilot-evidence
+DIR_TREE_END
+DF04_REPO_INSPECT_PASS
+PUSH
+DONE
+
+

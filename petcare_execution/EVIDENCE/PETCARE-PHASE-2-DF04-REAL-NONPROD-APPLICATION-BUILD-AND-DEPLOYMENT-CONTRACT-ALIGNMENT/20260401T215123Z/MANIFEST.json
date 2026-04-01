@@ -1,0 +1,125 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF04-REAL-NONPROD-APPLICATION-BUILD-AND-DEPLOYMENT-CONTRACT-ALIGNMENT/20260401T215123Z",
+  "files": [
+    {
+      "path": "apply.log",
+      "sha256": "8db16f00f9061ebcfcfe9ce398c065ac99f1b5480990a8695b38654b6111113b"
+    },
+    {
+      "path": "build_result.json",
+      "sha256": "f35d39da216aaedcbf97b0139ea0f539088b498da6edc5de6ec20eacb9035dbe"
+    },
+    {
+      "path": "build_result_2.json",
+      "sha256": "dfa7e97627c0062305cef67234ce4e6e252e285fcbf21206e7b52861bc350e8a"
+    },
+    {
+      "path": "build_result_3.json",
+      "sha256": "9739aa4b63d6f22ca311f30ffc343bae8f59f335578fb0946b83a24a705f20da"
+    },
+    {
+      "path": "build_result_4.json",
+      "sha256": "49d210e2a26ecdde0b29e57c4d7c4ec9d23c15177a95a89b01f8482627e4ef56"
+    },
+    {
+      "path": "build_result_5.json",
+      "sha256": "8ee88e8d3dee5e539f3beaa7759c9c6040816bd3126d7e82618b7963e5306ab8"
+    },
+    {
+      "path": "build_result_6.json",
+      "sha256": "5898ed874fb7571fc3c67eb7ec724c3291f60185f34ffe6d24283d691c8001d4"
+    },
+    {
+      "path": "build_result_7.json",
+      "sha256": "a255f18b8460c9f8038daf8327eac0132f0e72f53c0ae9b8be209cb21b91d310"
+    },
+    {
+      "path": "df04_app_trigger_run.txt",
+      "sha256": "b85cb0d2ffae4c924cdfaec53029173591b7a9af628bcaa79b24731bdb310116"
+    },
+    {
+      "path": "df04_app_trigger_run2.txt",
+      "sha256": "50a807fe06db17c8d34c1f758c730eeeb05c2d5f64a85f975e36da96c9afdec8"
+    },
+    {
+      "path": "df04_app_trigger_run3.txt",
+      "sha256": "9785e7dce073e84a16a3b55382e89ac56eb662fad96517984c5f9ed3b081de2b"
+    },
+    {
+      "path": "df04_app_trigger_run4.txt",
+      "sha256": "30ed8f2a048b8beb94d0af5bb645c813d177642ce881fd4bb790d64c9b5d545d"
+    },
+    {
+      "path": "df04_app_trigger_run5.txt",
+      "sha256": "29c055db320df966935cf1c8a87aca3c3fed6d0444b6705439545624f4d13f3d"
+    },
+    {
+      "path": "df04_app_trigger_run6.txt",
+      "sha256": "287b7b8ba9bc72d5dd311507307cf3fd029ab2214e710f346d860cbf28b818c4"
+    },
+    {
+      "path": "file_listing.txt",
+      "sha256": "6ab47394322f44312bf1e9791ea698d751e578b7d7861dfc67f73c74837677dd"
+    },
+    {
+      "path": "first_nonprod_trigger_run.txt",
+      "sha256": "97fc1e2baf5c6d5bdb772cc30607e8a9cde06b3de83cf360a6b30648d64274e0"
+    },
+    {
+      "path": "git_head_before.txt",
+      "sha256": "c65d44948361b8d50578928e22d06a45745997b1a750eb7fb13d1592e05ffce3"
+    },
+    {
+      "path": "git_status_before.txt",
+      "sha256": "8f654d4ebef6f1177f8c28aa74765654cfe3b7aa52a7860ef8f5a54dff9d0d7a"
+    },
+    {
+      "path": "iam_fix_ar_admin.txt",
+      "sha256": "496a7c3bd568386b6cc95731eb1a7d2e0743a7438532273c0725055b99598bd4"
+    },
+    {
+      "path": "latest_build_describe.txt",
+      "sha256": "02db209075704e39cbe294b999c3e1d1fb694e97ae4aedde9aff6639f4aa9a89"
+    },
+    {
+      "path": "latest_build_id.txt",
+      "sha256": "08c5d3fa6d7d042810de8e4dddfd5bf3713da7507832f3022f298186bf785bf2"
+    },
+    {
+      "path": "nonprod_trigger_after_update.json",
+      "sha256": "3ee81a43b5633ed0e5300df750087be410e185358bef1d815516f61b5eb1f64a"
+    },
+    {
+      "path": "nonprod_trigger_before_update.json",
+      "sha256": "a450a2fdd2b9a1a55839af3969b3672f6899380887f19c9113ac1c738fc959c7"
+    },
+    {
+      "path": "nonprod_trigger_import.yaml",
+      "sha256": "0de97d5ddef82d2e03dbe23e729c44e2a3a009b611a0896e52e66bf7e8bbb9c8"
+    },
+    {
+      "path": "repo_inspect_trigger_run.txt",
+      "sha256": "54b070cc88654dc0b9c79e35ac9acd10ee3540c1b583d6edea1f346094ae63d5"
+    },
+    {
+      "path": "repo_structure_inspect.txt",
+      "sha256": "bece7eda9f6de37571f16f1493afb7157aca780fb233de12dd2d130deb5b1177"
+    },
+    {
+      "path": "run_service_nonprod.txt",
+      "sha256": "108a7009f77a584d9c9eef839b20b051d31d5f1313f7fb4dd0b6b54c3288a124"
+    },
+    {
+      "path": "server_py_inspect.txt",
+      "sha256": "b8eb17e4007425c72065e9ca60ba4e2733552d0f3a58b1762bb85b21593fe810"
+    },
+    {
+      "path": "trigger_restored_to_df03b_smoke.json",
+      "sha256": "6ae0b4c428679305cb7044c4d5a7d793df6a537a477d7c8864e6d822fa042b0c"
+    },
+    {
+      "path": "triggers_list.txt",
+      "sha256": "094982e731a7d5fb66b42fee098dfda56f29b24f5e05db1dd18872fba984f28c"
+    }
+  ]
+}
