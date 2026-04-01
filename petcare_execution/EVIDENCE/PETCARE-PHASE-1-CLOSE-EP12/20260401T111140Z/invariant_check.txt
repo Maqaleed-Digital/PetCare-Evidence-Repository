@@ -1,0 +1,5 @@
+ai_execution_authority=false
+ai_approval_authority=false
+advisory_only=true
+silent_influence_allowed=false
+human_override_required=true
