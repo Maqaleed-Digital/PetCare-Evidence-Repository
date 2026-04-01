@@ -1,0 +1,58 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF03A-TRIGGER-ACTIVATION-AND-FIRST-CONTROLLED-NONPROD-DEPLOYMENT/20260401T202354Z",
+  "result": "DF03A_BLOCKED_GITHUB_CONNECTION_REQUIRED",
+  "files": [
+    {
+      "path": "STOP_REPORT.md",
+      "sha256": "aba3e512d9fab1e748afa07b97613fa0d06682e5de16db0676c4e508aa51f81c"
+    },
+    {
+      "path": "apply.log",
+      "sha256": "59fa3d277105e73b44d9f03daa3cb9447e3270b71dbdf57384e96bdcdf8c59d0"
+    },
+    {
+      "path": "file_listing.txt",
+      "sha256": "e4f1ba1071fc401df1b4a4ffcb0daeb18ec5110f80d56f6845d0f37798d23996"
+    },
+    {
+      "path": "git_head_before.txt",
+      "sha256": "1d34493a87fb79743dc3231da83e317be68e013f79525af96c34be02bd6e1f87"
+    },
+    {
+      "path": "git_status_before.txt",
+      "sha256": "78427772e1972b9129388560aba776b42690369f4481b9b284dc67545caf2d83"
+    },
+    {
+      "path": "nonprod_runtime_secret_payload.txt",
+      "sha256": "0629633336ee01a0074fb58b5eacf326476ad1e5cc653022f08911fbc31814f7"
+    },
+    {
+      "path": "nonprod_secret_versions.txt",
+      "sha256": "8aafd165d0cdc2c86b859d5d55ec7ff3f216065da44b9ab929438086d05b0845"
+    },
+    {
+      "path": "prod_runtime_secret_payload.txt",
+      "sha256": "9daf22d2514fbad339f12bbb549678b21196f8a7041c785bc5e97320b4c7ee16"
+    },
+    {
+      "path": "prod_secret_versions.txt",
+      "sha256": "81a548286825f3e17660038b6297cd4d14b8d59e931c1a949d98add9ccc6b47b"
+    },
+    {
+      "path": "run_service_nonprod.txt",
+      "sha256": "10a011a332fc1b20fd45ac458f2e0055eebd73765afa1984f0851b88c98a1a7f"
+    },
+    {
+      "path": "run_service_prod.txt",
+      "sha256": "858f24aa0778e1629c4d72d3710a977641292e557f1a434df73b4c92a467e3b3"
+    },
+    {
+      "path": "trigger_mode.txt",
+      "sha256": "5b724a41b93aa1176e331f84649f146aaf706006ea290f3dc26bb97105fdd311"
+    },
+    {
+      "path": "triggers_list.txt",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    }
+  ]
+}

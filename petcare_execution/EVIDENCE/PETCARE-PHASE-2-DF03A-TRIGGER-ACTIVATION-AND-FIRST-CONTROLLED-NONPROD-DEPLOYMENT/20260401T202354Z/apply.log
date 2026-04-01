@@ -1,0 +1,10 @@
+DF03A_APPLY_START=20260401T202354Z
+REPO_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository
+DF03_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03
+DF03A_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03A
+RUN_DIR=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF03A-TRIGGER-ACTIVATION-AND-FIRST-CONTROLLED-NONPROD-DEPLOYMENT/20260401T202354Z
+Encryption: Google-managed key
+Repository Size: 0.000MB
+Created version [2] of the secret [petcare-runtime-config-nonprod].
+Created version [2] of the secret [petcare-runtime-config-prod].
+ERROR: (gcloud.builds.triggers.create.github) FAILED_PRECONDITION: Repository mapping does not exist. Please visit https://console.cloud.google.com/cloud-build/triggers;region=me-central2/connect?project=823816970477 to connect a repository to your project
