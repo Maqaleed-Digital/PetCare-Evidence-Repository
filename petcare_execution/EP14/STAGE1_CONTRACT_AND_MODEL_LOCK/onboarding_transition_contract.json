@@ -1,0 +1,79 @@
+{
+  "source_of_truth_commit": "eb7aaaa370b89bd76871c801bd1c1f49c352887a",
+  "contract_family": "onboarding_transition",
+  "states": [
+    "INACTIVE",
+    "SANDBOX_ENABLED",
+    "VALIDATING",
+    "CERTIFIED",
+    "ACTIVE",
+    "SUSPENDED",
+    "REVOKED"
+  ],
+  "transitions": [
+    {
+      "from": "INACTIVE",
+      "to": "SANDBOX_ENABLED",
+      "preconditions": [
+        "partner_identity_verified",
+        "sandbox_access_approved"
+      ]
+    },
+    {
+      "from": "SANDBOX_ENABLED",
+      "to": "VALIDATING",
+      "preconditions": [
+        "sandbox_credentials_issued",
+        "first_successful_sandbox_interaction_recorded"
+      ]
+    },
+    {
+      "from": "VALIDATING",
+      "to": "CERTIFIED",
+      "preconditions": [
+        "required_test_evidence_collected",
+        "contract_conformance_verified",
+        "webhook_replay_success_confirmed"
+      ]
+    },
+    {
+      "from": "CERTIFIED",
+      "to": "ACTIVE",
+      "preconditions": [
+        "later_phase_activation_approved",
+        "production_enablement_outside_ep14_stage1"
+      ]
+    },
+    {
+      "from": "ACTIVE",
+      "to": "SUSPENDED",
+      "preconditions": [
+        "governance_breach_or_operational_concern"
+      ]
+    },
+    {
+      "from": "SUSPENDED",
+      "to": "ACTIVE",
+      "preconditions": [
+        "remediation_complete",
+        "reactivation_approved"
+      ]
+    }
+  ],
+  "terminal_transitions": [
+    {
+      "from": "ANY_STATE",
+      "to": "REVOKED",
+      "preconditions": [
+        "severe_breach_or_termination_decision"
+      ]
+    }
+  ],
+  "rules": {
+    "certification_required_before_active": true,
+    "active_does_not_grant_payment_authority": true,
+    "active_does_not_grant_treasury_authority": true,
+    "active_does_not_grant_approval_authority": true,
+    "active_does_not_grant_production_execution_authority": true
+  }
+}

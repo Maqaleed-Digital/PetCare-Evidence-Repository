@@ -1,0 +1,38 @@
+{
+  "source_of_truth_commit": "eb7aaaa370b89bd76871c801bd1c1f49c352887a",
+  "model_family": "partner_model",
+  "partner_statuses": [
+    "INACTIVE",
+    "SANDBOX_ENABLED",
+    "VALIDATING",
+    "CERTIFIED",
+    "ACTIVE",
+    "SUSPENDED",
+    "REVOKED"
+  ],
+  "fields": [
+    {"name": "partner_id", "type": "string", "required": true},
+    {"name": "legal_name", "type": "string", "required": true},
+    {"name": "display_name", "type": "string", "required": true},
+    {"name": "tenant_scope", "type": "array[string]", "required": true},
+    {"name": "allowed_scopes", "type": "array[string]", "required": true},
+    {"name": "status", "type": "enum", "required": true},
+    {"name": "sandbox_enabled", "type": "boolean", "required": true},
+    {"name": "certification_state", "type": "enum", "required": true},
+    {"name": "created_at", "type": "rfc3339_utc", "required": true},
+    {"name": "updated_at", "type": "rfc3339_utc", "required": true}
+  ],
+  "certification_states": [
+    "NOT_STARTED",
+    "IN_PROGRESS",
+    "PASSED",
+    "FAILED",
+    "EXPIRED"
+  ],
+  "rules": {
+    "partner_scope_required": true,
+    "tenant_scope_required": true,
+    "certification_required_before_active": true,
+    "active_does_not_expand_execution_authority": true
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "source_of_truth_commit": "eb7aaaa370b89bd76871c801bd1c1f49c352887a",
+  "contract_family": "webhook_replay",
+  "allowed_event_types": [
+    "order.created",
+    "order.updated",
+    "referral.created",
+    "referral.updated",
+    "availability.updated",
+    "catalog.batch.completed",
+    "webhook.subscription.disabled"
+  ],
+  "required_headers": [
+    "X-PetCare-Sandbox-Signature",
+    "X-PetCare-Sandbox-Signature-Timestamp",
+    "X-PetCare-Sandbox-Event-Id"
+  ],
+  "algorithm": "HMAC_SHA256",
+  "rules": {
+    "sandbox_webhook_secret_distinct_from_production": true,
+    "sandbox_event_namespace_distinct_from_production": true,
+    "replay_only_sandbox_events": true,
+    "production_events_replayable_from_sandbox": false,
+    "delivery_attempt_logging_required": true,
+    "sandbox_trace_id_required": true
+  }
+}

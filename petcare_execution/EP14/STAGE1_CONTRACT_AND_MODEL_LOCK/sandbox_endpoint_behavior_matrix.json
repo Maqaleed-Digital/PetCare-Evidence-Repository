@@ -1,0 +1,75 @@
+{
+  "source_of_truth_commit": "eb7aaaa370b89bd76871c801bd1c1f49c352887a",
+  "behavior_family": "sandbox_endpoint_behavior",
+  "endpoint_families": [
+    {
+      "family_id": "orders_collection",
+      "allowed_methods": ["POST"],
+      "sandbox_behavior": "SIMULATE_REQUEST_ACCEPTED",
+      "mutation_mode": "SIMULATED_REQUEST_INTAKE_ONLY",
+      "production_dispatch_allowed": false
+    },
+    {
+      "family_id": "referrals_collection",
+      "allowed_methods": ["POST"],
+      "sandbox_behavior": "SIMULATE_REQUEST_ACCEPTED",
+      "mutation_mode": "SIMULATED_REQUEST_INTAKE_ONLY",
+      "production_dispatch_allowed": false
+    },
+    {
+      "family_id": "availability",
+      "allowed_methods": ["PUT"],
+      "sandbox_behavior": "SIMULATE_REQUEST_PROCESSED",
+      "mutation_mode": "SIMULATED_REQUEST_INTAKE_ONLY",
+      "production_dispatch_allowed": false
+    },
+    {
+      "family_id": "catalog_batches_collection",
+      "allowed_methods": ["POST"],
+      "sandbox_behavior": "SIMULATE_BATCH_VALIDATION",
+      "mutation_mode": "SIMULATED_REQUEST_INTAKE_ONLY",
+      "production_dispatch_allowed": false
+    },
+    {
+      "family_id": "webhook_subscriptions_collection",
+      "allowed_methods": ["GET", "POST"],
+      "sandbox_behavior": "SIMULATE_SUBSCRIPTION_LIFECYCLE",
+      "mutation_mode": "SIMULATED_REQUEST_INTAKE_ONLY",
+      "production_dispatch_allowed": false
+    },
+    {
+      "family_id": "webhook_subscription_pause",
+      "allowed_methods": ["POST"],
+      "sandbox_behavior": "SIMULATE_SUBSCRIPTION_PAUSE",
+      "mutation_mode": "SIMULATED_REQUEST_INTAKE_ONLY",
+      "production_dispatch_allowed": false
+    },
+    {
+      "family_id": "webhook_subscription_resume",
+      "allowed_methods": ["POST"],
+      "sandbox_behavior": "SIMULATE_SUBSCRIPTION_RESUME",
+      "mutation_mode": "SIMULATED_REQUEST_INTAKE_ONLY",
+      "production_dispatch_allowed": false
+    },
+    {
+      "family_id": "webhook_subscription_item",
+      "allowed_methods": ["DELETE"],
+      "sandbox_behavior": "SIMULATE_SUBSCRIPTION_DISABLE",
+      "mutation_mode": "SIMULATED_REQUEST_INTAKE_ONLY",
+      "production_dispatch_allowed": false
+    },
+    {
+      "family_id": "events_item",
+      "allowed_methods": ["GET"],
+      "sandbox_behavior": "REPLAY_SANDBOX_EVENT_ONLY",
+      "mutation_mode": "NONE",
+      "production_dispatch_allowed": false
+    }
+  ],
+  "rules": {
+    "all_sandbox_writes_are_simulated_request_intake_only": true,
+    "sandbox_to_production_execution_path_allowed": false,
+    "sandbox_trace_namespace_required": true,
+    "sandbox_response_determinism_required": true
+  }
+}
