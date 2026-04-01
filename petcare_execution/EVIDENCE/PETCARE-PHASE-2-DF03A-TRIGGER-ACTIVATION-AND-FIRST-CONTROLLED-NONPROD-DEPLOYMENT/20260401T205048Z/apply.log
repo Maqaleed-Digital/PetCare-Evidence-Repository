@@ -1,0 +1,6 @@
+DF03A_APPLY_START=20260401T205048Z
+REPO_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository
+DF03_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03
+DF03A_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03A
+RUN_DIR=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF03A-TRIGGER-ACTIVATION-AND-FIRST-CONTROLLED-NONPROD-DEPLOYMENT/20260401T205048Z
+petcare_execution/PHASE_2/DF03A/scripts/df03a_apply.sh: line 38: RUNTIME_SECRET_VALUE_NONPROD: Missing RUNTIME_SECRET_VALUE_NONPROD

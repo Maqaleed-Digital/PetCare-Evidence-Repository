@@ -1,0 +1,67 @@
+metadata:
+  '@type': type.googleapis.com/google.devtools.cloudbuild.v1.BuildOperationMetadata
+  build:
+    buildTriggerId: 384e7e8d-cef7-45cf-97d9-2b3f9e3ee145
+    createTime: '2026-04-01T21:25:33.549748Z'
+    id: acba91ed-8e2d-478b-ae2e-5aa42258a0da
+    logUrl: https://console.cloud.google.com/cloud-build/builds;region=me-central2/acba91ed-8e2d-478b-ae2e-5aa42258a0da?project=823816970477
+    name: projects/823816970477/locations/me-central2/builds/acba91ed-8e2d-478b-ae2e-5aa42258a0da
+    options:
+      dynamicSubstitutions: true
+      logging: CLOUD_LOGGING_ONLY
+      pool: {}
+      substitutionOption: ALLOW_LOOSE
+    projectId: prj-maq-petcare-nonprod
+    queueTtl: 3600s
+    serviceAccount: projects/prj-maq-petcare-nonprod/serviceAccounts/petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+    source:
+      gitSource:
+        revision: f49b4a876cf1bc7617558d5479db12b73887490d
+        url: https://github.com/Maqaleed-Digital/PetCare-Platform.git
+    sourceProvenance:
+      resolvedGitSource:
+        revision: f49b4a876cf1bc7617558d5479db12b73887490d
+        url: https://github.com/Maqaleed-Digital/PetCare-Platform.git
+    status: QUEUED
+    steps:
+    - args:
+      - -euo
+      - pipefail
+      - -c
+      - |
+        echo "DF03B_NONPROD_SMOKE_START"
+        echo "PROJECT_ID=prj-maq-petcare-nonprod"
+        echo "REPO_NAME=PetCare-Platform"
+        echo "BRANCH_NAME=main"
+        echo "COMMIT_SHA=f49b4a876cf1bc7617558d5479db12b73887490d"
+        echo "SHORT_SHA=f49b4a8"
+        echo "PWD=$(pwd)"
+        echo "ROOT_FILE_LIST_BEGIN"
+        find . -maxdepth 2 -type f | sort | sed -n '1,200p'
+        echo "ROOT_FILE_LIST_END"
+        gcloud run services describe "petcare-api-nonprod" --project="prj-maq-petcare-nonprod" --region="me-central2" --format="value(metadata.name,status.url)"
+        echo "DF03B_NONPROD_SMOKE_PASS"
+      entrypoint: bash
+      id: repo-context-smoke
+      name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    substitutions:
+      BRANCH_NAME: main
+      COMMIT_SHA: f49b4a876cf1bc7617558d5479db12b73887490d
+      REF_NAME: main
+      REPO_FULL_NAME: Maqaleed-Digital/PetCare-Platform
+      REPO_NAME: PetCare-Platform
+      REVISION_ID: f49b4a876cf1bc7617558d5479db12b73887490d
+      SHORT_SHA: f49b4a8
+      TRIGGER_BUILD_CONFIG_PATH: ''
+      TRIGGER_NAME: petcare-nonprod-main
+      _ARTIFACT_REPO: petcare-artifacts
+      _DEPLOY_SA_EMAIL: petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+      _IMAGE_NAME: petcare-api
+      _PLATFORM_PROJECT: prj-maq-petcare-nonprod
+      _REGION: me-central2
+      _RUNTIME_SECRET_NAME: petcare-runtime-config-nonprod
+      _SERVICE_NAME: petcare-api-nonprod
+    tags:
+    - trigger-384e7e8d-cef7-45cf-97d9-2b3f9e3ee145
+    timeout: 3600s
+name: operations/build/prj-maq-petcare-nonprod/YWNiYTkxZWQtOGUyZC00NzhiLWFlMmUtNWFhNDIyNThhMGRh

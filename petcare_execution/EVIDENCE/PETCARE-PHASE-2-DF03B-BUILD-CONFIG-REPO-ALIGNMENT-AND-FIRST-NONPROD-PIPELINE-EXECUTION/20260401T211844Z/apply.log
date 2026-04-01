@@ -1,0 +1,28 @@
+DF03B_APPLY_START=20260401T211844Z
+REPO_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository
+DF03_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03
+DF03B_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03B
+RUN_DIR=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF03B-BUILD-CONFIG-REPO-ALIGNMENT-AND-FIRST-NONPROD-PIPELINE-EXECUTION/20260401T211844Z
+NONPROD_TRIGGER_ID=384e7e8d-cef7-45cf-97d9-2b3f9e3ee145
+PROD_TRIGGER_ID=1673d812-a465-44d6-afdf-d4c163b20c29
+  File "<stdin>", line 10
+  File "<stdin>", line 7
+  File "<stdin>", line 7
+  File "<stdin>", line 7
+  File "<stdin>", line 7
+    "push": "branch": "^main$"}
+    "github": {
+                    ^
+SyntaxError: invalid syntax
+              ^
+    "github": {
+SyntaxError: '{' was never closed
+              ^
+SyntaxError: '{' was never closed
+    "github": {
+              ^
+SyntaxError: '{' was never closed
+    "github": {
+              ^
+SyntaxError: '{' was never closed
+ERROR: (gcloud.builds.triggers.run) NOT_FOUND: File petcare_execution/PHASE_2/DF03/cloudbuild.nonprod.yaml not found. This command is authenticated as admin@maqaleed.tech which is the active account specified by the [core/account] property

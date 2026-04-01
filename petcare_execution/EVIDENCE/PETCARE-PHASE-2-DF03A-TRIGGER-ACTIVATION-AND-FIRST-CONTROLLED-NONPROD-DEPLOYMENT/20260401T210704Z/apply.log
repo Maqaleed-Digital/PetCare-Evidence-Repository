@@ -1,0 +1,16 @@
+DF03A_APPLY_START=20260401T210704Z
+REPO_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository
+DF03_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03
+DF03A_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03A
+RUN_DIR=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF03A-TRIGGER-ACTIVATION-AND-FIRST-CONTROLLED-NONPROD-DEPLOYMENT/20260401T210704Z
+Encryption: Google-managed key
+Repository Size: 0.000MB
+Created version [4] of the secret [petcare-runtime-config-nonprod].
+Created version [4] of the secret [petcare-runtime-config-prod].
+Created [https://cloudbuild.googleapis.com/v1/projects/prj-maq-petcare-nonprod/locations/me-central2/triggers/384e7e8d-cef7-45cf-97d9-2b3f9e3ee145].
+NAME                  CREATE_TIME                STATUS
+petcare-nonprod-main  2026-04-01T21:07:42+00:00
+Created [https://cloudbuild.googleapis.com/v1/projects/prj-maq-petcare-nonprod/locations/me-central2/triggers/1673d812-a465-44d6-afdf-d4c163b20c29].
+NAME                  CREATE_TIME                STATUS
+petcare-prod-release  2026-04-01T21:07:48+00:00
+ERROR: (gcloud.builds.triggers.run) NOT_FOUND: File petcare_execution/PHASE_2/DF03/cloudbuild.nonprod.yaml not found. This command is authenticated as admin@maqaleed.tech which is the active account specified by the [core/account] property

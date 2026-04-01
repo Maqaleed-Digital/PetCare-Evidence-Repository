@@ -1,0 +1,42 @@
+{
+  "MANIFEST.json": {
+    "sha256": "7b04316b124e4b5ed4998cbd4c2a9e743939c8bb6aea505091815aa033052016",
+    "size": 1082
+  },
+  "apply.log": {
+    "sha256": "234125f88a727953611c448bb411b3858cb8615c71624fe0cd93fc229656f260",
+    "size": 1301
+  },
+  "build_result.json": {
+    "sha256": "7ee6c453096fedfdc0eaa592b5a46942214cac358e6d44ef767260ef6a62ab2b",
+    "size": 3799
+  },
+  "first_nonprod_trigger_run.txt": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "nonprod_trigger_after_update.json": {
+    "sha256": "a65241255307f0abd70692fb80023bab02d11d96e76d5f84456a0f2501d87779",
+    "size": 1124
+  },
+  "nonprod_trigger_update.txt": {
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "size": 0
+  },
+  "prod_trigger_after_update.json": {
+    "sha256": "a5c9b32afd4f51d90ef58d0f0c7ec34e0b5cb62d5278a628196b04a74c02fc43",
+    "size": 1091
+  },
+  "trigger_final_state.json": {
+    "sha256": "a450a2fdd2b9a1a55839af3969b3672f6899380887f19c9113ac1c738fc959c7",
+    "size": 1917
+  },
+  "trigger_run_output.txt": {
+    "sha256": "a9bf26ab4c91398ba78077bdf067097b5482b085234aa9ee80e795eabb521d07",
+    "size": 2881
+  },
+  "validation_output.txt": {
+    "sha256": "d3200b23cd43c980ead8ea8a8fdbea2d20d17b9351ddd88641224afdfbc4ae3d",
+    "size": 145
+  }
+}

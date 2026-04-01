@@ -1,0 +1,27 @@
+{
+  "approvalConfig": {
+    "approvalRequired": true
+  },
+  "createTime": "2026-04-01T21:07:48.373657164Z",
+  "description": "PetCare DF03A prod approval-gated release trigger",
+  "filename": "petcare_execution/PHASE_2/DF03/cloudbuild.prod.yaml",
+  "github": {
+    "name": "PetCare-Platform",
+    "owner": "Maqaleed-Digital",
+    "push": {
+      "tag": "^prod-release-.*$"
+    }
+  },
+  "id": "1673d812-a465-44d6-afdf-d4c163b20c29",
+  "includeBuildLogs": "INCLUDE_BUILD_LOGS_WITH_STATUS",
+  "name": "petcare-prod-release",
+  "resourceName": "projects/prj-maq-petcare-nonprod/locations/me-central2/triggers/1673d812-a465-44d6-afdf-d4c163b20c29",
+  "serviceAccount": "projects/prj-maq-petcare-nonprod/serviceAccounts/petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com",
+  "substitutions": {
+    "_DEPLOY_SA_EMAIL": "petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com",
+    "_PLATFORM_PROJECT": "prj-maq-petcare-prod",
+    "_REGION": "me-central2",
+    "_RUNTIME_SECRET_NAME": "petcare-runtime-config-prod",
+    "_SERVICE_NAME": "petcare-api-prod"
+  }
+}
