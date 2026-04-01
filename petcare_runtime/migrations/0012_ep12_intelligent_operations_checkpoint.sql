@@ -1,0 +1,3 @@
+-- PETCARE EP-12 checkpoint migration
+-- This migration marks activation of intelligent operations and decision support scaffolding.
+-- No schema mutation is introduced in this checkpoint migration.

@@ -1,0 +1,74 @@
+{
+  "entries": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT/20260401T110055Z/file_listing.txt",
+      "sha256": "49800814307e997d4e6275927b856069d8dbb1278d4c3e7508bc826918fd65ba"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT/20260401T110055Z/phase_assertions.txt",
+      "sha256": "e8d7718d8eb321482a7984417dfe67dbde1a6c3e144755291e393a80841b9340"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT/20260401T110055Z/pytest.log",
+      "sha256": "efb4cc1ce219481f3402d2af55e9136236d8c64373d15989442ebcea41df9cb3"
+    },
+    {
+      "path": "petcare_execution/EP12/EP12_EXECUTION_MASTER_SPEC.md",
+      "sha256": "96e73303d54bbfc3f49d71af53364b597db73aaf57c80fe84ca660886177d661"
+    },
+    {
+      "path": "petcare_execution/EP12/EP12_HARD_GATES.md",
+      "sha256": "34c9ea278c161edde331dedd038af85f63ee835206d8a69a6b65183d43f0e64a"
+    },
+    {
+      "path": "petcare_execution/EP12/EP12_NOTION_EXECUTION_MAP.md",
+      "sha256": "04a249f77ebbe88752e901e29ce3a200fface6fc97b50d6e31b30ba1a8dadbd8"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/intelligent_ops/__init__.py",
+      "sha256": "380de1719471a91630adbe6ed6c937272568a6b0d21ab7301653d490cddb54ec"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/intelligent_ops/anomalies.py",
+      "sha256": "6c3ea570c4789de897f582daa390606c6b809c0a40c4146379008a90c5207f9b"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/intelligent_ops/risk.py",
+      "sha256": "f23e880c1ae0693e24a320725e30bc07250e28dc2a31094741ab37c765413b39"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/intelligent_ops/recommendations.py",
+      "sha256": "bd8a8c312692b12c5b35e02630dfa20e765687d3f46df129f14229bc3beb60bb"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/intelligent_ops/optimization.py",
+      "sha256": "31abe687d8d027d3e6de3ef7e59c55c66db10fd002f9b223e78b315b73d7043c"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/intelligent_ops/predictive.py",
+      "sha256": "ae9529f9547be3f267ec84e2f41b407c78981e408fe4667f8d30340cb5905aea"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/intelligent_ops/explainability.py",
+      "sha256": "8d9220b387986734738f144405d2d627d0ec64c50e7eb6752facdbad84b62573"
+    },
+    {
+      "path": "petcare_runtime/src/petcare/intelligent_ops/audit.py",
+      "sha256": "9b7d05fbc3e39127fd54310407935fa8dcfd8a0a53d24a05100a358b9307901d"
+    },
+    {
+      "path": "petcare_runtime/tests/intelligent_ops/test_intelligent_ops.py",
+      "sha256": "73a56dca71fd7fdb0005eeee1ecdd9323220049ecb29c03a6981f49c9de3d119"
+    },
+    {
+      "path": "petcare_runtime/migrations/0012_ep12_intelligent_operations_checkpoint.sql",
+      "sha256": "f85ece5d6719fafe084f1189fb6d1cbbda1fa54fc86a034aae206883f46354eb"
+    },
+    {
+      "path": "scripts/petcare_ep12_all_waves_pack.sh",
+      "sha256": "4557c8c6352decb71bc8a1270fac5a3986ba1a60f5479f7c68a8ffe484a5b705"
+    }
+  ],
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT",
+  "run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP12-INTELLIGENT-OPERATIONS-AND-DECISION-SUPPORT/20260401T110055Z"
+}
