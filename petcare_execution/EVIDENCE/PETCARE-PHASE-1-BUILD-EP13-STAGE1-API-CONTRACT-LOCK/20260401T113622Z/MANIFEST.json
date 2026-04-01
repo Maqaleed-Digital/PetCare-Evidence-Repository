@@ -1,0 +1,32 @@
+{
+  "execution_pack": "PETCARE-PHASE-1-BUILD-EP13-STAGE1-API-CONTRACT-LOCK",
+  "stage": "EP13-STAGE1-API-CONTRACT-LOCK",
+  "utc_run": "20260401T113622Z",
+  "source_of_truth_commit": "b702f08f4b14c23a882b4bd9eac4bf397c390bd8",
+  "head_at_execution": "b702f08f4b14c23a882b4bd9eac4bf397c390bd8",
+  "status": "LOCKED",
+  "artifacts": [
+    {
+      "path": "petcare_execution/EP13/STAGE1_API_CONTRACT_LOCK/EP13_STAGE1_API_CONTRACT_SPEC.md",
+      "sha256": "fc63db4cca61ed58176934e7790c30020c2167716a78787c9368e0c8ccc740cb"
+    },
+    {
+      "path": "petcare_execution/EP13/STAGE1_API_CONTRACT_LOCK/EP13_STAGE1_OPENAPI.yaml",
+      "sha256": "bc5e967c12d9ca96ba629ab6913d6ceacdced52600d023cc6c383cbb839e533f"
+    },
+    {
+      "path": "petcare_execution/EP13/STAGE1_API_CONTRACT_LOCK/EP13_STAGE1_NOTION_UPDATE.md",
+      "sha256": "3764d2d74b53c3cd877bc23943d130e7fb1f7172ae1b83fb3275854549a5764b"
+    },
+    {
+      "path": "petcare_execution/EP13/STAGE1_API_CONTRACT_LOCK/EP13_STAGE1_EMERGENT_PROMPT.md",
+      "sha256": "9d0cf74593088f8e0f7fc699e9fcbdc34096e1cd6291f6584325807753f6cd69"
+    }
+  ],
+  "evidence_run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE1-API-CONTRACT-LOCK/20260401T113622Z",
+  "governance_preserved": true,
+  "external_execution_authority_transferred": false,
+  "payment_execution_exposed": false,
+  "approval_bypass_exposed": false,
+  "treasury_bypass_exposed": false
+}
