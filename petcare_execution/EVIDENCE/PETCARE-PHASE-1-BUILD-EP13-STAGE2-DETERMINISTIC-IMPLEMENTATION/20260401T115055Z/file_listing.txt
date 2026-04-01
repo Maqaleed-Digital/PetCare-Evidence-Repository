@@ -1,0 +1,9 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP13/STAGE2_IMPLEMENTATION/EP13_STAGE2_EMERGENT_PROMPT.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP13/STAGE2_IMPLEMENTATION/EP13_STAGE2_IMPLEMENTATION_SPEC.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP13/STAGE2_IMPLEMENTATION/EP13_STAGE2_NOTION_UPDATE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP13/STAGE2_IMPLEMENTATION/audit_trace_scaffold.py
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP13/STAGE2_IMPLEMENTATION/auth_scope_matrix.json
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP13/STAGE2_IMPLEMENTATION/contract_assert.py
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP13/STAGE2_IMPLEMENTATION/endpoint_family_registry.json
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP13/STAGE2_IMPLEMENTATION/integration_gateway_scaffold.py
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP13/STAGE2_IMPLEMENTATION/webhook_delivery_scaffold.py

@@ -1,0 +1,156 @@
+{
+  "source_of_truth_commit": "5b9d6ea",
+  "required_headers": [
+    "Authorization",
+    "X-PetCare-Partner-Id",
+    "X-PetCare-Request-Id",
+    "X-PetCare-Timestamp"
+  ],
+  "idempotency_required_for_methods": ["POST", "PUT", "DELETE"],
+  "scope_matrix": {
+    "partner_profile": {
+      "GET": {
+        "scopes": ["partner.read"],
+        "auth_methods": ["oauth2_client_credentials", "api_key_limited"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true
+      }
+    },
+    "orders_collection": {
+      "GET": {
+        "scopes": ["orders.read"],
+        "auth_methods": ["oauth2_client_credentials", "api_key_limited"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true
+      },
+      "POST": {
+        "scopes": ["orders.write_request"],
+        "auth_methods": ["oauth2_client_credentials"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true,
+        "idempotency_required": true,
+        "governed_request_intake_only": true
+      }
+    },
+    "orders_item": {
+      "GET": {
+        "scopes": ["orders.read"],
+        "auth_methods": ["oauth2_client_credentials", "api_key_limited"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true
+      }
+    },
+    "referrals_collection": {
+      "GET": {
+        "scopes": ["referrals.read"],
+        "auth_methods": ["oauth2_client_credentials", "api_key_limited"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true
+      },
+      "POST": {
+        "scopes": ["referrals.write_request"],
+        "auth_methods": ["oauth2_client_credentials"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true,
+        "idempotency_required": true,
+        "governed_request_intake_only": true
+      }
+    },
+    "referrals_item": {
+      "GET": {
+        "scopes": ["referrals.read"],
+        "auth_methods": ["oauth2_client_credentials", "api_key_limited"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true
+      }
+    },
+    "availability": {
+      "PUT": {
+        "scopes": ["availability.write"],
+        "auth_methods": ["oauth2_client_credentials"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true,
+        "idempotency_required": true,
+        "governed_request_intake_only": true
+      }
+    },
+    "catalog_batches_collection": {
+      "POST": {
+        "scopes": ["catalog.write"],
+        "auth_methods": ["oauth2_client_credentials"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true,
+        "idempotency_required": true,
+        "governed_request_intake_only": true
+      }
+    },
+    "catalog_batches_item": {
+      "GET": {
+        "scopes": ["catalog.write"],
+        "auth_methods": ["oauth2_client_credentials", "api_key_limited"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true
+      }
+    },
+    "webhook_subscriptions_collection": {
+      "GET": {
+        "scopes": ["webhooks.manage"],
+        "auth_methods": ["oauth2_client_credentials", "api_key_limited"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true
+      },
+      "POST": {
+        "scopes": ["webhooks.manage"],
+        "auth_methods": ["oauth2_client_credentials"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true,
+        "governed_request_intake_only": true
+      }
+    },
+    "webhook_subscription_pause": {
+      "POST": {
+        "scopes": ["webhooks.manage"],
+        "auth_methods": ["oauth2_client_credentials"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true,
+        "governed_request_intake_only": true
+      }
+    },
+    "webhook_subscription_resume": {
+      "POST": {
+        "scopes": ["webhooks.manage"],
+        "auth_methods": ["oauth2_client_credentials"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true,
+        "governed_request_intake_only": true
+      }
+    },
+    "webhook_subscription_item": {
+      "DELETE": {
+        "scopes": ["webhooks.manage"],
+        "auth_methods": ["oauth2_client_credentials"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true,
+        "idempotency_required": true,
+        "governed_request_intake_only": true
+      }
+    },
+    "events_item": {
+      "GET": {
+        "scopes": ["events.read"],
+        "auth_methods": ["oauth2_client_credentials", "api_key_limited"],
+        "partner_scope_required": true,
+        "tenant_scope_required": true
+      }
+    }
+  },
+  "webhook_signing": {
+    "required_headers": [
+      "X-PetCare-Signature",
+      "X-PetCare-Signature-Timestamp",
+      "X-PetCare-Event-Id"
+    ],
+    "algorithm": "HMAC_SHA256",
+    "signature_basis": "timestamp.raw_body"
+  }
+}

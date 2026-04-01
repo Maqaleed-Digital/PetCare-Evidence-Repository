@@ -1,0 +1,20 @@
+{
+  "outcome": "ACCEPTED_FOR_GOVERNED_INTERNAL_PROCESSING",
+  "payload": {
+    "body": {
+      "external_reference": "ext_001"
+    },
+    "external_method": "POST",
+    "external_path": "/v1/orders",
+    "governance_state": "GOVERNED",
+    "internal_request_type": "orders_collection",
+    "mutation_mode": "REQUEST_INTAKE_ONLY",
+    "partner_id": "partner_001",
+    "path_params": {},
+    "query_params": {},
+    "tenant_id": "tenant_001",
+    "trace_id": "trace::partner_001::tenant_001::req_001"
+  },
+  "status_code": 202,
+  "trace_id": "trace::partner_001::tenant_001::req_001"
+}

@@ -1,0 +1,15 @@
+{
+  "attempt": {
+    "attempt_count": 1,
+    "delivery_status": "PENDING",
+    "event_id": "evt_001",
+    "event_type": "order.created",
+    "last_attempt_at": "2026-04-01T11:54:24Z",
+    "next_retry_at": null,
+    "payload_hash": "86b9ede8e81d57e1eb23098c8aa779150b7a4d68e3b6cc8fb54fbb1e5283e6bf",
+    "signature_key_id": "sigkey_001",
+    "subscription_id": "sub_001",
+    "trace_id": "trace::partner_001::tenant_001::req_001"
+  },
+  "verified": true
+}

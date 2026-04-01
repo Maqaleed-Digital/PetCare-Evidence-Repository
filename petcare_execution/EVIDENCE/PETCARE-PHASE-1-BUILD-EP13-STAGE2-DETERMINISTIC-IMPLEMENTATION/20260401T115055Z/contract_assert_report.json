@@ -1,0 +1,19 @@
+{
+  "all_controlled_writes_request_intake_only": true,
+  "allowed_webhook_events": [
+    "availability.updated",
+    "catalog.batch.completed",
+    "dispute.opened",
+    "order.created",
+    "order.updated",
+    "referral.created",
+    "referral.updated",
+    "settlement.generated",
+    "webhook.subscription.disabled"
+  ],
+  "endpoint_families_locked": 13,
+  "forbidden_capabilities_exposed": false,
+  "partner_scope_required": true,
+  "status": "PASS",
+  "tenant_scope_required": true
+}

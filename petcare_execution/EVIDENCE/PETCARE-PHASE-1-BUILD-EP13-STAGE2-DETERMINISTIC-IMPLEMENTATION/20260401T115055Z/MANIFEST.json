@@ -1,0 +1,38 @@
+{
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION",
+  "utc_run": "20260401T115055Z",
+  "source_of_truth_commit": "5b9d6ea",
+  "stage_root": "petcare_execution/EP13/STAGE2_IMPLEMENTATION",
+  "evidence_run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION/20260401T115055Z",
+  "artifacts": [
+    "petcare_execution/EP13/STAGE2_IMPLEMENTATION/EP13_STAGE2_IMPLEMENTATION_SPEC.md",
+    "petcare_execution/EP13/STAGE2_IMPLEMENTATION/endpoint_family_registry.json",
+    "petcare_execution/EP13/STAGE2_IMPLEMENTATION/auth_scope_matrix.json",
+    "petcare_execution/EP13/STAGE2_IMPLEMENTATION/integration_gateway_scaffold.py",
+    "petcare_execution/EP13/STAGE2_IMPLEMENTATION/webhook_delivery_scaffold.py",
+    "petcare_execution/EP13/STAGE2_IMPLEMENTATION/audit_trace_scaffold.py",
+    "petcare_execution/EP13/STAGE2_IMPLEMENTATION/contract_assert.py",
+    "petcare_execution/EP13/STAGE2_IMPLEMENTATION/EP13_STAGE2_NOTION_UPDATE.md",
+    "petcare_execution/EP13/STAGE2_IMPLEMENTATION/EP13_STAGE2_EMERGENT_PROMPT.md",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION/20260401T115055Z/contract_assert_report.json",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION/20260401T115055Z/gateway_sample_output.json",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION/20260401T115055Z/webhook_sample_output.json",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION/20260401T115055Z/audit_trace_sample_output.json",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION/20260401T115055Z/file_listing.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION/20260401T115055Z/sha256.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION/20260401T115055Z/git_head.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP13-STAGE2-DETERMINISTIC-IMPLEMENTATION/20260401T115055Z/git_status.txt"
+  ],
+  "governance_flags": {
+    "external_execution_authority_transferred": false,
+    "payment_execution_exposed": false,
+    "approval_bypass_exposed": false,
+    "treasury_bypass_exposed": false,
+    "ai_mediated_external_execution": false,
+    "all_controlled_writes_are_internal_requests_only": true,
+    "hidden_mutation_paths": false,
+    "tenant_isolation_required": true,
+    "partner_scope_required": true,
+    "traceability_required": true
+  }
+}
