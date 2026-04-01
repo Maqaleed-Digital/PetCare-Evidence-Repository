@@ -1,0 +1,33 @@
+{
+  "source_of_truth_commit": "c38285418e3567f79bded2e78e4734c8c6e0729e",
+  "phase": "PETCARE-PHASE-1-CLOSE-EP13",
+  "epic": "EP13_PLATFORM_EXTERNALIZATION_AND_CONTROLLED_INTEGRATION",
+  "invariants": {
+    "external_execution_authority_transferred": false,
+    "payment_execution_exposed": false,
+    "approval_bypass_exposed": false,
+    "treasury_bypass_exposed": false,
+    "ai_mediated_external_execution": false,
+    "all_controlled_writes_are_internal_requests_only": true,
+    "hidden_mutation_paths": false,
+    "tenant_isolation_required": true,
+    "partner_scope_required": true,
+    "traceability_required": true,
+    "read_surface_partner_scoped_only": true,
+    "write_surface_governed_request_intake_only": true,
+    "webhook_signing_required": true,
+    "contract_assertion_passed": true,
+    "endpoint_families_locked": 13
+  },
+  "forbidden_capabilities": [
+    "payment_execution",
+    "payout_release",
+    "treasury_movement",
+    "prescription_approval",
+    "consultation_sign_off",
+    "clinical_final_decision_submission",
+    "emergency_override_closure",
+    "ai_instruction_execution_against_core_runtime"
+  ],
+  "closure_status": "CLOSED_GOVERNED"
+}
