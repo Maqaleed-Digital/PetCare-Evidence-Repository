@@ -1,0 +1,58 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF03-DEPLOYMENT-PIPELINE/20260401T173810Z",
+  "result": "DF03_PARTIAL_COMPLETE",
+  "deferred": [
+    "github_triggers",
+    "secret_versions"
+  ],
+  "files": [
+    {
+      "path": "DEFERRED_ACTIONS.md",
+      "sha256": "6721970414058b12327e3286bfe7dfb044416a68c0e5b343838b5eba5681e734"
+    },
+    {
+      "path": "apply.log",
+      "sha256": "db7aa672669322dbc01154ed60d65c2db5eaca3f17c85b9d52f340b07c6ce2ad"
+    },
+    {
+      "path": "artifact_repo_describe.txt",
+      "sha256": "2e932ab6ce120039a492750e562f6d7e47cb5901848d5b0ffd172ba5d9d36399"
+    },
+    {
+      "path": "file_listing.txt",
+      "sha256": "3e4deac68049ce8cc20ddee63a356693e9a6cd9eb60ef1a4386a807fee9aff68"
+    },
+    {
+      "path": "git_head_before.txt",
+      "sha256": "e4826dd31745cddde2f6add23717e836925a787887810db9732631e110d2cca9"
+    },
+    {
+      "path": "git_status_before.txt",
+      "sha256": "9ed327634e1147fbd205dc4630726b5244a0c4eb60ced6a949fcf61d615193cc"
+    },
+    {
+      "path": "iam_nonprod.json",
+      "sha256": "8216aaf9b79cd1c29c4e100f50b91123b16da034ff3c49fe6803516131b1d457"
+    },
+    {
+      "path": "iam_prod.json",
+      "sha256": "c8e3399da46ffaca180695c4223e92ba22e71a3970253ac48a1ec196df3f761a"
+    },
+    {
+      "path": "promotion_model.txt",
+      "sha256": "07a1194f2250820dae9a6844792c69e1e8e06e89e96eb3a970cf388c21a79287"
+    },
+    {
+      "path": "run_service_nonprod.txt",
+      "sha256": "058d28a011c8b1c231886e33e7833489b90a4af56a1f85c4929569705d5860d7"
+    },
+    {
+      "path": "run_service_prod.txt",
+      "sha256": "16f121543c54562c845bbfe54796529caac7ef3d537a8f74b1eed2f1c0f3e0e0"
+    },
+    {
+      "path": "triggers_list.txt",
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    }
+  ]
+}

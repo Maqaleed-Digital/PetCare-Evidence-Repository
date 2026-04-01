@@ -1,0 +1,562 @@
+DF03_APPLY_START=20260401T173810Z
+REPO_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository
+DF03_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03
+RUN_DIR=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF03-DEPLOYMENT-PIPELINE/20260401T173810Z
+Updated repository [petcare-artifacts].
+createTime: '2026-04-01T17:37:52.641164Z'
+description: PetCare artifacts
+dockerConfig:
+  immutableTags: true
+format: DOCKER
+mode: STANDARD_REPOSITORY
+name: projects/prj-maq-petcare-nonprod/locations/me-central2/repositories/petcare-artifacts
+satisfiesPzi: true
+satisfiesPzs: true
+updateTime: '2026-04-01T17:38:44.121550Z'
+vulnerabilityScanningConfig:
+  enablementState: SCANNING_DISABLED
+  enablementStateReason: API containerscanning.googleapis.com is not enabled.
+  lastEnableTime: '2026-04-01T17:37:39.873020385Z'
+Created service account [petcare-df03-build-sa].
+Created service account [petcare-df03-deploy-nonprod-sa].
+Created service account [petcare-df03-deploy-prod-sa].
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+etag: BwZOaY-IFjs=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+etag: BwZOaY_G-zo=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaY_6gcE=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/logging.logWriter
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaZA8ybY=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-prod].
+bindings:
+- members:
+  - serviceAccount:232802712581@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-232802712581@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-232802712581@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-232802712581@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-232802712581@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+etag: BwZOaZBzS3Y=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-prod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:232802712581@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-232802712581@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-232802712581@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-232802712581@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-232802712581@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+etag: BwZOaZCnfWY=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-prod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:232802712581@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-232802712581@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-232802712581@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-232802712581@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-232802712581@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaZDeb5A=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-prod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:232802712581@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:service-232802712581@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-232802712581@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/logging.logWriter
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-232802712581@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-232802712581@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaZEUAEI=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/cloudbuild.builds.editor
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/logging.logWriter
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaZFSMJo=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.writer
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/cloudbuild.builds.editor
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/logging.logWriter
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaZGJpUM=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.writer
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/cloudbuild.builds.editor
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/logging.logWriter
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaZG81eM=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.writer
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/cloudbuild.builds.editor
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/iam.serviceAccountUser
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/logging.logWriter
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaZHuCIM=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.writer
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/cloudbuild.builds.editor
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/iam.serviceAccountUser
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/logging.logWriter
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaZIfQvY=
+version: 1
+Updated IAM policy for project [prj-maq-petcare-nonprod].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.reader
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-artifactregistry.iam.gserviceaccount.com
+  role: roles/artifactregistry.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/artifactregistry.writer
+- members:
+  - serviceAccount:823816970477@cloudbuild.gserviceaccount.com
+  role: roles/cloudbuild.builds.builder
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/cloudbuild.builds.editor
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-cloudbuild.iam.gserviceaccount.com
+  role: roles/cloudbuild.serviceAgent
+- members:
+  - serviceAccount:service-823816970477@containerregistry.iam.gserviceaccount.com
+  role: roles/containerregistry.ServiceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/iam.serviceAccountUser
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/logging.logWriter
+- members:
+  - user:admin@maqaleed.tech
+  role: roles/owner
+- members:
+  - serviceAccount:service-823816970477@gcp-sa-pubsub.iam.gserviceaccount.com
+  role: roles/pubsub.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/run.admin
+- members:
+  - serviceAccount:service-823816970477@serverless-robot-prod.iam.gserviceaccount.com
+  role: roles/run.serviceAgent
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  - serviceAccount:petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/secretmanager.secretAccessor
+etag: BwZOaZJU1HA=
+version: 1
+Updated IAM policy for serviceAccount [petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/iam.serviceAccountUser
+etag: BwZOaZKQTOc=
+version: 1
+Updated IAM policy for serviceAccount [petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com].
+bindings:
+- members:
+  - serviceAccount:petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  role: roles/iam.serviceAccountUser
+etag: BwZOaZLRdMk=
+version: 1
+ERROR: (gcloud.secrets.create) FAILED_PRECONDITION: Constraint constraints/gcp.resourceLocations violated for [orgpolicy:projects/823816970477] attempting to create a secret in [global]. For more information, see https://cloud.google.com/resource-manager/docs/organization-policy/defining-locations.
+- '@type': type.googleapis.com/google.rpc.PreconditionFailure
+  violations:
+  - description: Constraint constraints/gcp.resourceLocations violated for [orgpolicy:projects/823816970477]
+      attempting to create a secret in [global]. For more information, see https://cloud.google.com/resource-manager/docs/organization-policy/defining-locations.
+    subject: orgpolicy:projects/823816970477
+    type: constraints/gcp.resourceLocations

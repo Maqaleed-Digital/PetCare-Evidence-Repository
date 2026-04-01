@@ -1,0 +1,55 @@
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+substitutions:
+  _REGION: "me-central2"
+  _SERVICE_NAME: "petcare-api-prod"
+  _PLATFORM_PROJECT: ""
+  _DEPLOY_SA_EMAIL: ""
+  _RUNTIME_SECRET_ENV: "PETCARE_RUNTIME_CONFIG"
+  _RUNTIME_SECRET_NAME: "petcare-runtime-config-prod"
+  _IMAGE_URI: ""
+
+steps:
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
+    id: "assert-controlled-image-uri"
+    entrypoint: "bash"
+    args:
+      - "-euo"
+      - "pipefail"
+      - "-c"
+      - |
+        test -n "${_IMAGE_URI}"
+        case "${_IMAGE_URI}" in
+          *"candidate-"*)
+            echo "REFUSAL: candidate image tags are not allowed for production"
+            exit 20
+            ;;
+        esac
+        case "${_IMAGE_URI}" in
+          *"@sha256:"*|*":prod-release-"*)
+            ;;
+          *)
+            echo "REFUSAL: production requires digest-pinned image or prod-release tag"
+            exit 21
+            ;;
+        esac
+
+  - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
+    id: "deploy-prod"
+    entrypoint: "bash"
+    args:
+      - "-euo"
+      - "pipefail"
+      - "-c"
+      - |
+        gcloud run deploy "${_SERVICE_NAME}" \
+          --project="${_PLATFORM_PROJECT}" \
+          --region="${_REGION}" \
+          --platform=managed \
+          --service-account="${_DEPLOY_SA_EMAIL}" \
+          --image="${_IMAGE_URI}" \
+          --quiet \
+          --allow-unauthenticated \
+          --update-secrets="${_RUNTIME_SECRET_ENV}=${_RUNTIME_SECRET_NAME}:latest" \
+          --labels="env=prod,phase=df03,managed-by=cloud-build"

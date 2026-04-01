@@ -1,0 +1,12 @@
+DF03_APPLY_START=20260401T173554Z
+REPO_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository
+DF03_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF03
+RUN_DIR=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF03-DEPLOYMENT-PIPELINE/20260401T173554Z
+Operation "operations/acat.p2-823816970477-353c229a-f55f-416b-9a78-d13b4b3207c2" finished successfully.
+Operation "operations/acf.p2-823816970477-efae1baa-bdbf-44a3-90b2-6b4da2d5c2d7" finished successfully.
+Operation "operations/acf.p2-823816970477-d84bc1fa-4626-499a-94c9-7c76db05634e" finished successfully.
+Operation "operations/acat.p2-823816970477-43018be3-8d88-40b3-ad65-cb95ac133d7e" finished successfully.
+Operation "operations/acf.p2-232802712581-a878b40e-4c33-4832-b752-c29bd3d194ae" finished successfully.
+Operation "operations/acf.p2-232802712581-38481608-2b18-4c43-b678-c4b9ea9e3b2e" finished successfully.
+Operation "operations/acat.p2-232802712581-53044d70-10be-4a13-b09d-04063a23ccc5" finished successfully.
+ERROR: (gcloud.artifacts.repositories.update) NOT_FOUND: Requested entity was not found. This command is authenticated as admin@maqaleed.tech which is the active account specified by the [core/account] property.

@@ -1,0 +1,3 @@
+Encryption: Google-managed key
+Repository Size: 0.000MB
+projects/prj-maq-petcare-nonprod/locations/me-central2/repositories/petcare-artifacts	True

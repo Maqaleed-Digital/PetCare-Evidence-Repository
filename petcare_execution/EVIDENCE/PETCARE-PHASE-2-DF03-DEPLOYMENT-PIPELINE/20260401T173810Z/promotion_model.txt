@@ -1,0 +1,12 @@
+NONPROD_IMAGE_BASE=me-central2-docker.pkg.dev/prj-maq-petcare-nonprod/petcare-artifacts/petcare-api
+PROD_DEPLOY_CONFIG=petcare_execution/PHASE_2/DF03/cloudbuild.prod.yaml
+
+CONTROLLED_PRODUCTION_PROMOTION
+1. select immutable nonprod digest:
+   gcloud artifacts docker images list me-central2-docker.pkg.dev/prj-maq-petcare-nonprod/petcare-artifacts/petcare-api --include-tags
+
+2. assign controlled prod release tag to that digest:
+   gcloud artifacts docker tags add me-central2-docker.pkg.dev/prj-maq-petcare-nonprod/petcare-artifacts/petcare-api@sha256:REPLACE_DIGEST me-central2-docker.pkg.dev/prj-maq-petcare-nonprod/petcare-artifacts/petcare-api:prod-release-REPLACE_RELEASE_TAG
+
+3. deploy manually through Cloud Build using the controlled image reference:
+   gcloud builds submit --no-source --project=prj-maq-petcare-nonprod --region=me-central2 --config=petcare_execution/PHASE_2/DF03/cloudbuild.prod.yaml --service-account=projects/prj-maq-petcare-nonprod/serviceAccounts/petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com --substitutions=_REGION=me-central2,_SERVICE_NAME=petcare-api-prod,_PLATFORM_PROJECT=prj-maq-petcare-prod,_DEPLOY_SA_EMAIL=petcare-df03-deploy-prod-sa@prj-maq-petcare-prod.iam.gserviceaccount.com,_RUNTIME_SECRET_NAME=petcare-runtime-config-prod,_IMAGE_URI=me-central2-docker.pkg.dev/prj-maq-petcare-nonprod/petcare-artifacts/petcare-api:prod-release-REPLACE_RELEASE_TAG
