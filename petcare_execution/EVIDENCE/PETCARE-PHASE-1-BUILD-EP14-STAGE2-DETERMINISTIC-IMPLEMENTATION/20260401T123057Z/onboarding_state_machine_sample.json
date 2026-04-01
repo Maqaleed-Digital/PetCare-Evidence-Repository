@@ -1,0 +1,20 @@
+[
+  {
+    "allowed": true,
+    "from_state": "INACTIVE",
+    "reason": "TRANSITION_ALLOWED",
+    "to_state": "SANDBOX_ENABLED"
+  },
+  {
+    "allowed": true,
+    "from_state": "CERTIFIED",
+    "reason": "TRANSITION_ALLOWED",
+    "to_state": "ACTIVE"
+  },
+  {
+    "allowed": false,
+    "from_state": "CERTIFIED",
+    "reason": "CERTIFICATION_REQUIRED_BEFORE_ACTIVE",
+    "to_state": "ACTIVE"
+  }
+]

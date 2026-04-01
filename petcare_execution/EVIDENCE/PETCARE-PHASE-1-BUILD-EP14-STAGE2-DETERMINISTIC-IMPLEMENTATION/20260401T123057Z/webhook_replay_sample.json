@@ -1,0 +1,22 @@
+{
+  "delivery": {
+    "delivery_status": "REPLAY_ATTEMPTED",
+    "event_id": "evt_001",
+    "event_type": "order.created",
+    "occurred_at": "2026-04-01T12:33:36Z",
+    "production_event_replay": false,
+    "sandbox_trace_id": "sandbox-trace::partner_001::tenant_001::req_001",
+    "subscription_id": "sub_001"
+  },
+  "envelope": {
+    "event_id": "evt_001",
+    "event_namespace": "petcare.sandbox",
+    "event_type": "order.created",
+    "occurred_at": "2026-04-01T12:33:36Z",
+    "payload": {
+      "order_id": "ord_001"
+    },
+    "sandbox_trace_id": "sandbox-trace::partner_001::tenant_001::req_001"
+  },
+  "signature": "61722e51b598679f7749b66b3d370cc5b09104a3ed2e735e7dcb4a1248e801d6"
+}

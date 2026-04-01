@@ -1,0 +1,17 @@
+{
+  "allowed_scopes": [
+    "orders.write_request",
+    "webhooks.manage"
+  ],
+  "certification_state": "IN_PROGRESS",
+  "created_at": "2026-04-01T12:33:36Z",
+  "display_name": "Example Partner",
+  "legal_name": "Example Partner Legal Name",
+  "partner_id": "partner_001",
+  "sandbox_enabled": true,
+  "status": "SANDBOX_ENABLED",
+  "tenant_scope": [
+    "tenant_001"
+  ],
+  "updated_at": "2026-04-01T12:33:36Z"
+}

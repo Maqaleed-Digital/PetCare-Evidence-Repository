@@ -1,0 +1,16 @@
+{
+  "behavior": "SIMULATE_REQUEST_ACCEPTED",
+  "family_id": "orders_collection",
+  "payload": {
+    "body": {
+      "external_reference": "ext_001"
+    },
+    "family_id": "orders_collection",
+    "mutation_mode": "SIMULATED_REQUEST_INTAKE_ONLY",
+    "production_dispatch_allowed": false,
+    "simulated": true,
+    "trace_id": "sandbox-trace::partner_001::tenant_001::req_001"
+  },
+  "sandbox_trace_id": "sandbox-trace::partner_001::tenant_001::req_001",
+  "status": "SIMULATED_REQUEST_ACCEPTED"
+}
