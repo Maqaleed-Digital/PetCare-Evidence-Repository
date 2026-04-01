@@ -1,0 +1,36 @@
+{
+  "pack_id": "PETCARE-PHASE-2-GCP-FOUNDATION-DF01",
+  "utc_run": "20260401T133551Z",
+  "pack_root": "petcare_execution/PHASE2/GCP_FOUNDATION_DF01",
+  "evidence_run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-GCP-FOUNDATION-DF01/20260401T133551Z",
+  "artifacts": [
+    "petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_EXECUTION_SPEC.md",
+    "petcare_execution/PHASE2/GCP_FOUNDATION_DF01/phase2_df01_gcp_foundation.sh",
+    "petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_IAM_BASELINE.md",
+    "petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_NETWORK_BASELINE.md",
+    "petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_SECURITY_BASELINE.md",
+    "petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_NOTION_UPDATE.md",
+    "petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_EMERGENT_PROMPT.md",
+    "petcare_execution/PHASE2/GCP_FOUNDATION_DF01/STOP_REPORT.md",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-2-GCP-FOUNDATION-DF01/20260401T133551Z/execution.log",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-2-GCP-FOUNDATION-DF01/20260401T133551Z/file_listing.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-2-GCP-FOUNDATION-DF01/20260401T133551Z/sha256.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-2-GCP-FOUNDATION-DF01/20260401T133551Z/git_head.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-2-GCP-FOUNDATION-DF01/20260401T133551Z/git_status.txt"
+  ],
+  "governance_flags": {
+    "sandbox_to_production_execution_path_allowed": false,
+    "production_data_access_from_sandbox_allowed": false,
+    "production_events_replayable_from_sandbox": false,
+    "sandbox_isolated_by_project_and_vpc": true,
+    "shared_credentials_across_environments_allowed": false,
+    "default_networks_removed": false,
+    "kms_enabled": false,
+    "secret_manager_enabled": false
+  },
+  "result": "DF01_BLOCKED_STOP_REPORT_EMITTED",
+  "blockers": [
+    "gcloud CLI not installed on execution machine",
+    "BILLING_ACCOUNT_ID environment variable not set"
+  ]
+}
