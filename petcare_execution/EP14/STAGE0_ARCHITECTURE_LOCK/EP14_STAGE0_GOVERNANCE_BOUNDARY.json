@@ -1,0 +1,53 @@
+{
+  "source_of_truth_commit": "c8d324e018bbc983c610a26fe7706e14e8bfa932",
+  "phase": "PETCARE-PHASE-1-BUILD-EP14-STAGE0-ARCHITECTURE-LOCK",
+  "epic": "EP14_PARTNER_OPERATING_LAYER_AND_SANDBOX_ENVIRONMENT",
+  "architecture_components_locked": [
+    "partner_registry",
+    "credential_registry",
+    "sandbox_gateway",
+    "endpoint_policy_resolver",
+    "simulation_engine",
+    "webhook_replay_engine",
+    "onboarding_state_machine",
+    "governance_enforcement_layer",
+    "sandbox_audit_and_trace_layer"
+  ],
+  "partner_status_lifecycle": [
+    "INACTIVE",
+    "SANDBOX_ENABLED",
+    "VALIDATING",
+    "CERTIFIED",
+    "ACTIVE",
+    "SUSPENDED",
+    "REVOKED"
+  ],
+  "governance_flags": {
+    "sandbox_isolation_required": true,
+    "sandbox_to_production_execution_path_allowed": false,
+    "production_data_access_from_sandbox_allowed": false,
+    "production_webhook_secret_reuse_allowed": false,
+    "external_execution_authority_transferred": false,
+    "payment_execution_exposed": false,
+    "approval_bypass_exposed": false,
+    "treasury_bypass_exposed": false,
+    "ai_mediated_external_execution": false,
+    "all_sandbox_writes_are_simulated_request_intake_only": true,
+    "partner_scope_required": true,
+    "tenant_scope_required": true,
+    "traceability_required": true,
+    "certification_required_before_active": true
+  },
+  "forbidden_capabilities": [
+    "sandbox_triggered_production_execution",
+    "production_data_read_from_sandbox",
+    "production_secret_reuse",
+    "payment_execution",
+    "treasury_movement",
+    "approval_completion",
+    "clinical_final_decision_execution",
+    "hidden_mutation_paths",
+    "ai_instruction_execution_against_core_runtime"
+  ],
+  "closure_status": "STAGE0_ARCHITECTURE_LOCKED"
+}

@@ -1,0 +1,39 @@
+{
+  "pack_id": "PETCARE-PHASE-1-BUILD-EP14-STAGE0-ARCHITECTURE-LOCK",
+  "utc_run": "20260401T121321Z",
+  "source_of_truth_commit": "c8d324e018bbc983c610a26fe7706e14e8bfa932",
+  "stage_root": "petcare_execution/EP14/STAGE0_ARCHITECTURE_LOCK",
+  "evidence_run_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP14-STAGE0-ARCHITECTURE-LOCK/20260401T121321Z",
+  "artifacts": [
+    "petcare_execution/EP14/STAGE0_ARCHITECTURE_LOCK/EP14_STAGE0_ARCHITECTURE_LOCK_SUMMARY.md",
+    "petcare_execution/EP14/STAGE0_ARCHITECTURE_LOCK/EP14_STAGE0_LOGICAL_ARCHITECTURE.md",
+    "petcare_execution/EP14/STAGE0_ARCHITECTURE_LOCK/EP14_STAGE0_GOVERNANCE_BOUNDARY.json",
+    "petcare_execution/EP14/STAGE0_ARCHITECTURE_LOCK/EP14_STAGE0_SANDBOX_ISOLATION_MODEL.md",
+    "petcare_execution/EP14/STAGE0_ARCHITECTURE_LOCK/EP14_STAGE0_ONBOARDING_LIFECYCLE.md",
+    "petcare_execution/EP14/STAGE0_ARCHITECTURE_LOCK/EP14_STAGE0_NOTION_UPDATE.md",
+    "petcare_execution/EP14/STAGE0_ARCHITECTURE_LOCK/EP14_STAGE0_EMERGENT_PROMPT.md",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP14-STAGE0-ARCHITECTURE-LOCK/20260401T121321Z/file_listing.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP14-STAGE0-ARCHITECTURE-LOCK/20260401T121321Z/sha256.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP14-STAGE0-ARCHITECTURE-LOCK/20260401T121321Z/git_head.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP14-STAGE0-ARCHITECTURE-LOCK/20260401T121321Z/git_status.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP14-STAGE0-ARCHITECTURE-LOCK/20260401T121321Z/pre_execution_head.txt",
+    "petcare_execution/EVIDENCE/PETCARE-PHASE-1-BUILD-EP14-STAGE0-ARCHITECTURE-LOCK/20260401T121321Z/pre_execution_git_status.txt"
+  ],
+  "governance_flags": {
+    "sandbox_isolation_required": true,
+    "sandbox_to_production_execution_path_allowed": false,
+    "production_data_access_from_sandbox_allowed": false,
+    "production_webhook_secret_reuse_allowed": false,
+    "external_execution_authority_transferred": false,
+    "payment_execution_exposed": false,
+    "approval_bypass_exposed": false,
+    "treasury_bypass_exposed": false,
+    "ai_mediated_external_execution": false,
+    "all_sandbox_writes_are_simulated_request_intake_only": true,
+    "partner_scope_required": true,
+    "tenant_scope_required": true,
+    "traceability_required": true,
+    "certification_required_before_active": true
+  },
+  "stage_result": "EP14_STAGE0_ARCHITECTURE_LOCKED"
+}
