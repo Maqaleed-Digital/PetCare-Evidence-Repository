@@ -1,0 +1,22 @@
+bindings:
+- members:
+  - projectEditor:prj-maq-observability
+  - projectOwner:prj-maq-observability
+  role: roles/storage.legacyBucketOwner
+- members:
+  - projectViewer:prj-maq-observability
+  role: roles/storage.legacyBucketReader
+- members:
+  - projectEditor:prj-maq-observability
+  - projectOwner:prj-maq-observability
+  role: roles/storage.legacyObjectOwner
+- members:
+  - projectViewer:prj-maq-observability
+  role: roles/storage.legacyObjectReader
+- members:
+  - serviceAccount:service-762351037985@gcp-sa-logging.iam.gserviceaccount.com
+  role: roles/storage.objectCreator
+etag: CAI=
+kind: storage#policy
+resourceId: projects/_/buckets/prj-maq-observability-logs
+version: 1

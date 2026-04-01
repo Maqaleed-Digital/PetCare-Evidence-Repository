@@ -1,0 +1,4 @@
+Create request issued for: [petcare-artifacts]
+Waiting for operation [projects/prj-petcare-sandbox/locations/me-central2/operations/263e54e6-f936-48fc-ad14-be8d54524f28] to complete...
+..................................................................................done.
+Created repository [petcare-artifacts].

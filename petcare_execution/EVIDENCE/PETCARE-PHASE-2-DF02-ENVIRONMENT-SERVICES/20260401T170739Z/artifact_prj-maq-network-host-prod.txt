@@ -1,0 +1,4 @@
+Create request issued for: [petcare-artifacts]
+Waiting for operation [projects/prj-maq-network-host-prod/locations/me-central2/operations/22092ffc-8268-4645-a195-01b3f1684cdd] to complete...
+......................................................................................................................done.
+Created repository [petcare-artifacts].

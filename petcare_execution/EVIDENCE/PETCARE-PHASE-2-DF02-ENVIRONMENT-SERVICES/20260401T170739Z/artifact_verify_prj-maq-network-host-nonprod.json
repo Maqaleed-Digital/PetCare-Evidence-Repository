@@ -1,0 +1,18 @@
+Encryption: Google-managed key
+Repository Size: 0.000MB
+{
+  "createTime": "2026-04-01T17:10:04.234653Z",
+  "description": "PetCare artifacts",
+  "format": "DOCKER",
+  "mode": "STANDARD_REPOSITORY",
+  "name": "projects/prj-maq-network-host-nonprod/locations/me-central2/repositories/petcare-artifacts",
+  "registryUri": "me-central2-docker.pkg.dev/prj-maq-network-host-nonprod/petcare-artifacts",
+  "satisfiesPzi": true,
+  "satisfiesPzs": true,
+  "updateTime": "2026-04-01T17:10:04.234653Z",
+  "vulnerabilityScanningConfig": {
+    "enablementState": "SCANNING_DISABLED",
+    "enablementStateReason": "API containerscanning.googleapis.com is not enabled.",
+    "lastEnableTime": "2026-04-01T17:09:47.108299601Z"
+  }
+}

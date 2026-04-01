@@ -1,0 +1,4 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/DF02_ENVIRONMENT_SERVICES/DF02_EMERGENT_PROMPT.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/DF02_ENVIRONMENT_SERVICES/DF02_EXECUTION_SPEC.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/DF02_ENVIRONMENT_SERVICES/DF02_NOTION_UPDATE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/DF02_ENVIRONMENT_SERVICES/df02_services_activation.sh
