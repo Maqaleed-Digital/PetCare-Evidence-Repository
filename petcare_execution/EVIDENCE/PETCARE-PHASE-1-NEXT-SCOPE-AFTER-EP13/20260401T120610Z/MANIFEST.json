@@ -1,0 +1,13 @@
+{
+  "pack_id": "PETCARE-PHASE-1-NEXT-SCOPE-AFTER-EP13",
+  "utc_run": "20260401T120610Z",
+  "source_of_truth_commit": "55ba821fabbbcb5b7595bbe90b3f2dbb40223fc0",
+  "artifacts": [
+    "petcare_execution/NEXT_SCOPE/EP14_SCOPE_DECISION.md",
+    "petcare_execution/NEXT_SCOPE/EP14_DEPENDENCY_MAP.md",
+    "petcare_execution/NEXT_SCOPE/EP14_EXECUTION_SPEC.md",
+    "petcare_execution/NEXT_SCOPE/EP14_NOTION_UPDATE.md",
+    "petcare_execution/NEXT_SCOPE/EP14_EMERGENT_PROMPT.md"
+  ],
+  "result": "EP14_SELECTED"
+}

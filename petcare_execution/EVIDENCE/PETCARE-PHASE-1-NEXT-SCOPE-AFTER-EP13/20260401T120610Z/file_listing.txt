@@ -1,0 +1,5 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/NEXT_SCOPE/EP14_DEPENDENCY_MAP.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/NEXT_SCOPE/EP14_EMERGENT_PROMPT.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/NEXT_SCOPE/EP14_EXECUTION_SPEC.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/NEXT_SCOPE/EP14_NOTION_UPDATE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/NEXT_SCOPE/EP14_SCOPE_DECISION.md
