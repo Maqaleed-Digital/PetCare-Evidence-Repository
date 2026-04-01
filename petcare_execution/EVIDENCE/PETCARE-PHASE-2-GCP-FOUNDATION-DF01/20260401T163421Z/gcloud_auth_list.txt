@@ -1,0 +1,7 @@
+   Credentialed Accounts
+ACTIVE  ACCOUNT
+*       admin@maqaleed.tech
+
+To set the active account, run:
+    $ gcloud config set account `ACCOUNT`
+

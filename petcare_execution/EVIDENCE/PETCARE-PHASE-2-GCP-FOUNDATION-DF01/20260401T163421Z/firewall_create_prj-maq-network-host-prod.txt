@@ -1,0 +1,5 @@
+Creating firewall...
+..Created [https://www.googleapis.com/compute/v1/projects/prj-maq-network-host-prod/global/firewalls/fw-petcare-prod-egress-allow].
+done.
+NAME                          NETWORK           DIRECTION  PRIORITY  ALLOW         DENY  DISABLED
+fw-petcare-prod-egress-allow  vpc-petcare-prod  EGRESS     1000      tcp,udp,icmp        False

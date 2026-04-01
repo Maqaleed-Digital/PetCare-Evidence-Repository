@@ -1,0 +1,26 @@
+[
+  {
+    "allowSubnetCidrRoutesOverlap": false,
+    "creationTimestamp": "2026-04-01T09:57:09.899-07:00",
+    "enableFlowLogs": true,
+    "fingerprint": "2Ru0zSgH-rI=",
+    "gatewayAddress": "10.30.0.1",
+    "id": "8425175006742376586",
+    "ipCidrRange": "10.30.0.0/20",
+    "kind": "compute#subnetwork",
+    "logConfig": {
+      "aggregationInterval": "INTERVAL_5_MIN",
+      "enable": true,
+      "flowSampling": 0.1,
+      "metadata": "EXCLUDE_ALL_METADATA"
+    },
+    "name": "snet-petcare-sandbox-mec2",
+    "network": "https://www.googleapis.com/compute/v1/projects/prj-petcare-sandbox/global/networks/vpc-petcare-sandbox",
+    "privateIpGoogleAccess": true,
+    "privateIpv6GoogleAccess": "DISABLE_GOOGLE_ACCESS",
+    "purpose": "PRIVATE",
+    "region": "https://www.googleapis.com/compute/v1/projects/prj-petcare-sandbox/regions/me-central2",
+    "selfLink": "https://www.googleapis.com/compute/v1/projects/prj-petcare-sandbox/regions/me-central2/subnetworks/snet-petcare-sandbox-mec2",
+    "stackType": "IPV4_ONLY"
+  }
+]

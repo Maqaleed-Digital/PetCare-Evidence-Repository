@@ -1,0 +1,26 @@
+[
+  {
+    "allowSubnetCidrRoutesOverlap": false,
+    "creationTimestamp": "2026-04-01T09:56:34.379-07:00",
+    "enableFlowLogs": true,
+    "fingerprint": "oFrrVOb9jck=",
+    "gatewayAddress": "10.20.0.1",
+    "id": "769140036319899821",
+    "ipCidrRange": "10.20.0.0/20",
+    "kind": "compute#subnetwork",
+    "logConfig": {
+      "aggregationInterval": "INTERVAL_5_MIN",
+      "enable": true,
+      "flowSampling": 0.1,
+      "metadata": "EXCLUDE_ALL_METADATA"
+    },
+    "name": "snet-petcare-nonprod-mec2",
+    "network": "https://www.googleapis.com/compute/v1/projects/prj-maq-network-host-nonprod/global/networks/vpc-petcare-nonprod",
+    "privateIpGoogleAccess": true,
+    "privateIpv6GoogleAccess": "DISABLE_GOOGLE_ACCESS",
+    "purpose": "PRIVATE",
+    "region": "https://www.googleapis.com/compute/v1/projects/prj-maq-network-host-nonprod/regions/me-central2",
+    "selfLink": "https://www.googleapis.com/compute/v1/projects/prj-maq-network-host-nonprod/regions/me-central2/subnetworks/snet-petcare-nonprod-mec2",
+    "stackType": "IPV4_ONLY"
+  }
+]

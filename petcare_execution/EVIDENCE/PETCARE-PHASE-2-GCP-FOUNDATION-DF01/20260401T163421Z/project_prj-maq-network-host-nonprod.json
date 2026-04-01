@@ -1,0 +1,8 @@
+createTime: '2026-03-28T15:09:56.666Z'
+lifecycleState: ACTIVE
+name: prj-maq-network-host-nonprod
+parent:
+  id: '13707960634'
+  type: folder
+projectId: prj-maq-network-host-nonprod
+projectNumber: '9041849'

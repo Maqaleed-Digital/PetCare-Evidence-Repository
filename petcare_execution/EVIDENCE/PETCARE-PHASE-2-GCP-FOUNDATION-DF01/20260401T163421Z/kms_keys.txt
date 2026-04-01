@@ -1,0 +1,5 @@
+NAME                                                                                                          PURPOSE          ALGORITHM                    PROTECTION_LEVEL  LABELS  PRIMARY_ID  PRIMARY_STATE
+projects/prj-maq-secrets-kms/locations/me-central2/keyRings/kr-petcare-mec2/cryptoKeys/key-petcare-artifacts  ENCRYPT_DECRYPT  GOOGLE_SYMMETRIC_ENCRYPTION  SOFTWARE                  1           ENABLED
+projects/prj-maq-secrets-kms/locations/me-central2/keyRings/kr-petcare-mec2/cryptoKeys/key-petcare-db         ENCRYPT_DECRYPT  GOOGLE_SYMMETRIC_ENCRYPTION  SOFTWARE                  1           ENABLED
+projects/prj-maq-secrets-kms/locations/me-central2/keyRings/kr-petcare-mec2/cryptoKeys/key-petcare-secrets    ENCRYPT_DECRYPT  GOOGLE_SYMMETRIC_ENCRYPTION  SOFTWARE                  1           ENABLED
+projects/prj-maq-secrets-kms/locations/me-central2/keyRings/kr-petcare-mec2/cryptoKeys/key-petcare-storage    ENCRYPT_DECRYPT  GOOGLE_SYMMETRIC_ENCRYPTION  SOFTWARE                  1           ENABLED

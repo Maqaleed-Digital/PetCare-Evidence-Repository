@@ -1,0 +1,8 @@
+createTime: '2026-04-01T16:35:04.100Z'
+lifecycleState: ACTIVE
+name: prj-petcare-sandbox
+parent:
+  id: '165587546409'
+  type: folder
+projectId: prj-petcare-sandbox
+projectNumber: '147752685314'

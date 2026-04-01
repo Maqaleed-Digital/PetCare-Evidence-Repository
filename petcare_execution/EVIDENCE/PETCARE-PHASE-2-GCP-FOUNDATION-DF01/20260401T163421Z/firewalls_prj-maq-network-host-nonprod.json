@@ -1,0 +1,31 @@
+[
+  {
+    "allowed": [
+      {
+        "IPProtocol": "tcp"
+      },
+      {
+        "IPProtocol": "udp"
+      },
+      {
+        "IPProtocol": "icmp"
+      }
+    ],
+    "creationTimestamp": "2026-04-01T09:58:10.468-07:00",
+    "description": "",
+    "destinationRanges": [
+      "0.0.0.0/0"
+    ],
+    "direction": "EGRESS",
+    "disabled": false,
+    "id": "8722144739398316109",
+    "kind": "compute#firewall",
+    "logConfig": {
+      "enable": true
+    },
+    "name": "fw-petcare-nonprod-egress-allow",
+    "network": "https://www.googleapis.com/compute/v1/projects/prj-maq-network-host-nonprod/global/networks/vpc-petcare-nonprod",
+    "priority": 1000,
+    "selfLink": "https://www.googleapis.com/compute/v1/projects/prj-maq-network-host-nonprod/global/firewalls/fw-petcare-nonprod-egress-allow"
+  }
+]

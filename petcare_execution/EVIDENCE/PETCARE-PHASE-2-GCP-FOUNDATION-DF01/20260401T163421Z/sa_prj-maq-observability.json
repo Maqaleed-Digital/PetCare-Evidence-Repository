@@ -1,0 +1,13 @@
+[
+  {
+    "description": "PetCare observability service account",
+    "disabled": false,
+    "displayName": "sa-petcare-obs",
+    "email": "sa-petcare-obs@prj-maq-observability.iam.gserviceaccount.com",
+    "etag": "MDEwMjE5MjA=",
+    "name": "projects/prj-maq-observability/serviceAccounts/sa-petcare-obs@prj-maq-observability.iam.gserviceaccount.com",
+    "oauth2ClientId": "109067944129908811881",
+    "projectId": "prj-maq-observability",
+    "uniqueId": "109067944129908811881"
+  }
+]

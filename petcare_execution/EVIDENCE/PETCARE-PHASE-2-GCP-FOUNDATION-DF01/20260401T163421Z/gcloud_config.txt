@@ -1,0 +1,6 @@
+[core]
+account = admin@maqaleed.tech
+disable_usage_reporting = True
+project = prj-maq-observability
+
+Your active configuration is: [default]

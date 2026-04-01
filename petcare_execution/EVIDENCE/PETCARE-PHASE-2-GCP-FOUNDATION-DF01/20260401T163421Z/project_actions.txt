@@ -1,0 +1,36 @@
+EXISTS prj-maq-network-host-prod
+billingAccountName: billingAccounts/019A5C-00A279-291F3B
+billingEnabled: true
+name: projects/prj-maq-network-host-prod/billingInfo
+projectId: prj-maq-network-host-prod
+EXISTS prj-maq-network-host-nonprod
+billingAccountName: billingAccounts/019A5C-00A279-291F3B
+billingEnabled: true
+name: projects/prj-maq-network-host-nonprod/billingInfo
+projectId: prj-maq-network-host-nonprod
+EXISTS prj-maq-dns-shared
+billingAccountName: billingAccounts/019A5C-00A279-291F3B
+billingEnabled: true
+name: projects/prj-maq-dns-shared/billingInfo
+projectId: prj-maq-dns-shared
+EXISTS prj-maq-observability
+billingAccountName: billingAccounts/019A5C-00A279-291F3B
+billingEnabled: true
+name: projects/prj-maq-observability/billingInfo
+projectId: prj-maq-observability
+EXISTS prj-maq-secrets-kms
+billingAccountName: billingAccounts/019A5C-00A279-291F3B
+billingEnabled: true
+name: projects/prj-maq-secrets-kms/billingInfo
+projectId: prj-maq-secrets-kms
+Create in progress for [https://cloudresourcemanager.googleapis.com/v1/projects/prj-petcare-sandbox].
+Waiting for [operations/create_project.global.9187109362446086270] to finish...
+.done.
+Enabling service [cloudapis.googleapis.com] on project [prj-petcare-sandbox]...
+Operation "operations/acat.p2-147752685314-300a89e1-d0c1-4af7-a463-81029d4cc9ab" finished successfully.
+[environment: untagged] Read more to tag: g.co/cloud/project-env-tag.
+CREATED prj-petcare-sandbox
+billingAccountName: billingAccounts/019A5C-00A279-291F3B
+billingEnabled: true
+name: projects/prj-petcare-sandbox/billingInfo
+projectId: prj-petcare-sandbox

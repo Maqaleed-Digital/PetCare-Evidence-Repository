@@ -1,0 +1,6 @@
+DISPLAY_NAME        PARENT_NAME                           ID
+00-platform         organizations/126195085761   13707960634
+04-sandbox          organizations/126195085761  165587546409
+02-prod             organizations/126195085761  183275688268
+03-nonprod          organizations/126195085761  243177111666
+01-shared-services  organizations/126195085761  917191009362

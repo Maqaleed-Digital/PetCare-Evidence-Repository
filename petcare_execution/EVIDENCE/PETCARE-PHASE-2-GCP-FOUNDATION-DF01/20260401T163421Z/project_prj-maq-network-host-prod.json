@@ -1,0 +1,8 @@
+createTime: '2026-03-28T15:09:46.033Z'
+lifecycleState: ACTIVE
+name: prj-maq-network-host-prod
+parent:
+  id: '13707960634'
+  type: folder
+projectId: prj-maq-network-host-prod
+projectNumber: '956059909668'

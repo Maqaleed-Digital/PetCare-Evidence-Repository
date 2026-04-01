@@ -1,0 +1,31 @@
+[
+  {
+    "allowed": [
+      {
+        "IPProtocol": "tcp"
+      },
+      {
+        "IPProtocol": "udp"
+      },
+      {
+        "IPProtocol": "icmp"
+      }
+    ],
+    "creationTimestamp": "2026-04-01T09:58:22.338-07:00",
+    "description": "",
+    "destinationRanges": [
+      "0.0.0.0/0"
+    ],
+    "direction": "EGRESS",
+    "disabled": false,
+    "id": "4455141107879178305",
+    "kind": "compute#firewall",
+    "logConfig": {
+      "enable": true
+    },
+    "name": "fw-petcare-sandbox-egress-allow",
+    "network": "https://www.googleapis.com/compute/v1/projects/prj-petcare-sandbox/global/networks/vpc-petcare-sandbox",
+    "priority": 1000,
+    "selfLink": "https://www.googleapis.com/compute/v1/projects/prj-petcare-sandbox/global/firewalls/fw-petcare-sandbox-egress-allow"
+  }
+]

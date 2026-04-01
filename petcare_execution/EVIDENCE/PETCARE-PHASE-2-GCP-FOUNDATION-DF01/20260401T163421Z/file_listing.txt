@@ -1,0 +1,8 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_EMERGENT_PROMPT.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_EXECUTION_SPEC.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_IAM_BASELINE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_NETWORK_BASELINE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_NOTION_UPDATE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/GCP_FOUNDATION_DF01/PHASE2_DF01_SECURITY_BASELINE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/GCP_FOUNDATION_DF01/STOP_REPORT.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE2/GCP_FOUNDATION_DF01/phase2_df01_gcp_foundation.sh

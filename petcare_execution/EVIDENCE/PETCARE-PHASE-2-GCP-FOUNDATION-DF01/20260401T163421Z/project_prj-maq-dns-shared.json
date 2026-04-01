@@ -1,0 +1,8 @@
+createTime: '2026-03-28T15:10:21.021Z'
+lifecycleState: ACTIVE
+name: prj-maq-dns-shared
+parent:
+  id: '917191009362'
+  type: folder
+projectId: prj-maq-dns-shared
+projectNumber: '718866799425'

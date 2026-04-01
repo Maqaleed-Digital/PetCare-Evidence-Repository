@@ -1,0 +1,13 @@
+[
+  {
+    "description": "PetCare shared DNS service account",
+    "disabled": false,
+    "displayName": "sa-petcare-dns",
+    "email": "sa-petcare-dns@prj-maq-dns-shared.iam.gserviceaccount.com",
+    "etag": "MDEwMjE5MjA=",
+    "name": "projects/prj-maq-dns-shared/serviceAccounts/sa-petcare-dns@prj-maq-dns-shared.iam.gserviceaccount.com",
+    "oauth2ClientId": "110174139307397498744",
+    "projectId": "prj-maq-dns-shared",
+    "uniqueId": "110174139307397498744"
+  }
+]

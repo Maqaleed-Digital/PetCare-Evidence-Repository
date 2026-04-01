@@ -117,9 +117,9 @@ create_vpc_and_subnet() {
       --range="$subnet_range" \
       --enable-private-ip-google-access \
       --enable-flow-logs \
-      --logging-aggregation-interval=interval-5-sec \
-      --logging-flow-sampling=0.5 \
-      --logging-metadata=include-all >> "$RUN_DIR/network_create_${project_id}.txt" 2>&1
+      --logging-aggregation-interval=interval-5-min \
+      --logging-flow-sampling=0.1 \
+      --logging-metadata=exclude-all >> "$RUN_DIR/network_create_${project_id}.txt" 2>&1
   fi
 }
 

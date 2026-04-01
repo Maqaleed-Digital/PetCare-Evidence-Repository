@@ -1,0 +1,2 @@
+NAME
+projects/prj-maq-secrets-kms/locations/me-central2/keyRings/kr-petcare-mec2

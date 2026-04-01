@@ -1,0 +1,23 @@
+[
+  {
+    "description": "PetCare nonprod network service account",
+    "disabled": false,
+    "displayName": "sa-petcare-net-nonprod",
+    "email": "sa-petcare-net-nonprod@prj-maq-network-host-nonprod.iam.gserviceaccount.com",
+    "etag": "MDEwMjE5MjA=",
+    "name": "projects/prj-maq-network-host-nonprod/serviceAccounts/sa-petcare-net-nonprod@prj-maq-network-host-nonprod.iam.gserviceaccount.com",
+    "oauth2ClientId": "117054768035667078253",
+    "projectId": "prj-maq-network-host-nonprod",
+    "uniqueId": "117054768035667078253"
+  },
+  {
+    "disabled": false,
+    "displayName": "Compute Engine default service account",
+    "email": "9041849-compute@developer.gserviceaccount.com",
+    "etag": "MDEwMjE5MjA=",
+    "name": "projects/prj-maq-network-host-nonprod/serviceAccounts/9041849-compute@developer.gserviceaccount.com",
+    "oauth2ClientId": "116644433555240745634",
+    "projectId": "prj-maq-network-host-nonprod",
+    "uniqueId": "116644433555240745634"
+  }
+]

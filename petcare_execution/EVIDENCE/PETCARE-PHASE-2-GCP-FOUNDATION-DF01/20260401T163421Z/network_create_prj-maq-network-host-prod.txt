@@ -1,0 +1,17 @@
+Created [https://www.googleapis.com/compute/v1/projects/prj-maq-network-host-prod/global/networks/vpc-petcare-prod].
+NAME              SUBNET_MODE  BGP_ROUTING_MODE  IPV4_RANGE  GATEWAY_IPV4  INTERNAL_IPV6_RANGE
+vpc-petcare-prod  CUSTOM       REGIONAL
+
+Instances on this network will not be reachable until firewall rules
+are created. As an example, you can allow all internal traffic between
+instances as well as SSH, RDP, and ICMP by running:
+
+$ gcloud compute firewall-rules create <FIREWALL_NAME> --network vpc-petcare-prod --allow tcp,udp,icmp --source-ranges <IP_RANGE>
+$ gcloud compute firewall-rules create <FIREWALL_NAME> --network vpc-petcare-prod --allow tcp:22,tcp:3389,icmp
+
+ERROR: (gcloud.compute.networks.subnets.create) Could not fetch resource:
+ - Location REGION:me-central2 violates constraint constraints/gcp.resourceLocations on the resource projects/prj-maq-network-host-prod/regions/me-central2/subnetworks/snet-petcare-prod-mec2.
+
+ERROR: (gcloud.compute.networks.subnets.create) Could not fetch resource:
+ - Location REGION:me-central2 violates constraint constraints/gcp.resourceLocations on the resource projects/prj-maq-network-host-prod/regions/me-central2/subnetworks/snet-petcare-prod-mec2.
+
