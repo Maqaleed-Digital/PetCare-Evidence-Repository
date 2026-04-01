@@ -1,0 +1,6 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP14/CLOSURE/EP14_CLOSURE_DECISION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP14/CLOSURE/EP14_CLOSURE_EMERGENT_PROMPT.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP14/CLOSURE/EP14_CLOSURE_NOTION_UPDATE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP14/CLOSURE/EP14_CLOSURE_SUMMARY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP14/CLOSURE/EP14_GOVERNANCE_INVARIANTS.json
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EP14/CLOSURE/EP14_STAGE_INVENTORY.md
