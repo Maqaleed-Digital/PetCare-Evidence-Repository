@@ -1,0 +1,5 @@
+DF05_APPLY_START=20260402T025621Z
+REPO_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository
+DF05_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF05
+RUN_DIR=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF05-NONPROD-RUNTIME-VERIFICATION-AND-ACCESS-MODEL-CONFIRMATION/20260402T025621Z
+ERROR: (gcloud.auth.print-identity-token) Invalid account type for `--audiences`. Requires valid service account.

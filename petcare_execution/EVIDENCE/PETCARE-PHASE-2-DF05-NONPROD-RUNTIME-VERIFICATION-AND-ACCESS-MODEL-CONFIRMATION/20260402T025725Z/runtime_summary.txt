@@ -1,0 +1,12 @@
+SERVICE_URL=https://petcare-api-nonprod-pxyvy5kfya-wx.a.run.app
+LATEST_READY_REVISION=petcare-api-nonprod-00002-s9v
+SERVICE_ACCOUNT_EMAIL=petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+SECRET_WIRING_CHECK=true
+ALLUSERS_INVOKER_PRESENT=false
+ROOT_UNAUTH_STATUS=403
+ROOT_AUTH_STATUS=404
+ACCESS_MODEL_RESULT=restricted_effective
+AUTHENTICATED_REACHABILITY=authenticated_reachable
+PROBE_DOCS_AUTH_STATUS=200
+PROBE_OPENAPI_AUTH_STATUS=200
+NOTE_ROOT_404=FastAPI_no_route_at_root_service_is_running
