@@ -1,0 +1,43 @@
+{
+  "pack_id": "PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL",
+  "run_ts": "20260402T034923Z",
+  "source_commit_before_df10": "8c2a21564c8394f9da3375cd6d5a08829a624892",
+  "files": [
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL/20260402T034923Z/controlled_public_missing_approval.exitcode",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL/20260402T034923Z/controlled_public_missing_approval.txt",
+      "sha256": "4c0e2582d3f80903d0320ddeca4a3dd7fb49ef48cdd8a42e00e751f769d2255b"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL/20260402T034923Z/controlled_public_simulation_pass.txt",
+      "sha256": "1cb67cb4423155e312e542c48549acc0aa7690a40fef480102128bfe76b9a852"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL/20260402T034923Z/df10_file_listing.txt",
+      "sha256": "1385d783cd515637ffceb0a414474b4752afce93ee5c238206cf30302ba9b7ce"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL/20260402T034923Z/df10_script_listing.txt",
+      "sha256": "6acce5b9e6a6903b82d1ebd5485cfdb49244c3a0513b450e0b8e5bf6dc4233e5"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL/20260402T034923Z/generated_evidence_listing.txt",
+      "sha256": "4a276ccb0aba9120e9fb53f7090ec906a1f2809b9727a96fc11d5b873dad6b9c"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL/20260402T034923Z/private_only_pass.txt",
+      "sha256": "5be1be223cfcf0817e0593acf4b639b6fa1249a00b14192113f6185d1a6b2747"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL/20260402T034923Z/source_commit_before_df10.txt",
+      "sha256": "16f7b1fedade1f9fd70ca776138e17a207db94e358be5528d44bc23fd23a4bab"
+    },
+    {
+      "path": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF10-EXPOSURE-CONTROL/20260402T034923Z/validation_summary.txt",
+      "sha256": "23304d006aad89adcbf3bccaef3aeeb9a98333475e832d301a4c26241fc95bc5"
+    }
+  ]
+}

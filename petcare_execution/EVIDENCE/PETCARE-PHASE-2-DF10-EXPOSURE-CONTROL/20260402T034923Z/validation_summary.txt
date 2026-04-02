@@ -1,0 +1,15 @@
+PETCARE DF10 validation summary
+
+Expected files
+DF10_EXECUTION_PACK.md
+DF10_EXPOSURE_POLICY.md
+DF10_TRAFFIC_CONTROL_CONTRACT.md
+DF10_VALIDATION.md
+scripts/petcare_df10_exposure_control.sh
+
+Validation rules
+Default mode private-only pass
+Controlled public mode without approval fails closed
+Controlled public mode with approval passes in simulation only
+Evidence pack generated
+No real production exposure performed

@@ -1,0 +1,19 @@
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_VALIDATION.md:6:2. Run controlled public mode without approval and confirm fail-closed
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_EXECUTION_PACK.md:11:Implement a governed production exposure and traffic-control layer that remains private-by-default, explicit, reversible, and evidence-backed.
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_EXECUTION_PACK.md:26:6. Production remains blocked unless explicit public exposure approval is later granted
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_EXECUTION_PACK.md:38:C. Public exposure attempt fails without explicit approval
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_EXECUTION_PACK.md:41:F. Production remains private-by-default after DF10
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_EXPOSURE_POLICY.md:5:Production is private-by-default.
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_EXPOSURE_POLICY.md:6:Public exposure is blocked unless explicitly approved, evidence-backed, and reversible.
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_EXPOSURE_POLICY.md:23:Blocked Conditions
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_EXPOSURE_POLICY.md:27:Failure in DF09 controlled activation path
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_EXPOSURE_POLICY.md:28:Failure in evidence generation
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_TRAFFIC_CONTROL_CONTRACT.md:29:Fail-Closed Conditions
+petcare_execution/PHASE_2/DF10_PROD_EXPOSURE_TRAFFIC_CONTROL/DF10_TRAFFIC_CONTROL_CONTRACT.md:32:Any evidence failure blocks transition
+scripts/petcare_df10_exposure_control.sh:2:set -euo pipefail
+scripts/petcare_df10_exposure_control.sh:6:fail() {
+scripts/petcare_df10_exposure_control.sh:7:  echo "DF10_EXPOSURE_CONTROL: FAIL - $1" >&2
+scripts/petcare_df10_exposure_control.sh:24:    fail "unsupported mode ${MODE}"
+scripts/petcare_df10_exposure_control.sh:31:  fail "public exposure approval flag missing"
+scripts/petcare_df10_exposure_control.sh:35:  fail "public exposure change reference missing"
+scripts/petcare_df10_exposure_control.sh:39:  fail "public exposure rollback plan missing"

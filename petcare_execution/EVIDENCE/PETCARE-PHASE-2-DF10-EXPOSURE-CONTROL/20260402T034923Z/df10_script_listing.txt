@@ -1,0 +1,6 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/scripts/petcare_df07_evidence_pack.sh
+/Users/waheebmahmoud/dev/petcare-evidence-repository/scripts/petcare_df07_post_deploy_verify.sh
+/Users/waheebmahmoud/dev/petcare-evidence-repository/scripts/petcare_df07_release_gate_check.sh
+/Users/waheebmahmoud/dev/petcare-evidence-repository/scripts/petcare_df08_release_workflow.sh
+/Users/waheebmahmoud/dev/petcare-evidence-repository/scripts/petcare_df09_prod_activation.sh
+/Users/waheebmahmoud/dev/petcare-evidence-repository/scripts/petcare_df10_exposure_control.sh
