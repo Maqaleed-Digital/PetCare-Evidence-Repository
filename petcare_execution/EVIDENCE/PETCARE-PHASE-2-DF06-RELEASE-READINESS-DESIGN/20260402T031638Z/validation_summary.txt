@@ -1,0 +1,16 @@
+PETCARE DF06 design pack validation
+
+Expected documents
+DF06_EXECUTION_PACK.md
+DF06_RELEASE_READINESS_CRITERIA.md
+DF06_PROMOTION_CONTRACT.md
+DF06_PROD_GUARDRAILS.md
+DF06_ROLLBACK_AND_RECOVERY.md
+DF06_MONITORING_AND_ALERTING_BASELINE.md
+DF06_ACCESS_MODEL.md
+DF06_GO_LIVE_EVIDENCE_REQUIREMENTS.md
+
+Validation rules
+All files exist
+Blocked conditions explicitly stated
+Production remains blocked unless criteria are met

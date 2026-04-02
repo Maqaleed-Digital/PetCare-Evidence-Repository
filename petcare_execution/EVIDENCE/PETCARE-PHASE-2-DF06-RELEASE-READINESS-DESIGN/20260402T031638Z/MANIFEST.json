@@ -1,0 +1,39 @@
+{
+  "pack_id": "PETCARE-PHASE-2-DF06-RELEASE-READINESS-DESIGN",
+  "run_ts": "20260402T031638Z",
+  "source_commit_before_df06": "a4b1bb2f61f1913c979facdf09de06f4ddfd5b0d",
+  "files": [
+    {
+      "path": "petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_ACCESS_MODEL.md",
+      "sha256": "82b28e963ace1d10991b7a410dce5de20fff286a82701345e40ae7f17a98bfb8"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_EXECUTION_PACK.md",
+      "sha256": "a498e3479b8bd17013e1f89b7f08edfbf2589d8a802c475277698221cfde0df0"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_GO_LIVE_EVIDENCE_REQUIREMENTS.md",
+      "sha256": "e48a3f9a7488c0582e3590596bf70fd6381d9e9344eef3fd0f9faa616cf23186"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_MONITORING_AND_ALERTING_BASELINE.md",
+      "sha256": "2b4c7dbde4729c1644a1b1b46534ffa3b6833b9d0b81ba490564eb59e77d72e5"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_PROD_GUARDRAILS.md",
+      "sha256": "ae0490ff58a6bb0e8498d06a1f2c374adc719017558c3c1753507914c034d96b"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_PROMOTION_CONTRACT.md",
+      "sha256": "7dcd3f81249fb61088731a5d1b617c9f2914e0627dff6d368259105b493949e6"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_RELEASE_READINESS_CRITERIA.md",
+      "sha256": "023951a7c9a5af1d4b071ded660ff626f3ba138a2f67bab17b8de94a4e99d3c6"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_ROLLBACK_AND_RECOVERY.md",
+      "sha256": "b03e68536043a8b6b0482c5048901cd89da2ed24f27d71a68351bf40acdc1ba3"
+    }
+  ]
+}

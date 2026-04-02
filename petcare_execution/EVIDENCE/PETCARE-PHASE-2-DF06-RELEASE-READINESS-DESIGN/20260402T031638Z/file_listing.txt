@@ -1,0 +1,8 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_ACCESS_MODEL.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_EXECUTION_PACK.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_GO_LIVE_EVIDENCE_REQUIREMENTS.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_MONITORING_AND_ALERTING_BASELINE.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_PROD_GUARDRAILS.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_PROMOTION_CONTRACT.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_RELEASE_READINESS_CRITERIA.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_ROLLBACK_AND_RECOVERY.md

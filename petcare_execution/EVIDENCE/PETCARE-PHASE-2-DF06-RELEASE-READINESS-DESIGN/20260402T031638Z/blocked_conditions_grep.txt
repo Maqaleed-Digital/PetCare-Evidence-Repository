@@ -1,0 +1,10 @@
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_PROMOTION_CONTRACT.md:43:Promotion remains blocked until DF06 readiness criteria are all PASS.
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_GO_LIVE_EVIDENCE_REQUIREMENTS.md:41:If the evidence pack is incomplete, production activation remains blocked.
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_MONITORING_AND_ALERTING_BASELINE.md:29:Blocked Conditions
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_ACCESS_MODEL.md:32:Blocked Conditions
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_EXECUTION_PACK.md:39:B. Each document states explicit blocked conditions
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_EXECUTION_PACK.md:40:C. Production remains blocked unless all DF06 conditions are met
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_PROD_GUARDRAILS.md:28:If any guardrail cannot be enforced, prod activation remains blocked.
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_RELEASE_READINESS_CRITERIA.md:6:BLOCKED
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_RELEASE_READINESS_CRITERIA.md:51:Blocked Conditions
+petcare_execution/PHASE_2/DF06_RELEASE_READINESS/DF06_RELEASE_READINESS_CRITERIA.md:62:If any item is not PASS, production promotion remains BLOCKED.
