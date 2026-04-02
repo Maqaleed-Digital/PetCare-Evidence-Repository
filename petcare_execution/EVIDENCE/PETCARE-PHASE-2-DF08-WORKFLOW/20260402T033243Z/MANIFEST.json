@@ -1,0 +1,21 @@
+{
+  "pack_id": "PETCARE-PHASE-2-DF08-WORKFLOW",
+  "files": [
+    {
+      "name": "fail_exit_code.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "name": "fail_test.txt",
+      "sha256": "c059e85a3bfa26cdf11d3ae63bb1834ce7e6b7d6a4348da1e8a065e07523d0e5"
+    },
+    {
+      "name": "pass_test.txt",
+      "sha256": "baa1dd39c8ba84ef7ef441f938dff4070d9ecd77ad9adfa6ff651a1d02f6a45f"
+    },
+    {
+      "name": "source_commit.txt",
+      "sha256": "1b6a514e7131b31dde436aebb326670230fa9b175072b3154c809c08a17f4540"
+    }
+  ]
+}
