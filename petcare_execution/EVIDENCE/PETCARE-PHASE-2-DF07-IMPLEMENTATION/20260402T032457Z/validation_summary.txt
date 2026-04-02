@@ -1,0 +1,18 @@
+PETCARE DF07 implementation validation
+
+Expected files
+DF07_EXECUTION_PACK.md
+DF07_IMPLEMENTATION_SCOPE.md
+DF07_ENVIRONMENT_CONTRACT.md
+DF07_VALIDATION.md
+scripts/petcare_df07_release_gate_check.sh
+scripts/petcare_df07_post_deploy_verify.sh
+scripts/petcare_df07_evidence_pack.sh
+
+Validation rules
+All files exist
+Scripts are executable
+Release gate check fails closed on missing variables
+Release gate check passes on valid sample inputs
+Post-deploy verify checks health and readiness
+Evidence pack generator writes manifest and checksum

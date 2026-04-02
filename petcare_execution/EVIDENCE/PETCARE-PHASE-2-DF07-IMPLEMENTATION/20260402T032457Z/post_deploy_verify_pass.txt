@@ -1,0 +1,5 @@
+DF07_POST_DEPLOY_VERIFY: PASS
+verify_url=http://127.0.0.1:18080
+health_url=http://127.0.0.1:18080/
+ready_url=http://127.0.0.1:18080/
+expected_http_code=200

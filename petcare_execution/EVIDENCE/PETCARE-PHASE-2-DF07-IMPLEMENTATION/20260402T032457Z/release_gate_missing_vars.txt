@@ -1,0 +1,1 @@
+DF07_RELEASE_GATE_CHECK: FAIL - missing required variable PETCARE_RELEASE_COMMIT

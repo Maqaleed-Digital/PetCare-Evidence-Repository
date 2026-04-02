@@ -1,0 +1,9 @@
+DF07_RELEASE_GATE_CHECK: PASS
+release_commit=e3ace6d
+artifact_digest=image@sha256:1111111111111111111111111111111111111111111111111111111111111111
+release_approver=approved.user@example.com
+deploy_operator=deploy.user@example.com
+rollback_target=petcare-api-prod-00001-abc
+nonprod_service_url=https://petcare-api-nonprod.example.internal
+prod_service_url=https://petcare-api-prod.example.internal
+evidence_root=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE

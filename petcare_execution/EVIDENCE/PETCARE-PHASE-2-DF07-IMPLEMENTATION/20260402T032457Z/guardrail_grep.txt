@@ -1,0 +1,21 @@
+petcare_execution/PHASE_2/DF07_PROD_GATE_IMPLEMENTATION/DF07_VALIDATION.md:5:1. Run release gate check with missing variables and confirm fail-closed
+petcare_execution/PHASE_2/DF07_PROD_GATE_IMPLEMENTATION/DF07_IMPLEMENTATION_SCOPE.md:19:Fail-Closed Principle
+petcare_execution/PHASE_2/DF07_PROD_GATE_IMPLEMENTATION/DF07_IMPLEMENTATION_SCOPE.md:20:If any required approval, digest, endpoint, or rollback reference is missing, the gate must fail closed.
+petcare_execution/PHASE_2/DF07_PROD_GATE_IMPLEMENTATION/DF07_EXECUTION_PACK.md:37:C. Release gate check fails closed when required inputs are missing
+petcare_execution/PHASE_2/DF07_PROD_GATE_IMPLEMENTATION/DF07_EXECUTION_PACK.md:40:F. Production remains blocked until these controls are later wired into the actual deploy path and verified in a live environment
+petcare_execution/PHASE_2/DF07_PROD_GATE_IMPLEMENTATION/DF07_ENVIRONMENT_CONTRACT.md:36:Fail-Closed
+scripts/petcare_df07_release_gate_check.sh:2:set -euo pipefail
+scripts/petcare_df07_release_gate_check.sh:15:fail() {
+scripts/petcare_df07_release_gate_check.sh:16:  echo "DF07_RELEASE_GATE_CHECK: FAIL - $1" >&2
+scripts/petcare_df07_release_gate_check.sh:22:    fail "missing required variable ${var_name}"
+scripts/petcare_df07_release_gate_check.sh:28:    fail "artifact digest must not use latest"
+scripts/petcare_df07_release_gate_check.sh:36:    fail "artifact digest must be immutable digest form"
+scripts/petcare_df07_release_gate_check.sh:41:  fail "release commit must look like a git commit hash"
+scripts/petcare_df07_release_gate_check.sh:45:  fail "nonprod and prod service URLs must differ"
+scripts/petcare_df07_release_gate_check.sh:52:    fail "evidence root must point into petcare_execution/EVIDENCE"
+scripts/petcare_df07_post_deploy_verify.sh:2:set -euo pipefail
+scripts/petcare_df07_post_deploy_verify.sh:4:fail() {
+scripts/petcare_df07_post_deploy_verify.sh:5:  echo "DF07_POST_DEPLOY_VERIFY: FAIL - $1" >&2
+scripts/petcare_df07_post_deploy_verify.sh:21:[ "$health_code" = "$PETCARE_EXPECT_HTTP_CODE" ] || fail "health endpoint returned ${health_code}, expected ${PETCARE_EXPECT_HTTP_CODE}"
+scripts/petcare_df07_post_deploy_verify.sh:22:[ "$ready_code" = "$PETCARE_EXPECT_HTTP_CODE" ] || fail "ready endpoint returned ${ready_code}, expected ${PETCARE_EXPECT_HTTP_CODE}"
+scripts/petcare_df07_evidence_pack.sh:2:set -euo pipefail
