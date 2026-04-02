@@ -1,0 +1,24 @@
+{
+  "files": [
+    {
+      "name": "fail.txt",
+      "sha256": "cf3f4fecb7293e7d8f0de481998845f073597536d50cf37a3d70c48793fd2452"
+    },
+    {
+      "name": "fail_code.txt",
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "name": "pass_controlled.txt",
+      "sha256": "4be32862f8ad7ff97b761685073d86245a902799209edd404571afcbf3638b78"
+    },
+    {
+      "name": "pass_simulation.txt",
+      "sha256": "7fd9145354e055cb42646e69f3c96854cc7376f724c4c4d8d02d8ae1a4d97aaf"
+    },
+    {
+      "name": "source_commit.txt",
+      "sha256": "2b5bc385952b76cf95b8f677bf980cc89bac9cd3ba713b7bd2018770de563591"
+    }
+  ]
+}
