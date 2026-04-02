@@ -1,0 +1,53 @@
+id: 384e7e8d-cef7-45cf-97d9-2b3f9e3ee145
+name: petcare-nonprod-main
+description: PetCare DF04 real nonprod backend application build and deployment contract
+github:
+  owner: Maqaleed-Digital
+  name: PetCare-Platform
+  push:
+    branch: ^main$
+serviceAccount: projects/prj-maq-petcare-nonprod/serviceAccounts/petcare-df03-build-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+includeBuildLogs: INCLUDE_BUILD_LOGS_WITH_STATUS
+substitutions:
+  _REGION: me-central2
+  _PLATFORM_PROJECT: prj-maq-petcare-nonprod
+  _SERVICE_NAME: petcare-api-nonprod
+  _DEPLOY_SA_EMAIL: petcare-df03-deploy-nonprod-sa@prj-maq-petcare-nonprod.iam.gserviceaccount.com
+  _RUNTIME_SECRET_NAME: petcare-runtime-config-nonprod
+build:
+  options:
+    logging: CLOUD_LOGGING_ONLY
+  
+  steps:
+    - name: "gcr.io/google.com/cloudsdktool/cloud-sdk:slim"
+      id: "backend-contract-check-and-deploy"
+      entrypoint: "bash"
+      args:
+        - "-euo"
+        - "pipefail"
+        - "-c"
+        - |
+          echo "DF04_NONPROD_APP_START"
+          test -d app/backend
+          echo "CONNECTED_REPO_ROOT=$(pwd)"
+          echo "BACKEND_PATH_EXISTS=true"
+          echo "BACKEND_FILE_LIST_BEGIN"
+          find app/backend -maxdepth 3 -type f | sort | sed -n '1,200p'
+          echo "BACKEND_FILE_LIST_END"
+  
+          gcloud run deploy "${_SERVICE_NAME}" \
+            --project="${_PLATFORM_PROJECT}" \
+            --region="${_REGION}" \
+            --source="app/backend" \
+            --service-account="${_DEPLOY_SA_EMAIL}" \
+            --allow-unauthenticated \
+            --quiet \
+            --update-secrets="PETCARE_RUNTIME_CONFIG=${_RUNTIME_SECRET_NAME}:latest" \
+            --labels="env=nonprod,phase=df04,managed-by=cloud-build"
+  
+          gcloud run services describe "${_SERVICE_NAME}" \
+            --project="${_PLATFORM_PROJECT}" \
+            --region="${_REGION}" \
+            --format="value(metadata.name,status.url)"
+  
+          echo "DF04_NONPROD_APP_PASS"

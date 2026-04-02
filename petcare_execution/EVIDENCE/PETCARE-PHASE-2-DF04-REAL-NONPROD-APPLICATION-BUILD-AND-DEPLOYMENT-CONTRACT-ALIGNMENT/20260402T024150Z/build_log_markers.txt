@@ -1,0 +1,9 @@
+DF04_NONPROD_APP_START
+BACKEND_FILE_LIST_BEGIN
+BACKEND_FILE_LIST_END
+Building using Buildpacks and deploying container to Cloud Run service [petcare-api-nonprod] in project [prj-maq-petcare-nonprod] region [me-central2]
+  Setting IAM policy failed, try "gcloud beta run services add-iam-policy-binding --region=me-central2 --member=allUsers --role=roles/run.invoker petcare-api-nonprod"
+Service [petcare-api-nonprod] revision [petcare-api-nonprod-00002-s9v] has been deployed and is serving 100 percent of traffic.
+Service URL: https://petcare-api-nonprod-823816970477.me-central2.run.app
+petcare-api-nonprod	https://petcare-api-nonprod-pxyvy5kfya-wx.a.run.app
+DF04_NONPROD_APP_PASS

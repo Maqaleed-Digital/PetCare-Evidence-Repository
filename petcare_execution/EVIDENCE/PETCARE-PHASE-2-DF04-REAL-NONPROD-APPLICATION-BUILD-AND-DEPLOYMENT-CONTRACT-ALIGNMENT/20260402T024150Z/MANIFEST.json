@@ -1,0 +1,61 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF04-REAL-NONPROD-APPLICATION-BUILD-AND-DEPLOYMENT-CONTRACT-ALIGNMENT/20260402T024150Z",
+  "files": [
+    {
+      "path": "apply.log",
+      "sha256": "74fb3b1264b864a010ea46bd1071745fbf5ffc17737a2a75d5f0b20386fa7699"
+    },
+    {
+      "path": "build_log_markers.txt",
+      "sha256": "2ac8e236284ff333a1c1618fc0938d46a1c26447d3a3e153e60d1eb167fd469d"
+    },
+    {
+      "path": "build_result_final.json",
+      "sha256": "5cef22c29d8088ce2b0d6157aee0809fe040b3c21324c979ed53063f05a5a502"
+    },
+    {
+      "path": "file_listing.txt",
+      "sha256": "47f864975a0497a98b392c8f28d3f5c17d6c693a65be4dcceb866d46f10fb9e8"
+    },
+    {
+      "path": "first_nonprod_trigger_run.txt",
+      "sha256": "830462bfd81188c95013344999ce5a3e05f321535ec0693f9ef700f6a9a5c760"
+    },
+    {
+      "path": "git_head_before.txt",
+      "sha256": "9ff9a6d02ef6769eea7dc511d1cfb27b6eda489cf6cc7cf106a98c7406f83920"
+    },
+    {
+      "path": "git_status_before.txt",
+      "sha256": "bd9afe49d4ed64a484974f2a3a1a3dbae1d88de0b984f3da6bde576c3dd70f5f"
+    },
+    {
+      "path": "latest_build_describe.txt",
+      "sha256": "cd3992697f6540aa07b8c455645f999f8bf9e53a4a65375977f889ba152162ab"
+    },
+    {
+      "path": "latest_build_id.txt",
+      "sha256": "cf04160b2ebba2cbd600e2404fe662bc55cb34c5ebaa69c57de549ed5a8f1df7"
+    },
+    {
+      "path": "nonprod_trigger_after_update.json",
+      "sha256": "3ee81a43b5633ed0e5300df750087be410e185358bef1d815516f61b5eb1f64a"
+    },
+    {
+      "path": "nonprod_trigger_before_update.json",
+      "sha256": "6ae0b4c428679305cb7044c4d5a7d793df6a537a477d7c8864e6d822fa042b0c"
+    },
+    {
+      "path": "nonprod_trigger_import.yaml",
+      "sha256": "7244be2394fb85e8275dc6e6c5b3c71743cef5f055c4236accca3e363d844ac8"
+    },
+    {
+      "path": "run_service_nonprod.txt",
+      "sha256": "108a7009f77a584d9c9eef839b20b051d31d5f1313f7fb4dd0b6b54c3288a124"
+    },
+    {
+      "path": "triggers_list.txt",
+      "sha256": "bd183428f6926ce56720c2f66fdc29c392b7125196dbb157f11105ccbcfd9cfd"
+    }
+  ]
+}
