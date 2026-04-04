@@ -1,0 +1,15 @@
+{
+  "pack_id": "PETCARE-PHASE-4-TRUSTED-ECOSYSTEM-SCALE-MARKET-DOMINANCE-PROGRAM-EXECUTION-PACK",
+  "timestamp_utc": "20260404T144508Z",
+  "source_of_truth_commit": "55b16d502ccb41673ae1adbfbee9e1441f63a1ff",
+  "program_dir": "petcare_execution/PHASE_4/PROGRAM_GOVERNANCE",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-4-TRUSTED-ECOSYSTEM-SCALE-MARKET-DOMINANCE-PROGRAM-EXECUTION-PACK/20260404T144508Z",
+  "files": [
+    {"path": "petcare_execution/PHASE_4/PROGRAM_GOVERNANCE/PHASE_4_PROGRAM_MODEL.md", "file": "PHASE_4_PROGRAM_MODEL.md", "sha256": "5747e6edd46e87f1b1b04370c4d6644ce52d669700042ef271702402a261b00b"},
+    {"path": "petcare_execution/PHASE_4/PROGRAM_GOVERNANCE/PHASE_4_EXECUTION_SEQUENCE_PLAN.md", "file": "PHASE_4_EXECUTION_SEQUENCE_PLAN.md", "sha256": "27b82fc24d20cd2051b2908b605ed8222077903ada59c49a5f79db99b034efa6"},
+    {"path": "petcare_execution/PHASE_4/PROGRAM_GOVERNANCE/PHASE_4_CONTROL_TOWER_MAP.md", "file": "PHASE_4_CONTROL_TOWER_MAP.md", "sha256": "c7629e830f2274cbfa652fad3819dc37d68dd0037fdd7cba975b3b9009cdfcb1"},
+    {"path": "petcare_execution/PHASE_4/PROGRAM_GOVERNANCE/PHASE_4_EVIDENCE_CONTRACT.md", "file": "PHASE_4_EVIDENCE_CONTRACT.md", "sha256": "d948a2858ea409da9280c59d39b041608316490f1f79aff2d1f7c5000f00a8dd"},
+    {"path": "petcare_execution/PHASE_4/PROGRAM_GOVERNANCE/PHASE_4_SCOPE_AND_CONSTRAINT_MAP.md", "file": "PHASE_4_SCOPE_AND_CONSTRAINT_MAP.md", "sha256": "b8c9b727a1ec69bee9f5219e317fcc7bce2cfe00add0e8816394862724c5897e"},
+    {"path": "petcare_execution/PHASE_4/PROGRAM_GOVERNANCE/petcare_phase4_execution_pack.sh", "file": "petcare_phase4_execution_pack.sh", "sha256": "fb08d7e76cea701c52db358f6e4b784014c566cc3b4079e1862f205218dee8be"}
+  ]
+}
