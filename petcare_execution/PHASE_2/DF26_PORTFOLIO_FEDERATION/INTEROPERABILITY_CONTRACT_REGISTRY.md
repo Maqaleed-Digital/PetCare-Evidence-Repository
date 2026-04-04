@@ -1,0 +1,38 @@
+INTEROPERABILITY CONTRACT REGISTRY — DF26
+
+PURPOSE:
+Define allowed cross-unit interactions.
+
+RULES:
+
+1. ALL INTERACTIONS MUST BE DECLARED
+2. NO IMPLICIT DEPENDENCIES
+3. CONTRACT VERSION REQUIRED
+4. VALIDATION REQUIRED BEFORE EXECUTION
+
+CONTRACT STRUCTURE:
+
+- contract_id
+- source_unit
+- target_unit
+- interaction_type
+- policy_reference
+- version
+- validation_rules
+
+INTERACTION TYPES:
+
+- data_request
+- status_sync
+- evidence_exchange
+
+VALIDATION:
+
+IF CONTRACT NOT FOUND:
+→ BLOCK EXECUTION
+
+IF VERSION MISMATCH:
+→ BLOCK EXECUTION
+
+IF POLICY VIOLATION:
+→ BLOCK EXECUTION
