@@ -1,0 +1,12 @@
+DECISION LOG — DF30 ECOSYSTEM ADMISSION GOVERNANCE
+Pack ID : PETCARE-PHASE-2-DF30-ECOSYSTEM-ADMISSION-GOVERNANCE-EXTERNAL-ACTIVATION-GATE-CONTROL
+Timestamp: 20260404T075211Z
+Result   : ACTIVE
+
+Checks passed:
+  [PASS] ECOSYSTEM_ADMISSION_GOVERNANCE_MODEL.md — present + 'no autonomous execution' verified
+  [PASS] EXTERNAL_ACTIVATION_GATE_POLICY.md      — present + 'publication prohibited' verified
+  [PASS] ECOSYSTEM_ADMISSION_RULE_CATALOG.md     — present + 'PROHIBITED RULES' verified
+  [PASS] GOVERNED_ADMISSION_EVIDENCE_MODEL.md    — present + evidence obligation clause verified
+
+Decision: ACTIVE PATH — ecosystem admission governance enforced, external activation gate controls active
