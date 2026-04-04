@@ -1,0 +1,21 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-OPERATIONALIZATION-DEPLOYMENT-ALIGNMENT/20260404T203052Z",
+  "files": [
+    {
+      "name": "active.log",
+      "sha256": "fffb1bfeb4a18e63fab4cade545377aae79f8b42e907d939c43790ae28ac1703"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "a44c17715fdccd7135adc47e1b958548492590f3a6ba271f9027f7389cc377a0"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "01574bbc811e9b0655c1b959fba075b4d6d5fdc32a84bbd385c5b8e6c29539ba"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "e4da4ada9813f55d5c9ff840ae7de8dde90e8555e97c6304c608ef212c35bc0c"
+    }
+  ]
+}
