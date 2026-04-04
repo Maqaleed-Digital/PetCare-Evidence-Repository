@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF41-DISPUTE-GOVERNANCE-REMEDIATION-ACCOUNTABILITY/20260404T160624Z",
+  "files": [
+    {
+      "name": "APPROVED_DISPUTE_REMEDIATION_CONTROL_CATALOG.md",
+      "sha256": "169809c11c200e291b501cc20c6ff5d4b05c175ed8b130a351f3c42cdd515915"
+    },
+    {
+      "name": "DISPUTE_GOVERNANCE_ACCOUNTABILITY.md",
+      "sha256": "201d535eab80d14462ed8507f9472750b464ab8f9bc224513fb60e08440d76f5"
+    },
+    {
+      "name": "DISPUTE_INTAKE_RESOLUTION_POLICY.md",
+      "sha256": "40602bdc73517c626bd27ea572b46f4aa6946a5ce810db1f8b9cb375ead0a18c"
+    },
+    {
+      "name": "PROHIBITED_DISPUTE_HANDLING_PATTERNS.md",
+      "sha256": "916cd2ad568e778d13035458e5cd18be15d44d3d8496221bceeea699b6e0252b"
+    },
+    {
+      "name": "REMEDIATION_ACCOUNTABILITY_APPEAL_MODEL.md",
+      "sha256": "de1755a29523431fd6f553856cb21cf5655df273ab02457c671a0a50661a24b7"
+    },
+    {
+      "name": "active.log",
+      "sha256": "0d512ea2cf91e2a506161c0b69e5a6f406682d7f47a06070f4f606cf065015a0"
+    },
+    {
+      "name": "current_dispute_governance_baseline.json",
+      "sha256": "91ec2b5528fb15f254c0fcb33cc1acc50e9fa1223d49aa2e5a873c46d39482b7"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "83d4c62bd27e87248201ff8a968549d13551107e3ba86f88830aee56261a6b58"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "56a6a83ee07f8fbabbe388b68c7023e8b181567ea4349380fa010fc843666189"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "a4189dcb2b235461b94105de0652112853f23a2ae0d178ce506c475c292e10c4"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "d59c7361da7d151a9cfa6611eb01d60342673af6411bfb62c7fc5b45704487b7"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "1d49ea606a15b1300f1d8b9206dc7c4c5ccd53b447c9eaf785477e4ec52626ef"
+    }
+  ]
+}

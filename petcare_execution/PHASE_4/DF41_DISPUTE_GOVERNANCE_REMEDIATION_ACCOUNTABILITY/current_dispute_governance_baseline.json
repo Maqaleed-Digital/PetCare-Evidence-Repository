@@ -1,0 +1,59 @@
+{
+  "pack_id": "PETCARE-PHASE-4-DF41-DISPUTE-GOVERNANCE-REMEDIATION-ACCOUNTABILITY",
+  "phase": "PHASE_4",
+  "df_id": "DF41",
+  "depends_on": [
+    "DF37",
+    "DF38",
+    "DF39",
+    "DF40"
+  ],
+  "source_of_truth_commit": "21bf6cce3a7ac07e20128777d16300d434ffd756",
+  "state_before": [
+    "TRUST_GOVERNED",
+    "NETWORK_EFFECTS_GOVERNED",
+    "ECONOMICALLY_GOVERNED",
+    "COMMERCIAL_FAIRNESS_GOVERNED"
+  ],
+  "state_after_target": [
+    "TRUST_GOVERNED",
+    "NETWORK_EFFECTS_GOVERNED",
+    "ECONOMICALLY_GOVERNED",
+    "COMMERCIAL_FAIRNESS_GOVERNED",
+    "DISPUTE_ACCOUNTABILITY_GOVERNED"
+  ],
+  "hard_invariants": [
+    "fail_closed_enforcement",
+    "no_autonomous_adjudication",
+    "no_retaliatory_handling",
+    "no_silent_closure_of_contested_matters",
+    "no_nontransparent_remediation",
+    "no_irreversible_disputed_outcome_without_appeal_or_rollback",
+    "no_policy_drift",
+    "reversibility_required",
+    "appeal_path_required",
+    "commit_is_single_source_of_truth"
+  ],
+  "required_env": [
+    "PETCARE_DISPUTE_OWNER",
+    "PETCARE_DISPUTE_REVIEW_MODE",
+    "PETCARE_DISPUTE_CLASSIFICATION_RULESET_REF",
+    "PETCARE_REMEDIATION_STANDARD_REF",
+    "PETCARE_DISPUTE_APPROVAL_ID"
+  ],
+  "control_modes": [
+    "BLOCKED",
+    "CONTROLLED",
+    "ACTIVE_GOVERNED"
+  ],
+  "evidence_contract": [
+    "decision_log.txt",
+    "blocked.log or active.log",
+    "invariant_check.txt",
+    "env_snapshot.txt",
+    "file_listing.txt",
+    "git_head.txt",
+    "MANIFEST.json",
+    "MANIFEST.sha256"
+  ]
+}
