@@ -1,0 +1,7 @@
+{
+  "execution_id": "sample-execution-id",
+  "expected_impact": "sample-expected-impact",
+  "actual_impact": "sample-actual-impact",
+  "variance": "sample-variance",
+  "threshold_breach_flag": false
+}

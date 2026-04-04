@@ -1,0 +1,10 @@
+{
+  "execution_id": "sample-execution-id",
+  "kpi_before": "sample-kpi-before",
+  "kpi_after": "sample-kpi-after",
+  "expected_impact": "sample-expected-impact",
+  "actual_impact": "sample-actual-impact",
+  "variance": "sample-variance",
+  "success_flag": true,
+  "validated_at_utc": "sample-timestamp"
+}

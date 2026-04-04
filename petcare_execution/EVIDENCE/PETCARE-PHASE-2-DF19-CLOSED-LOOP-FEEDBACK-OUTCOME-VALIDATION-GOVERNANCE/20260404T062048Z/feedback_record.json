@@ -1,0 +1,11 @@
+{
+  "execution_id": "sample-execution-id",
+  "optimization_type": "sample-optimization-type",
+  "expected_impact": "sample-expected-impact",
+  "actual_impact": "sample-actual-impact",
+  "variance": "sample-variance",
+  "success_flag": true,
+  "reviewer_notes": "sample-reviewer-notes",
+  "similar_execution_reference": "sample-similar-execution-reference",
+  "recorded_at_utc": "sample-timestamp"
+}

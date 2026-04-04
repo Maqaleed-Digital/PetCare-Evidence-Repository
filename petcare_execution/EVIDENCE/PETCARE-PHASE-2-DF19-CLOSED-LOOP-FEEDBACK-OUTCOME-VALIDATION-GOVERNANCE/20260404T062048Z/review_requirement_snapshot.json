@@ -1,0 +1,6 @@
+{
+  "execution_id": "sample-execution-id",
+  "similar_failure_detected": false,
+  "threshold_breach_detected": false,
+  "review_required": false
+}
