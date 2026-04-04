@@ -1,0 +1,5 @@
+readout_owner=executive_readout_owner
+readout_approval_id=APP-PH5-READOUT-001
+readout_evidence_baseline_ref=READOUT-EVIDENCE-BASELINE-001
+disclosure_standard_ref=DISCLOSURE-STD-001
+audience_review_mode=governed_external_readout_review

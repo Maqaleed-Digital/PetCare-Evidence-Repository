@@ -1,0 +1,13 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/BOARD_INVESTOR_REGULATOR_READOUT.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/BOARD_READOUT_SUMMARY_MODEL.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/EXECUTIVE_EXTERNAL_READOUT_POLICY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/INVESTOR_READOUT_SUMMARY_MODEL.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/MATERIAL_DISCLOSURE_TRUTH_BOUNDARY_STANDARD.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/REGULATOR_READOUT_SUMMARY_MODEL.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/active.log
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/current_board_investor_regulator_readout_baseline.json
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/decision_log.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/env_snapshot.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/file_listing.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/git_head.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z/invariant_check.txt

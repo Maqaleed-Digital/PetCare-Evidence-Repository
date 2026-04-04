@@ -1,0 +1,7 @@
+INVARIANT_CHECK=PASS
+no_unsupported_external_claims=true
+no_hidden_material_gaps=true
+no_silent_conditional_readiness_omission=true
+no_audience_specific_truth_drift=true
+evidence_chain_required=true
+commit_is_single_source_of_truth=true

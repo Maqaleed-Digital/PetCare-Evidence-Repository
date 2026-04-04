@@ -1,0 +1,43 @@
+{
+  "pack_id": "PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK",
+  "phase": "PHASE_5",
+  "pack_scope": "EXECUTIVE_EXTERNAL_READOUT",
+  "source_of_truth_commit": "920bbf752814750557b129150c0c058a28f92323",
+  "state_before": [
+    "AUDIT_AND_CERTIFICATION_READINESS_ESTABLISHED"
+  ],
+  "state_after_target": [
+    "EXECUTIVE_EXTERNAL_READOUT_READINESS_ESTABLISHED"
+  ],
+  "hard_invariants": [
+    "no_unsupported_external_claims",
+    "no_hidden_material_gaps",
+    "no_silent_conditional_readiness_omission",
+    "no_audience_specific_truth_drift",
+    "evidence_chain_required",
+    "reversibility_required",
+    "commit_is_single_source_of_truth"
+  ],
+  "required_env": [
+    "PETCARE_READOUT_OWNER",
+    "PETCARE_READOUT_APPROVAL_ID",
+    "PETCARE_READOUT_EVIDENCE_BASELINE_REF",
+    "PETCARE_DISCLOSURE_STANDARD_REF",
+    "PETCARE_AUDIENCE_REVIEW_MODE"
+  ],
+  "control_modes": [
+    "BLOCKED",
+    "CONTROLLED",
+    "ACTIVE_GOVERNED"
+  ],
+  "evidence_contract": [
+    "decision_log.txt",
+    "blocked.log or active.log",
+    "invariant_check.txt",
+    "env_snapshot.txt",
+    "file_listing.txt",
+    "git_head.txt",
+    "MANIFEST.json",
+    "MANIFEST.sha256"
+  ]
+}

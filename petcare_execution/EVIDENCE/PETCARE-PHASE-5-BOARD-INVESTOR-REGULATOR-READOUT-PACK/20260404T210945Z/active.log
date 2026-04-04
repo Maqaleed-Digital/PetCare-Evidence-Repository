@@ -1,0 +1,9 @@
+status=ACTIVE_GOVERNED
+PETCARE_READOUT_OWNER=executive_readout_owner
+PETCARE_READOUT_APPROVAL_ID=APP-PH5-READOUT-001
+PETCARE_READOUT_EVIDENCE_BASELINE_REF=READOUT-EVIDENCE-BASELINE-001
+PETCARE_DISCLOSURE_STANDARD_REF=DISCLOSURE-STD-001
+PETCARE_AUDIENCE_REVIEW_MODE=governed_external_readout_review
+unsupported_external_claims_allowed=false
+material_gap_visibility_required=true
+truth_drift_allowed=false

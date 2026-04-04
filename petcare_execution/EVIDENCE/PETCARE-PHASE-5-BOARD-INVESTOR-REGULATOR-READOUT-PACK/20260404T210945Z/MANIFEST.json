@@ -1,0 +1,57 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-BOARD-INVESTOR-REGULATOR-READOUT-PACK/20260404T210945Z",
+  "files": [
+    {
+      "name": "BOARD_INVESTOR_REGULATOR_READOUT.md",
+      "sha256": "2fd4707b7da0ccccdd8fab3e32bdb0ab2c2863ea8cabca8bfa5f81f4217cb443"
+    },
+    {
+      "name": "BOARD_READOUT_SUMMARY_MODEL.md",
+      "sha256": "a557c3e39e3b2538d371911cc49389aa6207293bc1fe4bd62323b3c51958a47c"
+    },
+    {
+      "name": "EXECUTIVE_EXTERNAL_READOUT_POLICY.md",
+      "sha256": "48a21d2227de9b7446f4a5e1b123321f2110f1ed0d4d356481397516b2ebdf8d"
+    },
+    {
+      "name": "INVESTOR_READOUT_SUMMARY_MODEL.md",
+      "sha256": "b32f73bc812122acb0747f2f8e70e937a0f94e4eb3d0e51620547edd90fbe3e3"
+    },
+    {
+      "name": "MATERIAL_DISCLOSURE_TRUTH_BOUNDARY_STANDARD.md",
+      "sha256": "a58d052f44b542d95bbcfa7d67e2a698af37c1cdcfefc7b49c443a18585648a7"
+    },
+    {
+      "name": "REGULATOR_READOUT_SUMMARY_MODEL.md",
+      "sha256": "bcf3b35e0774c266b67abfc51380883d2788c7c37c00b23c095a43f215d5a638"
+    },
+    {
+      "name": "active.log",
+      "sha256": "6347a6529c4cf908c365d2518f7e5629d7e81276593f2eeeb1697b148645f69b"
+    },
+    {
+      "name": "current_board_investor_regulator_readout_baseline.json",
+      "sha256": "53442216206c50fe2131b6ae1945105f4546b2598adf111b8f1a25b3c4268f24"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "b70a3dc3666526d67838f67416a7a5664371d95d46940f5a331b3bb177dd9df0"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "57062ef35f598a3c47f5d863ba96a52d2941a0c5f0468f58d4648c9f89da1dd3"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "99715ed4831b6abb2a4befbcd3be3adc0deb2092528cfd35f587f765e7eebbb8"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "311249291aca56660a1bcc0f49304eb7b4070a40cbea2d3761ea7e076bd9e07f"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "0072880da55b8fa812ec4e850017a500acb22ab20e1a1daa5198d4fdd0ad9fbb"
+    }
+  ]
+}
