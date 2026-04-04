@@ -1,0 +1,29 @@
+{
+  "baseline_id": "CPB-PH5-001",
+  "pack_id": "PETCARE-PHASE-5-CONTROLLED-PRODUCTION-ACTIVATION-UNDER-SEALED-CONSTITUTION",
+  "governance_phase": "PHASE_5",
+  "constitutional_status": "OPERATING_UNDER_SEALED_CONSTITUTION",
+  "preceding_state": "FULLY_GOVERNED+FULLY_AUDITABLE+CONSTITUTION_LOCKED+PLATFORM_SEALED+POST_SEAL_ACTIVE_GOVERNANCE",
+  "target_state": "CONTROLLED_PRODUCTION_ACTIVE_UNDER_CONSTITUTION",
+  "approval_id": "APP-PH5-PROD-001",
+  "exposure_mode_ref": "ECM-private_authenticated",
+  "runtime_readiness_ref": "RR-PH5-001",
+  "rollback_ready_ref": "RB-PH5-001",
+  "activation_window": "controlled_window_approved",
+  "operational_owner_ref": "OPS-PH5-001",
+  "current_exposure_tier": "T1_private_authenticated",
+  "max_traffic_percentage": 5,
+  "hypercare_window_hours": 72,
+  "rollback_sla_minutes": 15,
+  "sealed_constitution_ref": "DF44-SEAL",
+  "governing_dfs": ["DF37","DF38","DF39","DF40","DF41","DF42","DF43","DF44"],
+  "blocked_without": [
+    "PETCARE_PROD_ACTIVATION_OWNER",
+    "PETCARE_PROD_APPROVAL_ID",
+    "PETCARE_PROD_EXPOSURE_MODE_REF",
+    "PETCARE_PROD_RUNTIME_READINESS_REF",
+    "PETCARE_PROD_ROLLBACK_READY_REF",
+    "PETCARE_PROD_ACTIVATION_WINDOW",
+    "PETCARE_PROD_OPERATIONAL_OWNER_REF"
+  ]
+}

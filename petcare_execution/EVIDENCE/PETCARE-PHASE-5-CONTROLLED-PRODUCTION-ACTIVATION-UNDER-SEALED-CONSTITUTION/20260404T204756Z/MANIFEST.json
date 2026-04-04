@@ -1,0 +1,10 @@
+{
+  "pack_id": "PETCARE-PHASE-5-CONTROLLED-PRODUCTION-ACTIVATION-UNDER-SEALED-CONSTITUTION",
+  "files": {
+    "active.log": "3d79a8c19c478274a53cc7c414bccceb5b16cb5d6d11e28161a3622eeb08f14d",
+    "env_snapshot.txt": "fd4c0b7383c64b16d968673e55c1cb0c691686b0893b9f67b02f83ee25c5241b",
+    "file_listing.txt": "539e7f7920d4be290e61e64d5d9b47d8d4fb56ef0374010952c43d9a9a920201",
+    "git_head.txt": "5723d50ef0854c0929182df419772fbcb7c6d005482306377fd62cd7a52d3ab9",
+    "invariant_check.txt": "a1738e0d68b2dae8f0abe87cfb857703fa4d4b8dc778bc1d22cc49e93b8a6037"
+  }
+}

@@ -1,0 +1,9 @@
+INVARIANT_CHECK: PASS
+constitutional_status: OPERATING_UNDER_SEALED_CONSTITUTION
+no_autonomous_activation: TRUE
+fail_closed: TRUE
+blocked_path_proven_before_active: TRUE
+rollback_readiness_confirmed: TRUE
+hypercare_coverage_confirmed: TRUE
+exposure_control_model_active: TRUE
+all_phase4_seals_in_effect: TRUE
