@@ -1,0 +1,19 @@
+DF32-DF36 DECISION LOG
+
+SOURCE_OF_TRUTH_COMMIT: 41e9e4f6b8973daac46f42ccac4dc91db72cabe7
+DF32_DIR: petcare_execution/PHASE_3/DF32_SANDBOX_PARTNER_ENABLEMENT
+DF33_DIR: petcare_execution/PHASE_3/DF33_LIMITED_PRODUCTION_ACCESS
+DF34_DIR: petcare_execution/PHASE_3/DF34_MONITORING_ROLLBACK_GOVERNANCE
+DF35_DIR: petcare_execution/PHASE_3/DF35_TRUST_CERTIFICATION
+DF36_DIR: petcare_execution/PHASE_3/DF36_MULTI_PARTNER_SCALE
+EVIDENCE_DIR: petcare_execution/EVIDENCE/PETCARE-PHASE-3-DF32-DF36-ACTIVATION-SEQUENCE-PACK/20260404T084847Z
+
+DECISION SUMMARY
+- introduced DF32 sandbox partner enablement layer
+- introduced DF33 limited production access layer
+- introduced DF34 live monitoring and rollback governance layer
+- introduced DF35 partner trust posture and certification readiness layer
+- introduced DF36 multi-partner governed scale layer
+- preserved fail-closed enforcement across all workstreams
+- preserved no autonomous execution boundary
+- preserved sandbox-first posture, rollback readiness, and cumulative governance
