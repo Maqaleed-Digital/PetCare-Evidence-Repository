@@ -1,0 +1,26 @@
+{
+  "phase": "DF25",
+  "title": "PETCARE-PHASE-2-DF25-GOVERNED-SCALE-EXPANSION-MULTI-UNIT-CERTIFICATION",
+  "timestamp_utc": "20260404T070228Z",
+  "source_of_truth_commit": "802c4528f9c679d74f0346e007d63aa960b01481",
+  "phase_dir": "petcare_execution/PHASE_2/DF25_GOVERNED_SCALE_EXPANSION_MULTI_UNIT_CERTIFICATION",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF25-GOVERNED-SCALE-EXPANSION-MULTI-UNIT-CERTIFICATION/20260404T070228Z",
+  "blocked_path_validated": true,
+  "active_path_validated": true,
+  "artifacts": [
+    "SCALE_EXPANSION_MODEL.md",
+    "MULTI_UNIT_CERTIFICATION_POLICY.md",
+    "SCALE_GUARDRAILS.md",
+    "SCALE_EVIDENCE_MODEL.md",
+    "current_scale_baseline.json",
+    "petcare_df25_scale_certification.sh",
+    "decision_log.txt",
+    "blocked.log",
+    "active.log",
+    "scale_expansion_record.json",
+    "unit_registry_snapshot.json",
+    "certification_record.json",
+    "file_list.txt",
+    "file_hashes.sha256"
+  ]
+}
