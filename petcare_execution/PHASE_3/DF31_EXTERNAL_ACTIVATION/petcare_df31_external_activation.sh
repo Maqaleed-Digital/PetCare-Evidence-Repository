@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PHASE_DIR="petcare_execution/PHASE_3/DF31_EXTERNAL_ACTIVATION"
+
+REQUIRED_FILES=(
+"EXTERNAL_ACTIVATION_MODEL.md"
+"EXTERNAL_ACTIVATION_GATE_POLICY.md"
+"CONTROLLED_INTEGRATION_MODEL.md"
+"GOVERNED_ACTIVATION_EVIDENCE_MODEL.md"
+)
+
+for f in "${REQUIRED_FILES[@]}"; do
+  if [ ! -f "$PHASE_DIR/$f" ]; then
+    echo "DF31 VALIDATION FAILED: missing $f"
+    exit 1
+  fi
+done
+
+echo "DF31 VALIDATION PASSED"
