@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-RUNTIME-CONTROL-IMPLEMENTATION-MATRIX-DEPLOYED-SERVICES/20260404T205415Z",
+  "files": [
+    {
+      "name": "DEPLOYED_SERVICES_MAPPING_REFERENCE.md",
+      "sha256": "615ff350f2825b741b40b1348fe241cedd8361fd2dad21c2b7dfbd43e221910e"
+    },
+    {
+      "name": "RUNTIME_CONTROL_GAP_REGISTER_STANDARD.md",
+      "sha256": "9cc8a012feb52f0a856f9242c1e8bca9da4cfcf305f135a67ee38356f22fa7ee"
+    },
+    {
+      "name": "RUNTIME_CONTROL_IMPLEMENTATION_MATRIX.md",
+      "sha256": "754b3435c6072ea6eec2a422389a04c05f6a928ded53dfd6729a1e15d7aa2a4c"
+    },
+    {
+      "name": "RUNTIME_CONTROL_MAPPING_POLICY.md",
+      "sha256": "f0b6fdfc5368dadc4bf418e5d954396240c0f7a8566cc45b9fe376be83ec2569"
+    },
+    {
+      "name": "SAMPLE_RUNTIME_CONTROL_IMPLEMENTATION_MATRIX.tsv",
+      "sha256": "511a0b94c80303ac4f7bb660992035ca7547168d4219b54de212274a1e6df262"
+    },
+    {
+      "name": "active.log",
+      "sha256": "a691c7046631be9edfeb6be80e79568794346f8a99e142710e94d5cbf05eabf3"
+    },
+    {
+      "name": "current_runtime_control_mapping_baseline.json",
+      "sha256": "c155735a2a14d31e50e414b9f44df2ad26b19f5209516b869669ad0ecf3e4c03"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "46added00b6e5d39f5902b53ecf6497412af99b18ef704475f1f7b2872c7dae4"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "8c3bf5ac3e7dff93b9823f1cb03c87524cba25dfa38d36e4097af44b5bef7830"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "69c905f8ef73c7f2afe6b13a15f2c7b61162a561e7cfc75d14c350e9b85f44c9"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "c41167724c60e96f12fefef76e26bffcdf01f4ed412f3d843ebe84e2d435026f"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "e2a1aedb10b75f99437b1135089b70d36a727d2c4efc03fb8a8c4a1df1ad1d54"
+    }
+  ]
+}

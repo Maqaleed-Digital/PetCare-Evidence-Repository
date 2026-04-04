@@ -1,0 +1,43 @@
+{
+  "pack_id": "PETCARE-PHASE-5-RUNTIME-CONTROL-IMPLEMENTATION-MATRIX-DEPLOYED-SERVICES",
+  "phase": "PHASE_5",
+  "pack_scope": "RUNTIME_CONTROL_TRACEABILITY",
+  "source_of_truth_commit": "816bff50c87a9f737bb3c3c577e8f15405ed12b2",
+  "state_before": [
+    "CONTROLLED_PRODUCTION_ACTIVE_UNDER_CONSTITUTION"
+  ],
+  "state_after_target": [
+    "RUNTIME_CONTROL_TRACEABILITY_ESTABLISHED"
+  ],
+  "hard_invariants": [
+    "no_assumed_runtime_enforcement",
+    "no_hidden_control_gaps",
+    "no_silent_documentary_only_downgrade",
+    "no_false_completeness_claim",
+    "reversibility_required",
+    "evidence_chain_required",
+    "commit_is_single_source_of_truth"
+  ],
+  "required_env": [
+    "PETCARE_RUNTIME_MAPPING_OWNER",
+    "PETCARE_RUNTIME_MAPPING_APPROVAL_ID",
+    "PETCARE_DEPLOYED_SERVICES_REF",
+    "PETCARE_CONTROL_CLASSIFICATION_STANDARD_REF",
+    "PETCARE_RUNTIME_MAPPING_VALIDATION_MODE"
+  ],
+  "control_modes": [
+    "BLOCKED",
+    "CONTROLLED",
+    "ACTIVE_GOVERNED"
+  ],
+  "evidence_contract": [
+    "decision_log.txt",
+    "blocked.log or active.log",
+    "invariant_check.txt",
+    "env_snapshot.txt",
+    "file_listing.txt",
+    "git_head.txt",
+    "MANIFEST.json",
+    "MANIFEST.sha256"
+  ]
+}

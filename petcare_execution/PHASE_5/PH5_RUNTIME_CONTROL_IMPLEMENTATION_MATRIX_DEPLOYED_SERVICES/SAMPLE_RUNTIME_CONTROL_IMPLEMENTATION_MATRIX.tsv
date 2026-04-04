@@ -1,0 +1,4 @@
+control_id	governance_layer	service_name	service_type	environment	enforcement_method	visibility_source	rollback_anchor	implementation_status	validation_note
+DF43-ARC-01	runtime_enforcement	petcare-api-prod	api_service	prod	code_path	audit_logs	release_rollback	pending_validation	production mapping to verify
+DF44-IV-10	governance_seal	governance_baseline_registry	operational_runbook	prod	operational_procedure	evidence_pack	governance_restore_procedure	documentary_only	sealed baseline tracked outside runtime service
+PH5-PA-04	production_activation	petcare-api-prod	api_service	prod	configuration	deployment_logs	rollback_runbook	pending_validation	runtime readiness evidence required

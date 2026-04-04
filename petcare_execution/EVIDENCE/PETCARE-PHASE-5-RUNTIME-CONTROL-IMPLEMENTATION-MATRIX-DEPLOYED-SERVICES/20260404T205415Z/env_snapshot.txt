@@ -1,0 +1,5 @@
+runtime_mapping_owner=runtime_mapping_owner
+runtime_mapping_approval_id=APP-PH5-RTMAP-001
+deployed_services_ref=DEPLOYED-SVC-REF-001
+control_classification_standard_ref=CTRL-CLASS-STD-001
+runtime_mapping_validation_mode=governed_traceability_review
