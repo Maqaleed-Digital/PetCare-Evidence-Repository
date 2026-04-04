@@ -1,0 +1,15 @@
+DF28 DECISION LOG
+
+SOURCE_OF_TRUTH_COMMIT: 64d92eb7c709a37d20a6b794a000ef65d55f12d1
+PHASE_DIR: petcare_execution/PHASE_2/DF28_PORTFOLIO_ORCHESTRATION
+EVIDENCE_DIR: petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF28-PORTFOLIO-ORCHESTRATION-GOVERNED-CROSS-UNIT-OPTIMIZATION/20260404T073343Z
+
+DECISION SUMMARY
+- introduced governed portfolio orchestration model
+- introduced cross-unit optimization control policy
+- introduced approved orchestration rule catalog
+- introduced governed optimization evidence model
+- preserved fail-closed enforcement
+- preserved no autonomous execution boundary
+- preserved no hidden portfolio dependency rule
+- preserved local unit sovereignty and human approval requirement
