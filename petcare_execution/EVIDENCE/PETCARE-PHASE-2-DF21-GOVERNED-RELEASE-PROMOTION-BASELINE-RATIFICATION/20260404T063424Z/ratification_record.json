@@ -1,0 +1,6 @@
+{
+  "release_id": "sample-release-id",
+  "ratified_by": "sample-ratifier",
+  "ratified_at_utc": "sample-timestamp",
+  "status": "RATIFIED"
+}

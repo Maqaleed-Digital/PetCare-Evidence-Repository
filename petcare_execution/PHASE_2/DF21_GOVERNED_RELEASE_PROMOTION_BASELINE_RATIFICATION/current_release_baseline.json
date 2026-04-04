@@ -1,0 +1,13 @@
+{
+  "release_version": "df21-baseline-v1",
+  "source_policy_version": "df20-baseline-v1",
+  "baseline_scope": "global",
+  "status": "active",
+  "components": {
+    "df16_execution_governance": "active",
+    "df17_prioritization_governance": "active",
+    "df18_orchestration_capacity_governance": "active",
+    "df19_feedback_validation_governance": "active",
+    "df20_policy_tuning_change_control": "active"
+  }
+}

@@ -1,0 +1,4 @@
+PETCARE DF21 governed release promotion + baseline ratification run
+source_commit=eec08e6631afb6eb54a86a0ab80137c3ae7e7897
+phase_dir=petcare_execution/PHASE_2/DF21_GOVERNED_RELEASE_PROMOTION_BASELINE_RATIFICATION
+evidence_dir=petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF21-GOVERNED-RELEASE-PROMOTION-BASELINE-RATIFICATION/20260404T063424Z

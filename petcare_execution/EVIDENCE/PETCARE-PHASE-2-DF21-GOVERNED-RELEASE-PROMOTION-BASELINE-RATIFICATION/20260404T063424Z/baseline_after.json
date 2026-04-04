@@ -1,0 +1,7 @@
+{
+  "release_version": "sample-baseline-v2",
+  "source_policy_version": "sample-policy-version",
+  "baseline_scope": "global",
+  "status": "active",
+  "promotion_applied": true
+}

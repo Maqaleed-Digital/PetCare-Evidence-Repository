@@ -1,0 +1,30 @@
+{
+  "phase": "DF21",
+  "title": "PETCARE-PHASE-2-DF21-GOVERNED-RELEASE-PROMOTION-BASELINE-RATIFICATION",
+  "timestamp_utc": "20260404T063424Z",
+  "source_of_truth_commit": "eec08e6631afb6eb54a86a0ab80137c3ae7e7897",
+  "phase_dir": "petcare_execution/PHASE_2/DF21_GOVERNED_RELEASE_PROMOTION_BASELINE_RATIFICATION",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF21-GOVERNED-RELEASE-PROMOTION-BASELINE-RATIFICATION/20260404T063424Z",
+  "blocked_path_validated": true,
+  "active_path_validated": true,
+  "artifacts": [
+    "RELEASE_PROMOTION_MODEL.md",
+    "BASELINE_RATIFICATION_POLICY.md",
+    "RELEASE_VERSIONING_STANDARD.md",
+    "PROMOTION_APPROVAL_GUARDRAILS.md",
+    "BASELINE_PROMOTION_EVIDENCE_MODEL.md",
+    "current_release_baseline.json",
+    "petcare_df21_release_promotion_ratification.sh",
+    "decision_log.txt",
+    "blocked.log",
+    "active.log",
+    "release_promotion_record.json",
+    "baseline_before.json",
+    "baseline_after.json",
+    "baseline_transition.json",
+    "ratification_record.json",
+    "promotion_decision_log.txt",
+    "file_list.txt",
+    "file_hashes.sha256"
+  ]
+}

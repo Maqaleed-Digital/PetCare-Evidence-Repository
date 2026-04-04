@@ -1,0 +1,11 @@
+{
+  "release_id": "sample-release-id",
+  "baseline_version_before": "df21-baseline-v1",
+  "baseline_version_after": "sample-baseline-v2",
+  "candidate_scope": "global",
+  "requested_by": "sample-requester",
+  "approved_by": "sample-approver",
+  "ratified_by": "sample-ratifier",
+  "ratification_reason": "sample-ratification-reason",
+  "effective_date_utc": "sample-timestamp"
+}

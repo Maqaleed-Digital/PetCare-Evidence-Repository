@@ -1,0 +1,5 @@
+{
+  "baseline_version_before": "df21-baseline-v1",
+  "baseline_version_after": "sample-baseline-v2",
+  "rollback_target_version": "df21-baseline-v1"
+}
