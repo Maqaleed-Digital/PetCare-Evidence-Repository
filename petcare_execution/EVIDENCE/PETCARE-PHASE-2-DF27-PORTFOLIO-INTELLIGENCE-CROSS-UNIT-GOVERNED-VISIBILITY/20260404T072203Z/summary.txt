@@ -1,0 +1,16 @@
+DF27 SUMMARY
+
+PetCare Phase 2 DF27 established portfolio intelligence and cross-unit governed visibility on top of the DF26 federated control layer.
+
+Delivered:
+- portfolio intelligence model
+- cross-unit visibility policy
+- portfolio signal catalog
+- governed visibility evidence model
+- fail-closed validation script
+
+Result:
+- portfolio-level visibility is now governed, provenance-based, and informational only
+- cross-unit signals remain controlled and evidence-backed
+- no execution authority was introduced
+- local unit sovereignty remains preserved

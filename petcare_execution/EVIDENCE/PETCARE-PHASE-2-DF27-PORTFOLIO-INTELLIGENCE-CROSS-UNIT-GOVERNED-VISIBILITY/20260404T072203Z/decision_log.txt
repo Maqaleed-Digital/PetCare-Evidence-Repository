@@ -1,0 +1,14 @@
+DF27 DECISION LOG
+
+SOURCE_OF_TRUTH_COMMIT: 62851e3a06c1d22e27140814779b8a79c08aef72
+PHASE_DIR: petcare_execution/PHASE_2/DF27_PORTFOLIO_INTELLIGENCE
+EVIDENCE_DIR: petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF27-PORTFOLIO-INTELLIGENCE-CROSS-UNIT-GOVERNED-VISIBILITY/20260404T072203Z
+
+DECISION SUMMARY
+- introduced governed portfolio intelligence model
+- introduced cross-unit visibility policy
+- introduced approved portfolio signal catalog
+- introduced governed visibility evidence model
+- preserved fail-closed enforcement
+- preserved no autonomous execution boundary
+- preserved no hidden portfolio dependency rule
