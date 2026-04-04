@@ -1,0 +1,17 @@
+{
+  "weights_version": "df17-default-v1",
+  "model_type": "hybrid_governed_override",
+  "weights": {
+    "kpi_impact_weight": 0.40,
+    "risk_weight": 0.30,
+    "effort_weight": 0.20,
+    "urgency_weight": 0.10
+  },
+  "tie_break_order": [
+    "lower_risk",
+    "higher_urgency",
+    "lower_effort",
+    "lexical_backlog_item_id"
+  ],
+  "locked": true
+}

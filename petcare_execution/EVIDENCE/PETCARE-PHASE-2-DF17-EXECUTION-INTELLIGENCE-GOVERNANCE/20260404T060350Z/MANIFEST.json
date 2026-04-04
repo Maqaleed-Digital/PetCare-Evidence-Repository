@@ -1,0 +1,25 @@
+{
+  "phase": "DF17",
+  "title": "PETCARE-PHASE-2-DF17-EXECUTION-INTELLIGENCE-GOVERNANCE",
+  "timestamp_utc": "20260404T060350Z",
+  "source_of_truth_commit": "f0a750c59801023ccc47728862f97954042591f3",
+  "phase_dir": "petcare_execution/PHASE_2/DF17_EXECUTION_INTELLIGENCE_GOVERNANCE",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF17-EXECUTION-INTELLIGENCE-GOVERNANCE/20260404T060350Z",
+  "model": "hybrid_governed_override",
+  "blocked_path_validated": true,
+  "active_path_validated": true,
+  "artifacts": [
+    "PRIORITIZATION_ENGINE_SPEC.md",
+    "SCORING_MODEL_GOVERNANCE.md",
+    "OVERRIDE_GOVERNANCE_MODEL.md",
+    "PORTFOLIO_SEQUENCING_POLICY.md",
+    "PRIORITIZATION_EVIDENCE_MODEL.md",
+    "default_weights.json",
+    "petcare_df17_execution_intelligence_governance.sh",
+    "decision_log.txt",
+    "blocked_run.log",
+    "active_run.log",
+    "file_list.txt",
+    "file_hashes.sha256"
+  ]
+}
