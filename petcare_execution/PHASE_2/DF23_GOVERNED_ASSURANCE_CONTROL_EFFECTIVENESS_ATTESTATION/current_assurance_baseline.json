@@ -1,0 +1,16 @@
+{
+  "assurance_version": "df23-assurance-v1",
+  "scope": "global",
+  "assurance_frequency": "monthly",
+  "control_families": [
+    "execution_governance",
+    "prioritization_governance",
+    "orchestration_governance",
+    "feedback_governance",
+    "policy_change_governance",
+    "baseline_ratification_governance",
+    "operating_rhythm_governance"
+  ],
+  "attestation_enabled": true,
+  "remediation_trigger_enabled": true
+}

@@ -1,0 +1,29 @@
+{
+  "phase": "DF23",
+  "title": "PETCARE-PHASE-2-DF23-GOVERNED-ASSURANCE-CONTROL-EFFECTIVENESS-ATTESTATION",
+  "timestamp_utc": "20260404T065146Z",
+  "source_of_truth_commit": "c4f1030afb97e952d2045e8a88564458bc83d550",
+  "phase_dir": "petcare_execution/PHASE_2/DF23_GOVERNED_ASSURANCE_CONTROL_EFFECTIVENESS_ATTESTATION",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF23-GOVERNED-ASSURANCE-CONTROL-EFFECTIVENESS-ATTESTATION/20260404T065146Z",
+  "blocked_path_validated": true,
+  "active_path_validated": true,
+  "artifacts": [
+    "ASSURANCE_MODEL.md",
+    "CONTROL_EFFECTIVENESS_POLICY.md",
+    "ATTESTATION_POLICY.md",
+    "REMEDIATION_TRIGGER_GUARDRAILS.md",
+    "ASSURANCE_EVIDENCE_MODEL.md",
+    "current_assurance_baseline.json",
+    "petcare_df23_assurance_attestation.sh",
+    "decision_log.txt",
+    "blocked.log",
+    "active.log",
+    "assurance_cycle_record.json",
+    "control_effectiveness_report.json",
+    "attestation_record.json",
+    "remediation_trigger_record.json",
+    "assurance_summary.txt",
+    "file_list.txt",
+    "file_hashes.sha256"
+  ]
+}

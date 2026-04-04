@@ -1,0 +1,9 @@
+{
+  "assurance_scope": "global",
+  "assurance_result": "EFFECTIVE",
+  "exception_count": 0,
+  "approver": "sample-approver",
+  "attestor": "sample-attestor",
+  "attestation_reason": "sample-attestation-reason",
+  "attestation_status": "ATTESTED_EFFECTIVE"
+}

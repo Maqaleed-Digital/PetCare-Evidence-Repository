@@ -1,0 +1,8 @@
+{
+  "assurance_cycle_id": "sample-assurance-cycle-id",
+  "control_scope": "global",
+  "test_basis": "sample-test-basis",
+  "evidence_basis": "sample-evidence-basis",
+  "effectiveness_result": "EFFECTIVE",
+  "attestation_status": "READY_FOR_ATTESTATION"
+}

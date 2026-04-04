@@ -1,0 +1,9 @@
+{
+  "control_id": "sample-control-id",
+  "control_objective": "sample-control-objective",
+  "expected_behavior": "sample-expected-behavior",
+  "observed_behavior": "sample-observed-behavior",
+  "test_result": "pass",
+  "effectiveness_state": "EFFECTIVE",
+  "evidence_reference": "sample-evidence-reference"
+}
