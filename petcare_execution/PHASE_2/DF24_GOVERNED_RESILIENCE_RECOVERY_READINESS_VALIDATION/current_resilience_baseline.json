@@ -1,0 +1,8 @@
+{
+  "resilience_version": "df24-resilience-v1",
+  "scope": "global",
+  "degraded_mode_enabled": true,
+  "recovery_validation_enabled": true,
+  "restoration_control_enabled": true,
+  "resilience_review_frequency": "quarterly"
+}

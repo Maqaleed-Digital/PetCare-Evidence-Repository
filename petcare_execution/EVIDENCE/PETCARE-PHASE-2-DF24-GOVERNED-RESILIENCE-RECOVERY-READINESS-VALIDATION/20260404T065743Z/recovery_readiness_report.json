@@ -1,0 +1,10 @@
+{
+  "recovery_scope": "global",
+  "recovery_owner": "sample-recovery-owner",
+  "recovery_dependencies": [
+    "sample-dependency-1",
+    "sample-dependency-2"
+  ],
+  "recovery_objective_time": "sample-rto",
+  "recovery_validation_result": "RECOVERY_VALIDATED"
+}

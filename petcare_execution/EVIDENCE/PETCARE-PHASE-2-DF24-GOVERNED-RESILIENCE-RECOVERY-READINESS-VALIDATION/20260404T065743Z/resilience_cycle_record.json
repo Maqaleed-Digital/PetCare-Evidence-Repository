@@ -1,0 +1,8 @@
+{
+  "resilience_cycle_id": "sample-resilience-cycle-id",
+  "disruption_scope": "global",
+  "degraded_mode_strategy": "controlled_degraded",
+  "recovery_objective": "sample-recovery-objective",
+  "restoration_status": "NORMAL_OPERATION_RESTORED",
+  "validation_result": "VALIDATED"
+}

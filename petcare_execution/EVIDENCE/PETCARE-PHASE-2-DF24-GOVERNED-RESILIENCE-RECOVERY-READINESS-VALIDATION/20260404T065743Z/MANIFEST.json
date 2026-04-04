@@ -1,0 +1,29 @@
+{
+  "phase": "DF24",
+  "title": "PETCARE-PHASE-2-DF24-GOVERNED-RESILIENCE-RECOVERY-READINESS-VALIDATION",
+  "timestamp_utc": "20260404T065743Z",
+  "source_of_truth_commit": "8f2b66b7caf63dff92a483b93e1a12bd205b08cd",
+  "phase_dir": "petcare_execution/PHASE_2/DF24_GOVERNED_RESILIENCE_RECOVERY_READINESS_VALIDATION",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF24-GOVERNED-RESILIENCE-RECOVERY-READINESS-VALIDATION/20260404T065743Z",
+  "blocked_path_validated": true,
+  "active_path_validated": true,
+  "artifacts": [
+    "RESILIENCE_MODEL.md",
+    "DEGRADED_MODE_POLICY.md",
+    "RECOVERY_READINESS_POLICY.md",
+    "RESTORATION_CONTROL_GUARDRAILS.md",
+    "RESILIENCE_EVIDENCE_MODEL.md",
+    "current_resilience_baseline.json",
+    "petcare_df24_resilience_recovery_validation.sh",
+    "decision_log.txt",
+    "blocked.log",
+    "active.log",
+    "resilience_cycle_record.json",
+    "degraded_mode_record.json",
+    "recovery_readiness_report.json",
+    "restoration_record.json",
+    "restoration_summary.txt",
+    "file_list.txt",
+    "file_hashes.sha256"
+  ]
+}

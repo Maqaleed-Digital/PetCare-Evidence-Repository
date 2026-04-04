@@ -1,0 +1,4 @@
+PETCARE DF24 governed resilience + recovery readiness validation run
+source_commit=8f2b66b7caf63dff92a483b93e1a12bd205b08cd
+phase_dir=petcare_execution/PHASE_2/DF24_GOVERNED_RESILIENCE_RECOVERY_READINESS_VALIDATION
+evidence_dir=petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF24-GOVERNED-RESILIENCE-RECOVERY-READINESS-VALIDATION/20260404T065743Z

@@ -1,0 +1,7 @@
+{
+  "disruption_type": "sample-disruption-type",
+  "affected_scope": "global",
+  "service_reduction_level": "limited",
+  "governance_controls_retained": true,
+  "state": "CONTROLLED_DEGRADED"
+}
