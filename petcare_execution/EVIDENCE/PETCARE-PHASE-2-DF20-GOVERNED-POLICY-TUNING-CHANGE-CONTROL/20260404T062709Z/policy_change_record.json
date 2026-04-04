@@ -1,0 +1,12 @@
+{
+  "change_id": "sample-policy-change-id",
+  "change_type": "sample-change-type",
+  "requested_by": "sample-requester",
+  "approved_by": "sample-approver",
+  "reason": "sample-reason",
+  "expected_effect": "sample-expected-effect",
+  "affected_policy_scope": "sample-scope",
+  "effective_date_utc": "sample-timestamp",
+  "policy_version_before": "sample-before-version",
+  "policy_version_after": "sample-after-version"
+}

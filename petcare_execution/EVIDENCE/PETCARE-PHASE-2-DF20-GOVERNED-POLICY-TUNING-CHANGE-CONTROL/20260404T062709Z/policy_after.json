@@ -1,0 +1,15 @@
+{
+  "policy_version": "sample-after-version",
+  "change_applied": true,
+  "scoring_model": {
+    "weights_version": "sample-weights-version"
+  },
+  "variance_policy": {
+    "enforcement_mode": "STRICT"
+  },
+  "capacity_policy": {
+    "max_concurrent_executions": 3,
+    "per_unit_execution_limit": 1,
+    "execution_window": "controlled"
+  }
+}

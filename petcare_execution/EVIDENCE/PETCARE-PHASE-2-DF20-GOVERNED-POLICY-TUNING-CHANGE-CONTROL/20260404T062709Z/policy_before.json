@@ -1,0 +1,19 @@
+{
+  "policy_version": "df20-baseline-v1",
+  "scoring_model": {
+    "weights_version": "df17-default-v1",
+    "kpi_impact_weight": 0.40,
+    "risk_weight": 0.30,
+    "effort_weight": 0.20,
+    "urgency_weight": 0.10
+  },
+  "variance_policy": {
+    "enforcement_mode": "STRICT",
+    "threshold_model": "explicit_review_required"
+  },
+  "capacity_policy": {
+    "max_concurrent_executions": 3,
+    "per_unit_execution_limit": 1,
+    "execution_window": "controlled"
+  }
+}

@@ -1,0 +1,5 @@
+{
+  "policy_version_before": "df20-baseline-v1",
+  "policy_version_after": "sample-after-version",
+  "rollback_target_version": "df20-baseline-v1"
+}

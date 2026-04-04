@@ -1,0 +1,30 @@
+{
+  "phase": "DF20",
+  "title": "PETCARE-PHASE-2-DF20-GOVERNED-POLICY-TUNING-CHANGE-CONTROL",
+  "timestamp_utc": "20260404T062709Z",
+  "source_of_truth_commit": "95edb070cc035e895013681b188daa201abfeb97",
+  "phase_dir": "petcare_execution/PHASE_2/DF20_GOVERNED_POLICY_TUNING_CHANGE_CONTROL",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF20-GOVERNED-POLICY-TUNING-CHANGE-CONTROL/20260404T062709Z",
+  "blocked_path_validated": true,
+  "active_path_validated": true,
+  "artifacts": [
+    "POLICY_TUNING_MODEL.md",
+    "CHANGE_CONTROL_POLICY.md",
+    "POLICY_VERSIONING_STANDARD.md",
+    "TUNING_APPROVAL_GUARDRAILS.md",
+    "POLICY_CHANGE_EVIDENCE_MODEL.md",
+    "current_policy_baseline.json",
+    "petcare_df20_policy_tuning_change_control.sh",
+    "decision_log.txt",
+    "blocked.log",
+    "active.log",
+    "policy_change_record.json",
+    "policy_before.json",
+    "policy_after.json",
+    "version_transition.json",
+    "approval_log.txt",
+    "impact_statement.txt",
+    "file_list.txt",
+    "file_hashes.sha256"
+  ]
+}
