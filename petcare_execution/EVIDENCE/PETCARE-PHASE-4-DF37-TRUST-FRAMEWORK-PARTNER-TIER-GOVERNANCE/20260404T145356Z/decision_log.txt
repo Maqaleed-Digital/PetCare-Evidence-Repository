@@ -1,0 +1,14 @@
+DF37 DECISION LOG
+
+SOURCE_OF_TRUTH_COMMIT: 9e757d2b1b4dcdc5bd5c17d5f4efc5099a073392
+PHASE_DIR: petcare_execution/PHASE_4/DF37_TRUST_TIER_GOVERNANCE
+EVIDENCE_DIR: petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF37-TRUST-FRAMEWORK-PARTNER-TIER-GOVERNANCE/20260404T145356Z
+
+DECISION SUMMARY
+- introduced DF37 trust framework model
+- introduced partner tier governance policy
+- introduced approved trust and tier rule catalog
+- introduced trust and tier evidence model
+- preserved fail-closed enforcement
+- preserved no autonomous execution boundary
+- preserved evidence-backed trust and reversible tier governance

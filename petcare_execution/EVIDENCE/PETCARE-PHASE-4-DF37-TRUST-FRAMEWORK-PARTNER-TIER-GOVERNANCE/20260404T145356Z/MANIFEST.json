@@ -1,0 +1,14 @@
+{
+  "pack_id": "PETCARE-PHASE-4-DF37-TRUST-FRAMEWORK-PARTNER-TIER-GOVERNANCE",
+  "timestamp_utc": "20260404T145356Z",
+  "source_of_truth_commit": "9e757d2b1b4dcdc5bd5c17d5f4efc5099a073392",
+  "phase_dir": "petcare_execution/PHASE_4/DF37_TRUST_TIER_GOVERNANCE",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF37-TRUST-FRAMEWORK-PARTNER-TIER-GOVERNANCE/20260404T145356Z",
+  "files": [
+    {"path": "petcare_execution/PHASE_4/DF37_TRUST_TIER_GOVERNANCE/DF37_TRUST_FRAMEWORK_MODEL.md", "file": "DF37_TRUST_FRAMEWORK_MODEL.md", "sha256": "6e265fc68649dd9b6bb91394d6598afddf17279aba1b218740021fd94be1510d"},
+    {"path": "petcare_execution/PHASE_4/DF37_TRUST_TIER_GOVERNANCE/DF37_PARTNER_TIER_GOVERNANCE_POLICY.md", "file": "DF37_PARTNER_TIER_GOVERNANCE_POLICY.md", "sha256": "90dd227cf910f0d7d12b2b67653e567f71e00550d89478994f22173072a8ce08"},
+    {"path": "petcare_execution/PHASE_4/DF37_TRUST_TIER_GOVERNANCE/DF37_TRUST_TIER_RULE_CATALOG.md", "file": "DF37_TRUST_TIER_RULE_CATALOG.md", "sha256": "7117f6bd3f320274edbe867e4e6dd0987f14963517a8300213e52b1bbe3406c0"},
+    {"path": "petcare_execution/PHASE_4/DF37_TRUST_TIER_GOVERNANCE/DF37_TRUST_TIER_EVIDENCE_MODEL.md", "file": "DF37_TRUST_TIER_EVIDENCE_MODEL.md", "sha256": "3da3c8f5dd1fc5fbf288d8234fbfc20c7b8c38ee126b0df64f36fa24977e6535"},
+    {"path": "petcare_execution/PHASE_4/DF37_TRUST_TIER_GOVERNANCE/petcare_df37_trust_tier_governance.sh", "file": "petcare_df37_trust_tier_governance.sh", "sha256": "10313a424f3b3e4e60566a77dac4b7193fc34dff228fbf5be85198e20c67a9b6"}
+  ]
+}
