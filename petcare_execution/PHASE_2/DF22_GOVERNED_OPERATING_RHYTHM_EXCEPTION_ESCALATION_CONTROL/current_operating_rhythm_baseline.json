@@ -1,0 +1,9 @@
+{
+  "operating_rhythm_version": "df22-rhythm-v1",
+  "scope": "global",
+  "cadence_type": "governed_steady_state",
+  "review_frequency": "weekly",
+  "owner_role": "operating_governance_owner",
+  "checkpoint_scope": "portfolio",
+  "exception_escalation_enabled": true
+}

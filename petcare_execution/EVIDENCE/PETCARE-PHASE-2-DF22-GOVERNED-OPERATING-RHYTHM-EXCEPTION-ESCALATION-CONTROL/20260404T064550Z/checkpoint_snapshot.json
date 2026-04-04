@@ -1,0 +1,10 @@
+{
+  "checkpoint_id": "sample-checkpoint-id",
+  "scope": "portfolio",
+  "inputs_reviewed": [
+    "baseline_status",
+    "exceptions",
+    "governance_controls"
+  ],
+  "status": "captured"
+}

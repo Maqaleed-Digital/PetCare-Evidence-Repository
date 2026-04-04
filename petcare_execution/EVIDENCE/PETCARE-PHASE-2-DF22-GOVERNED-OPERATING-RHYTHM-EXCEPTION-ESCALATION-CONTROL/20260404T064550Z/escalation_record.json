@@ -1,0 +1,5 @@
+{
+  "escalation_id": "sample-escalation-id",
+  "required": false,
+  "status": "not_required"
+}

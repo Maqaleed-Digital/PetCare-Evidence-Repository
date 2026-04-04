@@ -1,0 +1,8 @@
+{
+  "exception_id": "sample-exception-id",
+  "exception_class": "LOW",
+  "affected_scope": "global",
+  "severity": "low",
+  "control_breach_flag": false,
+  "status": "recorded"
+}

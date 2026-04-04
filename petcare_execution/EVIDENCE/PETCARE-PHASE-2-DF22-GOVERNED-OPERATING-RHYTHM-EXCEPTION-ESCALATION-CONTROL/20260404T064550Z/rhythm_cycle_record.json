@@ -1,0 +1,7 @@
+{
+  "cycle_id": "sample-cycle-id",
+  "cadence_type": "governed_steady_state",
+  "review_frequency": "weekly",
+  "owner_role": "operating_governance_owner",
+  "status": "completed"
+}

@@ -1,0 +1,30 @@
+{
+  "phase": "DF22",
+  "title": "PETCARE-PHASE-2-DF22-GOVERNED-OPERATING-RHYTHM-EXCEPTION-ESCALATION-CONTROL",
+  "timestamp_utc": "20260404T064550Z",
+  "source_of_truth_commit": "0cd0851d41ab8c9706904d77dda57547914c3407",
+  "phase_dir": "petcare_execution/PHASE_2/DF22_GOVERNED_OPERATING_RHYTHM_EXCEPTION_ESCALATION_CONTROL",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-2-DF22-GOVERNED-OPERATING-RHYTHM-EXCEPTION-ESCALATION-CONTROL/20260404T064550Z",
+  "blocked_path_validated": true,
+  "active_path_validated": true,
+  "artifacts": [
+    "OPERATING_RHYTHM_MODEL.md",
+    "EXCEPTION_CLASSIFICATION_POLICY.md",
+    "ESCALATION_CONTROL_POLICY.md",
+    "OPERATING_COUNCIL_GUARDRAILS.md",
+    "EXCEPTION_EVIDENCE_MODEL.md",
+    "current_operating_rhythm_baseline.json",
+    "petcare_df22_operating_rhythm_exception_control.sh",
+    "decision_log.txt",
+    "blocked.log",
+    "active.log",
+    "rhythm_cycle_record.json",
+    "checkpoint_snapshot.json",
+    "exception_record.json",
+    "escalation_record.json",
+    "escalation_route.txt",
+    "review_summary.txt",
+    "file_list.txt",
+    "file_hashes.sha256"
+  ]
+}
