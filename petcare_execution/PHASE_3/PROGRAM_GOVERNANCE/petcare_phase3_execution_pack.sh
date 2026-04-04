@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROGRAM_DIR="petcare_execution/PHASE_3/PROGRAM_GOVERNANCE"
+
+REQUIRED_FILES=(
+  "PHASE_3_GOVERNED_ACTIVATION_PROGRAM_MODEL.md"
+  "PHASE_3_EXECUTION_SEQUENCE_PLAN.md"
+  "PHASE_3_CONTROL_TOWER_MAP.md"
+  "PHASE_3_EVIDENCE_CONTRACT.md"
+  "PHASE_3_SCOPE_AND_CONSTRAINT_MAP.md"
+)
+
+for file in "${REQUIRED_FILES[@]}"; do
+  if [ ! -f "$PROGRAM_DIR/$file" ]; then
+    echo "PHASE 3 PACK VALIDATION FAILED: missing $file"
+    exit 1
+  fi
+done
+
+grep -q "no autonomous execution" "$PROGRAM_DIR/PHASE_3_GOVERNED_ACTIVATION_PROGRAM_MODEL.md"
+grep -q "DF36" "$PROGRAM_DIR/PHASE_3_EXECUTION_SEQUENCE_PLAN.md"
+grep -q "rollback_readiness" "$PROGRAM_DIR/PHASE_3_CONTROL_TOWER_MAP.md"
+grep -q "MANIFEST.json" "$PROGRAM_DIR/PHASE_3_EVIDENCE_CONTRACT.md"
+grep -q "sandbox-first is mandatory" "$PROGRAM_DIR/PHASE_3_SCOPE_AND_CONSTRAINT_MAP.md"
+
+echo "PHASE 3 EXECUTION PACK VALIDATION PASSED"

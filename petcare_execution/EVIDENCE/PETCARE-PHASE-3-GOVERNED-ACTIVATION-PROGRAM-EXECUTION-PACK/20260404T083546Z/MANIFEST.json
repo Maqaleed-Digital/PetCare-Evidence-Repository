@@ -1,0 +1,15 @@
+{
+  "pack_id": "PETCARE-PHASE-3-GOVERNED-ACTIVATION-PROGRAM-EXECUTION-PACK",
+  "timestamp_utc": "20260404T083546Z",
+  "source_of_truth_commit": "09c48ca427e0457c91c6a7b77fd60df976156419",
+  "program_dir": "petcare_execution/PHASE_3/PROGRAM_GOVERNANCE",
+  "evidence_dir": "petcare_execution/EVIDENCE/PETCARE-PHASE-3-GOVERNED-ACTIVATION-PROGRAM-EXECUTION-PACK/20260404T083546Z",
+  "files": [
+    {"path": "petcare_execution/PHASE_3/PROGRAM_GOVERNANCE/PHASE_3_GOVERNED_ACTIVATION_PROGRAM_MODEL.md", "file": "PHASE_3_GOVERNED_ACTIVATION_PROGRAM_MODEL.md", "sha256": "6d90b41fa0ea777a4411a8e9c91c08c1d6e13e6b44576ec392e651316b69f0fa"},
+    {"path": "petcare_execution/PHASE_3/PROGRAM_GOVERNANCE/PHASE_3_EXECUTION_SEQUENCE_PLAN.md", "file": "PHASE_3_EXECUTION_SEQUENCE_PLAN.md", "sha256": "b1600db8fa59b29c71c13c8980f6c5a7ecb8e99cd9afa999bea93d26387cbcf3"},
+    {"path": "petcare_execution/PHASE_3/PROGRAM_GOVERNANCE/PHASE_3_CONTROL_TOWER_MAP.md", "file": "PHASE_3_CONTROL_TOWER_MAP.md", "sha256": "8781edaf797ed712a0fbd611a5db4a174341bffac5a21dacf9acfb24b3a9d382"},
+    {"path": "petcare_execution/PHASE_3/PROGRAM_GOVERNANCE/PHASE_3_EVIDENCE_CONTRACT.md", "file": "PHASE_3_EVIDENCE_CONTRACT.md", "sha256": "c9c05ac9e75f69f5f1b2131eefdadfdc7645e39801709d609d8e8f9723effbb2"},
+    {"path": "petcare_execution/PHASE_3/PROGRAM_GOVERNANCE/PHASE_3_SCOPE_AND_CONSTRAINT_MAP.md", "file": "PHASE_3_SCOPE_AND_CONSTRAINT_MAP.md", "sha256": "3316c224d88816ac1c55e2a74b39ae5f0c9251a6ddf08f59655410758e8f91d7"},
+    {"path": "petcare_execution/PHASE_3/PROGRAM_GOVERNANCE/petcare_phase3_execution_pack.sh", "file": "petcare_phase3_execution_pack.sh", "sha256": "623cc93199d9e61e3413b5c2bdfb0924fb5b15389ab0cec0df45e149f88d85f5"}
+  ]
+}

@@ -1,0 +1,16 @@
+PHASE 3 DECISION LOG
+
+SOURCE_OF_TRUTH_COMMIT: 09c48ca427e0457c91c6a7b77fd60df976156419
+PROGRAM_DIR: petcare_execution/PHASE_3/PROGRAM_GOVERNANCE
+EVIDENCE_DIR: petcare_execution/EVIDENCE/PETCARE-PHASE-3-GOVERNED-ACTIVATION-PROGRAM-EXECUTION-PACK/20260404T083546Z
+
+DECISION SUMMARY
+- established a single authoritative execution pack for the whole of Phase 3
+- defined Phase 3 governed activation program model
+- defined Phase 3 sequence from DF31 through DF36
+- defined mandatory control tower tracking model
+- defined Phase 3 evidence contract
+- defined Phase 3 scope and hard constraints
+- preserved fail-closed enforcement
+- preserved no autonomous execution boundary
+- preserved sandbox-first and rollback-ready posture
