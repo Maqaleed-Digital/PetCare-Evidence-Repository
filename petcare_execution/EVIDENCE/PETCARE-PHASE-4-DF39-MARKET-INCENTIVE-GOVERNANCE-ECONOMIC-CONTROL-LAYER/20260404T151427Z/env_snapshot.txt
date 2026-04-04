@@ -1,0 +1,5 @@
+economic_owner=market_governance_owner
+pricing_mode=approval_gated_banded
+revenue_share_model_ref=RSM-DF39-001
+fairness_ruleset_ref=FFR-DF39-001
+approval_id=APP-DF39-001

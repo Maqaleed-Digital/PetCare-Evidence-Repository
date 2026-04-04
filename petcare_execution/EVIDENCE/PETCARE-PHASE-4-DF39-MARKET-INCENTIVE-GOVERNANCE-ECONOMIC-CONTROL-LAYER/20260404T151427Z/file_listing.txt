@@ -1,0 +1,12 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/APPROVED_INCENTIVE_RULE_CATALOG.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/ECONOMIC_CONTROL_LAYER.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/ECONOMIC_EVIDENCE_MODEL.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/INCENTIVE_GOVERNANCE_POLICY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/PROHIBITED_INCENTIVE_MECHANISMS.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/active.log
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/current_economic_control_baseline.json
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/decision_log.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/env_snapshot.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/file_listing.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/git_head.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z/invariant_check.txt

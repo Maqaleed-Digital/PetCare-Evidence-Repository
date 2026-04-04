@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER/20260404T151427Z",
+  "files": [
+    {
+      "name": "APPROVED_INCENTIVE_RULE_CATALOG.md",
+      "sha256": "56cedcb66517a18f50f06e9fc153617a038230f30fb45ed1919e1116a1358359"
+    },
+    {
+      "name": "ECONOMIC_CONTROL_LAYER.md",
+      "sha256": "16c47747491ff21b501cd2f76275d5f52a76e7f88ece62bf185ca9a5d9fd7631"
+    },
+    {
+      "name": "ECONOMIC_EVIDENCE_MODEL.md",
+      "sha256": "6745f20d4408e26152920fec4874c55ea9af562c2009fa95fde23cdb0a77255b"
+    },
+    {
+      "name": "INCENTIVE_GOVERNANCE_POLICY.md",
+      "sha256": "35f6b1894709ab21a49220f021b0a0adf0d3578e786176a057eb83493c5ded7e"
+    },
+    {
+      "name": "PROHIBITED_INCENTIVE_MECHANISMS.md",
+      "sha256": "197d9ea14d1cdd3fded2dd801d19890b67ad040e14dc0c700be17a7c0aec5e8e"
+    },
+    {
+      "name": "active.log",
+      "sha256": "1569a0703a99758702d6073c547746e1cbc7845eddd763099a0270e1c63ad210"
+    },
+    {
+      "name": "current_economic_control_baseline.json",
+      "sha256": "b19ec94242df5ef5cc30afe565fc32f8d1bbb1b0e95bc854045f83fc7b90b8ff"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "9d1b18af42108f600861580c36225ab4cb6093c9a73e204fb1f9945e1d258f04"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "8d54e9846ee740ff230452f30e80b26735301525a74e78b1a2b08f5a89c6e439"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "fc8510c5a643d1dea843af4ee2084aa3ee5d74574ed1f5b2e40d29226fe7368e"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "1a66003de66c00cf948efa0fa359f2eb0a67be70ee8a1a1f25b73620cb426c18"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "82c7ee22ede3292c160fb4ece202bb86856cbf9c374803c07fdba953ad1cd538"
+    }
+  ]
+}

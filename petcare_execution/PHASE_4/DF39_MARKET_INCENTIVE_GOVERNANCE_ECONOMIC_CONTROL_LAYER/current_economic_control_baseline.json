@@ -1,0 +1,53 @@
+{
+  "pack_id": "PETCARE-PHASE-4-DF39-MARKET-INCENTIVE-GOVERNANCE-ECONOMIC-CONTROL-LAYER",
+  "phase": "PHASE_4",
+  "df_id": "DF39",
+  "depends_on": [
+    "DF37",
+    "DF38"
+  ],
+  "source_of_truth_commit": "f220cc56b1160588956ed50622a1f458678d589e",
+  "state_before": [
+    "TRUST_GOVERNED",
+    "NETWORK_EFFECTS_GOVERNED"
+  ],
+  "state_after_target": [
+    "TRUST_GOVERNED",
+    "NETWORK_EFFECTS_GOVERNED",
+    "ECONOMICALLY_GOVERNED"
+  ],
+  "hard_invariants": [
+    "fail_closed_enforcement",
+    "no_autonomous_execution",
+    "no_uncontrolled_incentives",
+    "no_hidden_economic_bias",
+    "no_privilege_escalation_via_incentives",
+    "no_coercive_economic_loops",
+    "no_policy_drift",
+    "reversibility_required",
+    "evidence_chain_required",
+    "commit_is_single_source_of_truth"
+  ],
+  "required_env": [
+    "PETCARE_INCENTIVE_OWNER",
+    "PETCARE_PRICING_GOVERNANCE_MODE",
+    "PETCARE_REVENUE_SHARE_MODEL_REF",
+    "PETCARE_FINANCIAL_FAIRNESS_RULESET_REF",
+    "PETCARE_INCENTIVE_APPROVAL_ID"
+  ],
+  "control_modes": [
+    "BLOCKED",
+    "CONTROLLED",
+    "ACTIVE_GOVERNED"
+  ],
+  "evidence_contract": [
+    "decision_log.txt",
+    "blocked.log or active.log",
+    "invariant_check.txt",
+    "env_snapshot.txt",
+    "file_listing.txt",
+    "git_head.txt",
+    "MANIFEST.json",
+    "MANIFEST.sha256"
+  ]
+}

@@ -1,0 +1,10 @@
+status=ACTIVE_GOVERNED
+PETCARE_INCENTIVE_OWNER=market_governance_owner
+PETCARE_PRICING_GOVERNANCE_MODE=approval_gated_banded
+PETCARE_REVENUE_SHARE_MODEL_REF=RSM-DF39-001
+PETCARE_FINANCIAL_FAIRNESS_RULESET_REF=FFR-DF39-001
+PETCARE_INCENTIVE_APPROVAL_ID=APP-DF39-001
+rollback_required=true
+ai_execution_authority=false
+uncontrolled_incentives_allowed=false
+coercive_economic_loops_allowed=false
