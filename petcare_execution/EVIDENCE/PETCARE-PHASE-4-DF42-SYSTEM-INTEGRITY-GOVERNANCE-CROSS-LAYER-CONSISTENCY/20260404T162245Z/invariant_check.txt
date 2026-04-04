@@ -1,0 +1,5 @@
+INVARIANT_CHECK=PASS
+no_autonomous_policy_override=true
+no_silent_precedence_drift=true
+no_loophole_chaining=true
+commit_is_single_source_of_truth=true

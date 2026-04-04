@@ -1,0 +1,24 @@
+{
+  "pack_id": "PETCARE-PHASE-4-DF43-RUNTIME-ENFORCEMENT-GOVERNANCE-EXECUTION-GUARDRAILS",
+  "phase": "PHASE_4",
+  "df_id": "DF43",
+  "depends_on": [
+    "DF37",
+    "DF38",
+    "DF39",
+    "DF40",
+    "DF41",
+    "DF42"
+  ],
+  "source_of_truth_commit": "da00d5e52c231708b3112bc55bab0622aa67ea72",
+  "state_after_target": [
+    "RUNTIME_ENFORCEMENT_GOVERNED"
+  ],
+  "required_env": [
+    "PETCARE_RUNTIME_OWNER",
+    "PETCARE_RUNTIME_MODE",
+    "PETCARE_GUARDRAIL_RULESET_REF",
+    "PETCARE_INVARIANT_ENFORCEMENT_STANDARD_REF",
+    "PETCARE_RUNTIME_APPROVAL_ID"
+  ]
+}

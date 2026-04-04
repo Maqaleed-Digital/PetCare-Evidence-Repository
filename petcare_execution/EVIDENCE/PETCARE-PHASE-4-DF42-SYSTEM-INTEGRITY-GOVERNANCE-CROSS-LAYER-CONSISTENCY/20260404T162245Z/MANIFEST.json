@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF42-SYSTEM-INTEGRITY-GOVERNANCE-CROSS-LAYER-CONSISTENCY/20260404T162245Z",
+  "files": [
+    {
+      "name": "APPROVED_INTEGRITY_CONTROL_CATALOG.md",
+      "sha256": "6ae7895930c87b78ec9d90ede26abbd88fe4824008ad8878cd86ccdcb5d51b19"
+    },
+    {
+      "name": "CROSS_LAYER_PRECEDENCE_INTEGRITY_POLICY.md",
+      "sha256": "66a6723e275fc099f40c06ebdc134d6469468ceeb19e4d5a774451c0fd434070"
+    },
+    {
+      "name": "PROHIBITED_CROSS_LAYER_LOOPHOLE_PATTERNS.md",
+      "sha256": "4f5e42cb66b9605d3281a257987c139229c2a91a4d59cf0ace21c2bd3d57a17e"
+    },
+    {
+      "name": "SYSTEM_INTEGRITY_GOVERNANCE.md",
+      "sha256": "5fe95d4013574fd0e3d25fd2003fa12c402b280a3d25d3e4d6169f74c204f41c"
+    },
+    {
+      "name": "active.log",
+      "sha256": "805f8823d0dcb47dc7e2bb10bafa9860c669887cac5ebee03e17c3297d36e0ba"
+    },
+    {
+      "name": "blocked.log",
+      "sha256": "2ef549083d2ce46cc3727961641a1f1f17738c3e9f4d2e6d6e41befb78f5f41a"
+    },
+    {
+      "name": "current_system_integrity_baseline.json",
+      "sha256": "b87d3c3d95f028ea7c587669976cd6b230feea2a846ba0b941c3e6a7daf6402d"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "1b132179937a526032b4a6a4b8633a27c7365c3e9723e811241fe23906236334"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "0db099ceef9cffb78900971c0b3ea176ce5cb5c5be29fd94de9b26fdad3790ec"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "c8ee5b4210321711ca6204ee815646c15a774f2dc527ba2185a447b4c71e377e"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "f39b2d921877d616bdf362c4019eda864e18a4225c7ab21d13b48b6ca8341725"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "4b92118bd4c319f312226fed66448371fc3d8dbe79cd9f760dae4fea74891c7c"
+    }
+  ]
+}

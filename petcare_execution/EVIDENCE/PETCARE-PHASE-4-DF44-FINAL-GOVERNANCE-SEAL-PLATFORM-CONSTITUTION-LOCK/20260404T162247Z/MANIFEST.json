@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z",
+  "files": [
+    {
+      "name": "FINAL_GOVERNANCE_SEAL.md",
+      "sha256": "4d8c6606dc59f4c6cd2758bee6eb9654bd605ecaa9d93881637dd3198df448ff"
+    },
+    {
+      "name": "FINAL_INVARIANT_REGISTRY.md",
+      "sha256": "01407246f817bd1357400cde111ceb751e521169fae9438cd2d9f691233ab649"
+    },
+    {
+      "name": "PLATFORM_CONSTITUTION.md",
+      "sha256": "60261e87eae50656bf283875f5e4e3274735ca638fa95477c3d465e50b38be95"
+    },
+    {
+      "name": "PROHIBITED_POST_SEAL_MUTATION_PATTERNS.md",
+      "sha256": "c3d6308b271a4f43d548d37b0f075c5d231111d43ba6dcba3c696fd071b69207"
+    },
+    {
+      "name": "active.log",
+      "sha256": "2ea0001edbf8ab5a2a2f6b10523fdbdf1aac867706f68e1b3bec9fea3cdfbddd"
+    },
+    {
+      "name": "blocked.log",
+      "sha256": "7b853c4ea00880593d781723a61f9264f2d89e2387a5eeab65a395c1fd7013fd"
+    },
+    {
+      "name": "current_governance_seal_baseline.json",
+      "sha256": "2bca450d1188178417611c623880a2fd23ea196074ad9bddb5d6b8800698e513"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "cdf7f5191c4deecfd5d1fee4a5812e0d8c0df111ab734f48c713e48f4a5d1e0c"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "834c26ab20c058177e7a347774611c89b845872cdce887137959addc35ca4332"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "95cd61dc2f25409d551c6a36b4adc97bb35c008d830bbf6efd847f8de8f5913b"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "f39b2d921877d616bdf362c4019eda864e18a4225c7ab21d13b48b6ca8341725"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "fab3a12ce48741a9bf8b0d87e6d015552534f5661a6e24b366340077ecda872d"
+    }
+  ]
+}

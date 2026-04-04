@@ -1,0 +1,12 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/FINAL_GOVERNANCE_SEAL.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/FINAL_INVARIANT_REGISTRY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/PLATFORM_CONSTITUTION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/PROHIBITED_POST_SEAL_MUTATION_PATTERNS.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/active.log
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/blocked.log
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/current_governance_seal_baseline.json
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/decision_log.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/env_snapshot.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/file_listing.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/git_head.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK/20260404T162247Z/invariant_check.txt

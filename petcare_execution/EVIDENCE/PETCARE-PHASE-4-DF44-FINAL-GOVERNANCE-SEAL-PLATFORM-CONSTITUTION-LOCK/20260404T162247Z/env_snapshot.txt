@@ -1,0 +1,5 @@
+seal_owner=governance_seal_owner
+seal_mode=sealed
+constitution_lock_ref=PCL-DF44-001
+final_invariant_registry_ref=FIR-DF44-001
+approval_id=APP-DF44-001

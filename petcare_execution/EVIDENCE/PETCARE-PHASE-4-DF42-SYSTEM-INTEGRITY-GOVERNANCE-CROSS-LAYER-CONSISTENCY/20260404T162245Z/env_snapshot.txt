@@ -1,0 +1,5 @@
+integrity_owner=system_integrity_owner
+integrity_review_mode=human_review_required
+precedence_ruleset_ref=CLR-DF42-001
+conflict_resolution_standard_ref=CRS-DF42-001
+approval_id=APP-DF42-001

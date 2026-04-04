@@ -1,0 +1,28 @@
+{
+  "pack_id": "PETCARE-PHASE-4-DF44-FINAL-GOVERNANCE-SEAL-PLATFORM-CONSTITUTION-LOCK",
+  "phase": "PHASE_4",
+  "df_id": "DF44",
+  "depends_on": [
+    "DF37",
+    "DF38",
+    "DF39",
+    "DF40",
+    "DF41",
+    "DF42",
+    "DF43"
+  ],
+  "source_of_truth_commit": "da00d5e52c231708b3112bc55bab0622aa67ea72",
+  "final_state_target": [
+    "FULLY_GOVERNED",
+    "FULLY_AUDITABLE",
+    "CONSTITUTION_LOCKED",
+    "PLATFORM_SEALED"
+  ],
+  "required_env": [
+    "PETCARE_SEAL_OWNER",
+    "PETCARE_SEAL_MODE",
+    "PETCARE_CONSTITUTION_LOCK_REF",
+    "PETCARE_FINAL_INVARIANT_REGISTRY_REF",
+    "PETCARE_SEAL_APPROVAL_ID"
+  ]
+}

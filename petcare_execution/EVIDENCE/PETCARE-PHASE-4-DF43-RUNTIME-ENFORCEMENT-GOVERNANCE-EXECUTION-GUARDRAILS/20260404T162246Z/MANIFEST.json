@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF43-RUNTIME-ENFORCEMENT-GOVERNANCE-EXECUTION-GUARDRAILS/20260404T162246Z",
+  "files": [
+    {
+      "name": "APPROVED_RUNTIME_CONTROL_CATALOG.md",
+      "sha256": "c50f09846ee79bb3fd29def2f5748931bb8f8a5ed4ead67fde85aa5a1c9568ad"
+    },
+    {
+      "name": "PROHIBITED_RUNTIME_BYPASS_PATTERNS.md",
+      "sha256": "eb0bd2aea8274411ffa465e8eb961fd50be6f2d8ce8da33001f55bfb81e5c291"
+    },
+    {
+      "name": "RUNTIME_ENFORCEMENT_GOVERNANCE.md",
+      "sha256": "691b57646236666d56a18c375daea585f56d64a60e4e153cbd0fcec8aa4f6532"
+    },
+    {
+      "name": "RUNTIME_GUARDRAIL_POLICY.md",
+      "sha256": "72ec85fa38048ed90258304b4b2e27d6954f69d8a6f5ed86f55e5d75677208cb"
+    },
+    {
+      "name": "active.log",
+      "sha256": "3f3abcaf7c8d35d21227a6d83593f5cfba60a3b82f22d1c18fec537436c8df1c"
+    },
+    {
+      "name": "blocked.log",
+      "sha256": "7af5cfa0a21f106e557d0b356f6559ad10d68b6c84d88d45a89acdd4ac0e2007"
+    },
+    {
+      "name": "current_runtime_enforcement_baseline.json",
+      "sha256": "5aa69a185ad53dcc277241dc74022468c79ce851538abc503543b8f5f10b1f22"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "e85da5c1ac34341f5864bab6756437f3fcff90753c950b2f62c23809eae14c76"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "c373bb2d245898bff2efa37321d19d403abee2b19dba3925c9447719d3fda84b"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "60ffe848d8dadb34ea2b1611784683f4324c64900500423a0468a801a0def206"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "f39b2d921877d616bdf362c4019eda864e18a4225c7ab21d13b48b6ca8341725"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "954c296a7c425e691f10f3bf50df749416b70e2342f7fc7eae465aea9f438b8e"
+    }
+  ]
+}

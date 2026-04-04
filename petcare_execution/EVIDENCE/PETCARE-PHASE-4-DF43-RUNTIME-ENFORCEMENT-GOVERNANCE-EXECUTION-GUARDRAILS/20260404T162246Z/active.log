@@ -1,0 +1,6 @@
+status=ACTIVE_GOVERNED
+owner=runtime_governance_owner
+runtime_mode=fail_closed_active
+guardrail_ruleset_ref=GRS-DF43-001
+invariant_enforcement_standard_ref=IES-DF43-001
+approval_id=APP-DF43-001
