@@ -1,0 +1,9 @@
+status=ACTIVE_GOVERNED
+PETCARE_AUDIT_READINESS_OWNER=audit_readiness_owner
+PETCARE_AUDIT_READINESS_APPROVAL_ID=APP-PH5-AUDIT-001
+PETCARE_AUDIT_SCOPE_REF=AUDIT-SCOPE-REF-001
+PETCARE_CERTIFICATION_POSTURE_REF=CP-conditionally_ready
+PETCARE_AUDIT_REVIEW_MODE=governed_readiness_review
+unsupported_certification_claims_allowed=false
+gap_visibility_required=true
+false_readiness_assertion_allowed=false

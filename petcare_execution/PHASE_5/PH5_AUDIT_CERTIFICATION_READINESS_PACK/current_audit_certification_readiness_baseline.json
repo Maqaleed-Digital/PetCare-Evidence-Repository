@@ -1,0 +1,43 @@
+{
+  "pack_id": "PETCARE-PHASE-5-AUDIT-CERTIFICATION-READINESS-PACK",
+  "phase": "PHASE_5",
+  "pack_scope": "AUDIT_CERTIFICATION_READINESS",
+  "source_of_truth_commit": "0640212e7b50fb0755842752576d42f4b969a01e",
+  "state_before": [
+    "RUNTIME_CONTROL_TRACEABILITY_ESTABLISHED"
+  ],
+  "state_after_target": [
+    "AUDIT_AND_CERTIFICATION_READINESS_ESTABLISHED"
+  ],
+  "hard_invariants": [
+    "no_unsupported_certification_claims",
+    "no_hidden_gaps_or_findings",
+    "no_silent_documentary_only_promotion",
+    "no_false_readiness_assertion",
+    "reversibility_required",
+    "evidence_chain_required",
+    "commit_is_single_source_of_truth"
+  ],
+  "required_env": [
+    "PETCARE_AUDIT_READINESS_OWNER",
+    "PETCARE_AUDIT_READINESS_APPROVAL_ID",
+    "PETCARE_AUDIT_SCOPE_REF",
+    "PETCARE_CERTIFICATION_POSTURE_REF",
+    "PETCARE_AUDIT_REVIEW_MODE"
+  ],
+  "control_modes": [
+    "BLOCKED",
+    "CONTROLLED",
+    "ACTIVE_GOVERNED"
+  ],
+  "evidence_contract": [
+    "decision_log.txt",
+    "blocked.log or active.log",
+    "invariant_check.txt",
+    "env_snapshot.txt",
+    "file_listing.txt",
+    "git_head.txt",
+    "MANIFEST.json",
+    "MANIFEST.sha256"
+  ]
+}

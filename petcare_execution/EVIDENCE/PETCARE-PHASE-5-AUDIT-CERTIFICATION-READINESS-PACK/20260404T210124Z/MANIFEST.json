@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-AUDIT-CERTIFICATION-READINESS-PACK/20260404T210124Z",
+  "files": [
+    {
+      "name": "AUDIT_CERTIFICATION_READINESS.md",
+      "sha256": "0d62b7593f18cf2f7f741d1ac3fe614198de7c54505cb575f25cbe6148eac89c"
+    },
+    {
+      "name": "AUDIT_CERTIFICATION_READINESS_POLICY.md",
+      "sha256": "b6ca19e24a9fdc87e5a37319e89f627da1624ff550b1c5d16ebaa8fc9ea33b96"
+    },
+    {
+      "name": "AUDIT_SCOPE_EVIDENCE_MODEL.md",
+      "sha256": "b9bb14ada3c28739259a7cc6723fd5e7a1d10f7a0401374ca619502f70386bd1"
+    },
+    {
+      "name": "CERTIFICATION_POSTURE_DECLARATION_MODEL.md",
+      "sha256": "c223022f720c2589db86a6cf092e22fe0b74aa86e0c71d3eb4047ecd3fbd35ae"
+    },
+    {
+      "name": "READINESS_GAP_FINDING_REGISTER_STANDARD.md",
+      "sha256": "5e3c988fd7379d60391f048cc0950d6d9f72d5e19f46e86d818d345d058242b9"
+    },
+    {
+      "name": "active.log",
+      "sha256": "22f3693d9961a72f94153d60c1f898c93b3ae8825b84862b81a49e317c522904"
+    },
+    {
+      "name": "current_audit_certification_readiness_baseline.json",
+      "sha256": "34771bfb49b84ddc140972ee490d304b0279c62db08d778301d96cbd7ef8aa02"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "bca0527ce9085e3f7fcad81f47b68653db7cf135762ef71be8ed0b1cd81f3b25"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "47200e0ac3e48a2d8eb6f57c8de6c26ffdd4506bd64552146b8585f7a797bdfa"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "55b46b5f85d1f5f70bd59b1a8e21a267a3b2fd5a3adaea5c29815c7b4e58e43d"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "d30efa12d07623f5f0f8aaea7377e22f3a68369ad0eb4f24b3cdf68d496667e4"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "f4a62e6583e25114ede701c66e2a6a9be7d4d1243d814c60ae7f319cf0b1b7df"
+    }
+  ]
+}
