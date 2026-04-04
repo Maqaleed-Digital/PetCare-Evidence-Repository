@@ -1,0 +1,11 @@
+status=ACTIVE_GOVERNED
+PETCARE_FAIRNESS_OWNER=commercial_fairness_owner
+PETCARE_ENFORCEMENT_REVIEW_MODE=human_review_required
+PETCARE_MARKET_ABUSE_RULESET_REF=MAR-DF40-001
+PETCARE_PARTNER_TREATMENT_STANDARD_REF=PTS-DF40-001
+PETCARE_FAIRNESS_APPROVAL_ID=APP-DF40-001
+rollback_required=true
+appeal_path_required=true
+ai_execution_authority=false
+autonomous_penalty_allowed=false
+hidden_commercial_bias_allowed=false

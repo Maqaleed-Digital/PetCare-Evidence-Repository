@@ -1,0 +1,5 @@
+fairness_owner=commercial_fairness_owner
+enforcement_review_mode=human_review_required
+market_abuse_ruleset_ref=MAR-DF40-001
+partner_treatment_standard_ref=PTS-DF40-001
+approval_id=APP-DF40-001

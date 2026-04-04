@@ -1,0 +1,10 @@
+INVARIANT_CHECK=PASS
+fail_closed_enforcement=true
+no_autonomous_execution=true
+no_hidden_commercial_bias=true
+no_unfair_partner_suppression=true
+no_nontransparent_ranking_or_routing_manipulation=true
+no_coercive_commercial_enforcement=true
+reversibility_required=true
+appeal_path_required=true
+commit_is_single_source_of_truth=true

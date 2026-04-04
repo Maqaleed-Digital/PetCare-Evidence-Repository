@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-4-DF40-COMMERCIAL-FAIRNESS-GOVERNANCE-MARKET-ABUSE-PREVENTION/20260404T152204Z",
+  "files": [
+    {
+      "name": "APPROVED_ABUSE_PREVENTION_CONTROL_CATALOG.md",
+      "sha256": "d0ad67d21fb9a96962b6cd28bd98e57f76b1036bbac52bfbdab68a45557bbff4"
+    },
+    {
+      "name": "COMMERCIAL_FAIRNESS_GOVERNANCE.md",
+      "sha256": "45a2ad5bcafa503b5b5b6eed155d57f289394cf6be8f248e22a19a7d4ae3c2b1"
+    },
+    {
+      "name": "FAIRNESS_REVIEW_APPEAL_MODEL.md",
+      "sha256": "602eab6217c83868bfb8c3da2f1512ff3384cfe1c4a2c6a2678e78c2ca7bc1eb"
+    },
+    {
+      "name": "PARTNER_TREATMENT_FAIRNESS_POLICY.md",
+      "sha256": "d39017f8f2f5c520b0eda3f1844edbf2995b14d1275e0b7cb27884e649b1ecff"
+    },
+    {
+      "name": "PROHIBITED_MARKET_ABUSE_PATTERNS.md",
+      "sha256": "ca5515f0fbbdc1fc6026c1c4c4f9114d012818c0c7b4b79e7bc50d3f303e2fd4"
+    },
+    {
+      "name": "active.log",
+      "sha256": "0ef125ea46b42534478adacef2b20689a99644c93f49c305b24476ddaad80934"
+    },
+    {
+      "name": "current_commercial_fairness_baseline.json",
+      "sha256": "42b75acc63e4c8182d1352293b21eac4e2da2df0df23898a71e9599d94adfdb3"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "ca9550caee4a64786a2cdbd2efeb2d44ac2a8594e3d66c2524d01f984a04999a"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "513a19eb68b89bf64c297fbec18f7ffb9eab7338ca0abe5ed1d29be4d745a5fe"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "ba165c4a711579d5bcdb2d06e37e1de88e8da5974839501bd3c44f71d10f4dd7"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "e99d084e941c24d8f887b94a0cee1bee93472bcf595422b805505b91f6e2ca28"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "55bc9d3c155785318a80e09a990578049d13b58769a1825ab54c972900865949"
+    }
+  ]
+}
