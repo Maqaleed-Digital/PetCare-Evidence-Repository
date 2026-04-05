@@ -1,0 +1,11 @@
+status=ACTIVE_GOVERNED
+PETCARE_SCALE_EXPANSION_OWNER=scale_expansion_owner
+PETCARE_SCALE_EXPANSION_APPROVAL_ID=APP-PH5-SCALE-001
+PETCARE_SCALE_EXPANSION_SCOPE_REF=SCALE-SCOPE-REF-001
+PETCARE_SCALE_READINESS_STANDARD_REF=SCALE-READY-STD-001
+PETCARE_SCALE_EXPANSION_REVIEW_MODE=governed_scale_review
+PETCARE_SCALE_OPERATIONAL_CAPACITY_REF=SCALE-CAPACITY-REF-001
+uncontrolled_expansion_allowed=false
+fairness_downgrade_for_growth_allowed=false
+runtime_guardrail_weakening_allowed=false
+contraction_required=true

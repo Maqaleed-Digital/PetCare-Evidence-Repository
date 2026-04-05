@@ -1,0 +1,8 @@
+INVARIANT_CHECK=PASS
+no_uncontrolled_expansion=true
+no_silent_governance_relaxation=true
+no_fairness_downgrade_for_growth=true
+no_runtime_guardrail_weakening=true
+no_operational_overreach_without_ownership=true
+reversibility_required=true
+commit_is_single_source_of_truth=true

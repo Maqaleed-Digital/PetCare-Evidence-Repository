@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z",
+  "files": [
+    {
+      "name": "CONTROLLED_SCALE_EXPANSION.md",
+      "sha256": "7cd1ceb7ccf2ae12239b10dd4a9cd04c7f24786eaa7c1eb58615aa5faabd4c7a"
+    },
+    {
+      "name": "OPERATIONAL_EXPANSION_CONTRACTION_MODEL.md",
+      "sha256": "d0a96f71d191771719f41dfe75032322fa4234e846207b4ed67eedf66244c701"
+    },
+    {
+      "name": "SCALE_EXPANSION_GOVERNANCE_POLICY.md",
+      "sha256": "b4b21aa0d0c24cba7d14163bc0a9cbd2377360f426c2b0e9d7c0cf069f3192b2"
+    },
+    {
+      "name": "SCALE_EXPANSION_SCOPE_MODEL.md",
+      "sha256": "25ef49ab033d3cb658c833483e769708ff76e7fc8efbfde431761ee18fd529a6"
+    },
+    {
+      "name": "SCALE_READINESS_CAPACITY_STANDARD.md",
+      "sha256": "a61686e7893774f82a210ec57f484d9a7993613b77c06ee66b3352b00690aae7"
+    },
+    {
+      "name": "active.log",
+      "sha256": "906d12e0a921da7d932615f30daf9d76f2b2ca8162f4ca04357edaf1a1687abf"
+    },
+    {
+      "name": "current_controlled_scale_expansion_baseline.json",
+      "sha256": "056af2ebeca15c40fcb95bb2a985ce6ddce7943131b7d60f193c6dc60539d99d"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "8a874a1b0b7efb5fbbe905713e37a79814e2ee4f5f03c77916cf1552bde80040"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "e30684d293e5fb0e79ad0e5e23ffb20977630417e4f17cf67623446996571341"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "5a0e60f2b2ab39f8d775bf25a9e34c597ea0c987eb68ca9b52fb77b1842a57c6"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "aa1e131f177ed57c0078a39c412ea978927ad3d0ff0364e6d12b980bc1f6b72c"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "2fdf55d53fc486a0a1973d2c49175fa77021bf793a1ebd0733c78bc7c3e3a8bf"
+    }
+  ]
+}

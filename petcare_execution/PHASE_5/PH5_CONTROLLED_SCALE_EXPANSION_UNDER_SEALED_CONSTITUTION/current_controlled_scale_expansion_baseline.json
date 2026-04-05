@@ -1,0 +1,45 @@
+{
+  "pack_id": "PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION",
+  "phase": "PHASE_5",
+  "pack_scope": "CONTROLLED_SCALE_EXPANSION",
+  "source_of_truth_commit": "4db25cce9d933518d646e8eefc0854efc406e575",
+  "state_before": [
+    "EXECUTIVE_EXTERNAL_READOUT_READINESS_ESTABLISHED"
+  ],
+  "state_after_target": [
+    "CONTROLLED_SCALE_EXPANSION_READY_UNDER_CONSTITUTION"
+  ],
+  "hard_invariants": [
+    "no_uncontrolled_expansion",
+    "no_silent_governance_relaxation",
+    "no_fairness_downgrade_for_growth",
+    "no_runtime_guardrail_weakening",
+    "no_operational_overreach_without_ownership",
+    "reversibility_required",
+    "evidence_chain_required",
+    "commit_is_single_source_of_truth"
+  ],
+  "required_env": [
+    "PETCARE_SCALE_EXPANSION_OWNER",
+    "PETCARE_SCALE_EXPANSION_APPROVAL_ID",
+    "PETCARE_SCALE_EXPANSION_SCOPE_REF",
+    "PETCARE_SCALE_READINESS_STANDARD_REF",
+    "PETCARE_SCALE_EXPANSION_REVIEW_MODE",
+    "PETCARE_SCALE_OPERATIONAL_CAPACITY_REF"
+  ],
+  "control_modes": [
+    "BLOCKED",
+    "CONTROLLED",
+    "ACTIVE_GOVERNED"
+  ],
+  "evidence_contract": [
+    "decision_log.txt",
+    "blocked.log or active.log",
+    "invariant_check.txt",
+    "env_snapshot.txt",
+    "file_listing.txt",
+    "git_head.txt",
+    "MANIFEST.json",
+    "MANIFEST.sha256"
+  ]
+}

@@ -1,0 +1,6 @@
+scale_expansion_owner=scale_expansion_owner
+scale_expansion_approval_id=APP-PH5-SCALE-001
+scale_expansion_scope_ref=SCALE-SCOPE-REF-001
+scale_readiness_standard_ref=SCALE-READY-STD-001
+scale_expansion_review_mode=governed_scale_review
+scale_operational_capacity_ref=SCALE-CAPACITY-REF-001

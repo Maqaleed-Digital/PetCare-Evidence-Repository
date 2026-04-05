@@ -1,0 +1,12 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/CONTROLLED_SCALE_EXPANSION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/OPERATIONAL_EXPANSION_CONTRACTION_MODEL.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/SCALE_EXPANSION_GOVERNANCE_POLICY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/SCALE_EXPANSION_SCOPE_MODEL.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/SCALE_READINESS_CAPACITY_STANDARD.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/active.log
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/current_controlled_scale_expansion_baseline.json
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/decision_log.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/env_snapshot.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/file_listing.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/git_head.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-CONTROLLED-SCALE-EXPANSION-UNDER-SEALED-CONSTITUTION/20260405T023630Z/invariant_check.txt
