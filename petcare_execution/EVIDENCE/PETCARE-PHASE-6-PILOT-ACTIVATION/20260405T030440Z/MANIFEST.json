@@ -1,0 +1,7 @@
+{
+  "phase": "PH6",
+  "timestamp": "20260405T030440Z",
+  "commit": "7d68e663bc7b578c2413f665fbc96dc3f86af4c1",
+  "status": "pilot_activated_controlled",
+  "governance": "fail_closed_enforced"
+}
