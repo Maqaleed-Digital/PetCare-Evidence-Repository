@@ -1,0 +1,43 @@
+{
+  "pack_id": "PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK",
+  "phase": "PHASE_5",
+  "pack_scope": "UI_GAP_CLOSURE_EXECUTION",
+  "source_of_truth_commit": "344dd3944d553ed6cc427a0ff20bc78468656b15",
+  "state_before": [
+    "UI_AND_WEBSITE_PILOT_READY_SURFACE_VALIDATED"
+  ],
+  "state_after_target": [
+    "UI_GAP_CLOSURE_READY_FOR_PILOT"
+  ],
+  "hard_invariants": [
+    "no_fake_ui_completion",
+    "no_silent_pilot_blocker_suppression",
+    "no_workflow_completeness_claim_without_validation",
+    "no_auth_bypass_for_pilot_convenience",
+    "evidence_chain_required",
+    "reversibility_required",
+    "commit_is_single_source_of_truth"
+  ],
+  "required_env": [
+    "PETCARE_UI_GAP_OWNER",
+    "PETCARE_UI_GAP_APPROVAL_ID",
+    "PETCARE_UI_GAP_REGISTER_REF",
+    "PETCARE_UI_VALIDATION_STANDARD_REF",
+    "PETCARE_UI_GAP_REVIEW_MODE"
+  ],
+  "control_modes": [
+    "BLOCKED",
+    "CONTROLLED",
+    "ACTIVE_GOVERNED"
+  ],
+  "evidence_contract": [
+    "decision_log.txt",
+    "blocked.log or active.log",
+    "invariant_check.txt",
+    "env_snapshot.txt",
+    "file_listing.txt",
+    "git_head.txt",
+    "MANIFEST.json",
+    "MANIFEST.sha256"
+  ]
+}

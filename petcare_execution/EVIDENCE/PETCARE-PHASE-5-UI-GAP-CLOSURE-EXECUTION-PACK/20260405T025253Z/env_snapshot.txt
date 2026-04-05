@@ -1,0 +1,5 @@
+ui_gap_owner=ui_gap_owner
+ui_gap_approval_id=APP-PH5-UIGAP-001
+ui_gap_register_ref=UI-GAP-REG-001
+ui_validation_standard_ref=UI-VAL-STD-001
+ui_gap_review_mode=governed_ui_gap_review

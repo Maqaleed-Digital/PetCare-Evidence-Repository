@@ -1,0 +1,9 @@
+status=ACTIVE_GOVERNED
+PETCARE_UI_GAP_OWNER=ui_gap_owner
+PETCARE_UI_GAP_APPROVAL_ID=APP-PH5-UIGAP-001
+PETCARE_UI_GAP_REGISTER_REF=UI-GAP-REG-001
+PETCARE_UI_VALIDATION_STANDARD_REF=UI-VAL-STD-001
+PETCARE_UI_GAP_REVIEW_MODE=governed_ui_gap_review
+fake_ui_completion_allowed=false
+pilot_blocker_visibility_required=true
+workflow_completeness_without_validation_allowed=false

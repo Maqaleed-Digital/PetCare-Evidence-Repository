@@ -1,0 +1,12 @@
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/PILOT_UI_GAP_CLASSIFICATION_MODEL.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/UI_CLOSURE_VALIDATION_STANDARD.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/UI_GAP_CLOSURE_EXECUTION.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/UI_GAP_CLOSURE_GOVERNANCE_POLICY.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/UI_PILOT_BLOCKER_REGISTER_STANDARD.md
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/active.log
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/current_ui_gap_closure_baseline.json
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/decision_log.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/env_snapshot.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/file_listing.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/git_head.txt
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z/invariant_check.txt

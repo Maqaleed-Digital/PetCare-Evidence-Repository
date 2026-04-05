@@ -1,0 +1,53 @@
+{
+  "run_dir": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PHASE-5-UI-GAP-CLOSURE-EXECUTION-PACK/20260405T025253Z",
+  "files": [
+    {
+      "name": "PILOT_UI_GAP_CLASSIFICATION_MODEL.md",
+      "sha256": "2ad651c4e9dd3a4547248d90435760adea9185e3bb64c000268d5e213cec730a"
+    },
+    {
+      "name": "UI_CLOSURE_VALIDATION_STANDARD.md",
+      "sha256": "e220b619fa574176b4f03827acbf9819d77a77815e0011173b7bb99475c9d4fc"
+    },
+    {
+      "name": "UI_GAP_CLOSURE_EXECUTION.md",
+      "sha256": "80f51b0ce047b9e1678d4a0556e3588a04753ebfeecf4a689d2df1ab2c2cdafa"
+    },
+    {
+      "name": "UI_GAP_CLOSURE_GOVERNANCE_POLICY.md",
+      "sha256": "2446ccc367a51e0a781e2be381a0b075a3e71a444914f979ebeb91d7fc7d08bb"
+    },
+    {
+      "name": "UI_PILOT_BLOCKER_REGISTER_STANDARD.md",
+      "sha256": "75d567bfba9e7561141ef791bf80a88afc1b633d051a18d3bab9ecdc89aeff92"
+    },
+    {
+      "name": "active.log",
+      "sha256": "38bd1fd465c4e1461e7b95a0dc17ea8d24deb0fbddea0fe43e39f570d3b72c16"
+    },
+    {
+      "name": "current_ui_gap_closure_baseline.json",
+      "sha256": "e8a0131c7e4e7fd7300b7c3520f41df5b6c6b3eefe14f744acd75e2a54f8fd93"
+    },
+    {
+      "name": "decision_log.txt",
+      "sha256": "5421b35a00c6f56fc36076451c12a7715e4ca13d5f00a5c9125fe5772c380c7b"
+    },
+    {
+      "name": "env_snapshot.txt",
+      "sha256": "61fdef037822a6ab146813b185df799539b1e7e2904412d73f4e5cb1431d9aca"
+    },
+    {
+      "name": "file_listing.txt",
+      "sha256": "640334639ba1f45c35f388b7eb68d9daccd3a160ec689076c53a974f6871d65f"
+    },
+    {
+      "name": "git_head.txt",
+      "sha256": "a6ade54093a787d7023f72d79cec05785c538899bc71aaf457459df1f84f70a7"
+    },
+    {
+      "name": "invariant_check.txt",
+      "sha256": "14ee99e773ee76b7a74cfbec1d0b5be15dc35975d2f1d66119323d4924456e73"
+    }
+  ]
+}
