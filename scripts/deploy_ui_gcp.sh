@@ -22,7 +22,12 @@ npm run build
 
 IMAGE_URI="${GCP_REGION}-docker.pkg.dev/${GCP_PROJECT_ID}/${AR_REPO}/${CLOUD_RUN_SERVICE}:$(git -C "$WEB_ROOT/.." rev-parse --short HEAD)-$(date -u +%Y%m%d%H%M%S)"
 
-gcloud builds submit --project "$GCP_PROJECT_ID" --tag "$IMAGE_URI" "$WEB_ROOT"
+gcloud builds submit "$WEB_ROOT" \
+  --project "$GCP_PROJECT_ID" \
+  --region "$GCP_REGION" \
+  --config "$WEB_ROOT/cloudbuild.yaml" \
+  --gcs-source-staging-dir "gs://prj-maq-petcare-prod-cb-source/source" \
+  --substitutions "_IMAGE_URI=${IMAGE_URI},_NEXT_PUBLIC_APP_NAME=${NEXT_PUBLIC_APP_NAME},_NEXT_PUBLIC_DOMAIN=${NEXT_PUBLIC_DOMAIN},_NEXT_PUBLIC_API_BASE_URL=${NEXT_PUBLIC_API_BASE_URL},_NEXT_PUBLIC_AUTH_MODE=${NEXT_PUBLIC_AUTH_MODE},_AUTH_ISSUER=${AUTH_ISSUER},_AUTH_AUDIENCE=${AUTH_AUDIENCE},_SESSION_SECRET=__build_placeholder_secret_32ch__,_AUDIT_PROBE_ENDPOINT=${AUDIT_PROBE_ENDPOINT}"
 
 gcloud run deploy "$CLOUD_RUN_SERVICE" \
   --project "$GCP_PROJECT_ID" \

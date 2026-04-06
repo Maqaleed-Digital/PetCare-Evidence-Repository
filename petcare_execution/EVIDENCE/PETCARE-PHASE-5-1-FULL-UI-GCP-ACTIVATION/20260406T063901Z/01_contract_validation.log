@@ -1,0 +1,10 @@
+=== validate_ui_contract ===
+WEB_ROOT=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web
+Dockerfile: present
+package.json: present
+app/api/health/route.ts: present
+middleware.ts: present
+API /health: ok
+AUTH_MODE=jwt: valid
+Audit probe: {"accepted":true,"audit_event_id":"bff4a91d-dda0-4984-8c16-b9304a353f69"}
+UI contract validation passed

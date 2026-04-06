@@ -1,0 +1,8 @@
+=== verify_web_gates ===
+web /api/health: {"status":"ok","surface":"petcare-web","ts":"2026-04-06T06:36:45.903Z"}
+api /health: {"status":"ok","service":"petcare-api","version":"1.0.0","ts":"2026-04-06T06:39:05.672687+00:00"}
+audit probe: {"accepted":true,"audit_event_id":"50c3b7f3-42f1-4c47-90f2-4238b6df2131"}
+DOMAIN_VERIFIED=false → gate correctly blocked (fail-closed)
+DNS_RR_APPLIED=false → gate correctly blocked (fail-closed)
+DOMAIN_GO_LIVE_APPROVED=true
+WEB_GATE_STATUS=BLOCKED_PENDING_DOMAIN_VERIFICATION

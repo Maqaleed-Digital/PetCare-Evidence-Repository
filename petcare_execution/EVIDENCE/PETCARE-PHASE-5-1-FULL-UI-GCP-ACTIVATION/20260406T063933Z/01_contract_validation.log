@@ -1,0 +1,9 @@
+=== validate_ui_contract ===
+Dockerfile: present
+package.json: present
+app/api/health/route.ts: present
+middleware.ts: present
+API /health: {"status":"ok","service":"petcare-api","version":"1.0.0","ts":"2026-04-06T06:39:35.759329+00:00"}
+AUTH_MODE=jwt: valid
+Audit probe: {"accepted":true,"audit_event_id":"53f2b255-3439-4f04-aa25-90976373aa30"}
+UI contract validation passed

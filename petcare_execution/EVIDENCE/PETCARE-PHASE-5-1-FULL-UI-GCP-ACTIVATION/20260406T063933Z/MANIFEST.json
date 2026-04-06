@@ -1,0 +1,115 @@
+{
+  "phase": "PH5.1",
+  "status": "services_deployed_domain_gate_pending",
+  "web_service_url": "https://petcare-web-prod-232802712581.me-central2.run.app",
+  "api_service_url": "https://petcare-api-prod-232802712581.me-central2.run.app",
+  "domain_verified": false,
+  "dns_rr_applied": false,
+  "domain_go_live_approved": true,
+  "files": [
+    {
+      "path": "petcare_web/.dockerignore",
+      "sha256": "c861dd53d9607b615fb2ddcfc7a615ce626bbfb18da4e5fbf3c6fde9d32c7f8c"
+    },
+    {
+      "path": "petcare_web/.env.example",
+      "sha256": "71a3b6b397af924fd1612218d19c5d276850d26fc84ba30fba2c2de24d86873c"
+    },
+    {
+      "path": "petcare_web/.gcloudignore",
+      "sha256": "aa2e01ffc1cd0a419de0dd7e462e51b991aeb2e52f4c29bcadca7a51336a0876"
+    },
+    {
+      "path": "petcare_web/Dockerfile",
+      "sha256": "0f56cfd2a4025523ded1924c0877ba35908a96bcaf1b3f8d095ccbbdb074fea6"
+    },
+    {
+      "path": "petcare_web/app/admin/page.tsx",
+      "sha256": "5cee45f7f24e9cad8428f9f1624430f1899fd7076de81a36287fbe7127f40cd4"
+    },
+    {
+      "path": "petcare_web/app/api/audit-test/route.ts",
+      "sha256": "927fa9b14cf890abc75c0be86f521bca6538289560a8b11bb771921361b15dec"
+    },
+    {
+      "path": "petcare_web/app/api/health/route.ts",
+      "sha256": "58577ada2246176e7250c34aee86aaf123af411a3187e4b412086cf5e625928b"
+    },
+    {
+      "path": "petcare_web/app/globals.css",
+      "sha256": "b2526033df472dc1a14a18f917eca84ce660f99be6733b6e64fa4b83803b3520"
+    },
+    {
+      "path": "petcare_web/app/layout.tsx",
+      "sha256": "2fdc9f5f6bfdd31601ed6160c4ffd2e023265b58ca21e29dd04105d4d5fa36d7"
+    },
+    {
+      "path": "petcare_web/app/owner/page.tsx",
+      "sha256": "0a2379383b81b0f59e49db4ffbfc705a1e4904722a8c68c370e9104b722da232"
+    },
+    {
+      "path": "petcare_web/app/page.tsx",
+      "sha256": "0d037ed71a43c790c268f20bf255d0e6bc40271e818025869b6ba7642a334def"
+    },
+    {
+      "path": "petcare_web/app/pharmacy/page.tsx",
+      "sha256": "1b962af58d3806cf286285d2e7ba1c9cc00a07a63ba0a42ad68717f28bbb72dd"
+    },
+    {
+      "path": "petcare_web/app/vet/page.tsx",
+      "sha256": "61d7c4fa6142cbc71d789fa16f728df0e54c63111948505439b7b5c67cd19229"
+    },
+    {
+      "path": "petcare_web/cloudbuild.yaml",
+      "sha256": "8b0aa2ddb91a2ccd4e4f91350200646760dfddf13d81ad23c1499310040f11d6"
+    },
+    {
+      "path": "petcare_web/components/Nav.tsx",
+      "sha256": "8b9177567fc41415f3c6dd883f2c104cbbdc4d3ec761f67c27941b2909914731"
+    },
+    {
+      "path": "petcare_web/lib/api.ts",
+      "sha256": "85d7c0313fb9439cda1409c0103c155742140e6a8760a5e505054cd6024e8353"
+    },
+    {
+      "path": "petcare_web/lib/audit.ts",
+      "sha256": "c5a890e8f7ee07cecbcd34a211239215184397f980e1cd1f0c069af692bf7cf7"
+    },
+    {
+      "path": "petcare_web/lib/env.ts",
+      "sha256": "c0285ebb190d686ae9643179f23b7fdb687c790639a570c60ba9695f0adc0f94"
+    },
+    {
+      "path": "petcare_web/middleware.ts",
+      "sha256": "b797a823d566cc95f3d481b9e21841d43e9abe3eb79a537e290eac705a9ae660"
+    },
+    {
+      "path": "petcare_web/next-env.d.ts",
+      "sha256": "9dd9d642cdb87d4d5b3173217e0c45429b3e47a6f5cf5fb0ead6c644ec5fed01"
+    },
+    {
+      "path": "petcare_web/next.config.mjs",
+      "sha256": "f7a7d00523c62859af5e6752ab79bc5e39fa3702f71885f932258a35b6dff373"
+    },
+    {
+      "path": "petcare_web/package-lock.json",
+      "sha256": "5e9ba077f068b6657583461010ff8a54dcf8b8d1b9b6b878781281964a54ff06"
+    },
+    {
+      "path": "petcare_web/package.json",
+      "sha256": "f260e0878e2f257db16b9e5df8d186570e5e4f8360421b1cbb44393a4ca5ea9c"
+    },
+    {
+      "path": "petcare_web/public/.gitkeep",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "petcare_web/tsconfig.json",
+      "sha256": "1adeceabca9fcf815655e157635a6be71b038ca49a507c11b601a479055bc2dc"
+    },
+    {
+      "path": "petcare_web/tsconfig.tsbuildinfo",
+      "sha256": "2547ce5264aad951a4dc36edda3d60f104ab87e85047d8bb606262455d1c030b"
+    }
+  ]
+}

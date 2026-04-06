@@ -1,0 +1,4 @@
+IMAGE=me-central2-docker.pkg.dev/prj-maq-petcare-prod/petcare-artifacts/petcare-web-prod:98e504e-20260406063357
+Cloud Build: e60ec005-c87e-4c8d-9914-ab59a247edb2 SUCCESS
+Revision: petcare-web-prod-00001-l6w
+https://petcare-web-prod-232802712581.me-central2.run.app

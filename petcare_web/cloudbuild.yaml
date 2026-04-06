@@ -1,0 +1,32 @@
+substitutions:
+  _IMAGE_URI: ''
+  _NEXT_PUBLIC_APP_NAME: 'PetCare Platform'
+  _NEXT_PUBLIC_DOMAIN: 'myveticare.com'
+  _NEXT_PUBLIC_API_BASE_URL: 'https://petcare-api-prod-232802712581.me-central2.run.app'
+  _NEXT_PUBLIC_AUTH_MODE: 'jwt'
+  _AUTH_ISSUER: 'https://securetoken.google.com/prj-maq-petcare-prod'
+  _AUTH_AUDIENCE: 'prj-maq-petcare-prod'
+  _SESSION_SECRET: '__build_placeholder_secret_32ch__'
+  _AUDIT_PROBE_ENDPOINT: 'https://petcare-api-prod-232802712581.me-central2.run.app/audit/ui'
+
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - '--build-arg=NEXT_PUBLIC_APP_NAME=${_NEXT_PUBLIC_APP_NAME}'
+      - '--build-arg=NEXT_PUBLIC_DOMAIN=${_NEXT_PUBLIC_DOMAIN}'
+      - '--build-arg=NEXT_PUBLIC_API_BASE_URL=${_NEXT_PUBLIC_API_BASE_URL}'
+      - '--build-arg=NEXT_PUBLIC_AUTH_MODE=${_NEXT_PUBLIC_AUTH_MODE}'
+      - '--build-arg=AUTH_ISSUER=${_AUTH_ISSUER}'
+      - '--build-arg=AUTH_AUDIENCE=${_AUTH_AUDIENCE}'
+      - '--build-arg=SESSION_SECRET=${_SESSION_SECRET}'
+      - '--build-arg=AUDIT_PROBE_ENDPOINT=${_AUDIT_PROBE_ENDPOINT}'
+      - '-t'
+      - '${_IMAGE_URI}'
+      - '.'
+
+images:
+  - '${_IMAGE_URI}'
+
+options:
+  logging: CLOUD_LOGGING_ONLY

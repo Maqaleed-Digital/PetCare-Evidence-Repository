@@ -1,0 +1,7 @@
+PH5.1 FULL UI BUILD + GCP WEB ACTIVATION
+DOMAIN=myveticare.com
+SERVICE_URL=https://petcare-web-prod-232802712581.me-central2.run.app
+API_BASE_URL=https://petcare-api-prod-232802712581.me-central2.run.app
+STATUS=SERVICES_DEPLOYED_DOMAIN_GATE_PENDING
+WEB_IMAGE=me-central2-docker.pkg.dev/prj-maq-petcare-prod/petcare-artifacts/petcare-web-prod:98e504e-20260406063357
+API_IMAGE=me-central2-docker.pkg.dev/prj-maq-petcare-prod/petcare-artifacts/petcare-api:latest
