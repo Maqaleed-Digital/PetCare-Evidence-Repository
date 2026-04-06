@@ -1,0 +1,13 @@
+HTTP/2 200 
+vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding
+x-nextjs-cache: HIT
+cache-control: s-maxage=31536000, stale-while-revalidate
+etag: "8szi6mup055o1"
+content-type: text/html; charset=utf-8
+x-cloud-trace-context: f575592c3a07a67dddd43a7583a3cf5d
+date: Mon, 06 Apr 2026 14:42:39 GMT
+server: Google Frontend
+content-length: 7354
+via: 1.1 google
+alt-svc: h3=":443"; ma=2592000
+

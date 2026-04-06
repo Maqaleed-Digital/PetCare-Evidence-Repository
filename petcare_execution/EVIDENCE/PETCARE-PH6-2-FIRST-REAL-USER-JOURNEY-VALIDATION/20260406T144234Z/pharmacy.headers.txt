@@ -1,0 +1,10 @@
+HTTP/2 307 
+location: /unauthorized?from=%2Fpharmacy&required=pharmacy%2Cadmin
+x-cloud-trace-context: cfba375eb1bbc0c5982697e16381b68c
+date: Mon, 06 Apr 2026 14:42:43 GMT
+content-type: text/html
+server: Google Frontend
+content-length: 56
+via: 1.1 google
+alt-svc: h3=":443"; ma=2592000
+

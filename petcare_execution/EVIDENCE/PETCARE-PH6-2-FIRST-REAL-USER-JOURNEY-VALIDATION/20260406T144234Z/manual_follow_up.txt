@@ -1,0 +1,5 @@
+MANUAL FOLLOW-UP REQUIRED FOR AUTHENTICATED JOURNEYS
+J-06 Authenticated Owner Resolution
+J-07 Authenticated Vet Resolution
+J-08 Authenticated Admin Resolution
+Record actual role-based browser outcomes in this run directory after live validation.

@@ -1,0 +1,9 @@
+EXPECTED RESULTS
+home public
+signin public
+onboarding public
+unauthorized public branded
+vet protected
+owner protected or role-resolved entry
+pharmacy protected
+admin protected

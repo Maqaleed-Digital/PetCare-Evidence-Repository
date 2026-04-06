@@ -1,0 +1,8 @@
+home /
+signin /signin
+onboarding /onboarding
+unauthorized /unauthorized
+vet /vet
+owner /owner
+pharmacy /pharmacy
+admin /admin
