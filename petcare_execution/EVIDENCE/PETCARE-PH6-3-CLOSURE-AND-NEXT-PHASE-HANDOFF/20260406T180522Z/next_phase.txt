@@ -1,0 +1,7 @@
+NEXT_PHASE=PETCARE-PHASE-6.4-FIRST-CONTROLLED-PILOT-WORKFLOW-EXECUTION
+
+ENTRY_CONDITION
+- owner authenticated validation complete
+- vet authenticated validation complete
+- admin authenticated validation complete
+- controlled pilot credentials issued and recorded

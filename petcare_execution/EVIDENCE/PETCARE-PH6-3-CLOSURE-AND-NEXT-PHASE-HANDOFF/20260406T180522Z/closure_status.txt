@@ -1,0 +1,14 @@
+COMPLETE
+- governed PH6.3 pack exists
+- issuance register template exists
+- authenticated validation checklist exists
+- evidence runner exists
+- public live probes passed
+
+PENDING_HUMAN_ACTION
+- issue owner credential
+- issue vet credential
+- issue admin credential
+- complete A-01
+- complete A-02
+- complete A-03
