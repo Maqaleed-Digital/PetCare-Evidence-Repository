@@ -17,10 +17,11 @@ export function middleware(req: NextRequest) {
   const role = req.headers.get('x-petcare-role') || req.cookies.get('petcare_role')?.value || ''
 
   if (!role || !roles.includes(role)) {
-    return NextResponse.json(
-      { error: 'forbidden', required_roles: roles },
-      { status: 403, headers: { 'cache-control': 'no-store' } }
-    )
+    const url = req.nextUrl.clone()
+    url.pathname = '/unauthorized'
+    url.searchParams.set('from', req.nextUrl.pathname)
+    url.searchParams.set('required', roles.join(','))
+    return NextResponse.redirect(url)
   }
 
   return NextResponse.next()
