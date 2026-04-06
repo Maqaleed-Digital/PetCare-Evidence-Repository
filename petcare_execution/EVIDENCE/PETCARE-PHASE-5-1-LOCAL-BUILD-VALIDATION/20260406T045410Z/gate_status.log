@@ -1,0 +1,8 @@
+Gate 1 - Environment contract:   PASS (all 8 vars present and valid)
+Gate 2 - TypeScript typecheck:   PASS (tsc --noEmit clean)
+Gate 3 - Frontend build:         PASS (next build 10/10 pages)
+Gate 4 - API /health reachable:  BLOCKED (nonprod returns 403 - requires identity token)
+Gate 5 - Auth contract:          PASS (jwt mode, issuer+audience set, session secret 44 chars)
+Gate 6 - Audit probe:            BLOCKED (nonprod returns 403 - requires identity token)
+Gate 7 - Domain verification:    BLOCKED (DOMAIN_VERIFIED=false, DNS_RR_APPLIED=false)
+Gate 8 - Domain go-live:         PENDING (gates 4,6,7 must pass first)

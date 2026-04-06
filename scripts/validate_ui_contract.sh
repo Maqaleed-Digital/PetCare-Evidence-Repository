@@ -14,7 +14,9 @@ test -f "$WEB_ROOT/Dockerfile"
 test -f "$WEB_ROOT/app/api/health/route.ts"
 test -f "$WEB_ROOT/middleware.ts"
 
-curl -fsS "${API_BASE_URL%/}/health" >/dev/null
+curl -fsS \
+  -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
+  "${API_BASE_URL%/}/health" >/dev/null
 
 if [[ "$AUTH_MODE" != "jwt" && "$AUTH_MODE" != "iap" ]]; then
   echo "AUTH_MODE invalid"
@@ -27,6 +29,7 @@ if [[ "${#SESSION_SECRET}" -lt 16 ]]; then
 fi
 
 curl -fsS -X POST "$AUDIT_PROBE_ENDPOINT" \
+  -H "Authorization: Bearer $(gcloud auth print-identity-token)" \
   -H 'content-type: application/json' \
   -d '{"event_name":"ui.audit.probe","actor_role":"admin","surface":"predeploy","correlation_id":"contract-check"}' >/dev/null
 

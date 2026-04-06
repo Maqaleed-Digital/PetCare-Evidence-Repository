@@ -8,9 +8,18 @@ set -euo pipefail
 : "${DNS_RR_APPLIED:?Missing DNS_RR_APPLIED}"
 : "${DOMAIN_GO_LIVE_APPROVED:?Missing DOMAIN_GO_LIVE_APPROVED}"
 
-curl -fsS "${SERVICE_URL%/}/api/health" >/dev/null
-curl -fsS "${API_BASE_URL%/}/health" >/dev/null
+IDENTITY_TOKEN="$(gcloud auth print-identity-token)"
+
+curl -fsS \
+  -H "Authorization: Bearer $IDENTITY_TOKEN" \
+  "${SERVICE_URL%/}/api/health" >/dev/null
+
+curl -fsS \
+  -H "Authorization: Bearer $IDENTITY_TOKEN" \
+  "${API_BASE_URL%/}/health" >/dev/null
+
 curl -fsS -X POST "$AUDIT_PROBE_ENDPOINT" \
+  -H "Authorization: Bearer $IDENTITY_TOKEN" \
   -H 'content-type: application/json' \
   -d '{"event_name":"ui.audit.probe","actor_role":"admin","surface":"postdeploy","correlation_id":"gate-check"}' >/dev/null
 
