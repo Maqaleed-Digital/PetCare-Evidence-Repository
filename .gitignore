@@ -5,3 +5,5 @@ __pycache__/
 .env
 .DS_Store
 petcare_execution/evidence_output/
+petcare_web/.next/
+petcare_web/node_modules/
