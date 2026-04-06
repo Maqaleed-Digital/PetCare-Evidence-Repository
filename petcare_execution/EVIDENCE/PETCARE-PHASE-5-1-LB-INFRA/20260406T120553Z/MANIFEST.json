@@ -1,0 +1,14 @@
+{
+  "phase": "PH5.1",
+  "component": "load_balancer_infra",
+  "status": "provisioned_ssl_pending_dns",
+  "static_ip": "34.144.246.84",
+  "domain": "myveticare.com",
+  "ssl_cert": "petcare-web-cert",
+  "ssl_status": "PROVISIONING",
+  "backend_service": "petcare-web-backend",
+  "neg": "petcare-web-neg",
+  "cloud_run_service": "petcare-web-prod",
+  "region": "me-central2",
+  "dns_action_required": "A myveticare.com \u2192 34.144.246.84"
+}

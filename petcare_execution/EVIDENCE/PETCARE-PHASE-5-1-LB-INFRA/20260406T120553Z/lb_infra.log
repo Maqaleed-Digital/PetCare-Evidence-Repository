@@ -1,0 +1,15 @@
+=== Load Balancer Infrastructure: myveticare.com ===
+Static IP: 34.144.246.84 (petcare-web-ip, global)
+NEG: petcare-web-neg (serverless, me-central2, petcare-web-prod)
+Backend: petcare-web-backend (EXTERNAL_MANAGED)
+URL map: petcare-web-urlmap → petcare-web-backend
+URL map: petcare-web-http-redirect → httpsRedirect
+SSL cert: petcare-web-cert (MANAGED, myveticare.com) — PROVISIONING
+HTTPS proxy: petcare-web-https-proxy → petcare-web-urlmap + petcare-web-cert
+HTTP proxy: petcare-web-http-proxy → petcare-web-http-redirect
+Forwarding rule: petcare-web-https-rule :443 EXTERNAL_MANAGED
+Forwarding rule: petcare-web-http-rule :80 EXTERNAL_MANAGED
+
+DNS ACTION REQUIRED:
+  Add A record: myveticare.com → 34.144.246.84
+  SSL cert will provision automatically once DNS resolves.
