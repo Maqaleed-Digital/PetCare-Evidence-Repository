@@ -1,0 +1,13 @@
+steps:
+  - name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - -f
+      - petcare_api/Dockerfile
+      - -t
+      - me-central2-docker.pkg.dev/prj-maq-petcare-prod/petcare-artifacts/petcare-api:latest
+      - .
+images:
+  - me-central2-docker.pkg.dev/prj-maq-petcare-prod/petcare-artifacts/petcare-api:latest
+options:
+  logging: CLOUD_LOGGING_ONLY

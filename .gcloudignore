@@ -1,0 +1,13 @@
+.gcloudignore
+.git
+.gitignore
+node_modules
+petcare_web/node_modules
+petcare_web/.next
+**/__pycache__
+**/*.pyc
+**/.pytest_cache
+petcare_execution
+petcare_web
+*.md
+*.log
