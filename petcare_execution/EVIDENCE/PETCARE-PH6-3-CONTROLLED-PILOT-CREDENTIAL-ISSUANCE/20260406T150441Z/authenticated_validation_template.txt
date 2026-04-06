@@ -1,0 +1,20 @@
+A-01 OWNER
+credential_issued=
+first_login_completed=
+resolved_route=
+wrong_role_access=
+notes=
+
+A-02 VET
+credential_issued=
+first_login_completed=
+resolved_route=
+wrong_role_access=
+notes=
+
+A-03 ADMIN
+credential_issued=
+first_login_completed=
+resolved_route=
+wrong_role_access=
+notes=

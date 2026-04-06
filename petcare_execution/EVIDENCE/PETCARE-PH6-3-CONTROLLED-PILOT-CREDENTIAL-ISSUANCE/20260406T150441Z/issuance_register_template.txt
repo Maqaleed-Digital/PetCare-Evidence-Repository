@@ -1,0 +1,16 @@
+issuance_id=
+issued_at_utc=
+issued_by=
+participant_real_name=
+participant_role=
+participant_email=
+participant_entity=
+clinic_id_or_platform_scope=
+approval_reference=
+credential_delivery_method=
+first_login_required=
+password_reset_required=
+mfa_status=
+account_status=
+validation_status=
+notes=
