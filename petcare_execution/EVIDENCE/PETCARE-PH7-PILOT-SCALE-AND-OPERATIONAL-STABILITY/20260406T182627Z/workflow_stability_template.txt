@@ -1,0 +1,38 @@
+S-01 PUBLIC_AVAILABILITY
+home=
+signin=
+onboarding=
+unauthorized=
+notes=
+
+S-02 PROTECTED_ACCESS_INTEGRITY
+protected_routes_preserved=
+raw_json_403_absent=
+route_leakage=
+notes=
+
+S-03 PILOT_WORKFLOW_REPETITION
+multiple_workflows_completed=
+owner_access_preserved=
+vet_access_preserved=
+admin_oversight_available=
+notes=
+
+S-04 CLINICAL_CONTROL
+human_signoff_preserved=
+signoff_bypass=
+wrong_role_clinical_action=
+notes=
+
+S-05 INCIDENT_VISIBILITY
+incidents_logged=
+severity_assigned=
+owner_assigned=
+mitigation_recorded=
+notes=
+
+S-06 OPERATIONAL_STABILITY
+repeated_workflow_evidence=
+pilot_cap_respected=
+instability_notes_recorded=
+notes=

@@ -1,0 +1,10 @@
+HTTP/2 307 
+location: /unauthorized?from=%2Fadmin&required=admin
+x-cloud-trace-context: 1eb0c634cbab9bbc8739f611097af287
+date: Mon, 06 Apr 2026 18:26:31 GMT
+content-type: text/html
+server: Google Frontend
+content-length: 42
+via: 1.1 google
+alt-svc: h3=":443"; ma=2592000
+

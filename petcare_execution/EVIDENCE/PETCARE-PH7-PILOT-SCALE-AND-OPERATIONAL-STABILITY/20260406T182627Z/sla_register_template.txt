@@ -1,0 +1,8 @@
+service_check_id=
+checked_at_utc=
+route_or_workflow=
+expected_behavior=
+observed_behavior=
+status=
+follow_up_required=
+notes=

@@ -1,0 +1,13 @@
+incident_id=
+detected_at_utc=
+clinic_id=
+role_impacted=
+journey_or_workflow_step=
+severity=
+description=
+owner=
+mitigation_action=
+resolved_at_utc=
+status=
+evidence_reference=
+notes=

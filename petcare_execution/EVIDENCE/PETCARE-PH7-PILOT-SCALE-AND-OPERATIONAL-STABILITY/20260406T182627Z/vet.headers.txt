@@ -1,0 +1,10 @@
+HTTP/2 307 
+location: /unauthorized?from=%2Fvet&required=vet%2Cadmin
+x-cloud-trace-context: 3f5de4f85dcfb7c159ea51f0436d018b
+date: Mon, 06 Apr 2026 18:26:31 GMT
+content-type: text/html
+server: Google Frontend
+content-length: 46
+via: 1.1 google
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
