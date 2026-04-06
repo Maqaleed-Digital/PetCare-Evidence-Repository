@@ -1,0 +1,11 @@
+{
+  "phase": "PH5.1",
+  "status": "domain_go_live_complete",
+  "web_service_url": "https://petcare-web-prod-232802712581.me-central2.run.app",
+  "api_service_url": "https://petcare-api-prod-232802712581.me-central2.run.app",
+  "domain": "myveticare.com",
+  "domain_verified": true,
+  "dns_rr_applied": true,
+  "domain_go_live_approved": true,
+  "all_gates_passed": true
+}

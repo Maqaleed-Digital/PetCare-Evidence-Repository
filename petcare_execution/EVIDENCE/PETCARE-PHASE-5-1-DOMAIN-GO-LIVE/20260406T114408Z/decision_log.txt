@@ -1,0 +1,9 @@
+PH5.1 DOMAIN GO-LIVE
+DOMAIN=myveticare.com
+SERVICE_URL=https://petcare-web-prod-232802712581.me-central2.run.app
+API_BASE_URL=https://petcare-api-prod-232802712581.me-central2.run.app
+DOMAIN_VERIFIED=true
+DNS_RR_APPLIED=true
+DOMAIN_GO_LIVE_APPROVED=true
+STATUS=DOMAIN_GO_LIVE_COMPLETE
+OCCURRED_AT=2026-04-06T11:44:13Z

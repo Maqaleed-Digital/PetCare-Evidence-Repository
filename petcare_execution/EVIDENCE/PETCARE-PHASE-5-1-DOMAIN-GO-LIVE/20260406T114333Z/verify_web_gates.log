@@ -1,0 +1,8 @@
+=== verify_web_gates: DOMAIN GO-LIVE ===
+DOMAIN_VERIFIED=true
+DNS_RR_APPLIED=true
+DOMAIN_GO_LIVE_APPROVED=true
+web /api/health: {"status":"ok","surface":"petcare-web","ts":"2026-04-06T06:36:45.903Z"}
+api /health: {"status":"ok","service":"petcare-api","version":"1.0.0","ts":"2026-04-06T11:43:37.842943+00:00"}
+audit probe: {"accepted":true,"audit_event_id":"a72ce2e7-e715-4d5d-a3ef-7211494fecfc"}
+Web gates passed
