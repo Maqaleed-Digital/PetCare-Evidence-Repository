@@ -1,0 +1,8 @@
+PETCARE PH6.4 FIRST CONTROLLED PILOT WORKFLOW EXECUTION
+TIMESTAMP=20260406T181441Z
+SOURCE_OF_TRUTH_COMMIT=7487eed8
+DOMAIN=https://myveticare.com
+WORKFLOW=appointment->consultation->sign-off->prescription_or_controlled_outcome
+
+RUN COMPLETE
+EVIDENCE_RUN_DIR=/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/EVIDENCE/PETCARE-PH6-4-FIRST-CONTROLLED-PILOT-WORKFLOW-EXECUTION/20260406T181441Z

@@ -1,0 +1,9 @@
+HTTP/2 200 
+vary: RSC, Next-Router-State-Tree, Next-Router-Prefetch, Accept-Encoding
+cache-control: private, no-cache, no-store, max-age=0, must-revalidate
+content-type: text/html; charset=utf-8
+date: Mon, 06 Apr 2026 18:14:43 GMT
+server: Google Frontend
+via: 1.1 google
+alt-svc: h3=":443"; ma=2592000
+

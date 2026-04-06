@@ -1,0 +1,24 @@
+PH6.4 ROLE PARTICIPATION REGISTER
+
+REQUIRED FIELDS
+- workflow_run_id
+- executed_at_utc
+- owner_account_email
+- owner_entity_reference
+- vet_account_email
+- vet_entity_reference
+- admin_account_email
+- admin_scope_reference
+- appointment_reference
+- consultation_reference
+- signoff_reference
+- prescription_or_outcome_reference
+- audit_reference
+- validation_status
+- notes
+
+RULES
+- all participants must be real issued controlled pilot identities
+- no shared credentials
+- no prototype or demo accounts
+- all references must map to actual workflow evidence

@@ -1,0 +1,5 @@
+MANUAL LIVE FOLLOW-UP REQUIRED
+Use real issued owner, vet, and admin credentials only
+Execute appointment -> consultation -> sign-off -> prescription or controlled outcome through UI
+Record actual workflow references and audit references
+Do not use prototype or demo accounts as governed evidence

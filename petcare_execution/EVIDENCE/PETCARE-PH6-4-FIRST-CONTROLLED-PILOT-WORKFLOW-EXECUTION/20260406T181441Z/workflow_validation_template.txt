@@ -1,0 +1,31 @@
+W-01 APPOINTMENT
+owner_authenticated=
+route_verified=
+appointment_completed=
+audit_captured=
+notes=
+
+W-02 CONSULTATION
+vet_authenticated=
+route_verified=
+consultation_completed=
+audit_captured=
+notes=
+
+W-03 SIGN-OFF
+vet_authenticated=
+signoff_completed=
+human_control_preserved=
+audit_captured=
+notes=
+
+W-04 PRESCRIPTION_OR_CONTROLLED_OUTCOME
+completed=
+audit_captured=
+notes=
+
+W-05 GOVERNANCE_OVERSIGHT
+admin_available=
+wrong_role_access=
+exception_recorded=
+notes=
