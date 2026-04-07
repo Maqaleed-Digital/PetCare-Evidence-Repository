@@ -6,11 +6,11 @@ interface PetProfileCardProps {
 }
 
 const SPECIES_LABEL: Record<Pet["species"], string> = {
-  dog: "Dog",
-  cat: "Cat",
-  bird: "Bird",
-  rabbit: "Rabbit",
-  other: "Other",
+  dog: "كلب",
+  cat: "قطة",
+  bird: "طائر",
+  rabbit: "أرنب",
+  other: "أخرى",
 };
 
 function ageFromDob(dob: string): string {
@@ -47,27 +47,27 @@ export function PetProfileCard({ pet, owner }: PetProfileCardProps) {
       </div>
 
       <div className="grid grid-cols-2 gap-y-1 gap-x-4 text-sm">
-        <span className="text-gray-500">Age</span>
+        <span className="text-gray-500">العمر</span>
         <span className="text-gray-900 font-medium">{ageFromDob(pet.dateOfBirth)}</span>
 
-        <span className="text-gray-500">Weight</span>
-        <span className="text-gray-900 font-medium">{pet.weightKg} kg</span>
+        <span className="text-gray-500">الوزن</span>
+        <span className="text-gray-900 font-medium">{pet.weightKg} كجم</span>
 
-        <span className="text-gray-500">Microchip</span>
+        <span className="text-gray-500">الرقم الإلكتروني</span>
         <span className="text-gray-900 font-medium truncate">
-          {pet.microchipId ?? "Not registered"}
+          {pet.microchipId ?? "غير مسجل"}
         </span>
 
-        <span className="text-gray-500">Owner</span>
+        <span className="text-gray-500">المالك</span>
         <span className="text-gray-900 font-medium">{owner.fullName}</span>
 
-        <span className="text-gray-500">Consent</span>
+        <span className="text-gray-500">الموافقة</span>
         <span
           className={`font-medium ${
             owner.consentGiven ? "text-green-700" : "text-red-600"
           }`}
         >
-          {owner.consentGiven ? "Given" : "Not given"}
+          {owner.consentGiven ? "ممنوحة" : "غير ممنوحة"}
         </span>
       </div>
     </div>

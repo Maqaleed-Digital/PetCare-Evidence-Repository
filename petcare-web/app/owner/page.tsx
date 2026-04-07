@@ -13,7 +13,7 @@ import {
 const MOCK: OwnerDashboard = {
   owner: {
     id: "owner-001",
-    fullName: "Sara Al-Rashidi",
+    fullName: "سارة الراشدي",
     email: "sara@example.com",
     phone: "+966 50 000 0001",
     consentGiven: true,
@@ -22,9 +22,9 @@ const MOCK: OwnerDashboard = {
   pets: [
     {
       id: "pet-001",
-      name: "Luna",
+      name: "لونا",
       species: "cat",
-      breed: "Arabian Mau",
+      breed: "المو العربي",
       dateOfBirth: "2021-04-15",
       weightKg: 4.2,
       microchipId: "982000123456789",
@@ -35,22 +35,22 @@ const MOCK: OwnerDashboard = {
     {
       id: "appt-001",
       petId: "pet-001",
-      vetName: "Dr. Khalid Al-Otaibi",
-      clinicName: "Riyadh Vet Clinic",
+      vetName: "د. خالد العتيبي",
+      clinicName: "عيادة الرياض البيطرية",
       dateTime: "2026-03-20T10:00:00Z",
-      reason: "Annual wellness check",
+      reason: "فحص العافية السنوي",
       status: "scheduled",
       notes: null,
     },
     {
       id: "appt-002",
       petId: "pet-001",
-      vetName: "Dr. Khalid Al-Otaibi",
-      clinicName: "Riyadh Vet Clinic",
+      vetName: "د. خالد العتيبي",
+      clinicName: "عيادة الرياض البيطرية",
       dateTime: "2025-09-10T09:30:00Z",
-      reason: "Vaccination booster",
+      reason: "جرعة تطعيم معززة",
       status: "completed",
-      notes: "All vitals normal. Weight stable.",
+      notes: "جميع العلامات الحيوية طبيعية. الوزن مستقر.",
     },
   ],
   timeline: [
@@ -59,26 +59,26 @@ const MOCK: OwnerDashboard = {
       petId: "pet-001",
       date: "2025-09-10",
       type: "vaccination",
-      title: "Rabies + FVRCP Booster",
-      description: "Routine annual booster administered without complications.",
-      vetName: "Dr. Khalid Al-Otaibi",
+      title: "جرعة معززة للسعار + FVRCP",
+      description: "تم تطبيق الجرعة المعززة السنوية دون مضاعفات.",
+      vetName: "د. خالد العتيبي",
     },
     {
       id: "evt-002",
       petId: "pet-001",
       date: "2025-04-01",
       type: "checkup",
-      title: "Annual Wellness Check",
-      description: "Weight 4.1 kg. Coat and teeth in good condition.",
-      vetName: "Dr. Khalid Al-Otaibi",
+      title: "فحص العافية السنوي",
+      description: "الوزن 4.1 كجم. الفراء والأسنان في حالة جيدة.",
+      vetName: "د. خالد العتيبي",
     },
     {
       id: "evt-003",
       petId: "pet-001",
       date: "2024-11-15",
       type: "prescription",
-      title: "Antiparasitic Treatment",
-      description: "Monthly flea/tick prevention prescribed.",
+      title: "علاج مضاد للطفيليات",
+      description: "تم وصف علاج شهري للوقاية من البراغيث والقراد.",
       vetName: null,
     },
   ],
@@ -91,7 +91,7 @@ const MOCK: OwnerDashboard = {
       nextDueDate: "2026-09-10",
       status: "current",
       batchNumber: "RB-20250910",
-      vetName: "Dr. Khalid Al-Otaibi",
+      vetName: "د. خالد العتيبي",
     },
     {
       id: "vac-002",
@@ -101,7 +101,7 @@ const MOCK: OwnerDashboard = {
       nextDueDate: "2026-03-30",
       status: "due_soon",
       batchNumber: "FV-20250910",
-      vetName: "Dr. Khalid Al-Otaibi",
+      vetName: "د. خالد العتيبي",
     },
     {
       id: "vac-003",
@@ -124,16 +124,16 @@ export default function OwnerPage() {
     <div className="space-y-8 max-w-3xl">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-semibold text-gray-900">Owner Portal</h1>
+        <h1 className="text-xl font-semibold text-gray-900">بوابة المالك</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Read-only shell · placeholder data · PH-UI-2
+          قراءة فقط · بيانات تجريبية · PH-UI-2
         </p>
       </div>
 
       {/* Quick Actions */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Quick Actions
+          الإجراءات السريعة
         </h2>
         <QuickActions />
       </section>
@@ -142,7 +142,7 @@ export default function OwnerPage() {
       {pet && (
         <section className="space-y-3">
           <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-            Pet Profile
+            ملف الحيوان الأليف
           </h2>
           <PetProfileCard pet={pet} owner={owner} />
         </section>
@@ -151,10 +151,10 @@ export default function OwnerPage() {
       {/* Upcoming Appointments */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Appointments
+          المواعيد
         </h2>
         {appointments.length === 0 ? (
-          <p className="text-sm text-gray-400 italic">No appointments.</p>
+          <p className="text-sm text-gray-400 italic">لا توجد مواعيد.</p>
         ) : (
           <div className="space-y-2">
             {appointments.map((appt) => (
@@ -167,7 +167,7 @@ export default function OwnerPage() {
       {/* Vaccinations */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Vaccinations
+          التطعيمات
         </h2>
         <VaccinationSummary
           vaccinations={vaccinations.filter((v) => v.petId === pet?.id)}
@@ -177,7 +177,7 @@ export default function OwnerPage() {
       {/* Health Timeline */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Health Timeline
+          السجل الصحي
         </h2>
         <HealthTimeline
           events={timeline.filter((e) => e.petId === pet?.id)}

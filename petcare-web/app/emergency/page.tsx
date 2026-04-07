@@ -24,12 +24,12 @@ import {
 // ---------------------------------------------------------------------------
 
 const KPIS: EmergencyKpi[] = [
-  { label: "Active Cases",    value: 3,      variant: "danger",   sub: "1 × P1" },
-  { label: "P1 Critical",    value: 1,      variant: "critical"                },
-  { label: "Avg Response",   value: "4.2",  unit: "min", variant: "warning"   },
-  { label: "Clinics Open",   value: "2/4",  variant: "warning"                 },
-  { label: "Handoffs Today", value: 2,      variant: "default"                 },
-  { label: "SLA Compliance", value: "83",   unit: "%",   variant: "warning"   },
+  { label: "الحالات النشطة",     value: 3,      variant: "danger",   sub: "1 × P1" },
+  { label: "P1 حرجة",           value: 1,      variant: "critical"               },
+  { label: "متوسط الاستجابة",   value: "4.2",  unit: "دقيقة", variant: "warning" },
+  { label: "عيادات مفتوحة",     value: "2/4",  variant: "warning"                },
+  { label: "تسليمات اليوم",     value: 2,      variant: "default"                },
+  { label: "الامتثال لـ SLA",   value: "83",   unit: "%",     variant: "warning" },
 ];
 
 const ALERTS: EmergencyAlert[] = [
@@ -165,20 +165,20 @@ export default function EmergencyPage() {
       {/* Header */}
       <div className="flex items-center gap-3">
         <div>
-          <h1 className="text-xl font-semibold text-gray-900">Emergency</h1>
+          <h1 className="text-xl font-semibold text-gray-900">الطوارئ</h1>
           <p className="mt-1 text-sm text-gray-500">
-            Coordination surface — read-only shell · placeholder data · PH-UI-6
+            واجهة التنسيق — قراءة فقط · بيانات تجريبية · PH-UI-6
           </p>
         </div>
-        <span className="ml-auto rounded bg-red-600 px-3 py-1 text-xs font-bold text-white animate-pulse">
-          1 × P1 ACTIVE
+        <span className="ms-auto rounded bg-red-600 px-3 py-1 text-xs font-bold text-white animate-pulse">
+          1 × P1 نشط
         </span>
       </div>
 
       {/* KPIs */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Live Metrics
+          مؤشرات مباشرة
         </h2>
         <EmergencyKpiStrip kpis={KPIS} />
       </section>
@@ -186,7 +186,7 @@ export default function EmergencyPage() {
       {/* Alerts Queue */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Alert Queue
+          قائمة التنبيهات
         </h2>
         <EmergencyAlertsQueue alerts={ALERTS} />
       </section>
@@ -194,7 +194,7 @@ export default function EmergencyPage() {
       {/* Triage */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Triage Escalation Board
+          لوحة تصعيد الفرز
         </h2>
         <TriageEscalationSummary cases={TRIAGE_CASES} />
       </section>
@@ -202,7 +202,7 @@ export default function EmergencyPage() {
       {/* Clinic Availability */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Clinic Availability
+          توفر العيادات
         </h2>
         <ClinicAvailabilityBoard clinics={CLINICS} />
       </section>
@@ -210,7 +210,7 @@ export default function EmergencyPage() {
       {/* Pre-Arrival Packet */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Pre-Arrival Packet — Rex (tc-1)
+          ملف الاستقبال المسبق — Rex (tc-1)
         </h2>
         <PreArrivalPacketPanel packet={PRE_ARRIVAL} />
       </section>
@@ -218,7 +218,7 @@ export default function EmergencyPage() {
       {/* Case Timeline */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Case Timeline — Rex (tc-1)
+          الجدول الزمني للحالة — Rex (tc-1)
         </h2>
         <EmergencyTimeline events={TIMELINE_EVENTS} caseLabel="tc-1 · Rex · GDV" />
       </section>
@@ -226,7 +226,7 @@ export default function EmergencyPage() {
       {/* Handoff */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Handoff Status
+          حالة التسليم
         </h2>
         <HandoffStatusPanel handoffs={HANDOFFS} />
       </section>
@@ -234,7 +234,7 @@ export default function EmergencyPage() {
       {/* Governance */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Emergency Governance
+          حوكمة الطوارئ
         </h2>
         <EmergencyGovernanceSummary entries={GOVERNANCE} />
       </section>

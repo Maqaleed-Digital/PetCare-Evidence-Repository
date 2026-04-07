@@ -9,7 +9,7 @@ export function VaccinationSummary({ vaccinations }: VaccinationSummaryProps) {
   if (vaccinations.length === 0) {
     return (
       <p className="text-sm text-gray-400 italic">
-        No vaccination records found.
+        لا توجد سجلات تطعيم.
       </p>
     );
   }
@@ -23,7 +23,7 @@ export function VaccinationSummary({ vaccinations }: VaccinationSummaryProps) {
       {overdue.length > 0 && (
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-red-600 mb-2">
-            Overdue ({overdue.length})
+            متأخرة ({overdue.length})
           </p>
           <div className="space-y-2">
             {overdue.map((v) => (
@@ -36,7 +36,7 @@ export function VaccinationSummary({ vaccinations }: VaccinationSummaryProps) {
       {dueSoon.length > 0 && (
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-yellow-700 mb-2">
-            Due Soon ({dueSoon.length})
+            مستحقة قريباً ({dueSoon.length})
           </p>
           <div className="space-y-2">
             {dueSoon.map((v) => (
@@ -49,7 +49,7 @@ export function VaccinationSummary({ vaccinations }: VaccinationSummaryProps) {
       {current.length > 0 && (
         <div>
           <p className="text-xs font-semibold uppercase tracking-wider text-green-700 mb-2">
-            Current ({current.length})
+            حالية ({current.length})
           </p>
           <div className="space-y-2">
             {current.map((v) => (

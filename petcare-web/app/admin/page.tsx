@@ -24,12 +24,12 @@ import {
 // ---------------------------------------------------------------------------
 
 const KPIS: AdminKpi[] = [
-  { label: "Patients Registered", value: 312, variant: "default", trend: "up", trendLabel: "vs last week" },
-  { label: "Appointments Today", value: 24, variant: "default" },
-  { label: "Completed", value: 17, variant: "success" },
-  { label: "Vets On Duty", value: 4, variant: "default" },
-  { label: "Active Alerts", value: 3, variant: "warning" },
-  { label: "No-Shows", value: 2, variant: "danger" },
+  { label: "المرضى المسجلون", value: 312, variant: "default", trend: "up", trendLabel: "مقارنةً بالأسبوع الماضي" },
+  { label: "مواعيد اليوم", value: 24, variant: "default" },
+  { label: "مكتملة", value: 17, variant: "success" },
+  { label: "أطباء في الخدمة", value: 4, variant: "default" },
+  { label: "تنبيهات نشطة", value: 3, variant: "warning" },
+  { label: "الغيابات", value: 2, variant: "danger" },
 ];
 
 const CLINIC_OPS: ClinicOperations = {
@@ -64,20 +64,20 @@ const VETS: VetAvailability[] = [
 const ALERTS: Alert[] = [
   {
     id: "a1", severity: "critical", category: "compliance",
-    title: "Consent Missing — 3 Patients",
-    description: "3 patient records have no PDPL consent on file. Review required before next appointment.",
+    title: "موافقة مفقودة — 3 مرضى",
+    description: "3 سجلات مرضى بدون موافقة PDPL. مراجعة مطلوبة قبل الموعد القادم.",
     raisedAt: "2026-03-14T07:30:00Z", acknowledged: false,
   },
   {
     id: "a2", severity: "warning", category: "overdue_vaccination",
-    title: "Overdue Vaccinations — 12 Pets",
-    description: "12 registered pets have one or more overdue vaccinations. Owner notifications pending.",
+    title: "تطعيمات متأخرة — 12 حيوان أليف",
+    description: "12 حيوان أليف مسجل لديهم تطعيم واحد أو أكثر متأخر. إشعارات المالكين معلقة.",
     raisedAt: "2026-03-14T06:00:00Z", acknowledged: false,
   },
   {
     id: "a3", severity: "warning", category: "missed_appointment",
-    title: "No-Shows Today — 2",
-    description: "2 patients did not attend scheduled appointments. Slots have been released.",
+    title: "غيابات اليوم — 2",
+    description: "مريضان لم يحضرا مواعيدهما المجدولة. تم تحرير الخانات.",
     raisedAt: "2026-03-14T10:05:00Z", acknowledged: true,
   },
 ];
@@ -91,10 +91,10 @@ const AUDIT_EVENTS: AuditEvent[] = [
 ];
 
 const EXPORT_OPTIONS: ExportOption[] = [
-  { id: "ex1", label: "Full Audit Log",      description: "All audit events for the current month",    format: "json", scope: "audit_log/current_month" },
-  { id: "ex2", label: "Appointment Report",  description: "All appointments — date range selectable",  format: "csv",  scope: "appointments/all"        },
-  { id: "ex3", label: "Compliance Summary",  description: "PDPL consent status and gaps report",       format: "pdf",  scope: "compliance/pdpl"         },
-  { id: "ex4", label: "Vaccination Report",  description: "Overdue and due-soon vaccinations export",  format: "csv",  scope: "vaccinations/due"        },
+  { id: "ex1", label: "سجل المراجعة الكامل",    description: "جميع أحداث المراجعة للشهر الحالي",          format: "json", scope: "audit_log/current_month" },
+  { id: "ex2", label: "تقرير المواعيد",         description: "جميع المواعيد — نطاق التاريخ قابل للاختيار", format: "csv",  scope: "appointments/all"        },
+  { id: "ex3", label: "ملخص الامتثال",          description: "حالة موافقة PDPL وتقرير الفجوات",            format: "pdf",  scope: "compliance/pdpl"         },
+  { id: "ex4", label: "تقرير التطعيمات",        description: "تصدير التطعيمات المتأخرة والمستحقة قريباً",  format: "csv",  scope: "vaccinations/due"        },
 ];
 
 const CLINIC_CONFIG: ClinicConfiguration = {
@@ -104,12 +104,12 @@ const CLINIC_CONFIG: ClinicConfiguration = {
   dataRetentionDays: 2555,
   pdplConsentVersion: "v2.1.0",
   entries: [
-    { key: "lang",          label: "Default Language",   value: "ar",                          editable: false },
-    { key: "currency",      label: "Currency",           value: "SAR",                         editable: false },
-    { key: "appointment_interval", label: "Slot Interval", value: "30 min",                  editable: true  },
-    { key: "max_daily_capacity",   label: "Daily Capacity", value: "30",                     editable: true  },
-    { key: "emergency_contact",    label: "Emergency Line",  value: "+966 11 000 0000",      editable: true  },
-    { key: "api_base_url",         label: "API Base URL",    value: "https://api.myveticare.com", editable: false },
+    { key: "lang",          label: "اللغة الافتراضية",       value: "ar",                          editable: false },
+    { key: "currency",      label: "العملة",                 value: "SAR",                         editable: false },
+    { key: "appointment_interval", label: "فترة الموعد",    value: "30 دقيقة",                    editable: true  },
+    { key: "max_daily_capacity",   label: "الطاقة اليومية", value: "30",                          editable: true  },
+    { key: "emergency_contact",    label: "خط الطوارئ",     value: "+966 11 000 0000",            editable: true  },
+    { key: "api_base_url",         label: "رابط API الأساسي", value: "https://api.myveticare.com", editable: false },
   ],
 };
 
@@ -120,16 +120,16 @@ export default function AdminPage() {
     <div className="space-y-8 max-w-5xl">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-semibold text-gray-900">Admin Portal</h1>
+        <h1 className="text-xl font-semibold text-gray-900">بوابة الإدارة</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Clinic control surface — read-only shell · placeholder data · PH-UI-4
+          واجهة تحكم العيادة — قراءة فقط · بيانات تجريبية · PH-UI-4
         </p>
       </div>
 
       {/* KPI Strip */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Key Metrics
+          المؤشرات الرئيسية
         </h2>
         <AdminKpiStrip kpis={KPIS} />
       </section>
@@ -137,7 +137,7 @@ export default function AdminPage() {
       {/* Clinic Operations */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Clinic Operations
+          عمليات العيادة
         </h2>
         <ClinicOperationsOverview ops={CLINIC_OPS} />
       </section>
@@ -145,7 +145,7 @@ export default function AdminPage() {
       {/* Alerts */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Alerts & Escalations
+          التنبيهات والتصعيد
         </h2>
         <AlertsEscalationsPanel alerts={ALERTS} />
       </section>
@@ -153,7 +153,7 @@ export default function AdminPage() {
       {/* Vet Availability */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Vet Availability
+          توفر الأطباء البيطريين
         </h2>
         <VetAvailabilityPanel vets={VETS} />
       </section>
@@ -161,7 +161,7 @@ export default function AdminPage() {
       {/* Appointment Load Board */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Appointment Load Board — Today
+          جدول المواعيد — اليوم
         </h2>
         <AppointmentLoadBoard slots={SLOTS} />
       </section>
@@ -169,7 +169,7 @@ export default function AdminPage() {
       {/* Audit Event Viewer */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Audit Events
+          أحداث المراجعة
         </h2>
         <AuditEventViewer events={AUDIT_EVENTS} />
       </section>
@@ -177,7 +177,7 @@ export default function AdminPage() {
       {/* Evidence Export */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Evidence Export
+          تصدير الأدلة
         </h2>
         <EvidenceExportPanel options={EXPORT_OPTIONS} />
       </section>
@@ -185,7 +185,7 @@ export default function AdminPage() {
       {/* Clinic Configuration */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Clinic Configuration
+          إعدادات العيادة
         </h2>
         <ClinicConfigurationSummary config={CLINIC_CONFIG} />
       </section>

@@ -4,19 +4,19 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const NAV = [
-  { href: "/", label: "Home" },
-  { href: "/owner", label: "Owner" },
-  { href: "/vet", label: "Vet" },
-  { href: "/admin", label: "Admin" },
-  { href: "/pharmacy", label: "Pharmacy" },
-  { href: "/emergency", label: "Emergency" },
+  { href: "/", label: "الرئيسية" },
+  { href: "/owner", label: "المالك" },
+  { href: "/vet", label: "البيطري" },
+  { href: "/admin", label: "الإدارة" },
+  { href: "/pharmacy", label: "الصيدلية" },
+  { href: "/emergency", label: "الطوارئ" },
 ];
 
 export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-48 bg-gray-50 border-r border-gray-200 flex flex-col py-4 shrink-0">
+    <aside className="w-48 bg-gray-50 border-e border-gray-200 flex flex-col py-4 shrink-0">
       <nav className="flex flex-col gap-1 px-3">
         {NAV.map(({ href, label }) => {
           const active = pathname === href;

@@ -11,13 +11,13 @@ const STATUS_STYLES: Record<VaccinationStatus, string> = {
 };
 
 const STATUS_LABEL: Record<VaccinationStatus, string> = {
-  current: "Current",
-  due_soon: "Due Soon",
-  overdue: "Overdue",
+  current: "حالية",
+  due_soon: "مستحقة قريباً",
+  overdue: "متأخرة",
 };
 
 function formatDate(iso: string): string {
-  return new Date(iso).toLocaleDateString("en-GB", {
+  return new Date(iso).toLocaleDateString("ar-SA", {
     day: "numeric",
     month: "short",
     year: "numeric",
@@ -35,11 +35,11 @@ export function VaccinationCard({ vaccination }: VaccinationCardProps) {
         <span className="text-xs font-medium">{label}</span>
       </div>
       <div className="text-xs space-y-0.5 opacity-80">
-        <p>Administered: {formatDate(vaccination.administeredDate)}</p>
-        <p>Next due: {formatDate(vaccination.nextDueDate)}</p>
-        {vaccination.vetName && <p>Vet: {vaccination.vetName}</p>}
+        <p>تاريخ التطبيق: {formatDate(vaccination.administeredDate)}</p>
+        <p>الاستحقاق القادم: {formatDate(vaccination.nextDueDate)}</p>
+        {vaccination.vetName && <p>الطبيب البيطري: {vaccination.vetName}</p>}
         {vaccination.batchNumber && (
-          <p>Batch: {vaccination.batchNumber}</p>
+          <p>رقم الدفعة: {vaccination.batchNumber}</p>
         )}
       </div>
     </div>

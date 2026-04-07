@@ -1,0 +1,64 @@
+PETCARE ARABIC ACTIVATION — BASELINE INPUT COLLECTION
+
+REPO_ROOT: /Users/waheebmahmoud/dev/petcare-evidence-repository
+
+SELECTED FILES
+LANDING: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/admin/page.tsx
+SIGNIN: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/signin/page.tsx
+DASHBOARD: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/owner/page.tsx
+LAYOUT: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/layout.tsx
+STYLES: /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/globals.css
+
+TOP CANDIDATES
+
+[LANDING]
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/admin/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/emergency/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/owner/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/pharmacy/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/vet/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/admin/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/onboarding/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/owner/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/page.tsx
+
+[SIGNIN]
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/signin/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/unauthorized/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/admin/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/api/proxy/health/route.ts
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/api/proxy/ready/route.ts
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/emergency/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/globals.css
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/layout.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/owner/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/page.tsx
+
+[DASHBOARD]
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/owner/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/vet/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/owner/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/vet/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/components/DashboardGrid.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/components/admin/ClinicConfigurationSummary.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/components/admin/ClinicOperationsOverview.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/components/admin/VetAvailabilityPanel.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/components/emergency/ClinicAvailabilityBoard.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/components/owner/AppointmentCard.tsx
+
+[LAYOUT]
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/layout.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/layout.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/components/LayoutWrapper.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/admin/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/api/proxy/health/route.ts
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/api/proxy/ready/route.ts
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/emergency/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/globals.css
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/owner/page.tsx
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/page.tsx
+
+[STYLES]
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare-web/app/globals.css
+/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/app/globals.css

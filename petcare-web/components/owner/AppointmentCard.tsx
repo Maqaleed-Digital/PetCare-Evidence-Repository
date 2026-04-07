@@ -12,15 +12,15 @@ const STATUS_STYLES: Record<AppointmentStatus, string> = {
 };
 
 const STATUS_LABEL: Record<AppointmentStatus, string> = {
-  scheduled: "Scheduled",
-  completed: "Completed",
-  cancelled: "Cancelled",
-  pending: "Pending",
+  scheduled: "مجدول",
+  completed: "مكتمل",
+  cancelled: "ملغى",
+  pending: "قيد الانتظار",
 };
 
 function formatDateTime(iso: string): string {
   const d = new Date(iso);
-  return d.toLocaleString("en-GB", {
+  return d.toLocaleString("ar-SA", {
     day: "numeric",
     month: "short",
     year: "numeric",

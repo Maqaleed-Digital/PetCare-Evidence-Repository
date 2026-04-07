@@ -24,12 +24,12 @@ import {
 // ---------------------------------------------------------------------------
 
 const KPIS: PharmacyKpi[] = [
-  { label: "Rx Today",         value: 18,  variant: "default"  },
-  { label: "Dispensed",        value: 12,  variant: "success"  },
-  { label: "Pending",          value: 4,   variant: "warning"  },
-  { label: "Safety Alerts",    value: 2,   variant: "danger"   },
-  { label: "Cold Chain OK",    value: "3/4", variant: "warning", sub: "1 warning" },
-  { label: "Active Recalls",   value: 1,   variant: "danger"   },
+  { label: "وصفات اليوم",      value: 18,  variant: "default"  },
+  { label: "تم الصرف",         value: 12,  variant: "success"  },
+  { label: "قيد الانتظار",     value: 4,   variant: "warning"  },
+  { label: "تنبيهات السلامة",  value: 2,   variant: "danger"   },
+  { label: "السلسلة الباردة",  value: "3/4", variant: "warning", sub: "1 تحذير" },
+  { label: "استرجاعات نشطة",  value: 1,   variant: "danger"   },
 ];
 
 const PRESCRIPTIONS: Prescription[] = [
@@ -142,16 +142,16 @@ export default function PharmacyPage() {
     <div className="space-y-8 max-w-5xl">
       {/* Header */}
       <div>
-        <h1 className="text-xl font-semibold text-gray-900">Pharmacy</h1>
+        <h1 className="text-xl font-semibold text-gray-900">الصيدلية</h1>
         <p className="mt-1 text-sm text-gray-500">
-          Operations surface — read-only shell · placeholder data · PH-UI-5
+          واجهة العمليات — قراءة فقط · بيانات تجريبية · PH-UI-5
         </p>
       </div>
 
       {/* KPIs */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Key Metrics
+          المؤشرات الرئيسية
         </h2>
         <PharmacyKpiStrip kpis={KPIS} />
       </section>
@@ -159,7 +159,7 @@ export default function PharmacyPage() {
       {/* Safety Alerts */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Medication Safety
+          سلامة الدواء
         </h2>
         <MedicationSafetyPanel alerts={SAFETY_ALERTS} />
       </section>
@@ -167,7 +167,7 @@ export default function PharmacyPage() {
       {/* Prescription Queue */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Prescription Queue
+          قائمة انتظار الوصفات
         </h2>
         <PrescriptionQueue prescriptions={PRESCRIPTIONS} />
       </section>
@@ -175,7 +175,7 @@ export default function PharmacyPage() {
       {/* Dispense Workflow */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Dispense Workflow — rx-001 (Luna)
+          سير صرف الدواء — rx-001 (لونا)
         </h2>
         <DispenseWorkflowPreview steps={DISPENSE_STEPS} prescriptionRef="rx-001" />
       </section>
@@ -183,7 +183,7 @@ export default function PharmacyPage() {
       {/* Cold Chain */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Cold Chain Monitor
+          مراقبة السلسلة الباردة
         </h2>
         <ColdChainMonitor readings={COLD_CHAIN} />
       </section>
@@ -191,7 +191,7 @@ export default function PharmacyPage() {
       {/* Inventory */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Inventory Status
+          حالة المخزون
         </h2>
         <InventoryStatusSummary items={INVENTORY} />
       </section>
@@ -199,7 +199,7 @@ export default function PharmacyPage() {
       {/* Recalls */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Recall Exceptions
+          استثناءات الاسترجاع
         </h2>
         <RecallExceptionsPanel recalls={RECALLS} />
       </section>
@@ -207,7 +207,7 @@ export default function PharmacyPage() {
       {/* Fulfillment */}
       <section className="space-y-3">
         <h2 className="text-xs font-semibold uppercase tracking-wider text-gray-500">
-          Fulfillment & Dispatch
+          التنفيذ والشحن
         </h2>
         <FulfillmentDispatchSummary dispatches={DISPATCHES} />
       </section>

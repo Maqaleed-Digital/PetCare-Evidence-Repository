@@ -7,26 +7,26 @@ interface QuickAction {
 
 const ACTIONS: QuickAction[] = [
   {
-    label: "Book Appointment",
-    description: "Schedule a new visit with your vet",
+    label: "حجز موعد",
+    description: "جدولة زيارة جديدة مع طبيبك البيطري",
     icon: "📅",
     variant: "primary",
   },
   {
-    label: "View Records",
-    description: "Access full medical history and documents",
+    label: "عرض السجلات",
+    description: "الوصول إلى السجل الطبي الكامل والوثائق",
     icon: "📋",
     variant: "secondary",
   },
   {
-    label: "Emergency Access",
-    description: "Share critical health data with emergency vet",
+    label: "الوصول الطارئ",
+    description: "مشاركة البيانات الصحية الحرجة مع الطبيب البيطري للطوارئ",
     icon: "🚨",
     variant: "danger",
   },
   {
-    label: "Consent Settings",
-    description: "Manage data sharing and consent preferences",
+    label: "إعدادات الموافقة",
+    description: "إدارة مشاركة البيانات وتفضيلات الموافقة",
     icon: "🔒",
     variant: "neutral",
   },
@@ -51,8 +51,8 @@ export function QuickActions() {
           key={action.label}
           type="button"
           disabled
-          title="Read-only shell — not yet interactive"
-          className={`flex items-start gap-3 rounded-lg border p-4 text-left transition-colors cursor-default opacity-80 ${
+          title="قراءة فقط — غير تفاعلي بعد"
+          className={`flex items-start gap-3 rounded-lg border p-4 text-start transition-colors cursor-default opacity-80 ${
             VARIANT_STYLES[action.variant]
           }`}
         >
