@@ -1,0 +1,8 @@
+MANIFEST.txt
+active_run_status.txt
+checklist_status.txt
+decision_log.txt
+execution_state.json
+git_head.txt
+operator_inputs.json
+script_stdout.log

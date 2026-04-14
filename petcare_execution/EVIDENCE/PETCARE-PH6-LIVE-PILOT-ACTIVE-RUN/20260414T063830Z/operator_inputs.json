@@ -1,0 +1,20 @@
+{
+  "app_source_of_truth_commit": "ec53458d",
+  "pilot_operator": "REPLACE_WITH_REAL_OPERATOR",
+  "pilot_incident_channel": "REPLACE_WITH_REAL_INCIDENT_CHANNEL",
+  "pilot_approval_ref": "REPLACE_WITH_REAL_APPROVAL_REFERENCE",
+  "pilot_execution_window_utc": "REPLACE_WITH_REAL_EXECUTION_WINDOW_UTC",
+  "pilot_clinic_name": "REPLACE_WITH_REAL_CLINIC_NAME",
+  "pilot_clinic_license_ref": "REPLACE_WITH_REAL_CLINIC_LICENSE_REFERENCE",
+  "pilot_vet_1_name": "REPLACE_WITH_REAL_VET_NAME",
+  "pilot_vet_1_license_ref": "REPLACE_WITH_REAL_VET_LICENSE_REFERENCE",
+  "pilot_owner_case_1_ref": "REPLACE_WITH_REAL_OWNER_CASE_REFERENCE",
+  "pilot_production_url": "https://myveticare.com",
+  "pilot_appointment_ref": "REPLACE_WITH_REAL_APPOINTMENT_REFERENCE",
+  "pilot_consultation_ref": "REPLACE_WITH_REAL_CONSULTATION_REFERENCE",
+  "pilot_signoff_ref": "REPLACE_WITH_REAL_SIGNOFF_REFERENCE",
+  "pilot_prescription_ref": "",
+  "pilot_run_result": "REPLACE_WITH_PASS_FAILED_OR_BLOCKED",
+  "pilot_blockers": "",
+  "pilot_operator_notes": "REPLACE_WITH_REAL_OPERATOR_NOTES"
+}
