@@ -1,3 +1,30 @@
+/* ── VetiCare design tokens (FR-09) ── */
+:root {
+  --vc-primary:    #0F5E6E;
+  --vc-secondary:  #7BAF9E;
+  --vc-background: #FAFAF8;
+  --vc-text:       #1A2B2E;
+  --vc-muted:      #6B7E82;
+  --font-heading:  'DM Serif Display', serif;
+  --font-body:     'DM Sans', sans-serif;
+}
+
+/* Apply VetiCare fonts */
+body {
+  font-family: var(--font-body);
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* ── RTL layout overrides (FR-09) ── */
+[dir="rtl"] .nav-brand  { margin-right: 0; margin-left: auto; }
+[dir="rtl"] .nav-actions { margin-left: 0; margin-right: 16px; }
+[dir="rtl"] .hero-actions { flex-direction: row-reverse; }
+[dir="rtl"] .role-card  { text-align: right; }
+[dir="rtl"] .badge      { flex-direction: row-reverse; }
+
+/* ── Original tokens ── */
 :root {
   color-scheme: light;
   --bg: #f7f8fb;
