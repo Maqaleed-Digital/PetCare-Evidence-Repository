@@ -1,5 +1,6 @@
 import './globals.css'
 import { Nav } from '@/components/Nav'
+import { LangProvider } from '@/components/LangProvider'
 import { DM_Sans, DM_Serif_Display } from 'next/font/google'
 
 const dmSans = DM_Sans({
@@ -24,8 +25,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="ar" dir="rtl" className={`${dmSans.variable} ${dmSerifDisplay.variable}`}>
       <body>
-        <Nav />
-        {children}
+        <LangProvider>
+          <Nav />
+          {children}
+        </LangProvider>
       </body>
     </html>
   )

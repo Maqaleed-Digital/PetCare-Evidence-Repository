@@ -1,12 +1,16 @@
 'use client'
 import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { useLang } from '@/components/LangProvider'
+import { LanguageToggle } from '@/components/LanguageToggle'
+import { STRINGS } from '@/lib/strings'
 
 type NavUser = { email: string; role: string; full_name: string }
 
 export function Nav() {
   const path = usePathname()
   const router = useRouter()
+  const { t } = useLang()
   const [user, setUser] = useState<NavUser | null>(null)
   const [checked, setChecked] = useState(false)
 
@@ -24,7 +28,6 @@ export function Nav() {
     try {
       await fetch(`${apiBase}/api/auth/sign-out`, { method: 'POST', credentials: 'include' })
     } catch { /* ignore */ }
-    // Clear the role cookie
     document.cookie = 'petcare_role=; path=/; max-age=0'
     setUser(null)
     router.replace('/signin')
@@ -32,12 +35,17 @@ export function Nav() {
 
   return (
     <nav className="nav">
-      <a className="nav-brand" href="/">VetiCare</a>
+      <a className="nav-brand" href="/">{t(STRINGS.nav.brand)}</a>
       <div className="nav-links">
-        <a className={`nav-link${path === '/' ? ' active' : ''}`} href="/">الرئيسية</a>
-        <a className={`nav-link${path.startsWith('/onboarding') ? ' active' : ''}`} href="/onboarding">العيادات</a>
+        <a className={`nav-link${path === '/' ? ' active' : ''}`} href="/">
+          {t(STRINGS.nav.home)}
+        </a>
+        <a className={`nav-link${path.startsWith('/onboarding') ? ' active' : ''}`} href="/onboarding">
+          {t(STRINGS.nav.clinics)}
+        </a>
       </div>
       <div className="nav-actions">
+        <LanguageToggle />
         {!checked ? null : user ? (
           <>
             <span style={{ fontSize: 13, color: 'var(--text-muted, #666)', marginRight: 8 }}>
@@ -50,11 +58,13 @@ export function Nav() {
               className="button button-outline button-sm"
               onClick={handleSignOut}
             >
-              تسجيل الخروج
+              {t(STRINGS.nav.signOut)}
             </button>
           </>
         ) : (
-          <a className="button button-outline button-sm" href="/signin">تسجيل الدخول</a>
+          <a className="button button-outline button-sm" href="/signin">
+            {t(STRINGS.nav.signIn)}
+          </a>
         )}
       </div>
     </nav>
