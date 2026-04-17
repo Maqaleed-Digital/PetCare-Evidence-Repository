@@ -3,52 +3,15 @@
 import { useLang } from '@/components/LangProvider'
 import { STRINGS } from '@/lib/strings'
 
-export default function OnboardingPage() {
+export default function PharmacyOnboardingPage() {
   const { t } = useLang()
-  const s = STRINGS.onboarding
-  const h = STRINGS.onboardingHub
+  const s = STRINGS.pharmacyOnboarding
 
   return (
     <main className="stack">
-      {/* Hub — role selector */}
       <div className="card">
-        <div className="kicker">{t(h.kicker)}</div>
-        <div className="title-lg">{t(h.title)}</div>
-        <p className="subtitle" style={{ maxWidth: 600, marginTop: 8 }}>{t(h.intro)}</p>
-        <div className="grid cols2" style={{ marginTop: 20 }}>
-          <div className="role-card">
-            <div className="role-card-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
-              </svg>
-            </div>
-            <div>
-              <div className="title" style={{ fontSize: 16 }}>{t(h.clinicTitle)}</div>
-              <p className="subtitle">{t(h.clinicSub)}</p>
-            </div>
-            <a className="button button-outline button-sm" href="#clinic-steps">{t(h.clinicCta)}</a>
-          </div>
-          <div className="role-card">
-            <div className="role-card-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
-                <line x1="12" y1="8" x2="12" y2="16"/>
-                <line x1="8" y1="12" x2="16" y2="12"/>
-              </svg>
-            </div>
-            <div>
-              <div className="title" style={{ fontSize: 16 }}>{t(h.pharmacyTitle)}</div>
-              <p className="subtitle">{t(h.pharmacySub)}</p>
-            </div>
-            <a className="button button-outline button-sm" href="/onboarding/pharmacy">{t(h.pharmacyCta)}</a>
-          </div>
-        </div>
-      </div>
-
-      {/* Clinic / Vet steps */}
-      <div id="clinic-steps" className="card">
-        <div className="kicker">{t(h.clinicTitle)}</div>
-        <div className="title-lg" style={{ fontSize: 22 }}>{t(s.title)}</div>
+        <div className="kicker">{t(s.kicker)}</div>
+        <div className="title-lg">{t(s.title)}</div>
         <p className="subtitle" style={{ maxWidth: 600, marginTop: 8 }}>{t(s.intro)}</p>
       </div>
 
@@ -90,6 +53,10 @@ export default function OnboardingPage() {
         </div>
         <a className="button" href="mailto:onboarding@myveticare.com">{t(s.ctaBtn)}</a>
       </div>
+
+      <p className="muted" style={{ textAlign: 'center' }}>
+        <a href="/onboarding" style={{ color: 'var(--accent)' }}>{t(s.backLink)}</a>
+      </p>
     </main>
   )
 }
