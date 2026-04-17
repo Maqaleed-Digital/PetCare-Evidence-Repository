@@ -12,8 +12,6 @@ const ROLE_REDIRECT: Record<string, string> = {
 }
 
 function setRoleCookie(role: string) {
-  // Non-HttpOnly so Next.js middleware can read it for routing.
-  // The HttpOnly petcare_pilot_session cookie (set by backend) is the real auth token.
   const maxAge = 60 * 60 * 12 // 12 h, matches backend session
   document.cookie = `petcare_role=${encodeURIComponent(role)}; path=/; max-age=${maxAge}; samesite=lax`
 }
@@ -41,15 +39,15 @@ export default function SignInPage() {
       })
 
       if (res.status === 401) {
-        setError('Invalid email or password.')
+        setError('البريد الإلكتروني أو كلمة المرور غير صحيحة.')
         return
       }
       if (res.status === 403) {
-        setError('This account is inactive. Contact your administrator.')
+        setError('هذا الحساب غير نشط. تواصل مع المسؤول.')
         return
       }
       if (!res.ok) {
-        setError(`Sign-in failed (${res.status}). Try again.`)
+        setError(`فشل تسجيل الدخول (${res.status}). حاول مرة أخرى.`)
         return
       }
 
@@ -61,7 +59,7 @@ export default function SignInPage() {
       const dest = ROLE_REDIRECT[role] ?? '/'
       router.replace(dest)
     } catch {
-      setError('Could not reach the server. Check your connection and try again.')
+      setError('تعذّر الوصول إلى الخادم. تحقق من اتصالك وحاول مرة أخرى.')
     } finally {
       setLoading(false)
     }
@@ -72,10 +70,10 @@ export default function SignInPage() {
       <div className="card stack" style={{ padding: 40 }}>
 
         <div>
-          <div className="kicker">MyVetiCare</div>
-          <div className="title-lg">Sign in to your PetCare account</div>
+          <div className="kicker">VetiCare</div>
+          <div className="title-lg">تسجيل الدخول إلى حسابك</div>
           <p className="subtitle" style={{ marginTop: 6 }}>
-            تسجيل الدخول إلى منصة ماي فيتيكير
+            أدخل بياناتك للوصول إلى منصة VetiCare
           </p>
         </div>
 
@@ -85,7 +83,7 @@ export default function SignInPage() {
               htmlFor="email"
               style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: 'var(--text)' }}
             >
-              Email
+              البريد الإلكتروني
             </label>
             <input
               id="email"
@@ -111,7 +109,7 @@ export default function SignInPage() {
               htmlFor="password"
               style={{ display: 'block', fontSize: 13, fontWeight: 600, marginBottom: 6, color: 'var(--text)' }}
             >
-              Password
+              كلمة المرور
             </label>
             <input
               id="password"
@@ -153,16 +151,16 @@ export default function SignInPage() {
             className="button"
             style={{ width: '100%', justifyContent: 'center', opacity: loading ? 0.65 : 1 }}
           >
-            {loading ? 'Signing in…' : 'Sign in'}
+            {loading ? 'جارٍ تسجيل الدخول…' : 'تسجيل الدخول'}
           </button>
         </form>
 
         <p className="muted" style={{ textAlign: 'center', fontSize: 12 }}>
-          No self-registration. Contact your pilot administrator for access.
+          لا يوجد تسجيل ذاتي. تواصل مع مسؤول التجريب للحصول على صلاحية الوصول.
         </p>
 
         <p className="muted" style={{ textAlign: 'center' }}>
-          <a href="/" style={{ color: 'var(--accent)' }}>← Back to home</a>
+          <a href="/" style={{ color: 'var(--accent)' }}>→ العودة للرئيسية</a>
         </p>
       </div>
     </main>

@@ -2,56 +2,55 @@ export default function OnboardingPage() {
   return (
     <main className="stack">
       <div className="card">
-        <div className="kicker">Pilot programme</div>
-        <div className="title-lg">Clinic onboarding</div>
+        <div className="kicker">برنامج التجريب</div>
+        <div className="title-lg">تسجيل العيادات</div>
         <p className="subtitle" style={{ maxWidth: 600 }}>
-          VetiCare is in a controlled pilot phase. Clinics are onboarded
-          individually with full governance verification before any system
-          access is granted.
+          VetiCare في مرحلة تجريب محكوم. يتم تسجيل العيادات بشكل فردي مع التحقق
+          الكامل من الحوكمة قبل منح أي صلاحية وصول إلى النظام.
         </p>
       </div>
 
       <div className="grid cols2">
         <div className="card stack card-sm">
-          <div className="badge badge-blue" style={{ alignSelf: 'flex-start' }}>Step 1</div>
+          <div className="badge badge-blue" style={{ alignSelf: 'flex-start' }}>الخطوة 1</div>
           <div>
-            <div className="title" style={{ fontSize: 16 }}>Eligibility check</div>
+            <div className="title" style={{ fontSize: 16 }}>التحقق من الأهلية</div>
             <p className="subtitle">
-              Valid commercial registration, licensed vets on staff, and
-              a verified clinic location are required before onboarding begins.
+              يُشترط توفر سجل تجاري ساري، وأطباء بيطريون مرخّصون، وموقع عيادة
+              موثّق قبل بدء عملية التسجيل.
             </p>
           </div>
         </div>
 
         <div className="card stack card-sm">
-          <div className="badge badge-blue" style={{ alignSelf: 'flex-start' }}>Step 2</div>
+          <div className="badge badge-blue" style={{ alignSelf: 'flex-start' }}>الخطوة 2</div>
           <div>
-            <div className="title" style={{ fontSize: 16 }}>Identity verification</div>
+            <div className="title" style={{ fontSize: 16 }}>التحقق من الهوية</div>
             <p className="subtitle">
-              Each vet is verified against the national licensing registry.
-              No system access is granted until verification is complete.
+              يتم التحقق من هوية كل طبيب بيطري عبر سجل التراخيص الوطني.
+              لا يُمنح الوصول إلى النظام حتى اكتمال التحقق.
             </p>
           </div>
         </div>
 
         <div className="card stack card-sm">
-          <div className="badge badge-blue" style={{ alignSelf: 'flex-start' }}>Step 3</div>
+          <div className="badge badge-blue" style={{ alignSelf: 'flex-start' }}>الخطوة 3</div>
           <div>
-            <div className="title" style={{ fontSize: 16 }}>Account provisioning</div>
+            <div className="title" style={{ fontSize: 16 }}>إعداد الحساب</div>
             <p className="subtitle">
-              Roles are assigned via the admin portal. All provisioning
-              events are audit-logged and tied to a correlation ID.
+              تُسنَد الأدوار عبر بوابة الإدارة. جميع أحداث الإعداد مسجّلة في
+              سجل المراجعة ومرتبطة بمعرّف ارتباط.
             </p>
           </div>
         </div>
 
         <div className="card stack card-sm">
-          <div className="badge badge-green" style={{ alignSelf: 'flex-start' }}>Step 4</div>
+          <div className="badge badge-green" style={{ alignSelf: 'flex-start' }}>الخطوة 4</div>
           <div>
-            <div className="title" style={{ fontSize: 16 }}>Pilot activation</div>
+            <div className="title" style={{ fontSize: 16 }}>تفعيل التجريب</div>
             <p className="subtitle">
-              Once active, the clinic dashboard, consultation queue, and
-              prescription workflow are accessible under governed operation.
+              بعد التفعيل، تصبح لوحة تحكم العيادة وقائمة الاستشارات وسير عمل
+              الوصفات متاحةً تحت إطار العمل المحكوم.
             </p>
           </div>
         </div>
@@ -59,10 +58,10 @@ export default function OnboardingPage() {
 
       <div className="card" style={{ display: 'flex', alignItems: 'center', gap: 24, flexWrap: 'wrap' }}>
         <div style={{ flex: 1, minWidth: 240 }}>
-          <div className="title" style={{ fontSize: 16 }}>Ready to join the pilot?</div>
-          <p className="subtitle">Reach out to the onboarding team with your clinic registration details.</p>
+          <div className="title" style={{ fontSize: 16 }}>هل أنت مستعد للانضمام للتجريب؟</div>
+          <p className="subtitle">تواصل مع فريق التسجيل مع بيانات تسجيل عيادتك.</p>
         </div>
-        <a className="button" href="mailto:onboarding@myveticare.com">Apply for pilot access</a>
+        <a className="button" href="mailto:onboarding@myveticare.com">التقدم للوصول التجريبي</a>
       </div>
     </main>
   )
