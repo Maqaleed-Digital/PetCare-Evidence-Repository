@@ -18,6 +18,8 @@ const protectedRoutes: Record<string, string[]> = {
   '/vet': ['vet', 'admin'],
   '/pharmacy': ['pharmacy', 'admin'],
   '/admin': ['admin'],
+  // /account is any authenticated user (settings + PDPL rights).
+  '/account': ['owner', 'vet', 'pharmacy', 'admin'],
 }
 
 export function middleware(req: NextRequest) {
@@ -48,5 +50,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/owner/:path*', '/vet/:path*', '/pharmacy/:path*', '/admin/:path*'],
+  matcher: ['/owner/:path*', '/vet/:path*', '/pharmacy/:path*', '/admin/:path*', '/account/:path*'],
 }

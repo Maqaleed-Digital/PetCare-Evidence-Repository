@@ -14,6 +14,8 @@
 import { useMemo, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
 import { STRINGS } from '@/lib/strings'
+import { AdvisoryDisclosureBanner } from '@/components/AdvisoryDisclosureBanner'
+import { HumanEscalationBanner } from '@/components/HumanEscalationBanner'
 import {
   evaluateTriage,
   symptomsForSpecies,
@@ -60,17 +62,17 @@ export default function EmergencyPage() {
 
   return (
     <main className="stack" style={{ maxWidth: 720 }}>
+      <AdvisoryDisclosureBanner storageKey="vc_advisory_dismissed_emergency" />
+
       <div>
         <div className="title-lg">{t(s.title)}</div>
         <p className="subtitle" style={{ marginTop: 6 }}>{t(s.sub)}</p>
       </div>
 
-      {/* Urgent-contact card — visible immediately so guidance is reachable
-          without filling the symptom form. */}
-      <div className="card" style={{ borderColor: '#fda29b', background: '#fef3f2' }}>
-        <div className="kicker" style={{ color: '#7a271a' }}>{t(s.urgentContactLabel)}</div>
-        <p style={{ marginTop: 6, lineHeight: 1.6 }}>{t(s.urgentContactBody)}</p>
-      </div>
+      {/* WI-4: HumanEscalationBanner — promotes the urgent-contact path to
+          a first-class "reach a human" entry. Display + contact only;
+          NO routing queue (FR-11 remains out of scope). */}
+      <HumanEscalationBanner />
 
       {/* Species picker */}
       <div className="card stack">

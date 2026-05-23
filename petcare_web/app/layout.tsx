@@ -1,5 +1,6 @@
 import './globals.css'
 import { Nav } from '@/components/Nav'
+import { Footer } from '@/components/Footer'
 import { LangProvider } from '@/components/LangProvider'
 import { DM_Sans, DM_Serif_Display } from 'next/font/google'
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LangProvider>
           <Nav />
           {children}
+          <Footer />
         </LangProvider>
       </body>
     </html>

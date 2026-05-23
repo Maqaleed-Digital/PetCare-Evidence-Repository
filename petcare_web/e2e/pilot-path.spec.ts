@@ -75,9 +75,65 @@ test('register → first-run → /owner → emergency, in Arabic / RTL, on a pho
   await page.getByRole('link', { name: /حالة طارئة/ }).click()
   await page.waitForURL('**/owner/emergency')
   await expect(page.getByText(/إرشادات فورية/)).toBeVisible()
-  await expect(page.getByText(/جهة الاتصال للطوارئ/)).toBeVisible()
-  // No-queue disclosure must be visible
+  // WI-4 (MVC-UX-WO-002): the urgent-contact path is now the
+  // first-class HumanEscalationBanner.
+  await expect(page.getByText(/هل تحتاج إلى إنسان الآن؟/)).toBeVisible()
+  await expect(page.getByText(/لا توجد قائمة توزيع آلية/)).toBeVisible()
+  // Original no-queue disclosure also still present.
   await expect(page.getByText(/لا يتم توجيه الحالات تلقائياً/)).toBeVisible()
   // Still RTL after navigation (toggle / lang persists across pages)
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+})
+
+test('trust surfaces: /owner advisory + ModeDisclosure cards + /account PDPL & consent', async ({ page }) => {
+  // Set up an authenticated session (skip the register form for this smoke)
+  await page.context().addCookies([
+    { name: 'petcare_role', value: 'owner', domain: 'localhost', path: '/' },
+  ])
+  await page.addInitScript(() => {
+    localStorage.setItem('vc_user', JSON.stringify({
+      user_id: 'u-smoke-2', email: 'pilot@example.com',
+      name: 'مالك التجريب', role: 'owner',
+    }))
+    localStorage.setItem('vc_firstrun_done', 'true')  // skip first-run modal
+    localStorage.setItem('vc_consent', JSON.stringify({
+      consented_at: '2026-05-24T10:00:00.000Z',
+      origin_invite_code: 'OWNER-PILOT-001',
+      scope: ['registration', 'privacy_notice'],
+    }))
+  })
+
+  // /owner — WI-1 AdvisoryDisclosureBanner + WI-5 ModeDisclosureBanner
+  await page.goto('/owner')
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+  await expect(page.getByTestId('advisory-disclosure')).toBeVisible()
+  await expect(page.getByText(/إرشاد، وليس قراراً سريرياً/)).toBeVisible()
+  // ModeDisclosureBanner badges on the deferred-capability cards
+  const deferredBadges = page.getByTestId('mode-disclosure-badge')
+  await expect(deferredBadges.first()).toBeVisible()
+
+  // Footer carries the PDPL-rights link
+  await expect(page.getByTestId('footer-pdpl-link')).toBeVisible()
+
+  // /account — PDPLRightsEntry + ConsentStateView
+  await page.getByTestId('nav-account-link').click()
+  await page.waitForURL('**/account')
+  await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
+  await expect(page.getByTestId('pdpl-rights-entry')).toBeVisible()
+  await expect(page.getByText(/حق الوصول إلى بياناتك \(المادة 12\)/)).toBeVisible()
+  await expect(page.getByText(/حق المحو \(المادة 18\)/)).toBeVisible()
+  // DPO mailto wired
+  const accessCta = page.getByTestId('pdpl-access-cta')
+  const href = await accessCta.getAttribute('href')
+  expect(href).toMatch(/^mailto:dpo@myveticare\.com/)
+  // Consent record visible
+  await expect(page.getByTestId('consent-state-view')).toBeVisible()
+  await expect(page.getByText(/OWNER-PILOT-001/)).toBeVisible()
+
+  // /owner ai-surface-area (dark scaffolds) should render no children
+  // while FEATURE_AI is OFF — the aside exists but is empty.
+  await page.goto('/owner')
+  const aside = page.getByTestId('ai-surface-area')
+  await expect(aside).toBeAttached()
+  await expect(aside.locator('*')).toHaveCount(0)
 })
