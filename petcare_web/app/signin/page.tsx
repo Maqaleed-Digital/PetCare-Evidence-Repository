@@ -110,6 +110,9 @@ export default function SignInPage() {
         </form>
 
         <p className="muted" style={{ textAlign: 'center', fontSize: 12 }}>{t(s.noSelfReg)}</p>
+        <p style={{ textAlign: 'center', fontSize: 13 }}>
+          <a href="/register" style={{ color: 'var(--accent)', fontWeight: 600 }}>{t(s.registerCta)}</a>
+        </p>
         <p className="muted" style={{ textAlign: 'center' }}>
           <a href="/" style={{ color: 'var(--accent)' }}>{t(s.backHome)}</a>
         </p>

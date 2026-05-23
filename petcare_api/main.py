@@ -94,7 +94,7 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 # Auth router
 # ---------------------------------------------------------------------------
-from routers.auth import router as auth_router, seed_user
+from routers.auth import router as auth_router, seed_user, seed_invite_code
 app.include_router(auth_router)
 
 # Seed pilot test users (in-memory — no DB yet)
@@ -104,6 +104,11 @@ seed_user("u-vet-001", "vet@myveticare.com", "PetCare2026!",
           "veterinarian", "Dr. Test Vet")
 seed_user("u-owner-001", "owner@myveticare.com", "PetCare2026!",
           "owner", "Test Owner")
+
+# Seed pilot invite codes — invite-gated registration (MVC-UX-WO-001 WI-1).
+# No expiry on the pilot seeds; rotated/extended via PO bookkeeping.
+seed_invite_code("OWNER-PILOT-001", "owner")
+seed_invite_code("VET-PILOT-001", "veterinarian")
 
 # ---------------------------------------------------------------------------
 # In-memory stores (pilot phase — DB wiring deferred to PH7)
