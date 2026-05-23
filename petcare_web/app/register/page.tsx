@@ -4,6 +4,7 @@ import { useState, FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { useLang } from '@/components/LangProvider'
 import { STRINGS } from '@/lib/strings'
+import { writeConsent } from '@/lib/consent'
 
 const ROLE_REDIRECT: Record<string, string> = {
   platform_admin: '/admin',
@@ -72,6 +73,14 @@ export default function RegisterPage() {
           name:    data.user.full_name || data.user.email,
           role:    data.user.role,
         }))
+        // MVC-UX-WO-002 WI-3: write a browser-local consent record so
+        // /account ConsentStateView can show what was consented to,
+        // when, and the origin (the pilot invite code).
+        writeConsent({
+          consented_at: new Date().toISOString(),
+          origin_invite_code: inviteCode,
+          scope: ['registration', 'privacy_notice'],
+        })
         window.dispatchEvent(new Event('vc_user_changed'))
       }
       router.replace(ROLE_REDIRECT[userRole] ?? '/')

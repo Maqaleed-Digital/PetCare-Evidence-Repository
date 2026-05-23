@@ -65,6 +65,13 @@ export function Nav() {
                 {user.role}
               </span>
             </span>
+            <a
+              className={`nav-link${path === '/account' ? ' active' : ''}`}
+              href="/account"
+              data-testid="nav-account-link"
+            >
+              {t(STRINGS.nav.account)}
+            </a>
             <button
               className="button button-outline button-sm"
               onClick={handleSignOut}
