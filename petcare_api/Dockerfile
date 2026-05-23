@@ -9,8 +9,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy runtime domain modules
 COPY petcare_runtime/src/petcare ./petcare_runtime/src/petcare
 
-# Copy API entrypoint
+# Copy API entrypoint and routers
 COPY petcare_api/main.py ./main.py
+COPY petcare_api/routers ./routers
 
 ENV PYTHONPATH="/app/petcare_runtime/src"
 ENV PORT=8080
