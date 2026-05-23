@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
 
-// Backend roles (petcare_pilot_session auth) → normalised middleware role
+// Backend roles (veticare pilot session auth) → normalised middleware role
 const ROLE_ALIAS: Record<string, string> = {
   platform_admin: 'admin',
   clinic_admin: 'admin',

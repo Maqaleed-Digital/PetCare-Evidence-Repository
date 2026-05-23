@@ -1,5 +1,5 @@
 """
-PetCare Platform API
+Maqaleed Vet by VetiCare — Platform API
 Governed, fail-closed, audit-traced.
 No autonomous execution. No unauthenticated writes.
 """
@@ -18,7 +18,7 @@ from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
 # ---------------------------------------------------------------------------
-# Domain imports — all existing petcare_runtime modules
+# Domain imports — all existing vendored runtime modules
 # ---------------------------------------------------------------------------
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "petcare_runtime", "src"))
@@ -77,7 +77,7 @@ if not ALLOWED_ORIGINS:
     ]
 
 app = FastAPI(
-    title="PetCare Platform API",
+    title="Maqaleed Vet by VetiCare — Platform API",
     version="1.0.0",
     description="Governed veterinary platform API. Fail-closed. Audit-traced.",
 )
