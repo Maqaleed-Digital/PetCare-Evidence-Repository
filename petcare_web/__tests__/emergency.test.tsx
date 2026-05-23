@@ -11,9 +11,11 @@ describe('EmergencyPage — display-only triage baseline (WI-3)', () => {
   it('renders Arabic guidance immediately, without requiring symptom selection', () => {
     render(<LangProvider><EmergencyPage /></LangProvider>)
     expect(screen.getByText(/إرشادات فورية/)).toBeInTheDocument()
-    // Urgent-contact card is visible on first paint — the ≤2-taps invariant
-    // means landing on this page IS the guidance, no form required.
-    expect(screen.getByText(/جهة الاتصال للطوارئ/)).toBeInTheDocument()
+    // WI-4 (MVC-UX-WO-002): the urgent-contact path is now the
+    // HumanEscalationBanner — a first-class "reach a human" surface,
+    // visible immediately so guidance is reachable without filling
+    // the symptom form. The ≤2-taps invariant still holds.
+    expect(screen.getByText(/هل تحتاج إلى إنسان الآن؟/)).toBeInTheDocument()
     expect(screen.getByText(/تواصل مع عيادتك البيطرية/)).toBeInTheDocument()
   })
 
