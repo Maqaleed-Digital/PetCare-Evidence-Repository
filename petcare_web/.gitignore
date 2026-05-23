@@ -1,0 +1,12 @@
+# Next.js build output
+/.next/
+/out/
+
+# build cache
+tsconfig.tsbuildinfo
+
+# Vitest / Playwright artifacts
+/test-results/
+/playwright-report/
+/.playwright-cache/
+/coverage/
