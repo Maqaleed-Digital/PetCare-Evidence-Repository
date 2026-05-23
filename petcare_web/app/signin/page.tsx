@@ -82,7 +82,7 @@ export default function SignInPage() {
             <input
               id="email" type="email" autoComplete="email" required
               value={email} onChange={e => setEmail(e.target.value)}
-              style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--line)', borderRadius: 8, fontSize: 14, outline: 'none', background: '#fff' }}
+              style={{ width: '100%', padding: '12px 14px', minHeight: 48, border: '1px solid var(--line)', borderRadius: 8, fontSize: 14, outline: 'none', background: '#fff' }}
             />
           </div>
 
@@ -93,7 +93,7 @@ export default function SignInPage() {
             <input
               id="password" type="password" autoComplete="current-password" required
               value={password} onChange={e => setPassword(e.target.value)}
-              style={{ width: '100%', padding: '10px 12px', border: '1px solid var(--line)', borderRadius: 8, fontSize: 14, outline: 'none', background: '#fff' }}
+              style={{ width: '100%', padding: '12px 14px', minHeight: 48, border: '1px solid var(--line)', borderRadius: 8, fontSize: 14, outline: 'none', background: '#fff' }}
             />
           </div>
 
@@ -104,12 +104,15 @@ export default function SignInPage() {
           )}
 
           <button type="submit" disabled={loading} className="button"
-            style={{ width: '100%', justifyContent: 'center', opacity: loading ? 0.65 : 1 }}>
+            style={{ width: '100%', justifyContent: 'center', minHeight: 48, opacity: loading ? 0.65 : 1 }}>
             {loading ? t(s.submitting) : t(s.submit)}
           </button>
         </form>
 
         <p className="muted" style={{ textAlign: 'center', fontSize: 12 }}>{t(s.noSelfReg)}</p>
+        <p style={{ textAlign: 'center', fontSize: 13 }}>
+          <a href="/register" style={{ color: 'var(--accent)', fontWeight: 600 }}>{t(s.registerCta)}</a>
+        </p>
         <p className="muted" style={{ textAlign: 'center' }}>
           <a href="/" style={{ color: 'var(--accent)' }}>{t(s.backHome)}</a>
         </p>
