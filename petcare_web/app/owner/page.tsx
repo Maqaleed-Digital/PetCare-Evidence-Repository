@@ -2,13 +2,15 @@
 
 import { useLang } from '@/components/LangProvider'
 import { STRINGS } from '@/lib/strings'
+import { FirstRunModal } from '@/components/FirstRunModal'
 
 export default function OwnerPage() {
   const { t } = useLang()
   const s = STRINGS.owner
 
   return (
-    <main className="stack">
+    <main className="stack" id="pets">
+      <FirstRunModal />
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
           <div className="kicker">{t(s.kicker)}</div>
