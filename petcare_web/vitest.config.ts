@@ -9,6 +9,7 @@ export default defineConfig({
       '@': resolve(__dirname),
       '@/lib': resolve(__dirname, 'lib'),
       '@/components': resolve(__dirname, 'components'),
+      '@/app': resolve(__dirname, 'app'),
     },
   },
   test: {
