@@ -66,7 +66,15 @@ log = logging.getLogger("petcare.api")
 # ---------------------------------------------------------------------------
 # App
 # ---------------------------------------------------------------------------
-ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "*").split(",")
+ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "").split(",")
+ALLOWED_ORIGINS = [o.strip() for o in ALLOWED_ORIGINS if o.strip()]
+if not ALLOWED_ORIGINS:
+    ALLOWED_ORIGINS = [
+        "https://myveticare.com",
+        "https://www.myveticare.com",
+        "http://localhost:3000",
+        "http://localhost:3001",
+    ]
 
 app = FastAPI(
     title="PetCare Platform API",
@@ -78,9 +86,24 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "PATCH"],
+    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["*"],
+    expose_headers=["Set-Cookie"],
 )
+
+# ---------------------------------------------------------------------------
+# Auth router
+# ---------------------------------------------------------------------------
+from routers.auth import router as auth_router, seed_user
+app.include_router(auth_router)
+
+# Seed pilot test users (in-memory — no DB yet)
+seed_user("u-admin-001", "admin@myveticare.com", "PetCare2026!",
+          "platform_admin", "Platform Admin")
+seed_user("u-vet-001", "vet@myveticare.com", "PetCare2026!",
+          "veterinarian", "Dr. Test Vet")
+seed_user("u-owner-001", "owner@myveticare.com", "PetCare2026!",
+          "owner", "Test Owner")
 
 # ---------------------------------------------------------------------------
 # In-memory stores (pilot phase — DB wiring deferred to PH7)
