@@ -48,6 +48,15 @@ export default function SignInPage() {
       const data = await res.json()
       const role: string = data?.user?.role ?? ''
       setRoleCookie(role)
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('vc_user', JSON.stringify({
+          user_id: data.user.user_id,
+          email:   data.user.email,
+          name:    data.user.full_name || data.user.email,
+          role:    data.user.role,
+        }))
+        window.dispatchEvent(new Event('vc_user_changed'))
+      }
       router.replace(ROLE_REDIRECT[role] ?? '/')
     } catch {
       setError(t(s.errNetwork))

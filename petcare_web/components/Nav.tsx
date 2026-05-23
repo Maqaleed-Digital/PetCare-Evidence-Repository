@@ -5,22 +5,31 @@ import { useLang } from '@/components/LangProvider'
 import { LanguageToggle } from '@/components/LanguageToggle'
 import { STRINGS } from '@/lib/strings'
 
-type NavUser = { email: string; role: string; full_name: string }
-
 export function Nav() {
   const path = usePathname()
   const router = useRouter()
   const { t } = useLang()
-  const [user, setUser] = useState<NavUser | null>(null)
+  const [user, setUser] = useState<{ name: string; role: string } | null>(null)
   const [checked, setChecked] = useState(false)
 
   useEffect(() => {
-    const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL ?? '').replace(/\/$/, '')
-    fetch(`${apiBase}/api/auth/me`, { credentials: 'include' })
-      .then(r => (r.ok ? r.json() : null))
-      .then(data => setUser(data ?? null))
-      .catch(() => setUser(null))
-      .finally(() => setChecked(true))
+    if (typeof window === 'undefined') return
+    const read = () => {
+      const raw = localStorage.getItem('vc_user')
+      if (raw) {
+        try { setUser(JSON.parse(raw)) } catch { setUser(null) }
+      } else {
+        setUser(null)
+      }
+      setChecked(true)
+    }
+    read()
+    window.addEventListener('vc_user_changed', read)
+    window.addEventListener('storage', read)
+    return () => {
+      window.removeEventListener('vc_user_changed', read)
+      window.removeEventListener('storage', read)
+    }
   }, [])
 
   async function handleSignOut() {
@@ -29,6 +38,8 @@ export function Nav() {
       await fetch(`${apiBase}/api/auth/sign-out`, { method: 'POST', credentials: 'include' })
     } catch { /* ignore */ }
     document.cookie = 'petcare_role=; path=/; max-age=0'
+    localStorage.removeItem('vc_user')
+    window.dispatchEvent(new Event('vc_user_changed'))
     setUser(null)
     router.replace('/signin')
   }
@@ -49,7 +60,7 @@ export function Nav() {
         {!checked ? null : user ? (
           <>
             <span style={{ fontSize: 13, color: 'var(--text-muted, #666)', marginRight: 8 }}>
-              {user.full_name || user.email}
+              {user.name}
               <span style={{ marginLeft: 6, fontSize: 11, background: 'var(--accent-bg, #e8f0fe)', color: 'var(--accent, #1a56db)', borderRadius: 4, padding: '1px 6px' }}>
                 {user.role}
               </span>
