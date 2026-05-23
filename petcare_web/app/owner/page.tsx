@@ -14,10 +14,20 @@ export default function OwnerPage() {
           <div className="kicker">{t(s.kicker)}</div>
           <div className="title-lg">{t(s.title)}</div>
         </div>
-        <span className="badge badge-green">
-          <span className="icon-dot green" />{t(s.auditActive)}
-        </span>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
+          <span className="badge badge-green">
+            <span className="icon-dot green" />{t(s.auditActive)}
+          </span>
+          {/* Emergency entry — 1 tap from /owner to /owner/emergency.
+              Display-only triage; NOT a vet queue (WI-3 hard boundary). */}
+          <a href="/owner/emergency" className="emergency-cta" aria-label={t(s.emergencyCta)}>
+            <span aria-hidden="true">🚑</span>
+            <span>{t(s.emergencyCta)}</span>
+          </a>
+        </div>
       </div>
+
+      <p className="muted" style={{ fontSize: 13 }}>{t(s.emergencyHint)}</p>
 
       <div className="grid cols2">
         <div className="role-card">
