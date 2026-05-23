@@ -3,6 +3,11 @@
 import { useLang } from '@/components/LangProvider'
 import { STRINGS } from '@/lib/strings'
 import { FirstRunModal } from '@/components/FirstRunModal'
+import { AdvisoryDisclosureBanner } from '@/components/AdvisoryDisclosureBanner'
+import { ModeDisclosureBanner } from '@/components/ModeDisclosureBanner'
+import { ConfidenceBand } from '@/components/ConfidenceBand'
+import { ExplainabilityPanel } from '@/components/ExplainabilityPanel'
+import { AuditTrailLink } from '@/components/AuditTrailLink'
 
 export default function OwnerPage() {
   const { t } = useLang()
@@ -11,6 +16,9 @@ export default function OwnerPage() {
   return (
     <main className="stack" id="pets">
       <FirstRunModal />
+
+      <AdvisoryDisclosureBanner storageKey="vc_advisory_dismissed_owner" />
+
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
         <div>
           <div className="kicker">{t(s.kicker)}</div>
@@ -43,6 +51,8 @@ export default function OwnerPage() {
             <p className="subtitle">{t(s.petProfileSub)}</p>
           </div>
           <span className="muted">{t(s.petProfileEmpty)}</span>
+          {/* WI-5: "Add pet" CTA is deferred in the pilot — disclose honestly. */}
+          <ModeDisclosureBanner variant="badge" />
         </div>
 
         <div className="role-card">
@@ -56,6 +66,7 @@ export default function OwnerPage() {
             <p className="subtitle">{t(s.timelineSub)}</p>
           </div>
           <span className="muted">{t(s.timelineEmpty)}</span>
+          <ModeDisclosureBanner variant="badge" />
         </div>
 
         <div className="role-card">
@@ -69,6 +80,7 @@ export default function OwnerPage() {
             <p className="subtitle">{t(s.appointmentsSub)}</p>
           </div>
           <a className="button button-outline button-sm" href="#">{t(s.appointmentsBook)}</a>
+          <ModeDisclosureBanner variant="inline" />
         </div>
 
         <div className="role-card">
@@ -88,6 +100,19 @@ export default function OwnerPage() {
       <div className="note">
         <span className="muted">{t(s.governanceNote)}</span>
       </div>
+
+      {/*
+        WI-6 / WI-7 / WI-8 DARK SCAFFOLD MOUNT POINT.
+        All three components return null while FEATURE_AI is OFF, so this
+        aside renders empty in the pilot. When the flag activates and real
+        AI/agent outputs land, this is where confidence + explanation +
+        audit-trail link surface — wired and ready, no second build cycle.
+      */}
+      <aside data-testid="ai-surface-area" aria-hidden="true">
+        <ConfidenceBand confidence={0.0} />
+        <ExplainabilityPanel />
+        <AuditTrailLink eventHandle={null} />
+      </aside>
     </main>
   )
 }

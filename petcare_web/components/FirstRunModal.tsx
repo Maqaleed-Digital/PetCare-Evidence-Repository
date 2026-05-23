@@ -17,6 +17,7 @@
 import { useEffect, useState, useCallback } from 'react'
 import { useLang } from '@/components/LangProvider'
 import { STRINGS } from '@/lib/strings'
+import { AdvisoryDisclosureBanner } from '@/components/AdvisoryDisclosureBanner'
 
 const FLAG_KEY = 'vc_firstrun_done'
 const TOTAL_STEPS = 3
@@ -77,6 +78,11 @@ export function FirstRunModal() {
           <div id="firstrun-title" className="title-lg">{t(s.welcomeTitle)}</div>
           <p className="subtitle" style={{ marginTop: 6 }}>{t(s.welcomeSub)}</p>
         </div>
+
+        {/* WI-1 (MVC-UX-WO-002): advisory disclosure inside the first-run
+            so owners see the "guidance, not clinical decision" framing
+            before stepping through. */}
+        <AdvisoryDisclosureBanner storageKey="vc_advisory_dismissed_firstrun" />
 
         <div className="card-sm card" style={{ borderColor: 'var(--accent-light)' }}>
           <span className="badge badge-blue" style={{ marginBottom: 10 }}>{stepCopy.badge}</span>
