@@ -12,7 +12,41 @@ log = logging.getLogger("petcare.api.auth")
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
-SECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-in-prod")
+def _require_secret_key() -> str:
+    """Session signing key — required, never defaulted.
+
+    W0-A (MVC-EXEC / CP-2 Wave 0). This was previously
+    `os.getenv("SECRET_KEY", "dev-secret-change-in-prod")`. A literal fallback
+    means that wherever the variable is unset, every session token is signed
+    with a key published in the source tree and is therefore forgeable by
+    anyone who can read this repository.
+
+    This ordering is binding and must not be reversed: the fallback is removed
+    BEFORE W0-B binds authorization to the session. Binding authorization to a
+    session signed with a publicly-known key would replace a header bypass with
+    a forgery bypass - strictly worse, because forged sessions look legitimate.
+
+    The process refuses to start rather than run with an unknown-provenance key.
+    The governed secret source (AWS Secrets Manager vs SSM Parameter Store) is
+    deferred to the MyVetiCare AWS architecture decision; this function is
+    indifferent to which supplies the environment.
+    """
+    key = os.getenv("SECRET_KEY")
+    if not key or not key.strip():
+        raise RuntimeError(
+            "SECRET_KEY is not set. Refusing to start: a session signing key "
+            "must come from governed secret storage and has no safe default. "
+            "See W0-A."
+        )
+    if key.strip() == "dev-secret-change-in-prod":
+        raise RuntimeError(
+            "SECRET_KEY is the retired literal default. Refusing to start: "
+            "tokens signed with it are forgeable. Rotate before use. See W0-A."
+        )
+    return key
+
+
+SECRET_KEY = _require_secret_key()
 COOKIE_NAME_SESSION = "petcare_session"
 COOKIE_NAME_ROLE = "petcare_role"
 COOKIE_MAX_AGE = 60 * 60 * 8  # 8 hours
