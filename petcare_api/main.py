@@ -595,13 +595,56 @@ def create_pet(
 # ---------------------------------------------------------------------------
 # Governance status
 # ---------------------------------------------------------------------------
+def _audit_chain_active() -> bool:
+    """Whether a governed, verifiable audit chain is wired into THIS serving path.
+
+    Computed, never asserted. The chain algorithm exists at
+    petcare_execution/FND/security/audit_chain.py (canonical-JSON SHA-256,
+    compute_event_hash + verify_hash_chain) but is not imported here, no
+    prev_hash/event_hash is persisted, and the audit log in this process is an
+    in-memory list. Until W0-G wires it, the honest answer is False.
+
+    W0-G replaces this with a real verification against persisted chain state.
+    """
+    for ev in _audit_log:
+        if not (ev.get("prev_hash") and ev.get("event_hash")):
+            return False
+    return bool(_audit_log)
+
+
 @app.get("/api/governance/status")
 def governance_status():
+    """Governance posture, COMPUTED from live state.
+
+    MVC-INC-ATTEST-001 (W0-E): this endpoint previously returned hard-coded
+    literals asserting audit_chain_active=true and fail_closed=true while
+    nothing evaluated either claim. An absent control is a gap; an absent
+    control that reports itself present is a misrepresentation, and would have
+    satisfied a reviewer who queried it.
+
+    Every field below is either computed or reported as not-established. No
+    field may be reintroduced as a constant.
+    """
+    chain_active = _audit_chain_active()
     return {
-        "constitutional_status": "OPERATING_UNDER_SEALED_CONSTITUTION",
-        "platform_state": "CONTROLLED_PRODUCTION_ACTIVE_UNDER_CONSTITUTION",
-        "no_autonomous_execution": True,
-        "audit_chain_active": True,
-        "fail_closed": True,
+        # Computed from the serving path, not asserted.
+        "audit_chain_active": chain_active,
+        "audit_chain_verification": (
+            "VERIFIED" if chain_active else "NOT_WIRED_INTO_SERVING_PATH"
+        ),
+        # fail_closed cannot be evaluated from inside this process while
+        # authorization derives from a client-supplied header (W0-B). Reporting
+        # it as a boolean at all would repeat the original defect.
+        "fail_closed": "NOT_ESTABLISHED",
+        "fail_closed_reason": "authorization not bound to verified identity (W0-B pending)",
+        # Previously fixed strings claiming a sealed constitution and active
+        # production governance. Neither is computable here.
+        "constitutional_status": "NOT_ESTABLISHED_BY_THIS_SERVICE",
+        "platform_state": "NOT_ESTABLISHED_BY_THIS_SERVICE",
+        "no_autonomous_execution": "NOT_ESTABLISHED",
+        "attestation_note": (
+            "This service makes no governance attestation it cannot compute. "
+            "See MVC-INC-ATTEST-001."
+        ),
         "ts": utc_now_iso(),
     }
