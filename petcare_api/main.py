@@ -95,7 +95,7 @@ app.add_middleware(
 # Auth router
 # ---------------------------------------------------------------------------
 from routers.auth import (router as auth_router, seed_user, seed_invite_code,
-                          read_session)
+                          read_session, require_tenant)
 app.include_router(auth_router)
 
 # Seed pilot test users (in-memory — no DB yet)
@@ -261,6 +261,7 @@ class AppointmentRequest(BaseModel):
 
 @app.post("/api/appointments")
 def book_appointment(
+    request: Request,
     body: AppointmentRequest,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
@@ -275,7 +276,7 @@ def book_appointment(
         "pet_id": body.pet_id,
         "owner_id": body.owner_id,
         "clinic_id": body.clinic_id,
-        "tenant_id": body.tenant_id,
+        "tenant_id": require_tenant(request, body.tenant_id),
         "status": "REQUESTED",
         "requested_at": body.requested_at or now,
         "created_at": now,
@@ -286,7 +287,7 @@ def book_appointment(
         event_name="appointment.booked",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="appointment",
         resource_id=appt_id,
         action_result="success",
@@ -330,6 +331,7 @@ class ConsultationRequest(BaseModel):
 
 @app.post("/api/consultations")
 def start_consultation(
+    request: Request,
     body: ConsultationRequest,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
@@ -344,7 +346,7 @@ def start_consultation(
         "pet_id": body.pet_id,
         "owner_id": body.owner_id,
         "veterinarian_id": body.veterinarian_id,
-        "tenant_id": body.tenant_id,
+        "tenant_id": require_tenant(request, body.tenant_id),
         "clinic_id": body.clinic_id,
         "status": SESSION_REQUESTED,
         "created_at": now,
@@ -357,7 +359,7 @@ def start_consultation(
         event_name="consultation.session.requested",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="consultation_session",
         resource_id=session_id,
         action_result="success",
@@ -397,6 +399,7 @@ class NoteRequest(BaseModel):
 
 @app.post("/api/consultations/{session_id}/notes")
 def create_note(
+    request: Request,
     session_id: str,
     body: NoteRequest,
     role: str = Depends(require_role),
@@ -426,7 +429,7 @@ def create_note(
         event_name="consultation.note.created",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="consultation_note",
         resource_id=note_id,
         action_result="success",
@@ -436,11 +439,11 @@ def create_note(
 
 @app.post("/api/consultations/notes/{note_id}/sign")
 def sign_note(
+    request: Request,
     note_id: str,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
-    x_tenant_id: str = Header(default="platform"),
 ):
     if role != ROLE_VETERINARIAN:
         raise HTTPException(403, "Only vets may sign notes")
@@ -457,7 +460,7 @@ def sign_note(
         event_name="consultation.note.signed",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=x_tenant_id,
+        tenant_id=require_tenant(request),
         resource_type="consultation_note",
         resource_id=note_id,
         action_result="success",
@@ -481,6 +484,7 @@ class PrescriptionRequest(BaseModel):
 
 @app.post("/api/prescriptions")
 def issue_prescription(
+    request: Request,
     body: PrescriptionRequest,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
@@ -495,7 +499,7 @@ def issue_prescription(
         "pet_id": body.pet_id,
         "session_id": body.session_id,
         "issuing_vet_id": x_actor_id,
-        "tenant_id": body.tenant_id,
+        "tenant_id": require_tenant(request, body.tenant_id),
         "clinic_id": body.clinic_id,
         "medication_name": body.medication_name,
         "dosage": body.dosage,
@@ -509,7 +513,7 @@ def issue_prescription(
         event_name="prescription.issued",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="prescription",
         resource_id=rx_id,
         action_result="success",
@@ -543,11 +547,11 @@ def get_prescription(
 
 @app.post("/api/prescriptions/{prescription_id}/dispense")
 def dispense_prescription(
+    request: Request,
     prescription_id: str,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
-    x_tenant_id: str = Header(default="platform"),
 ):
     if role != ROLE_PHARMACY_OPERATOR:
         raise HTTPException(403, "Only pharmacy operators may dispense prescriptions")
@@ -563,7 +567,7 @@ def dispense_prescription(
         event_name="prescription.dispensed",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=x_tenant_id,
+        tenant_id=require_tenant(request),
         resource_type="prescription",
         resource_id=prescription_id,
         action_result="success",
@@ -582,6 +586,7 @@ class PetRequest(BaseModel):
 
 @app.post("/api/pets")
 def create_pet(
+    request: Request,
     body: PetRequest,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
@@ -590,7 +595,7 @@ def create_pet(
     if role not in {ROLE_OWNER, ROLE_PLATFORM_ADMIN}:
         raise HTTPException(403, "Only owners or admins may create pet profiles")
     pet = uphr_service.create_pet(
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         owner_id=body.owner_id,
         name=body.name,
         species=body.species,
@@ -599,7 +604,7 @@ def create_pet(
         event_name="pet.profile.created",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="pet",
         resource_id=pet.pet_id,
         action_result="success",

@@ -68,14 +68,22 @@ _invite_codes: dict[str, dict] = {}
 
 
 def seed_user(user_id: str, email: str, password: str, role: str,
-              full_name: str | None = None):
-    """Add a user to the in-memory store. Called at startup."""
+              full_name: str | None = None, tenant_id: str | None = None):
+    """Add a user to the in-memory store. Called at startup.
+
+    W0-C: tenant_id is an attribute of the IDENTITY, established server-side.
+    Before this change no tenant existed server-side at all - not on the user,
+    not in the session - so there was nothing to authorize a request's tenant
+    against, and every route simply trusted `body.tenant_id`. Persisting this
+    per-user assignment is completed by W0-F.
+    """
     _users[email] = {
         "id": user_id,
         "email": email,
         "password_hash": _hash_password(password),
         "role": role,
         "full_name": full_name or email,
+        "tenant_id": tenant_id,
     }
 
 
@@ -144,7 +152,8 @@ async def sign_in(body: SignInRequest):
     name = user["full_name"]
 
     token = _serializer().dumps(
-        {"user_id": user_id, "email": body.email, "role": role}
+        {"user_id": user_id, "email": body.email, "role": role,
+         "tenant_id": user.get("tenant_id")}
     )
 
     _audit("auth.sign_in_success",
@@ -268,6 +277,32 @@ def read_session(request: Request) -> dict:
     if not isinstance(payload, dict) or not payload.get("role"):
         raise HTTPException(status_code=401, detail={"error": "INVALID_SESSION"})
     return payload
+
+
+def require_tenant(request: Request, requested: str | None = None) -> str:
+    """The caller's authorized tenant. Server-derived, never client-supplied.
+
+    W0-C. A client-supplied tenant identifier may act as a RESOURCE SELECTOR
+    only after it is authorized against this value - it is never authority.
+    There is deliberately NO default: the previous
+    `x_tenant_id: Header(default="platform")` meant an omitted header silently
+    granted the "platform" scope.
+    """
+    payload = read_session(request)
+    authorized = payload.get("tenant_id")
+    if not authorized:
+        raise HTTPException(
+            status_code=403,
+            detail={"error": "NO_TENANT_AUTHORITY",
+                    "reason": "identity carries no server-side tenant assignment"},
+        )
+    if requested is not None and requested != authorized:
+        raise HTTPException(
+            status_code=403,
+            detail={"error": "TENANT_SCOPE_DENIED",
+                    "reason": "requested tenant is not authorized for this identity"},
+        )
+    return authorized
 
 
 # ── GET /api/auth/me ──────────────────────────────────────────────
