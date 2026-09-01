@@ -94,7 +94,8 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 # Auth router
 # ---------------------------------------------------------------------------
-from routers.auth import router as auth_router, seed_user, seed_invite_code
+from routers.auth import (router as auth_router, seed_user, seed_invite_code,
+                          read_session)
 app.include_router(auth_router)
 
 # Seed pilot test users (in-memory — no DB yet)
@@ -124,15 +125,30 @@ consent_repo = ConsentRepository(
 )
 
 # ---------------------------------------------------------------------------
-# Auth helpers (pilot: role from header; production: JWT validation)
+# Auth helpers — authorization derives from the validated session (W0-B)
 # ---------------------------------------------------------------------------
 VALID_ROLES = {ROLE_OWNER, ROLE_VETERINARIAN, ROLE_PHARMACY_OPERATOR,
                ROLE_PLATFORM_ADMIN, ROLE_PARTNER_CLINIC_ADMIN}
 
-def require_role(x_petcare_role: str = Header(...)) -> str:
-    if x_petcare_role not in VALID_ROLES:
-        raise HTTPException(403, f"Unknown role: {x_petcare_role}")
-    return x_petcare_role
+
+def require_role(request: Request) -> str:
+    """Caller's role, derived from the signed session. Never from a header.
+
+    W0-B. This previously read `X-Petcare-Role` and only checked that the
+    string was a known role name - so any client could assert any role, and
+    every `if role != ROLE_X` guard in this module rested on a value the caller
+    chose. There was no authentication in the authorization path at all.
+
+    The role now comes from the session payload written server-side at sign-in.
+    `X-Petcare-Role` is accepted by FastAPI (clients still send it) but carries
+    ZERO authority: it is never read here, and a header that disagrees with the
+    session is simply ignored rather than honoured.
+    """
+    payload = read_session(request)
+    role = payload.get("role")
+    if role not in VALID_ROLES:
+        raise HTTPException(403, f"Unknown role: {role}")
+    return role
 
 def require_admin(role: str = Depends(require_role)) -> str:
     if role != ROLE_PLATFORM_ADMIN:

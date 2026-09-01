@@ -244,6 +244,32 @@ async def register(body: RegisterRequest):
     return resp
 
 
+# ── Session identity (W0-B) ───────────────────────────────────────
+def read_session(request: Request) -> dict:
+    """Return the validated session payload, or raise 401.
+
+    W0-B. This is the ONLY source of authority for authorization decisions.
+    The payload is signed with the key W0-A now requires from governed secret
+    storage, so its `role` was written server-side at sign-in from the user
+    record - it cannot be supplied or altered by the caller.
+
+    The non-httponly `petcare_role` cookie is a display convenience for the
+    browser and carries NO authority; it is deliberately not read here.
+    """
+    token = request.cookies.get(COOKIE_NAME_SESSION)
+    if not token:
+        raise HTTPException(status_code=401, detail={"error": "NOT_AUTHENTICATED"})
+    try:
+        payload = _serializer().loads(token, max_age=COOKIE_MAX_AGE)
+    except SignatureExpired:
+        raise HTTPException(status_code=401, detail={"error": "SESSION_EXPIRED"})
+    except BadSignature:
+        raise HTTPException(status_code=401, detail={"error": "INVALID_SESSION"})
+    if not isinstance(payload, dict) or not payload.get("role"):
+        raise HTTPException(status_code=401, detail={"error": "INVALID_SESSION"})
+    return payload
+
+
 # ── GET /api/auth/me ──────────────────────────────────────────────
 @router.get("/me")
 async def me(request: Request):
