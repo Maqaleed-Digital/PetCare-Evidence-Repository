@@ -24,8 +24,14 @@ HDRS = {"X-Actor-Id": "actor-1"}
 
 
 def _session_for(role: str, email: str) -> str:
-    """A genuine signed session cookie, minted the way sign-in mints it."""
-    auth.seed_user("u-" + role, email, "pw", role)
+    """A genuine signed session cookie, minted the way sign-in mints it.
+
+    W0-C made tenant authority a server-side attribute of identity, so a user
+    seeded without one now correctly fails closed with NO_TENANT_AUTHORITY.
+    These fixtures carry a tenant because they test the ROLE guard, not the
+    tenant guard - which has its own suite.
+    """
+    auth.seed_user("u-" + role, email, "pw", role, tenant_id="t1")
     r = client.post("/api/auth/sign-in", json={"email": email, "password": "pw"})
     assert r.status_code == 200, r.text
     return r.cookies["petcare_session"]
