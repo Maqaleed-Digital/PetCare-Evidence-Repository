@@ -127,7 +127,12 @@ consent_repo = ConsentRepository(
 # ---------------------------------------------------------------------------
 # Auth helpers — authorization derives from the validated session (W0-B)
 # ---------------------------------------------------------------------------
-VALID_ROLES = {ROLE_OWNER, ROLE_VETERINARIAN, ROLE_PHARMACY_OPERATOR,
+# W0-D. PHARMACY_OPERATOR is deliberately ABSENT. BRD V3.2 s4 records that
+# PRD-09/sS2.6 has not decided whether it is a staff permission, a counterparty
+# class, or a held seam; admitting it is a Sponsor product act and "may never
+# arrive as a role-catalogue migration". Acceptance fails if it appears in any
+# environment. It was previously present AND was the sole dispensing authority.
+VALID_ROLES = {ROLE_OWNER, ROLE_VETERINARIAN,
                ROLE_PLATFORM_ADMIN, ROLE_PARTNER_CLINIC_ADMIN}
 
 
@@ -553,8 +558,22 @@ def dispense_prescription(
     x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
-    if role != ROLE_PHARMACY_OPERATOR:
-        raise HTTPException(403, "Only pharmacy operators may dispense prescriptions")
+    # REQ-DISP-AUTH-FAILCLOSED (BRD V3.2 s11.1). Dispensing acts whose
+    # professional-authority class is unclassified fail closed to VETERINARIAN.
+    # This route previously required PHARMACY_OPERATOR and DENIED the
+    # veterinarian - the exact inversion of the governed invariant, using a role
+    # the specification says must not exist. Two acts remain deliberately
+    # unclassified pending a regulatory fact this estate does not hold: whether
+    # a non-veterinarian may lawfully dispense a veterinary medicine in KSA, and
+    # witness qualification for wastage. Until a RATIFIED professional-authority
+    # rule names another actor class, veterinarian only. This is a fail-closed
+    # DEFAULT, not a determination, and must not be widened for convenience.
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(
+            403,
+            "Dispensing is restricted to a veterinarian: the professional-authority "
+            "class for this act is unclassified (REQ-DISP-AUTH-FAILCLOSED)",
+        )
     rx = _prescriptions.get(prescription_id)
     if not rx:
         raise HTTPException(404, "Prescription not found")
