@@ -50,10 +50,26 @@ Accounts reachable: `822127611052` (stage-a / stage-b) and `293528978461`
 | legacy account (me-central-1, eu-central-1, us-east-1) | none |
 
 ECS clusters, eu-central-1: `workcaptain-production`, `societa-production`,
-`s2ppro-production`, `md-web`. me-central-1: none.
+`s2ppro-production`, `md-web-preprod`. me-central-1: none.
 
 **No `petcare-*` ECR repository and no petcare ECS cluster exists in either
-account.** The AWS estate runs four other Maqaleed projects.
+account.** The AWS estate runs other Maqaleed projects only.
+
+### Exhaustive sweep
+
+The table above came from targeted checks. A subsequent sweep of **all 25
+enumerated regions across both accounts** returned ECR repositories in exactly
+two regions — `me-central-1` and `eu-central-1`, both under `822127611052` — and
+ECS clusters in exactly one, `eu-central-1`. The legacy account `293528978461`
+returned **no ECR repository in any region**. Nothing named `petcare` appeared
+anywhere.
+
+That sweep does **not** upgrade region coverage to complete, and the reason is
+worth stating plainly: it suppressed stderr, so an unreachable region and an
+empty region produce identical silence. `me-south-1` timed out under the
+targeted check, and in the sweep it is indistinguishable from a region that
+simply holds nothing. Silence is not absence. Coverage therefore remains 24 of
+25 and `PROVEN_NONE` remains `NO` on that count as well as on the larger one.
 
 ```
 VULNERABLE_ECR_IMAGE_FOUND            = NO
