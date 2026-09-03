@@ -1,0 +1,49 @@
+{
+  "decision_id": "MVC-GOV-CANON-001",
+  "title": "Canonical Repository Authority - MyVetiCare",
+  "status": "ACTIVE",
+  "effective_date": "2026-09-03",
+  "authority": "Sponsor determination, execution instruction of 2026-09-03",
+  "resolves": [
+    "MARKETPLACE_CANONICAL_CODEBASE_AUTHORITY"
+  ],
+  "decision_document": "petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/CANONICAL_REPOSITORY_AUTHORITY_DECISION.md",
+  "decision_sha256": "fc485a7796d416986e8813c05f3e83363b9ae71a0972f7401efd816b465d8417",
+  "canonical_repository": "petcare-evidence-repository",
+  "canonical_remote": "git@github.com:Maqaleed-Digital/PetCare-Evidence-Repository.git",
+  "secondary_repository": "petcare-platform",
+  "secondary_disposition": "LEGACY_TO_PORT_FROM",
+  "secondary_remote": "git@github.com:Waheebow/PetCare-Platform.git",
+  "marketplace_canonical_location": "petcare_runtime/src/petcare/partner_network/",
+  "ep07_seal_status": "PRESERVED",
+  "ep07_seal_commit": "11f2a3714e57c23ef9f93ac18b3b64e0c2e51834",
+  "prohibitions": {
+    "marketplace_rebuild_in_secondary": true,
+    "new_feature_development_in_secondary": true,
+    "marketplace_activation": true
+  },
+  "does_not_authorize": [
+    "production_deployment",
+    "live_database_changes",
+    "odoo_access",
+    "zatca_access",
+    "external_credential_entry",
+    "marketplace_activation",
+    "remote_push_of_local_only_petcare_platform_history",
+    "human_acceptance_closure",
+    "regulatory_or_dpo_gate_closure"
+  ],
+  "open_exceptions": [
+    {
+      "id": "GATE_EVIDENCE_UNVERSIONED",
+      "detail": "evidence/ is 40 files on disk and 0 tracked in git in BOTH repositories; 104 petcare-platform CLOSED_EVIDENCED requirements cite these paths",
+      "status": "GOVERNANCE_EXCEPTION_OPEN"
+    },
+    {
+      "id": "EPIC_IDENTIFIER_COLLISION",
+      "detail": "EP-06 = Emergency Network (this repo's PLANNING authority) vs Security/Audit/Ops (petcare-platform register)",
+      "status": "OPEN",
+      "remediation_constraint": "alias/namespace only; never rewrite sealed evidence"
+    }
+  ]
+}
