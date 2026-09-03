@@ -1,0 +1,15 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/waheebmahmoud/dev/petcare-platform/app/backend/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/waheebmahmoud/dev/petcare-platform
+plugins: anyio-4.12.1, cov-7.1.0
+collecting ... collected 6 items
+
+tests/test_phase05_acquire.py::test_register_with_valid_invite_creates_user PASSED [ 16%]
+tests/test_phase05_acquire.py::test_register_with_used_invite_returns_400 PASSED [ 33%]
+tests/test_phase05_acquire.py::test_register_with_expired_invite_returns_400 PASSED [ 50%]
+tests/test_phase05_acquire.py::test_waitlist_post_returns_201_and_emits_audit PASSED [ 66%]
+tests/test_phase05_acquire.py::test_forgot_password_generates_reset_token PASSED [ 83%]
+tests/test_phase05_acquire.py::test_notification_send_with_stub_does_not_throw PASSED [100%]
+
+============================== 6 passed in 2.02s ===============================

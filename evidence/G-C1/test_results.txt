@@ -1,0 +1,17 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/waheebmahmoud/dev/petcare-platform/app/backend/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/waheebmahmoud/dev/petcare-platform
+plugins: anyio-4.12.1, cov-7.1.0
+collecting ... collected 8 items
+
+tests/test_phase01_clinical.py::test_sign_consultation_succeeds_first_call PASSED [ 12%]
+tests/test_phase01_clinical.py::test_sign_consultation_raises_409_on_second_call PASSED [ 25%]
+tests/test_phase01_clinical.py::test_verify_integrity_valid_for_intact_record PASSED [ 37%]
+tests/test_phase01_clinical.py::test_verify_integrity_invalid_after_mutation PASSED [ 50%]
+tests/test_phase01_clinical.py::test_patch_signed_consultation_returns_409 PASSED [ 62%]
+tests/test_phase01_clinical.py::test_escalation_dog_breathing_difficulty_is_critical PASSED [ 75%]
+tests/test_phase01_clinical.py::test_escalation_cat_weight_loss_is_urgent PASSED [ 87%]
+tests/test_phase01_clinical.py::test_escalation_no_flags_returns_routine PASSED [100%]
+
+============================== 8 passed in 1.50s ===============================
