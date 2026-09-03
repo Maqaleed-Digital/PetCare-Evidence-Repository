@@ -1,0 +1,6 @@
+417195fa1fd0f3bee18f500251a4b6ef8ef05830 security(W0): bind the A-before-B ordering as a standing invariant
+2a995e9253c76ab3e71c62e2eb3d9a07e2092ab7 W0-D: dispensing fails closed to veterinarian; retire PHARMACY_OPERATOR
+b32334553672ad757443efa5ee3332e692f48436 W0-C: derive tenant scope from identity; client values become selectors
+c7ca186bdf6d5bcef8161af13c3cdc49ac922d65 W0-B: derive authorization from the validated session, not a header
+e98ee966162fb75cc3fafcf35c77ed67501d0879 W0-A: require the session signing key; remove the literal fallback
+b475502cb7ed4f99f0d6fdcfaf28fc3f8a8f4386 W0-E: stop asserting governance controls this service cannot compute

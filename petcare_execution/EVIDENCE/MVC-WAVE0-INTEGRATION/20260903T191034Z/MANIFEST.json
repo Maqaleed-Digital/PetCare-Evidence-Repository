@@ -1,0 +1,22 @@
+{
+  "bundle_id": "MVC-WAVE0-INTEGRATION-20260903T191034Z",
+  "artefact_count": 3,
+  "artefacts": [
+    {
+      "name": "RUN_RECORD.json",
+      "sha256": "978876e735a6d10f0f284b33951354624d5b943778de2572d7a7f8765e22a5b9",
+      "bytes": 3475
+    },
+    {
+      "name": "git_log.txt",
+      "sha256": "435cd5e169ac726e7ec04c31080602d9d128d890458cfeef1fc5cc98aa48e6db",
+      "bytes": 880
+    },
+    {
+      "name": "wave0_integrated_range.txt",
+      "sha256": "a5ba1562cb627b75ef2eefea72fa26d746b7b1bec490d57f02a66ddee9d2b932",
+      "bytes": 660
+    }
+  ],
+  "bundle_sha256": "8af70c85220ea20c4090fbe7ecda184efc5fe05246b4c9667d02c7683fdd35af"
+}
