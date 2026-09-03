@@ -1,0 +1,12 @@
+417195fa security(W0): bind the A-before-B ordering as a standing invariant
+2a995e92 W0-D: dispensing fails closed to veterinarian; retire PHARMACY_OPERATOR
+b3233455 W0-C: derive tenant scope from identity; client values become selectors
+c7ca186b W0-B: derive authorization from the validated session, not a header
+e98ee966 W0-A: require the session signing key; remove the literal fallback
+b475502c W0-E: stop asserting governance controls this service cannot compute
+91cde6e3 evidence: hashed custody-closure run
+3f813c58 custody: close GATE_EVIDENCE_UNVERSIONED with the proof chain
+88aa9d7b custody: bind every cited evidence path to a hash
+393e1cef custody: version evidence bytes and bind them against normalisation
+0b0ea13e govern(port): differential, port plan, and hashed canonicalisation evidence
+6e4cbccd port(PORT-03): error boundaries, ported as behaviour not as code
