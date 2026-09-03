@@ -1,0 +1,27 @@
+{
+  "bundle_id": "MVC-EVIDENCE-CUSTODY-CLOSURE-20260903T185135Z",
+  "artefact_count": 4,
+  "artefacts": [
+    {
+      "name": "EVIDENCE_CUSTODY_INDEX.json",
+      "sha256": "864d2e1b1fbad4554c2cf524f29d2d2b5adfcd4b5702d58a8939ab2c3f402a3f",
+      "bytes": 8851
+    },
+    {
+      "name": "GATE_EVIDENCE_UNVERSIONED_CLOSURE.md",
+      "sha256": "1b8af3640552d6f542ef678a3c58e89e26aed7cb23f84a57ceaec82d84545cec",
+      "bytes": 3503
+    },
+    {
+      "name": "RUN_RECORD.json",
+      "sha256": "239cffbb58e08e40e50c696601fa3d45542b0342497524ca0bafd3d7e29ff016",
+      "bytes": 3889
+    },
+    {
+      "name": "git_log.txt",
+      "sha256": "ef58769a94b0919751011b6cd84ab95ea18413dba26a1658973dca2d3db943c3",
+      "bytes": 767
+    }
+  ],
+  "bundle_sha256": "8913fc37c543b75949a01076e54dfe7e607635a12f8c3d9b61ef5a4a7c10d90b"
+}
