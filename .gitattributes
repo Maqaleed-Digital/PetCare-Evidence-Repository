@@ -1,0 +1,8 @@
+# Evidence bytes are constitutional inputs.
+#
+# Gate evidence is cited by hash. If Git ever normalised a line ending on the
+# way into or out of the index, the cited hash would stop matching the file and
+# the citation would read as tampering rather than as a config change. Marking
+# the tree -text takes that possibility off the table regardless of what
+# core.autocrlf or core.eol are set to on any future machine.
+evidence/** -text

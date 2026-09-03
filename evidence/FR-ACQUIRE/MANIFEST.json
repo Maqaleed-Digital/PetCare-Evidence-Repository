@@ -1,0 +1,32 @@
+{
+  "phase": "PHASE-05",
+  "gate": "FR-ACQUIRE",
+  "title": "Owner Registration + Notifications",
+  "status": "AWAITING_HUMAN_CLOSURE",
+  "timestamp": "2026-04-17T00:00:00Z",
+  "tests": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0,
+    "file": "tests/test_phase05_acquire.py"
+  },
+  "artefacts": [
+    "test_results.txt",
+    "notification_templates.md",
+    "MANIFEST.json"
+  ],
+  "files_created": [
+    "app/backend/routes/registration_routes.py",
+    "app/backend/services/notification_service.py",
+    "app/backend/scheduler.py",
+    "tests/test_phase05_acquire.py"
+  ],
+  "files_modified": [
+    "app/backend/server.py"
+  ],
+  "constraints": {
+    "registration_gate": "Pilot-gated — invite code required. DO NOT open public registration without programme governor approval.",
+    "credentials": "All PSP and notification credentials via env vars only. Never hardcoded."
+  },
+  "governance_note": "Gate closure requires human authority. Claude Code has not approved any gate."
+}
