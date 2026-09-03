@@ -1,0 +1,60 @@
+{
+  "pack": "MVC-CANONICALISATION-PORT",
+  "generated_utc": "2026-09-03T18:31:00.629792+00:00",
+  "CANONICAL_REPOSITORY": "petcare-evidence-repository",
+  "CANONICAL_HEAD_START": "e93e083b61f9833e7a8cd108df05647a162f6a37",
+  "CANONICAL_HEAD_END": "6e4cbccd8a90a499c7cb0efc37c95444e014f511",
+  "CANONICAL_BRANCH": "govern/canonical-repository-authority",
+  "CANONICAL_REMOTE": "git@github.com:Maqaleed-Digital/PetCare-Evidence-Repository.git",
+  "REMOTE_IDENTITY_STATUS": "RESOLVED - Maqaleed-Digital is the configured origin; Waheebow/PetCare-Evidence-Repository is not a configured remote here",
+  "PORT_SOURCE_REPOSITORY": "petcare-platform",
+  "PORT_SOURCE_HEAD": "cfb440d1dc008fcbde8fb6b333b491aa0f0cec87",
+  "PORT_SOURCE_DISPOSITION": "LEGACY_TO_PORT_FROM",
+  "AUTHORITY_DECISION_PATH": "/Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/CANONICAL_REPOSITORY_AUTHORITY_DECISION.md",
+  "AUTHORITY_DECISION_SHA256": "fc485a7796d416986e8813c05f3e83363b9ae71a0972f7401efd816b465d8417",
+  "CANONICAL_AUTHORITY_LODGED": "YES",
+  "EP07_STATUS": "CLOSED_GOVERNANCE_SEALED",
+  "EP07_SEAL_PRESERVED": "YES",
+  "EP07_SEAL_COMMIT": "11f2a3714e57c23ef9f93ac18b3b64e0c2e51834",
+  "MARKETPLACE_CANONICAL_PATH": "petcare_runtime/src/petcare/partner_network/",
+  "MARKETPLACE_ACTIVATED": "NO",
+  "DUPLICATE_MARKETPLACE_BUILD": "NO",
+  "DUPLICATE_MARKETPLACE_VERIFIED": "0 occurrences of 'marketplace' in petcare-platform",
+  "EP06_COLLISION_STATUS": "CONFIRMED_FROM_PRIMARY_SOURCES - OPEN, alias-only remediation",
+  "SERVING_LAYER_DIFFERENTIAL": "Next.js 14 + TypeScript (canonical) vs CRA + JavaScript (port source). No file ports; behaviour and assertions port only.",
+  "PORT_TRANCHES_TOTAL": 10,
+  "PORT_COMPLETED": 1,
+  "PORT_REMAINING_SAFE": 9,
+  "PORT_COMPLETED_IDS": [
+    "PORT-03 error boundaries"
+  ],
+  "CANONICAL_TESTS_RUN": 76,
+  "CANONICAL_TESTS_PASS": 76,
+  "CANONICAL_TESTS_FAIL": 0,
+  "CANONICAL_TYPECHECK": "PASS (tsc --noEmit, exit 0)",
+  "PORT_SOURCE_TESTS": 363,
+  "OPEN_EXCEPTIONS": [
+    {
+      "id": "GATE_EVIDENCE_UNVERSIONED",
+      "detail": "evidence/ = 40 files on disk, 0 tracked in git, in BOTH repositories; 104 port-source CLOSED_EVIDENCED requirements cite those paths"
+    },
+    {
+      "id": "EPIC_IDENTIFIER_COLLISION",
+      "detail": "EP-06 Emergency Network vs EP-06 Security/Audit/Ops"
+    },
+    {
+      "id": "WEB_TREE_DUPLICATION_OPEN",
+      "detail": "petcare_web/ (68 tracked) vs petcare-web/ (79 tracked); relationship unestablished"
+    },
+    {
+      "id": "CANONICAL_HEAD_LOCAL_ONLY",
+      "detail": "wave0/w0-d-dispensing-fail-closed is 8 ahead of main, no upstream"
+    }
+  ],
+  "MUST_NOT_PORT": "pharmacy_operator role - canonical W0-D retires it and fails dispensing closed to the veterinarian; the port source still carries it as first-class",
+  "PRODUCTION_MUTATED": "NO",
+  "LIVE_DB_APPLIED": "NO",
+  "ODOO_LIVE_ACCESS": "NO",
+  "ZATCA_LIVE_ACCESS": "NO",
+  "PETCARE_PLATFORM_REMOTE_PUSHED": "NO"
+}
