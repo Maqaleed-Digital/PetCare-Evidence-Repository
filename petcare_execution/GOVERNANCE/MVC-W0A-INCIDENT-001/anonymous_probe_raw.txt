@@ -1,0 +1,321 @@
+OBSERVED_AT_UTC=2026-09-03T20:49:34Z
+CURL_VERSION=curl 8.7.1 (x86_64-apple-darwin25.0) libcurl/8.7.1 (SecureTransport) LibreSSL/3.3.6 zlib/1.2.12 nghttp2/1.68.1
+
+==============================================================
+LABEL=TARGET_API
+HOST=petcare-api-prod-232802712581.me-central2.run.app
+--- DNS ---
+DNS=34.143.72.2
+DNS=34.143.74.2
+DNS=34.143.76.2
+DNS=34.143.78.2
+DNS=34.143.73.2
+DNS=34.143.79.2
+DNS=34.143.75.2
+DNS=34.143.77.2
+DNS_CNAME=
+--- GET / ---
+GET_RESULT=500|2600:1900:4245:200::|0|0
+HEADERS>>>
+  HTTP/2 500
+  x-cloud-trace-context: 063ee32a8933520230a30df43f4bff3a;o=1
+  date: Thu, 03 Sep 2026 20:49:35 GMT
+  content-type: text/html; charset=UTF-8
+  server: Google Frontend
+  content-length: 323
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>500 Server Error</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Server Error</h1>
+  <h2>The server encountered an error and could not complete your request.<p>Please try again in 30 seconds.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=f08cee021d976570f1fb821c45e384ad464f6bc254a76dbb39855048e2ef3189
+BODY_BYTES=323
+--- HEAD / ---
+HEAD_CODE=503
+--- GET /health ---
+GET_RESULT=503|2600:1900:4242:200::|0|0
+HEADERS>>>
+  HTTP/2 503
+  date: Thu, 03 Sep 2026 20:49:37 GMT
+  content-type: text/html; charset=UTF-8
+  server: Google Frontend
+  content-length: 302
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>503 Server Error</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Server Error</h1>
+  <h2>The service you requested is not available yet.<p>Please try again in 30 seconds.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=52f9a90fe354981733b013cb3b4ac3bcd889649282de79c0a33063ec8c74b3a9
+BODY_BYTES=302
+--- HEAD /health ---
+HEAD_CODE=503
+==============================================================
+LABEL=TARGET_WEB
+HOST=petcare-web-prod-232802712581.me-central2.run.app
+--- DNS ---
+DNS=34.143.74.2
+DNS=34.143.73.2
+DNS=34.143.76.2
+DNS=34.143.75.2
+DNS=34.143.78.2
+DNS=34.143.79.2
+DNS=34.143.72.2
+DNS=34.143.77.2
+DNS_CNAME=
+--- GET / ---
+GET_RESULT=404|2600:1900:4244:200::|0|0
+HEADERS>>>
+  HTTP/2 404
+  content-length: 272
+  content-type: text/html; charset=UTF-8
+  date: Thu, 03 Sep 2026 20:49:38 GMT
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>404 Page not found</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Page not found</h1>
+  <h2>The requested URL was not found on this server.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+BODY_BYTES=272
+--- HEAD / ---
+HEAD_CODE=404
+--- GET /health ---
+GET_RESULT=404|2600:1900:4243:200::|0|0
+HEADERS>>>
+  HTTP/2 404
+  content-length: 272
+  content-type: text/html; charset=UTF-8
+  date: Thu, 03 Sep 2026 20:49:40 GMT
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>404 Page not found</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Page not found</h1>
+  <h2>The requested URL was not found on this server.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+BODY_BYTES=272
+--- HEAD /health ---
+HEAD_CODE=404
+==============================================================
+LABEL=NEGCTL_SAMEPROJ
+HOST=zzz-nonexistent-mvc-probe-232802712581.me-central2.run.app
+--- DNS ---
+DNS=34.143.77.2
+DNS=34.143.72.2
+DNS=34.143.79.2
+DNS=34.143.78.2
+DNS=34.143.73.2
+DNS=34.143.74.2
+DNS=34.143.76.2
+DNS=34.143.75.2
+DNS_CNAME=
+--- GET / ---
+GET_RESULT=404|2600:1900:4245:200::|0|0
+HEADERS>>>
+  HTTP/2 404
+  content-length: 272
+  content-type: text/html; charset=UTF-8
+  date: Thu, 03 Sep 2026 20:49:41 GMT
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>404 Page not found</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Page not found</h1>
+  <h2>The requested URL was not found on this server.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+BODY_BYTES=272
+--- HEAD / ---
+HEAD_CODE=404
+--- GET /health ---
+GET_RESULT=404|2600:1900:4245:200::|0|0
+HEADERS>>>
+  HTTP/2 404
+  content-length: 272
+  content-type: text/html; charset=UTF-8
+  date: Thu, 03 Sep 2026 20:49:42 GMT
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>404 Page not found</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Page not found</h1>
+  <h2>The requested URL was not found on this server.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+BODY_BYTES=272
+--- HEAD /health ---
+HEAD_CODE=404
+==============================================================
+LABEL=NEGCTL_FAKEPROJ
+HOST=zzz-nonexistent-mvc-probe-999999999999.me-central2.run.app
+--- DNS ---
+DNS=34.143.75.2
+DNS=34.143.76.2
+DNS=34.143.77.2
+DNS=34.143.73.2
+DNS=34.143.79.2
+DNS=34.143.74.2
+DNS=34.143.72.2
+DNS=34.143.78.2
+DNS_CNAME=
+--- GET / ---
+GET_RESULT=404|2600:1900:4245:200::|0|0
+HEADERS>>>
+  HTTP/2 404
+  content-length: 272
+  content-type: text/html; charset=UTF-8
+  date: Thu, 03 Sep 2026 20:49:44 GMT
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>404 Page not found</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Page not found</h1>
+  <h2>The requested URL was not found on this server.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+BODY_BYTES=272
+--- HEAD / ---
+HEAD_CODE=404
+--- GET /health ---
+GET_RESULT=404|2600:1900:4245:200::|0|0
+HEADERS>>>
+  HTTP/2 404
+  content-length: 272
+  content-type: text/html; charset=UTF-8
+  date: Thu, 03 Sep 2026 20:49:45 GMT
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>404 Page not found</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Page not found</h1>
+  <h2>The requested URL was not found on this server.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+BODY_BYTES=272
+--- HEAD /health ---
+HEAD_CODE=404
+==============================================================
+LABEL=NEGCTL_RANDOM
+HOST=qq7x3v9k2mprobe-100000000001.me-central2.run.app
+--- DNS ---
+DNS=34.143.75.2
+DNS=34.143.78.2
+DNS=34.143.72.2
+DNS=34.143.73.2
+DNS=34.143.79.2
+DNS=34.143.74.2
+DNS=34.143.76.2
+DNS=34.143.77.2
+DNS_CNAME=
+--- GET / ---
+GET_RESULT=404|2600:1900:4245:200::|0|0
+HEADERS>>>
+  HTTP/2 404
+  content-length: 272
+  content-type: text/html; charset=UTF-8
+  date: Thu, 03 Sep 2026 20:49:46 GMT
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>404 Page not found</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Page not found</h1>
+  <h2>The requested URL was not found on this server.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+BODY_BYTES=272
+--- HEAD / ---
+HEAD_CODE=404
+--- GET /health ---
+GET_RESULT=404|2600:1900:4245:200::|0|0
+HEADERS>>>
+  HTTP/2 404
+  content-length: 272
+  content-type: text/html; charset=UTF-8
+  date: Thu, 03 Sep 2026 20:49:48 GMT
+  alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+  
+BODY_FIRST_400>>>
+  
+  <html><head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <title>404 Page not found</title>
+  </head>
+  <body text=#000000 bgcolor=#ffffff>
+  <h1>Error: Page not found</h1>
+  <h2>The requested URL was not found on this server.</h2>
+  <h2></h2>
+  </body></html>
+
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+BODY_BYTES=272
+--- HEAD /health ---
+HEAD_CODE=404
