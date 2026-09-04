@@ -1,0 +1,1162 @@
+
+Running 90 tests using 2 workers
+
+  ✘   2 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 320x568 (1.6s)
+  ✘   3 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 375x667 (1.3s)
+  ✓   1 [mobile-chromium] › e2e/pilot-path.spec.ts:35:5 › register → first-run → /owner → emergency, in Arabic / RTL, on a phone viewport (4.2s)
+  ✘   5 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 390x844 (1.2s)
+  ✓   4 [mobile-chromium] › e2e/pilot-path.spec.ts:88:5 › trust surfaces: /owner advisory + ModeDisclosure cards + /account PDPL & consent (3.3s)
+  ✓   6 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 430x932 (950ms)
+  ✓   7 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 768x1024 (814ms)
+  ✓   8 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 1280x800 (829ms)
+  ✓   9 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 1440x900 (864ms)
+  ✘  10 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 320x568 (897ms)
+  ✘  11 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 375x667 (914ms)
+  ✘  12 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 390x844 (936ms)
+  ✓  13 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 430x932 (922ms)
+  ✓  14 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 768x1024 (834ms)
+  ✓  15 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 1280x800 (845ms)
+  ✓  16 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 1440x900 (806ms)
+  ✘  17 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 320x568 (1.2s)
+  ✘  18 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 375x667 (956ms)
+  ✘  19 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 390x844 (928ms)
+  ✓  20 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 430x932 (980ms)
+  ✓  21 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 768x1024 (848ms)
+  ✓  22 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 1280x800 (822ms)
+  ✓  23 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 1440x900 (823ms)
+  ✘  24 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 320x568 (1.2s)
+  ✘  25 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 375x667 (933ms)
+  ✘  26 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 390x844 (1.0s)
+  ✓  27 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 430x932 (956ms)
+  ✓  28 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 768x1024 (973ms)
+  ✓  29 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 1280x800 (869ms)
+  ✓  30 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 1440x900 (808ms)
+  ✘  31 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 320x568 (866ms)
+  ✘  32 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 375x667 (1.0s)
+  ✘  33 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 390x844 (964ms)
+  ✓  34 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 430x932 (929ms)
+  ✓  35 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 768x1024 (872ms)
+  ✓  36 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 1280x800 (847ms)
+  ✓  37 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 1440x900 (890ms)
+  ✘  38 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 320x568 (960ms)
+  ✘  39 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 375x667 (1.1s)
+  ✘  40 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 390x844 (954ms)
+  ✓  41 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 430x932 (887ms)
+  ✓  42 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 768x1024 (862ms)
+  ✓  43 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 1280x800 (1.0s)
+  ✓  44 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 1440x900 (830ms)
+  ✘  45 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 320x568 (911ms)
+  ✘  46 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 375x667 (987ms)
+  ✘  47 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 390x844 (934ms)
+  ✓  48 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 430x932 (933ms)
+  ✓  49 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 768x1024 (830ms)
+  ✓  50 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 1280x800 (853ms)
+  ✓  51 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 1440x900 (888ms)
+  ✘  52 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 320x568 (985ms)
+  ✘  53 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 375x667 (970ms)
+  ✘  54 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 390x844 (931ms)
+  ✓  55 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 430x932 (874ms)
+  ✓  56 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 768x1024 (814ms)
+  ✓  57 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 1280x800 (802ms)
+  ✓  58 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 1440x900 (866ms)
+  ✘  59 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 320x568 (920ms)
+  ✘  60 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 375x667 (1.0s)
+  ✘  61 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 390x844 (952ms)
+  ✓  62 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 430x932 (863ms)
+  ✓  63 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 768x1024 (851ms)
+  ✓  64 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 1280x800 (827ms)
+  ✓  65 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 1440x900 (797ms)
+  ✘  66 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 320x568 (1.3s)
+  ✘  67 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 375x667 (923ms)
+  ✘  68 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 390x844 (898ms)
+  ✓  69 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 430x932 (849ms)
+  ✓  70 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 768x1024 (816ms)
+  ✓  71 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 1280x800 (855ms)
+  ✓  72 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 1440x900 (859ms)
+  ✘  73 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 320x568 (857ms)
+  ✘  74 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 375x667 (979ms)
+  ✘  75 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 390x844 (898ms)
+  ✓  76 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 430x932 (879ms)
+  ✓  77 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 768x1024 (803ms)
+  ✓  78 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 1280x800 (790ms)
+  ✓  79 [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 1440x900 (808ms)
+  ✓  80 [mobile-chromium] › e2e/viewport-invariants.spec.ts:129:9 › Arabic-first defaults survive every viewport › lang=ar and dir=rtl at 320x568 (1.1s)
+  ✓  81 [mobile-chromium] › e2e/viewport-invariants.spec.ts:129:9 › Arabic-first defaults survive every viewport › lang=ar and dir=rtl at 375x667 (869ms)
+  ✓  82 [mobile-chromium] › e2e/viewport-invariants.spec.ts:129:9 › Arabic-first defaults survive every viewport › lang=ar and dir=rtl at 390x844 (824ms)
+  ✓  83 [mobile-chromium] › e2e/viewport-invariants.spec.ts:129:9 › Arabic-first defaults survive every viewport › lang=ar and dir=rtl at 430x932 (859ms)
+  ✓  84 [mobile-chromium] › e2e/viewport-invariants.spec.ts:129:9 › Arabic-first defaults survive every viewport › lang=ar and dir=rtl at 768x1024 (828ms)
+  ✓  85 [mobile-chromium] › e2e/viewport-invariants.spec.ts:129:9 › Arabic-first defaults survive every viewport › lang=ar and dir=rtl at 1280x800 (812ms)
+  ✓  86 [mobile-chromium] › e2e/viewport-invariants.spec.ts:129:9 › Arabic-first defaults survive every viewport › lang=ar and dir=rtl at 1440x900 (847ms)
+  ✘  87 [mobile-chromium] › e2e/viewport-invariants.spec.ts:147:9 › PORT-05 safety-critical controls at 320px › owner emergency keeps its controls inside a 320px viewport (892ms)
+  ✘  88 [mobile-chromium] › e2e/viewport-invariants.spec.ts:147:9 › PORT-05 safety-critical controls at 320px › vet keeps its controls inside a 320px viewport (966ms)
+  ✘  89 [mobile-chromium] › e2e/viewport-invariants.spec.ts:147:9 › PORT-05 safety-critical controls at 320px › pharmacy keeps its controls inside a 320px viewport (1.0s)
+  ✘  90 [mobile-chromium] › e2e/viewport-invariants.spec.ts:194:7 › PORT-06 render failures are contained › a route whose data fails still renders a page, not a blank screen (988ms)
+
+
+  1) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 320x568 
+
+    Error: landing overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-2be6a-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-2be6a-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-2be6a-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 375x667 
+
+    Error: landing overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-625ff-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-625ff-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-625ff-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 390x844 
+
+    Error: landing overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-04423-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-04423-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-04423-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 320x568 
+
+    Error: register overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-ad906-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-ad906-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-ad906-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  5) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 375x667 
+
+    Error: register overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-e9843-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-e9843-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-e9843-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  6) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 390x844 
+
+    Error: register overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-407b7-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-407b7-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-407b7-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  7) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 320x568 
+
+    Error: signin overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-a8be4-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-a8be4-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-a8be4-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  8) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 375x667 
+
+    Error: signin overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-6744d-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-6744d-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-6744d-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  9) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 390x844 
+
+    Error: signin overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-43776-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-43776-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-43776-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  10) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 320x568 
+
+    Error: owner overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-ac8b0-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-ac8b0-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-ac8b0-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  11) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 375x667 
+
+    Error: owner overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-41e93-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-41e93-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-41e93-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  12) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 390x844 
+
+    Error: owner overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-9b25c-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-9b25c-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-9b25c-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  13) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 320x568 
+
+    Error: owner emergency overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-1940c-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-1940c-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-1940c-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  14) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 375x667 
+
+    Error: owner emergency overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-3775f-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-3775f-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-3775f-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  15) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 390x844 
+
+    Error: owner emergency overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-95fad-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-95fad-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-95fad-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  16) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 320x568 
+
+    Error: vet overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-1b08a-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-1b08a-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-1b08a-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  17) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 375x667 
+
+    Error: vet overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-0695f-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-0695f-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-0695f-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  18) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 390x844 
+
+    Error: vet overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-d9efc-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-d9efc-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-d9efc-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  19) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 320x568 
+
+    Error: pharmacy overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-7fdbf-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-7fdbf-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-7fdbf-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  20) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 375x667 
+
+    Error: pharmacy overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-ee451-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-ee451-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-ee451-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  21) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 390x844 
+
+    Error: pharmacy overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-1b348-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-1b348-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-1b348-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  22) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 320x568 
+
+    Error: admin overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-5cf2a-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-5cf2a-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-5cf2a-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  23) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 375x667 
+
+    Error: admin overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-fe9b3-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-fe9b3-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-fe9b3-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  24) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 390x844 
+
+    Error: admin overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-e78e0-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-e78e0-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-e78e0-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  25) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 320x568 
+
+    Error: account overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-818d9-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-818d9-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-818d9-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  26) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 375x667 
+
+    Error: account overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-fab16-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-fab16-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-fab16-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  27) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 390x844 
+
+    Error: account overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-d695f-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-d695f-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-d695f-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  28) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 320x568 
+
+    Error: privacy overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-4e248-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-4e248-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-4e248-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  29) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 375x667 
+
+    Error: privacy overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-c7288-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-c7288-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-c7288-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  30) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 390x844 
+
+    Error: privacy overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-16d56-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-16d56-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-16d56-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  31) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 320x568 
+
+    Error: unauthorized overflows horizontally at 320x568
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-e6644-holds-its-layout-at-320x568-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-e6644-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-e6644-holds-its-layout-at-320x568-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  32) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 375x667 
+
+    Error: unauthorized overflows horizontally at 375x667
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-c87d6-holds-its-layout-at-375x667-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-c87d6-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-c87d6-holds-its-layout-at-375x667-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  33) [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 390x844 
+
+    Error: unauthorized overflows horizontally at 390x844
+
+    [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m17[39m
+
+      109 |           await horizontalOverflow(page),
+      110 |           `${route.label} overflows horizontally at ${vp.name}`,
+    > 111 |         ).toBe(0)
+          |           ^
+      112 |
+      113 |         // PORT-06 rides along: a crash on any route at any viewport fails here.
+      114 |         expect(
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:111:11
+
+    Error Context: test-results/viewport-invariants-PORT-0-d052d-holds-its-layout-at-390x844-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-d052d-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-d052d-holds-its-layout-at-390x844-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  34) [mobile-chromium] › e2e/viewport-invariants.spec.ts:147:9 › PORT-05 safety-critical controls at 320px › owner emergency keeps its controls inside a 320px viewport 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      152 |       await page.goto(route.path)
+      153 |
+    > 154 |       expect(await horizontalOverflow(page)).toBe(0)
+          |                                              ^
+      155 |
+      156 |       // Scoped to <main> where the app provides it. A sidebar or drawer that is
+      157 |       // off-canvas below its breakpoint is outside the viewport BY DESIGN, and
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:154:46
+
+    Error Context: test-results/viewport-invariants-PORT-0-0b019-ols-inside-a-320px-viewport-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-0b019-ols-inside-a-320px-viewport-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-0b019-ols-inside-a-320px-viewport-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  35) [mobile-chromium] › e2e/viewport-invariants.spec.ts:147:9 › PORT-05 safety-critical controls at 320px › vet keeps its controls inside a 320px viewport 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      152 |       await page.goto(route.path)
+      153 |
+    > 154 |       expect(await horizontalOverflow(page)).toBe(0)
+          |                                              ^
+      155 |
+      156 |       // Scoped to <main> where the app provides it. A sidebar or drawer that is
+      157 |       // off-canvas below its breakpoint is outside the viewport BY DESIGN, and
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:154:46
+
+    Error Context: test-results/viewport-invariants-PORT-0-83127-ols-inside-a-320px-viewport-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-83127-ols-inside-a-320px-viewport-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-83127-ols-inside-a-320px-viewport-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  36) [mobile-chromium] › e2e/viewport-invariants.spec.ts:147:9 › PORT-05 safety-critical controls at 320px › pharmacy keeps its controls inside a 320px viewport 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m87[39m
+
+      152 |       await page.goto(route.path)
+      153 |
+    > 154 |       expect(await horizontalOverflow(page)).toBe(0)
+          |                                              ^
+      155 |
+      156 |       // Scoped to <main> where the app provides it. A sidebar or drawer that is
+      157 |       // off-canvas below its breakpoint is outside the viewport BY DESIGN, and
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:154:46
+
+    Error Context: test-results/viewport-invariants-PORT-0-b3469-ols-inside-a-320px-viewport-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-b3469-ols-inside-a-320px-viewport-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-b3469-ols-inside-a-320px-viewport-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  37) [mobile-chromium] › e2e/viewport-invariants.spec.ts:194:7 › PORT-06 render failures are contained › a route whose data fails still renders a page, not a blank screen 
+
+    Error: [2mexpect([22m[31mreceived[39m[2m).[22mtoBe[2m([22m[32mexpected[39m[2m) // Object.is equality[22m
+
+    Expected: [32m0[39m
+    Received: [31m32[39m
+
+      212 |       .poll(() => page.evaluate(() => document.body.innerText.trim().length))
+      213 |       .toBeGreaterThan(0)
+    > 214 |     expect(await horizontalOverflow(page)).toBe(0)
+          |                                            ^
+      215 |   })
+      216 | })
+      217 |
+        at /Users/waheebmahmoud/dev/petcare-evidence-repository/petcare_web/e2e/viewport-invariants.spec.ts:214:44
+
+    Error Context: test-results/viewport-invariants-PORT-0-f04d8-s-a-page-not-a-blank-screen-mobile-chromium/error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results/viewport-invariants-PORT-0-f04d8-s-a-page-not-a-blank-screen-mobile-chromium/trace.zip
+    Usage:
+
+        npx playwright show-trace test-results/viewport-invariants-PORT-0-f04d8-s-a-page-not-a-blank-screen-mobile-chromium/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  37 failed
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › landing holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › register holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › signin holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › owner emergency holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › vet holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › pharmacy holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › admin holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › account holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › privacy holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 320x568 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 375x667 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:93:11 › PORT-04 viewport breadth › unauthorized holds its layout at 390x844 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:147:9 › PORT-05 safety-critical controls at 320px › owner emergency keeps its controls inside a 320px viewport 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:147:9 › PORT-05 safety-critical controls at 320px › vet keeps its controls inside a 320px viewport 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:147:9 › PORT-05 safety-critical controls at 320px › pharmacy keeps its controls inside a 320px viewport 
+    [mobile-chromium] › e2e/viewport-invariants.spec.ts:194:7 › PORT-06 render failures are contained › a route whose data fails still renders a page, not a blank screen 
+  53 passed (2.0m)
