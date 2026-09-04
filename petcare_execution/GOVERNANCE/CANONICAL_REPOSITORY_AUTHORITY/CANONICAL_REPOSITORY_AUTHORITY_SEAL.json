@@ -37,7 +37,10 @@
     {
       "id": "GATE_EVIDENCE_UNVERSIONED",
       "detail": "evidence/ is 40 files on disk and 0 tracked in git in BOTH repositories; 104 petcare-platform CLOSED_EVIDENCED requirements cite these paths",
-      "status": "GOVERNANCE_EXCEPTION_OPEN"
+      "status": "CLOSED",
+      "closed_date": "2026-09-03",
+      "closure_record": "petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/GATE_EVIDENCE_UNVERSIONED_CLOSURE.md",
+      "closure_note": "Row preserved rather than removed: the exception was real and its closure is part of the record. 40 evidence files tracked, 14/14 cited paths hash-bound, custody commit 393e1cef, hash binding 88aa9d7b. The seal listed this as OPEN for a day after the closure record was written; PORT-07 now asserts that contradiction cannot recur."
     },
     {
       "id": "EPIC_IDENTIFIER_COLLISION",
@@ -45,5 +48,6 @@
       "status": "OPEN",
       "remediation_constraint": "alias/namespace only; never rewrite sealed evidence"
     }
-  ]
+  ],
+  "exception_list_semantics": "This list is append-only. A resolved exception keeps its row and changes its status, so the history of what was once open stays legible. Read `status`, never mere membership."
 }
