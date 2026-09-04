@@ -50,13 +50,14 @@ PATTERNS: dict[str, re.Pattern[str]] = {
 #:
 #: Every entry needs a reason; tests assert each path still exists AND would
 #: genuinely have been a finding without the entry.
-ALLOWLIST: dict[str, str] = {
-    "petcare_execution/evidence_output/PETCARE-PH42C-CLOSURE/20260226T002844Z/"
-    "snapshots/scripts/petcare_release_integrity_check.sh":
-        "sealed evidence snapshot of an earlier release-integrity scanner whose "
-        "own regex contains a literal PRIVATE KEY header; evidence bytes are "
-        "never edited, so the file cannot be changed to avoid the match",
-}
+#: Currently EMPTY, and that is the correct state.
+#:
+#: The third entry was removed after CI failed on it: it named a file under
+#: `petcare_execution/evidence_output/`, which `.gitignore` excludes. The file
+#: exists in a working copy and not in the repository, so `tracked_files()`
+#: never saw it and the entry protected nothing — it only looked like it did.
+#: Local runs could not detect that; a clean checkout did immediately.
+ALLOWLIST: dict[str, str] = {}
 
 _SKIP_DIRS = {"node_modules", ".git", ".next", ".venv", "__pycache__"}
 

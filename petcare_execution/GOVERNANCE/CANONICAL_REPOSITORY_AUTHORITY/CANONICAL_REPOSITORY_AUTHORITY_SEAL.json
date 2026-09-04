@@ -47,6 +47,15 @@
       "detail": "EP-06 = Emergency Network (this repo's PLANNING authority) vs Security/Audit/Ops (petcare-platform register)",
       "status": "OPEN",
       "remediation_constraint": "alias/namespace only; never rewrite sealed evidence"
+    },
+    {
+      "id": "MANIFEST_CITES_UNVERSIONED_ARTEFACTS",
+      "detail": "petcare_execution/EVIDENCE/MANIFEST.json declares 315 files; 169 are tracked by git and 146 are not. The manifest was generated over a working tree, so the 146 are __pycache__/*.pyc, *.bak.<timestamp> files and a baseline_input/ tree. No cited EVIDENCE artefact is among them - the custody index's 14 cited paths are all tracked and hash-bound.",
+      "status": "OPEN",
+      "opened_date": "2026-09-04",
+      "discovered_by": "the first clean CI checkout. Every local run passed because all 146 sit in the working copy of anyone who ran the pipeline that produced them.",
+      "guard": "tests/governance/test_canonical_register_integrity.py pins the count at exactly 146 and asserts none of them is an evidence artefact.",
+      "remediation_constraint": "Regenerating the manifest over tracked files only would change a dated snapshot's bytes; that is a separate decision with its own evidence. Do not edit it to make a test pass."
     }
   ],
   "exception_list_semantics": "This list is append-only. A resolved exception keeps its row and changes its status, so the history of what was once open stays legible. Read `status`, never mere membership."
