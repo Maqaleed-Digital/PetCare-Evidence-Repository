@@ -1,0 +1,124 @@
+# Repository verification.
+#
+# WHY THIS FILE EXISTS. PR #3 merged into `main` with an empty
+# `statusCheckRollup`, and that emptiness was read as "CI green". It was not:
+# no check had run, and none could have. Both pre-existing root workflows
+# trigger only on `release: published`, so neither can ever produce a pull
+# request check. A third workflow that DOES trigger on push and pull_request
+# lives at `petcare_execution/.github/workflows/ci.yml` — a nested `.github`
+# directory, which GitHub Actions does not read. The repository therefore
+# carried three workflow files and zero pull-request checks.
+#
+# This workflow runs the acceptance surface that PORT-01..10 already proved
+# locally. Every command below is the command the evidence packs record, not a
+# reconstruction: see petcare_execution/EVIDENCE/MVC-PORT-07-10/.
+#
+# It requires no secrets. `petcare_api/tests/conftest.py` sets a deterministic
+# non-secret SECRET_KEY via `os.environ.setdefault`, so the W0-A fail-closed
+# import is satisfied without a credential ever entering this file.
+name: verify
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+      - 'govern/**'
+      - 'security/**'
+      - 'wave0/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # The job id is the check name that branch protection would require.
+  # scripts/governance/ci_verdict.py names it in REQUIRED_CHECKS, and
+  # tests/governance/test_ci_verification_contract.py fails if the two drift.
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Install python verification dependencies
+        run: |
+          set -euo pipefail
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      # 353 = tests/ 73 (39 governance) + petcare_runtime 234 + petcare_api 46.
+      # The root conftest.py puts petcare_runtime/src on sys.path, so this needs
+      # no PYTHONPATH from the environment.
+      - name: Python estate — tests, governance registers, authority resolver
+        run: python -m pytest tests petcare_runtime/tests petcare_api/tests -q
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: npm
+          cache-dependency-path: petcare_web/package-lock.json
+
+      - name: Install web dependencies
+        working-directory: petcare_web
+        run: npm ci
+
+      - name: TypeScript
+        working-directory: petcare_web
+        run: npm run typecheck
+
+      - name: Web unit tests
+        working-directory: petcare_web
+        run: npm test
+
+      - name: Install Playwright browser
+        working-directory: petcare_web
+        run: npx playwright install --with-deps chromium
+
+      # The responsive closure: 90 loop-generated cases over 7 viewports.
+      # A static count of `test(` declarations gives 6, which is why this must
+      # run rather than be counted.
+      - name: Responsive regression
+        working-directory: petcare_web
+        run: npm run e2e
+        env:
+          NEXT_PUBLIC_APP_NAME: MyVetiCare
+          NEXT_PUBLIC_DOMAIN: localhost
+          NEXT_PUBLIC_API_BASE_URL: http://localhost:8080
+          NEXT_PUBLIC_AUTH_MODE: jwt
+          AUTH_ISSUER: ci-verify
+          AUTH_AUDIENCE: ci-verify
+          SESSION_SECRET: ci-only-not-a-deployed-secret
+          AUDIT_PROBE_ENDPOINT: http://localhost:8080/api/audit
+
+      # Both scanners are scripts rather than shell one-liners, for the same
+      # reason in each case. The shell secret scan matched its OWN regex and
+      # failed on a repository containing no secrets. The naive literal grep
+      # matches the docstring on the FIXED file and reports every ref as
+      # vulnerable, `origin/main` included. Both scripts fail closed on an empty
+      # file set and are exercised against synthetic positives by
+      # tests/governance/test_repository_scanners.py.
+      - name: Prohibited-literal scan (active defaults only)
+        run: python scripts/governance/prohibited_literal_scan.py
+
+      - name: Secret scan
+        run: python scripts/governance/secret_scan.py
+
+      # Two manifest schemes exist here and `sha256sum -c` can only read one of
+      # them; on the other it reports "No such file or directory", which looks
+      # exactly like missing evidence and is not. The verifier knows both and
+      # fails closed on an empty bundle set.
+      - name: Evidence bundle verification
+        run: python scripts/governance/verify_evidence_bundles.py
