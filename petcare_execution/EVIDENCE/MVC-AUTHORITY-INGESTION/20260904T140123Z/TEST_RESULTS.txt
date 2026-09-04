@@ -1,0 +1,7 @@
+# Test results — measured 2026-09-04
+
+python combined : 397 passed, 37 warnings in 4.01s
+governance      : 83 passed in 2.10s
+vitest          : 120 passed (18 files)
+tsc --noEmit    : clean
+playwright      : 90 passed / 90

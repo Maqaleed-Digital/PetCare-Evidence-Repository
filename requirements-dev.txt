@@ -1,0 +1,11 @@
+# Test and verification dependencies for the canonical repository.
+#
+# Pinned loosely on purpose: these support the verification surface, not a
+# deployed runtime. Deployment pins live in petcare_api/requirements.txt.
+pytest>=8.0
+PyYAML>=6.0
+fastapi>=0.111.0
+httpx>=0.27.0
+itsdangerous>=2.1.0
+pydantic>=2.7.0
+passlib[bcrypt]>=1.7.4

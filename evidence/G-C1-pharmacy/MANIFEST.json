@@ -1,0 +1,33 @@
+{
+  "phase": "PHASE-06",
+  "gate": "G-C1-pharmacy",
+  "title": "Pharmacy Safety Engine + SFDA Batch Tracking",
+  "status": "AWAITING_HUMAN_CLOSURE",
+  "timestamp": "2026-04-17T00:00:00Z",
+  "tests": {
+    "total": 6,
+    "passed": 6,
+    "failed": 0,
+    "file": "tests/test_phase06_pharmacy.py"
+  },
+  "artefacts": [
+    "test_results.txt",
+    "safety_engine_rules.md",
+    "recall_workflow.md",
+    "MANIFEST.json"
+  ],
+  "files_created": [
+    "app/backend/services/medication_safety.py",
+    "app/backend/routes/pharmacy_routes.py",
+    "tests/test_phase06_pharmacy.py"
+  ],
+  "files_modified": [
+    "app/backend/server.py"
+  ],
+  "constraints": {
+    "safety_checks": "ALL blocking checks (contraindicated, major, allergy) are HTTP 403 — never advisory-only without override_reason",
+    "override": "Override requires reason_code field + emits pharmacy.safety_override audit event",
+    "recall_block": "Recalled batch check runs BEFORE safety check in dispense flow"
+  },
+  "governance_note": "Gate closure requires human authority. Claude Code has not approved any gate."
+}

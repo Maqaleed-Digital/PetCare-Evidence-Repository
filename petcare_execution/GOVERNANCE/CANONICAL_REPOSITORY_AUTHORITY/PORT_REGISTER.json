@@ -1,0 +1,124 @@
+{
+  "register_id": "MVC-PORT-REGISTER-001",
+  "authority": "MVC-GOV-CANON-001",
+  "canonical_repository": "petcare-evidence-repository",
+  "port_source_repository": "petcare-platform",
+  "port_source_disposition": "LEGACY_TO_PORT_FROM",
+  "prose_plan": "petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/CANONICAL_PORT_DIFFERENTIAL_AND_PLAN.md",
+  "note": "The machine-readable half of the port plan. The prose plan carries the reasoning; this carries the claims a test can falsify. Statuses here are asserted against the filesystem and against git by tests/governance/test_canonical_register_integrity.py, so a status cannot drift away from reality unnoticed. Nothing here ports as a file: every row is a re-expression of a behaviour, and the closing commit is the proof it landed.",
+  "denominator": 10,
+  "ports": [
+    {
+      "id": "PORT-01",
+      "capability": "Absence-guard discipline in canonical tests",
+      "targets": [
+        "petcare_web/__tests__/absence-guards.test.ts"
+      ],
+      "risk": "low",
+      "status": "DONE",
+      "closing_commit": "5e883c18"
+    },
+    {
+      "id": "PORT-02",
+      "capability": "Arabic absence guards (no hard-coded English on customer paths)",
+      "targets": [
+        "petcare_web/__tests__/absence-guards.test.ts"
+      ],
+      "risk": "low",
+      "status": "DONE",
+      "closing_commit": "5e883c18"
+    },
+    {
+      "id": "PORT-03",
+      "capability": "Error boundaries",
+      "targets": [
+        "petcare_web/app/error.tsx",
+        "petcare_web/app/global-error.tsx"
+      ],
+      "risk": "low",
+      "status": "DONE",
+      "closing_commit": "6e4cbccd"
+    },
+    {
+      "id": "PORT-04",
+      "capability": "Viewport breadth - 7 viewports x canonical routes",
+      "targets": [
+        "petcare_web/e2e/viewport-invariants.spec.ts"
+      ],
+      "risk": "medium",
+      "status": "DONE",
+      "closing_commit": "136bd100"
+    },
+    {
+      "id": "PORT-05",
+      "capability": "Safety-critical 320px reachability (emergency, pharmacy, consultation)",
+      "targets": [
+        "petcare_web/e2e/viewport-invariants.spec.ts"
+      ],
+      "risk": "medium",
+      "status": "DONE",
+      "closing_commit": "136bd100"
+    },
+    {
+      "id": "PORT-06",
+      "capability": "Page-crash detection in e2e",
+      "targets": [
+        "petcare_web/e2e/viewport-invariants.spec.ts"
+      ],
+      "risk": "low",
+      "status": "DONE",
+      "closing_commit": "136bd100"
+    },
+    {
+      "id": "PORT-07",
+      "capability": "Governance register integrity tests, retargeted to canonical authorities",
+      "targets": [
+        "tests/governance/test_canonical_register_integrity.py"
+      ],
+      "risk": "medium",
+      "status": "DONE",
+      "closing_commit": "563ebeb3"
+    },
+    {
+      "id": "PORT-08",
+      "capability": "Empty / loading / error state coverage per surface",
+      "targets": [
+        "petcare_web/__tests__/surface-states.test.tsx",
+        "petcare_web/app/vet/page.tsx"
+      ],
+      "risk": "medium",
+      "status": "DONE",
+      "closing_commit": "e9d36f5a"
+    },
+    {
+      "id": "PORT-09",
+      "capability": "Marketplace UI seam against canonical partner_network services",
+      "targets": [
+        "petcare_web/lib/marketplace.ts",
+        "petcare_web/components/MarketplaceSeamPanel.tsx",
+        "petcare_web/__tests__/marketplace-seam.test.tsx",
+        "petcare_web/app/admin"
+      ],
+      "risk": "medium",
+      "status": "DONE",
+      "constraint": "must consume, never re-own; marketplace canonical location is petcare_runtime/src/petcare/partner_network/ and its EP-07 seal is PRESERVED",
+      "closing_commit": "ebed5cba"
+    },
+    {
+      "id": "PORT-10",
+      "capability": "Cross-repository traceability denominator",
+      "targets": [
+        "petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/CROSS_REPOSITORY_TRACEABILITY.md",
+        "scripts/governance/cross_repository_traceability.py",
+        "tests/governance/test_cross_repository_traceability.py"
+      ],
+      "risk": "medium",
+      "status": "DONE",
+      "closing_commit": "682309f1"
+    }
+  ],
+  "must_not_port": {
+    "pharmacy_operator_role": "Canonical W0-D retires it and fails dispensing closed to the veterinarian. The port source carries it as a first-class role. Porting the port source's role model would reverse a security decision."
+  },
+  "completed": 10
+}

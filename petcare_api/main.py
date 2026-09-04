@@ -94,7 +94,8 @@ app.add_middleware(
 # ---------------------------------------------------------------------------
 # Auth router
 # ---------------------------------------------------------------------------
-from routers.auth import router as auth_router, seed_user, seed_invite_code
+from routers.auth import (router as auth_router, seed_user, seed_invite_code,
+                          read_session, require_tenant)
 app.include_router(auth_router)
 
 # Seed pilot test users (in-memory — no DB yet)
@@ -124,15 +125,35 @@ consent_repo = ConsentRepository(
 )
 
 # ---------------------------------------------------------------------------
-# Auth helpers (pilot: role from header; production: JWT validation)
+# Auth helpers — authorization derives from the validated session (W0-B)
 # ---------------------------------------------------------------------------
-VALID_ROLES = {ROLE_OWNER, ROLE_VETERINARIAN, ROLE_PHARMACY_OPERATOR,
+# W0-D. PHARMACY_OPERATOR is deliberately ABSENT. BRD V3.2 s4 records that
+# PRD-09/sS2.6 has not decided whether it is a staff permission, a counterparty
+# class, or a held seam; admitting it is a Sponsor product act and "may never
+# arrive as a role-catalogue migration". Acceptance fails if it appears in any
+# environment. It was previously present AND was the sole dispensing authority.
+VALID_ROLES = {ROLE_OWNER, ROLE_VETERINARIAN,
                ROLE_PLATFORM_ADMIN, ROLE_PARTNER_CLINIC_ADMIN}
 
-def require_role(x_petcare_role: str = Header(...)) -> str:
-    if x_petcare_role not in VALID_ROLES:
-        raise HTTPException(403, f"Unknown role: {x_petcare_role}")
-    return x_petcare_role
+
+def require_role(request: Request) -> str:
+    """Caller's role, derived from the signed session. Never from a header.
+
+    W0-B. This previously read `X-Petcare-Role` and only checked that the
+    string was a known role name - so any client could assert any role, and
+    every `if role != ROLE_X` guard in this module rested on a value the caller
+    chose. There was no authentication in the authorization path at all.
+
+    The role now comes from the session payload written server-side at sign-in.
+    `X-Petcare-Role` is accepted by FastAPI (clients still send it) but carries
+    ZERO authority: it is never read here, and a header that disagrees with the
+    session is simply ignored rather than honoured.
+    """
+    payload = read_session(request)
+    role = payload.get("role")
+    if role not in VALID_ROLES:
+        raise HTTPException(403, f"Unknown role: {role}")
+    return role
 
 def require_admin(role: str = Depends(require_role)) -> str:
     if role != ROLE_PLATFORM_ADMIN:
@@ -245,6 +266,7 @@ class AppointmentRequest(BaseModel):
 
 @app.post("/api/appointments")
 def book_appointment(
+    request: Request,
     body: AppointmentRequest,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
@@ -259,7 +281,7 @@ def book_appointment(
         "pet_id": body.pet_id,
         "owner_id": body.owner_id,
         "clinic_id": body.clinic_id,
-        "tenant_id": body.tenant_id,
+        "tenant_id": require_tenant(request, body.tenant_id),
         "status": "REQUESTED",
         "requested_at": body.requested_at or now,
         "created_at": now,
@@ -270,7 +292,7 @@ def book_appointment(
         event_name="appointment.booked",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="appointment",
         resource_id=appt_id,
         action_result="success",
@@ -314,6 +336,7 @@ class ConsultationRequest(BaseModel):
 
 @app.post("/api/consultations")
 def start_consultation(
+    request: Request,
     body: ConsultationRequest,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
@@ -328,7 +351,7 @@ def start_consultation(
         "pet_id": body.pet_id,
         "owner_id": body.owner_id,
         "veterinarian_id": body.veterinarian_id,
-        "tenant_id": body.tenant_id,
+        "tenant_id": require_tenant(request, body.tenant_id),
         "clinic_id": body.clinic_id,
         "status": SESSION_REQUESTED,
         "created_at": now,
@@ -341,7 +364,7 @@ def start_consultation(
         event_name="consultation.session.requested",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="consultation_session",
         resource_id=session_id,
         action_result="success",
@@ -381,6 +404,7 @@ class NoteRequest(BaseModel):
 
 @app.post("/api/consultations/{session_id}/notes")
 def create_note(
+    request: Request,
     session_id: str,
     body: NoteRequest,
     role: str = Depends(require_role),
@@ -410,7 +434,7 @@ def create_note(
         event_name="consultation.note.created",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="consultation_note",
         resource_id=note_id,
         action_result="success",
@@ -420,11 +444,11 @@ def create_note(
 
 @app.post("/api/consultations/notes/{note_id}/sign")
 def sign_note(
+    request: Request,
     note_id: str,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
-    x_tenant_id: str = Header(default="platform"),
 ):
     if role != ROLE_VETERINARIAN:
         raise HTTPException(403, "Only vets may sign notes")
@@ -441,7 +465,7 @@ def sign_note(
         event_name="consultation.note.signed",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=x_tenant_id,
+        tenant_id=require_tenant(request),
         resource_type="consultation_note",
         resource_id=note_id,
         action_result="success",
@@ -465,6 +489,7 @@ class PrescriptionRequest(BaseModel):
 
 @app.post("/api/prescriptions")
 def issue_prescription(
+    request: Request,
     body: PrescriptionRequest,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
@@ -479,7 +504,7 @@ def issue_prescription(
         "pet_id": body.pet_id,
         "session_id": body.session_id,
         "issuing_vet_id": x_actor_id,
-        "tenant_id": body.tenant_id,
+        "tenant_id": require_tenant(request, body.tenant_id),
         "clinic_id": body.clinic_id,
         "medication_name": body.medication_name,
         "dosage": body.dosage,
@@ -493,7 +518,7 @@ def issue_prescription(
         event_name="prescription.issued",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="prescription",
         resource_id=rx_id,
         action_result="success",
@@ -527,14 +552,28 @@ def get_prescription(
 
 @app.post("/api/prescriptions/{prescription_id}/dispense")
 def dispense_prescription(
+    request: Request,
     prescription_id: str,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
-    x_tenant_id: str = Header(default="platform"),
 ):
-    if role != ROLE_PHARMACY_OPERATOR:
-        raise HTTPException(403, "Only pharmacy operators may dispense prescriptions")
+    # REQ-DISP-AUTH-FAILCLOSED (BRD V3.2 s11.1). Dispensing acts whose
+    # professional-authority class is unclassified fail closed to VETERINARIAN.
+    # This route previously required PHARMACY_OPERATOR and DENIED the
+    # veterinarian - the exact inversion of the governed invariant, using a role
+    # the specification says must not exist. Two acts remain deliberately
+    # unclassified pending a regulatory fact this estate does not hold: whether
+    # a non-veterinarian may lawfully dispense a veterinary medicine in KSA, and
+    # witness qualification for wastage. Until a RATIFIED professional-authority
+    # rule names another actor class, veterinarian only. This is a fail-closed
+    # DEFAULT, not a determination, and must not be widened for convenience.
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(
+            403,
+            "Dispensing is restricted to a veterinarian: the professional-authority "
+            "class for this act is unclassified (REQ-DISP-AUTH-FAILCLOSED)",
+        )
     rx = _prescriptions.get(prescription_id)
     if not rx:
         raise HTTPException(404, "Prescription not found")
@@ -547,7 +586,7 @@ def dispense_prescription(
         event_name="prescription.dispensed",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=x_tenant_id,
+        tenant_id=require_tenant(request),
         resource_type="prescription",
         resource_id=prescription_id,
         action_result="success",
@@ -566,6 +605,7 @@ class PetRequest(BaseModel):
 
 @app.post("/api/pets")
 def create_pet(
+    request: Request,
     body: PetRequest,
     role: str = Depends(require_role),
     x_actor_id: str = Header(...),
@@ -574,7 +614,7 @@ def create_pet(
     if role not in {ROLE_OWNER, ROLE_PLATFORM_ADMIN}:
         raise HTTPException(403, "Only owners or admins may create pet profiles")
     pet = uphr_service.create_pet(
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         owner_id=body.owner_id,
         name=body.name,
         species=body.species,
@@ -583,7 +623,7 @@ def create_pet(
         event_name="pet.profile.created",
         actor_id=x_actor_id,
         actor_role=role,
-        tenant_id=body.tenant_id,
+        tenant_id=require_tenant(request, body.tenant_id),
         resource_type="pet",
         resource_id=pet.pet_id,
         action_result="success",
@@ -595,13 +635,56 @@ def create_pet(
 # ---------------------------------------------------------------------------
 # Governance status
 # ---------------------------------------------------------------------------
+def _audit_chain_active() -> bool:
+    """Whether a governed, verifiable audit chain is wired into THIS serving path.
+
+    Computed, never asserted. The chain algorithm exists at
+    petcare_execution/FND/security/audit_chain.py (canonical-JSON SHA-256,
+    compute_event_hash + verify_hash_chain) but is not imported here, no
+    prev_hash/event_hash is persisted, and the audit log in this process is an
+    in-memory list. Until W0-G wires it, the honest answer is False.
+
+    W0-G replaces this with a real verification against persisted chain state.
+    """
+    for ev in _audit_log:
+        if not (ev.get("prev_hash") and ev.get("event_hash")):
+            return False
+    return bool(_audit_log)
+
+
 @app.get("/api/governance/status")
 def governance_status():
+    """Governance posture, COMPUTED from live state.
+
+    MVC-INC-ATTEST-001 (W0-E): this endpoint previously returned hard-coded
+    literals asserting audit_chain_active=true and fail_closed=true while
+    nothing evaluated either claim. An absent control is a gap; an absent
+    control that reports itself present is a misrepresentation, and would have
+    satisfied a reviewer who queried it.
+
+    Every field below is either computed or reported as not-established. No
+    field may be reintroduced as a constant.
+    """
+    chain_active = _audit_chain_active()
     return {
-        "constitutional_status": "OPERATING_UNDER_SEALED_CONSTITUTION",
-        "platform_state": "CONTROLLED_PRODUCTION_ACTIVE_UNDER_CONSTITUTION",
-        "no_autonomous_execution": True,
-        "audit_chain_active": True,
-        "fail_closed": True,
+        # Computed from the serving path, not asserted.
+        "audit_chain_active": chain_active,
+        "audit_chain_verification": (
+            "VERIFIED" if chain_active else "NOT_WIRED_INTO_SERVING_PATH"
+        ),
+        # fail_closed cannot be evaluated from inside this process while
+        # authorization derives from a client-supplied header (W0-B). Reporting
+        # it as a boolean at all would repeat the original defect.
+        "fail_closed": "NOT_ESTABLISHED",
+        "fail_closed_reason": "authorization not bound to verified identity (W0-B pending)",
+        # Previously fixed strings claiming a sealed constitution and active
+        # production governance. Neither is computable here.
+        "constitutional_status": "NOT_ESTABLISHED_BY_THIS_SERVICE",
+        "platform_state": "NOT_ESTABLISHED_BY_THIS_SERVICE",
+        "no_autonomous_execution": "NOT_ESTABLISHED",
+        "attestation_note": (
+            "This service makes no governance attestation it cannot compute. "
+            "See MVC-INC-ATTEST-001."
+        ),
         "ts": utc_now_iso(),
     }

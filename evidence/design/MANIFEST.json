@@ -1,0 +1,38 @@
+{
+  "phase": "PHASE-04",
+  "gate": "FR-09",
+  "title": "Arabic-First UI + VetiCare Design System",
+  "status": "AWAITING_HUMAN_CLOSURE",
+  "timestamp": "2026-04-17T00:00:00Z",
+  "tests": {
+    "note": "UI phase — no pytest tests. Visual verification required by human.",
+    "frontend_build": "Not run — no CI configured. Run: cd frontend && npm run build"
+  },
+  "artefacts": [
+    "rtl_checklist.md",
+    "brand_audit.md",
+    "MANIFEST.json"
+  ],
+  "files_created": [
+    "frontend/src/i18n.js",
+    "frontend/src/locales/ar.json",
+    "frontend/src/locales/en.json",
+    "frontend/src/components/Icon.jsx",
+    "frontend/src/assets/icons/"
+  ],
+  "files_modified": [
+    "frontend/public/index.html",
+    "frontend/src/index.css",
+    "frontend/tailwind.config.js",
+    "frontend/src/App.js",
+    "frontend/src/pages/SignIn.jsx",
+    "frontend/src/components/Layout.jsx"
+  ],
+  "human_actions_required": [
+    "Visual verify: sign-in page renders Arabic labels and VetiCare brand",
+    "Visual verify: dir=rtl layout correct in browser",
+    "Decide: update remaining PetCare references in Report.jsx, Dashboard.jsx, SprintClosurePack.jsx",
+    "Run: cd frontend && npm run build — verify no build errors"
+  ],
+  "governance_note": "Gate closure requires human authority. Claude Code has not approved any gate."
+}

@@ -1,0 +1,36 @@
+{
+  "phase": "PHASE-03",
+  "gate": "G-R1",
+  "title": "Consent Registry + PDPL Compliance",
+  "status": "AWAITING_HUMAN_CLOSURE",
+  "timestamp": "2026-04-17T00:00:00Z",
+  "tests": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "file": "tests/test_phase03_consent.py"
+  },
+  "artefacts": [
+    "test_results.txt",
+    "consent_audit_samples.json",
+    "data_residency_declaration.md",
+    "data_retention_policy.md",
+    "pdpl_compliance_mapping.md",
+    "MANIFEST.json"
+  ],
+  "files_created": [
+    "app/backend/routes/consent_routes.py",
+    "app/backend/dependencies/__init__.py",
+    "app/backend/dependencies/purpose_limitation.py",
+    "tests/test_phase03_consent.py"
+  ],
+  "files_modified": [
+    "app/backend/server.py"
+  ],
+  "human_actions_required": [
+    "Complete data_residency_declaration.md — infra lead must fill all regions",
+    "DPO appointment documentation — legal team",
+    "DSR portal implementation before launch"
+  ],
+  "governance_note": "Gate closure requires human authority. Claude Code has not approved any gate."
+}

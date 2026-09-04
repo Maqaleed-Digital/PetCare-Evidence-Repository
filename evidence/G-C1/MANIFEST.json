@@ -1,0 +1,37 @@
+{
+  "phase": "PHASE-01",
+  "gate": "G-C1",
+  "title": "Clinical Sign-off Immutability + Escalation Engine",
+  "status": "AWAITING_HUMAN_CLOSURE",
+  "timestamp": "2026-04-17T00:00:00Z",
+  "tests": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "file": "tests/test_phase01_clinical.py"
+  },
+  "artefacts": [
+    "test_results.txt",
+    "sign_off_schema.md",
+    "escalation_rules.md",
+    "adverse_event_workflow.md",
+    "MANIFEST.json"
+  ],
+  "files_created": [
+    "app/backend/audit.py",
+    "app/backend/models.py",
+    "app/backend/services/__init__.py",
+    "app/backend/services/consultation_signoff.py",
+    "app/backend/services/escalation_engine.py",
+    "app/backend/routes/__init__.py",
+    "app/backend/routes/adverse_event_routes.py",
+    "app/backend/routes/consultation_routes.py",
+    "tests/conftest.py",
+    "tests/test_phase01_clinical.py"
+  ],
+  "files_modified": [
+    "app/backend/auth_bootstrap.py",
+    "app/backend/server.py"
+  ],
+  "governance_note": "Gate closure requires human authority. Claude Code has not approved any gate."
+}

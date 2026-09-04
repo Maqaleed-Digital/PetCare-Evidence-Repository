@@ -1,0 +1,177 @@
+{
+  "index_id": "MVC-EVIDENCE-CUSTODY-INDEX-001",
+  "authority": "MVC-GOV-CANON-001",
+  "custody_commit": "393e1cefc3c4399528b6ef6a4b8b8c7822e9fb19",
+  "hash_binding_date": "2026-09-03",
+  "note": "Hashes were bound retrospectively on the custody date. They did NOT exist at the original closure dates recorded in the citing register, and no original closure date is altered by this index.",
+  "canonical_repository": "petcare-evidence-repository",
+  "citing_register": "petcare-platform/scripts/governance/mvc_requirements.py",
+  "evidence_files_total": 40,
+  "cited_paths_total": 14,
+  "cited_paths": {
+    "evidence/FR-ACQUIRE/": {
+      "kind": "directory",
+      "sha256": "4c514223b9d05bf024ff956803b20618e381a75339e81b8b374d2a0d44355dd1",
+      "member_count": 3,
+      "hash_method": "sha256 over sorted 'relpath  sha256' lines",
+      "cited_by": [
+        "MVC-IAM-05"
+      ]
+    },
+    "evidence/G-A1/": {
+      "kind": "directory",
+      "sha256": "078faa34d447b3f32b474ce1877f3edd305fbea3cee9f753bf1d2cb6ce8ec94c",
+      "member_count": 4,
+      "hash_method": "sha256 over sorted 'relpath  sha256' lines",
+      "cited_by": [
+        "MVC-AI-01",
+        "MVC-AI-02",
+        "MVC-AI-03"
+      ]
+    },
+    "evidence/G-C1-pharmacy/": {
+      "kind": "directory",
+      "sha256": "e4b01df7e5dd55e539d9279df0d27394421583f37f3fbd6209a1617a95faa976",
+      "member_count": 4,
+      "hash_method": "sha256 over sorted 'relpath  sha256' lines",
+      "cited_by": [
+        "MVC-PHRM-03",
+        "MVC-PHRM-04",
+        "MVC-PHRM-06",
+        "MVC-PHRM-08"
+      ]
+    },
+    "evidence/G-C1-pharmacy/recall_workflow.md": {
+      "kind": "file",
+      "sha256": "0537e3528a965e400f9447a83babf023091094411bce4b36de3fdba2b6f36555",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-PHRM-07"
+      ]
+    },
+    "evidence/G-C1-pharmacy/safety_engine_rules.md": {
+      "kind": "file",
+      "sha256": "bc7a50b4fa85edb69d1ed63d49fb82dde751826fdf118a7abd43eec3a9bd1dd4",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-PHRM-02"
+      ]
+    },
+    "evidence/G-C1/escalation_rules.md": {
+      "kind": "file",
+      "sha256": "e4b57c3a934753df6dbd955c839e7defe8c6df6dc9a81f4573007472cf08f123",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-TELE-07"
+      ]
+    },
+    "evidence/G-C1/sign_off_schema.md": {
+      "kind": "file",
+      "sha256": "9a422017393038a60b432a5121df7e3de11f4aa88f41c7baadde1e948e574ba4",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-TELE-05"
+      ]
+    },
+    "evidence/G-O1/health_check_test.txt": {
+      "kind": "file",
+      "sha256": "a69ae5d8c3d386aa37cbb9640840ca93b45e6f39f29941557c7bd0638a98180c",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-OPS-01"
+      ]
+    },
+    "evidence/G-O1/incident_runbook.md": {
+      "kind": "file",
+      "sha256": "6010489969c61311c99b9d1568f3381bf8847575a2a0f1a764f74edd5bbb2622",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-OPS-04"
+      ]
+    },
+    "evidence/G-O1/slo_definitions.md": {
+      "kind": "file",
+      "sha256": "efb4ee10519033c927691e3ac2e3a24670e40f0ca0689c9c44d8bdfe9cebc939",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-OPS-02"
+      ]
+    },
+    "evidence/G-R1/": {
+      "kind": "directory",
+      "sha256": "2dee33c5974983319c6ced3c6cb15849bccbe62d902b7b00813f3a57f9e18584",
+      "member_count": 7,
+      "hash_method": "sha256 over sorted 'relpath  sha256' lines",
+      "cited_by": [
+        "MVC-CNS-02"
+      ]
+    },
+    "evidence/G-R1/consent_audit_samples.json": {
+      "kind": "file",
+      "sha256": "923b592987ba82db38fc65dfe97ae4075efec8a472b792c78909b88774a8ff73",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-CNS-01",
+        "MVC-CNS-04"
+      ]
+    },
+    "evidence/G-S1/mfa_design.md": {
+      "kind": "file",
+      "sha256": "6b58e3c2e76327fb9b646bdf4449f29d402406182ba147684d416f99599a8031",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-IAM-04"
+      ]
+    },
+    "evidence/G-S1/rbac_test_log.md": {
+      "kind": "file",
+      "sha256": "b1cce04dc5a7ec869933eace534e67e9207f695dbb05f188db546d41214a2f4e",
+      "hash_method": "sha256 over file bytes",
+      "cited_by": [
+        "MVC-IAM-02"
+      ]
+    }
+  },
+  "all_evidence_files": {
+    "evidence/FR-ACQUIRE/MANIFEST.json": "5d10775f96a87a315db168fdc5841bc5a67d1510ad54e879c647eb9cbb1df0f1",
+    "evidence/FR-ACQUIRE/notification_templates.md": "b2b8f5a2ed20209509019c2baeb7c758d2b85ff5adcda84f4e38d13dbffb6196",
+    "evidence/FR-ACQUIRE/test_results.txt": "dac4e6552814f8fd5e8521fb8bcd62e61c0b1f15775c7ebe0936aec1b809f867",
+    "evidence/G-A1/CLOSURE_PACK.md": "fd71f8dc4c1c81fd771bdae060fad3fef18b6d03dd595237e4b0b3f40117ad0b",
+    "evidence/G-A1/MANIFEST.json": "d51eb52594bfb7d27c3b99a281bcea91d265071a63ed6b599928553e843a3d82",
+    "evidence/G-A1/ai_governance_policy.md": "8f05404b3b9dbc423c949ebd174e200ee276439998fe18df17deb962740bce25",
+    "evidence/G-A1/ai_governance_test.txt": "1735c6ef056c78e440b28f94284c3e5a252fcf168438b28d1cbdab55c70af494",
+    "evidence/G-C1/CLOSURE_PACK.md": "809cc239d86ac4c5072138868b3e59f6ad244a9148a4eb4f419780c3fbbf69e8",
+    "evidence/G-C1/MANIFEST.json": "dd67bcce26abab1e8b90487481eb8382d9b41cb2680fcab792d07a4791e3fef4",
+    "evidence/G-C1/adverse_event_workflow.md": "f1283943149883811d10f7a6fc816c0a0617ae6414df99506bb98a2443fb2b48",
+    "evidence/G-C1/escalation_rules.md": "e4b57c3a934753df6dbd955c839e7defe8c6df6dc9a81f4573007472cf08f123",
+    "evidence/G-C1/sign_off_schema.md": "9a422017393038a60b432a5121df7e3de11f4aa88f41c7baadde1e948e574ba4",
+    "evidence/G-C1/test_results.txt": "2fa69ad0f5c8ff3159b0911269621ebae49b055cc4f065937cb9fe4bc408427f",
+    "evidence/G-C1-pharmacy/MANIFEST.json": "62adc5f3ca17e8e8c5743c412e4092af42d663d4b9057ee73c21160b9d3c5dd9",
+    "evidence/G-C1-pharmacy/recall_workflow.md": "0537e3528a965e400f9447a83babf023091094411bce4b36de3fdba2b6f36555",
+    "evidence/G-C1-pharmacy/safety_engine_rules.md": "bc7a50b4fa85edb69d1ed63d49fb82dde751826fdf118a7abd43eec3a9bd1dd4",
+    "evidence/G-C1-pharmacy/test_results.txt": "14aadf4ab95d5be3f768f75343ce512672aa4bc06688b42307d19c2370908277",
+    "evidence/G-O1/CLOSURE_PACK.md": "2b41e1a4bf909de8ad6eda57be2ba68cdc271f6b3b3e9476445b41c95739c1a5",
+    "evidence/G-O1/MANIFEST.json": "8b8c1abc103b8a9c5a6ee4eeff00de01fc24e90090bbc2349eb38a5e1cd55f62",
+    "evidence/G-O1/health_check_test.txt": "a69ae5d8c3d386aa37cbb9640840ca93b45e6f39f29941557c7bd0638a98180c",
+    "evidence/G-O1/incident_runbook.md": "6010489969c61311c99b9d1568f3381bf8847575a2a0f1a764f74edd5bbb2622",
+    "evidence/G-O1/on_call_readiness_checklist.md": "2b3cb11c612a3b317f3ab5c1de688b87e2eafc219ab920fc119aa1038dd4dfba",
+    "evidence/G-O1/performance_test_results.json": "c21ec2330460543960dac91f4b9e56d8a1c3fdac0f6c145772b321ab8787a585",
+    "evidence/G-O1/slo_definitions.md": "efb4ee10519033c927691e3ac2e3a24670e40f0ca0689c9c44d8bdfe9cebc939",
+    "evidence/G-R1/CLOSURE_PACK.md": "55b9bcbf318824a6b9608590a5d78f452360cc2f6b2d00beabaa4ab1a2a80dae",
+    "evidence/G-R1/MANIFEST.json": "b5402492647fcb81873495f216d5de081bd7db2791c3d5f85228fa79f80d412a",
+    "evidence/G-R1/consent_audit_samples.json": "923b592987ba82db38fc65dfe97ae4075efec8a472b792c78909b88774a8ff73",
+    "evidence/G-R1/data_residency_declaration.md": "d1230df575b67158700e3b5fd4ce96afab6819005bc377ad9927bb86f497a391",
+    "evidence/G-R1/data_retention_policy.md": "fc2236c328dc34297123353b182ab3aee628fcfddd84247aba956eb67fa492d9",
+    "evidence/G-R1/pdpl_compliance_mapping.md": "1123be0f9e26f06c9d4c7fba59aed0081f07162c737e89f95e7f3d7663029392",
+    "evidence/G-R1/test_results.txt": "69522fb147eda477c9199f909643911ad6708f93298dda94d2a62625cc7383b6",
+    "evidence/G-S1/CLOSURE_PACK.md": "b662542ddd2dadb5a669d260daf85743be5b269fd0b73ed00637f91ca19d2342",
+    "evidence/G-S1/MANIFEST.json": "e6aef0e1267baa6958af996d0fdba00b6de4ac07ec47346c5a20a887dd56ed8b",
+    "evidence/G-S1/event_taxonomy.md": "9a8f0b9bc268556ea9722b6c6bc812a4c0a560fdf436aa4f90ee2741a1c7d2e7",
+    "evidence/G-S1/mfa_design.md": "6b58e3c2e76327fb9b646bdf4449f29d402406182ba147684d416f99599a8031",
+    "evidence/G-S1/rbac_test_log.md": "b1cce04dc5a7ec869933eace534e67e9207f695dbb05f188db546d41214a2f4e",
+    "evidence/G-S1/test_results.txt": "9bf8e397e4324ad5bca897327dd24e5b8566fad86d87ffcb3e5308c43b071c17",
+    "evidence/design/MANIFEST.json": "7583b3d57564de852365f093a71c3e94362bfa84257b84cd22392d76fb5bea6d",
+    "evidence/design/brand_audit.md": "061f53d76e3f4e443989ea27fb50fdd04c2753c5fc2c263bd656343fbefe86af",
+    "evidence/design/rtl_checklist.md": "902c729ccf0719d5f6cafd47fdbbf2d0fb23d91927fe5db3bcc81c955cc2ed88"
+  }
+}

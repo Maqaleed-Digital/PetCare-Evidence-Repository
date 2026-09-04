@@ -1,0 +1,36 @@
+{
+  "phase": "PHASE-08",
+  "gate": "G-A1",
+  "title": "AI Governance Logging + HITL + Gate Dashboard",
+  "status": "AWAITING_HUMAN_CLOSURE",
+  "timestamp": "2026-04-17T00:00:00Z",
+  "tests": {
+    "total": 5,
+    "passed": 5,
+    "failed": 0,
+    "file": "tests/test_phase08_ai_governance.py"
+  },
+  "artefacts": [
+    "ai_governance_test.txt",
+    "ai_governance_policy.md",
+    "MANIFEST.json"
+  ],
+  "files_created": [
+    "app/backend/services/ai_logger.py",
+    "app/backend/config/feature_flags.py",
+    "app/backend/routes/hitl_routes.py",
+    "app/backend/routes/gate_status_routes.py",
+    "frontend/src/pages/admin/GateDashboard.jsx",
+    "tests/test_phase08_ai_governance.py"
+  ],
+  "files_modified": [
+    "app/backend/server.py"
+  ],
+  "constraints": {
+    "ai_logging": "Every AI inference must call log_ai_decision() — prompt/output stored as SHA-256 hashes only",
+    "hitl": "hitl_required=True auto-creates HITLQueue row; only platform_admin can approve/reject",
+    "feature_flags": "All 4 AI feature flags default False — enable via env var only",
+    "gate_dashboard": "GET /api/gates (platform_admin) returns all 8 gate statuses + feature flags"
+  },
+  "governance_note": "Gate closure requires human authority. Claude Code has not approved any gate."
+}

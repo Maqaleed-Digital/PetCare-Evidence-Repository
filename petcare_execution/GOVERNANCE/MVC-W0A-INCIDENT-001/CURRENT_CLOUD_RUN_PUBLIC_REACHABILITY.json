@@ -1,0 +1,82 @@
+{
+  "artifact": "CURRENT_CLOUD_RUN_PUBLIC_REACHABILITY",
+  "observed_at": "2026-09-03T20:49:35Z",
+  "method": "anonymous HTTPS GET/HEAD, no credentials, no state-changing endpoints",
+  "raw_capture": "anonymous_probe_raw.txt",
+  "instrument_validation": {
+    "note": "*.run.app uses wildcard DNS and a shared wildcard certificate; neither DNS nor TLS discriminates service existence. Verified identical on an invented hostname.",
+    "negative_controls": 3,
+    "control_response": {
+      "http_status": 404,
+      "body_sha256": "6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6",
+      "body_bytes": 272
+    },
+    "fingerprint_meaning": "404 + this exact body = no such Cloud Run service"
+  },
+  "targets": [
+    {
+      "label": "TARGET_API",
+      "endpoint": "https://petcare-api-prod-232802712581.me-central2.run.app",
+      "dns": [
+        "34.143.72.2",
+        "34.143.73.2",
+        "34.143.74.2",
+        "34.143.75.2",
+        "34.143.76.2",
+        "34.143.77.2",
+        "34.143.78.2",
+        "34.143.79.2"
+      ],
+      "dns_discriminates": false,
+      "tls": {
+        "subject": "CN=*.a.run.app",
+        "issuer": "Google Trust Services WR2",
+        "not_before": "2026-08-10T08:37:16Z",
+        "not_after": "2026-11-02T08:37:15Z",
+        "shared_wildcard": true,
+        "tls_discriminates": false
+      },
+      "get_status_root_first": 500,
+      "get_status_health_first": 503,
+      "get_status_steady": 503,
+      "head_status": 503,
+      "random_path_status": 503,
+      "redirect_chain": [],
+      "num_redirects": 0,
+      "server": "Google Frontend",
+      "ssl_verify_result": 0,
+      "body_sha256_root": "f08cee021d976570f1fb821c45e384ad464f6bc254a76dbb39855048e2ef3189",
+      "body_sha256_health": "52f9a90fe354981733b013cb3b4ac3bcd889649282de79c0a33063ec8c74b3a9",
+      "body_is_google_frontend_error_page": true,
+      "body_marker": "The service you requested is not available yet",
+      "matches_control_404": false,
+      "service_object_exists": true,
+      "iam_401_403_observed": false,
+      "anonymous_request_reached_google_frontend": true,
+      "anonymous_request_reached_application_code": false
+    },
+    {
+      "label": "TARGET_WEB",
+      "endpoint": "https://petcare-web-prod-232802712581.me-central2.run.app",
+      "get_status": 404,
+      "head_status": 404,
+      "body_sha256": "6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6",
+      "body_bytes": 272,
+      "matches_control_404": true,
+      "service_object_exists": false,
+      "note": "byte-identical to three invented control hostnames; the service is gone"
+    }
+  ],
+  "determination": {
+    "ANONYMOUS_REQUEST_REACHED_SERVICE": "NO \u2014 Google Frontend error page, not application output",
+    "SERVICE_OBJECT_EXISTS_API": "YES",
+    "SERVICE_OBJECT_EXISTS_WEB": "NO",
+    "CURRENT_RUNTIME_SERVING": "NO \u2014 503 on every path including randomly generated ones",
+    "CURRENT_RUNTIME_VULNERABLE": "NO_CODE_EXECUTING",
+    "IAM_401_403_OBSERVED": "NO",
+    "CURRENT_PUBLIC_NETWORK_REACHABILITY": "PROBABLE_NOT_PROVEN"
+  },
+  "why_not_yes": "The missing 403 is a real signal \u2014 Cloud Run normally enforces the invoker check at the frontend, so a private service would deny an anonymous caller regardless of container health. It is not proof: a service with no healthy revision may short-circuit to 503 before the IAM check, in which case the absent 403 is an artefact of the broken revision. One read of the service IAM policy resolves it.",
+  "departure_from_sponsor_classification": "The supplied rule 'any non-denial response => CURRENT_PUBLIC_NETWORK_REACHABILITY=YES' was not applied verbatim, because the negative controls show a non-denial response is also what a NONEXISTENT service returns. Existence had to be established first; reachability remains PROBABLE.",
+  "no_mutation_performed": true
+}

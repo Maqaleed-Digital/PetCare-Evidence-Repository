@@ -1,0 +1,63 @@
+{
+  "register_id": "MVC-CROSS-REPO-TRACEABILITY-001",
+  "authority": "MVC-GOV-CANON-001",
+  "port_id": "PORT-10",
+  "measured_utc": "2026-09-04T11:00:00Z",
+  "canonical_repository": "petcare-evidence-repository",
+  "port_source_repository": "petcare-platform",
+  "join": {
+    "authorities_total": 11,
+    "authorities_repository_resident": 8,
+    "authorities_referenced_not_resident": 3,
+    "authorities_non_resident_ids": [
+      "AUTH-01",
+      "AUTH-02",
+      "AUTH-03"
+    ],
+    "authority_source_paths_unresolved": [],
+    "local_register_total": 106,
+    "local_register_statuses": {
+      "CLOSED_EVIDENCED": 104,
+      "DEFERRED_INTEGRATION": 2
+    },
+    "evidence_citations_distinct": 14,
+    "evidence_citations_resolving_in_canonical": 14
+  },
+  "unmeasurable_denominator": {
+    "value": 499,
+    "meaning": "product requirement estate, full platform",
+    "status": "RELAYED_NOT_REMEASURED",
+    "computed_in": "MVC-ACCEPTANCE-ANNEX-001 V1.0 section 6",
+    "computed_over": [
+      "MVC-BRD-001 V3.1 CANDIDATE (carries the requirement bodies)",
+      "MVC-BRD-001 V3.2 (invariants, scope, fences; does NOT supersede V3.1)",
+      "MVC-SPEC-001 V3.1 Annex K"
+    ],
+    "provenance": [
+      "MVC-ACCEPTANCE-ANNEX-001 V1.0: REQUIREMENTS_TOTAL = 499 (500 less REQ-MVC-1, proven prose)",
+      "MVC-CP2-PACK-001 V1.0: SPECIFICATION_CONTENT_COMPLETE = YES at 499",
+      "Notion session handoffs of 31 Aug and 1 Sep 2026 relay it"
+    ],
+    "derivation_as_stated": "500 authored identifiers less REQ-MVC-1, which is prose",
+    "competing_figure": {
+      "value": 495,
+      "computed_in": "MVC-BRD-001 V3.2 Appendix T",
+      "definition": "distinct requirement identifiers traced into a V3.2 section",
+      "excludes": "the metavariable REQ-MVC-n; INCLUDES REQ-MVC-1",
+      "reconciliation": "NOT RECONCILED. The gap is not explained by the annex's four-identifier residue set: REQ-MVC-1 is already excluded from 499, so removing the other three gives 496, and on a common basis the figures are 500 and 495."
+    },
+    "why_not_measurable_here": "no MyVetiCare BRD artefact is repository-resident, and none can be ingested yet. Nothing in the family is ratified; V3.2 does not supersede V3.1 so neither is complete alone; and V3.2's bytes no longer produce the hash its own governing record binds (recorded d480cb71, actual 32f53669). Two of six REV-8 hashes reproduce exactly, which validates the method and makes the rest drift.",
+    "what_would_measure_it": "a Sponsor act ratifying MVC-BRD-001 V3.1 + V3.2 + Annex K as the requirement authority, ingestion of that companion set together, and a hash register re-issued against current bytes"
+  },
+  "test_estate_measured": {
+    "python_tests_root": 73,
+    "python_tests_root_of_which_governance": 39,
+    "python_petcare_runtime": 234,
+    "python_petcare_api": 46,
+    "vitest_petcare_web": 120,
+    "playwright_petcare_web": 90,
+    "note": "Every figure produced by running the suite in this run, not counted from source. Playwright cases are loop-generated, so a static count of test( declarations gives 6 where a run gives 90."
+  },
+  "corrected_utc": "2026-09-04",
+  "correction_note": "499 was previously attributed to AUTH-01/02/03. It is computed in MVC-ACCEPTANCE-ANNEX-001 V1.0 over the MyVetiCare BRD family. Residency of AUTH-01/02/03 is unchanged (NO)."
+}
