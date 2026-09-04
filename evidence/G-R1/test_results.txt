@@ -1,0 +1,14 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/waheebmahmoud/dev/petcare-platform/app/backend/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/waheebmahmoud/dev/petcare-platform
+plugins: anyio-4.12.1, cov-7.1.0
+collecting ... collected 5 items
+
+tests/test_phase03_consent.py::test_grant_consent_emits_correct_audit_event PASSED [ 20%]
+tests/test_phase03_consent.py::test_revoke_sets_revoked_at_not_delete PASSED [ 40%]
+tests/test_phase03_consent.py::test_regrant_after_revoke_creates_new_row PASSED [ 60%]
+tests/test_phase03_consent.py::test_health_record_without_consent_returns_403 PASSED [ 80%]
+tests/test_phase03_consent.py::test_health_record_with_active_consent_returns_200 PASSED [100%]
+
+============================== 5 passed in 0.66s ===============================

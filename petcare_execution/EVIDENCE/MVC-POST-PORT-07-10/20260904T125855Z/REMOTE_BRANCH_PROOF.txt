@@ -1,0 +1,16 @@
+# Remote branch proof — 2026-09-04
+
+repository : Maqaleed-Digital/PetCare-Evidence-Repository (PUBLIC)
+default    : main
+branch     : govern/canonical-repository-authority
+
+ae94500d1fe93c751eb53f0023efe057f0472c16	refs/heads/govern/canonical-repository-authority
+
+local HEAD at first push : ae94500d1fe93c751eb53f0023efe057f0472c16
+
+## Published tips still carrying the ACTIVE literal default (read-only)
+origin/gate-evidence-prep                     FIX=0 ACTIVE_DEFAULT=1
+origin/m8-brand-cleanup                       FIX=0 ACTIVE_DEFAULT=1
+origin/mvc-ux-wo-001                          FIX=0 ACTIVE_DEFAULT=1
+origin/mvc-ux-wo-002-trust-surfaces           FIX=0 ACTIVE_DEFAULT=1
+origin/main                                   FIX=1 ACTIVE_DEFAULT=0

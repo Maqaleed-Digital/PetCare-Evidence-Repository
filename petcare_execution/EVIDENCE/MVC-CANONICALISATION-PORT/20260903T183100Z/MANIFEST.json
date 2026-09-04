@@ -1,0 +1,32 @@
+{
+  "bundle_id": "MVC-CANONICALISATION-PORT-20260903T183100Z",
+  "artefact_count": 5,
+  "artefacts": [
+    {
+      "name": "CANONICAL_PORT_DIFFERENTIAL_AND_PLAN.md",
+      "sha256": "c41669b352e8ca268868839579ba9446ce6ad532c46f867031e882bd6ca7adc5",
+      "bytes": 5572
+    },
+    {
+      "name": "CANONICAL_REPOSITORY_AUTHORITY_DECISION.md",
+      "sha256": "fc485a7796d416986e8813c05f3e83363b9ae71a0972f7401efd816b465d8417",
+      "bytes": 4626
+    },
+    {
+      "name": "CANONICAL_REPOSITORY_AUTHORITY_SEAL.json",
+      "sha256": "f3d098fbd7bc37f211d74849ead8d32722bb72b57ea311cf74d7c8f33f66ef16",
+      "bytes": 2066
+    },
+    {
+      "name": "RUN_RECORD.json",
+      "sha256": "febcad611d7f542c60a06fe565409a2bad31580dc8ace5ed009c109d4f135cee",
+      "bytes": 3012
+    },
+    {
+      "name": "git_log.txt",
+      "sha256": "6ec8a32d53c6cf66a93db748b31de5ee2e3899e1ce0639695a3fa2c2c87e3f9b",
+      "bytes": 814
+    }
+  ],
+  "bundle_sha256": "916f93c2df6e7b28794339fd39059fe32bc4f8421e6e35a5428875b11a290188"
+}

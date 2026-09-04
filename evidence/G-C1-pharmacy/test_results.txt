@@ -1,0 +1,15 @@
+============================= test session starts ==============================
+platform darwin -- Python 3.9.6, pytest-8.4.2, pluggy-1.6.0 -- /Users/waheebmahmoud/dev/petcare-platform/app/backend/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /Users/waheebmahmoud/dev/petcare-platform
+plugins: anyio-4.12.1, cov-7.1.0
+collecting ... collected 6 items
+
+tests/test_phase06_pharmacy.py::test_contraindicated_pair_blocks_dispense_returns_403 PASSED [ 16%]
+tests/test_phase06_pharmacy.py::test_allergy_match_blocks_dispense_returns_403 PASSED [ 33%]
+tests/test_phase06_pharmacy.py::test_dose_out_of_range_returns_warning_not_block PASSED [ 50%]
+tests/test_phase06_pharmacy.py::test_recall_post_sets_batch_status_recalled PASSED [ 66%]
+tests/test_phase06_pharmacy.py::test_dispense_recalled_batch_returns_403 PASSED [ 83%]
+tests/test_phase06_pharmacy.py::test_cold_chain_item_routed_to_non_capable_returns_422 PASSED [100%]
+
+============================== 6 passed in 1.45s ===============================

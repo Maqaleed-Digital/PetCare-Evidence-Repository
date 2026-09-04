@@ -1,0 +1,41 @@
+{
+  "artifact": "RESPONSIVE_DELTA_PROOF",
+  "before": {
+    "total": 90,
+    "pass": 53,
+    "fail": 37
+  },
+  "after": {
+    "total": 90,
+    "pass": 90,
+    "fail": 0
+  },
+  "assertions_weakened": 0,
+  "new_regressions": 0,
+  "files_changed": [
+    "petcare_web/app/globals.css"
+  ],
+  "e2e_specs_changed": 0,
+  "root_cause_single": true,
+  "measured_effect": {
+    "route": "/",
+    "viewport": 320,
+    "nav_scrollWidth_before": 407,
+    "nav_scrollWidth_after": 320,
+    "overflow_before_px": 87,
+    "overflow_after_px": 0
+  },
+  "regression_sweep": {
+    "playwright": "90/90",
+    "vitest": "76/76",
+    "petcare_api": "46/46",
+    "typecheck": "PASS",
+    "build": "PASS",
+    "lint": "NOT_CONFIGURED"
+  },
+  "residual": {
+    "id": "BLANKET_OVERFLOW_X_HIDDEN_RESIDUAL",
+    "location": "petcare_web/app/globals.css:275",
+    "action": "recorded, not removed"
+  }
+}

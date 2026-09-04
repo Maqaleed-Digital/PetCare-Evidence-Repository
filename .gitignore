@@ -7,3 +7,12 @@ __pycache__/
 petcare_execution/evidence_output/
 petcare_web/.next/
 petcare_web/node_modules/
+
+# Environment files. Only bare `.env` was covered, which misses the file
+# Next.js itself tells developers to put local secrets in (`.env.local`) and
+# every `.env.*.local` variant. This repository is PUBLIC, so an unignored
+# env file is a one-command secret leak. `.env.example` stays tracked.
+.env
+.env.*
+!.env.example
+!.env*.example

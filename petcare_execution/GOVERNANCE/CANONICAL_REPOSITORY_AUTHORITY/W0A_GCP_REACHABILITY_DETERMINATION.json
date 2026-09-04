@@ -1,0 +1,30 @@
+{
+  "determination_id": "W0A-GCP-001",
+  "date": "2026-09-03",
+  "authorization": "MVC-GCP-FORENSIC-READ-001",
+  "gcp_project": "prj-maq-petcare-prod",
+  "known_image_reference": "me-central2-docker.pkg.dev/prj-maq-petcare-prod/petcare-artifacts/petcare-api:latest",
+  "gcp_read_status": "BLOCKED_CREDENTIAL_GATE",
+  "gate": "GCP_READ_CREDENTIAL_ENTRY_REQUIRED",
+  "accounts_attempted": 3,
+  "accounts_usable": 0,
+  "failure_mode": "expired refresh tokens; reauthentication requires gcloud auth login, which the authorization withholds and non-interactive execution cannot perform",
+  "project_exists": "UNKNOWN",
+  "vulnerable_image_digest": "UNKNOWN",
+  "vulnerable_image_present": "UNKNOWN",
+  "vulnerable_image_executed": "UNKNOWN",
+  "publicly_reachable": "UNKNOWN",
+  "session_issuance_evidence": "UNKNOWN",
+  "request_logs_present": "UNKNOWN",
+  "log_evidence_at_risk": "UNKNOWN",
+  "gcp_exposure_classification": "CLASS_G6_INDETERMINATE",
+  "aws_exposure_classification": "CLASS_A_NOT_PRESENT_IN_AWS",
+  "overall_exposure_classification": "CLASS_E_INDETERMINATE",
+  "proven_none": "NO",
+  "cp2_exclusion_2_triggered": "NO",
+  "mutations_performed": "NONE - no login, no config change, no IAM change, no teardown, no rotation",
+  "closure_paths": [
+    "operator gcloud auth login with read access, then complete read-only forensics",
+    "documented decommissioning evidence with dates -> CLASS_G1"
+  ]
+}

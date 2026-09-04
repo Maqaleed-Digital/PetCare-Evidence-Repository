@@ -1,0 +1,110 @@
+=== PROBE=TARGET_API
+URL=https://petcare-api-prod-232802712581.me-central2.run.app/health
+AT_UTC=2026-09-04T11:29:21Z
+HTTP_CODE=500
+CURL_RC=0
+BODY_BYTES=323
+BODY_SHA256=f08cee021d976570f1fb821c45e384ad464f6bc254a76dbb39855048e2ef3189
+--- HEADERS ---
+HTTP/2 500 
+x-cloud-trace-context: 5735bb30c1696ae67a4be0f5f0c7c014;o=1
+date: Fri, 04 Sep 2026 11:29:22 GMT
+content-type: text/html; charset=UTF-8
+server: Google Frontend
+content-length: 323
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
+--- BODY ---
+
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>500 Server Error</title>
+</head>
+<body text=#000000 bgcolor=#ffffff>
+<h1>Error: Server Error</h1>
+<h2>The server encountered an error and could not complete your request.<p>Please try again in 30 seconds.</h2>
+<h2></h2>
+</body></html>
+
+
+=== PROBE=TARGET_WEB
+URL=https://petcare-web-prod-232802712581.me-central2.run.app/api/health
+AT_UTC=2026-09-04T11:29:23Z
+HTTP_CODE=404
+CURL_RC=0
+BODY_BYTES=272
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+--- HEADERS ---
+HTTP/2 404 
+content-length: 272
+content-type: text/html; charset=UTF-8
+date: Fri, 04 Sep 2026 11:29:23 GMT
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
+--- BODY ---
+
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>404 Page not found</title>
+</head>
+<body text=#000000 bgcolor=#ffffff>
+<h1>Error: Page not found</h1>
+<h2>The requested URL was not found on this server.</h2>
+<h2></h2>
+</body></html>
+
+
+=== PROBE=NEGCTL_SAMEPROJ
+URL=https://zzz-nonexistent-mvc-probe-232802712581.me-central2.run.app/health
+AT_UTC=2026-09-04T11:29:23Z
+HTTP_CODE=404
+CURL_RC=0
+BODY_BYTES=272
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+--- HEADERS ---
+HTTP/2 404 
+content-length: 272
+content-type: text/html; charset=UTF-8
+date: Fri, 04 Sep 2026 11:29:27 GMT
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
+--- BODY ---
+
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>404 Page not found</title>
+</head>
+<body text=#000000 bgcolor=#ffffff>
+<h1>Error: Page not found</h1>
+<h2>The requested URL was not found on this server.</h2>
+<h2></h2>
+</body></html>
+
+
+=== PROBE=NEGCTL_FAKEPROJ
+URL=https://zzz-nonexistent-mvc-probe-999999999999.me-central2.run.app/health
+AT_UTC=2026-09-04T11:29:27Z
+HTTP_CODE=404
+CURL_RC=0
+BODY_BYTES=272
+BODY_SHA256=6b43b396ba4708e5ffe9da06909bc2059e55b300f2434bc4181ca3a842d83bd6
+--- HEADERS ---
+HTTP/2 404 
+content-length: 272
+content-type: text/html; charset=UTF-8
+date: Fri, 04 Sep 2026 11:29:28 GMT
+alt-svc: h3=":443"; ma=2592000,h3-29=":443"; ma=2592000
+
+--- BODY ---
+
+<html><head>
+<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<title>404 Page not found</title>
+</head>
+<body text=#000000 bgcolor=#ffffff>
+<h1>Error: Page not found</h1>
+<h2>The requested URL was not found on this server.</h2>
+<h2></h2>
+</body></html>
+
+

@@ -1,0 +1,75 @@
+# verify workflow — proven on the branch, not predicted
+
+repository : Maqaleed-Digital/PetCare-Evidence-Repository (PUBLIC)
+branch     : govern/canonical-repository-authority
+workflow   : .github/workflows/verify.yml
+job / check: verify
+
+## Run 1 — 33875967911 @ b08c2941 — FAILURE (this is the point of having CI)
+
+6 failed, 379 passed, 7 skipped. Three causes, none of which a local run could
+have found, because a working copy is not the repository:
+
+  shallow checkout      actions/checkout defaults to fetch-depth 1, so
+                        `git cat-file -t` could not resolve the EP-07 seal
+                        commit or any of the 10 PORT closing commits. A
+                        truncated checkout read as a corrupt register.
+
+  untracked citations   EVIDENCE/MANIFEST.json declares 315 files; 169 are
+                        tracked. The other 146 (__pycache__/*.pyc,
+                        *.bak.<timestamp>, baseline_input/) were never
+                        versioned. All 146 sit in the working copy of anyone who
+                        ran the pipeline that produced them, which is why every
+                        local run passed.
+
+  dead allowlist entry  the secret scan's last exception named a file under
+                        gitignored petcare_execution/evidence_output/. It is not
+                        in the repository, so the scanner never saw it and the
+                        entry protected nothing while looking load-bearing.
+
+## Run 2 — 33876521307 @ 630b9e0c — SUCCESS
+
+status=completed  conclusion=success  job verify=success
+
+  success  Checkout
+  success  Set up Python
+  success  Install python verification dependencies
+  success  Python estate — tests, governance registers, authority resolver
+  success  Set up Node
+  success  Install web dependencies
+  success  TypeScript
+  success  Web unit tests
+  success  Install Playwright browser
+  success  Responsive regression
+  success  Prohibited-literal scan (active defaults only)
+  success  Secret scan
+  success  Evidence bundle verification
+
+14 of 14 steps green. No step skipped, no step neutral — which matters here,
+because `ci_verdict.py` treats skipped and neutral as not-a-pass.
+
+## Independent confirmation before the push
+
+A clean `git clone` of the repository at 630b9e0c, run locally:
+
+  tracked files                 3663
+  pytest (combined estate)      395 passed
+  secret_scan.py                3662 scanned, 0 allowlisted, 0 findings
+  prohibited_literal_scan.py    355 files, 0 active defaults
+  verify_evidence_bundles.py    7 bundles, 41 artefacts, 0 mismatches
+
+The clone is the instrument that reproduces CI's condition. Running the suite in
+the working tree is what produced the false green in the first place.
+
+## Residual
+
+  NODE20_ACTION_DEPRECATION  GitHub annotates that actions/checkout@v4,
+                             setup-node@v4 and setup-python@v5 target Node 20
+                             and are being forced onto Node 24. A warning, not a
+                             failure; the run is green. Recorded, not changed —
+                             bumping action majors deserves its own run.
+
+## What this does NOT establish
+
+`verify` now runs and reports. Nothing stops a merge that ignores it: `main`
+measures unprotected with zero rulesets. Making it a required check is GATE-3.

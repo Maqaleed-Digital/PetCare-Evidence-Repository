@@ -66,21 +66,29 @@ main {
 /* ── Nav ── */
 .nav {
   display: flex;
+  /* The bar wraps instead of overflowing. Its content needs ~407px; below that
+     a single non-wrapping row pushed items outside the viewport, where the
+     blanket overflow-x:hidden clipped them out of reach rather than fixing
+     anything. Wrapping is the root-cause fix. */
+  flex-wrap: wrap;
   align-items: center;
   gap: 0;
+  row-gap: 8px;
   padding: 0 24px;
   background: var(--card);
   border-bottom: 1px solid var(--line);
-  height: 56px;
+  /* min-height, not height: a fixed height clips the second row once it wraps. */
+  min-height: 56px;
 }
 .nav-brand {
   font-weight: 800;
   font-size: 17px;
   color: var(--accent);
   letter-spacing: -0.02em;
-  margin-right: auto;
+  margin-inline-end: auto;
+  min-width: 0;
 }
-.nav-links { display: flex; gap: 4px; align-items: center; }
+.nav-links { display: flex; flex-wrap: wrap; gap: 4px; align-items: center; min-width: 0; }
 .nav-link {
   padding: 6px 12px;
   border-radius: 8px;
@@ -91,7 +99,7 @@ main {
 }
 .nav-link:hover { background: var(--bg); color: var(--text); }
 .nav-link.active { background: var(--accent-light); color: var(--accent); }
-.nav-actions { display: flex; gap: 8px; margin-left: 16px; }
+.nav-actions { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-inline-start: 16px; min-width: 0; }
 
 /* ── Cards ── */
 .card {
@@ -267,8 +275,8 @@ html, body { overflow-x: hidden; }
   main { padding: 20px 16px; }
   .button { min-height: 48px; padding: 12px 20px; }
   input, select, textarea { min-height: 48px; }
-  .nav { padding: 0 16px; }
-  .nav-actions { gap: 4px; }
+  .nav { padding: 8px 16px; }
+  .nav-actions { gap: 4px; margin-inline-start: 0; }
   .hero { padding: 32px 20px; }
   .grid.cols2 { grid-template-columns: 1fr; }
 }

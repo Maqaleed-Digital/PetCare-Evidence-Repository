@@ -1,0 +1,10 @@
+3f813c58 custody: close GATE_EVIDENCE_UNVERSIONED with the proof chain
+88aa9d7b custody: bind every cited evidence path to a hash
+393e1cef custody: version evidence bytes and bind them against normalisation
+0b0ea13e govern(port): differential, port plan, and hashed canonicalisation evidence
+6e4cbccd port(PORT-03): error boundaries, ported as behaviour not as code
+5b0f442c govern(MVC-GOV-CANON-001): lodge canonical repository authority
+e93e083b MVC-UX-WO-002: trust-surface embodiment (WI-1..WI-5 live, WI-6..WI-8 dark) (#2)
+9111f631 MVC-UX-WO-001: pilot UX uplift (WI-1..WI-4) — pilot-usable, NOT market-ready (#1)
+5202bb5f feat(api,auth): wire pilot auth router into deploying petcare_api
+34d277a6 chore(i18n,pilot): commit in-flight FR-09 follow-on (frontend)

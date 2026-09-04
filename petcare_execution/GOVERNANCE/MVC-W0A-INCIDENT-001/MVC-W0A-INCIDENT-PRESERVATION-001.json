@@ -1,0 +1,87 @@
+{
+  "id": "MVC-W0A-INCIDENT-PRESERVATION-001",
+  "date": "2026-09-03",
+  "mode": "read_only_preservation",
+  "no_mutation_performed": true,
+  "canonical_head": "016bd766d5a089811ad313a9cca0d57fc674b0ca",
+  "branch": "govern/canonical-repository-authority",
+  "repos": {
+    "public_canonical": "Maqaleed-Digital/PetCare-Evidence-Repository",
+    "public_canonical_visibility": "PUBLIC",
+    "private_port_source": "Maqaleed-Digital/PetCare-Platform",
+    "private_port_source_visibility": "PRIVATE"
+  },
+  "secret_exposure": {
+    "present_in_public_history": true,
+    "present_in_public_head": true,
+    "file": "petcare_api/routers/auth.py",
+    "first_vulnerable_commit": "5202bb5f",
+    "first_vulnerable_date": "2026-05-23",
+    "fix_commit": "3224c65d/e98ee966",
+    "fix_date": "2026-09-01",
+    "fix_pushed_to_public": false,
+    "window_open": "2026-05-23T22:22:51Z",
+    "window_closed": null,
+    "window_days_open": 103
+  },
+  "execution": {
+    "vulnerable_image_executed": "UNKNOWN",
+    "previous_value": "YES",
+    "correction_reason": "auth.py created 2026-05-23; cited PH5.1 deployment 2026-04-06 predates the defect by 7 weeks",
+    "first_known_production_deployment": "2026-04-06",
+    "deployment_after_defect": "NO_EVIDENCE",
+    "vulnerable_serving_window": "UNKNOWN"
+  },
+  "endpoint": {
+    "host": "petcare-api-prod-232802712581.me-central2.run.app",
+    "get_status_first": 500,
+    "get_status_steady": 503,
+    "head_status": 503,
+    "random_path_status": 503,
+    "response_origin": "google_frontend_error_page",
+    "reached_application_code": false,
+    "service_object_exists": true,
+    "web_service_exists": false,
+    "iam_denial_observed": false,
+    "public_network_reachability": "PROBABLE_NOT_PROVEN",
+    "runtime_serving": false,
+    "runtime_vulnerable": "NO_CODE_EXECUTING",
+    "negative_controls": 3,
+    "control_404_sha256_prefix": "6b43b396"
+  },
+  "session": {
+    "mechanism": "signed_cookie_itsdangerous",
+    "ttl_seconds": 28800,
+    "server_side_store": false,
+    "revocation_mechanism": null,
+    "rotation_is_global_invalidation": true,
+    "forgery_impact_if_key_live": "CRITICAL",
+    "forgery_impact_realised": "UNKNOWN"
+  },
+  "current_source": {
+    "hardcoded_key": false,
+    "enforcement": "fail_closed_at_import",
+    "fixed": true,
+    "guards_armed_verified": true,
+    "armed_proof": "perturbed isolated copy fails 3 guards; canonical tree unmodified"
+  },
+  "gcp": {
+    "read_status": "BLOCKED_CREDENTIAL_GATE",
+    "historical_public_iam": "UNKNOWN",
+    "session_issuance_evidence": "UNKNOWN",
+    "log_evidence_at_risk": "UNKNOWN"
+  },
+  "tests": {
+    "suite": "petcare_api/tests",
+    "run": 46,
+    "passed": 46,
+    "failed": 0,
+    "skipped": 0
+  },
+  "classification": {
+    "security_incident_credibility": "MODERATE",
+    "cp2_exclusion_2_triggered": false,
+    "confirmed_finding": "session signing default live in a public default branch, 103 days, unremediated",
+    "unproven": "that any deployment ever carried the vulnerable code"
+  }
+}

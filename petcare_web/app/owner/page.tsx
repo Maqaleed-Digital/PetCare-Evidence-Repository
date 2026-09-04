@@ -40,7 +40,7 @@ export default function OwnerPage() {
       <p className="muted" style={{ fontSize: 13 }}>{t(s.emergencyHint)}</p>
 
       <div className="grid cols2">
-        <div className="role-card">
+        <div className="role-card" data-list-region="owner-pets">
           <div className="role-card-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
@@ -50,12 +50,12 @@ export default function OwnerPage() {
             <div className="title" style={{ fontSize: 16 }}>{t(s.petProfileTitle)}</div>
             <p className="subtitle">{t(s.petProfileSub)}</p>
           </div>
-          <span className="muted">{t(s.petProfileEmpty)}</span>
+          <span className="muted" data-list-empty="">{t(s.petProfileEmpty)}</span>
           {/* WI-5: "Add pet" CTA is deferred in the pilot — disclose honestly. */}
           <ModeDisclosureBanner variant="badge" />
         </div>
 
-        <div className="role-card">
+        <div className="role-card" data-list-region="owner-timeline">
           <div className="role-card-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/>
@@ -65,7 +65,7 @@ export default function OwnerPage() {
             <div className="title" style={{ fontSize: 16 }}>{t(s.timelineTitle)}</div>
             <p className="subtitle">{t(s.timelineSub)}</p>
           </div>
-          <span className="muted">{t(s.timelineEmpty)}</span>
+          <span className="muted" data-list-empty="">{t(s.timelineEmpty)}</span>
           <ModeDisclosureBanner variant="badge" />
         </div>
 
@@ -83,7 +83,7 @@ export default function OwnerPage() {
           <ModeDisclosureBanner variant="inline" />
         </div>
 
-        <div className="role-card">
+        <div className="role-card" data-list-region="owner-consents">
           <div className="role-card-icon">
             <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
@@ -93,7 +93,7 @@ export default function OwnerPage() {
             <div className="title" style={{ fontSize: 16 }}>{t(s.consentTitle)}</div>
             <p className="subtitle">{t(s.consentSub)}</p>
           </div>
-          <span className="muted">{t(s.consentEmpty)}</span>
+          <span className="muted" data-list-empty="">{t(s.consentEmpty)}</span>
         </div>
       </div>
 
