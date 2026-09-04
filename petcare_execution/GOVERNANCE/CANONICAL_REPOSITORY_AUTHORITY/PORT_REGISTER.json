@@ -87,7 +87,8 @@
         "petcare_web/app/vet/page.tsx"
       ],
       "risk": "medium",
-      "status": "OPEN"
+      "status": "DONE",
+      "closing_commit": "e9d36f5a"
     },
     {
       "id": "PORT-09",

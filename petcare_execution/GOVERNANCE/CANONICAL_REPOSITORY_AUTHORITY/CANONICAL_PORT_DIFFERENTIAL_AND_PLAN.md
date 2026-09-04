@@ -63,7 +63,7 @@ targets below name `petcare_web/`, which is the tree carrying the test estate.
 | **PORT-05** | Safety-critical 320 px reachability (emergency, pharmacy, consultation) | `petcare_web/e2e/viewport-invariants.spec.ts` | medium | **DONE** |
 | **PORT-06** | Page-crash detection in e2e | `petcare_web/e2e/viewport-invariants.spec.ts` | low | **DONE** |
 | **PORT-07** | Governance register integrity tests, retargeted to canonical authorities | `tests/governance/test_canonical_register_integrity.py` | medium | **DONE** |
-| PORT-08 | Empty / loading / error state coverage per surface | `petcare_web/__tests__/surface-states.test.tsx` | medium | OPEN |
+| **PORT-08** | Empty / loading / error state coverage per surface | `petcare_web/__tests__/surface-states.test.tsx` | medium | **DONE** |
 | PORT-09 | Marketplace UI seam against canonical `partner_network` services | `petcare_web/app/admin/` | medium | OPEN — must consume, never re-own |
 | PORT-10 | Cross-repository traceability denominator | `petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/CROSS_REPOSITORY_TRACEABILITY.md` | medium | OPEN |
 
