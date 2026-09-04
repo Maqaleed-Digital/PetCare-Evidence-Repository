@@ -94,23 +94,31 @@
       "id": "PORT-09",
       "capability": "Marketplace UI seam against canonical partner_network services",
       "targets": [
+        "petcare_web/lib/marketplace.ts",
+        "petcare_web/components/MarketplaceSeamPanel.tsx",
+        "petcare_web/__tests__/marketplace-seam.test.tsx",
         "petcare_web/app/admin"
       ],
       "risk": "medium",
-      "status": "OPEN",
-      "constraint": "must consume, never re-own; marketplace canonical location is petcare_runtime/src/petcare/partner_network/ and its EP-07 seal is PRESERVED"
+      "status": "DONE",
+      "constraint": "must consume, never re-own; marketplace canonical location is petcare_runtime/src/petcare/partner_network/ and its EP-07 seal is PRESERVED",
+      "closing_commit": "ebed5cba"
     },
     {
       "id": "PORT-10",
       "capability": "Cross-repository traceability denominator",
       "targets": [
-        "petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/CROSS_REPOSITORY_TRACEABILITY.md"
+        "petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/CROSS_REPOSITORY_TRACEABILITY.md",
+        "scripts/governance/cross_repository_traceability.py",
+        "tests/governance/test_cross_repository_traceability.py"
       ],
       "risk": "medium",
-      "status": "OPEN"
+      "status": "DONE",
+      "closing_commit": "682309f1"
     }
   ],
   "must_not_port": {
     "pharmacy_operator_role": "Canonical W0-D retires it and fails dispensing closed to the veterinarian. The port source carries it as a first-class role. Porting the port source's role model would reverse a security decision."
-  }
+  },
+  "completed": 10
 }
