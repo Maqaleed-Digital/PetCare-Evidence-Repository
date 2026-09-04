@@ -104,3 +104,45 @@ The export itself needs the authoritative source, which is outside this
 repository. That is a data-availability boundary, not a Sponsor gate: no
 credential, no production system and no external configuration is involved in
 producing it.
+
+---
+
+# Correction — 2026-09-04 (later): the 499 attribution above is wrong
+
+Appended, not rewritten. The section above states that `499` derives from
+AUTH-01/02/03. **It does not.**
+
+`AUTH-01/02/03` are the **PetCare** lineage. `499` is computed in
+**`MVC-ACCEPTANCE-ANNEX-001 V1.0` §6** over the **MyVetiCare** lineage —
+`MVC-BRD-001` V3.1 CANDIDATE + V3.2 and `MVC-SPEC-001` V3.1 Annex K — which the
+port source's authority table does not list at all. The attribution was
+inherited from that table's framing rather than measured.
+
+**What stands:** AUTH-01/02/03 are still `REFERENCED_NOT_REPOSITORY_RESIDENT`,
+still appear only as three bullet lines, and the residency rule and its
+near-miss list are unaffected. The "a citation is not the artefact" argument is
+independent of which lineage 499 came from.
+
+**What changes:** the gap is no longer unreachable in principle. The source is
+on this machine. Ingestion is blocked on three named conditions, not on absence:
+
+1. **Nothing in the family is ratified.** `MVC-RESUMPTION_RECORD.md`: *"All
+   outputs are DRAFT pending Sponsor verdict. Nothing is ratified."*
+   `CP2_STATE = NOT_TAKEN`.
+2. **V3.2 does not supersede V3.1.** It incorporates V3.1's requirement text by
+   reference and governs only on conflict; V3.1 is a normative annex carrying the
+   requirement bodies. Neither is complete alone, so a single-document ingestion
+   would be wrong whichever one it picked. The schema supports a companion set.
+3. **V3.2's bytes have drifted from their own hash register.** REV 8 records
+   `d480cb71…`; the file produces `32f53669…`. Two of the six REV-8 hashes
+   reproduce exactly, which validates the method and makes the other four drift.
+   Ingesting would bind a fresh hash to bytes whose link to the recorded
+   governance act is broken — creating custody rather than recording it.
+
+**A second computed figure exists.** `MVC-BRD-001 V3.2` Appendix T reports
+**495** distinct traced identifiers, excluding the metavariable `REQ-MVC-n` and
+*including* `REQ-MVC-1`. 499 excludes `REQ-MVC-1` and counts 500 authored. The
+gap does **not** reconcile against the annex's four-identifier residue set, and
+no reconciliation is asserted.
+
+See `AUTHORITY_CANDIDATES.md` and `AUTHORITY_PRECEDENCE_TABLE.md`.

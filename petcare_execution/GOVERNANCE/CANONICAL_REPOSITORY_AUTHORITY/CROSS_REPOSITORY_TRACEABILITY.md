@@ -98,3 +98,24 @@ exactly the same clean report on a healthy table as one that works.
 3. A static source count is not a runtime case count.
 4. An unmeasurable denominator is declared, with its provenance and with what
    would measure it — never estimated, never quietly dropped.
+
+---
+
+# Correction — 2026-09-04 (later)
+
+The section above states that `499` derives from AUTH-01/02/03. **That is wrong**
+and is corrected here rather than by editing the original.
+
+`499` is computed in `MVC-ACCEPTANCE-ANNEX-001 V1.0` over `MVC-BRD-001` V3.1 +
+V3.2 + `MVC-SPEC-001` V3.1 Annex K — the MyVetiCare lineage. AUTH-01/02/03 are
+the PetCare lineage and the authority table does not list the MyVetiCare
+documents at all.
+
+Everything measured in this record stands: 11 authorities, 8 resident, 0
+unresolved source paths, 106 register rows, 14/14 evidence citations resolving.
+`DENOMINATOR_499_REPOSITORY_MEASURABLE` remains **NO**. What changed is the
+reason — from "the source is unknown and outranked" to three named conditions
+recorded in `AUTHORITY_PRECEDENCE_TABLE.md`.
+
+A competing computed figure, **495** (V3.2 Appendix T), is recorded there too. It
+is not reconciled with 499 and no reconciliation is asserted.

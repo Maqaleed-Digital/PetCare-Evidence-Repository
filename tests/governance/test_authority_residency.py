@@ -35,8 +35,20 @@ AUTHORITY_ROOT = ROOT / "petcare_execution" / "AUTHORITY"
 SCHEMA_PATH = AUTHORITY_ROOT / "AUTHORITY_INGESTION_SCHEMA.json"
 SPEC_PATH = AUTHORITY_ROOT / "AUTHORITY_INGESTION_SPEC.md"
 
-#: The authorities `499` derives from. Precedence 1, 2 and 3.
-DERIVING_AUTHORITIES = ("AUTH-01", "AUTH-02", "AUTH-03")
+#: The three top-precedence authorities in the port source's table.
+#:
+#: CORRECTED 2026-09-04. These were previously described as "the authorities 499
+#: derives from". They are not. AUTH-01/02/03 are the PetCare lineage; `499` is
+#: computed in MVC-ACCEPTANCE-ANNEX-001 V1.0 over the MyVetiCare lineage
+#: (MVC-BRD-001 V3.1 + V3.2 + SPEC V3.1 Annex K), which the authority table does
+#: not list at all. Their non-residency is unchanged and still correct — only the
+#: attribution was wrong, and it mattered: it made 499 look unreachable in
+#: principle when its source is locatable. See AUTHORITY_CANDIDATES.md.
+TOP_PRECEDENCE_AUTHORITIES = ("AUTH-01", "AUTH-02", "AUTH-03")
+
+#: Alias kept so the residency assertions below read the same. It names the top
+#: of the precedence table, deliberately separate from the 499 question.
+DERIVING_AUTHORITIES = TOP_PRECEDENCE_AUTHORITIES
 
 #: Where all three currently appear, and the only place they do.
 CITATION_ONLY = (
@@ -212,10 +224,37 @@ def test_the_residency_check_is_not_simply_returning_false():
 # The denominator follows residency, not the other way round
 # ---------------------------------------------------------------------------
 
-def test_499_stays_relayed_while_its_authorities_are_absent():
+def test_499_stays_relayed_while_no_authority_is_resident():
     record = unmeasurable()
     assert record["status"] == "RELAYED_NOT_REMEASURED"
-    assert all(not is_resident(a) for a in DERIVING_AUTHORITIES)
+    assert all(not is_resident(a) for a in TOP_PRECEDENCE_AUTHORITIES)
+
+
+def test_the_499_attribution_names_the_lineage_that_actually_computes_it():
+    """Guards the correction, so the falsified claim cannot drift back.
+
+    `499` is computed in MVC-ACCEPTANCE-ANNEX-001 over the MyVetiCare BRD
+    family. Attributing it to AUTH-01/02/03 — the PetCare lineage — is what made
+    it look unreachable in principle rather than blocked on three named,
+    closable conditions.
+    """
+    record = unmeasurable()
+    assert "MVC-ACCEPTANCE-ANNEX-001" in record["computed_in"]
+    corpus = " ".join(record["computed_over"])
+    assert "MVC-BRD-001 V3.1" in corpus and "MVC-BRD-001 V3.2" in corpus
+    assert not any(a in record["why_not_measurable_here"] for a in TOP_PRECEDENCE_AUTHORITIES), (
+        "the AUTH-01/02/03 attribution has come back"
+    )
+
+
+def test_the_competing_denominator_is_recorded_and_not_reconciled():
+    """495 and 499 are both computed, in different documents, over different
+    corpora. Picking one silently would be the worse failure; so would asserting
+    a reconciliation that does not hold."""
+    competing = unmeasurable()["competing_figure"]
+    assert competing["value"] == 495
+    assert "V3.2" in competing["computed_in"]
+    assert competing["reconciliation"].startswith("NOT RECONCILED")
 
 
 def test_499_may_not_be_declared_measured_without_an_ingested_authority():
