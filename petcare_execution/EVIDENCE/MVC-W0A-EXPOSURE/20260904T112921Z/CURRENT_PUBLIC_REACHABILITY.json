@@ -1,0 +1,58 @@
+{
+  "artefact": "MVC-W0A-EXPOSURE current public reachability",
+  "observed_at_utc": "2026-09-04T11:29:21Z",
+  "method": "anonymous HTTPS GET; no credentials; no gcloud; no IAM read; no mutation",
+  "probes": [
+    {
+      "label": "TARGET_API",
+      "url": "https://petcare-api-prod-232802712581.me-central2.run.app/health",
+      "http": 500,
+      "curl_rc": 0,
+      "bytes": 323,
+      "body_sha256_prefix": "f08cee02",
+      "server": "Google Frontend"
+    },
+    {
+      "label": "TARGET_WEB",
+      "url": "https://petcare-web-prod-232802712581.me-central2.run.app/api/health",
+      "http": 404,
+      "curl_rc": 0,
+      "bytes": 272,
+      "body_sha256_prefix": "6b43b396"
+    },
+    {
+      "label": "NEGCTL_SAMEPROJ",
+      "url": "https://zzz-nonexistent-mvc-probe-232802712581.me-central2.run.app/health",
+      "http": 404,
+      "curl_rc": 0,
+      "bytes": 272,
+      "body_sha256_prefix": "6b43b396"
+    },
+    {
+      "label": "NEGCTL_FAKEPROJ",
+      "url": "https://zzz-nonexistent-mvc-probe-999999999999.me-central2.run.app/health",
+      "http": 404,
+      "curl_rc": 0,
+      "bytes": 272,
+      "body_sha256_prefix": "6b43b396"
+    }
+  ],
+  "classification": {
+    "API_HTTP": 500,
+    "API_CURL_RC": 0,
+    "WEB_HTTP": 404,
+    "WEB_CURL_RC": 0,
+    "LEGACY_GCP_SERVING": "NO",
+    "SERVICE_OBJECT_EXISTS_api": "YES",
+    "SERVICE_OBJECT_EXISTS_web": "NO",
+    "ANONYMOUS_REQUEST_REACHED_APPLICATION_CODE": "NO",
+    "IAM_401_403_OBSERVED": "NO",
+    "HISTORICAL_PUBLIC_IAM": "UNRESOLVED_BEHIND_IDENTITY_WALL",
+    "CP2_EXCLUSION_2_TRIGGERED": "NO_FROM_CURRENT_PUBLIC_REACHABILITY_CHECK"
+  },
+  "negative_control_fingerprint": {
+    "body_sha256_prefix": "6b43b396",
+    "bytes": 272,
+    "meaning": "no such Cloud Run service"
+  }
+}
