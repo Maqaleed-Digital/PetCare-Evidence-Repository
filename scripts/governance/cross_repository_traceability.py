@@ -154,14 +154,24 @@ def compute() -> dict:
 
 
 def unmeasurable() -> dict:
-    """The denominator this repository pair cannot produce, and why.
+    """The denominator this repository cannot produce, and why.
 
-    `499` is the product requirement estate. It is not computed here and it
-    cannot be: it derives from AUTH-01, AUTH-02 and AUTH-03, all three of which
-    the authority table marks REFERENCED_NOT_REPOSITORY_RESIDENT. Their
-    `source_path` resolves — but it resolves to the Phase-1 pack that *cites*
-    them by name, not to the documents themselves. A path check alone therefore
-    reports AUTH-01 as healthy and hides the hole entirely.
+    CORRECTED 2026-09-04. This function previously said `499` derives from
+    AUTH-01/02/03. It does not. That attribution was inherited from the
+    authority table's framing rather than measured: AUTH-01/02/03 are the
+    *PetCare* lineage, while `499` is computed in `MVC-ACCEPTANCE-ANNEX-001 V1.0`
+    over the *MyVetiCare* lineage — `MVC-BRD-001` V3.1 + V3.2 and
+    `MVC-SPEC-001` V3.1 Annex K — none of which the authority table lists.
+
+    The residency status of AUTH-01/02/03 is unchanged and still NO. Only the
+    attribution was wrong, and it mattered: it made `499` look unreachable in
+    principle, when in fact its source is on this machine and its blockers are
+    three named, closable conditions.
+
+    A second computed figure exists and disagrees: V3.2 Appendix T reports 495
+    distinct traced identifiers. The two exclude different things over different
+    corpora, and the gap does NOT reconcile against the annex's four-identifier
+    residue set. See AUTHORITY_CANDIDATES.md.
 
     Recorded rather than guessed. A denominator invented to make a ratio
     presentable is worse than an admitted gap.
@@ -170,19 +180,43 @@ def unmeasurable() -> dict:
         "value": 499,
         "meaning": "product requirement estate, full platform",
         "status": "RELAYED_NOT_REMEASURED",
-        "provenance": [
-            "Notion 'Session Handoff - 31 Aug 2026': REQUIREMENTS_TOTAL = 499 "
-            "(REQ-MVC-1 is prose)",
-            "Notion 'Session Handoff - 1 Sep 2026': REQUIREMENTS_TOTAL=499",
+        "computed_in": "MVC-ACCEPTANCE-ANNEX-001 V1.0 section 6",
+        "computed_over": [
+            "MVC-BRD-001 V3.1 CANDIDATE (carries the requirement bodies)",
+            "MVC-BRD-001 V3.2 (invariants, scope, fences; does NOT supersede V3.1)",
+            "MVC-SPEC-001 V3.1 Annex K",
         ],
-        "derivation_as_stated": "500 authored rows minus REQ-MVC-1, which is prose",
+        "provenance": [
+            "MVC-ACCEPTANCE-ANNEX-001 V1.0: REQUIREMENTS_TOTAL = 499 "
+            "(500 less REQ-MVC-1, proven prose)",
+            "MVC-CP2-PACK-001 V1.0: SPECIFICATION_CONTENT_COMPLETE = YES at 499",
+            "Notion session handoffs of 31 Aug and 1 Sep 2026 relay it",
+        ],
+        "derivation_as_stated": "500 authored identifiers less REQ-MVC-1, which is prose",
+        "competing_figure": {
+            "value": 495,
+            "computed_in": "MVC-BRD-001 V3.2 Appendix T",
+            "definition": "distinct requirement identifiers traced into a V3.2 section",
+            "excludes": "the metavariable REQ-MVC-n; INCLUDES REQ-MVC-1",
+            "reconciliation": (
+                "NOT RECONCILED. The gap is not explained by the annex's "
+                "four-identifier residue set: REQ-MVC-1 is already excluded from "
+                "499, so removing the other three gives 496, and on a common "
+                "basis the figures are 500 and 495."
+            ),
+        },
         "why_not_measurable_here": (
-            "derives from AUTH-01/02/03, all REFERENCED_NOT_REPOSITORY_RESIDENT; "
-            "no file in either repository carries the 499 rows"
+            "no MyVetiCare BRD artefact is repository-resident, and none can be "
+            "ingested yet. Nothing in the family is ratified; V3.2 does not "
+            "supersede V3.1 so neither is complete alone; and V3.2's bytes no "
+            "longer produce the hash its own governing record binds (recorded "
+            "d480cb71, actual 32f53669). Two of six REV-8 hashes reproduce "
+            "exactly, which validates the method and makes the rest drift."
         ),
         "what_would_measure_it": (
-            "ingest PetCare BRD v1.1 (AUTH-01) into the canonical repository, or "
-            "export the Notion requirement rows to a versioned artefact and cite it"
+            "a Sponsor act ratifying MVC-BRD-001 V3.1 + V3.2 + Annex K as the "
+            "requirement authority, ingestion of that companion set together, "
+            "and a hash register re-issued against current bytes"
         ),
     }
 
