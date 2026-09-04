@@ -40,9 +40,11 @@ PR_REQUIREMENTS   = require a pull request before merging; 1 approving review
 measurements — no existing protection or ruleset exists to be consistent with.
 They are the Sponsor's to set.
 
-**Prerequisite:** `verify` must have run at least once before GitHub will offer
-it as a required check. It runs on push to `govern/**`, so the push in this run
-should produce the first execution.
+**Prerequisite: SATISFIED.** GitHub will only offer a check it has seen. `verify`
+has now run twice on `govern/canonical-repository-authority` — run `33875967911`
+failed (three real defects, all fixed) and run `33876521307` at `630b9e0c`
+**succeeded, 14 of 14 steps green**. See `CI_PROOF.txt`. The check name `verify`
+is therefore selectable in branch protection today.
 
 **Why it is Gate 3:** enabling it changes repository configuration through the
 GitHub API or console. It is external configuration, not repository content, and
