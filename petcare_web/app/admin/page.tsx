@@ -1,6 +1,7 @@
 'use client'
 
 import { useLang } from '@/components/LangProvider'
+import { MarketplaceSeamPanel } from '@/components/MarketplaceSeamPanel'
 
 export default function AdminPage() {
   const { lang } = useLang()
@@ -66,6 +67,8 @@ export default function AdminPage() {
           <a className="button button-outline button-sm" href="#">{isAr ? 'تصدير الحزمة' : 'Export pack'}</a>
         </div>
       </div>
+
+      <MarketplaceSeamPanel />
 
       <div className="card card-sm" style={{ display: 'flex', gap: 24, flexWrap: 'wrap' }}>
         <div><div className="muted">{isAr ? 'حالة المنصة' : 'Platform state'}</div><div style={{ fontWeight: 700, marginTop: 4 }}>CONTROLLED_PRODUCTION_ACTIVE</div></div>
