@@ -104,3 +104,97 @@ corrected value, and the primary evidence. Nothing is backdated.
 | `PASSWORD_HASH_UNSALTED_SHA256` | `petcare_api` `_hash_password` is bare SHA-256, no KDF — routed to W0-F as a credential migration |
 | `NEXT_LINT_NOT_CONFIGURED` | `next lint` drops into interactive ESLint setup; no lint result is claimed either way |
 | `WEB_TREE_DUPLICATION_OPEN` | `petcare_web/` vs `petcare-web/` relationship still unestablished |
+
+---
+
+# Additions from the PORT-07..10 continuation run (2026-09-04, later)
+
+## C-13 — C-10 is superseded: PR #3 is MERGED  *(measured)*
+
+- **Stale fact:** C-10 above records PR **#3** as OPEN, awaiting Sponsor merge.
+- **Current fact:** **MERGED** at `2026-09-04T11:00:51Z`, merge commit
+  `204bd4cc23cc550f73e687a9f7340a688e26d0aa`, which is now `origin/main`.
+  Read via `gh pr view 3 --json state,mergedAt,mergeCommit`.
+- C-10 is preserved above rather than edited; it was true when written.
+- **CORRECTION_TYPE:** MEASUREMENT. **BACKDATE=NO**
+
+## C-14 — the live half of the public exposure is CLOSED; the history half is not
+
+- **C-2 above** records the retired literal present in `origin/main` of the public
+  repository. That is **no longer true of the tip**: `origin/main` now refuses to
+  start on the retired literal rather than defaulting to it.
+- Measured per-ref with a precise instrument (module-level
+  `SECRET_KEY = os.getenv("SECRET_KEY", ...)`, not a substring search): `origin/main`
+  and `origin/security/w0a-…` carry the fix; **four published branches still carry
+  the active default at their tips** — `origin/gate-evidence-prep`,
+  `origin/m8-brand-cleanup`, `origin/mvc-ux-wo-001`,
+  `origin/mvc-ux-wo-002-trust-surfaces`.
+- **The literal remains in published history** (`5202bb5f` onward). Git history is
+  the exposure channel and it is unaffected by any branch tip.
+- **GOTCHA, recorded because it produced a wrong reading first:** a substring grep
+  for `os.getenv("SECRET_KEY", "` matches the **docstring** on the fixed file, which
+  quotes the old expression. Every ref then reads as vulnerable. Five occurrences of
+  the literal survive on the fixed tree and all five are a docstring, a rejection
+  guard, or a test constant.
+- **BACKDATE=NO**
+
+## C-15 — GCP is not an infrastructure lane  *(supersedes the "GCP Read Pending" label)*
+
+- **Old continuation label:** `GCP Read Pending`.
+- **Corrected:** *Legacy-GCP reachability check (unauthenticated only); IAM read
+  parked behind PATHFINDER-002.*
+- Disposition record: `GCP_LANE_DISPOSITION.md`. `GCP_FORENSIC_READ_CARD.md` and
+  `PRODUCTION_REMEDIATION_PLAN.md` are reclassified **PARKED**, not falsified.
+- No `AMEND_MVC-GCP-FORENSIC-READ-001` execution item exists or is scheduled. No
+  current GCP key-rotation workstream exists.
+- **BACKDATE=NO**
+
+## C-16 — the authority seal contradicted its own closure record  *(new defect, fixed)*
+
+- **Stale fact:** `CANONICAL_REPOSITORY_AUTHORITY_SEAL.json` listed
+  `GATE_EVIDENCE_UNVERSIONED` as `GOVERNANCE_EXCEPTION_OPEN` while
+  `GATE_EVIDENCE_UNVERSIONED_CLOSURE.md` sat in the same directory, written the
+  day before.
+- Same class in the port plan's own exception table: `WEB_TREE_DUPLICATION_OPEN`
+  (closed by `WEB_TREE_AUTHORITY_RECONCILIATION.md`) and `CANONICAL_HEAD_LOCAL_ONLY`
+  (now partially closed — W0-A reached `origin/main`).
+- **Status:** FIXED. Rows preserved, statuses changed; the exception list is
+  append-only and a PORT-07 test now fails if the contradiction recurs.
+- **CORRECTION_TYPE:** REGISTER_INTEGRITY. **BACKDATE=NO**
+
+## C-17 — `/vet` presented three fabricated case rows  *(new defect, fixed)*
+
+- **Current fact:** the consultation queue rendered rows labelled "Waiting",
+  "Draft" and "Pending" against an em-dash patient, each with an Open /
+  Review & sign / Authorize action. There is no case source in the pilot.
+- On a clinical surface this is not cosmetic: "Prescription — Pending —
+  Authorize" reads as a prescription waiting on a veterinarian.
+- **Status:** FIXED. Explicit empty state plus a WI-5 disclosure that the queue is
+  scaffolded, not merely quiet. Capabilities are still described, as capabilities.
+- **CORRECTION_TYPE:** HONEST_DISCLOSURE. **BACKDATE=NO**
+
+## C-18 — C-4 refined: 106 is now measured, 499 remains relayed
+
+- **106** is **measured** this run: `len(REQUIREMENTS) == 106`, statuses
+  `104 CLOSED_EVIDENCED + 2 DEFERRED_INTEGRATION`.
+- **499** stays `RELAYED_NOT_REMEASURED`, and **cannot** be measured from either
+  repository: it derives from AUTH-01/02/03, all `REFERENCED_NOT_REPOSITORY_RESIDENT`.
+  Their `source_path` *resolves* — to the Phase-1 pack that cites them by name — so a
+  path check alone reports them healthy and hides the hole.
+- Record: `CROSS_REPOSITORY_TRACEABILITY.md`. **BACKDATE=NO**
+
+## C-19 — the responsive figure is re-confirmed, not re-quoted
+
+- **90 / 90 pass, 0 fail**, reproduced by running Playwright three times in this run
+  (baseline, after PORT-08, after PORT-09). C-8 stands, now on a second measurement.
+- **BACKDATE=NO**
+
+## Residuals added, recorded not closed
+
+| ID | Note |
+|---|---|
+| `PUBLIC_HISTORY_RETIRED_LITERAL` | The literal is in published history from `5202bb5f`. Removing it is `HISTORY_PURGE_PLAN`, `GATE_CLASS=GATE-5_IRREVERSIBLE_ACTION`, `STATUS=NOT_AUTHORIZED_BY_THIS_RUN`. |
+| `PUBLISHED_BRANCH_TIPS_CARRY_DEFAULT` | Four published branches still carry the active default at their tips. Rebasing or retiring them is a separate decision; it does not reduce the history exposure. |
+| `ADMIN_ATTESTATION_UNCOMPUTED` | `/admin` renders `CONTROLLED_PRODUCTION_ACTIVE`, `Audit chain: Live` and `Fail-closed: Active` as static text. These are governance claims the client cannot compute — the W0-E family. Not changed here; routed to W0-F. |
+| `ADMIN_INERT_CTAS_UNDISCLOSED` | `/admin` CTAs are `href="#"` with no WI-5 disclosure, unlike `/owner`. Same class as C-17, lower severity, not a clinical surface. |
+| `SIGNOUT_SERVER_FAILURE_SILENT` | `Nav.handleSignOut` swallows a failed `POST /api/auth/sign-out` and clears local state anyway. The UI then says signed out while the server session may still be valid. Fixing it needs a UX decision (never block sign-out on a network error), so it is recorded, not changed. |

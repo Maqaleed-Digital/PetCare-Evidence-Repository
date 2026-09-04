@@ -104,6 +104,18 @@ def _prose_status(cell: str) -> str:
     return re.split(r"[\u2014-]", cell.strip("*").strip(), maxsplit=1)[0].strip().strip("*").strip()
 
 
+def _parse_prose_statuses(markdown: str) -> dict[str, str]:
+    """Read `PORT-nn -> status` out of the prose plan's port table."""
+    rows: dict[str, str] = {}
+    for line in markdown.splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip().strip("*").strip().strip("`") for c in line.strip("|").split("|")]
+        if cells and re.fullmatch(r"PORT-\d{2}", cells[0]):
+            rows[cells[0]] = _prose_status(cells[-1])
+    return rows
+
+
 def _git(*args: str) -> subprocess.CompletedProcess:
     return subprocess.run(
         ["git", *args], cwd=ROOT, capture_output=True, text=True, check=False
@@ -321,14 +333,7 @@ def test_port_register_and_prose_plan_agree_on_every_status():
     """Defect class 5. Two artefacts describe the same ten ports; the prose
     carries the reasoning and the JSON carries the falsifiable claims. When they
     disagree, a reader gets whichever one they happened to open."""
-    prose = PROSE_PLAN_PATH.read_text(encoding="utf-8")
-    rows = {}
-    for line in prose.splitlines():
-        if not line.startswith("|"):
-            continue
-        cells = [c.strip().strip("*").strip().strip("`") for c in line.strip("|").split("|")]
-        if cells and re.fullmatch(r"PORT-\d{2}", cells[0]):
-            rows[cells[0]] = _prose_status(cells[-1])
+    rows = _parse_prose_statuses(PROSE_PLAN_PATH.read_text(encoding="utf-8"))
 
     assert rows, "no PORT rows parsed from the prose plan; the parser is broken"
 
@@ -412,14 +417,7 @@ def test_prose_status_parser_is_not_matching_everything():
     """The cross-artefact test compares parsed prose against the register. A
     parser that returned an empty mapping, or that mapped every id to the same
     status, would agree with anything."""
-    prose = PROSE_PLAN_PATH.read_text(encoding="utf-8")
-    rows = {}
-    for line in prose.splitlines():
-        if not line.startswith("|"):
-            continue
-        cells = [c.strip().strip("*").strip().strip("`") for c in line.strip("|").split("|")]
-        if cells and re.fullmatch(r"PORT-\d{2}", cells[0]):
-            rows[cells[0]] = _prose_status(cells[-1])
+    rows = _parse_prose_statuses(PROSE_PLAN_PATH.read_text(encoding="utf-8"))
 
     assert len(rows) == PORT["denominator"], (
         f"parser found {len(rows)} PORT rows in the prose plan, expected "
@@ -428,9 +426,24 @@ def test_prose_status_parser_is_not_matching_everything():
     assert set(rows.values()) <= _PORT_STATUSES, (
         f"parser produced statuses outside the known set: {set(rows.values())}"
     )
-    assert len(set(rows.values())) > 1, (
-        "every parsed status is identical; the parser is reading the wrong column"
-    )
+
+    # The real control, run against synthetic rows rather than the live plan.
+    # Asserting that the live statuses differ from each other only worked while
+    # some port was still open; once every row reached DONE it would have
+    # started failing for a reason that is not a defect. A synthetic table
+    # proves the parser reads the status column, discriminates between values,
+    # strips emphasis, and drops a trailing qualifier -- and keeps proving it
+    # whatever the register happens to say.
+    synthetic = "\n".join([
+        "| ID | Capability | Target | Risk | Status |",
+        "|---|---|---|---|---|",
+        "| PORT-01 | a | `x` | low | OPEN |",
+        "| **PORT-02** | b | `y` | low | **DONE** |",
+        "| PORT-03 | c | `z` | low | OPEN \u2014 must consume, never re-own |",
+        "| NOT-A-PORT | d | `w` | low | DONE |",
+    ])
+    parsed = _parse_prose_statuses(synthetic)
+    assert parsed == {"PORT-01": "OPEN", "PORT-02": "DONE", "PORT-03": "OPEN"}, parsed
 
 
 # ---------------------------------------------------------------------------
