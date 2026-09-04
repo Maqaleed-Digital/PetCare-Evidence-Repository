@@ -255,14 +255,71 @@ def test_manifest_paths_are_unique_and_hashes_well_formed():
     assert malformed == [], f"manifest entries without a well-formed sha256: {malformed}"
 
 
-def test_every_manifest_path_exists():
-    missing = [f["path"] for f in MANIFEST["files"] if not (ROOT / f["path"]).exists()]
-    assert missing == [], f"manifest cites {len(missing)} files not on disk: {missing[:10]}"
+#: Files git actually carries. Everything below is measured against this rather
+#: than against `Path.exists()`, because a developer's working copy is not the
+#: repository — and that difference is exactly what the manifest was hiding.
+_TRACKED = frozenset(p for p in _git("ls-files", "-z").stdout.split("\0") if p)
+
+MANIFEST_TRACKED = [f for f in MANIFEST["files"] if f["path"] in _TRACKED]
+MANIFEST_UNTRACKED = [f for f in MANIFEST["files"] if f["path"] not in _TRACKED]
+
+#: `MANIFEST_CITES_UNVERSIONED_ARTEFACTS`. The manifest was generated over a
+#: working tree, so 146 of its 315 entries are things git never carried:
+#: `__pycache__/*.pyc`, `*.bak.<timestamp>` files, and a `baseline_input/` tree.
+#: Pinned exactly so it cannot drift in either direction unnoticed — growing
+#: means new unversioned citations, shrinking means someone committed build
+#: output.
+EXPECTED_UNTRACKED_CITATIONS = 146
 
 
-def test_every_manifest_file_still_produces_its_recorded_hash():
+def test_every_tracked_manifest_path_exists():
+    missing = [f["path"] for f in MANIFEST_TRACKED if not (ROOT / f["path"]).exists()]
+    assert missing == [], (
+        f"manifest cites {len(missing)} tracked files not on disk: {missing[:10]}"
+    )
+
+
+def test_the_manifest_cites_exactly_the_recorded_number_of_unversioned_artefacts():
+    """`GATE_EVIDENCE_UNVERSIONED`, recurring in a second directory.
+
+    This could not fail locally: all 146 sit in the working copy of anyone who
+    ran the pipeline that produced them. It failed the first time CI checked the
+    repository out clean, which is the whole argument for CI over a green local
+    run.
+
+    The assertion is a pin, not a tolerance. It does not say "some citations may
+    be untracked"; it says exactly how many are, so a new unversioned citation
+    and an accidental commit of build output both fail here.
+    """
+    assert len(MANIFEST_UNTRACKED) == EXPECTED_UNTRACKED_CITATIONS, (
+        f"manifest cites {len(MANIFEST_UNTRACKED)} unversioned artefacts, expected "
+        f"exactly {EXPECTED_UNTRACKED_CITATIONS}. If deliberate, update the "
+        "recorded exception in the authority seal."
+    )
+
+
+def test_the_unversioned_citations_are_build_output_and_not_evidence():
+    """The exception is tolerable only because of what is in it.
+
+    A cited *evidence artefact* that git does not carry is precisely the defect
+    `GATE_EVIDENCE_UNVERSIONED` was closed for. A stale `.pyc` in a snapshot is
+    noise. This keeps the two from being confused as the set changes.
+    """
+    suspicious = [
+        f["path"]
+        for f in MANIFEST_UNTRACKED
+        if "__pycache__" not in f["path"]
+        and ".bak." not in f["path"]
+        and not f["path"].startswith("petcare_execution/baseline_input/")
+    ]
+    assert suspicious == [], (
+        f"unversioned manifest citations that are not build output: {suspicious[:10]}"
+    )
+
+
+def test_every_tracked_manifest_file_still_produces_its_recorded_hash():
     drifted = []
-    for entry in MANIFEST["files"]:
+    for entry in MANIFEST_TRACKED:
         target = ROOT / entry["path"]
         if not target.is_file():
             continue
@@ -473,7 +530,11 @@ def test_the_hash_assertion_set_is_not_empty():
         f"only {len(hashed_citations)} custody hashes were recomputed"
     )
 
-    manifest_files = [f for f in MANIFEST["files"] if (ROOT / f["path"]).is_file()]
-    assert len(manifest_files) >= 300, (
+    # Counted over TRACKED entries. Counting `Path.exists()` gave 315 locally
+    # and 169 in CI, and the local number was the misleading one: it was
+    # measuring a working copy, not the repository.
+    manifest_files = [f for f in MANIFEST_TRACKED if (ROOT / f["path"]).is_file()]
+    assert len(manifest_files) >= 150, (
         f"only {len(manifest_files)} manifest hashes were recomputed"
     )
+    assert MANIFEST["file_count"] >= 300, "the declared manifest collapsed"

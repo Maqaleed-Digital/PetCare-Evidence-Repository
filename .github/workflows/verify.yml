@@ -44,8 +44,16 @@ jobs:
     timeout-minutes: 30
 
     steps:
+      # Full history is load-bearing, not a convenience. The governance
+      # registers cite commits by sha — the EP-07 seal, every PORT closing
+      # commit — and assert each resolves to a real object. Under the default
+      # shallow clone `git cat-file -t` cannot see them and every one of those
+      # assertions fails, which reads as a corrupt register rather than a
+      # truncated checkout.
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5

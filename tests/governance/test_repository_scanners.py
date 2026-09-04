@@ -25,6 +25,20 @@ import prohibited_literal_scan as literal  # noqa: E402
 import secret_scan  # noqa: E402
 
 
+def _tracked_paths() -> set[str]:
+    """Paths git actually carries.
+
+    The distinction that matters here: a file present in a working copy is not
+    a file in the repository, and only the second one is ever scanned.
+    """
+    import subprocess
+
+    out = subprocess.run(
+        ["git", "ls-files", "-z"], cwd=ROOT, capture_output=True, text=True, check=True
+    ).stdout
+    return {p for p in out.split("\0") if p}
+
+
 # ---------------------------------------------------------------------------
 # Prohibited literal — an active default, and the three lookalikes
 # ---------------------------------------------------------------------------
@@ -96,9 +110,33 @@ def test_no_secret_pattern_fires_on_ordinary_text():
         assert not pattern.search(benign), f"{name} fired on benign text"
 
 
-def test_every_allowlisted_path_still_exists_and_carries_a_reason():
-    """An allowlist that accumulates dead paths becomes a hole nobody notices."""
+def test_the_allowlist_is_empty_and_stays_deliberate():
+    """The scanner currently needs no exceptions at all.
+
+    Recorded as an assertion rather than left implicit, so adding one is a
+    deliberate act that fails here first and has to be argued for. An allowlist
+    is a hole; the only safe size is zero.
+    """
+    assert secret_scan.ALLOWLIST == {}, (
+        f"an allowlist entry was added: {sorted(secret_scan.ALLOWLIST)}. "
+        "Confirm it is git-TRACKED and genuinely matches a pattern, then update "
+        "this test with the reason."
+    )
+
+
+def test_every_allowlisted_path_is_tracked_exists_and_carries_a_reason():
+    """Vacuous while the allowlist is empty, and armed the moment it is not.
+
+    All three clauses come from a real failure. An earlier entry named a file
+    under `petcare_execution/evidence_output/`, which `.gitignore` excludes: it
+    existed in a working copy, not in the repository, so the scanner never saw
+    it and the entry protected nothing. Local runs could not tell; CI could.
+    """
     for rel, reason in secret_scan.ALLOWLIST.items():
+        assert rel in _tracked_paths(), (
+            f"allowlisted path is not tracked by git: {rel}. It is not scanned, "
+            "so the entry protects nothing."
+        )
         assert (ROOT / rel).is_file(), f"allowlisted path no longer exists: {rel}"
         assert len(reason) > 20, f"allowlist entry {rel} has no real reason"
 
