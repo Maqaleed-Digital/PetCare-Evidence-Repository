@@ -1,7 +1,12 @@
 # Canonical vs Port-Source Differential, and the Port Plan
 
 **Under:** `MVC-GOV-CANON-001`
-**Date:** 2026-09-03
+**Date:** 2026-09-03 · **Statuses last reconciled:** 2026-09-04
+
+> The status column of the port table and the exception table below are the prose
+> half of a two-artefact register. The falsifiable half is `PORT_REGISTER.json`,
+> and `tests/governance/test_canonical_register_integrity.py` fails if the two
+> disagree — so neither can drift silently away from the other again.
 **Canonical:** `petcare-evidence-repository` · **Port source:** `petcare-platform` (`LEGACY_TO_PORT_FROM`)
 
 ## The fact that shapes the whole plan
@@ -51,16 +56,16 @@ targets below name `petcare_web/`, which is the tree carrying the test estate.
 
 | PORT_ID | Capability | Target | Risk | Status |
 |---|---|---|---|---|
-| PORT-01 | Absence-guard discipline in canonical tests | `petcare_web/__tests__/` | low | OPEN |
-| PORT-02 | Arabic absence guards (no hard-coded English on customer paths) | `petcare_web/__tests__/` | low | OPEN |
+| **PORT-01** | Absence-guard discipline in canonical tests | `petcare_web/__tests__/absence-guards.test.ts` | low | **DONE** |
+| **PORT-02** | Arabic absence guards (no hard-coded English on customer paths) | `petcare_web/__tests__/absence-guards.test.ts` | low | **DONE** |
 | **PORT-03** | **Error boundaries** | `app/error.tsx`, `app/global-error.tsx` | low | **DONE** |
-| PORT-04 | Viewport breadth — 7 viewports x canonical routes | `petcare_web/e2e/` | medium | OPEN |
-| PORT-05 | Safety-critical 320 px reachability (emergency, pharmacy, consultation) | `petcare_web/e2e/` | medium | OPEN |
-| PORT-06 | Page-crash detection in e2e | `petcare_web/e2e/` | low | OPEN |
-| PORT-07 | Governance register integrity tests, retargeted to canonical authorities | `tests/` | medium | OPEN |
-| PORT-08 | Empty / loading / error state coverage per surface | `petcare_web/` | medium | OPEN |
+| **PORT-04** | Viewport breadth — 7 viewports x canonical routes | `petcare_web/e2e/viewport-invariants.spec.ts` | medium | **DONE** |
+| **PORT-05** | Safety-critical 320 px reachability (emergency, pharmacy, consultation) | `petcare_web/e2e/viewport-invariants.spec.ts` | medium | **DONE** |
+| **PORT-06** | Page-crash detection in e2e | `petcare_web/e2e/viewport-invariants.spec.ts` | low | **DONE** |
+| PORT-07 | Governance register integrity tests, retargeted to canonical authorities | `tests/governance/test_canonical_register_integrity.py` | medium | OPEN |
+| PORT-08 | Empty / loading / error state coverage per surface | `petcare_web/__tests__/surface-states.test.tsx` | medium | OPEN |
 | PORT-09 | Marketplace UI seam against canonical `partner_network` services | `petcare_web/app/admin/` | medium | OPEN — must consume, never re-own |
-| PORT-10 | Cross-repository traceability denominator | governance | medium | OPEN |
+| PORT-10 | Cross-repository traceability denominator | `petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/CROSS_REPOSITORY_TRACEABILITY.md` | medium | OPEN |
 
 ### Ordering constraint
 
@@ -81,7 +86,7 @@ tranche touching roles must adopt the canonical model, not the port source's.
 
 | ID | Status |
 |---|---|
-| `GATE_EVIDENCE_UNVERSIONED` | `evidence/` — 40 files on disk, 0 tracked, in both repositories |
+| `GATE_EVIDENCE_UNVERSIONED` | **CLOSED 2026-09-03** — `GATE_EVIDENCE_UNVERSIONED_CLOSURE.md`; 40 tracked, 14/14 cited paths hash-bound |
 | `EPIC_IDENTIFIER_COLLISION` | EP-06 = Emergency Network (canonical) vs Security/Audit/Ops (port source) |
-| `WEB_TREE_DUPLICATION_OPEN` | `petcare_web/` vs `petcare-web/` relationship unestablished |
-| `CANONICAL_HEAD_LOCAL_ONLY` | `wave0/w0-d-…` is 8 commits ahead of `main` with no upstream |
+| `WEB_TREE_DUPLICATION_OPEN` | **CLOSED 2026-09-03** — `WEB_TREE_AUTHORITY_RECONCILIATION.md`; `petcare_web` canonical, `petcare-web` SUPERSEDED_PROTOTYPE |
+| `CANONICAL_HEAD_LOCAL_ONLY` | **PARTIALLY CLOSED 2026-09-04** — W0-A reached `origin/main` via PR #3 (`204bd4cc`). W0-B…W0-E remain local-only. |
