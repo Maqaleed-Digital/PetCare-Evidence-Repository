@@ -198,3 +198,90 @@ corrected value, and the primary evidence. Nothing is backdated.
 | `ADMIN_ATTESTATION_UNCOMPUTED` | `/admin` renders `CONTROLLED_PRODUCTION_ACTIVE`, `Audit chain: Live` and `Fail-closed: Active` as static text. These are governance claims the client cannot compute — the W0-E family. Not changed here; routed to W0-F. |
 | `ADMIN_INERT_CTAS_UNDISCLOSED` | `/admin` CTAs are `href="#"` with no WI-5 disclosure, unlike `/owner`. Same class as C-17, lower severity, not a clinical surface. |
 | `SIGNOUT_SERVER_FAILURE_SILENT` | `Nav.handleSignOut` swallows a failed `POST /api/auth/sign-out` and clears local state anyway. The UI then says signed out while the server session may still be valid. Fixing it needs a UX decision (never block sign-out on a network error), so it is recorded, not changed. |
+
+---
+
+# Additions from the lineage-repair run (2026-09-05)
+
+## C-20 — "495 vs 499 NOT RECONCILED" is FALSE and is withdrawn
+
+- **Stale fact:** this repository's PORT-10 artefacts, merged to `main` on
+  2026-09-04, state that 495 and 499 are competing figures that *"do NOT
+  reconcile"*.
+- **Current fact:** they reconcile completely, and the reconciliation was
+  already governed before the claim was written.
+  `MVC-CONTENT-COMPLETENESS-001 V1.0` §1 — *"The corrected denominator — it was
+  NOT 495"* — withdraws 495 as **defective**, names the three instrument and
+  source-set defects that produced it, and records
+  `CORRECTED_UNIVERSE = 500`. `MVC-ACCEPTANCE-ANNEX-001 V1.0` §6 then takes
+  500 less `REQ-MVC-1` to reach **499**.
+- **Chain:** `495 (defective) → 500 (corrected) → 499 (less one prose id)`.
+- **Cause of my error:** I compared two figures without finding the document
+  that adjudicates them. The same failure the port source's own tracer warns
+  about — *"read the register, not a document citing it"*.
+- **CORRECTION_TYPE:** SUPERSEDES_FALSE_FINDING. **BACKDATE=NO**
+
+## C-21 — Appendix T carries the withdrawn 495 · `STALE_DENOMINATOR_IN_CANDIDATE_BASELINE`
+
+- `MVC-BRD-001 V3.2` Appendix T still prints `495/495` and
+  `DISTINCT_REQUIREMENT_IDENTIFIERS = 495`, a figure its own governance
+  withdrew as defective. It also **elides its members** — 33 rows read
+  `REQ-MVC-4.1, REQ-MVC-4.10, … (+114) | 120` — so the set cannot be
+  enumerated from the document.
+- **V3.2 is NOT edited.** The bytes are source evidence and are preserved
+  verbatim in `petcare_execution/AUTHORITY/MVC-LINEAGE/sources/`.
+- **Remediation:** a narrow **V3.3** authoring act, scoped in
+  `MVC-V3_3-APPENDIX-T-AUTHORING-PLAN.md`: Appendix-T denominator and inventory
+  representation only. No requirement wording changes, no additions, no
+  deletions.
+- C-21 closes nothing by itself. **BACKDATE=NO**
+
+## C-22 — CP-2 is TAKEN, not lodged
+
+```
+CP2_SPONSOR_DECISION            = TAKEN
+CP2_DECISION_DATE               = 2026-08-31
+PACK                            = MVC-CP2-PACK-001 V1.0
+PACK_SHA256                     = 8c11c8b91b62322be031b0a20ee9cf5da01f5ed9d860c210396d72c6f6c473a1
+PACK_BYTES                      = 14931
+CP2_DECISION_LOG_ROW            = ABSENT
+CP2_TRUE_STATE                  = TAKEN_NOT_LODGED
+WAVE0_SCOPE                     = 10 packages, NON-PRODUCTION ONLY
+DELIVERED_PACKAGES_WITHIN_SCOPE = YES  (W0-E, W0-A, W0-B, W0-C, W0-D)
+REGISTER_DEFECT_SEVERITY        = MEDIUM
+```
+
+- **Sponsor evidence:** Notion *"Session Handoff — 31 Aug 2026 — MyVetiCare
+  CP-1 + CP-2 **Taken**"*; the 1 Sep handoff records *"CP-2 is taken:
+  engineering authorization for the 10 Wave-0 packages, NON-PRODUCTION ONLY"*
+  and *"CP-2 = ENGINEERING AUTHORIZATION, Sponsor explicit 31 Aug 2026"*.
+- **Why the instrument disagrees:** `MVC-CP2-PACK-001 V1.0` records
+  `CP2_STATE = NOT_TAKEN`. That is the pack's **pre-decision self-state** — the
+  document that *seeks* the decision, whose own `EXACT_NEXT_ACTION` is
+  *"(a) Sponsor takes CP-2"*. It was never updated after the act. Reading it as
+  current state is the staleness error the port source's tracer names in its
+  own design rules.
+- **The historical pack is NOT rewritten**, and the decision is **not
+  re-dated**.
+- **Remediation:** lodge a Decision Log row carrying the original date,
+  2026-08-31, recorded as a late lodgement of an already-taken decision.
+  Sponsor-side act; not performed here. **BACKDATE=NO**
+
+## C-23 — the corrected 500 universe is not reproducible, and the cause is named
+
+- Reconstruction from a declared, hashed six-document source set yields
+  **511**, not 500.
+- **Cause:** `MVC-SPEC-001 V3.1` **does not exist** as a document — only its
+  Annex K does, verified across the filesystem and the portfolio repo's full
+  git history. V3.2 Appendix T derives its set from *"the SPEC V3.1 / GAP V1.7
+  namespaces"*; one of the two named sources is missing.
+- Two further historic inputs are also absent: the inventory JSON that
+  `mvc_content_completeness.py` consumes, and the six `.txt` conversions it
+  scanned. Neither was ever committed.
+- `DENOMINATOR_STATUS = NOT_REPRODUCIBLE_MISSING_SOURCE`. **BACKDATE=NO**
+
+## Residual added
+
+| ID | Note |
+|---|---|
+| `SPEC_V3_1_FULL_DOCUMENT_ABSENT` | Only Annex K exists. It is a named namespace source of the requirement universe. Recovering it would let the reconstruction be compared against 500 directly. |

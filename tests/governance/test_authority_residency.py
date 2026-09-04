@@ -287,10 +287,44 @@ def test_no_authority_directory_holds_invented_rows():
     the ratio presentable. Any directory present must be a real ingestion."""
     if not AUTHORITY_ROOT.is_dir():
         pytest.fail("the authority root should exist once the spec is written")
-    for directory in sorted(p for p in AUTHORITY_ROOT.iterdir() if p.is_dir()):
+
+    # Scoped to AUTH-nn directories, which are the ingestion namespace. Other
+    # directories under AUTHORITY/ are not ingestions and must not be judged as
+    # if they were: `MVC-LINEAGE/` holds byte-verified SOURCE CUSTODY for the
+    # denominator reconstruction, under its own manifest, with every entry
+    # explicitly `ratified: false`. Custody is not ingestion, and neither is
+    # ratification.
+    ingestion_dirs = sorted(
+        p for p in AUTHORITY_ROOT.iterdir() if p.is_dir() and p.name.startswith("AUTH-")
+    )
+    for directory in ingestion_dirs:
         assert (directory / "MANIFEST.json").is_file(), (
             f"{directory.name} holds files with no ingestion manifest"
         )
         assert is_resident(directory.name), (
             f"{directory.name} has a manifest that does not verify"
         )
+
+
+def test_source_custody_is_not_mistaken_for_authority_ingestion():
+    """`MVC-LINEAGE/` exists and must never read as a ratified authority.
+
+    It is the one place a well-meaning edit could quietly promote copied source
+    bytes into an authority: the documents are real, hashed, and byte-identical
+    to their originals. What they are not is ratified.
+    """
+    lineage = AUTHORITY_ROOT / "MVC-LINEAGE"
+    if not lineage.is_dir():
+        pytest.skip("no lineage custody directory in this tree")
+    manifest = json.loads(
+        (lineage / "SOURCE_CUSTODY_MANIFEST.json").read_text(encoding="utf-8")
+    )
+    assert manifest["documents"], "custody manifest is empty"
+    for entry in manifest["documents"]:
+        assert entry["ratified"] is False, (
+            f"{entry['document_id']} {entry['version']} is marked ratified in a "
+            "custody manifest; ratification is a Sponsor act"
+        )
+    assert not lineage.name.startswith("AUTH-"), (
+        "lineage custody must not occupy the AUTH-nn ingestion namespace"
+    )
