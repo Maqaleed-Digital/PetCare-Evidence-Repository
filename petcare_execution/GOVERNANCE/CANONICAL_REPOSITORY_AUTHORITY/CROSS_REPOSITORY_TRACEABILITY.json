@@ -1,0 +1,47 @@
+{
+  "register_id": "MVC-CROSS-REPO-TRACEABILITY-001",
+  "authority": "MVC-GOV-CANON-001",
+  "port_id": "PORT-10",
+  "measured_utc": "2026-09-04T11:00:00Z",
+  "canonical_repository": "petcare-evidence-repository",
+  "port_source_repository": "petcare-platform",
+  "join": {
+    "authorities_total": 11,
+    "authorities_repository_resident": 8,
+    "authorities_referenced_not_resident": 3,
+    "authorities_non_resident_ids": [
+      "AUTH-01",
+      "AUTH-02",
+      "AUTH-03"
+    ],
+    "authority_source_paths_unresolved": [],
+    "local_register_total": 106,
+    "local_register_statuses": {
+      "CLOSED_EVIDENCED": 104,
+      "DEFERRED_INTEGRATION": 2
+    },
+    "evidence_citations_distinct": 14,
+    "evidence_citations_resolving_in_canonical": 14
+  },
+  "unmeasurable_denominator": {
+    "value": 499,
+    "meaning": "product requirement estate, full platform",
+    "status": "RELAYED_NOT_REMEASURED",
+    "provenance": [
+      "Notion 'Session Handoff - 31 Aug 2026': REQUIREMENTS_TOTAL = 499 (REQ-MVC-1 is prose)",
+      "Notion 'Session Handoff - 1 Sep 2026': REQUIREMENTS_TOTAL=499"
+    ],
+    "derivation_as_stated": "500 authored rows minus REQ-MVC-1, which is prose",
+    "why_not_measurable_here": "derives from AUTH-01/02/03, all REFERENCED_NOT_REPOSITORY_RESIDENT; no file in either repository carries the 499 rows",
+    "what_would_measure_it": "ingest PetCare BRD v1.1 (AUTH-01) into the canonical repository, or export the Notion requirement rows to a versioned artefact and cite it"
+  },
+  "test_estate_measured": {
+    "python_tests_root": 73,
+    "python_tests_root_of_which_governance": 39,
+    "python_petcare_runtime": 234,
+    "python_petcare_api": 46,
+    "vitest_petcare_web": 120,
+    "playwright_petcare_web": 90,
+    "note": "Every figure produced by running the suite in this run, not counted from source. Playwright cases are loop-generated, so a static count of test( declarations gives 6 where a run gives 90."
+  }
+}
