@@ -83,7 +83,8 @@
       "id": "PORT-08",
       "capability": "Empty / loading / error state coverage per surface",
       "targets": [
-        "petcare_web/__tests__/surface-states.test.tsx"
+        "petcare_web/__tests__/surface-states.test.tsx",
+        "petcare_web/app/vet/page.tsx"
       ],
       "risk": "medium",
       "status": "OPEN"
