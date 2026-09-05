@@ -12,14 +12,33 @@ log = logging.getLogger("petcare.api.auth")
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
+#: SHA-256 of every session signing key that is permanently forbidden.
+#:
+#: W0-A2. The guard below used to compare against the retired key as a
+#: PLAINTEXT literal. That worked, and it made the retired key impossible to
+#: remove from the repository: a content-based history rewrite cannot tell the
+#: difference between the secret as a leaked value and the secret as the value
+#: a guard refuses. A Gate-5 offline rehearsal proved the consequence — the
+#: rewrite replaced the comparand, and the resulting tree ACCEPTED the real
+#: retired key, while the whole test suite still passed because the rewrite had
+#: edited the assertions in step with the implementation.
+#:
+#: Storing the fingerprint keeps the behaviour identical and leaves nothing for
+#: a rewrite to damage. Entries are permanent: a key that has been published
+#: can never become safe again.
+RETIRED_KEY_FINGERPRINTS = frozenset({
+    # The W0-A literal default, published in this repository's history.
+    "1cdd7efa59d45698ceba9652ee1c22aa7472503ee381af56833df8f98d65f4ca",
+})
+
+
 def _require_secret_key() -> str:
     """Session signing key — required, never defaulted.
 
-    W0-A (MVC-EXEC / CP-2 Wave 0). This was previously
-    `os.getenv("SECRET_KEY", "***REMOVED_RETIRED_SECRET***")`. A literal fallback
-    means that wherever the variable is unset, every session token is signed
-    with a key published in the source tree and is therefore forgeable by
-    anyone who can read this repository.
+    W0-A (MVC-EXEC / CP-2 Wave 0). The key was previously read with a literal
+    fallback, so wherever the variable was unset every session token was signed
+    with a key published in the source tree, and was therefore forgeable by
+    anyone who could read this repository.
 
     This ordering is binding and must not be reversed: the fallback is removed
     BEFORE W0-B binds authorization to the session. Binding authorization to a
@@ -30,6 +49,10 @@ def _require_secret_key() -> str:
     The governed secret source (AWS Secrets Manager vs SSM Parameter Store) is
     deferred to the MyVetiCare AWS architecture decision; this function is
     indifferent to which supplies the environment.
+
+    W0-A2: rejection is by SHA-256 fingerprint, so the forbidden value appears
+    nowhere in this file. Behaviour is unchanged — unset, blank and retired keys
+    are each refused, every other value is accepted.
     """
     key = os.getenv("SECRET_KEY")
     if not key or not key.strip():
@@ -38,10 +61,13 @@ def _require_secret_key() -> str:
             "must come from governed secret storage and has no safe default. "
             "See W0-A."
         )
-    if key.strip() == "***REMOVED_RETIRED_SECRET***":
+    # The same normalisation the equality check used, so the guard rejects
+    # exactly the values it rejected before.
+    if hashlib.sha256(key.strip().encode()).hexdigest() in RETIRED_KEY_FINGERPRINTS:
         raise RuntimeError(
-            "SECRET_KEY is the retired literal default. Refusing to start: "
-            "tokens signed with it are forgeable. Rotate before use. See W0-A."
+            "SECRET_KEY is a retired signing key and is permanently prohibited. "
+            "Refusing to start: tokens signed with it are forgeable. Rotate "
+            "before use. See W0-A / W0-A2."
         )
     return key
 
