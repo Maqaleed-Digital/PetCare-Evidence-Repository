@@ -1,0 +1,11 @@
+# Test results — measured 2026-09-05
+
+python combined  : 418 passed, 37 warnings in 7.32s
+governance       : 104 passed in 3.75s
+inventory controls: 20 passed in 0.27s
+vitest           : 120 passed (18 files)
+tsc --noEmit     : clean
+playwright       : 90 passed / 90
+secret scan      : CLEAN, 0 allowlisted
+literal scan     : 0 active defaults (355 files)
+evidence bundles : 8 bundles, 55 artefacts, 0 mismatches
