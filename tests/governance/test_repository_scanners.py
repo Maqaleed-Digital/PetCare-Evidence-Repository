@@ -44,7 +44,11 @@ def _tracked_paths() -> set[str]:
 # ---------------------------------------------------------------------------
 
 def test_the_active_default_pattern_matches_a_real_active_default():
-    source = 'import os\nSECRET_KEY = os.getenv("SECRET_KEY", "dev-secret-change-in-prod")\n'
+    # W0-A2: the fixture uses a SYNTHETIC value. The pattern matches on the
+    # shape of the defect — a two-argument getenv for SECRET_KEY — not on the
+    # particular key, so the real retired value is not needed and must not be
+    # written into a tracked file.
+    source = 'import os\nSECRET_KEY = os.getenv("SECRET_KEY", "synthetic-retired-value")\n'
     assert literal.ACTIVE_DEFAULT.search(source), "the defect itself was not matched"
 
 
@@ -59,16 +63,16 @@ def test_the_active_default_pattern_accepts_single_quotes_and_spacing():
 def test_the_active_default_pattern_ignores_the_three_lookalikes():
     """Every one of these is on the FIXED file or its tests, and every one of
     them is matched by the naive substring search."""
-    docstring = '    `os.getenv("SECRET_KEY", "dev-secret-change-in-prod")`. A literal fallback\n'
-    guard = '    if key.strip() == "dev-secret-change-in-prod":\n'
-    constant = 'RETIRED_LITERAL = "dev-secret-change-in-prod"\n'
+    docstring = '    `os.getenv("SECRET_KEY", "synthetic-retired-value")`. A literal fallback\n'
+    guard = '    if key.strip() == "synthetic-retired-value":\n'
+    constant = 'RETIRED_KEY_SAMPLE = "synthetic-retired-value"\n'
     for source in (docstring, guard, constant):
         assert not literal.ACTIVE_DEFAULT.search(source), f"false positive on {source!r}"
 
 
 def test_the_naive_substring_search_would_have_produced_the_false_positive():
     """Records why the anchored pattern exists, so nobody 'simplifies' it back."""
-    docstring = '    `os.getenv("SECRET_KEY", "dev-secret-change-in-prod")`. A literal fallback\n'
+    docstring = '    `os.getenv("SECRET_KEY", "synthetic-retired-value")`. A literal fallback\n'
     assert 'os.getenv("SECRET_KEY", "' in docstring
     assert not literal.ACTIVE_DEFAULT.search(docstring)
 

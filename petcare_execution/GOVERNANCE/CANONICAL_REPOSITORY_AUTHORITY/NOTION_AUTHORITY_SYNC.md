@@ -51,7 +51,7 @@ Project: prj-maq-petcare-prod   Project number: 232802712581
 journeys run against those same endpoints.
 
 This deployment **predates W0-A by five months** (W0-A landed 2026-09-01), so the
-serving API carried `os.getenv("SECRET_KEY", "dev-secret-change-in-prod")` unless
+serving API carried `os.getenv("SECRET_KEY", "<retired-literal; sha256=1cdd7efa59d45698ceba9652ee1c22aa7472503ee381af56833df8f98d65f4ca>")` unless
 `SECRET_KEY` was set in that service's environment.
 
 `VULNERABLE_IMAGE_EXECUTED` therefore moves **UNKNOWN → YES (evidenced)**.

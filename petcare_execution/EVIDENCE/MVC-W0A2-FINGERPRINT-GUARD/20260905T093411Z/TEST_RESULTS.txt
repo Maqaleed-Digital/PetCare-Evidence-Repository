@@ -1,0 +1,12 @@
+# Test results — measured 2026-09-05
+
+python combined   : 428 passed, 37 warnings in 30.05s
+governance        : 109 passed in 25.80s
+petcare_api (W0-A): 51 passed in 1.28s
+retired-key guard : 5 passed in 20.46s
+vitest            : 120 passed (18 files)
+tsc --noEmit      : clean
+playwright        : 90 passed / 90
+secret scan       : CLEAN, 0 allowlisted
+prohibited literal: 0 active defaults
+evidence bundles  : 9 bundles, 67 artefacts, 0 mismatches
