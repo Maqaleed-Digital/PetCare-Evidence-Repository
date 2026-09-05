@@ -23,11 +23,15 @@ them as violations.
 from __future__ import annotations
 
 import ast
+import hashlib
 from pathlib import Path
 
 API = Path(__file__).resolve().parent.parent
 
-RETIRED_LITERAL = "***REMOVED_RETIRED_SECRET***"
+#: SHA-256 of the retired W0-A default. W0-A2 keeps the fingerprint here, never
+#: the value: a content-based history rewrite cannot distinguish the secret as a
+#: leaked value from the secret as a test constant, and would rewrite both.
+RETIRED_KEY_SHA256 = "1cdd7efa59d45698ceba9652ee1c22aa7472503ee381af56833df8f98d65f4ca"
 
 
 def _tree(relative: str) -> ast.AST:
@@ -92,17 +96,60 @@ def test_w0a_no_getenv_supplies_a_default_signing_key():
     )
 
 
-def test_w0a_the_retired_literal_is_not_assigned_as_a_value():
-    """The literal may be quoted in prose; it may not be assigned to anything."""
-    tree = _tree("routers/auth.py")
+def test_w0a2_the_retired_key_appears_nowhere_in_the_auth_source():
+    """Stronger than the assignment check it replaces.
+
+    W0-A allowed the retired key to be quoted in prose and compared against; it
+    only forbade assigning it. W0-A2 forbids the value entirely, in any string
+    constant, because its presence is what made the source unrewritable — a
+    content-based history rewrite replaces the comparand and the guard silently
+    starts accepting the key it was written to refuse.
+
+    Matched by digest so this test does not itself carry the value.
+    """
     offenders = []
-    for node in ast.walk(tree):
-        if isinstance(node, (ast.Assign, ast.AnnAssign)):
-            value = node.value
-            if isinstance(value, ast.Constant) and value.value == RETIRED_LITERAL:
-                offenders.append(getattr(node, "lineno", "?"))
+    for relative in ("routers/auth.py",):
+        for node in ast.walk(_tree(relative)):
+            if isinstance(node, ast.Constant) and isinstance(node.value, str):
+                if hashlib.sha256(node.value.encode()).hexdigest() == RETIRED_KEY_SHA256:
+                    offenders.append(f"{relative}:{getattr(node, 'lineno', '?')}")
     assert offenders == [], (
-        f"W0-A reversed: the retired signing key is assigned at line(s) {offenders}"
+        f"the retired signing key is present as a string constant at {offenders}"
+    )
+
+
+def test_w0a2_the_guard_compares_a_digest_not_a_literal():
+    """The structural companion: no equality comparison against an embedded
+    secret-sized literal. Kept as a second signal, never as the sole proof."""
+    tree = _tree("routers/auth.py")
+    suspicious = []
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Compare):
+            continue
+        for operand in [node.left, *node.comparators]:
+            if isinstance(operand, ast.Constant) and isinstance(operand.value, str):
+                if 16 <= len(operand.value) <= 64 and " " not in operand.value:
+                    suspicious.append(getattr(node, "lineno", "?"))
+    assert suspicious == [], (
+        f"auth.py compares against an embedded secret-sized literal at line(s) "
+        f"{suspicious}; use a fingerprint"
+    )
+
+
+def test_w0a2_the_fingerprint_check_is_actually_reached():
+    """A digest comparison that no code path reaches would pass both tests
+    above while defending nothing."""
+    source = (API / "routers/auth.py").read_text(encoding="utf-8")
+    assert "RETIRED_KEY_FINGERPRINTS" in source
+    assert "hashlib.sha256" in source
+    tree = _tree("routers/auth.py")
+    fn = next(
+        n for n in ast.walk(tree)
+        if isinstance(n, ast.FunctionDef) and n.name == "_require_secret_key"
+    )
+    names = {n.id for n in ast.walk(fn) if isinstance(n, ast.Name)}
+    assert "RETIRED_KEY_FINGERPRINTS" in names, (
+        "_require_secret_key does not consult the forbidden fingerprint set"
     )
 
 
