@@ -1,7 +1,7 @@
 {
   "index_id": "MVC-EVIDENCE-CUSTODY-INDEX-001",
   "authority": "MVC-GOV-CANON-001",
-  "custody_commit": "393e1cefc3c4399528b6ef6a4b8b8c7822e9fb19",
+  "custody_commit": "66ec0c32c1d5b15d9bd6eccce55728b17d1b79c5",
   "hash_binding_date": "2026-09-03",
   "note": "Hashes were bound retrospectively on the custody date. They did NOT exist at the original closure dates recorded in the citing register, and no original closure date is altered by this index.",
   "canonical_repository": "petcare-evidence-repository",

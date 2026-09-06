@@ -1,0 +1,25 @@
+=== Prohibited-literal scan ===
+
+SCANNED=358 ACTIVE_LITERAL_DEFAULT=0
+rc=0
+
+=== Secret scan ===
+
+SCANNED=3713 ALLOWLISTED=0 FINDINGS=0
+SECRET_SCAN=CLEAN
+rc=0
+
+=== Evidence bundle verification ===
+[OK] scheme A   13 artefacts  petcare_execution/EVIDENCE/MVC-AUTHORITY-INGESTION/20260904T140123Z
+[OK] scheme B    5 artefacts  petcare_execution/EVIDENCE/MVC-CANONICALISATION-PORT/20260903T183100Z
+[OK] scheme B    4 artefacts  petcare_execution/EVIDENCE/MVC-EVIDENCE-CUSTODY-CLOSURE/20260903T185135Z
+[OK] scheme A   12 artefacts  petcare_execution/EVIDENCE/MVC-LINEAGE-REPAIR/20260904T215919Z
+[OK] scheme A    2 artefacts  petcare_execution/EVIDENCE/MVC-PORT-07-10/20260904T121416Z
+[OK] scheme A   11 artefacts  petcare_execution/EVIDENCE/MVC-POST-PORT-07-10/20260904T125855Z
+[OK] scheme A    6 artefacts  petcare_execution/EVIDENCE/MVC-RESPONSIVE-CLOSURE/20260904T104328Z
+[OK] scheme A   11 artefacts  petcare_execution/EVIDENCE/MVC-W0A-EXPOSURE/20260904T112921Z
+[OK] scheme A    9 artefacts  petcare_execution/EVIDENCE/MVC-W0A2-FINGERPRINT-GUARD/20260905T093411Z
+[OK] scheme B    3 artefacts  petcare_execution/EVIDENCE/MVC-WAVE0-INTEGRATION/20260903T191034Z
+
+BUNDLES=10 ARTEFACTS=76 FAILED=0
+rc=0

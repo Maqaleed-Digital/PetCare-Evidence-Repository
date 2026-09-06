@@ -3,8 +3,8 @@
 **Gate:** `GATE_EVIDENCE_UNVERSIONED`
 **Authority:** `MVC-GOV-CANON-001`
 **Closed:** 2026-09-03
-**Custody commit:** `393e1cefc3c4399528b6ef6a4b8b8c7822e9fb19`
-**Hash-binding commit:** `88aa9d7b8f19388b2551896699f0f1e64a3e9bec`
+**Custody commit:** `66ec0c32c1d5b15d9bd6eccce55728b17d1b79c5`
+**Hash-binding commit:** `25dbcea4e7077cfee1d4065f400b40c5b528c963`
 
 ## The defect
 
