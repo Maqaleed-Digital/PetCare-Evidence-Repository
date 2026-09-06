@@ -1,0 +1,7 @@
+=== full python estate, after lineage repair + working-copy restore ===
+petcare_runtime/tests/test_partner_onboarding_registry.py::test_invalid_state_rejected
+  /Users/waheebmahmoud/.claude-tmp/claude-501/-Users-waheebmahmoud-dev-petcare-evidence-repository/19bf3436-0122-4401-b1c6-3abb7e241f59/scratchpad/freshclone/petcare_runtime/src/petcare/partner_network/service.py:15: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return datetime.utcnow().isoformat() + "Z"
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+428 passed, 39 warnings in 19.57s

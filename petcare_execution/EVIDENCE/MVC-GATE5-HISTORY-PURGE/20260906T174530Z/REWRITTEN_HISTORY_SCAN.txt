@@ -1,0 +1,14 @@
+LABEL                      = OWNED_ORIGIN_REWRITTEN_HISTORY
+REPO                       = .
+REVS                       = refs/remotes/origin/conflict_240126_0004 refs/remotes/origin/conflict_240126_1109 refs/remotes/origin/gate-evidence-prep refs/remotes/origin/m8-brand-cleanup refs/remotes/origin/main refs/remotes/origin/mvc-ux-wo-001 refs/remotes/origin/mvc-ux-wo-002-trust-surfaces refs/remotes/origin/petcare/close-ep04 refs/remotes/origin/petcare/close-ep08 refs/remotes/origin/petcare/close-ep09 refs/remotes/origin/petcare/close-ep10 refs/remotes/origin/petcare/close-ep11 refs/remotes/origin/petcare/close-ep12 refs/remotes/origin/petcare/ep01-ep02-build-wave-01 refs/remotes/origin/petcare/ep01-ep02-build-wave-02 refs/remotes/origin/petcare/ep01-ep02-build-wave-03 refs/remotes/origin/petcare/ep01-ep02-build-wave-04 refs/remotes/origin/petcare/ep01-ep02-build-wave-05 refs/remotes/origin/petcare/ep01-ep02-implementation-baseline refs/remotes/origin/petcare/ep04-wave-01 refs/remotes/origin/petcare/ep04-wave-02 refs/remotes/origin/petcare/ep04-wave-03 refs/remotes/origin/petcare/ep04-wave-04 refs/remotes/origin/petcare/ep04-wave-05 refs/remotes/origin/petcare/ep04-wave-06 refs/remotes/origin/petcare/ep04-wave-07 refs/remotes/origin/petcare/ep04-wave-08 refs/remotes/origin/petcare/ep04-wave-09 refs/remotes/origin/petcare/ep04-wave-10 refs/remotes/origin/petcare/ep04-wave-11 refs/remotes/origin/petcare/ep07-wave04-pricing refs/remotes/origin/petcare/ep08-financial-execution-all-waves refs/remotes/origin/petcare/ep09-financial-operations-all-waves refs/remotes/origin/petcare/ep09-stage0-architecture-lock refs/remotes/origin/petcare/ep10-integration-operational-control-all-waves refs/remotes/origin/petcare/ep10-stage0-architecture-lock refs/remotes/origin/petcare/ep11-controlled-payment-activation-all-waves refs/remotes/origin/petcare/ep11-stage0-architecture-lock refs/remotes/origin/petcare/ep12-intelligent-operations-all-waves refs/remotes/origin/petcare/ep12-stage0-architecture-lock refs/remotes/origin/petcare/phase-1-execution-pack refs/remotes/origin/security/w0a-require-session-signing-key
+FINGERPRINT                = 1cdd7efa59d45698ceba9652ee1c22aa7472503ee381af56833df8f98d65f4ca
+COMPARAND_LENGTH_BYTES     = 25
+OBJECTS_ENUMERATED         = 8435
+BLOBS_TOTAL                = 5206
+BLOBS_SCANNED              = 5206
+BLOBS_SKIPPED_OVERSIZE     = 0
+MATCHING_BLOBS             = 0
+MATCHING_PATHS             = 0
+TOTAL_OCCURRENCES          = 0
+PATHS:
+BLOBS:

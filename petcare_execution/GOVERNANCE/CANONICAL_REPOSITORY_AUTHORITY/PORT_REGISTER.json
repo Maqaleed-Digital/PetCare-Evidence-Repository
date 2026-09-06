@@ -16,7 +16,7 @@
       ],
       "risk": "low",
       "status": "DONE",
-      "closing_commit": "5e883c18"
+      "closing_commit": "5b2814cc"
     },
     {
       "id": "PORT-02",
@@ -26,7 +26,7 @@
       ],
       "risk": "low",
       "status": "DONE",
-      "closing_commit": "5e883c18"
+      "closing_commit": "5b2814cc"
     },
     {
       "id": "PORT-03",
@@ -37,7 +37,7 @@
       ],
       "risk": "low",
       "status": "DONE",
-      "closing_commit": "6e4cbccd"
+      "closing_commit": "3bdb099a"
     },
     {
       "id": "PORT-04",
@@ -47,7 +47,7 @@
       ],
       "risk": "medium",
       "status": "DONE",
-      "closing_commit": "136bd100"
+      "closing_commit": "6e033358"
     },
     {
       "id": "PORT-05",
@@ -57,7 +57,7 @@
       ],
       "risk": "medium",
       "status": "DONE",
-      "closing_commit": "136bd100"
+      "closing_commit": "6e033358"
     },
     {
       "id": "PORT-06",
@@ -67,7 +67,7 @@
       ],
       "risk": "low",
       "status": "DONE",
-      "closing_commit": "136bd100"
+      "closing_commit": "6e033358"
     },
     {
       "id": "PORT-07",
@@ -77,7 +77,7 @@
       ],
       "risk": "medium",
       "status": "DONE",
-      "closing_commit": "563ebeb3"
+      "closing_commit": "1dd71d52"
     },
     {
       "id": "PORT-08",
@@ -88,7 +88,7 @@
       ],
       "risk": "medium",
       "status": "DONE",
-      "closing_commit": "e9d36f5a"
+      "closing_commit": "4a2a9060"
     },
     {
       "id": "PORT-09",
@@ -102,7 +102,7 @@
       "risk": "medium",
       "status": "DONE",
       "constraint": "must consume, never re-own; marketplace canonical location is petcare_runtime/src/petcare/partner_network/ and its EP-07 seal is PRESERVED",
-      "closing_commit": "ebed5cba"
+      "closing_commit": "fda31044"
     },
     {
       "id": "PORT-10",
@@ -114,7 +114,7 @@
       ],
       "risk": "medium",
       "status": "DONE",
-      "closing_commit": "682309f1"
+      "closing_commit": "d08d95e9"
     }
   ],
   "must_not_port": {
