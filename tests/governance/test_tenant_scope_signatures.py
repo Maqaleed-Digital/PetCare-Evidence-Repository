@@ -50,7 +50,7 @@ def _is_tenant_param(name: str) -> bool:
 #: Allowlisted permissive defaults, as {location: reason}.
 #: An entry here is a recorded decision, and the reason is what a reviewer checks.
 ALLOWLIST: dict[str, str] = {
-    "petcare_api/routers/auth.py:172:seed_user(tenant_id)":
+    "petcare_api/routers/auth.py::seed_user(tenant_id)":
         "Data constructor, not an authorization check. None means the seeded "
         "identity holds NO tenant assignment, and the consuming path fails "
         "closed on exactly that: require_tenant() raises 403 NO_TENANT_AUTHORITY "
@@ -116,7 +116,12 @@ def _offenders(files: list[Path]) -> list[str]:
                         rel = f.relative_to(ROOT)
                     except ValueError:
                         rel = f
-                    loc = f"{rel}:{node.lineno}:{node.name}({arg.arg})"
+                    # Keyed WITHOUT the line number. A line-keyed allowlist
+                    # breaks whenever anything above the entry moves, and the
+                    # cheap fix is to bump the number — which trains the next
+                    # person to edit the exemption rather than examine it. The
+                    # file, function and parameter identify it precisely enough.
+                    loc = f"{rel}::{node.name}({arg.arg})"
                     if loc in ALLOWLIST:
                         continue
                     found.append(loc)
@@ -133,8 +138,8 @@ def test_no_tenant_parameter_carries_a_permissive_default():
     """The guard. A tenant that may be omitted is a tenant that may be ignored."""
     offenders = _offenders(_python_files())
     assert offenders == [], (
-        "tenant-bearing parameter defaults to None — a caller that omits it gets "
-        f"an unscoped check: {offenders}"
+        "tenant-bearing parameter carries a permissive default — a caller that "
+        f"omits it gets an unscoped check: {offenders}"
     )
 
 

@@ -9,9 +9,16 @@ from fastapi.responses import JSONResponse
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from pydantic import BaseModel
 
+from session_store import InMemorySessionStore
+
 log = logging.getLogger("petcare.api.auth")
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
+
+#: W0-F AC-7. The authoritative record of which sessions are still live.
+#: In-memory for now; the production implementation is a table in the store named
+#: by MVC-W0F-DATA-STORE-DECISION-001, and applying it is GATE_LIVE_APPLY.
+SESSION_STORE = InMemorySessionStore()
 
 #: SHA-256 of every session signing key that is permanently forbidden.
 #:
@@ -251,9 +258,18 @@ async def sign_in(body: SignInRequest):
     user_id = user["id"]
     name = user["full_name"]
 
+    # W0-F AC-7: the session becomes a server-side record BEFORE the cookie is
+    # minted, and the cookie carries only its id. A cookie whose id is not in the
+    # store is not a session, however well signed it is.
+    record = SESSION_STORE.create(
+        user_id=user_id,
+        tenant_id=user.get("tenant_id"),
+        role=role,
+        ttl_seconds=COOKIE_MAX_AGE,
+    )
     token = _serializer().dumps(
         {"user_id": user_id, "email": body.email, "role": role,
-         "tenant_id": user.get("tenant_id")}
+         "tenant_id": user.get("tenant_id"), "sid": record.session_id}
     )
 
     _audit("auth.sign_in_success",
@@ -376,6 +392,27 @@ def read_session(request: Request) -> dict:
         raise HTTPException(status_code=401, detail={"error": "INVALID_SESSION"})
     if not isinstance(payload, dict) or not payload.get("role"):
         raise HTTPException(status_code=401, detail={"error": "INVALID_SESSION"})
+
+    # W0-F AC-7. Signature verification above proves the payload was written by
+    # this service and not altered. It CANNOT prove the session is still valid —
+    # that the user has not signed out, been disabled, or had the session
+    # revoked. Integrity is a statement about the past; validity is a statement
+    # about now, and only the store can answer it.
+    #
+    # ORDER IS LOAD-BEARING. The signature check runs FIRST and is never skipped:
+    # accepting a session on a store hit alone would mean a forged or stale
+    # cookie bearing a real session id is honoured, and it would silently undo
+    # the emergency property that rotating the signing key revokes everything.
+    sid = payload.get("sid")
+    if not sid:
+        # No fallback for cookies minted before the store existed. A legacy
+        # acceptance path is a second, ungoverned way in.
+        raise HTTPException(status_code=401, detail={"error": "SESSION_NOT_ESTABLISHED"})
+
+    if SESSION_STORE.get_active(sid, tenant_id=payload.get("tenant_id")) is None:
+        # Unknown, revoked, expired and cross-tenant are deliberately one answer.
+        raise HTTPException(status_code=401, detail={"error": "SESSION_REVOKED_OR_EXPIRED"})
+
     return payload
 
 
