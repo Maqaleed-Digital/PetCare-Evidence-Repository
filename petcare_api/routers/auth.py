@@ -1,5 +1,6 @@
 import os
 import hashlib
+import hmac
 import logging
 from datetime import datetime, timezone
 from uuid import uuid4
@@ -82,8 +83,83 @@ def _serializer():
     return URLSafeTimedSerializer(SECRET_KEY)
 
 
+#: scrypt work factors. Memory-hard by design: `n` sets the memory cost, which is
+#: what makes a GPU or ASIC attack expensive rather than merely slow. These are
+#: the parameters stored WITH each hash, so raising them later does not
+#: invalidate existing credentials — see _verify_password's rehash path.
+_SCRYPT_N = 2 ** 14   # 16384 — ~16 MiB per hash at r=8
+_SCRYPT_R = 8
+_SCRYPT_P = 1
+_SCRYPT_DKLEN = 32
+_SCRYPT_PREFIX = "scrypt"
+
+
 def _hash_password(password: str) -> str:
-    return hashlib.sha256(password.encode()).hexdigest()
+    """Hash a password with a salted, work-factored, memory-hard KDF.
+
+    W0-J. This was `hashlib.sha256(password.encode()).hexdigest()` — unsalted and
+    unstretched. Unsalted means identical passwords produce identical digests, so
+    one rainbow table breaks every account at once and equal hashes reveal equal
+    passwords across users. Unstretched means a commodity GPU tries billions of
+    candidates per second: a fast hash is the wrong primitive for a password, and
+    SHA-256 is fast by design.
+
+    scrypt is used rather than PBKDF2 because it is MEMORY-hard, so specialised
+    hardware cannot buy the attacker much over general-purpose hardware. It is in
+    the standard library, so this introduces no new dependency to audit.
+
+    The parameters are stored in the hash string. That is what makes the work
+    factor upgradable: raising `n` later leaves every existing credential
+    verifiable, and each one is re-hashed on its owner's next successful login.
+    """
+    salt = os.urandom(16)
+    dk = hashlib.scrypt(
+        password.encode("utf-8"),
+        salt=salt,
+        n=_SCRYPT_N, r=_SCRYPT_R, p=_SCRYPT_P, dklen=_SCRYPT_DKLEN,
+    )
+    return f"{_SCRYPT_PREFIX}${_SCRYPT_N}${_SCRYPT_R}${_SCRYPT_P}${salt.hex()}${dk.hex()}"
+
+
+def _verify_password(password: str, stored: str) -> tuple[bool, bool]:
+    """Verify a password. Returns (ok, needs_rehash).
+
+    `needs_rehash` is true when the credential verified against a legacy or
+    weaker-than-current format. The caller re-hashes on successful login, which
+    is how a credential migration happens without ever seeing the plaintext at
+    any other moment — there is no batch to run and no window in which old and
+    new formats disagree.
+    """
+    if stored.startswith(_SCRYPT_PREFIX + "$"):
+        try:
+            _, n_s, r_s, p_s, salt_hex, dk_hex = stored.split("$")
+            n, r, p = int(n_s), int(r_s), int(p_s)
+            expected = bytes.fromhex(dk_hex)
+            actual = hashlib.scrypt(
+                password.encode("utf-8"),
+                salt=bytes.fromhex(salt_hex),
+                n=n, r=r, p=p, dklen=len(expected),
+            )
+        except (ValueError, TypeError):
+            return False, False
+        # Constant-time: a timing-variable comparison leaks the digest a byte at
+        # a time, which is enough to forge a match without knowing the password.
+        ok = hmac.compare_digest(actual, expected)
+        return ok, ok and (n, r, p) != (_SCRYPT_N, _SCRYPT_R, _SCRYPT_P)
+
+    if stored.startswith("$2"):  # legacy bcrypt
+        try:
+            from passlib.hash import bcrypt
+            ok = bcrypt.verify(password, stored)
+        except Exception:
+            return False, False
+        return ok, ok
+
+    # Legacy unsalted SHA-256. Accepted ONLY to let an existing credential
+    # migrate itself on next login; it is never produced by _hash_password.
+    legacy = hashlib.sha256(password.encode("utf-8")).hexdigest()
+    ok = hmac.compare_digest(legacy, stored)
+    return ok, ok
 
 
 # ---------------------------------------------------------------------------
@@ -158,14 +234,12 @@ async def sign_in(body: SignInRequest):
     stored = user["password_hash"]
     password_ok = False
 
-    if stored.startswith("$2"):  # bcrypt hash
-        try:
-            from passlib.hash import bcrypt
-            password_ok = bcrypt.verify(body.password, stored)
-        except Exception:
-            password_ok = False
-    else:  # sha256 fallback
-        password_ok = (_hash_password(body.password) == stored)
+    password_ok, needs_rehash = _verify_password(body.password, stored)
+
+    # W0-J: rehash-on-next-login. A credential stored in a legacy format is
+    # upgraded here, at the one moment the plaintext is legitimately available.
+    if password_ok and needs_rehash:
+        user["password_hash"] = _hash_password(body.password)
 
     if not password_ok:
         _audit("auth.sign_in_failed",
