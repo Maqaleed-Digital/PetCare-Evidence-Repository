@@ -1,0 +1,48 @@
+{
+  "register_id": "MVC-GCP-LEGACY-CUSTODY-001",
+  "authority": "MVC-GOV-CANON-001",
+  "current_cloud_authority": "AWS",
+  "gcp_status": "LEGACY_HISTORICAL_NOT_CURRENT_TARGET",
+  "note": "GCP build configuration retained in the tree under custody, not deleted. Deleting delivery configuration destroys the record of how the estate was previously built, which is evidence. Retention is therefore permitted; ACTIVE USE is not. This register names every retained artefact so the distinction is testable: tests/governance/test_gcp_legacy_custody.py asserts each path still exists (custody is real, not a stale claim) and that no active deployment surface references any of them or invokes gcloud.",
+  "classification": "LEGACY_RETAINED_NOT_ACTIVE",
+  "denominator": 6,
+  "retained": [
+    {
+      "path": "petcare_api/cloudbuild.yaml",
+      "classification": "LEGACY_RETAINED_NOT_ACTIVE",
+      "origin": "GCP Cloud Build config for the serving API image"
+    },
+    {
+      "path": "petcare_web/cloudbuild.yaml",
+      "classification": "LEGACY_RETAINED_NOT_ACTIVE",
+      "origin": "GCP Cloud Build config for the web image"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF03/cloudbuild.nonprod.yaml",
+      "classification": "LEGACY_RETAINED_NOT_ACTIVE",
+      "origin": "Phase-2 DF03 non-production build scaffolding"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF03/cloudbuild.prod.yaml",
+      "classification": "LEGACY_RETAINED_NOT_ACTIVE",
+      "origin": "Phase-2 DF03 production build scaffolding"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF03B/cloudbuild.nonprod.smoke.yaml",
+      "classification": "LEGACY_RETAINED_NOT_ACTIVE",
+      "origin": "Phase-2 DF03B non-production smoke build scaffolding"
+    },
+    {
+      "path": "petcare_execution/PHASE_2/DF04/cloudbuild.nonprod.app.yaml",
+      "classification": "LEGACY_RETAINED_NOT_ACTIVE",
+      "origin": "Phase-2 DF04 non-production application build scaffolding"
+    }
+  ],
+  "active_deployment_surfaces": [
+    ".github/workflows",
+    "render.yaml",
+    "petcare_api/Dockerfile",
+    "petcare_web/Dockerfile"
+  ],
+  "active_surface_rationale": "An active deployment surface is one that CI or a hosting provider executes. These four are the whole of that set in this repository: the GitHub Actions workflows, the Render service definition, and the two container build files. A retained GCP artefact becomes ACTIVE the moment one of these references it or invokes gcloud."
+}

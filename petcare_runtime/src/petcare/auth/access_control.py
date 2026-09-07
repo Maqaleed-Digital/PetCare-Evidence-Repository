@@ -34,7 +34,6 @@ class AccessContext:
     consent_scopes: Set[str]
     owner_id: Optional[str] = None
     assigned_veterinarian_id: Optional[str] = None
-    assigned_pharmacy_operator_id: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -45,7 +44,6 @@ class ResourceContext:
     clinic_id: Optional[str]
     owner_id: Optional[str]
     assigned_veterinarian_id: Optional[str] = None
-    assigned_pharmacy_operator_id: Optional[str] = None
     document_shared: bool = False
     document_visibility_scope: Optional[str] = None
     consent_record_active: bool = False
