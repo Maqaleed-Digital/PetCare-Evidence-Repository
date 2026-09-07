@@ -1,0 +1,43 @@
+node: v20.20.0  npm: 10.8.2
+=== npm ci ===
+  npm audit fix
+
+To address all issues (including breaking changes), run:
+  npm audit fix --force
+
+Run `npm audit` for details.
+=== TypeScript ===
+
+> petcare-web@1.0.0 typecheck
+> tsc --noEmit
+
+TYPECHECK_RC=0
+=== Web unit tests ===
+    at runFiles (file:///Users/waheebmahmoud/.claude-tmp/claude-501/-Users-waheebmahmoud-dev-petcare-evidence-repository/19bf3436-0122-4401-b1c6-3abb7e241f59/scratchpad/freshclone/petcare_web/node_modules/@vitest/runner/dist/index.js:1262:5)
+    at startTests (file:///Users/waheebmahmoud/.claude-tmp/claude-501/-Users-waheebmahmoud-dev-petcare-evidence-repository/19bf3436-0122-4401-b1c6-3abb7e241f59/scratchpad/freshclone/petcare_web/node_modules/@vitest/runner/dist/index.js:1271:3)
+    at file:///Users/waheebmahmoud/.claude-tmp/claude-501/-Users-waheebmahmoud-dev-petcare-evidence-repository/19bf3436-0122-4401-b1c6-3abb7e241f59/scratchpad/freshclone/petcare_web/node_modules/vitest/dist/chunks/runBaseTests.3qpJUEJM.js:126:11 {
+  digest: 'd-1'
+}
+
+ ✓ __tests__/surface-states.test.tsx (19 tests) 3520ms
+   ✓ PORT-08 loading states > /signin shows the submitting label and disables submit while in flight 805ms
+   ✓ PORT-08 loading states > /register shows the submitting label and disables submit while in flight 651ms
+   ✓ PORT-08 error states > /register surfaces a network failure and does not navigate 354ms
+ ✓ __tests__/signin-touch.test.tsx (3 tests) 256ms
+ ✓ __tests__/register.test.tsx (8 tests) 4095ms
+   ✓ RegisterPage — invite-gated pilot registration (WI-1) > renders Arabic-first form fields and invite-only badge 713ms
+   ✓ RegisterPage — invite-gated pilot registration (WI-1) > POSTs to /api/auth/register with the invite code and routes to /owner on 201 1131ms
+   ✓ RegisterPage — invite-gated pilot registration (WI-1) > routes vet registration to /vet 664ms
+   ✓ RegisterPage — invite-gated pilot registration (WI-1) > shows Arabic INVALID_INVITE error on 400 invalid 491ms
+   ✓ RegisterPage — invite-gated pilot registration (WI-1) > shows Arabic INVITE_EXPIRED error on 400 expired 409ms
+   ✓ RegisterPage — invite-gated pilot registration (WI-1) > shows Arabic ROLE_MISMATCH error on 400 333ms
+   ✓ RegisterPage — invite-gated pilot registration (WI-1) > shows Arabic EMAIL_EXISTS error on 409 324ms
+
+ Test Files  18 passed (18)
+      Tests  120 passed (120)
+   Start at  20:43:34
+   Duration  8.24s (transform 3.98s, setup 18.47s, collect 8.98s, tests 16.14s, environment 32.17s, prepare 4.20s)
+
+UNIT_RC=0
+
+[exited with code 0]

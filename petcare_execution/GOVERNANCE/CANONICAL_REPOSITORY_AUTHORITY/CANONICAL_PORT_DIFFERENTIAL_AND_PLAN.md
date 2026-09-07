@@ -89,4 +89,4 @@ tranche touching roles must adopt the canonical model, not the port source's.
 | `GATE_EVIDENCE_UNVERSIONED` | **CLOSED 2026-09-03** — `GATE_EVIDENCE_UNVERSIONED_CLOSURE.md`; 40 tracked, 14/14 cited paths hash-bound |
 | `EPIC_IDENTIFIER_COLLISION` | EP-06 = Emergency Network (canonical) vs Security/Audit/Ops (port source) |
 | `WEB_TREE_DUPLICATION_OPEN` | **CLOSED 2026-09-03** — `WEB_TREE_AUTHORITY_RECONCILIATION.md`; `petcare_web` canonical, `petcare-web` SUPERSEDED_PROTOTYPE |
-| `CANONICAL_HEAD_LOCAL_ONLY` | **PARTIALLY CLOSED 2026-09-04** — W0-A reached `origin/main` via PR #3 (`204bd4cc`). W0-B…W0-E remain local-only. |
+| `CANONICAL_HEAD_LOCAL_ONLY` | **PARTIALLY CLOSED 2026-09-04** — W0-A reached `origin/main` via PR #3 (`0364fe69`). W0-B…W0-E remain local-only. |

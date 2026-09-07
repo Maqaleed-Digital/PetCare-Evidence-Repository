@@ -40,7 +40,7 @@
       "status": "CLOSED",
       "closed_date": "2026-09-03",
       "closure_record": "petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/GATE_EVIDENCE_UNVERSIONED_CLOSURE.md",
-      "closure_note": "Row preserved rather than removed: the exception was real and its closure is part of the record. 40 evidence files tracked, 14/14 cited paths hash-bound, custody commit 393e1cef, hash binding 88aa9d7b. The seal listed this as OPEN for a day after the closure record was written; PORT-07 now asserts that contradiction cannot recur."
+      "closure_note": "Row preserved rather than removed: the exception was real and its closure is part of the record. 40 evidence files tracked, 14/14 cited paths hash-bound, custody commit 66ec0c32, hash binding 25dbcea4. The seal listed this as OPEN for a day after the closure record was written; PORT-07 now asserts that contradiction cannot recur."
     },
     {
       "id": "EPIC_IDENTIFIER_COLLISION",

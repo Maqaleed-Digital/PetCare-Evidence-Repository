@@ -1,0 +1,29 @@
+LABEL                      = OLD_HISTORY_POSITIVE_CONTROL
+REPO                       = .
+REVS                       = refs/heads/gate-evidence-prep refs/heads/govern/canonical-repository-authority refs/heads/govern/denominator-inventory refs/heads/m8-brand-cleanup refs/heads/main refs/heads/mvc-ux-wo-001 refs/heads/mvc-ux-wo-002-trust-surfaces refs/heads/security/w0a-require-session-signing-key refs/heads/security/w0a2-fingerprint-guard refs/heads/wave0/w0-a-remove-hardcoded-secret-fallback refs/heads/wave0/w0-b-session-bound-authorization refs/heads/wave0/w0-c-server-derived-tenant refs/heads/wave0/w0-d-dispensing-fail-closed refs/heads/wave0/w0-e-withdraw-unsupported-attestation refs/remotes/gate5probe/gate-evidence-prep refs/remotes/gate5probe/m8-brand-cleanup refs/remotes/gate5probe/main refs/remotes/gate5probe/mvc-ux-wo-001 refs/remotes/gate5probe/mvc-ux-wo-002-trust-surfaces refs/remotes/gate5probe/security/w0a-require-session-signing-key
+FINGERPRINT                = 1cdd7efa59d45698ceba9652ee1c22aa7472503ee381af56833df8f98d65f4ca
+COMPARAND_LENGTH_BYTES     = 25
+OBJECTS_ENUMERATED         = 8130
+BLOBS_TOTAL                = 5039
+BLOBS_SCANNED              = 5039
+BLOBS_SKIPPED_OVERSIZE     = 0
+MATCHING_BLOBS             = 10
+MATCHING_PATHS             = 5
+TOTAL_OCCURRENCES          = 22
+PATHS:
+  petcare_api/routers/auth.py
+  petcare_api/tests/test_secret_key_required.py
+  petcare_api/tests/test_w0_ab_ordering_invariant.py
+  petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/NOTION_AUTHORITY_SYNC.md
+  tests/governance/test_repository_scanners.py
+BLOBS:
+  216ca4a47f47d73148f9f9aa9708c22053fa0fe1  occurrences=1  petcare_api/routers/auth.py
+  a702c35fbb941974314583897a148cadba142340  occurrences=2  petcare_api/routers/auth.py
+  c8368fae4b541f6538614ebe0671836f15a01f06  occurrences=1  petcare_api/routers/auth.py
+  d77461b7e824126a7e383378b8a673a3f470c3ec  occurrences=2  petcare_api/routers/auth.py
+  f60f970986c91b23e27792a5128b281e21ecf92f  occurrences=2  petcare_api/routers/auth.py
+  d83bd624dcfb3fb22f819a04913e07f1ae7dff01  occurrences=2  petcare_api/tests/test_secret_key_required.py
+  71bf37c63011b982ccb2bb61128f454fc4c21b20  occurrences=1  petcare_api/tests/test_w0_ab_ordering_invariant.py
+  aefe096a3081a2e53f30f440d41a8f6bbe588f97  occurrences=1  petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/NOTION_AUTHORITY_SYNC.md
+  0f1c740a5be61588cac1463b99015c30ee716771  occurrences=5  tests/governance/test_repository_scanners.py
+  33a602c744b17d564dd57472aa57ad26d7c0430a  occurrences=5  tests/governance/test_repository_scanners.py

@@ -1,0 +1,15 @@
+old                                      new                                      ref
+c88d9f15356cf7786bc9958e6a1076d260c747a0 4986725505de0af9e37b2854c170e364b1075cff refs/heads/gate-evidence-prep
+793c64b93b86cce35b7ad06044de12015ce6721c 06341f9905b3db4d1458c9640313e44d9dc43d1f refs/heads/govern/canonical-repository-authority
+b8b5014e5a1f6848cfb6022034c77485dc2c0f3b 710ecbe548682efe16c439a695e31fa43e895773 refs/heads/govern/denominator-inventory
+a3cba7ba1f529008fecd523d60bfc297375f4210 770eb193fda6cdcbe41a7fa19e9b8caafb02bd23 refs/heads/m8-brand-cleanup
+24de5399abc37cc9d53308d4e358ac19ecaa5ad1 3cef8f9db73a07aab33e953ac7d41c8b238d159d refs/heads/main
+ed4e0e36c8bada260d91d5d52c6d26531731d2cc 2e9c070468316b0cc6b3d259dd973b6606ea4e41 refs/heads/mvc-ux-wo-001
+2b3e7b2a6b08c3cd948557c95d2af7e65b6b5e53 2e06ecf992a40ddd5b54ce13189755b1b6ec9351 refs/heads/mvc-ux-wo-002-trust-surfaces
+9fc8e2494043fffa11d044942bc66ec9d8c5b65f a838d9f2b43e7cdcee659fab9729915533b78884 refs/heads/security/w0a-require-session-signing-key
+e78159b285a7719759941421941b04ef0ab08ee1 0085cc18dc1c9bc53fcf648a2029f10373807caf refs/heads/security/w0a2-fingerprint-guard
+3224c65d6cf3086ae9fa95b3ceed9a9d532d2814 83e167a62d267866176126998dad7142ea2fbe1c refs/heads/wave0/w0-a-remove-hardcoded-secret-fallback
+955b5a59671f30de8dcf42d8d1b13c81189eeed6 4c313231498424ebe8a755f8e087d5936b4c2b69 refs/heads/wave0/w0-b-session-bound-authorization
+16a521c80348adf6f323815c399697e19421a4fa 2824846169e9383b1364d7066f7bcd2163cdeaad refs/heads/wave0/w0-c-server-derived-tenant
+82e931d7efcdd60124fa4ce3fd451012516489fa b743243764e83e5f00256d6d41e4faccd92ec386 refs/heads/wave0/w0-d-dispensing-fail-closed
+b6a5d8a97bbd2ce41c067798b9bee83613b12579 5771048453e803337ab5d1294b7de46e65e9b117 refs/heads/wave0/w0-e-withdraw-unsupported-attestation
