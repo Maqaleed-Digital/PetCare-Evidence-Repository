@@ -18,15 +18,35 @@ SOURCE = Path(__file__).resolve().parents[1] / "main.py"
 
 
 def test_t_gov_01_chain_claim_matches_independent_verification():
-    """T-GOV-01 — the reported claim must equal an independent check."""
+    """T-GOV-01 — the reported claim must equal an independent check.
+
+    W0-G wired the chain into the serving path, so the honest answer flipped from
+    False to True. The INVARIANT this guards is unchanged and is the point of the
+    test: the endpoint reports what an independent check computes, never a
+    constant. Only the state snapshot moved, because W0-G moved the state.
+    """
+    api._audit(
+        event_name="t.gov.01.probe",
+        actor_id="t",
+        actor_role="admin",
+        tenant_id="t1",
+        resource_type="test",
+        resource_id="r1",
+        action_result="success",
+        correlation_id="c1",
+    )
     body = client.get("/api/governance/status").json()
     independent = api._audit_chain_active()
     assert body["audit_chain_active"] is independent
 
-    # The chain is not wired in this build; the endpoint must say so plainly
-    # rather than claiming a control it does not have.
-    assert independent is False
-    assert body["audit_chain_verification"] == "NOT_WIRED_INTO_SERVING_PATH"
+    # W0-G: the chain is now computed and linked on every audit write.
+    assert independent is True
+    assert body["audit_chain_verification"] == "VERIFIED"
+
+    # ...but it is NOT durable. Reported as a separate field so that
+    # audit_chain_active can never be read as a persistence claim.
+    assert body["audit_chain_persisted"] is False
+    assert "not durable" in body["audit_chain_durability"]
 
 
 def test_t_gov_02_no_governance_field_is_a_hardcoded_true():

@@ -22,8 +22,15 @@ from pydantic import BaseModel
 # ---------------------------------------------------------------------------
 import sys
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "petcare_runtime", "src"))
+# W0-G: the governed audit-chain algorithm lives in the foundations tree, not in
+# petcare_runtime. It is REUSED here, never reimplemented (CP-2 W0-G DISPOSITION).
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from petcare.audit.audit_service import AuditEvent, emit_audit_event
+from petcare_execution.FND.security.audit_chain import (
+    compute_event_hash,
+    verify_hash_chain,
+)
 from petcare.auth.access_control import (
     ROLE_OWNER,
     ROLE_VETERINARIAN,
@@ -114,6 +121,9 @@ seed_invite_code("VET-PILOT-001", "veterinarian")
 # ---------------------------------------------------------------------------
 # In-memory stores (pilot phase — DB wiring deferred to PH7)
 # ---------------------------------------------------------------------------
+#: W0-G chain genesis. The algorithm's default, named here so the serving path
+#: and any future persisted store cannot drift apart on it.
+AUDIT_CHAIN_GENESIS = "GENESIS"
 _audit_log: list[dict] = []
 _sessions: dict[str, dict] = {}
 _notes: dict[str, dict] = {}
@@ -201,9 +211,49 @@ def _audit(
         "correlation_id": ev.correlation_id,
         "occurred_at": ev.occurred_at,
     }
+    # W0-G: link this event into the tamper-evident chain BEFORE it is stored.
+    # prev_hash is the previous event's event_hash, or GENESIS for the first.
+    # The hash covers the record as it stands here, so any later edit to a stored
+    # field breaks verification at that index.
+    prev_hash = _audit_log[-1]["event_hash"] if _audit_log else AUDIT_CHAIN_GENESIS
+    # Hash the record BEFORE the chain fields are attached. verify_hash_chain
+    # strips prev_hash and the digest before recomputing, so hashing a record
+    # that already carries prev_hash would produce a digest the verifier can
+    # never reproduce — a chain that is "linked" but unverifiable.
+    event_hash = compute_event_hash(prev_hash, record)
+    record["prev_hash"] = prev_hash
+    record["event_hash"] = event_hash
+
     _audit_log.append(record)
     log.info("AUDIT %s", json.dumps(record))
     return record
+
+
+def verify_audit_chain() -> dict:
+    """Verify the whole chain, reusing the governed algorithm unmodified.
+
+    The algorithm names the digest field `hash`; the governed schema (CP-2 W0-G
+    SCHEMA_IMPACT) names the column `event_hash`. The record is adapted here at
+    the boundary rather than editing the algorithm, because W0-G's disposition is
+    REUSE — do not reinvent hashing.
+
+    A break is REPORTED, never repaired. Silently rehashing a broken chain would
+    destroy the only evidence that it broke.
+    """
+    adapted = []
+    for ev in _audit_log:
+        core = dict(ev)
+        core["hash"] = core.pop("event_hash", None)
+        adapted.append(core)
+    result = verify_hash_chain(adapted, genesis=AUDIT_CHAIN_GENESIS)
+    return {
+        "ok": result.ok,
+        "reason": result.reason,
+        "index": result.index,
+        "expected": result.expected,
+        "actual": result.actual,
+        "events": len(_audit_log),
+    }
 
 # ---------------------------------------------------------------------------
 # Health + readiness
@@ -252,6 +302,16 @@ def audit_ui_probe(payload: AuditProbePayload):
 @app.get("/audit/events")
 def list_audit_events(role: str = Depends(require_admin)):
     return {"events": _audit_log, "count": len(_audit_log)}
+
+
+@app.get("/audit/chain/verify")
+def verify_audit_chain_endpoint(role: str = Depends(require_admin)):
+    """Surface chain verification. W0-G: detectable and reportable, never healed.
+
+    Returns the failing index and the expected/actual digests on a break, so a
+    tamper or a gap is localisable rather than merely announced.
+    """
+    return verify_audit_chain()
 
 # ---------------------------------------------------------------------------
 # Appointments
@@ -652,6 +712,23 @@ def _audit_chain_active() -> bool:
     return bool(_audit_log)
 
 
+def _audit_chain_persisted() -> bool:
+    """Whether the chain SURVIVES this process. It does not.
+
+    W0-G computes and links the chain on every write, which makes tampering
+    inside a running process detectable. It does not make the log durable: the
+    store is still `_audit_log`, an in-memory list that dies with the process and
+    is not shared between instances. Durability is W0-F's persistent serving
+    boundary, which is Sponsor-gated.
+
+    Reported as its own field precisely so `audit_chain_active` cannot be read as
+    a durability claim. Computing a chain over a volatile store is a real control
+    against tampering and a real non-control against loss, and W0-E's discipline
+    is that the service must not blur the two.
+    """
+    return False
+
+
 @app.get("/api/governance/status")
 def governance_status():
     """Governance posture, COMPUTED from live state.
@@ -670,7 +747,16 @@ def governance_status():
         # Computed from the serving path, not asserted.
         "audit_chain_active": chain_active,
         "audit_chain_verification": (
-            "VERIFIED" if chain_active else "NOT_WIRED_INTO_SERVING_PATH"
+            ("VERIFIED" if verify_audit_chain()["ok"] else "BROKEN")
+            if chain_active
+            else "NOT_WIRED_INTO_SERVING_PATH"
+        ),
+        # W0-G computes the chain; it does not persist it. Separate fields, so
+        # neither can be mistaken for the other.
+        "audit_chain_persisted": _audit_chain_persisted(),
+        "audit_chain_durability": (
+            "IN_PROCESS_ONLY — the audit store is not durable and is not shared "
+            "between instances; persistence is W0-F"
         ),
         # fail_closed cannot be evaluated from inside this process while
         # authorization derives from a client-supplied header (W0-B). Reporting
