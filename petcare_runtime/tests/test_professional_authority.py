@@ -45,7 +45,7 @@ def test_baseline_a_granted_vet_can_attest(registry):
         effective_from=T0,
     )
     att = registry.attest_clinical_record(
-        actor_id="vet1", record_id="r1", occurred_at=T1
+        actor_id="vet1", record_id="r1", occurred_at=T1, tenant_id="t1"
     )
     assert att["professional_class"] == ProfessionalClass.VETERINARIAN
 
@@ -58,7 +58,7 @@ def test_t_prof_01_attesting_without_authority_at_that_time_is_denied(registry):
     check passes that case, because it only ever asks about now.
     """
     with pytest.raises(AuthorityDenied):
-        registry.attest_clinical_record(actor_id="nobody", record_id="r1", occurred_at=T1)
+        registry.attest_clinical_record(actor_id="nobody", record_id="r1", occurred_at=T1, tenant_id="t1")
 
     registry.grant(
         actor_id="vet1", tenant_id="t1",
@@ -67,10 +67,10 @@ def test_t_prof_01_attesting_without_authority_at_that_time_is_denied(registry):
         effective_from=T1,
     )
     # Holds now...
-    assert registry.held_at("vet1", T2) is True
+    assert registry.held_at("vet1", T2, tenant_id="t1") is True
     # ...but did not hold before the grant, and cannot attest back across it.
     with pytest.raises(AuthorityDenied):
-        registry.attest_clinical_record(actor_id="vet1", record_id="r0", occurred_at=T0)
+        registry.attest_clinical_record(actor_id="vet1", record_id="r0", occurred_at=T0, tenant_id="t1")
 
 
 def test_t_prof_01b_revoked_authority_does_not_erase_the_past(registry):
@@ -84,12 +84,12 @@ def test_t_prof_01b_revoked_authority_does_not_erase_the_past(registry):
     )
     registry.revoke(g.grant_id, revoked_at=T1)
 
-    assert registry.held_at("vet1", T0 + timedelta(days=1)) is True, "the past must survive"
-    assert registry.held_at("vet1", T1) is False, "revocation instant denies"
-    assert registry.held_at("vet1", T2) is False
+    assert registry.held_at("vet1", T0 + timedelta(days=1), tenant_id="t1") is True, "the past must survive"
+    assert registry.held_at("vet1", T1, tenant_id="t1") is False, "revocation instant denies"
+    assert registry.held_at("vet1", T2, tenant_id="t1") is False
 
     with pytest.raises(AuthorityDenied):
-        registry.attest_clinical_record(actor_id="vet1", record_id="r2", occurred_at=T2)
+        registry.attest_clinical_record(actor_id="vet1", record_id="r2", occurred_at=T2, tenant_id="t1")
 
 
 def test_t_prof_02_device_sealing_authority_confers_no_professional_authority(registry):
@@ -109,9 +109,9 @@ def test_t_prof_02_device_sealing_authority_confers_no_professional_authority(re
         )
 
     # A sealing device is not an actor, so it holds nothing at any time.
-    assert registry.held_at("dev-1", T1) is False
+    assert registry.held_at("dev-1", T1, tenant_id="t1") is False
     with pytest.raises(AuthorityDenied):
-        registry.attest_clinical_record(actor_id="dev-1", record_id="r1", occurred_at=T1)
+        registry.attest_clinical_record(actor_id="dev-1", record_id="r1", occurred_at=T1, tenant_id="t1")
 
 
 def test_t_prof_03_sole_practitioner_bootstrap_is_allowed_and_recorded(registry, audit):
@@ -130,7 +130,7 @@ def test_t_prof_03_sole_practitioner_bootstrap_is_allowed_and_recorded(registry,
 
     assert g.sole_practitioner_bootstrap is True
     assert g.granted_by is None, "the absence of a second principal is the recorded fact"
-    assert registry.held_at("vet1", T1) is True
+    assert registry.held_at("vet1", T1, tenant_id="t1") is True
 
     events = [e["event_name"] for e in audit]
     assert "professional_authority.sole_practitioner_bootstrap" in events, (
@@ -168,9 +168,9 @@ def test_t_prof_04_professional_class_is_never_taken_from_a_caller(registry):
     )
 
     # Class comes from the grant, whatever a caller might claim elsewhere.
-    assert registry.professional_class_at("vet1", T1) == ProfessionalClass.VETERINARIAN
+    assert registry.professional_class_at("vet1", T1, tenant_id="t1") == ProfessionalClass.VETERINARIAN
     # An identity with no grant has no class — never a default.
-    assert registry.professional_class_at("stranger", T1) is None
+    assert registry.professional_class_at("stranger", T1, tenant_id="t1") is None
 
     # A class outside the closed set cannot be granted at all.
     with pytest.raises(AuthorityDenied):
@@ -202,3 +202,93 @@ def test_grants_are_immutable(registry):
     )
     with pytest.raises(Exception):
         g.professional_class = ProfessionalClass.VETERINARY_NURSE  # type: ignore[misc]
+
+
+def test_t_prof_05_authority_does_not_cross_tenants(registry):
+    """Authority granted in one tenant confers nothing in another.
+
+    Found by security review of this package, not by the §28 control set: the
+    tenant argument was optional and defaulted to "any tenant", so a caller who
+    simply omitted it got a cross-tenant authority check that looked correct at
+    the call site. W0-C establishes tenant scope server-side; a permissive
+    default in an authorization path is a bypass waiting for a forgotten
+    argument.
+    """
+    registry.grant(
+        actor_id="vet1", tenant_id="tenant-a",
+        professional_class=ProfessionalClass.VETERINARIAN,
+        granted_by="principal-a", grant_reason="employment", effective_from=T0,
+    )
+
+    assert registry.held_at("vet1", T1, tenant_id="tenant-a") is True
+    assert registry.held_at("vet1", T1, tenant_id="tenant-b") is False
+
+    with pytest.raises(AuthorityDenied):
+        registry.attest_clinical_record(
+            actor_id="vet1", record_id="r1", occurred_at=T1, tenant_id="tenant-b"
+        )
+
+
+def test_t_prof_05b_professional_class_does_not_leak_across_tenants(registry):
+    """The second half of the same defect, and the more dangerous one.
+
+    `held_at` filtered by tenant; `professional_class_at` did not. So an actor
+    could be correctly DENIED in a tenant while an attestation still recorded a
+    class derived from a different tenant's grant. Both questions are now
+    answered by one grant lookup, because two independent answers about the same
+    grant will eventually disagree.
+    """
+    registry.grant(
+        actor_id="vet1", tenant_id="tenant-a",
+        professional_class=ProfessionalClass.VETERINARIAN,
+        granted_by="principal-a", grant_reason="employment", effective_from=T0,
+    )
+
+    assert registry.professional_class_at("vet1", T1, tenant_id="tenant-a") == (
+        ProfessionalClass.VETERINARIAN
+    )
+    assert registry.professional_class_at("vet1", T1, tenant_id="tenant-b") is None
+
+
+def test_attestation_records_the_grant_it_relied_on(registry):
+    """An attestation that does not name its grant cannot be re-checked later."""
+    g = registry.grant(
+        actor_id="vet1", tenant_id="t1",
+        professional_class=ProfessionalClass.VETERINARIAN,
+        granted_by="p1", grant_reason="employment", effective_from=T0,
+    )
+    att = registry.attest_clinical_record(
+        actor_id="vet1", record_id="r1", occurred_at=T1, tenant_id="t1"
+    )
+    assert att["grant_id"] == g.grant_id
+    assert att["tenant_id"] == "t1"
+
+
+def test_tenant_id_carries_no_permissive_default(registry):
+    """The defect was the DEFAULT, not any particular call site.
+
+    Every call site in this file passes `tenant_id` explicitly, so restoring the
+    old `tenant_id=None` default breaks none of them — the tests above pass
+    happily against the vulnerable code. What made it a bypass was that a caller
+    could OMIT the argument and silently get a cross-tenant check.
+
+    So the property to assert is the signature itself: an authorization question
+    must be unable to be asked without naming its tenant.
+    """
+    import inspect
+
+    for fn in (
+        registry.held_at,
+        registry.professional_class_at,
+        registry.attest_clinical_record,
+    ):
+        param = inspect.signature(fn).parameters.get("tenant_id")
+        assert param is not None, f"{fn.__name__} lost its tenant parameter"
+        assert param.default is inspect.Parameter.empty, (
+            f"{fn.__name__}(tenant_id=...) has a default — a caller who omits it "
+            "gets an unscoped authority check"
+        )
+
+    # And omitting it must actually fail, not fall back to something permissive.
+    with pytest.raises(TypeError):
+        registry.held_at("vet1", T1)  # type: ignore[call-arg]

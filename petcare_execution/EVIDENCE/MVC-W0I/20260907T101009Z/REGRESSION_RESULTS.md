@@ -6,13 +6,16 @@ Measured on `wave0/w0-i`, based on `main` at `4ed4469`.
 |---|---|
 | governance + root | **160 passed** |
 | serving API | **57 passed** |
-| runtime | **243 passed** |
+| runtime | **247 passed** |
 | web unit (vitest) | **120 passed** |
 | typecheck (`tsc --noEmit`) | **clean** |
 | responsive e2e (Playwright) | **90 passed** |
-| **Total** | **670 green, 0 failed** |
+| **Total** | **674 green, 0 failed** |
 
-`petcare_runtime` rose from 234 to **243**: nine new W0-I controls.
+`petcare_runtime` rose from 234 to **247**: nine §28 controls plus four added
+after security review — two cross-tenant negative controls, an attestation
+provenance assertion, and a signature guard against a permissive tenant default.
+See `SECURITY_REVIEW_FINDINGS.md`.
 
 `RESPONSIVE=90/90` held.
 

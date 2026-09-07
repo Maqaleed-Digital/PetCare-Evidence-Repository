@@ -122,23 +122,46 @@ class ProfessionalAuthorityRegistry:
     def grants_for(self, actor_id: str) -> list[ProfessionalAuthorityGrant]:
         return [g for g in self._grants if g.actor_id == actor_id]
 
-    def held_at(self, actor_id: str, when: datetime, tenant_id: Optional[str] = None) -> bool:
-        """Did `actor_id` hold professional authority at `when`?"""
+    def _grant_in_force(
+        self, actor_id: str, when: datetime, tenant_id: str
+    ) -> Optional[ProfessionalAuthorityGrant]:
+        """The grant in force for this actor, in THIS tenant, at `when`.
+
+        Single resolution point for both `held_at` and `professional_class_at`.
+        They previously answered independently, and the class lookup omitted the
+        tenant filter — so an actor could be correctly DENIED authority in a
+        tenant while the attestation still recorded a professional class derived
+        from a different tenant's grant. Two questions about one grant must be
+        answered by one lookup, or they will eventually disagree.
+        """
         for g in self._grants:
             if g.actor_id != actor_id:
                 continue
-            if tenant_id is not None and g.tenant_id != tenant_id:
+            if g.tenant_id != tenant_id:
                 continue
             if g.held_at(when):
-                return True
-        return False
-
-    def professional_class_at(self, actor_id: str, when: datetime) -> Optional[str]:
-        """The class held at `when`, or None. Never defaulted."""
-        for g in self._grants:
-            if g.actor_id == actor_id and g.held_at(when):
-                return g.professional_class
+                return g
         return None
+
+    def held_at(self, actor_id: str, when: datetime, tenant_id: str) -> bool:
+        """Did `actor_id` hold professional authority in `tenant_id` at `when`?
+
+        `tenant_id` is REQUIRED. It was previously optional and defaulted to
+        None, which meant "match a grant in any tenant" — a caller who simply
+        omitted the argument got a cross-tenant authority check that looked
+        correct at every call site. A permissive default in an authorization
+        path is a bypass waiting for someone to forget an argument, so there is
+        no default: W0-C establishes tenant scope server-side, and an authority
+        question that cannot name its tenant has no safe answer.
+        """
+        return self._grant_in_force(actor_id, when, tenant_id) is not None
+
+    def professional_class_at(
+        self, actor_id: str, when: datetime, tenant_id: str
+    ) -> Optional[str]:
+        """The class held in `tenant_id` at `when`, or None. Never defaulted."""
+        g = self._grant_in_force(actor_id, when, tenant_id)
+        return g.professional_class if g is not None else None
 
     # -- acts ------------------------------------------------------------
 
@@ -240,7 +263,7 @@ class ProfessionalAuthorityRegistry:
         actor_id: str,
         record_id: str,
         occurred_at: datetime,
-        tenant_id: Optional[str] = None,
+        tenant_id: str,
     ) -> dict:
         """Attest a clinical record, or deny.
 
@@ -249,14 +272,18 @@ class ProfessionalAuthorityRegistry:
         would let a vet who has since been granted authority attest records from
         before they held it.
         """
-        if not self.held_at(actor_id, occurred_at, tenant_id=tenant_id):
+        grant = self._grant_in_force(actor_id, occurred_at, tenant_id)
+        if grant is None:
             raise AuthorityDenied(
-                f"{actor_id} did not hold professional authority at {occurred_at.isoformat()}"
+                f"{actor_id} did not hold professional authority in tenant "
+                f"{tenant_id} at {occurred_at.isoformat()}"
             )
         attestation = {
             "record_id": record_id,
             "actor_id": actor_id,
-            "professional_class": self.professional_class_at(actor_id, occurred_at),
+            "tenant_id": tenant_id,
+            "grant_id": grant.grant_id,
+            "professional_class": grant.professional_class,
             "occurred_at": occurred_at.isoformat(),
             "attested_at": _utc_now().isoformat(),
         }
