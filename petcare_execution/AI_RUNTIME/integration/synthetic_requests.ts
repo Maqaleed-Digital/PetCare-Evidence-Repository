@@ -1,3 +1,21 @@
+/**
+ * STATUS=STALE_DESIGN_ARTEFACT
+ * SUPERSEDED_BY=W0-D
+ * PHARMACY_OPERATOR_DISPENSING=RETIRED
+ * DO_NOT_IMPLEMENT_FROM_THIS_FILE
+ *
+ * W0-D retires `pharmacy_operator` and fails dispensing closed to the
+ * veterinarian. This file predates that decision and still models the role as a
+ * first-class authorization concept. It is retained as a design record of what
+ * was once intended, not as a specification to build from.
+ *
+ * It grants no authority. Nothing under petcare_execution/ is compiled,
+ * type-checked or executed — there is no tsconfig.json or package.json anywhere
+ * in this tree — so this file has no runtime effect. Deleting it would destroy
+ * the record of a superseded decision; implementing from it would reverse a
+ * security decision. Marked, retained, and registered in
+ * GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/RETIRED_ROLE_CUSTODY_REGISTER.json.
+ */
 import { OrchestratorRequest } from "../orchestrator/types";
 
 export const SYNTHETIC_REQUESTS: OrchestratorRequest[] = [

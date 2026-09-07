@@ -141,3 +141,38 @@ storage), `GATE_IRREVERSIBLE_ACTION` (identity migration).
 
 The product denominator is **499**, not the 106-row Implementation-B register.
 W0-F acceptance traces against the 499 estate. `DENOMINATOR_STATUS=RELAYED_NOT_REMEASURED`.
+
+---
+
+# APPENDED 2026-09-07 — measured count correction
+
+*Append-only. Nothing above this line has been altered.*
+
+The counts in the body were relayed, not re-measured — the pack says so itself
+(`DENOMINATOR_STATUS=RELAYED_NOT_REMEASURED`). They were re-measured on
+`main` at `e3d4885` and four have moved.
+
+| Figure | Recorded above | Measured 2026-09-07 | Why it moved |
+|---|---|---|---|
+| `petcare_api` tests | 46 | **51** | estate growth, chiefly the W0-A2 fingerprint-guard tranche |
+| `petcare_web` vitest | 85 | **120** | estate growth across the PORT-01..10 tranches |
+| `petcare_web` Playwright | 90 | **90** | unchanged |
+| `partner_network` modules | 37 | **36** | the original count included `__pycache__` in a directory listing |
+| W0-A perturbation failures | 3 | **4** | W0-A2 added `test_w0a_no_getenv_supplies_a_default_signing_key`, an AST check |
+
+**These are not corrections of error.** Each recorded figure is consistent with
+the estate as it stood when the pack was written; three of the five moved because
+the estate grew after that date, and the W0-A perturbation count moved because
+W0-A2 deliberately added guard coverage. Only the `partner_network` figure was
+inaccurate when written, and by one, from counting a directory listing rather
+than modules.
+
+The acceptance criteria in §"Test estate that must stay green" should be read
+against the measured column. The substantive requirement — that the estate stays
+green and the guards stay armed — is unchanged.
+
+Measured total: **404 green, 0 failed** (143 governance/root + 51 API pytest,
+120 vitest, 90 Playwright). `ASSERTIONS_WEAKENED=0`.
+
+Evidence: `petcare_execution/EVIDENCE/MVC-W0F-READINESS/20260907T082004Z/` and
+`petcare_execution/EVIDENCE/MVC-W0F-FINDINGS-DISPOSITION/`.
