@@ -20,6 +20,7 @@ Authority: MVC-GOV-CANON-001 · W0-C (tenant scope is established server-side) �
 W0-I security review.
 """
 import ast
+import re
 from pathlib import Path
 
 import pytest
@@ -54,8 +55,16 @@ ALLOWLIST: dict[str, str] = {
         "identity holds NO tenant assignment, and the consuming path fails "
         "closed on exactly that: require_tenant() raises 403 NO_TENANT_AUTHORITY "
         "when the session carries no tenant. Requiring a value here would force "
-        "callers to invent one, which is the opposite of the intent.",
+        "callers to invent one, which is the opposite of the intent. "
+        "BOUND TO: " + "petcare_api/tests/test_tenant_authority.py"
+        "::test_t_ten_02_identity_without_tenant_assignment_fails_closed",
 }
+
+#: Every allowlist rationale that claims a fail-closed consumer must name the
+#: test that proves it, as `<path>::<test name>`. An exemption justified by
+#: prose alone decays the moment the behaviour it describes changes; an
+#: exemption bound to a test fails with it.
+_BINDING_RE = re.compile(r"BOUND TO:\s*([^\s:]+\.py)::(\w+)")
 
 
 def _python_files() -> list[Path]:
@@ -189,3 +198,28 @@ def test_guard_detects_a_hardcoded_tenant_scope(tmp_path):
     assert _offenders([planted]), (
         "the guard failed to detect a tenant defaulting to a hard-coded scope"
     )
+
+
+def test_allowlist_binding_tests_exist_and_are_named():
+    """The allowlist entry for seed_user(tenant_id=None) rests on require_tenant()
+    failing closed. That claim is bound to a real test by identifier here, so the
+    exemption cannot outlive the behaviour it depends on.
+
+    A4. The binding test exercises the actual authorization path — it drives a
+    route with a session carrying no tenant and asserts 403 NO_TENANT_AUTHORITY —
+    rather than inspecting source, because what is being justified is runtime
+    behaviour, not a code shape.
+    """
+    bound = 0
+    for location, reason in ALLOWLIST.items():
+        m = _BINDING_RE.search(reason)
+        assert m, f"allowlist entry {location} claims no binding test"
+        rel, test_name = m.group(1), m.group(2)
+        path = ROOT / rel
+        assert path.exists(), f"{location} is bound to a missing file: {rel}"
+        src = path.read_text(encoding="utf-8")
+        assert f"def {test_name}(" in src, (
+            f"{location} is bound to {rel}::{test_name}, which no longer exists"
+        )
+        bound += 1
+    assert bound == len(ALLOWLIST)
