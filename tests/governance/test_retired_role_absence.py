@@ -17,7 +17,9 @@ that could hide a live source tree.
 
 Authority: MVC-GOV-CANON-001 · register MVC-RETIRED-ROLE-CUSTODY-001 · W0-D.
 """
+import ast
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -41,6 +43,8 @@ GUARD_FILES = {
     "tests/governance/test_canonical_register_integrity.py",
     "petcare_web/__tests__/absence-guards.test.ts",
     "petcare_api/tests/test_dispensing_fail_closed.py",
+    # Asserts a session claiming the retired role is refused; it must name it.
+    "petcare_api/tests/test_session_bound_authorization.py",
 }
 
 
@@ -61,14 +65,111 @@ def _scan(base: Path) -> list[str]:
     return out
 
 
+#: Case-insensitive needle. The role string is `pharmacy_operator`, but a live
+#: grant could be reintroduced as `Pharmacy_Operator` or `PHARMACY_OPERATOR`, and a
+#: case-sensitive scan would report the tree clean. A guard that can miss a
+#: differently-cased live authorization string is not a guard.
+#:
+#: The underscore stays REQUIRED. Making the separator optional as well was tried
+#: and matched the ordinary English phrase "pharmacy operator" throughout the
+#: governance prose — 18 false positives, which would have trained the next
+#: reader to widen the exclusion list until the guard meant nothing. A wire role
+#: keeps its underscore; only its case can drift.
+_NEEDLE_RE = re.compile(re.escape(NEEDLE), re.IGNORECASE)
+
+#: Display-only constants that match the needle case-insensitively but confer no
+#: authorization. Each is registered with the reason it cannot grant anything.
+#: `ROLE_PHARMACY_OPERATOR = "Pharmacy Operator"` is a legacy DISPLAY name, and
+#: `test_dispensing_fail_closed.py` asserts it is absent from `VALID_ROLES` — so
+#: the constant exists precisely so a test can prove the role is rejected.
+DISPLAY_ONLY_CONSTANTS = {
+    "petcare_runtime/src/petcare/auth/access_control.py":
+        'ROLE_PHARMACY_OPERATOR = "Pharmacy Operator" — legacy display label, not a '
+        "wire role. It is excluded from VALID_ROLES, and "
+        "petcare_api/tests/test_dispensing_fail_closed.py::"
+        "test_t_disp_05_retired_pharmacy_operator_cannot_authenticate asserts that "
+        "exclusion, so the symbol exists in order to be proven powerless.",
+    "petcare_api/main.py":
+        "Imports ROLE_PHARMACY_OPERATOR solely so VALID_ROLES can be asserted not "
+        "to contain it. The import is the subject of the guard, not a grant.",
+}
+
+
+#: The exact display-only symbol permitted inside the files registered above.
+#: Only THIS token is subtracted; everything else in those files is still
+#: scanned.
+_DISPLAY_ONLY_TOKEN = re.compile(r"ROLE_PHARMACY_OPERATOR", re.IGNORECASE)
+
+
+def _strip_prose(rel: str, text: str) -> str:
+    """Remove comments and docstrings, keeping every other string literal.
+
+    A retired role named in a comment or docstring cannot grant anything — W0-D's
+    own explanation in `main.py` says "PHARMACY_OPERATOR is deliberately ABSENT",
+    and a guard that flagged that would be flagging the record of the retirement.
+    A role named in a STRING LITERAL in code is exactly what a grant looks like,
+    so literals are kept and still scanned.
+
+    This is why the file-wide exemption was wrong: it removed both. Stripping
+    prose removes only the half that cannot confer authority.
+    """
+    if rel.endswith(".py"):
+        try:
+            tree = ast.parse(text)
+        except SyntaxError:
+            return text
+        # Docstrings are string expressions in a body position.
+        doc_spans = []
+        for node in ast.walk(tree):
+            if not isinstance(
+                node, (ast.Module, ast.ClassDef, ast.FunctionDef, ast.AsyncFunctionDef)
+            ):
+                continue
+            body = getattr(node, "body", [])
+            if (
+                body
+                and isinstance(body[0], ast.Expr)
+                and isinstance(body[0].value, ast.Constant)
+                and isinstance(body[0].value.value, str)
+            ):
+                doc_spans.append((body[0].lineno, body[0].end_lineno))
+        lines = text.splitlines()
+        for start, end in doc_spans:
+            for i in range(start - 1, min(end, len(lines))):
+                lines[i] = ""
+        # `#` comments. A `#` inside a string literal is rare in this estate and
+        # erring toward stripping only risks a false NEGATIVE on a commented
+        # grant, which the code-literal scan above would still catch.
+        lines = [re.sub(r"#.*$", "", ln) for ln in lines]
+        return "\n".join(lines)
+
+    if rel.endswith((".ts", ".tsx", ".js", ".jsx")):
+        text = re.sub(r"/\*[\s\S]*?\*/", "", text)
+        text = re.sub(r"//.*$", "", text, flags=re.M)
+    return text
+
+
 def _hits(files: list[str]) -> list[str]:
+    """Files matching the needle, case-insensitively.
+
+    Display-only constants are subtracted TOKEN-WISE, never file-wise. Excluding
+    a whole file was tried and is wrong: it blinds the guard everywhere inside
+    that file, so a planted `PHARMACY_OPERATOR` grant in `main.py` went
+    undetected. The registered symbol is removed from the text and the remainder
+    is still scanned, so the exemption covers exactly the constant it names and
+    nothing else in the same file.
+    """
     hits = []
     for rel in files:
         try:
-            if NEEDLE in (ROOT / rel).read_text(encoding="utf-8"):
-                hits.append(rel)
+            text = (ROOT / rel).read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
             continue
+        text = _strip_prose(rel, text)
+        if rel in DISPLAY_ONLY_CONSTANTS:
+            text = _DISPLAY_ONLY_TOKEN.sub("", text)
+        if _NEEDLE_RE.search(text):
+            hits.append(rel)
     return hits
 
 
