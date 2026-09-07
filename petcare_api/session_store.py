@@ -71,7 +71,7 @@ class SessionRecord:
 
     session_id: str
     user_id: str
-    tenant_id: str
+    tenant_id: Optional[str]
     role: str
     issued_at: datetime
     expires_at: datetime
@@ -103,7 +103,7 @@ class SessionStore(Protocol):
         self, *, user_id: str, tenant_id: str, role: str, ttl_seconds: int
     ) -> SessionRecord: ...
 
-    def get_active(self, session_id: str, *, tenant_id: str) -> Optional[SessionRecord]: ...
+    def get_active(self, session_id: str, *, tenant_id: Optional[str]) -> Optional[SessionRecord]: ...
 
     def revoke(self, session_id: str, *, tenant_id: str) -> bool: ...
 
@@ -125,13 +125,20 @@ class InMemorySessionStore:
     # -- writes ----------------------------------------------------------
 
     def create(
-        self, *, user_id: str, tenant_id: str, role: str, ttl_seconds: int
+        self, *, user_id: str, tenant_id: Optional[str], role: str, ttl_seconds: int
     ) -> SessionRecord:
-        if not tenant_id:
-            # W0-C: tenant scope is established server-side. A session with no
-            # tenant could not be scoped by any later check, so it is refused at
-            # creation rather than becoming an unscoped session later.
-            raise SessionDenied("a session cannot be created without a tenant")
+        # Two different things must not be conflated here.
+        #
+        #   None  the identity holds NO tenant assignment. That is a legitimate
+        #         state — seed_user permits it — and it fails closed downstream:
+        #         require_tenant() raises 403 NO_TENANT_AUTHORITY the moment such
+        #         an identity attempts anything tenant-scoped. The session is
+        #         real; it simply cannot act on a tenant.
+        #   ""    a MALFORMED tenant. An empty string is not "no tenant", it is a
+        #         tenant whose value was lost, and honouring it would create a
+        #         session keyed on a value that could later collide.
+        if tenant_id is not None and not tenant_id.strip():
+            raise SessionDenied("a session cannot be created with a blank tenant")
         now = _utc_now()
         record = SessionRecord(
             session_id=secrets.token_urlsafe(32),
@@ -180,7 +187,7 @@ class InMemorySessionStore:
 
     # -- reads -----------------------------------------------------------
 
-    def get_active(self, session_id: str, *, tenant_id: str) -> Optional[SessionRecord]:
+    def get_active(self, session_id: str, *, tenant_id: Optional[str]) -> Optional[SessionRecord]:
         """The session, only if it exists, matches the tenant, and is live.
 
         Returns None for unknown, revoked, expired and cross-tenant alike. The
