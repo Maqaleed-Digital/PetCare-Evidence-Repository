@@ -124,6 +124,56 @@
       "classification": "HISTORICAL_CHECKLIST_KEY",
       "in_file_marker": false,
       "reason": "Checklist key pharmacy_operator_active."
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING_AFTER_EP03/NEXT_SCOPE_DEPENDENCY_MAP.md",
+      "classification": "HISTORICAL_CONTRACT_RECORD",
+      "in_file_marker": false,
+      "reason": "Phase-1 planning record naming ROLE_PHARMACY_OPERATOR in a pre-W0-D dependency map. Found only after the needle was made case-insensitive (F3)."
+    },
+    {
+      "path": "petcare_execution/PHASE_1_NEXT_SCOPE_PLANNING_AFTER_EP03/NEXT_SCOPE_EXECUTION_SPEC.md",
+      "classification": "HISTORICAL_CONTRACT_RECORD",
+      "in_file_marker": false,
+      "reason": "Phase-1 execution spec describing the pre-W0-D dispensing role. Found only after the needle was made case-insensitive (F3)."
+    },
+    {
+      "path": "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_2_EXECUTION_BASELINE_CANDIDATE.md",
+      "classification": "HISTORICAL_CONTRACT_RECORD",
+      "in_file_marker": false,
+      "reason": "BRD V3.2 baseline source. Names the role as specification history; it is a lineage source document and must not be edited. Found only after the needle was made case-insensitive (F3)."
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/pharmacy_go_live_validation_pack.ts",
+      "classification": "HISTORICAL_CHECKLIST_KEY",
+      "in_file_marker": false,
+      "reason": "Go-live closure record; PHARMACY_OPERATOR_GO_LIVE_* checklist keys, not a role grant. Found only after the needle was made case-insensitive (F3)."
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/pharmacy_go_live_closure_decision.ts",
+      "classification": "HISTORICAL_CHECKLIST_KEY",
+      "in_file_marker": false,
+      "reason": "Go-live closure decision record; checklist keys only. Found only after the needle was made case-insensitive (F3)."
+    },
+    {
+      "path": "petcare_execution/GO_LIVE_CLOSURES/pharmacy_operator_confirmation/pharmacy_go_live_runner.py",
+      "classification": "HISTORICAL_CHECKLIST_KEY",
+      "in_file_marker": false,
+      "reason": "Go-live closure runner; PHARMACY_OPERATOR_GO_LIVE_CONFIRMED is a checklist key, not an authorization role. Found only after the needle was made case-insensitive (F3)."
     }
-  ]
+  ],
+  "needle_matching": "CASE_INSENSITIVE, underscore required. A live grant could be reintroduced as PHARMACY_OPERATOR or Pharmacy_Operator, and a case-sensitive scan would report the tree clean — six such occurrences were invisible to the original guard and are registered below. The separator stays required: making it optional as well matched the ordinary English phrase 'pharmacy operator' across the governance prose (18 false positives), which would have driven the exclusion list to grow until the guard meant nothing. A wire role keeps its underscore; only its case can drift.",
+  "display_only_constants": [
+    {
+      "path": "petcare_runtime/src/petcare/auth/access_control.py",
+      "constant": "ROLE_PHARMACY_OPERATOR = \"Pharmacy Operator\"",
+      "reason": "Legacy DISPLAY label, not a wire role. Excluded from VALID_ROLES, and petcare_api/tests/test_dispensing_fail_closed.py::test_t_disp_05_retired_pharmacy_operator_cannot_authenticate asserts that exclusion — the symbol exists in order to be proven powerless."
+    },
+    {
+      "path": "petcare_api/main.py",
+      "constant": "imports ROLE_PHARMACY_OPERATOR",
+      "reason": "Imported solely so VALID_ROLES can be asserted not to contain it. The import is the subject of the guard, not a grant."
+    }
+  ],
+  "denominator_registered": 20
 }

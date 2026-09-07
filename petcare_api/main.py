@@ -274,28 +274,72 @@ def ready():
 # ---------------------------------------------------------------------------
 # Audit ingestion (UI probe + governance events)
 # ---------------------------------------------------------------------------
+#: Tenant recorded for a probe that carries no verified identity. Deliberately
+#: NOT a real scope: `platform` is one, and defaulting to it let an unauthenticated
+#: caller file events under it.
+UNATTRIBUTED_TENANT = "UNATTRIBUTED"
+
+#: Prefix that makes a client-asserted role structurally unable to collide with a
+#: real one. `VALID_ROLES` contains no prefixed member, so no authorization check
+#: can ever match a value recorded from this endpoint.
+CLIENT_ASSERTED_PREFIX = "client-asserted:"
+
+
 class AuditProbePayload(BaseModel):
     event_name: str
     actor_role: str
     surface: str
     correlation_id: str
     actor_id: Optional[str] = "system"
-    tenant_id: Optional[str] = "platform"
     resource_type: Optional[str] = "ui_surface"
     resource_id: Optional[str] = "unknown"
     action_result: Optional[str] = "probe"
 
+    # `tenant_id` is deliberately ABSENT. It was `Optional[str] = "platform"`,
+    # which is the same defect W0-C removed from the tenant header: an omitted
+    # value silently granted the platform scope. Tenant is never client-supplied.
+
+
 @app.post("/audit/ui")
-def audit_ui_probe(payload: AuditProbePayload):
+def audit_ui_probe(request: Request, payload: AuditProbePayload):
+    """UI telemetry probe. Unauthenticated by design — and therefore unauthoritative.
+
+    This endpoint accepts events from a surface that may have no session yet, so
+    it cannot be gated. What it must not do is let the caller CHOOSE what the
+    record says about identity.
+
+    Three things were client-supplied and are now server-derived or neutralised:
+
+    * **tenant** — was `payload.tenant_id or "platform"`, so any caller could file
+      audit events under the platform scope, or any other tenant, by naming it.
+      It now comes from the session when one exists, and is `UNATTRIBUTED`
+      otherwise. There is no way to assert it.
+    * **role** — is prefixed, so a claimed `platform_admin` is recorded as
+      `client-asserted:platform_admin` and can never match `VALID_ROLES`.
+    * **actor** — likewise prefixed, so a claimed actor id cannot be mistaken for
+      an authenticated one.
+
+    This matters more since W0-G. Every audit write is now chained, so an event
+    forged through this endpoint would be correctly hashed and the chain would
+    verify as VERIFIED — the integrity proof would lend the forgery its own
+    credibility. A tamper-evident log is only as trustworthy as the authority of
+    what enters it.
+    """
+    try:
+        tenant_id = read_session(request).get("tenant_id") or UNATTRIBUTED_TENANT
+    except HTTPException:
+        tenant_id = UNATTRIBUTED_TENANT
+
     record = _audit(
         event_name=payload.event_name,
-        actor_id=payload.actor_id or "system",
-        actor_role=payload.actor_role,
-        tenant_id=payload.tenant_id or "platform",
+        actor_id=f"{CLIENT_ASSERTED_PREFIX}{payload.actor_id or 'system'}",
+        actor_role=f"{CLIENT_ASSERTED_PREFIX}{payload.actor_role}",
+        tenant_id=tenant_id,
         resource_type=payload.resource_type or "ui_surface",
         resource_id=payload.resource_id or payload.surface,
         action_result=payload.action_result or "probe",
         correlation_id=payload.correlation_id,
+        reason_code="UNAUTHENTICATED_UI_PROBE",
     )
     return {"accepted": True, "audit_event_id": record["audit_event_id"]}
 
