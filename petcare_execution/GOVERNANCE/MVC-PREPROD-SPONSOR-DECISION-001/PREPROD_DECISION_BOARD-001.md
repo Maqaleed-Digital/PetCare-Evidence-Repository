@@ -1,8 +1,8 @@
 # Pre-production decision board
 
 **Date:** 2026-09-12 · **Base:** `aa10a44aba653349d4b59f2d7a18e98573f9ea48`
-**Status:** 4 of 6 resolved · **P1 is NOT authorized**
-**Updated:** 2026-09-12 after `RATIFICATION-002.md`
+**Status:** 5 of 6 resolved · **P1 is NOT authorized**
+**Updated:** 2026-09-12 after `RATIFICATION-003.md`
 
 Six items, not four. The board was previously drawn with four because the
 tenant-assignment path was recorded as an engineering gap. It is not: **who may
@@ -15,7 +15,7 @@ invents an alternative.
 | # | Decision | State |
 |---|---|---|
 | 1 | PRE-1 / PRE-2 / pharmacy ratification | **RESOLVED** — `RATIFICATION-001.md`, `[SPONSOR]`, 12 Sep 2026 |
-| 2 | First production tenant | **UNRESOLVED — explicitly not ruled.** `PRODUCTION_TENANT_CREATION_AUTHORIZED=NO` |
+| 2 | First production tenant | **RESOLVED** — `RATIFICATION-003.md`. `pharmacare_riyadh` / *Pharma Care Pharmacies — Riyadh*. **Identity only**: `PRODUCTION_TENANT_ROW_CREATED=NO`, `PRODUCTION_TENANT_CREATION_AUTHORIZED=NO` |
 | 3 | Tenant-assignment authority and control path | **RATIFIED + BUILT** — `RATIFICATION-002.md`; `MVC-TENANT-MEMBERSHIP/20260912T140000Z/` |
 | 4 | PRE-4 · session treatment at cutover | **RATIFIED** — `INVALIDATE_ALL` |
 | 5 | PRE-5 · engine variant | **RATIFIED** — RDS PostgreSQL 16 |
@@ -53,7 +53,25 @@ disabled_at   NULL while ACTIVE
 So the decision needs exactly two Sponsor-supplied values: **the identifier and
 the display name.**
 
-### What is NOT available to choose from
+### RESOLVED — 12 September 2026
+
+```
+ITEM_2_TENANT_ID=pharmacare_riyadh
+ITEM_2_DISPLAY_NAME=Pharma Care Pharmacies — Riyadh
+AUTHORITY_ESTABLISHED=IDENTITY_AND_NAMING_ONLY
+```
+
+The ruling draws its own line: it establishes the governed identity and does
+**not** authorize creating the row, provisioning infrastructure, applying
+migrations, entering credentials, creating production identities, or cutover.
+
+Naming authority is not creation authority, and that distinction is now a
+control: `tests/governance/test_production_tenant_not_created.py` asserts no
+migration creates a tenant row, the ruled identifier appears in no creating
+code, the governed creation mechanism still exists, and the ruling is recorded
+in governance. All four are perturbation-proven.
+
+### What was NOT available to choose from
 
 `tenant_jeddah_001` and `tenant_riyadh_001` appear **only** in EP-05/EP-06 test
 fixtures. No governance record establishes either. Promoting a value whose
