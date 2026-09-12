@@ -13,7 +13,8 @@ RULE_21 · RULE_22
 ```
 START_SHA=1531d2c79df67368a910d4681d376be0e9eab794
 BASE_VERIFIED=origin/main was exactly the handoff SHA; 0 intervening commits
-FINAL_MAIN_SHA=<PR #31 merge commit>
+PR31_STATUS=MERGED
+FINAL_MAIN_SHA=0ad64f43b9977680587a5f5d1cfb91208277d8fb
 ```
 
 ## Sponsor provenance
