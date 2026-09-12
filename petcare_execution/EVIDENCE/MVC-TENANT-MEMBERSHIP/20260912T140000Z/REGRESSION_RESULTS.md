@@ -19,6 +19,33 @@ Baseline entering this lane: 802. Net **+40 controls**, zero removed.
 | `petcare_api/tests/test_tenant_membership_postgres.py` | 39 — the twelve authorized proof points |
 | `petcare_api/tests/test_tenant_authority.py` | +1 — the bound administrative exemption must still name its route and authority |
 
+## CI, observed on PR #29
+
+```
+Python estate   835 passed, 7 skipped   (= 842 collected, matching local)
+PostgreSQL step 103 passed, 0 skipped
+TypeScript      clean
+Web unit        120 passed (18 files)
+Responsive      90 passed
+```
+
+### The non-skip guard fell behind a THIRD time — and is now a control
+
+The step named six suites; this lane added a seventh
+(`test_tenant_membership_postgres.py`, 39 controls) and the step kept passing at
+103 while those 39 sat outside it.
+
+Three times is the point at which "remember to update it" stops being a process
+and becomes a control. `tests/governance/test_ci_postgres_coverage.py` now
+asserts that every `test_*postgres*.py` suite in the tree is named in the step,
+with a vacuity guard on the discovery and an assertion that the step still exists
+and still fails on a skip.
+
+The list in the workflow stays **explicit**. Deriving it by globbing would
+silently include a file nobody meant to gate on, and a gate that assembles itself
+is no longer a decision anybody made. What changed is that forgetting to extend
+it now fails the build.
+
 ## Scanners
 
 ```
