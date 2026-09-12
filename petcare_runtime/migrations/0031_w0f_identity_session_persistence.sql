@@ -220,7 +220,13 @@ CREATE TABLE IF NOT EXISTS identity_migration_quarantine (
     source_record_id TEXT PRIMARY KEY,
     reason TEXT NOT NULL CHECK (
         reason IN (
+            -- The identity carries no tenant assignment at all.
             'UNRESOLVED_NO_TENANT',
+            -- It carries one, but the Sponsor-reviewed tenant map does not
+            -- name it. Distinct from NO_TENANT on purpose: "absent" and
+            -- "present but unrecognised" call for different dispositions, and
+            -- collapsing them would hide which one a reviewer is looking at.
+            'UNRESOLVED_UNKNOWN_TENANT',
             'UNRESOLVED_UNKNOWN_ROLE',
             'UNRESOLVED_DUPLICATE',
             'UNRESOLVED_MALFORMED_RECORD'

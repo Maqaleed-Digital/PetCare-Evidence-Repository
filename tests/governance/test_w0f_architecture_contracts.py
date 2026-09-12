@@ -31,10 +31,20 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 
 #: Trees where a hosting location must never appear as a literal.
+#:
+#: `scripts` was added by W0-F's persistence work. It was not an oversight when
+#: the list was written — `scripts/` held only verification scanners, which do
+#: not connect anywhere. It holds an operational tool now:
+#: `apply_migrations.py` applies the schema to a database, and
+#: `identity_migration_dryrun.py` can write identities to one. A region or
+#: endpoint literal in either would pin the mandatory KSA migration to a
+#: location exactly as effectively as one in the application, and would be
+#: outside every guard that exists to prevent that.
 APPLICATION_TREES = [
     "petcare_api",
     "petcare_runtime/src",
     "petcare_runtime/migrations",
+    "scripts",
 ]
 
 #: An AWS region identifier in any partition. Deliberately broad: the guard must
