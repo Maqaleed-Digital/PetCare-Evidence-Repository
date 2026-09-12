@@ -266,14 +266,263 @@ class PostgresAuditRepository:
     def __init__(self, pool: Any) -> None:
         self._pool = pool
 
+    def append_event_on(self, conn: Any, record: Mapping[str, Any]) -> dict:
+        """Append within a transaction the CALLER owns.
+
+        Exists so that a governed act and its audit record commit together.
+        `audit_event` and `user_identity` live in the same database, so an
+        operation that changes membership and records it can be one transaction —
+        and it has to be. Ordering alone cannot make it safe: record first and a
+        failed update leaves a log entry for a change that did not happen; update
+        first and a failed record leaves an unaudited mutation. Both are worse
+        than a rollback.
+
+        Two appends inside one caller transaction take the head lock once and
+        receive consecutive sequence numbers, which is what the two-event
+        membership model needs.
+
+        The caller is responsible for the transaction. This method does not
+        commit and does not roll back.
+        """
+        core = core_record(record)
+        head = conn.execute(
+            "SELECT head_hash, next_seq FROM audit_chain_head "
+            "WHERE chain_id = %s FOR UPDATE",
+            (DEFAULT_CHAIN_ID,),
+        ).fetchone()
+        if head is None:
+            raise AuditWriteFailed(
+                "the audit chain head row is missing; refusing to start a second "
+                "chain, which would leave two orderings of one log"
+            )
+        prev_hash, seq = head[0], head[1]
+        event_hash = compute_event_hash(prev_hash, core)
+
+        cols = ", ".join(_column(f) for f in GOVERNED_EVENT_FIELDS)
+        marks = ", ".join(["%s"] * len(GOVERNED_EVENT_FIELDS))
+        conn.execute(
+            f"INSERT INTO audit_event ({cols}, prev_hash, event_hash, chain_seq) "
+            f"VALUES ({marks}, %s, %s, %s)",
+            tuple(core[f] for f in GOVERNED_EVENT_FIELDS)
+            + (prev_hash, event_hash, seq),
+        )
+        conn.execute(
+            "UPDATE audit_chain_head SET head_hash = %s, next_seq = %s, "
+            "updated_at = CURRENT_TIMESTAMP WHERE chain_id = %s",
+            (event_hash, seq + 1, DEFAULT_CHAIN_ID),
+        )
+
+        stored = dict(core)
+        stored["prev_hash"] = prev_hash
+        stored["event_hash"] = event_hash
+        stored["chain_seq"] = seq
+        return stored
+
     def append_event(self, record: Mapping[str, Any]) -> dict:
-        """Link and store, atomically, serialised on the chain head.
+        """Link and store in a transaction of its own, serialised on the head.
 
         The `FOR UPDATE` on a single head row is what makes concurrent appends
         safe. Without it two writers read the same head, both link to it, and the
         verifier reports `prev_hash_mismatch` — a correct log indistinguishable
         from an attacked one.
         """
+        core = core_record(record)
+        try:
+            with self._pool.connection() as conn:
+                with conn.transaction():
+                    return self.append_event_on(conn, record)
+        except AuditWriteFailed:
+            raise
+        except Exception as exc:
+            raise AuditWriteFailed(
+                f"the audit event could not be recorded ({type(exc).__name__}); "
+                "the action it describes must not be reported as successful"
+            ) from None
+
+    def get_event(self, audit_event_id: str, *, tenant_id: str) -> Optional[dict]:
+        """One event, only within the caller's tenant."""
+        ...
+
+    def query_events_for_tenant(self, tenant_id: str, *, limit: int = 100) -> list[dict]:
+        """A tenant's events, and no other tenant's."""
+        ...
+
+    def all_events(self) -> list[dict]:
+        """The whole chain, in chain order. PRIVILEGED — see below."""
+        ...
+
+    def verify_chain(self) -> dict: ...
+
+    def count(self) -> int: ...
+
+
+# ---------------------------------------------------------------------------
+# In memory — non-production, and dying with the process is the point
+# ---------------------------------------------------------------------------
+
+class InMemoryAuditRepository:
+    """The prior behaviour, behind the boundary.
+
+    Kept because the test suite and local development run on it, and because
+    every W0-G chain control was written against it — so the persistent
+    implementation is held to semantics that already exist rather than to new
+    ones. What it does not provide is durability, which is the whole of this
+    module's purpose.
+    """
+
+    durable = False
+
+    def __init__(self) -> None:
+        self._events: list[dict] = []
+
+    def append_event(self, record: Mapping[str, Any]) -> dict:
+        core = core_record(record)
+        prev_hash = self._events[-1]["event_hash"] if self._events else AUDIT_CHAIN_GENESIS
+        stored = dict(core)
+        stored["prev_hash"] = prev_hash
+        stored["event_hash"] = compute_event_hash(prev_hash, core)
+        stored["chain_seq"] = len(self._events) + 1
+        self._events.append(stored)
+        return stored
+
+    def get_event(self, audit_event_id: str, *, tenant_id: str) -> Optional[dict]:
+        for e in self._events:
+            if e["audit_event_id"] == audit_event_id:
+                # Not found and not yours are ONE answer. Telling a caller that
+                # an id exists in another tenant is a cross-tenant oracle.
+                return e if e.get("tenant_id") == tenant_id else None
+        return None
+
+    def query_events_for_tenant(self, tenant_id: str, *, limit: int = 100) -> list[dict]:
+        return [e for e in self._events if e.get("tenant_id") == tenant_id][:limit]
+
+    def all_events(self) -> list[dict]:
+        return list(self._events)
+
+    def verify_chain(self) -> dict:
+        return verify_chain_over(self._events)
+
+    def count(self) -> int:
+        return len(self._events)
+
+
+# ---------------------------------------------------------------------------
+# PostgreSQL
+# ---------------------------------------------------------------------------
+
+#: `audit_event` names two columns with a `_nullable` suffix that the governed
+#: record does not. Mapped explicitly here: a mismatch would store the event
+#: under a key the hash never covered, and verification would fail against a row
+#: that was written correctly.
+_COLUMN_BY_FIELD = {
+    "clinic_id": "clinic_id_nullable",
+    "reason_code": "reason_code_nullable",
+}
+
+
+def _column(field: str) -> str:
+    return _COLUMN_BY_FIELD.get(field, field)
+
+
+_SELECT_COLUMNS = ", ".join(
+    f"{_column(f)}" for f in GOVERNED_EVENT_FIELDS
+) + ", prev_hash, event_hash, chain_seq"
+
+
+def _row_to_record(row: Any) -> dict:
+    out = {field: row[i] for i, field in enumerate(GOVERNED_EVENT_FIELDS)}
+    n = len(GOVERNED_EVENT_FIELDS)
+    out["prev_hash"] = row[n]
+    out["event_hash"] = row[n + 1]
+    out["chain_seq"] = row[n + 2]
+    return out
+
+
+class PostgresAuditRepository:
+    """`AuditRepository` backed by `audit_event` + `audit_chain_head`.
+
+    The semantics are the in-memory ones. Durability is what is added.
+    """
+
+    durable = True
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def append_event_on(self, conn: Any, record: Mapping[str, Any]) -> dict:
+        """Append within a transaction the CALLER owns.
+
+        Exists so that a governed act and its audit record commit together.
+        `audit_event` and `user_identity` live in the same database, so an
+        operation that changes membership and records it can be one transaction —
+        and it has to be. Ordering alone cannot make it safe: record first and a
+        failed update leaves a log entry for a change that did not happen; update
+        first and a failed record leaves an unaudited mutation. Both are worse
+        than a rollback.
+
+        Two appends inside one caller transaction take the head lock once and
+        receive consecutive sequence numbers, which is what the two-event
+        membership model needs.
+
+        The caller is responsible for the transaction. This method does not
+        commit and does not roll back.
+        """
+        core = core_record(record)
+        head = conn.execute(
+            "SELECT head_hash, next_seq FROM audit_chain_head "
+            "WHERE chain_id = %s FOR UPDATE",
+            (DEFAULT_CHAIN_ID,),
+        ).fetchone()
+        if head is None:
+            raise AuditWriteFailed(
+                "the audit chain head row is missing; refusing to start a second "
+                "chain, which would leave two orderings of one log"
+            )
+        prev_hash, seq = head[0], head[1]
+        event_hash = compute_event_hash(prev_hash, core)
+
+        cols = ", ".join(_column(f) for f in GOVERNED_EVENT_FIELDS)
+        marks = ", ".join(["%s"] * len(GOVERNED_EVENT_FIELDS))
+        conn.execute(
+            f"INSERT INTO audit_event ({cols}, prev_hash, event_hash, chain_seq) "
+            f"VALUES ({marks}, %s, %s, %s)",
+            tuple(core[f] for f in GOVERNED_EVENT_FIELDS)
+            + (prev_hash, event_hash, seq),
+        )
+        conn.execute(
+            "UPDATE audit_chain_head SET head_hash = %s, next_seq = %s, "
+            "updated_at = CURRENT_TIMESTAMP WHERE chain_id = %s",
+            (event_hash, seq + 1, DEFAULT_CHAIN_ID),
+        )
+
+        stored = dict(core)
+        stored["prev_hash"] = prev_hash
+        stored["event_hash"] = event_hash
+        stored["chain_seq"] = seq
+        return stored
+
+    def append_event(self, record: Mapping[str, Any]) -> dict:
+        """Link and store in a transaction of its own, serialised on the head.
+
+        The `FOR UPDATE` on a single head row is what makes concurrent appends
+        safe. Without it two writers read the same head, both link to it, and the
+        verifier reports `prev_hash_mismatch` — a correct log indistinguishable
+        from an attacked one.
+        """
+        core = core_record(record)
+        try:
+            with self._pool.connection() as conn:
+                with conn.transaction():
+                    return self.append_event_on(conn, record)
+        except AuditWriteFailed:
+            raise
+        except Exception as exc:
+            raise AuditWriteFailed(
+                f"the audit event could not be recorded ({type(exc).__name__}); "
+                "the action it describes must not be reported as successful"
+            ) from None
+
+    def _superseded_append_event(self, record: Mapping[str, Any]) -> dict:
         core = core_record(record)
         try:
             with self._pool.connection() as conn:
