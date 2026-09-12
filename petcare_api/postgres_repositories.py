@@ -166,8 +166,21 @@ class PostgresSessionStore:
     controls against both.
     """
 
-    def __init__(self, pool: Any) -> None:
+    def __init__(self, pool: Any, tenants: Any) -> None:
         self._pool = pool
+        #: The tenant registry. The foreign key migration 0034 adds already
+        #: enforces existence; this adds the rule a foreign key cannot express —
+        #: that a DISABLED tenant receives no new session — and reports a reason
+        #: rather than a constraint name.
+        #: REQUIRED, and deliberately without a default.
+        #:
+        #: `tests/governance/test_tenant_scope_signatures.py` forbids a
+        #: tenant-bearing parameter that may be omitted, and it is right to: a
+        #: registry that could be left out is one that gets left out. Passing
+        #: `None` explicitly is still allowed and still fails closed — see
+        #: `tenants.require_assignable` — but it becomes a decision at the call
+        #: site rather than an omission.
+        self._tenants = tenants
 
     # -- writes ----------------------------------------------------------
 
@@ -178,6 +191,13 @@ class PostgresSessionStore:
         # point: None is a legitimate absent assignment, "" is a lost value.
         if tenant_id is not None and not tenant_id.strip():
             raise SessionDenied("a session cannot be created with a blank tenant")
+        # A session is a tenant-scoped assignment like any other (TENANT-02).
+        from tenants import TenantDenied, require_assignable
+
+        try:
+            require_assignable(self._tenants, tenant_id)
+        except TenantDenied as exc:
+            raise SessionDenied(str(exc)) from None
         now = _utc_now()
         record = SessionRecord(
             session_id=secrets.token_urlsafe(32),
@@ -334,8 +354,23 @@ def _row_to_identity(row: Any) -> UserIdentity:
 
 
 class PostgresIdentityRepository:
-    def __init__(self, pool: Any) -> None:
+    def __init__(self, pool: Any, tenants: Any) -> None:
         self._pool = pool
+        #: See PostgresSessionStore.__init__ — same reasoning, same registry.
+        #: REQUIRED, and deliberately without a default.
+        #:
+        #: `tests/governance/test_tenant_scope_signatures.py` forbids a
+        #: tenant-bearing parameter that may be omitted, and it is right to: a
+        #: registry that could be left out is one that gets left out. Passing
+        #: `None` explicitly is still allowed and still fails closed — see
+        #: `tenants.require_assignable` — but it becomes a decision at the call
+        #: site rather than an omission.
+        self._tenants = tenants
+
+    def _require_assignable_tenant(self, tenant_id: Optional[str]) -> None:
+        from tenants import require_assignable
+
+        require_assignable(self._tenants, tenant_id)
 
     def get_by_email(self, email: str) -> Optional[UserIdentity]:
         with self._pool.connection() as conn:
@@ -361,6 +396,7 @@ class PostgresIdentityRepository:
         a different address.
         """
         validate_identity(identity)
+        self._require_assignable_tenant(identity.tenant_id)
         created = identity.created_at or _utc_now()
         with self._pool.connection() as conn:
             conn.execute(
@@ -391,6 +427,7 @@ class PostgresIdentityRepository:
         rather than pre-empted.
         """
         validate_identity(identity)
+        self._require_assignable_tenant(identity.tenant_id)
         created = identity.created_at or _utc_now()
         try:
             with self._pool.connection() as conn:
@@ -520,3 +557,75 @@ class PostgresQuarantineRepository:
                 "GROUP BY reason ORDER BY reason"
             ).fetchall()
         return {r[0]: r[1] for r in rows}
+
+
+# ---------------------------------------------------------------------------
+# Tenants
+# ---------------------------------------------------------------------------
+
+class PostgresTenantRepository:
+    """`TenantRepository` backed by the `tenant` table (migration 0034).
+
+    The foreign keys enforce EXISTENCE structurally. This class adds the rule a
+    foreign key cannot express — that a DISABLED tenant may not receive a new
+    assignment — and gives the caller a reason rather than a constraint name.
+    """
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def get(self, tenant_id: str):
+        from tenants import Tenant
+
+        with self._pool.connection() as conn:
+            row = conn.execute(
+                "SELECT tenant_id, display_name, status, created_at, disabled_at "
+                "FROM tenant WHERE tenant_id = %s", (tenant_id,),
+            ).fetchone()
+        if not row:
+            return None
+        return Tenant(tenant_id=row[0], display_name=row[1], status=row[2],
+                      created_at=_from_db(row[3]), disabled_at=_from_db(row[4]))
+
+    def create(self, tenant):
+        from tenants import TenantDenied, validate_tenant
+
+        validate_tenant(tenant)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(
+                    "INSERT INTO tenant (tenant_id, display_name, status, "
+                    "created_at, disabled_at) VALUES (%s,%s,%s,%s,%s)",
+                    (tenant.tenant_id, tenant.display_name, tenant.status,
+                     _to_db(tenant.created_at or _utc_now()),
+                     _to_db(tenant.disabled_at)),
+                )
+        except Exception as exc:
+            raise TenantDenied(
+                f"tenant {tenant.tenant_id!r} was refused ({type(exc).__name__})"
+            ) from None
+        return self.get(tenant.tenant_id) or tenant
+
+    def disable(self, tenant_id: str, *, at: Optional[datetime] = None) -> bool:
+        """A single conditional UPDATE. Two concurrent disables must not both
+        report success — a disable is the operation an incident response relies
+        on reporting truthfully."""
+        with self._pool.connection() as conn:
+            cur = conn.execute(
+                "UPDATE tenant SET status = 'DISABLED', disabled_at = %s "
+                "WHERE tenant_id = %s AND status = 'ACTIVE'",
+                (_to_db(at or _utc_now()), tenant_id),
+            )
+            return cur.rowcount == 1
+
+    def is_assignable(self, tenant_id: str) -> bool:
+        with self._pool.connection() as conn:
+            row = conn.execute(
+                "SELECT 1 FROM tenant WHERE tenant_id = %s AND status = 'ACTIVE' "
+                "AND disabled_at IS NULL", (tenant_id,),
+            ).fetchone()
+        return row is not None
+
+    def count(self) -> int:
+        with self._pool.connection() as conn:
+            return conn.execute("SELECT count(*) FROM tenant").fetchone()[0]

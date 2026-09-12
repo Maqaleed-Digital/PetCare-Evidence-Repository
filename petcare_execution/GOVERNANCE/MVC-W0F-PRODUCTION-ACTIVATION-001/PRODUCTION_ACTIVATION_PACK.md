@@ -1,7 +1,11 @@
 # MVC-W0F-PRODUCTION-ACTIVATION-001 — production activation pack
 
 **Status:** PREPARED · **NOTHING IN THIS DOCUMENT HAS BEEN EXECUTED**
-**Date:** 2026-09-12 · **Authority:** CP-2 (Ratified, immutable),
+**Date:** 2026-09-12 · **Revised** 2026-09-12 after
+`MVC-PREPROD-SPONSOR-DECISION-PACK-001` was ruled
+(`PRE1=1-B`, `PRE2=2-C`, `PHARMACY_ROLE=REMOVE`,
+`PHARMACY_DOMAIN_CAPABILITIES=RETAIN_PENDING_ROLE_REBINDING`,
+`TENANT_REGISTRY_STATUS=REQUIRED_FOUNDATION`) · **Authority:** CP-2 (Ratified, immutable),
 `MVC-W0F-DATA-STORE-DECISION-001`, `MVC-W0F-SECRET-SOURCE-DECISION-001`,
 `MVC-W0F-IDENTITY-MIGRATION-PLAN-001`, `MVC-W0F-KSA-MIGRATION-READINESS-001`,
 Sponsor D.21 ruling.
@@ -20,37 +24,54 @@ invented** — in particular no region, endpoint, account or KSA target.
 
 ---
 
-## Preconditions that are NOT gates, and must be resolved BEFORE the window
+## Preconditions — status after the ruling
 
-Recorded first because each is a decision somebody has to make, and a cutover
-window is the worst place to discover one.
+### PRE-1 · tenant assignment — **CLOSED (ruled 1-B)**
 
-### PRE-1 · Sponsor tenant assignment — **BLOCKING for P4**
+The three seed identities are discarded. They are not migrated, the startup path
+that created them is removed, and their published password is gone from serving
+source. **The identity migration is now empty BY DESIGN**, not blocked.
 
-The dry-run against the live source returns `0` migratable and `3` quarantined,
-all `UNRESOLVED_NO_TENANT`. The pilot identities carry no tenant, and the
-migration plan forbids inferring one. P4 would migrate nobody.
+A tenant registry foundation exists (`0034`) and ships **empty**: a tenant is now
+a governed object that must exist before an identity can be assigned to it, and
+no production tenant has been created.
 
-Required: the Sponsor assigns a tenant to each pilot identity, or states that
-production identity is a different set that will be exported separately.
+### PRE-2 · CONF-01 role vocabulary — **CLOSED (ruled 2-C)**
 
-### PRE-2 · CONF-01 role vocabulary — **BLOCKING for a usable P5**
+Machine role IDs are the sole authorization authority. `require_role()`, the
+storage catalogue (`0033`), registration, sessions and the web middleware all
+compare the same four tokens. Display labels are presentation only, and
+`ROLE-09` asserts that renaming one changes no authorization outcome.
 
-`main.py` seeds `platform_admin` / `veterinarian` / `owner`; `require_role()`
-accepts only `Platform Admin` / `Veterinarian` / `Owner`. Seeded identities
-authenticate and are then refused by every protected route with
-`403 Unknown role`. Binding the serving path to a durable store does not fix
-this — it makes it durable.
+Verified end to end: a registered identity now reaches its permitted route
+instead of `403 Unknown role`.
 
-Required: a Sponsor decision on one vocabulary, and a migration to carry it.
-Not taken by any agent lane: it changes who may act.
+### PRE-3 · W0-G residue — **CLOSED**
 
-### PRE-3 · W0-G residue
+`W0G_STATUS=READY_PENDING_PRODUCTION_GATE`. The audit chain is persisted behind
+a repository, proven on PostgreSQL. `audit_chain_persisted` is computed from the
+configured store rather than asserted.
 
-`W0G_STATUS=RESIDUE_REMAINING`. The audit writer is not wired to the persistence
-boundary. It is non-production engineering and needs no gate — but going live
-with `audit_chain_persisted=false` is a posture decision that should be made
-deliberately rather than noticed afterwards.
+### PRE-2D · the pharmacy product surface — **OPEN, and not blocking**
+
+`pharmacy` is no longer an authorization principal anywhere in the serving
+surface. The product surface is retained and rebound: `/pharmacy` is now guarded
+by the veterinarian, the actor the backend already proves may dispense.
+
+What remains open is the surface's long-term disposition, and two occurrences in
+`petcare_runtime` that authorize nothing today — a dead `ROLE_PHARMACY_OPERATOR`
+constant and a HITL reviewer map naming `pharmacist`. Both are registered with
+their reasons in `tests/governance/test_retired_role_family.py`.
+
+### PRE-6 · tenant assignment has NO governed API — **NEW, blocking a usable P5**
+
+Registration establishes identity and never tenant authority (W0-C), and no admin
+route assigns a tenant. The only path today is an operator calling the identity
+repository directly.
+
+That is sufficient for a rehearsal and insufficient for an operated system: P5
+needs a way for a Sponsor-authorised operator to assign a tenant that is itself
+audited. Recorded as `TENANT_ASSIGNMENT_HAS_NO_GOVERNED_API`.
 
 ### PRE-4 · Session treatment at cutover
 
@@ -69,6 +90,22 @@ decision and changes no application code. Someone still has to choose.
 ## PHASE P0 — PRECHECK (read-only; no gate)
 
 ```bash
+# P0.0 · The post-ruling invariants. Each is a control that already runs in CI;
+#        listed here so a go-live operator verifies them on the exact commit
+#        being deployed rather than trusting that they once passed.
+python -m pytest petcare_api/tests/test_seed_retirement.py -q     # no runtime seed users,
+                                                                  # no credential literal
+python -m pytest petcare_api/tests/test_role_authority.py -q      # machine-role authority,
+                                                                  # CONF-01 closed, no pharmacy role
+python -m pytest petcare_api/tests/test_tenant_registry.py -q     # tenant is a governed object
+python -m pytest tests/governance/test_retired_role_family.py -q  # no retired principal
+python -m pytest petcare_api/tests/test_end_to_end_identity_postgres.py -q
+
+# The identity rehearsal must be EMPTY. Not "zero migratable because everything
+# quarantined" — zero source, because nothing is seeded (PRE1_RULING=1-B).
+python scripts/governance/identity_migration_dryrun.py
+# EXPECT: IDENTITY_SOURCE_COUNT=0  MIGRATABLE=0  QUARANTINED=0
+
 # P0.1 · The approved production account, named by the Sponsor — never inferred
 #        from a repository name or a previous session.
 aws sts get-caller-identity --profile <APPROVED_PRODUCTION_PROFILE>
@@ -201,15 +238,30 @@ python scripts/governance/apply_migrations.py --dry-run
 # EXPECT: MIGRATION_TOTAL=36  MIGRATION_PENDING=36  MIGRATION_APPLIED_NOW=0
 
 # P3.2 · Apply. Each migration runs once, in its own transaction, recorded with
-#        its SHA-256 in schema_migration.
+#        its SHA-256 in schema_migration. The chain now includes the audit
+#        persistence (0032), the canonical role catalogue (0033) and the tenant
+#        registry (0034).
 python scripts/governance/apply_migrations.py
-# EXPECT: MIGRATION_APPLIED_NOW=36
+# EXPECT: MIGRATION_APPLIED_NOW=39
+
+# 0033 NARROWS the stored role catalogue and ADD CONSTRAINT validates existing
+# rows. Against an empty database it cannot fail. Against a database that already
+# holds identities, a failure here means a row carries a display spelling whose
+# authority this ruling changed — and that failure is the finding, not an
+# obstacle to work around.
 
 # P3.3 · Idempotency, proven on the live target rather than assumed.
 python scripts/governance/apply_migrations.py
 # EXPECT: MIGRATION_APPLIED_NOW=0  MIGRATION_ALREADY_APPLIED=36
 
 # P3.4 · Verify the schema the application depends on.
+psql "$TARGET" -c "\dt tenant"
+psql "$TARGET" -c "\dt audit_chain_head"
+psql "$TARGET" -tc "SELECT count(*) FROM tenant;"
+# REQUIRED: 0. The registry ships empty; creating a tenant is a Sponsor act.
+psql "$TARGET" -tc "SELECT pg_get_constraintdef(oid) FROM pg_constraint
+                    WHERE conname = 'user_identity_role_check';"
+# REQUIRED: exactly platform_admin, partner_clinic_admin, veterinarian, owner.
 psql "$TARGET" -c "\dt user_identity"
 psql "$TARGET" -c "\dt app_session"
 psql "$TARGET" -c "\dt invite_code"
@@ -238,7 +290,19 @@ the rehearsed path.
 ## PHASE P4 — IDENTITY MIGRATION
 
 > ### ⛔ GATE_LIVE_APPLY + GATE_IRREVERSIBLE_ACTION (at step 6)
-> **Blocked on PRE-1.** Today this phase migrates 0 and quarantines 3.
+>
+> **PRE-1 is ruled 1-B: there is nothing to migrate.** The seed identities are
+> discarded and the application seeds none, so the rehearsal reports
+> `SOURCE=0, MIGRATABLE=0, QUARANTINED=0` — empty and correct.
+>
+> This phase therefore does NOT run at go-live unless a real identity export
+> exists. If one ever does, every step below applies unchanged, and
+> `TENANT-10` means each source tenant must be a registered tenant BEFORE the
+> apply — the foreign key refuses the write otherwise.
+>
+> **Production identity is created through the governed invite-gated
+> registration path**, then assigned a tenant deliberately. See PRE-6: that
+> assignment has no governed API yet.
 
 ```bash
 # P4.1 · Snapshot the source. The source is process memory, so "snapshot" means
@@ -295,6 +359,13 @@ part of this phase.
 > through a provider console rather than through infrastructure code)
 
 ```bash
+# P5.0 · Create the first tenant(s). A Sponsor act: the registry ships empty and
+#        nothing infers a tenant. Until one exists, every identity is tenantless
+#        and fails closed at require_tenant() with 403 NO_TENANT_AUTHORITY —
+#        which is correct, and is not a defect to debug during the window.
+#
+#        ⛔ This is a live write. GATE_LIVE_APPLY.
+
 # P5.1 · Switch persistence mode and bind identifiers (see P2.4).
 #        There is no rollout-by-percentage here: a process either reaches the
 #        store or refuses to start.
@@ -384,3 +455,15 @@ NEXT_GENUINE_GATE=GATE_LIVE_APPLY (P1 — provision the database)
 ```
 
 No sixth gate is introduced. Nothing above has been executed.
+
+## What changed in this revision
+
+```
+PRE-1  CLOSED (1-B)   the migration is empty by design, not blocked
+PRE-2  CLOSED (2-C)   one authority vocabulary; CONF-01 closed end to end
+PRE-3  CLOSED         audit chain persisted
+PRE-4  unchanged      session treatment at cutover — still a decision to record
+PRE-5  unchanged      engine variant and sizing
+PRE-2D OPEN           pharmacy surface disposition; not blocking
+PRE-6  NEW            tenant assignment has no governed API; blocks a usable P5
+```

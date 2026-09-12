@@ -127,8 +127,10 @@ def reset_w0f_tables(url: str) -> None:
 
     with psycopg.connect(url, autocommit=True) as conn:
         for table in ("app_session", "invite_code",
-                      "identity_migration_quarantine", "user_identity",
-                      "audit_event"):
+                      "identity_migration_quarantine", "audit_event",
+                      # Children before parents: user_identity and app_session
+                      # both reference tenant (migration 0034).
+                      "user_identity", "tenant"):
             conn.execute(f"DELETE FROM {table}")
         # The chain needs its HEAD reset too, not only its rows. Clearing the
         # table alone leaves the head pointing at the digest of a row that no

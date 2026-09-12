@@ -28,6 +28,7 @@ from fastapi.testclient import TestClient
 
 import main as api
 import routers.auth as auth
+from tenant_fixtures import ensure_tenant
 
 client = TestClient(api.app)
 
@@ -42,6 +43,7 @@ def _sign_in(email: str, role: str = api.ROLE_OWNER, tenant: str | None = "t1") 
     Deliberately not a fixture that builds a cookie or inserts a record: the
     point of this file is that nothing here bypasses the governed path.
     """
+    ensure_tenant(tenant)
     auth.seed_user("u-" + email, email, "pw", role, tenant_id=tenant)
     r = client.post("/api/auth/sign-in", json={"email": email, "password": "pw"})
     assert r.status_code == 200, r.text

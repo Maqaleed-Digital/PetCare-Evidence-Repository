@@ -14,6 +14,7 @@ from fastapi.testclient import TestClient
 
 import main as api
 from routers import auth
+from tenant_fixtures import ensure_tenant
 
 client = TestClient(api.app)
 PROTECTED = "/api/appointments"
@@ -21,6 +22,7 @@ HDRS = {"X-Actor-Id": "actor-1"}
 
 
 def _session(role: str, email: str, tenant: str | None):
+    ensure_tenant(tenant)
     auth.seed_user("u-" + email, email, "pw", role, tenant_id=tenant)
     r = client.post("/api/auth/sign-in", json={"email": email, "password": "pw"})
     assert r.status_code == 200, r.text

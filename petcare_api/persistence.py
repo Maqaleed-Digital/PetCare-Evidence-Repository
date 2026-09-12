@@ -41,9 +41,11 @@ from postgres_repositories import (
     PostgresInviteCodeRepository,
     PostgresQuarantineRepository,
     PostgresSessionStore,
+    PostgresTenantRepository,
     open_pool,
 )
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
+from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
 
 PERSISTENCE_MODE_ENV_VAR = "PETCARE_PERSISTENCE_MODE"
@@ -66,6 +68,7 @@ class Persistence:
     session_store: Any
     identities: Any
     invites: Any
+    tenants: Any = None
     audit: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
@@ -119,11 +122,17 @@ def build_persistence(
     mode = current_persistence_mode(env)
 
     if mode == MODE_MEMORY:
+        # The tenant registry is built FIRST and handed to the write paths, so
+        # a tenant-scoped assignment is checked in memory mode exactly as the
+        # foreign keys check it in PostgreSQL. A memory mode that skipped the
+        # check would let the suite prove the weaker of the two.
+        tenants = InMemoryTenantRepository()
         return Persistence(
             mode=MODE_MEMORY,
-            session_store=InMemorySessionStore(),
-            identities=InMemoryIdentityRepository(),
+            session_store=InMemorySessionStore(tenants),
+            identities=InMemoryIdentityRepository(tenants),
             invites=InMemoryInviteCodeRepository(),
+            tenants=tenants,
             audit=InMemoryAuditRepository(),
         )
 
@@ -142,10 +151,12 @@ def build_persistence(
             ) from None
 
     pool = open_pool(url)
+    tenants = PostgresTenantRepository(pool)
     return Persistence(
         mode=MODE_POSTGRES,
-        session_store=PostgresSessionStore(pool),
-        identities=PostgresIdentityRepository(pool),
+        session_store=PostgresSessionStore(pool, tenants),
+        identities=PostgresIdentityRepository(pool, tenants),
+        tenants=tenants,
         invites=PostgresInviteCodeRepository(pool),
         audit=PostgresAuditRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),

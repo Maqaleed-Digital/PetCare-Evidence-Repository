@@ -44,6 +44,7 @@ from postgres_repositories import (  # noqa: E402
     PostgresInviteCodeRepository,
     PostgresQuarantineRepository,
     PostgresSessionStore,
+    PostgresTenantRepository,
     open_pool,
 )
 from repositories import (  # noqa: E402
@@ -81,13 +82,30 @@ def pool(clean_postgres):
 
 
 @pytest.fixture()
-def identities(pool):
-    return PostgresIdentityRepository(pool)
+def tenants(pool):
+    """The two tenants these controls use, created explicitly.
+
+    Migration 0034 makes a tenant a governed object: an identity or a session may
+    only be assigned to one that exists. Nothing auto-creates them, here or in
+    the application — that is TENANT-05, and it is the defect PRE-1 found.
+    """
+    from tenants import Tenant
+
+    repo = PostgresTenantRepository(pool)
+    for tid in (TENANT_A, TENANT_B):
+        if repo.get(tid) is None:
+            repo.create(Tenant(tenant_id=tid, display_name=f"Fixture {tid}"))
+    return repo
 
 
 @pytest.fixture()
-def sessions(pool):
-    return PostgresSessionStore(pool)
+def identities(pool, tenants):
+    return PostgresIdentityRepository(pool, tenants)
+
+
+@pytest.fixture()
+def sessions(pool, tenants):
+    return PostgresSessionStore(pool, tenants)
 
 
 # ---------------------------------------------------------------------------

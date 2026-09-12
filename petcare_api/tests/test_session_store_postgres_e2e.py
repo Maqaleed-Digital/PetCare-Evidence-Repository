@@ -35,7 +35,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 pytest.importorskip("psycopg")
 
 import main as api  # noqa: E402
-import routers.auth as auth  # noqa: E402
+import routers.auth as auth
+from tenant_fixtures import ensure_tenant  # noqa: E402
 from persistence import MODE_POSTGRES, PERSISTENCE_MODE_ENV_VAR, build_persistence  # noqa: E402
 from postgres_repositories import PostgresSessionStore  # noqa: E402
 from secret_provider import SECRET_MODE_ENV_VAR  # noqa: E402
@@ -86,6 +87,7 @@ def postgres_serving(clean_postgres):
 
 def _sign_in(email: str, role: str = api.ROLE_OWNER, tenant: str | None = "t1") -> str:
     """Authenticate through the REAL endpoint and return the real cookie."""
+    ensure_tenant(tenant)
     auth.seed_user("u-" + email, email, "pw", role, tenant_id=tenant)
     r = client.post("/api/auth/sign-in", json={"email": email, "password": "pw"})
     assert r.status_code == 200, r.text

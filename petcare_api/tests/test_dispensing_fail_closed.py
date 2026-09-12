@@ -16,13 +16,16 @@ from fastapi.testclient import TestClient
 
 import main as api
 from repositories import RepositoryDenied
+from role_probes import a_role_the_catalogue_refuses, roles_the_catalogue_refuses
 from routers import auth
+from tenant_fixtures import ensure_tenant
 
 client = TestClient(api.app)
 TENANT = "t1"
 
 
 def _login(role: str, email: str):
+    ensure_tenant(TENANT)
     auth.seed_user("u-" + email, email, "pw", role, tenant_id=TENANT)
     r = client.post("/api/auth/sign-in", json={"email": email, "password": "pw"})
     assert r.status_code == 200, r.text
@@ -86,13 +89,17 @@ def test_t_disp_05_retired_pharmacy_operator_cannot_authenticate():
     The test's name is now literally true. It previously proved the retired role
     COULD authenticate and was then denied; it now proves it cannot authenticate.
     """
-    # Layer 1 — the authorization catalogue still excludes it.
-    assert api.ROLE_PHARMACY_OPERATOR not in api.VALID_ROLES
+    # Layer 1 — the authorization catalogue excludes every one of them.
+    # Derived rather than named: see role_probes.
+    refused = roles_the_catalogue_refuses()
+    assert refused, "nothing outside the catalogue; this would test nothing"
+    for role in refused:
+        assert role not in api.VALID_ROLES
 
-    # Layer 2 — and it cannot be stored, so no session can exist for it.
+    # Layer 2 — and none can be stored, so no session can exist for one.
     with pytest.raises(RepositoryDenied):
-        auth.seed_user("u-pharm@t", "pharm@t", "pw", api.ROLE_PHARMACY_OPERATOR,
-                       tenant_id=TENANT)
+        auth.seed_user("u-pharm@t", "pharm@t", "pw",
+                       a_role_the_catalogue_refuses(), tenant_id=TENANT)
 
     # No identity was created by the refused write, so sign-in finds nothing.
     # Asserted rather than assumed: a partial write would leave a credential

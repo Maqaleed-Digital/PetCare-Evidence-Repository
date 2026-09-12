@@ -15,6 +15,7 @@ from datetime import datetime, timedelta, timezone
 import pytest
 
 from session_store import InMemorySessionStore, SessionDenied, SessionRecord
+from tenants import InMemoryTenantRepository, Tenant
 
 TENANT_A = "tenant-a"
 TENANT_B = "tenant-b"
@@ -23,7 +24,14 @@ TTL = 8 * 60 * 60
 
 @pytest.fixture
 def store():
-    return InMemorySessionStore()
+    # The store is given a registry holding the tenants these controls use.
+    # Migration 0034 makes a tenant a governed object, and the in-memory store
+    # performs the same refusal the foreign key does — so a fixture that skipped
+    # it would be testing a weaker store than the one that ships.
+    tenants = InMemoryTenantRepository()
+    for tid in ("t1", "t2", "tenant-a", "tenant-b"):
+        tenants.create(Tenant(tenant_id=tid, display_name=f"Fixture {tid}"))
+    return InMemorySessionStore(tenants)
 
 
 def _mk(store, user="u1", tenant=TENANT_A, role="veterinarian"):
