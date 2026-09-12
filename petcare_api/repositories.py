@@ -37,6 +37,7 @@ from datetime import datetime, timezone
 from typing import Optional, Protocol
 
 from roles import VALID_ROLES
+from tenants import TenantRepository, require_assignable
 
 
 class RepositoryDenied(Exception):
@@ -181,9 +182,26 @@ class InviteCodeRepository(Protocol):
 # ---------------------------------------------------------------------------
 
 class InMemoryIdentityRepository:
-    def __init__(self) -> None:
+    """Non-production identity store.
+
+    Takes the tenant registry so that it performs the SAME refusals the schema
+    does. A memory mode that accepted a tenant the database would reject would
+    mean the suite proves the weaker of the two, and the control would first fail
+    in production against the implementation nobody had run.
+    """
+
+    def __init__(self, tenants: TenantRepository) -> None:
         self._by_email: dict[str, UserIdentity] = {}
         self._by_id: dict[str, UserIdentity] = {}
+        #: REQUIRED, and deliberately without a default.
+        #:
+        #: `tests/governance/test_tenant_scope_signatures.py` forbids a
+        #: tenant-bearing parameter that may be omitted, and it is right to: a
+        #: registry that could be left out is one that gets left out. Passing
+        #: `None` explicitly is still allowed and still fails closed — see
+        #: `tenants.require_assignable` — but it becomes a decision at the call
+        #: site rather than an omission.
+        self._tenants = tenants
 
     def _index(self, identity: UserIdentity) -> UserIdentity:
         stored = identity if identity.created_at else replace(identity, created_at=_utc_now())
@@ -199,6 +217,7 @@ class InMemoryIdentityRepository:
 
     def upsert(self, identity: UserIdentity) -> UserIdentity:
         validate_identity(identity)
+        require_assignable(self._tenants, identity.tenant_id)
         existing = self._by_id.get(identity.user_id)
         if existing is not None and existing.email != identity.email:
             self._by_email.pop(existing.email, None)
@@ -206,6 +225,7 @@ class InMemoryIdentityRepository:
 
     def create(self, identity: UserIdentity) -> UserIdentity:
         validate_identity(identity)
+        require_assignable(self._tenants, identity.tenant_id)
         if identity.email in self._by_email:
             raise RepositoryDenied(f"an identity already exists for {identity.email!r}")
         if identity.user_id in self._by_id:

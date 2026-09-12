@@ -49,6 +49,24 @@ EXPECTED_MIGRATABLE = 2
 EXPECTED_QUARANTINED = 5
 
 
+def _provision_tenants(url: str, *tenant_ids: str) -> None:
+    """TENANT-10: migrating a real identity requires explicit tenant authority.
+
+    The migration tool does NOT create tenants — `apply_to` writes identities and
+    nothing else, so a source record naming an unknown tenant now fails on the
+    foreign key rather than quietly creating a scope. These fixtures therefore
+    supply the tenant the way a governed cutover would: deliberately, before the
+    migration runs.
+    """
+    with psycopg.connect(url, autocommit=True) as conn:
+        for tid in tenant_ids:
+            conn.execute(
+                "INSERT INTO tenant (tenant_id, display_name) VALUES (%s, %s) "
+                "ON CONFLICT (tenant_id) DO NOTHING",
+                (tid, f"Fixture {tid}"),
+            )
+
+
 def _counts(url: str) -> tuple[int, int]:
     with psycopg.connect(url) as conn:
         identities = conn.execute("SELECT count(*) FROM user_identity").fetchone()[0]
@@ -132,6 +150,7 @@ def test_mig_08_applying_to_an_ephemeral_database_produces_the_expected_counts(
 ):
     migratable, quarantined, recon = tool.plan_migration(MIXED_SOURCE, tenant_map=None)
     assert all(recon.checks.values())
+    _provision_tenants(clean_postgres, "t-1")
     result = tool.apply_to(clean_postgres, migratable, quarantined)
     assert result == {"identities_written": EXPECTED_MIGRATABLE,
                       "quarantine_written": EXPECTED_QUARANTINED}
@@ -144,6 +163,7 @@ def test_mig_08b_every_written_identity_carries_its_provenance_and_source(
     """Without both, a migrated row cannot be reconciled against anything — which
     is the same defect as an invented row."""
     migratable, quarantined, _ = tool.plan_migration(MIXED_SOURCE, tenant_map=None)
+    _provision_tenants(clean_postgres, "t-1")
     tool.apply_to(clean_postgres, migratable, quarantined)
     with psycopg.connect(clean_postgres) as conn:
         rows = conn.execute(
@@ -199,6 +219,7 @@ def test_mig_08e_a_second_apply_does_not_silently_overwrite(clean_postgres):
     """MIG-06's structural half. Re-running an apply must not quietly replace
     identities — the UNIQUE constraint is what actually prevents it."""
     migratable, quarantined, _ = tool.plan_migration(MIXED_SOURCE, tenant_map=None)
+    _provision_tenants(clean_postgres, "t-1")
     tool.apply_to(clean_postgres, migratable, quarantined)
     with pytest.raises(pgerrors.UniqueViolation):
         tool.apply_to(clean_postgres, migratable, quarantined)
@@ -221,6 +242,7 @@ def test_mig_10_rollback_recreate_reapply_reconciles(postgres_admin_url):
     url = create_database(postgres_admin_url, name)
     try:
         replay_migrations(url)
+        _provision_tenants(url, "t-1")
         migratable, quarantined, recon = tool.plan_migration(MIXED_SOURCE, tenant_map=None)
         first = tool.apply_to(url, migratable, quarantined)
         first_counts = _counts(url)
@@ -230,6 +252,7 @@ def test_mig_10_rollback_recreate_reapply_reconciles(postgres_admin_url):
         drop_database(postgres_admin_url, name)
         url = create_database(postgres_admin_url, name)
         replay_migrations(url)
+        _provision_tenants(url, "t-1")
         assert _counts(url) == (0, 0), "the rebuilt target was not empty"
 
         migratable2, quarantined2, recon2 = tool.plan_migration(MIXED_SOURCE, tenant_map=None)

@@ -27,12 +27,22 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "petcare_runtim
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from petcare.audit.audit_service import AuditEvent, emit_audit_event
-from petcare.auth.access_control import (
+# Authority tokens come from the serving layer's own canonical module
+# (PRE2_RULING=2-C). They are NOT imported from petcare.auth.access_control any
+# more: that package's ROLE_* values are its own domain vocabulary, and the
+# domain authorizer they belong to is never called from here — `AccessContext`,
+# `ResourceContext`, `authorize_view_pet_profile` and `authorize_view_timeline`
+# were imported and never used. Comparing a session role against another
+# package's tokens is what made every identity this system creates unauthorised
+# (CONF-01).
+from roles import (  # noqa: E402 — sys.path is set above
     ROLE_OWNER,
     ROLE_VETERINARIAN,
-    ROLE_PHARMACY_OPERATOR,
     ROLE_PLATFORM_ADMIN,
     ROLE_PARTNER_CLINIC_ADMIN,
+    ALLOWED_ROLES,
+)
+from petcare.auth.access_control import (
     AccessContext,
     ResourceContext,
     authorize_view_pet_profile,
@@ -102,13 +112,22 @@ from routers.auth import (router as auth_router, seed_user, seed_invite_code,
 from audit_repository import AUDIT_CHAIN_GENESIS, AuditWriteFailed
 app.include_router(auth_router)
 
-# Seed pilot test users (in-memory — no DB yet)
-seed_user("u-admin-001", "admin@myveticare.com", "PetCare2026!",
-          "platform_admin", "Platform Admin")
-seed_user("u-vet-001", "vet@myveticare.com", "PetCare2026!",
-          "veterinarian", "Dr. Test Vet")
-seed_user("u-owner-001", "owner@myveticare.com", "PetCare2026!",
-          "owner", "Test Owner")
+# NO USER IS CREATED AT STARTUP.
+#
+# Sponsor ruling PRE1_RULING=1-B: the three seeded identities (`u-admin-001`,
+# `u-vet-001`, `u-owner-001`) are development artefacts and are discarded. They
+# are not migrated and they are not recreated here.
+#
+# The reason is not tidiness. Their password was a literal in this file, in a
+# repository whose visibility is PUBLIC — so every start of a durable deployment
+# would have written three accounts with a published credential into the
+# identity store, one of them holding the highest role in the system. A startup
+# path that creates a `platform_admin` from a source literal is a backdoor
+# whether or not anyone intended one.
+#
+# Identity is created only through the governed invite-gated registration path,
+# or by an operator calling `seed_user` deliberately. `SEED-01` asserts that
+# importing this module creates zero identities.
 
 # Seed pilot invite codes — invite-gated registration (MVC-UX-WO-001 WI-1).
 # No expiry on the pilot seeds; rotated/extended via PO bookkeeping.
@@ -142,13 +161,18 @@ consent_repo = ConsentRepository(
 # ---------------------------------------------------------------------------
 # Auth helpers — authorization derives from the validated session (W0-B)
 # ---------------------------------------------------------------------------
-# W0-D. PHARMACY_OPERATOR is deliberately ABSENT. BRD V3.2 s4 records that
-# PRD-09/sS2.6 has not decided whether it is a staff permission, a counterparty
-# class, or a held seam; admitting it is a Sponsor product act and "may never
-# arrive as a role-catalogue migration". Acceptance fails if it appears in any
-# environment. It was previously present AND was the sole dispensing authority.
-VALID_ROLES = {ROLE_OWNER, ROLE_VETERINARIAN,
-               ROLE_PLATFORM_ADMIN, ROLE_PARTNER_CLINIC_ADMIN}
+# W0-D. The retired role is deliberately ABSENT, and absent by OMISSION rather
+# than by being named. BRD V3.2 s4 records that PRD-09/sS2.6 has not decided
+# whether it is a staff permission, a counterparty class, or a held seam;
+# admitting it is a Sponsor product act and "may never arrive as a role-catalogue
+# migration". It was previously present AND was the sole dispensing authority.
+#
+# `pharmacy` is likewise not a role here (PHARMACY_ROLE=REMOVE).
+#
+# This is now an ALIAS of the canonical set rather than a second copy of it. Two
+# sets that were meant to be equal and drifted is precisely how CONF-01 happened:
+# a role became storable but not authorisable, and nothing compared the two.
+VALID_ROLES = ALLOWED_ROLES
 
 
 def require_role(request: Request) -> str:

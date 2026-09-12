@@ -1,145 +1,145 @@
-"""The STORAGE role catalogue — an explicit allowlist, not a convention.
+"""The canonical role authority — machine IDs only.
 
-W0-F's identity migration requires that "no migrated identity may hold a role it
-did not hold in the source" and that role mapping is an **explicit allowlist**
-with no fuzzy matching. Neither was expressible before, because nothing
-enumerated which roles may be STORED: `seed_user` and `register` accepted any
-string, and the schema had no catalogue to check against.
+Sponsor ruling `PRE2_RULING=2-C`, recorded in
+`MVC-PREPROD-SPONSOR-DECISION-PACK-001`:
 
-## This is not the authorization catalogue, and the difference is the point
+> machine role IDs are the sole authorization authority; display/localized
+> labels are presentation only.
 
-`main.py` already holds `VALID_ROLES`, the set `require_role()` will accept from
-a session. That set is untouched by this module and must stay untouched: widening
-it would change who may do what, which is an authorization change wearing a
-persistence change's clothes.
+## What this module is, and what it is not
 
-This module answers a different question — **which role strings may be written to
-the identity store** — and the two answers currently differ:
+`ROLE_*` below are **authority tokens**. They are compared for equality by
+`require_role()`, constrained by the `user_identity.role` CHECK, minted by
+registration, carried in the session, and mapped to UI route categories by the
+web middleware. Nothing else is an authority token.
 
-```
-authorization (main.py)   display spellings only:  "Owner", "Veterinarian", ...
-storage       (here)      display spellings AND the serving spellings that
-                          seed_user/register actually mint: "owner", ...
-```
+`DISPLAY_LABELS` are **presentation**. They may be translated, renamed, or
+replaced by an i18n key without any authorization outcome changing — and
+`ROLE-09` asserts exactly that. This module is the only place the two meet, and
+they meet as a lookup, never as a comparison.
 
-That divergence is **recorded authority conflict CONF-01**, and it is live rather
-than theoretical: `main.py` seeds its pilot identities with `"platform_admin"`,
-`"veterinarian"` and `"owner"`, while `require_role()` accepts only
-`"Platform Admin"`, `"Veterinarian"` and `"Owner"` — so those seeded identities
-authenticate and are then refused by every protected route with
-`403 Unknown role`. Tests that need a working session seed the display spelling
-instead, which is why the suite does not show it.
+## Why a display label can never be authority
 
-**CONF-01 is NOT resolved here.** Picking one vocabulary changes authorization
-outcomes for existing identities and is a Sponsor product decision, not a
-persistence one. This module therefore admits exactly what the serving layer
-already mints — no more, no less — so that adding a catalogue changes no
-behaviour, and the conflict stays visible instead of being silently absorbed into
-a storage constraint.
+A token that must be translated into Arabic cannot also be the token
+authorization compares. The estate already held the labels in
+`petcare_web/lib/strings.ts` with `ar`/`en` pairs; the defect CONF-01 recorded
+was that a *second* set of the same names had become the thing `require_role()`
+tested.
 
-## Why the set is written positively
+## The conflict this closes
 
-The retired role is refused by being ABSENT, never by being named. A denylist has
-to name the value it forbids, which would put that literal back into the live
-source tree `MVC-RETIRED-ROLE-CUSTODY-001` requires to hold zero occurrences of
-it — the guard and the defect would look identical to a scanner. An allowlist
-forbids it, and every other unforeseen value, without naming any of them.
+Before this ruling the estate held three vocabularies. The serving layer minted
+machine IDs, `require_role()` accepted only the display forms, and the web
+middleware aliased the machine IDs — so **every identity the system created was
+refused by every protected route with `403 Unknown role`**. The suite did not
+show it because tests that needed a working session seeded the display form
+directly, which no production path ever produced.
 
-This is a SECOND refusal, not a replacement for the first: `main.py` keeps the
-retired role out of `VALID_ROLES`, so it could never be honoured as authority.
-Now it cannot be stored either, so it cannot reach authorization at all.
+## The retired role
 
-## Why there is a privilege order
+It is absent, and it is absent by omission rather than by being named. A denylist
+would have to write the retired literal into a live source tree that
+`MVC-RETIRED-ROLE-CUSTODY-001` requires to hold zero occurrences of it — the
+guard and the defect would be indistinguishable to a scanner. `pharmacy` is
+likewise not here, per `PHARMACY_ROLE=REMOVE`: it is not an authorization
+principal, and this module is where authorization principals are defined.
 
-`MIG-03` requires that a migration can never increase privilege. "Did the role
-change" is not enough to check that: a mapping between two spellings of the same
-role would fail an equality check while being perfectly safe, and a mapping that
-quietly promoted would pass any check that only compared strings. Ranking
-CONCEPTS rather than spellings makes the real claim — *no identity ends with
-authority it did not start with* — checkable.
-
-The order is a statement about authority over OTHER identities and their data,
-not about clinical seniority. A veterinarian outranks an owner here because a
-veterinarian reads records across the owners of a tenant; it says nothing about
-professional standing, which W0-I models separately and time-boundedly.
+`petcare_runtime` keeps its own role tokens for its own domain functions. Those
+are a different package's vocabulary, not display labels, and the serving layer
+does not use them — `main.py` imported four of them and the domain authorizer
+they belong to was never called.
 """
 from __future__ import annotations
 
-import os
-import sys
-from typing import Mapping, Optional
+from typing import Mapping
 
-# The display spellings are imported rather than re-typed. A second literal copy
-# would drift from the canonical one, and the drift would be invisible: both
-# copies would still look like "the role names".
-_RUNTIME_SRC = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
-    "petcare_runtime", "src",
-)
-if os.path.isdir(_RUNTIME_SRC) and _RUNTIME_SRC not in sys.path:
-    sys.path.insert(0, _RUNTIME_SRC)
+# ---------------------------------------------------------------------------
+# Authority tokens. The ONLY values any authorization decision may compare.
+# ---------------------------------------------------------------------------
 
-from petcare.auth.access_control import (  # noqa: E402
-    ROLE_OWNER as DISPLAY_OWNER,
-    ROLE_PARTNER_CLINIC_ADMIN as DISPLAY_PARTNER_CLINIC_ADMIN,
-    ROLE_PLATFORM_ADMIN as DISPLAY_PLATFORM_ADMIN,
-    ROLE_VETERINARIAN as DISPLAY_VETERINARIAN,
-)
+ROLE_PLATFORM_ADMIN = "platform_admin"
+ROLE_PARTNER_CLINIC_ADMIN = "partner_clinic_admin"
+ROLE_VETERINARIAN = "veterinarian"
+ROLE_OWNER = "owner"
 
-#: Concepts. Spelling-independent, so privilege comparisons cannot be fooled by
-#: a vocabulary difference in either direction.
-CONCEPT_OWNER = "OWNER"
-CONCEPT_VETERINARIAN = "VETERINARIAN"
-CONCEPT_PARTNER_CLINIC_ADMIN = "PARTNER_CLINIC_ADMIN"
-CONCEPT_PLATFORM_ADMIN = "PLATFORM_ADMIN"
+#: Every role that may be stored, minted, or presented as authority.
+ALLOWED_ROLES = frozenset({
+    ROLE_PLATFORM_ADMIN,
+    ROLE_PARTNER_CLINIC_ADMIN,
+    ROLE_VETERINARIAN,
+    ROLE_OWNER,
+})
 
-#: The spellings the serving layer mints today: `seed_user` in main.py and the
-#: `role` field of an invite-gated registration.
-SERVING_OWNER = "owner"
-SERVING_VETERINARIAN = "veterinarian"
-SERVING_PARTNER_CLINIC_ADMIN = "partner_clinic_admin"
-SERVING_PLATFORM_ADMIN = "platform_admin"
+#: Retained as the name the storage layer and the tests already use. Identical
+#: to ALLOWED_ROLES by construction rather than by coincidence: two sets that
+#: were meant to be equal and drifted is how a role becomes storable but not
+#: authorisable, which is the shape of CONF-01.
+VALID_ROLES = ALLOWED_ROLES
 
-#: Every storable spelling, and the concept it denotes. Both vocabularies appear
-#: because both are in live use (CONF-01, above). The retired role appears in
-#: neither.
-CONCEPT_BY_SPELLING: Mapping[str, str] = {
-    SERVING_OWNER: CONCEPT_OWNER,
-    DISPLAY_OWNER: CONCEPT_OWNER,
-    SERVING_VETERINARIAN: CONCEPT_VETERINARIAN,
-    DISPLAY_VETERINARIAN: CONCEPT_VETERINARIAN,
-    SERVING_PARTNER_CLINIC_ADMIN: CONCEPT_PARTNER_CLINIC_ADMIN,
-    DISPLAY_PARTNER_CLINIC_ADMIN: CONCEPT_PARTNER_CLINIC_ADMIN,
-    SERVING_PLATFORM_ADMIN: CONCEPT_PLATFORM_ADMIN,
-    DISPLAY_PLATFORM_ADMIN: CONCEPT_PLATFORM_ADMIN,
+# ---------------------------------------------------------------------------
+# Presentation. NEVER compared, NEVER stored as a role, NEVER authority.
+# ---------------------------------------------------------------------------
+
+#: English labels, for surfaces with no i18n catalogue of their own. The web
+#: holds the real ar/en pairs in `petcare_web/lib/strings.ts`; these exist so a
+#: backend response can carry a human-readable name without any caller being
+#: tempted to reuse the authority token as one.
+#:
+#: `ROLE-03` asserts a label cannot authorize and `ROLE-09` asserts changing a
+#: label changes no authorization outcome.
+DISPLAY_LABELS: Mapping[str, str] = {
+    ROLE_PLATFORM_ADMIN: "Platform Admin",
+    ROLE_PARTNER_CLINIC_ADMIN: "Partner Clinic Admin",
+    ROLE_VETERINARIAN: "Veterinarian",
+    ROLE_OWNER: "Owner",
 }
 
-#: Every role string that may be STORED. Anything else is refused.
-VALID_ROLES = frozenset(CONCEPT_BY_SPELLING)
 
-CONCEPT_PRIVILEGE_RANK: Mapping[str, int] = {
-    CONCEPT_OWNER: 1,
-    CONCEPT_VETERINARIAN: 2,
-    CONCEPT_PARTNER_CLINIC_ADMIN: 3,
-    CONCEPT_PLATFORM_ADMIN: 4,
+def display_label(role: str) -> str:
+    """The label for a role id. Raises for an unknown role.
+
+    Deliberately raises rather than echoing the input: returning the unknown
+    value would put an unvalidated string into a rendered surface, and a caller
+    that saw its own input come back would reasonably conclude the role was
+    recognised.
+    """
+    if role not in DISPLAY_LABELS:
+        raise ValueError(f"role {role!r} is not in the catalogue and has no label")
+    return DISPLAY_LABELS[role]
+
+
+# ---------------------------------------------------------------------------
+# Privilege ordering — for migration guards, not for route authorization
+# ---------------------------------------------------------------------------
+
+#: Authority over OTHER identities and their data. Not clinical seniority: a
+#: veterinarian outranks an owner here because a veterinarian reads records
+#: across the owners of a tenant, which says nothing about professional
+#: standing. W0-I models that separately and time-boundedly.
+ROLE_PRIVILEGE_RANK: Mapping[str, int] = {
+    ROLE_OWNER: 1,
+    ROLE_VETERINARIAN: 2,
+    ROLE_PARTNER_CLINIC_ADMIN: 3,
+    ROLE_PLATFORM_ADMIN: 4,
 }
 
 
 def is_valid_role(role: object) -> bool:
-    return isinstance(role, str) and role in CONCEPT_BY_SPELLING
+    """Exact membership. No case folding, no trimming, no normalisation.
 
-
-def concept_of(role: str) -> Optional[str]:
-    return CONCEPT_BY_SPELLING.get(role)
+    `ROLE-05` and `ROLE-06`: a comparison that normalised would let
+    `"Platform_Admin"` or `" platform_admin "` become authority, and the
+    promotion would be invisible at the call site.
+    """
+    return isinstance(role, str) and role in ALLOWED_ROLES
 
 
 def privilege_rank(role: str) -> int:
     """Rank, or raise. An unknown role has no rank and is never given one:
     defaulting it to the lowest would make an unrecognised role look safe."""
-    concept = CONCEPT_BY_SPELLING.get(role)
-    if concept is None:
+    if role not in ROLE_PRIVILEGE_RANK:
         raise ValueError(f"role {role!r} is not in the catalogue and has no rank")
-    return CONCEPT_PRIVILEGE_RANK[concept]
+    return ROLE_PRIVILEGE_RANK[role]
 
 
 def is_privilege_elevation(*, source_role: str, target_role: str) -> bool:
@@ -147,8 +147,7 @@ def is_privilege_elevation(*, source_role: str, target_role: str) -> bool:
 
     An unknown role on either side is not "not an elevation" — it is
     unanswerable, and is reported as an elevation so the caller fails closed on
-    a question that was never decided rather than proceeding as though it had
-    been answered "no".
+    a question that was never decided.
     """
     try:
         return privilege_rank(target_role) > privilege_rank(source_role)

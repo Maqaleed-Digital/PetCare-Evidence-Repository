@@ -119,8 +119,19 @@ class InMemorySessionStore:
     provide is durability, which is W0-F's persistence step and is gated.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, tenants: object) -> None:
         self._sessions: dict[str, SessionRecord] = {}
+        #: The tenant registry, so a session cannot be minted for a scope the
+        #: schema would refuse. Mirrors the foreign key migration 0034 adds.
+        #: REQUIRED, and deliberately without a default.
+        #:
+        #: `tests/governance/test_tenant_scope_signatures.py` forbids a
+        #: tenant-bearing parameter that may be omitted, and it is right to: a
+        #: registry that could be left out is one that gets left out. Passing
+        #: `None` explicitly is still allowed and still fails closed — see
+        #: `tenants.require_assignable` — but it becomes a decision at the call
+        #: site rather than an omission.
+        self._tenants = tenants
 
     # -- writes ----------------------------------------------------------
 
@@ -139,6 +150,13 @@ class InMemorySessionStore:
         #         session keyed on a value that could later collide.
         if tenant_id is not None and not tenant_id.strip():
             raise SessionDenied("a session cannot be created with a blank tenant")
+        # A session is a tenant-scoped assignment like any other (TENANT-02).
+        from tenants import TenantDenied, require_assignable
+
+        try:
+            require_assignable(self._tenants, tenant_id)
+        except TenantDenied as exc:
+            raise SessionDenied(str(exc)) from None
         now = _utc_now()
         record = SessionRecord(
             session_id=secrets.token_urlsafe(32),

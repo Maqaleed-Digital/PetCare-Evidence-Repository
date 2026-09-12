@@ -14,6 +14,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import main as api
+from role_probes import a_role_the_catalogue_refuses
 from routers import auth
 
 client = TestClient(api.app)
@@ -94,7 +95,7 @@ def test_t_auth_05_session_role_wins_when_header_disagrees():
     client.cookies.set("petcare_session", tok)
     try:
         r = client.post(PROTECTED, json=BODY,
-                        headers={**HDRS, "X-Petcare-Role": api.ROLE_PHARMACY_OPERATOR})
+                        headers={**HDRS, "X-Petcare-Role": a_role_the_catalogue_refuses()})
         assert r.status_code == 200, "session role must win over the header"
     finally:
         client.cookies.clear()
