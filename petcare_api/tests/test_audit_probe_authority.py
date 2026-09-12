@@ -32,7 +32,7 @@ def _probe(**overrides) -> dict:
     r = client.post("/audit/ui", json=body)
     assert r.status_code == 200, r.text
     event_id = r.json()["audit_event_id"]
-    return next(e for e in api._audit_log if e["audit_event_id"] == event_id)
+    return next(e for e in api.AUDIT_REPO._events if e["audit_event_id"] == event_id)
 
 
 def test_probe_is_still_accepted_without_a_session():

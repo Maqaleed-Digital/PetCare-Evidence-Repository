@@ -117,7 +117,7 @@ def drop_database(admin_url: str, name: str) -> None:
 
 
 def reset_w0f_tables(url: str) -> None:
-    """Empty the W0-F tables, in dependency order.
+    """Empty the W0-F and W0-G tables, in dependency order.
 
     Rows are removed rather than the schema recreated: recreating would re-prove
     the migration rather than the adapter, and would hide a constraint that only
@@ -127,5 +127,16 @@ def reset_w0f_tables(url: str) -> None:
 
     with psycopg.connect(url, autocommit=True) as conn:
         for table in ("app_session", "invite_code",
-                      "identity_migration_quarantine", "user_identity"):
+                      "identity_migration_quarantine", "user_identity",
+                      "audit_event"):
             conn.execute(f"DELETE FROM {table}")
+        # The chain needs its HEAD reset too, not only its rows. Clearing the
+        # table alone leaves the head pointing at the digest of a row that no
+        # longer exists, so the next test's first append links to a vanished
+        # predecessor and verify_chain reports prev_hash_mismatch — a clean chain
+        # reported as tampering, in a test that did nothing wrong. Observed:
+        # six controls failed together in one file and every one passed alone.
+        conn.execute(
+            "UPDATE audit_chain_head SET head_hash = %s, next_seq = 1 "
+            "WHERE chain_id = %s", ("GENESIS", "default"),
+        )

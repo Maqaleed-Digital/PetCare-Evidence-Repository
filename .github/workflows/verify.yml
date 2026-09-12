@@ -101,12 +101,20 @@ jobs:
           PETCARE_TEST_PG_URL: postgresql://petcare_ci:petcare_ci_ephemeral_not_a_deployed_secret@127.0.0.1:5432/postgres
 
       # A skipped integration suite and a passing one are indistinguishable in a
-      # summary line. This asserts the W0-F PostgreSQL controls actually RAN.
-      - name: W0-F PostgreSQL controls must not be skipped
+      # summary line. This asserts the PostgreSQL controls actually RAN.
+      #
+      # The list is explicit and must be extended whenever a PostgreSQL suite is
+      # added. It already fell behind once: the W0-F identity-migration suite and
+      # the W0-G audit suite were both outside it while it kept passing — a guard
+      # blind to the code it was meant to cover, which is the same shape as the
+      # portability guard that was not scanning `scripts/`.
+      - name: PostgreSQL controls must not be skipped
         run: |
           set -euo pipefail
           python -m pytest petcare_api/tests/test_postgres_integration.py \
             petcare_api/tests/test_session_store_postgres_e2e.py \
+            petcare_api/tests/test_identity_migration_postgres.py \
+            petcare_api/tests/test_audit_persistence_postgres.py \
             -q --no-header -rs | tee /tmp/pg.txt
           grep -qE '[0-9]+ passed' /tmp/pg.txt
           if grep -qE '[0-9]+ skipped' /tmp/pg.txt; then

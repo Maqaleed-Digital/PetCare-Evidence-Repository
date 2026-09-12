@@ -27,10 +27,6 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), "..", "petcare_runtim
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from petcare.audit.audit_service import AuditEvent, emit_audit_event
-from petcare_execution.FND.security.audit_chain import (
-    compute_event_hash,
-    verify_hash_chain,
-)
 from petcare.auth.access_control import (
     ROLE_OWNER,
     ROLE_VETERINARIAN,
@@ -102,7 +98,8 @@ app.add_middleware(
 # Auth router
 # ---------------------------------------------------------------------------
 from routers.auth import (router as auth_router, seed_user, seed_invite_code,
-                          read_session, require_tenant)
+                          read_session, require_tenant, PERSISTENCE)
+from audit_repository import AUDIT_CHAIN_GENESIS, AuditWriteFailed
 app.include_router(auth_router)
 
 # Seed pilot test users (in-memory — no DB yet)
@@ -121,10 +118,18 @@ seed_invite_code("VET-PILOT-001", "veterinarian")
 # ---------------------------------------------------------------------------
 # In-memory stores (pilot phase — DB wiring deferred to PH7)
 # ---------------------------------------------------------------------------
-#: W0-G chain genesis. The algorithm's default, named here so the serving path
-#: and any future persisted store cannot drift apart on it.
-AUDIT_CHAIN_GENESIS = "GENESIS"
-_audit_log: list[dict] = []
+#: W0-G. The authoritative audit store.
+#:
+#: This was `_audit_log`, a module-level list. A list is a store that dies with
+#: the process and is not shared between instances, so the chain it carried made
+#: tampering detectable and did nothing about loss — the two properties W0-G is
+#: careful to report separately.
+#:
+#: It is now the repository selected by PETCARE_PERSISTENCE_MODE, which is the
+#: same boundary identity, sessions and invite codes reach. There is deliberately
+#: NO second list alongside it: a shadow copy would be a second source of truth,
+#: and the one that disagreed would be the one nobody was reading.
+AUDIT_REPO = PERSISTENCE.audit
 _sessions: dict[str, dict] = {}
 _notes: dict[str, dict] = {}
 _appointments: dict[str, dict] = {}
@@ -211,22 +216,18 @@ def _audit(
         "correlation_id": ev.correlation_id,
         "occurred_at": ev.occurred_at,
     }
-    # W0-G: link this event into the tamper-evident chain BEFORE it is stored.
-    # prev_hash is the previous event's event_hash, or GENESIS for the first.
-    # The hash covers the record as it stands here, so any later edit to a stored
-    # field breaks verification at that index.
-    prev_hash = _audit_log[-1]["event_hash"] if _audit_log else AUDIT_CHAIN_GENESIS
-    # Hash the record BEFORE the chain fields are attached. verify_hash_chain
-    # strips prev_hash and the digest before recomputing, so hashing a record
-    # that already carries prev_hash would produce a digest the verifier can
-    # never reproduce — a chain that is "linked" but unverifiable.
-    event_hash = compute_event_hash(prev_hash, record)
-    record["prev_hash"] = prev_hash
-    record["event_hash"] = event_hash
-
-    _audit_log.append(record)
-    log.info("AUDIT %s", json.dumps(record))
-    return record
+    # W0-G: the event is linked into the tamper-evident chain AND stored by the
+    # repository, in one transaction. Linkage is not done here on purpose —
+    # `prev_hash` is a read-then-write, and two callers doing it concurrently
+    # produce a fork that the verifier reports as tampering. A caller cannot get
+    # that wrong because a caller no longer does it.
+    #
+    # AuditWriteFailed is NOT caught. An action that mutates state while its
+    # audit write silently fails is an unaudited mutation, and afterwards it is
+    # indistinguishable from an action that never happened. The request fails.
+    stored = AUDIT_REPO.append_event(record)
+    log.info("AUDIT %s", json.dumps(stored, default=str))
+    return stored
 
 
 def verify_audit_chain() -> dict:
@@ -239,21 +240,12 @@ def verify_audit_chain() -> dict:
 
     A break is REPORTED, never repaired. Silently rehashing a broken chain would
     destroy the only evidence that it broke.
+
+    W0-G persistence: the adaptation between the algorithm's `hash` and the
+    governed `event_hash` column now lives in the repository, so the write path
+    and the verify path cannot disagree about which fields the digest covers.
     """
-    adapted = []
-    for ev in _audit_log:
-        core = dict(ev)
-        core["hash"] = core.pop("event_hash", None)
-        adapted.append(core)
-    result = verify_hash_chain(adapted, genesis=AUDIT_CHAIN_GENESIS)
-    return {
-        "ok": result.ok,
-        "reason": result.reason,
-        "index": result.index,
-        "expected": result.expected,
-        "actual": result.actual,
-        "events": len(_audit_log),
-    }
+    return AUDIT_REPO.verify_chain()
 
 # ---------------------------------------------------------------------------
 # Health + readiness
@@ -345,7 +337,29 @@ def audit_ui_probe(request: Request, payload: AuditProbePayload):
 
 @app.get("/audit/events")
 def list_audit_events(role: str = Depends(require_admin)):
-    return {"events": _audit_log, "count": len(_audit_log)}
+    """The whole chain. PRIVILEGED and cross-tenant by necessity.
+
+    The chain is one sequence over every tenant, so reading it whole is the only
+    way to verify it — and that is why this route is admin-gated rather than
+    tenant-scoped. A caller who holds a tenant and not the admin role reads
+    /audit/events/tenant instead, which cannot return another tenant's rows.
+    """
+    events = AUDIT_REPO.all_events()
+    return {"events": events, "count": len(events)}
+
+
+@app.get("/audit/events/tenant")
+def list_audit_events_for_tenant(request: Request, limit: int = 100):
+    """A caller's own tenant's events, and no other tenant's.
+
+    The tenant comes from `require_tenant`, which derives it from the validated
+    session (W0-C). It is never read from a query parameter or a header: a
+    client-supplied scope here would turn the audit log into a cross-tenant read
+    for anyone who could name a tenant.
+    """
+    tenant_id = require_tenant(request)
+    events = AUDIT_REPO.query_events_for_tenant(tenant_id, limit=limit)
+    return {"events": events, "count": len(events), "tenant_id": tenant_id}
 
 
 @app.get("/audit/chain/verify")
@@ -750,27 +764,28 @@ def _audit_chain_active() -> bool:
 
     W0-G replaces this with a real verification against persisted chain state.
     """
-    for ev in _audit_log:
+    events = AUDIT_REPO.all_events()
+    for ev in events:
         if not (ev.get("prev_hash") and ev.get("event_hash")):
             return False
-    return bool(_audit_log)
+    return bool(events)
 
 
 def _audit_chain_persisted() -> bool:
-    """Whether the chain SURVIVES this process. It does not.
+    """Whether the chain SURVIVES this process.
 
-    W0-G computes and links the chain on every write, which makes tampering
-    inside a running process detectable. It does not make the log durable: the
-    store is still `_audit_log`, an in-memory list that dies with the process and
-    is not shared between instances. Durability is W0-F's persistent serving
-    boundary, which is Sponsor-gated.
+    COMPUTED from the configured store, never asserted. W0-G closed this by
+    moving the log behind a repository, so the answer is now true when the
+    process is configured for a durable store and false when it is not — and it
+    changes with configuration rather than with a code edit.
 
-    Reported as its own field precisely so `audit_chain_active` cannot be read as
-    a durability claim. Computing a chain over a volatile store is a real control
-    against tampering and a real non-control against loss, and W0-E's discipline
-    is that the service must not blur the two.
+    Still reported as its own field, separately from `audit_chain_active`.
+    Computing a chain over a volatile store is a real control against tampering
+    and a real non-control against loss, and W0-E's discipline is that the
+    service must not blur the two. Persistence has not made them the same
+    property; it has made one of them true.
     """
-    return False
+    return bool(getattr(AUDIT_REPO, "durable", False))
 
 
 @app.get("/api/governance/status")
@@ -798,9 +813,18 @@ def governance_status():
         # W0-G computes the chain; it does not persist it. Separate fields, so
         # neither can be mistaken for the other.
         "audit_chain_persisted": _audit_chain_persisted(),
+        # COMPUTED, not asserted. This was the fixed string "IN_PROCESS_ONLY …
+        # persistence is W0-F", which was true when written and becomes a FALSE
+        # claim the moment the service is configured for a durable store — the
+        # MVC-INC-ATTEST-001 defect inverted: a service misreporting a control it
+        # now has. A literal that is only correct in one configuration is a
+        # literal, and W0-E's rule is that no field here may be a constant.
         "audit_chain_durability": (
-            "IN_PROCESS_ONLY — the audit store is not durable and is not shared "
-            "between instances; persistence is W0-F"
+            f"DURABLE_SHARED_STORE — the audit store survives this process "
+            f"({PERSISTENCE.mode})"
+            if _audit_chain_persisted()
+            else "IN_PROCESS_ONLY — the audit store is not durable and is not "
+                 "shared between instances"
         ),
         # fail_closed cannot be evaluated from inside this process while
         # authorization derives from a client-supplied header (W0-B). Reporting

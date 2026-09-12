@@ -34,6 +34,7 @@ from __future__ import annotations
 from dataclasses import dataclass
 from typing import Any, Optional
 
+from audit_repository import InMemoryAuditRepository, PostgresAuditRepository
 from postgres_repositories import (
     PersistenceUnavailable,
     PostgresIdentityRepository,
@@ -65,6 +66,7 @@ class Persistence:
     session_store: Any
     identities: Any
     invites: Any
+    audit: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -122,6 +124,7 @@ def build_persistence(
             session_store=InMemorySessionStore(),
             identities=InMemoryIdentityRepository(),
             invites=InMemoryInviteCodeRepository(),
+            audit=InMemoryAuditRepository(),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -144,6 +147,7 @@ def build_persistence(
         session_store=PostgresSessionStore(pool),
         identities=PostgresIdentityRepository(pool),
         invites=PostgresInviteCodeRepository(pool),
+        audit=PostgresAuditRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )
