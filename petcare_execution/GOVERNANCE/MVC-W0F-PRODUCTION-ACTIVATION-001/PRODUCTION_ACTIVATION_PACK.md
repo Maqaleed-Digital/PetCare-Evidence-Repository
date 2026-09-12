@@ -63,27 +63,71 @@ What remains open is the surface's long-term disposition, and two occurrences in
 constant and a HITL reviewer map naming `pharmacist`. Both are registered with
 their reasons in `tests/governance/test_retired_role_family.py`.
 
-### PRE-6 · tenant assignment has NO governed API — **NEW, blocking a usable P5**
+### PRE-6 · tenant assignment — **AN AUTHORITY DECISION, not an engineering gap**
 
-Registration establishes identity and never tenant authority (W0-C), and no admin
-route assigns a tenant. The only path today is an operator calling the identity
-repository directly.
+Registration establishes identity and never tenant authority (W0-C), and no route
+assigns, changes or revokes tenant membership. The only path today is an operator
+calling the identity repository directly — sufficient for a rehearsal, and not a
+governed operating model: no audit event, no authorization check, no revocation
+path.
 
-That is sufficient for a rehearsal and insufficient for an operated system: P5
-needs a way for a Sponsor-authorised operator to assign a tenant that is itself
-audited. Recorded as `TENANT_ASSIGNMENT_HAS_NO_GOVERNED_API`.
+**Reclassified.** This was recorded as a gap for engineering to close. It is
+first a question of WHO may assign tenant membership, and that is constitutional:
+tenant membership determines which data an identity can reach at all, which is a
+stronger power than any route guard currently grants.
 
-### PRE-4 · Session treatment at cutover
+`platform_admin` is the obvious holder and that is precisely why it is not
+assumed here. A least-effort answer adopted silently becomes constitutional
+authority by accident.
+
+The control path this needs, once the authority is decided:
+
+```
+authorized actor → governed assignment API → explicit identity → explicit tenant
+  → authorization check → audit event → durable write → verification/revocation
+```
+
+Every element has an implementation to reach (`require_role`,
+`AUDIT_REPO.append_event`, `PostgresIdentityRepository`, `tenants.is_assignable`).
+What is missing is the ruling.
+
+**P1 must not be authorized before this is decided**, because a run that
+proceeded would arrive at P5 with tenant membership granted by whoever can reach
+the repository. See `PREPROD_DECISION_BOARD-001.md` item 3.
+
+### PRE-4 · Session treatment at cutover — **UNRESOLVED**
 
 `MVC-W0F-KSA-MIGRATION-READINESS-001` §6 requires this be chosen and recorded,
-not defaulted. Recommended: **invalidate all sessions** at cutover by rotating
-the signing key. AC7-07 is proven on PostgreSQL, so rotation is known to revoke
+not defaulted. Recommended there: **invalidate all sessions** by rotating the
+signing key. AC7-07 is proven on PostgreSQL, so rotation is known to revoke
 everything.
 
-### PRE-5 · Engine variant and sizing
+**Two corrections to how this was framed here.**
+
+1 · **The continuity option is not currently implementable.** §6 makes it
+conditional on "the previous-key question" being settled, and the serving path
+has no previous-key acceptance list — `PREVIOUS_KEY_LIST_PRESENT=NO`, recorded in
+the W0-F PR-B receipt and still true in live source. Choosing continuity selects
+engineering work, not only a policy.
+
+2 · **At go-live it is close to vacuous.** Sessions today live in process memory,
+so switching to the persistent store leaves nothing to preserve. The decision
+becomes live for the KSA migration and for any emergency key rotation after it.
+It is a standing policy, not a go-live step.
+
+See `MVC-PREPROD-SPONSOR-DECISION-001/PREPROD_DECISION_BOARD-001.md` item 4.
+
+### PRE-5 · Engine variant and sizing — **UNRESOLVED**
 
 `RDS PostgreSQL` vs `Aurora PostgreSQL-compatible` is deferred by the data-store
 decision and changes no application code. Someone still has to choose.
+
+Both offer PostgreSQL 16, which is the version this estate is proven against.
+Both carry the same client-side TLS trap recorded in P1. Nothing in the
+repository expresses a preference, and no code path branches on the variant —
+which is the D.21 portability property working.
+
+See `PREPROD_DECISION_BOARD-001.md` item 5.
 
 ---
 
@@ -455,6 +499,21 @@ NEXT_GENUINE_GATE=GATE_LIVE_APPLY (P1 — provision the database)
 ```
 
 No sixth gate is introduced. Nothing above has been executed.
+
+## Authorization status
+
+```
+PRE_1_PRE_2_PHARMACY=RATIFIED   [SPONSOR] 12 September 2026
+P1_AUTHORIZED=NO
+GATE_LIVE_APPLY=NOT_AUTHORIZED
+GATE_CREDENTIAL_ENTRY=NOT_AUTHORIZED
+GATE_IRREVERSIBLE_ACTION=NOT_AUTHORIZED
+```
+
+The ratification states its own boundary: it ratifies the implementations merged
+under PRE-1 and PRE-2 and authorizes no live apply, no secret creation, no
+cutover and no irreversible action. Four board items remain open, and item 3 is
+an authority decision that blocks a usable P5.
 
 ## What changed in this revision
 
