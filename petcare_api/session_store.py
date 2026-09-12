@@ -206,6 +206,20 @@ class InMemorySessionStore:
 
     # -- introspection, for tests and operations --------------------------
 
+    def describe(self, session_id: str) -> Optional[SessionRecord]:
+        """The record whatever its state — including revoked and expired.
+
+        Needed to tell apart "denied because the signature failed" from "denied
+        because the record is gone". AC7-07 turns on exactly that distinction:
+        the store record must be observably ACTIVE while the request is denied,
+        or the denial proves nothing about signature verification.
+
+        Present on both implementations so the AC-7 controls can make that
+        assertion identically against either store, rather than reaching into a
+        private dict on one and into SQL on the other.
+        """
+        return self._sessions.get(session_id)
+
     def all_for_user(self, user_id: str, *, tenant_id: str) -> Iterable[SessionRecord]:
         return [
             r

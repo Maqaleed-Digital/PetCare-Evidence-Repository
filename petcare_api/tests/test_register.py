@@ -15,7 +15,7 @@ from fastapi.testclient import TestClient
 
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 from main import app  # noqa: E402
-from routers.auth import seed_invite_code, _invite_codes, _users  # noqa: E402
+from routers.auth import seed_invite_code, INVITE_REPO  # noqa: E402
 
 
 def _new_client():
@@ -47,8 +47,13 @@ def test_register_with_valid_invite_returns_201_and_sets_cookies(caplog):
     assert "petcare_session" in r.cookies
     assert "petcare_role" in r.cookies
     assert r.cookies["petcare_role"] == "owner"
-    assert _invite_codes[code]["used_at"] is not None
-    assert _invite_codes[code]["assigned_email"] == email
+    # Read through the repository boundary rather than a module-level dict:
+    # the assertion is the same fact, and it now holds for whichever store the
+    # run is configured with.
+    consumed = INVITE_REPO.get(code)
+    assert consumed is not None
+    assert consumed.consumed_at is not None
+    assert consumed.consumed_by == email
     assert any("auth.user_registered" in m for m in caplog.messages)
 
 
