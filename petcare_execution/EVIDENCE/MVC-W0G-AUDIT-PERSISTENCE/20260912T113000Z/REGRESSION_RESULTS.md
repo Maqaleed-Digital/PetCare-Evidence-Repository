@@ -53,6 +53,27 @@ Not re-run locally: no web source was modified. `middleware.ts` and
 `app/pharmacy/` were READ during PRE-2 discovery and left untouched. CI runs both
 suites on this branch.
 
+## CI, observed on PR #23
+
+```
+Python estate      713 passed, 7 skipped   (= 720 collected, matching local)
+TypeScript         clean
+Web unit           120 passed (18 files)
+Responsive         90 passed
+```
+
+### A gap in this repository's own non-skip guard
+
+The `PostgreSQL controls must not be skipped` step named only two suites —
+`test_postgres_integration.py` and `test_session_store_postgres_e2e.py`. The
+W0-F identity-migration suite and this lane's audit suite were both **outside
+it**, while the step kept passing.
+
+A guard blind to the code it is meant to cover, which is the same shape as the
+portability guard that was not scanning `scripts/`. All four suites are now
+named, and the step carries a note that the list must be extended whenever a
+PostgreSQL suite is added.
+
 ## Pre-existing CI skips
 
 7, all `tests/governance/test_cross_repository_traceability.py`, which skips when
