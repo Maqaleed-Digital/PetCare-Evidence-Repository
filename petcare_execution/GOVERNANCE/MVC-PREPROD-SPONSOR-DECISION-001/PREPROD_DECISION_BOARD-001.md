@@ -1,7 +1,8 @@
 # Pre-production decision board
 
 **Date:** 2026-09-12 · **Base:** `aa10a44aba653349d4b59f2d7a18e98573f9ea48`
-**Status:** 1 of 6 resolved · **P1 is NOT authorized**
+**Status:** 4 of 6 resolved · **P1 is NOT authorized**
+**Updated:** 2026-09-12 after `RATIFICATION-002.md`
 
 Six items, not four. The board was previously drawn with four because the
 tenant-assignment path was recorded as an engineering gap. It is not: **who may
@@ -14,10 +15,10 @@ invents an alternative.
 | # | Decision | State |
 |---|---|---|
 | 1 | PRE-1 / PRE-2 / pharmacy ratification | **RESOLVED** — `RATIFICATION-001.md`, `[SPONSOR]`, 12 Sep 2026 |
-| 2 | First production tenant | UNRESOLVED — **needs two Sponsor values; no lane may choose them** |
-| 3 | Tenant-assignment authority and control path | **PROPOSED** — `FINAL_PREPROD_POLICY-PROPOSED.md` |
-| 4 | PRE-4 · session treatment at cutover | **PROPOSED** — `FINAL_PREPROD_POLICY-PROPOSED.md` |
-| 5 | PRE-5 · engine variant | **PROPOSED** — `FINAL_PREPROD_POLICY-PROPOSED.md` |
+| 2 | First production tenant | **UNRESOLVED — explicitly not ruled.** `PRODUCTION_TENANT_CREATION_AUTHORIZED=NO` |
+| 3 | Tenant-assignment authority and control path | **RATIFIED + BUILT** — `RATIFICATION-002.md`; `MVC-TENANT-MEMBERSHIP/20260912T140000Z/` |
+| 4 | PRE-4 · session treatment at cutover | **RATIFIED** — `INVALIDATE_ALL` |
+| 5 | PRE-5 · engine variant | **RATIFIED** — RDS PostgreSQL 16 |
 | 6 | GitHub Support `refs/pull/1–6` | `NOT_SENT` |
 
 ---

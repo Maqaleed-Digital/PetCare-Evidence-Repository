@@ -85,12 +85,69 @@ def test_t_ten_05_no_silent_platform_default_remains():
     assert "x_tenant_id" not in src
 
 
+#: Routes where a body tenant is an ADMINISTRATIVE DESTINATION rather than the
+#: caller's own scope, allowlisted by name with a reason.
+#:
+#: `require_tenant()` answers "which tenant may THIS CALLER act on", and wrapping
+#: an administrative destination in it would be wrong twice over: it would return
+#: the admin's own tenant, and the Sponsor ruling of 12 Sep 2026 §3 explicitly
+#: authorises a `platform_admin` to administer membership ACROSS tenants.
+#:
+#: An entry here is a recorded decision. Each names the authority that replaces
+#: tenant-scope authorization, and is BOUND TO the control that proves it.
+BODY_TENANT_ADMIN_ROUTES: dict[str, str] = {
+    "set_tenant_membership":
+        "The DESTINATION tenant of a governed membership assignment, not the "
+        "caller's scope. Authorised by role (`require_admin`, canonical "
+        "platform_admin from the validated session) and validated against the "
+        "governed tenant registry inside the same transaction — unknown and "
+        "disabled tenants fail closed. "
+        "BOUND TO: petcare_api/tests/test_tenant_membership_postgres.py"
+        "::test_an_unknown_tenant_fails_closed",
+}
+
+
 def test_t_ten_06_no_route_trusts_body_tenant_directly():
-    """Every body tenant reference must be wrapped by require_tenant()."""
+    """Every body tenant reference is authorized — by tenant scope, or by a
+    recorded administrative authority."""
+    import ast
     import re
+
     src = open(api.__file__).read()
+    tree = ast.parse(src)
+
+    def enclosing_function(offset: int) -> str:
+        line = src[:offset].count("\n") + 1
+        best = ""
+        for node in ast.walk(tree):
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+                if node.lineno <= line <= (node.end_lineno or node.lineno):
+                    best = node.name
+        return best
+
     for m in re.finditer(r"body\.tenant_id", src):
         window = src[max(0, m.start() - 60):m.start()]
-        assert "require_tenant(" in window, (
-            "body.tenant_id used without require_tenant authorization"
+        if "require_tenant(" in window:
+            continue
+        fn = enclosing_function(m.start())
+        assert fn in BODY_TENANT_ADMIN_ROUTES, (
+            f"body.tenant_id used in {fn!r} without require_tenant authorization "
+            "and without a recorded administrative authority"
+        )
+
+
+def test_every_body_tenant_exemption_names_the_route_and_binds_to_a_control():
+    """An exemption whose route has moved protects nothing while reading as a
+    considered decision."""
+    import re
+
+    src = open(api.__file__).read()
+    for name, reason in BODY_TENANT_ADMIN_ROUTES.items():
+        assert re.search(rf"^def {re.escape(name)}\(", src, re.M), (
+            f"exempted route {name!r} no longer exists in main.py"
+        )
+        assert "BOUND TO:" in reason, f"{name} has no bound control"
+        assert "require_admin" in reason, (
+            f"{name}'s exemption does not name the authority that replaces "
+            "tenant-scope authorization"
         )

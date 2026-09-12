@@ -110,10 +110,14 @@ jobs:
       # guard blind to the code it exists to cover is the same shape as the
       # portability guard that was not scanning `scripts/`.
       #
-      # Recorded rather than automated: deriving the list by globbing
-      # `*postgres*` would silently include a file nobody meant to gate on, and
-      # would stop being a decision. The cost of the explicit list is that it
-      # must be maintained; the cost of a derived one is that it cannot be read.
+      # THIRD occurrence. The list stays explicit — deriving it by globbing
+      # would silently include a file nobody meant to gate on, and would stop
+      # being a decision. What changes is that forgetting it is now a FAILURE
+      # rather than a habit: tests/governance/test_ci_postgres_coverage.py
+      # asserts every `*postgres*` suite in the tree is named here.
+      #
+      # Three times is the point at which "remember to update it" stops being a
+      # process and becomes a control.
       - name: PostgreSQL controls must not be skipped
         run: |
           set -euo pipefail
@@ -123,6 +127,7 @@ jobs:
             petcare_api/tests/test_audit_persistence_postgres.py \
             petcare_api/tests/test_tenant_registry.py \
             petcare_api/tests/test_end_to_end_identity_postgres.py \
+            petcare_api/tests/test_tenant_membership_postgres.py \
             -q --no-header -rs | tee /tmp/pg.txt
           grep -qE '[0-9]+ passed' /tmp/pg.txt
           if grep -qE '[0-9]+ skipped' /tmp/pg.txt; then

@@ -63,7 +63,7 @@ What remains open is the surface's long-term disposition, and two occurrences in
 constant and a HITL reviewer map naming `pharmacist`. Both are registered with
 their reasons in `tests/governance/test_retired_role_family.py`.
 
-### PRE-6 · tenant assignment — **AN AUTHORITY DECISION, not an engineering gap**
+### PRE-6 · tenant assignment — **RESOLVED** (`platform_admin`, governed path built)
 
 Registration establishes identity and never tenant authority (W0-C), and no route
 assigns, changes or revokes tenant membership. The only path today is an operator
@@ -91,11 +91,20 @@ Every element has an implementation to reach (`require_role`,
 `AUDIT_REPO.append_event`, `PostgresIdentityRepository`, `tenants.is_assignable`).
 What is missing is the ruling.
 
-**P1 must not be authorized before this is decided**, because a run that
-proceeded would arrive at P5 with tenant membership granted by whoever can reach
-the repository. See `PREPROD_DECISION_BOARD-001.md` item 3.
+**Decided and built.** Ruled 12 Sep 2026: `platform_admin` is the sole actor
+role permitted to assign, change or revoke membership, may act across tenants,
+and the path **must not accept or change a role** — `TENANT_ASSIGNMENT !=
+ROLE_ASSIGNMENT`. Two-event audit model. Direct repository access is not an
+authorized operating path.
 
-### PRE-4 · Session treatment at cutover — **UNRESOLVED**
+Implemented in `petcare_api/tenant_membership.py` with routes
+`POST`/`GET /api/admin/identities/{user_id}/tenant`, proven by 39 controls and
+6 perturbations. Evidence: `MVC-TENANT-MEMBERSHIP/20260912T140000Z/`.
+
+P5 now has a governed assignment path. What still blocks a USEFUL P5 is item 2 —
+there is no production tenant to assign anyone to.
+
+### PRE-4 · Session treatment at cutover — **RESOLVED** (`INVALIDATE_ALL`)
 
 `MVC-W0F-KSA-MIGRATION-READINESS-001` §6 requires this be chosen and recorded,
 not defaulted. Recommended there: **invalidate all sessions** by rotating the
@@ -115,9 +124,15 @@ so switching to the persistent store leaves nothing to preserve. The decision
 becomes live for the KSA migration and for any emergency key rotation after it.
 It is a standing policy, not a go-live step.
 
-See `MVC-PREPROD-SPONSOR-DECISION-001/PREPROD_DECISION_BOARD-001.md` item 4.
+Ruled 12 Sep 2026 (`RATIFICATION-002.md`): **INVALIDATE_ALL**. At a jurisdiction
+migration, signing-key replacement, emergency rotation or equivalent transition,
+sessions are invalidated and users re-authenticate. A previous-key acceptance
+list is `NOT_AUTHORIZED`, and the property that rotation revokes must be
+preserved — which is what AC7-07 already proves.
 
-### PRE-5 · Engine variant and sizing — **UNRESOLVED**
+Needed no engineering: the ruling selects behaviour the estate has.
+
+### PRE-5 · Engine variant — **RESOLVED** (`RDS PostgreSQL 16`)
 
 `RDS PostgreSQL` vs `Aurora PostgreSQL-compatible` is deferred by the data-store
 decision and changes no application code. Someone still has to choose.
@@ -127,7 +142,18 @@ Both carry the same client-side TLS trap recorded in P1. Nothing in the
 repository expresses a preference, and no code path branches on the variant —
 which is the D.21 portability property working.
 
-See `PREPROD_DECISION_BOARD-001.md` item 5.
+Ruled 12 Sep 2026: `ENGINE_VARIANT=RDS_POSTGRESQL`, `POSTGRESQL_MAJOR_VERSION=16`.
+Aurora remains an allowed future option, deferred pending measured requirement.
+
+One constraint the ruling adds: this must not introduce application-level
+dependence on RDS-specific semantics that would defeat D.21 portability. Already
+guarded — `test_w0f_architecture_contracts.py` forbids a provider endpoint or
+region literal in application code, and `test_ksa_portability.py` proves
+relocation changes no application byte.
+
+Topology, sizing, Multi-AZ, replicas, backup and maintenance windows, networking,
+security groups, parameter groups, monitoring and endpoint creation remain P1
+operational decisions and are **not** selected by that ruling.
 
 ---
 
@@ -403,12 +429,26 @@ part of this phase.
 > through a provider console rather than through infrastructure code)
 
 ```bash
-# P5.0 · Create the first tenant(s). A Sponsor act: the registry ships empty and
-#        nothing infers a tenant. Until one exists, every identity is tenantless
-#        and fails closed at require_tenant() with 403 NO_TENANT_AUTHORITY —
-#        which is correct, and is not a defect to debug during the window.
+# P5.0 · Create the first tenant. A Sponsor act, and one that has NOT been ruled:
+#        ITEM_2_STATUS=UNRESOLVED, PRODUCTION_TENANT_CREATION_AUTHORIZED=NO.
+#        The registry ships empty and nothing infers a tenant. Until one exists,
+#        every identity is tenantless and fails closed at require_tenant() with
+#        403 NO_TENANT_AUTHORITY — correct behaviour, not a defect to debug
+#        during the window.
 #
-#        ⛔ This is a live write. GATE_LIVE_APPLY.
+#        ⛔ A live write AND an unruled decision. GATE_LIVE_APPLY.
+
+# P5.0b · Assign membership through the GOVERNED PATH, never the repository.
+#
+#   POST /api/admin/identities/{user_id}/tenant
+#        {"tenant_id": "<tenant>", "reason": "<why>"}
+#
+#        platform_admin only, from the validated session. Produces a removal
+#        event scoped to the tenant left and an addition scoped to the tenant
+#        joined, in one transaction with the identity update. Readback:
+#        GET on the same path. Revocation: tenant_id = null.
+#
+#        Direct repository mutation is not an authorized operating path.
 
 # P5.1 · Switch persistence mode and bind identifiers (see P2.4).
 #        There is no rollout-by-percentage here: a process either reaches the
@@ -518,11 +558,16 @@ an authority decision that blocks a usable P5.
 ## What changed in this revision
 
 ```
-PRE-1  CLOSED (1-B)   the migration is empty by design, not blocked
-PRE-2  CLOSED (2-C)   one authority vocabulary; CONF-01 closed end to end
-PRE-3  CLOSED         audit chain persisted
-PRE-4  unchanged      session treatment at cutover — still a decision to record
-PRE-5  unchanged      engine variant and sizing
-PRE-2D OPEN           pharmacy surface disposition; not blocking
-PRE-6  NEW            tenant assignment has no governed API; blocks a usable P5
+PRE-1  RATIFIED (1-B)  the migration is empty by design, not blocked
+PRE-2  RATIFIED (2-C)  one authority vocabulary; CONF-01 closed end to end
+PRE-3  CLOSED          audit chain persisted
+PRE-4  RATIFIED        INVALIDATE_ALL; no previous-key list; needed no engineering
+PRE-5  RATIFIED        RDS PostgreSQL 16; topology stays a P1 decision
+PRE-6  RATIFIED+BUILT  governed tenant-assignment path, platform_admin only
+ITEM 2 UNRESOLVED      the first production tenant — blocks a USEFUL P5
+PRE-2D OPEN            pharmacy surface disposition; not blocking
+```
+
+```
+P1_AUTHORIZED=NO
 ```

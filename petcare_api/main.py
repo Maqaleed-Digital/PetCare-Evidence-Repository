@@ -110,6 +110,11 @@ app.add_middleware(
 from routers.auth import (router as auth_router, seed_user, seed_invite_code,
                           read_session, require_tenant, PERSISTENCE)
 from audit_repository import AUDIT_CHAIN_GENESIS, AuditWriteFailed
+from tenant_membership import (
+    TenantMembershipDenied,
+    TenantMembershipService,
+    TenantMembershipUnavailable,
+)
 app.include_router(auth_router)
 
 # NO USER IS CREATED AT STARTUP.
@@ -149,6 +154,11 @@ seed_invite_code("VET-PILOT-001", "veterinarian")
 #: NO second list alongside it: a shadow copy would be a second source of truth,
 #: and the one that disagreed would be the one nobody was reading.
 AUDIT_REPO = PERSISTENCE.audit
+
+#: The governed tenant-assignment control path (Sponsor ruling, 12 Sep 2026 §3).
+#: Direct repository access is not an authorized operating path; this is.
+TENANT_MEMBERSHIP = TenantMembershipService(PERSISTENCE)
+
 _sessions: dict[str, dict] = {}
 _notes: dict[str, dict] = {}
 _appointments: dict[str, dict] = {}
@@ -384,6 +394,89 @@ def list_audit_events_for_tenant(request: Request, limit: int = 100):
     tenant_id = require_tenant(request)
     events = AUDIT_REPO.query_events_for_tenant(tenant_id, limit=limit)
     return {"events": events, "count": len(events), "tenant_id": tenant_id}
+
+
+# ---------------------------------------------------------------------------
+# Tenant membership — the governed assignment path
+# ---------------------------------------------------------------------------
+class TenantMembershipRequest(BaseModel):
+    """The request body. There is deliberately NO role field.
+
+    Sponsor ruling §3: the path "must not accept a role as an input and must not
+    create, modify, elevate, downgrade, or otherwise change an identity's role".
+    That is implemented as an absence — a field that does not exist cannot be
+    supplied, and a schema that rejects unknown fields cannot be talked into one.
+    """
+
+    model_config = {"extra": "forbid"}
+
+    #: `None` is a revocation. Absent is NOT the same as null and is rejected by
+    #: the model, so a client cannot revoke membership by omitting a field.
+    tenant_id: Optional[str]
+    reason: str
+
+
+@app.get("/api/admin/identities/{user_id}/tenant")
+def read_tenant_membership(user_id: str, request: Request,
+                           role: str = Depends(require_admin)):
+    """Readback. The verification path the ruling requires."""
+    identity = TENANT_MEMBERSHIP.read(user_id)
+    if identity is None:
+        raise HTTPException(404, detail={"error": "IDENTITY_NOT_FOUND"})
+    return {
+        "user_id": identity.user_id,
+        "tenant_id": identity.tenant_id,
+        # The role is REPORTED and is not writable through this surface.
+        "role": identity.role,
+    }
+
+
+@app.post("/api/admin/identities/{user_id}/tenant")
+def set_tenant_membership(user_id: str, body: TenantMembershipRequest,
+                          request: Request,
+                          role: str = Depends(require_admin),
+                          x_correlation_id: str = Header(default="unset")):
+    """Assign, reassign or revoke tenant membership.
+
+    `platform_admin` only — `require_admin` compares the canonical machine id
+    from the validated session, so the authority cannot be asserted by a header.
+
+    The actor is taken from the session, never from the body: an actor a caller
+    could name would make the audit record a statement about what the caller
+    claimed rather than about what happened.
+    """
+    payload = read_session(request)
+    try:
+        change = TENANT_MEMBERSHIP.set_membership(
+            target_user_id=user_id,
+            tenant_id=body.tenant_id,
+            actor_id=payload["user_id"],
+            actor_role=payload["role"],
+            reason=body.reason,
+            correlation_id=x_correlation_id,
+        )
+    except TenantMembershipUnavailable as exc:
+        # 503: the deployment cannot perform a durable governed act. Not a 4xx —
+        # the request was well formed and the caller was authorised.
+        raise HTTPException(503, detail={"error": "MEMBERSHIP_STORE_UNAVAILABLE",
+                                         "reason": str(exc)})
+    except TenantMembershipDenied as exc:
+        raise HTTPException(400, detail={"error": "MEMBERSHIP_CHANGE_DENIED",
+                                         "reason": str(exc)})
+    except AuditWriteFailed as exc:
+        # Fail closed. An unaudited membership change is indistinguishable
+        # afterwards from one that never happened.
+        raise HTTPException(500, detail={"error": "AUDIT_WRITE_FAILED",
+                                         "reason": str(exc)})
+
+    return {
+        "user_id": change.target_user_id,
+        "previous_tenant_id": change.previous_tenant_id,
+        "tenant_id": change.resulting_tenant_id,
+        "revoked": change.is_revocation,
+        "removal_event_id": change.removal_event_id,
+        "addition_event_id": change.addition_event_id,
+    }
 
 
 @app.get("/audit/chain/verify")
