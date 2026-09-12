@@ -1,6 +1,8 @@
 # MVC-PREPROD-SPONSOR-DECISION-PACK-001
 
-**Status:** `RULED` — see the Ruling section. The proposal, options and
+**Status:** `RATIFIED` — `RATIFICATION-001.md`, `[SPONSOR]`, 12 September 2026.
+The Ruling section below records the instruction the implementation was carried
+out on; the ratification record carries the Sponsor's own statement verbatim. The proposal, options and
 recommendations below are preserved verbatim as the record of what was put to the
 Sponsor; nothing above the Ruling has been rewritten.
 **Date:** 2026-09-12 · **Base:** `77d921e` (PR #21 + #22 merged)
@@ -186,8 +188,13 @@ required no approval and did not wait for one.
 ## Ruling
 
 ```
-STATUS=RULED
+STATUS=RATIFIED
 RULING_DATE=2026-09-12
+RATIFIED_BY=[SPONSOR]  RATIFICATION_RECORD=RATIFICATION-001.md
+AUTHORIZES_LIVE_APPLY=NO
+AUTHORIZES_SECRET_CREATION=NO
+AUTHORIZES_CUTOVER=NO
+AUTHORIZES_IRREVERSIBLE_ACTION=NO
 ```
 
 ```
@@ -218,9 +225,18 @@ TENANT_REGISTRY_STATUS=REQUIRED_FOUNDATION
 
 ### Provenance — recorded precisely, because it matters
 
+> **SUPERSEDED 2026-09-12 by `RATIFICATION-001.md`.** The block below is the
+> record as it stood when the implementation was carried out, and it is left
+> unedited. The rulings have since been given in the Sponsor's own voice with a
+> `[SPONSOR]` tag; `RULING_ACTOR_TAG` is now `[SPONSOR]`, and PRE-1 and PRE-2 are
+> ratified rather than implemented-on-instruction.
+>
+> The original text is preserved because a provenance record that is rewritten
+> once the gap closes cannot later show that the gap existed.
+
 ```
 RULING_CHANNEL=direct instruction to the execution lane, 2026-09-12
-RULING_ACTOR_TAG=UNTAGGED
+RULING_ACTOR_TAG=UNTAGGED          [SUPERSEDED — see RATIFICATION-001.md]
 ```
 
 The rulings were given in the requester's own voice, in the session that
