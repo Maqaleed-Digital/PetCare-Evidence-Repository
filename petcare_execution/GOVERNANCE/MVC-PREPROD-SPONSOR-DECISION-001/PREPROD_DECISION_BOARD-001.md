@@ -14,10 +14,10 @@ invents an alternative.
 | # | Decision | State |
 |---|---|---|
 | 1 | PRE-1 / PRE-2 / pharmacy ratification | **RESOLVED** — `RATIFICATION-001.md`, `[SPONSOR]`, 12 Sep 2026 |
-| 2 | First production tenant | UNRESOLVED |
-| 3 | Tenant-assignment authority and control path | UNRESOLVED |
-| 4 | PRE-4 · session treatment at cutover | UNRESOLVED |
-| 5 | PRE-5 · engine variant | UNRESOLVED |
+| 2 | First production tenant | UNRESOLVED — **needs two Sponsor values; no lane may choose them** |
+| 3 | Tenant-assignment authority and control path | **PROPOSED** — `FINAL_PREPROD_POLICY-PROPOSED.md` |
+| 4 | PRE-4 · session treatment at cutover | **PROPOSED** — `FINAL_PREPROD_POLICY-PROPOSED.md` |
+| 5 | PRE-5 · engine variant | **PROPOSED** — `FINAL_PREPROD_POLICY-PROPOSED.md` |
 | 6 | GitHub Support `refs/pull/1–6` | `NOT_SENT` |
 
 ---
@@ -109,7 +109,18 @@ authorization check, `AUDIT_REPO.append_event` for the audit event,
 `is_assignable` for the tenant check. What does not exist is the decision about
 **who** may invoke it.
 
-### Why this is not settled here
+### A position is now proposed
+
+`FINAL_PREPROD_POLICY-PROPOSED.md` carries a drafted ruling answering Q3.1–Q3.5:
+`platform_admin` is the sole assign/change/revoke authority, may act across
+tenants, and the control path **must not create, modify or elevate a role** —
+`TENANT_ASSIGNMENT != ROLE_ASSIGNMENT`. Every change produces a durable audit
+event; no second-party approval for ordinary membership.
+
+It is PROPOSED, not ruled. The paragraph below still stands as the reason the
+question was put to the Sponsor rather than answered by a lane.
+
+### Why this was not settled by a lane
 
 `platform_admin` is the obvious holder, and that is exactly the reason to refuse
 to assume it. It is the only role with blanket route access, so binding tenant
