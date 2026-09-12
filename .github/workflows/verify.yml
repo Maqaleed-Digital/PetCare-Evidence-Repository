@@ -104,10 +104,16 @@ jobs:
       # summary line. This asserts the PostgreSQL controls actually RAN.
       #
       # The list is explicit and must be extended whenever a PostgreSQL suite is
-      # added. It already fell behind once: the W0-F identity-migration suite and
-      # the W0-G audit suite were both outside it while it kept passing — a guard
-      # blind to the code it was meant to cover, which is the same shape as the
+      # added. It has now fallen behind TWICE — the W0-F identity-migration and
+      # W0-G audit suites the first time, the tenant-registry and end-to-end
+      # identity suites the second — and on both occasions it kept passing. A
+      # guard blind to the code it exists to cover is the same shape as the
       # portability guard that was not scanning `scripts/`.
+      #
+      # Recorded rather than automated: deriving the list by globbing
+      # `*postgres*` would silently include a file nobody meant to gate on, and
+      # would stop being a decision. The cost of the explicit list is that it
+      # must be maintained; the cost of a derived one is that it cannot be read.
       - name: PostgreSQL controls must not be skipped
         run: |
           set -euo pipefail
@@ -115,6 +121,8 @@ jobs:
             petcare_api/tests/test_session_store_postgres_e2e.py \
             petcare_api/tests/test_identity_migration_postgres.py \
             petcare_api/tests/test_audit_persistence_postgres.py \
+            petcare_api/tests/test_tenant_registry.py \
+            petcare_api/tests/test_end_to_end_identity_postgres.py \
             -q --no-header -rs | tee /tmp/pg.txt
           grep -qE '[0-9]+ passed' /tmp/pg.txt
           if grep -qE '[0-9]+ skipped' /tmp/pg.txt; then

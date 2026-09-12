@@ -50,6 +50,28 @@ TENANT_ROWS_AFTER_REPLAY=0
 run by CI on this branch (`npm run typecheck`, `npm test`, `npm run e2e`) and
 were not re-run locally — node and Playwright are CI-provisioned here.
 
+## CI, observed on PR #25
+
+```
+Python estate   795 passed, 7 skipped   (= 802 collected, matching local)
+PostgreSQL step  82 passed, 0 skipped
+TypeScript       clean
+Web unit        120 passed (18 files)   — middleware.ts changed, so this is in scope
+Responsive       90 passed
+```
+
+### The non-skip guard fell behind AGAIN
+
+The `PostgreSQL controls must not be skipped` step named four suites; this lane
+added two more (`test_tenant_registry.py`, `test_end_to_end_identity_postgres.py`)
+and the step kept passing at 82 while 21 further PostgreSQL controls were outside
+it.
+
+That is the second time. The list is now six, and the step carries a note that it
+must be extended whenever a PostgreSQL suite is added — deliberately not derived
+by globbing, because a derived list stops being a decision and would silently
+include files nobody meant to gate on.
+
 ## Assertions
 
 ```
