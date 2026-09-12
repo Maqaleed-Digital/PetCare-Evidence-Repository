@@ -43,6 +43,30 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
+    # W0-F. The PostgreSQL integration suite is the only thing that proves the
+    # persistent adapter against the store it will actually run on, and a suite
+    # that silently skips reports green having evaluated nothing. The service
+    # below is what stops that: `PETCARE_TEST_PG_URL` points the fixtures at it,
+    # and without a reachable server the suite FAILS rather than skips.
+    #
+    # Ephemeral by construction — a container that exists for the job only. No
+    # credential is configured here beyond the throwaway one the service needs,
+    # and it is not a secret: it reaches nothing outside this runner.
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: petcare_ci
+          POSTGRES_PASSWORD: petcare_ci_ephemeral_not_a_deployed_secret
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
     steps:
       # Full history is load-bearing, not a convenience. The governance
       # registers cite commits by sha — the EP-07 seal, every PORT closing
@@ -71,6 +95,26 @@ jobs:
       # no PYTHONPATH from the environment.
       - name: Python estate — tests, governance registers, authority resolver
         run: python -m pytest tests petcare_runtime/tests petcare_api/tests -q
+        env:
+          # The ephemeral service above. Without this the fixtures would try to
+          # start a local cluster, which the runner image cannot do.
+          PETCARE_TEST_PG_URL: postgresql://petcare_ci:petcare_ci_ephemeral_not_a_deployed_secret@127.0.0.1:5432/postgres
+
+      # A skipped integration suite and a passing one are indistinguishable in a
+      # summary line. This asserts the W0-F PostgreSQL controls actually RAN.
+      - name: W0-F PostgreSQL controls must not be skipped
+        run: |
+          set -euo pipefail
+          python -m pytest petcare_api/tests/test_postgres_integration.py \
+            petcare_api/tests/test_session_store_postgres_e2e.py \
+            -q --no-header -rs | tee /tmp/pg.txt
+          grep -qE '[0-9]+ passed' /tmp/pg.txt
+          if grep -qE '[0-9]+ skipped' /tmp/pg.txt; then
+            echo "PostgreSQL controls were skipped; that is a failure." >&2
+            exit 1
+          fi
+        env:
+          PETCARE_TEST_PG_URL: postgresql://petcare_ci:petcare_ci_ephemeral_not_a_deployed_secret@127.0.0.1:5432/postgres
 
       - name: Set up Node
         uses: actions/setup-node@v4

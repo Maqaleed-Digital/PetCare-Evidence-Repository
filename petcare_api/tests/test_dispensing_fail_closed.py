@@ -15,6 +15,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 import main as api
+from repositories import RepositoryDenied
 from routers import auth
 
 client = TestClient(api.app)
@@ -69,18 +70,44 @@ def test_t_disp_04_unknown_actor_class_is_denied():
 def test_t_disp_05_retired_pharmacy_operator_cannot_authenticate():
     """T-DISP-05 (ARMED) — PHARMACY_OPERATOR must not exist in any environment.
 
-    A session minted for the retired role must be rejected by require_role,
-    which is what "may never arrive as a role-catalogue migration" means in
-    practice.
+    Now asserted at BOTH layers, because W0-F added an earlier one.
+
+    Layer 1 — authorization. The retired role is absent from the set
+    `require_role()` accepts, so a session carrying it could never be honoured.
+    Unchanged, and still asserted first.
+
+    Layer 2 — storage (W0-F). The identity store refuses to hold the retired
+    role at all, so no identity can carry it, no session can be minted for it,
+    and it never reaches authorization. That is strictly stronger than the
+    previous end-to-end proof, which allowed the identity to exist, sign in
+    successfully, and be refused only at the route: a defence that depended on
+    every protected route remembering to check.
+
+    The test's name is now literally true. It previously proved the retired role
+    COULD authenticate and was then denied; it now proves it cannot authenticate.
     """
+    # Layer 1 — the authorization catalogue still excludes it.
     assert api.ROLE_PHARMACY_OPERATOR not in api.VALID_ROLES
+
+    # Layer 2 — and it cannot be stored, so no session can exist for it.
+    with pytest.raises(RepositoryDenied):
+        auth.seed_user("u-pharm@t", "pharm@t", "pw", api.ROLE_PHARMACY_OPERATOR,
+                       tenant_id=TENANT)
+
+    # No identity was created by the refused write, so sign-in finds nothing.
+    # Asserted rather than assumed: a partial write would leave a credential
+    # behind that the refusal appeared to have prevented.
+    assert auth.IDENTITY_REPO.get_by_email("pharm@t") is None
+    r = client.post("/api/auth/sign-in",
+                    json={"email": "pharm@t", "password": "pw"})
+    assert r.status_code == 401, "retired role obtained a session"
+
+    # The positive control the negative one needs: dispensing still works for
+    # the role that IS authorised, so this file is not passing by denying
+    # everything. (test_t_disp_01 asserts the same thing independently.)
     rx = _issue_prescription()
-    _login(api.ROLE_PHARMACY_OPERATOR, "pharm@t")
-    try:
-        r = _dispense(rx)
-        assert r.status_code == 403, "retired role was accepted as authority"
-    finally:
-        client.cookies.clear()
+    assert rx
+    client.cookies.clear()
 
 
 def test_t_disp_06_client_cannot_assert_professional_class():

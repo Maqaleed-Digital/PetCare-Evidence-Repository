@@ -9,16 +9,37 @@ from fastapi.responses import JSONResponse
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from pydantic import BaseModel
 
-from session_store import InMemorySessionStore
+from persistence import build_persistence
+from repositories import (
+    InviteCode,
+    PROVENANCE_REGISTRATION,
+    PROVENANCE_SEED,
+    RepositoryDenied,
+    UserIdentity,
+)
+from secret_provider import (
+    SecretUnavailable,
+    resolve_session_signing_key,
+    session_secret_id,
+)
 
 log = logging.getLogger("petcare.api.auth")
 
 router = APIRouter(prefix="/api/auth", tags=["auth"])
 
+#: W0-F. The serving layer's persistence, chosen explicitly by
+#: PETCARE_PERSISTENCE_MODE and built at import so that a process configured for
+#: a store it cannot reach does not start. See persistence.py: there is no
+#: fallback from `postgres` to `memory`, because a fallback would leave
+#: revocation silently broken across instances while every health check passed.
+PERSISTENCE = build_persistence()
+
 #: W0-F AC-7. The authoritative record of which sessions are still live.
-#: In-memory for now; the production implementation is a table in the store named
-#: by MVC-W0F-DATA-STORE-DECISION-001, and applying it is GATE_LIVE_APPLY.
-SESSION_STORE = InMemorySessionStore()
+SESSION_STORE = PERSISTENCE.session_store
+
+#: W0-F item 4. Identity and invite codes, behind the same boundary.
+IDENTITY_REPO = PERSISTENCE.identities
+INVITE_REPO = PERSISTENCE.invites
 
 #: SHA-256 of every session signing key that is permanently forbidden.
 #:
@@ -61,14 +82,30 @@ def _require_secret_key() -> str:
     W0-A2: rejection is by SHA-256 fingerprint, so the forbidden value appears
     nowhere in this file. Behaviour is unchanged — unset, blank and retired keys
     are each refused, every other value is accepted.
+
+    W0-F: the key now arrives through the governed provider abstraction rather
+    than from `os.getenv` here. MVC-W0F-SECRET-SOURCE-DECISION-001 requires that
+    application code never reads a secret at the point of use, so that production
+    reads it from Secrets Manager without this function changing. Under
+    `PETCARE_SECRET_MODE=environment` the identifier names an environment
+    variable and the behaviour is byte-for-byte what it was; under
+    `aws_secrets_manager` the same call reaches the governed store. Neither mode
+    has a fallback, and the retired-key check below is unchanged and still runs
+    last, so a key obtained from ANY source is still refused if it is retired.
     """
-    key = os.getenv("SECRET_KEY")
-    if not key or not key.strip():
+    try:
+        key = resolve_session_signing_key()
+    except SecretUnavailable as exc:
+        # The message NAMES the configured identifier and keeps W0-A's wording.
+        # T-SEC-01 matches on "<id> is not set", and in environment mode the
+        # identifier is SECRET_KEY — so the existing control still binds to this
+        # function unchanged rather than being rewritten to match new prose.
         raise RuntimeError(
-            "SECRET_KEY is not set. Refusing to start: a session signing key "
-            "must come from governed secret storage and has no safe default. "
-            "See W0-A."
-        )
+            f"{session_secret_id()} is not set or could not be obtained from "
+            f"governed secret storage ({exc}). Refusing to start: a session "
+            "signing key must come from governed secret storage and has no safe "
+            "default. See W0-A and MVC-W0F-SECRET-SOURCE-DECISION-001."
+        ) from None
     # The same normalisation the equality check used, so the guard rejects
     # exactly the values it rejected before.
     if hashlib.sha256(key.strip().encode()).hexdigest() in RETIRED_KEY_FINGERPRINTS:
@@ -170,42 +207,59 @@ def _verify_password(password: str, stored: str) -> tuple[bool, bool]:
 
 
 # ---------------------------------------------------------------------------
-# In-memory user + invite-code store (pilot phase — DB wiring deferred)
+# Identity and invite codes — through the repository boundary
 # ---------------------------------------------------------------------------
-_users: dict[str, dict] = {}
-_invite_codes: dict[str, dict] = {}
+#
+# W0-F. These were module-level dicts. A dict read as persistence is a store
+# with no constraints: it cannot refuse a role outside the catalogue, cannot
+# refuse a blank tenant, and cannot make a duplicate email unrepresentable.
+# Migration 0031 enforces all three structurally, and `repositories.py` performs
+# the same refusals in memory mode so the suite proves the stronger behaviour
+# rather than the weaker one.
+#
+# No SQL appears in this module and none should: the router depends on the
+# protocol, which is what makes the store a configuration choice.
 
 
 def seed_user(user_id: str, email: str, password: str, role: str,
               full_name: str | None = None, tenant_id: str | None = None):
-    """Add a user to the in-memory store. Called at startup.
+    """Add a user to the configured identity store. Called at startup.
 
     W0-C: tenant_id is an attribute of the IDENTITY, established server-side.
     Before this change no tenant existed server-side at all - not on the user,
     not in the session - so there was nothing to authorize a request's tenant
-    against, and every route simply trusted `body.tenant_id`. Persisting this
-    per-user assignment is completed by W0-F.
+    against, and every route simply trusted `body.tenant_id`. W0-F completes it
+    by persisting the assignment.
+
+    Seeding is an upsert keyed on `user_id`, so a restart re-establishes the
+    pilot identities without duplicating them and without rebinding an existing
+    id to a different address.
     """
-    _users[email] = {
-        "id": user_id,
-        "email": email,
-        "password_hash": _hash_password(password),
-        "role": role,
-        "full_name": full_name or email,
-        "tenant_id": tenant_id,
-    }
+    IDENTITY_REPO.upsert(UserIdentity(
+        user_id=user_id,
+        email=email,
+        password_hash=_hash_password(password),
+        role=role,
+        full_name=full_name or email,
+        tenant_id=tenant_id,
+        provenance=PROVENANCE_SEED,
+    ))
 
 
 def seed_invite_code(code: str, allowed_role: str,
                      expires_at: datetime | None = None):
-    """Seed an invite code in the in-memory store. Called at startup."""
-    _invite_codes[code] = {
-        "code": code,
-        "allowed_role": allowed_role,
-        "expires_at": expires_at,
-        "used_at": None,
-        "assigned_email": None,
-    }
+    """Seed an invite code. Called at startup.
+
+    Seeding deliberately does NOT reset consumption. Re-seeding at every process
+    start is precisely when a consumed pilot code would be handed back, and the
+    restart that did it would look like ordinary lifecycle rather than an
+    authorization defect. See PostgresInviteCodeRepository.upsert.
+    """
+    INVITE_REPO.upsert(InviteCode(
+        code=code,
+        allowed_role=allowed_role,
+        expires_at=expires_at,
+    ))
 
 
 def _audit(event_name: str, detail: dict):
@@ -231,22 +285,23 @@ class RegisterRequest(BaseModel):
 # ── POST /api/auth/sign-in ────────────────────────────────────────
 @router.post("/sign-in")
 async def sign_in(body: SignInRequest):
-    user = _users.get(body.email)
+    user = IDENTITY_REPO.get_by_email(body.email)
     if not user:
         _audit("auth.sign_in_failed",
                {"email": body.email, "reason": "user_not_found"})
         raise HTTPException(status_code=401,
                             detail={"error": "INVALID_CREDENTIALS"})
 
-    stored = user["password_hash"]
-    password_ok = False
-
-    password_ok, needs_rehash = _verify_password(body.password, stored)
+    password_ok, needs_rehash = _verify_password(body.password, user.password_hash)
 
     # W0-J: rehash-on-next-login. A credential stored in a legacy format is
     # upgraded here, at the one moment the plaintext is legitimately available.
+    # W0-F: written THROUGH the repository, so the upgrade survives the process.
+    # While identity lived in a dict the rehash was lost at the next restart and
+    # the legacy hash came back, so the migration never actually completed for
+    # anyone — it only appeared to, for the lifetime of one process.
     if password_ok and needs_rehash:
-        user["password_hash"] = _hash_password(body.password)
+        IDENTITY_REPO.set_password_hash(user.user_id, _hash_password(body.password))
 
     if not password_ok:
         _audit("auth.sign_in_failed",
@@ -254,22 +309,30 @@ async def sign_in(body: SignInRequest):
         raise HTTPException(status_code=401,
                             detail={"error": "INVALID_CREDENTIALS"})
 
-    role = user["role"]
-    user_id = user["id"]
-    name = user["full_name"]
+    # A disabled identity holds no session. Checked AFTER the password so the
+    # response cannot be used to enumerate which addresses are disabled.
+    if not user.is_active:
+        _audit("auth.sign_in_failed",
+               {"email": body.email, "reason": "identity_disabled"})
+        raise HTTPException(status_code=401,
+                            detail={"error": "INVALID_CREDENTIALS"})
+
+    role = user.role
+    user_id = user.user_id
+    name = user.full_name
 
     # W0-F AC-7: the session becomes a server-side record BEFORE the cookie is
     # minted, and the cookie carries only its id. A cookie whose id is not in the
     # store is not a session, however well signed it is.
     record = SESSION_STORE.create(
         user_id=user_id,
-        tenant_id=user.get("tenant_id"),
+        tenant_id=user.tenant_id,
         role=role,
         ttl_seconds=COOKIE_MAX_AGE,
     )
     token = _serializer().dumps(
         {"user_id": user_id, "email": body.email, "role": role,
-         "tenant_id": user.get("tenant_id"), "sid": record.session_id}
+         "tenant_id": user.tenant_id, "sid": record.session_id}
     )
 
     _audit("auth.sign_in_success",
@@ -303,8 +366,8 @@ async def register(body: RegisterRequest):
     On success the user is authenticated (session + role cookies set)
     so the frontend can route directly to the role portal.
     """
-    invite = _invite_codes.get(body.invite_code)
-    if not invite or invite["used_at"] is not None:
+    invite = INVITE_REPO.get(body.invite_code)
+    if invite is None or invite.is_consumed():
         _audit("auth.register_failed",
                {"reason": "invite_invalid_or_used",
                 "invite_code": body.invite_code})
@@ -312,44 +375,89 @@ async def register(body: RegisterRequest):
                             detail={"error": "INVALID_INVITE"})
 
     now = datetime.now(timezone.utc)
-    if invite["expires_at"] is not None and invite["expires_at"] <= now:
+    if invite.is_expired_at(now):
         _audit("auth.register_failed",
                {"reason": "invite_expired",
                 "invite_code": body.invite_code})
         raise HTTPException(status_code=400,
                             detail={"error": "INVITE_EXPIRED"})
 
-    if invite["allowed_role"] != body.role:
+    if invite.allowed_role != body.role:
         _audit("auth.register_failed",
                {"reason": "role_mismatch",
-                "invite_role": invite["allowed_role"],
+                "invite_role": invite.allowed_role,
                 "requested_role": body.role})
         raise HTTPException(status_code=400,
                             detail={"error": "ROLE_MISMATCH"})
 
-    if body.email in _users:
+    # Checked before the code is spent, so a registration that was never going
+    # to succeed does not burn somebody else's invite.
+    if IDENTITY_REPO.get_by_email(body.email) is not None:
         _audit("auth.register_failed",
                {"reason": "email_exists", "email": body.email})
         raise HTTPException(status_code=409,
                             detail={"error": "EMAIL_EXISTS"})
 
+    # W0-F. Consumption happens HERE, as one conditional write, and BEFORE the
+    # identity is created. The ordering is deliberate and it is the fail-closed
+    # one: two simultaneous registrations against the same code both pass the
+    # read above, and only one of them can win this write. Creating the identity
+    # first and marking the code afterwards would admit both.
+    #
+    # The residual cost is that a code can be spent by a registration that then
+    # fails on the UNIQUE email constraint. That direction denies rather than
+    # permits, which is the direction to fail in.
+    if not INVITE_REPO.consume(body.invite_code, email=body.email, at=now):
+        _audit("auth.register_failed",
+               {"reason": "invite_invalid_or_used",
+                "invite_code": body.invite_code})
+        raise HTTPException(status_code=400,
+                            detail={"error": "INVALID_INVITE"})
+
     user_id = f"u-{uuid4().hex[:12]}"
-    _users[body.email] = {
-        "id": user_id,
-        "email": body.email,
-        "password_hash": _hash_password(body.password),
-        "role": body.role,
-        "full_name": body.name,
-    }
-    invite["used_at"] = now
-    invite["assigned_email"] = body.email
+    try:
+        IDENTITY_REPO.create(UserIdentity(
+            user_id=user_id,
+            email=body.email,
+            password_hash=_hash_password(body.password),
+            role=body.role,
+            full_name=body.name,
+            # No tenant. Registration establishes an identity, never its tenant
+            # authority: W0-C makes tenant a server-side assignment, and a value
+            # taken from a registration form would be caller-supplied authority.
+            # The identity fails closed at require_tenant() until assigned.
+            tenant_id=None,
+            provenance=PROVENANCE_REGISTRATION,
+        ))
+    except RepositoryDenied:
+        _audit("auth.register_failed",
+               {"reason": "email_exists", "email": body.email})
+        raise HTTPException(status_code=409,
+                            detail={"error": "EMAIL_EXISTS"})
 
     _audit("auth.user_registered",
            {"user_id": user_id, "email": body.email, "role": body.role,
             "invite_code": body.invite_code})
 
+    # W0-F AC-7. Registration mints a cookie, so registration must create the
+    # session record too.
+    #
+    # It did not, and the consequence was live: the cookie carried no `sid`, and
+    # `read_session` refuses a session id it cannot find with
+    # SESSION_NOT_ESTABLISHED. Every protected route therefore returned 401 to a
+    # user who had just registered successfully and been handed cookies — while
+    # /api/auth/me, which parses the cookie itself rather than going through
+    # read_session, answered 200. A registered user appeared signed in and could
+    # do nothing.
+    record = SESSION_STORE.create(
+        user_id=user_id,
+        tenant_id=None,
+        role=body.role,
+        ttl_seconds=COOKIE_MAX_AGE,
+    )
     token = _serializer().dumps(
-        {"user_id": user_id, "email": body.email, "role": body.role}
+        {"user_id": user_id, "email": body.email, "role": body.role,
+         "tenant_id": None, "sid": record.session_id}
     )
 
     resp = JSONResponse(status_code=201, content={
@@ -458,7 +566,7 @@ async def me(request: Request):
         raise HTTPException(status_code=401,
                             detail={"error": "INVALID_SESSION"})
 
-    user = _users.get(payload["email"])
+    user = IDENTITY_REPO.get_by_email(payload["email"])
     if not user:
         raise HTTPException(status_code=401,
                             detail={"error": "USER_NOT_FOUND"})
@@ -469,7 +577,7 @@ async def me(request: Request):
     return {
         "user_id": payload["user_id"],
         "email": payload["email"],
-        "full_name": user["full_name"],
+        "full_name": user.full_name,
         "role": payload["role"],
     }
 
