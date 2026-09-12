@@ -262,9 +262,33 @@ def seed_invite_code(code: str, allowed_role: str,
     ))
 
 
-def _audit(event_name: str, detail: dict):
-    """Lightweight audit log — matches main.py pattern."""
-    log.info("AUDIT %s %s", event_name, detail)
+def _log_auth_event(event_name: str, detail: dict):
+    """A LOG LINE. Not the governed audit chain, and deliberately named so.
+
+    This was called `_audit`, which is also the name of the governed,
+    chain-linked, now-persisted audit writer in `main.py`. Two functions with the
+    same name, one authoritative and one not, is how a reviewer comes to believe
+    authentication events are in the audit log. They are not: nothing written
+    here is hashed, linked, persisted, or verifiable.
+
+    ## Why authentication events are NOT routed into the chain
+
+    Not an oversight, and not deferred work — a governed record requires a
+    tenant, and `audit_event.tenant_id` is `NOT NULL`. The events written here
+    are mostly PRE-authentication: a failed sign-in has no authenticated actor,
+    no established tenant, and frequently no existing identity at all.
+
+    Routing them into the chain would therefore require inventing a tenant for
+    them, and a default tenant is exactly what W0-C removed and what the audit
+    probe's own hardening refuses to reintroduce. `UNATTRIBUTED` exists for the
+    UI probe because that surface has a governed decision behind it; extending it
+    to authentication would be making the same decision by implementation.
+
+    Recorded as an open gap rather than closed by guessing:
+    `AUTH_EVENTS_OUTSIDE_AUDIT_CHAIN` — see the W0-G evidence bundle. Closing it
+    needs a governed answer on how a tenantless security event is recorded.
+    """
+    log.info("AUTH_EVENT %s %s", event_name, detail)
 
 
 # ---------------------------------------------------------------------------
@@ -287,7 +311,7 @@ class RegisterRequest(BaseModel):
 async def sign_in(body: SignInRequest):
     user = IDENTITY_REPO.get_by_email(body.email)
     if not user:
-        _audit("auth.sign_in_failed",
+        _log_auth_event("auth.sign_in_failed",
                {"email": body.email, "reason": "user_not_found"})
         raise HTTPException(status_code=401,
                             detail={"error": "INVALID_CREDENTIALS"})
@@ -304,7 +328,7 @@ async def sign_in(body: SignInRequest):
         IDENTITY_REPO.set_password_hash(user.user_id, _hash_password(body.password))
 
     if not password_ok:
-        _audit("auth.sign_in_failed",
+        _log_auth_event("auth.sign_in_failed",
                {"email": body.email, "reason": "bad_password"})
         raise HTTPException(status_code=401,
                             detail={"error": "INVALID_CREDENTIALS"})
@@ -312,7 +336,7 @@ async def sign_in(body: SignInRequest):
     # A disabled identity holds no session. Checked AFTER the password so the
     # response cannot be used to enumerate which addresses are disabled.
     if not user.is_active:
-        _audit("auth.sign_in_failed",
+        _log_auth_event("auth.sign_in_failed",
                {"email": body.email, "reason": "identity_disabled"})
         raise HTTPException(status_code=401,
                             detail={"error": "INVALID_CREDENTIALS"})
@@ -335,7 +359,7 @@ async def sign_in(body: SignInRequest):
          "tenant_id": user.tenant_id, "sid": record.session_id}
     )
 
-    _audit("auth.sign_in_success",
+    _log_auth_event("auth.sign_in_success",
            {"user_id": user_id, "email": body.email, "role": role})
 
     resp = JSONResponse(content={
@@ -368,7 +392,7 @@ async def register(body: RegisterRequest):
     """
     invite = INVITE_REPO.get(body.invite_code)
     if invite is None or invite.is_consumed():
-        _audit("auth.register_failed",
+        _log_auth_event("auth.register_failed",
                {"reason": "invite_invalid_or_used",
                 "invite_code": body.invite_code})
         raise HTTPException(status_code=400,
@@ -376,14 +400,14 @@ async def register(body: RegisterRequest):
 
     now = datetime.now(timezone.utc)
     if invite.is_expired_at(now):
-        _audit("auth.register_failed",
+        _log_auth_event("auth.register_failed",
                {"reason": "invite_expired",
                 "invite_code": body.invite_code})
         raise HTTPException(status_code=400,
                             detail={"error": "INVITE_EXPIRED"})
 
     if invite.allowed_role != body.role:
-        _audit("auth.register_failed",
+        _log_auth_event("auth.register_failed",
                {"reason": "role_mismatch",
                 "invite_role": invite.allowed_role,
                 "requested_role": body.role})
@@ -393,7 +417,7 @@ async def register(body: RegisterRequest):
     # Checked before the code is spent, so a registration that was never going
     # to succeed does not burn somebody else's invite.
     if IDENTITY_REPO.get_by_email(body.email) is not None:
-        _audit("auth.register_failed",
+        _log_auth_event("auth.register_failed",
                {"reason": "email_exists", "email": body.email})
         raise HTTPException(status_code=409,
                             detail={"error": "EMAIL_EXISTS"})
@@ -408,7 +432,7 @@ async def register(body: RegisterRequest):
     # fails on the UNIQUE email constraint. That direction denies rather than
     # permits, which is the direction to fail in.
     if not INVITE_REPO.consume(body.invite_code, email=body.email, at=now):
-        _audit("auth.register_failed",
+        _log_auth_event("auth.register_failed",
                {"reason": "invite_invalid_or_used",
                 "invite_code": body.invite_code})
         raise HTTPException(status_code=400,
@@ -430,12 +454,12 @@ async def register(body: RegisterRequest):
             provenance=PROVENANCE_REGISTRATION,
         ))
     except RepositoryDenied:
-        _audit("auth.register_failed",
+        _log_auth_event("auth.register_failed",
                {"reason": "email_exists", "email": body.email})
         raise HTTPException(status_code=409,
                             detail={"error": "EMAIL_EXISTS"})
 
-    _audit("auth.user_registered",
+    _log_auth_event("auth.user_registered",
            {"user_id": user_id, "email": body.email, "role": body.role,
             "invite_code": body.invite_code})
 
@@ -571,7 +595,7 @@ async def me(request: Request):
         raise HTTPException(status_code=401,
                             detail={"error": "USER_NOT_FOUND"})
 
-    _audit("auth.me_called",
+    _log_auth_event("auth.me_called",
            {"user_id": payload["user_id"], "role": payload["role"]})
 
     return {
@@ -594,7 +618,7 @@ async def sign_out(request: Request):
         except Exception:
             pass
 
-    _audit("auth.sign_out", {"user_id": user_id})
+    _log_auth_event("auth.sign_out", {"user_id": user_id})
 
     resp = JSONResponse(content={"signed_out": True})
     resp.delete_cookie(COOKIE_NAME_SESSION)

@@ -7,9 +7,16 @@ work, not new cryptography — the algorithm is REUSED unmodified.
 T-CHAIN-01..03 are ARMED negative controls: each asserts that a specific
 corruption is DETECTED. A chain that cannot fail these tests is decorative.
 
-The chain proves TAMPER-EVIDENCE, not durability. The store is still an
-in-memory list; persistence is W0-F and is Sponsor-gated. T-CHAIN-04 asserts the
-service reports that distinction rather than blurring it.
+The chain proves TAMPER-EVIDENCE. Durability is a SEPARATE property, and W0-G's
+discipline is that the service must not blur them — T-CHAIN-05 asserts it reports
+both, and reports each correctly for the store it is actually configured with.
+
+These controls run against the in-memory repository, which is the non-production
+implementation. They reach into its `_events` list to simulate tampering, which
+is the point: a tamper control that could not modify storage would be testing
+nothing. The equivalent tampering against PostgreSQL — an `UPDATE` on a stored
+row — is asserted in `test_audit_persistence_postgres.py`, and both must detect
+it, because the semantics are meant to be identical across the two stores.
 """
 import pytest
 from fastapi.testclient import TestClient
@@ -34,11 +41,18 @@ def _emit(name: str = "e") -> dict:
 
 @pytest.fixture
 def clean_log():
-    saved = list(api._audit_log)
-    api._audit_log.clear()
+    """Isolate the chain for one test, then put it back exactly.
+
+    `AUDIT_REPO._events` is the in-memory repository's storage. Reaching into it
+    is deliberate and is what makes the negative controls below real corruptions
+    rather than simulated ones.
+    """
+    events = api.AUDIT_REPO._events
+    saved = list(events)
+    events.clear()
     yield
-    api._audit_log.clear()
-    api._audit_log.extend(saved)
+    events.clear()
+    events.extend(saved)
 
 
 def test_chain_links_every_event(clean_log):
@@ -47,8 +61,8 @@ def test_chain_links_every_event(clean_log):
     _emit("two")
     _emit("three")
 
-    assert api._audit_log[0]["prev_hash"] == api.AUDIT_CHAIN_GENESIS
-    for prev, cur in zip(api._audit_log, api._audit_log[1:]):
+    assert api.AUDIT_REPO._events[0]["prev_hash"] == api.AUDIT_CHAIN_GENESIS
+    for prev, cur in zip(api.AUDIT_REPO._events, api.AUDIT_REPO._events[1:]):
         assert cur["prev_hash"] == prev["event_hash"], "chain is not linked"
 
     result = api.verify_audit_chain()
@@ -68,7 +82,7 @@ def test_t_chain_01_tampering_a_historical_row_is_detected(clean_log):
     _emit("three")
     assert api.verify_audit_chain()["ok"] is True
 
-    api._audit_log[1]["action_result"] = "denied"   # the tamper
+    api.AUDIT_REPO._events[1]["action_result"] = "denied"   # the tamper
 
     result = api.verify_audit_chain()
     assert result["ok"] is False, "tampering a historical row went undetected"
@@ -88,7 +102,7 @@ def test_t_chain_02_deleting_a_row_is_detected_as_a_gap(clean_log):
     _emit("three")
     assert api.verify_audit_chain()["ok"] is True
 
-    del api._audit_log[1]                            # the gap
+    del api.AUDIT_REPO._events[1]                            # the gap
 
     result = api.verify_audit_chain()
     assert result["ok"] is False, "a deleted row left no trace"
@@ -104,12 +118,12 @@ def test_t_chain_03_a_fork_fails_closed(clean_log):
     """
     _emit("one")
     _emit("two")
-    forked = dict(api._audit_log[-1])
+    forked = dict(api.AUDIT_REPO._events[-1])
     assert api.verify_audit_chain()["ok"] is True
 
     # A sibling claiming the SAME parent as the event before it: two events at
     # the same chain position.
-    api._audit_log.append(
+    api.AUDIT_REPO._events.append(
         {**forked, "audit_event_id": "forked", "event_name": "two-prime"}
     )
 
@@ -124,25 +138,41 @@ def test_t_chain_04_a_break_is_reported_never_repaired(clean_log):
     that the log was ever broken — the one thing the chain exists to preserve."""
     _emit("one")
     _emit("two")
-    api._audit_log[0]["actor_id"] = "someone-else"
+    api.AUDIT_REPO._events[0]["actor_id"] = "someone-else"
 
-    before = [dict(e) for e in api._audit_log]
+    before = [dict(e) for e in api.AUDIT_REPO._events]
     assert api.verify_audit_chain()["ok"] is False
     # Verifying twice must not mutate the log back into a valid state.
     assert api.verify_audit_chain()["ok"] is False
-    assert [dict(e) for e in api._audit_log] == before, "verification mutated the log"
+    assert [dict(e) for e in api.AUDIT_REPO._events] == before, "verification mutated the log"
 
 
-def test_t_chain_05_chain_is_computed_but_not_persisted(clean_log):
-    """W0-G computes the chain; it does not make the store durable.
+def test_t_chain_05_activity_and_durability_are_reported_separately(clean_log):
+    """W0-G's distinction, now that persistence exists.
 
-    Reported as two fields so `audit_chain_active` cannot be read as a
-    persistence claim. Durability is W0-F, which is Sponsor-gated.
+    Previously this asserted `audit_chain_persisted is False` — true of the
+    in-memory list and a characterisation of the gap, not of the requirement.
+    The requirement is that the two properties are reported SEPARATELY and each
+    reports the store actually in use.
+
+    So the control is now stronger: durability is asserted to AGREE with the
+    configured repository rather than to hold a fixed value. Pinning it to False
+    would make the suite fail the moment the service was correctly configured for
+    a durable store — and pinning it to True would let an in-memory deployment
+    claim durability it does not have.
     """
     _emit("one")
     body = client.get("/api/governance/status").json()
 
     assert body["audit_chain_active"] is True
     assert body["audit_chain_verification"] == "VERIFIED"
+
+    # The two fields are distinct, and durability tracks the store.
+    assert body["audit_chain_persisted"] is api.AUDIT_REPO.durable
+    if api.AUDIT_REPO.durable:
+        assert "DURABLE" in body["audit_chain_durability"]
+    else:
+        assert "not durable" in body["audit_chain_durability"]
+
+    # This suite runs in memory mode, so the gap is still what is reported here.
     assert body["audit_chain_persisted"] is False
-    assert "not durable" in body["audit_chain_durability"]

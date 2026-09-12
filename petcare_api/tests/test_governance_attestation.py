@@ -76,17 +76,17 @@ def test_t_gov_03_unevaluable_fields_are_reported_not_asserted():
 
 def test_t_gov_04_chain_active_requires_persisted_hashes():
     """A chain is only 'active' if every event carries prev_hash and event_hash."""
-    saved = list(api._audit_log)
+    saved = list(api.AUDIT_REPO._events)
     try:
-        api._audit_log.clear()
+        api.AUDIT_REPO._events.clear()
         assert api._audit_chain_active() is False, "empty log is not an active chain"
 
-        api._audit_log.append({"event_name": "x"})
+        api.AUDIT_REPO._events.append({"event_name": "x"})
         assert api._audit_chain_active() is False, "unhashed event is not a chain"
 
-        api._audit_log.clear()
-        api._audit_log.append({"event_name": "x", "prev_hash": "a", "event_hash": "b"})
+        api.AUDIT_REPO._events.clear()
+        api.AUDIT_REPO._events.append({"event_name": "x", "prev_hash": "a", "event_hash": "b"})
         assert api._audit_chain_active() is True, "hashed event should verify"
     finally:
-        api._audit_log.clear()
-        api._audit_log.extend(saved)
+        api.AUDIT_REPO._events.clear()
+        api.AUDIT_REPO._events.extend(saved)
