@@ -11,8 +11,9 @@ RULE_13 · RULE_14 · RULE_15 · RULE_16 · RULE_17 · RULE_18 · RULE_19
 
 ```
 START_HEAD=6bc2f9e3638a4c3cc1e15c507ad27f68bc5c271e
-PR29=wave0/tenant-membership-service
-END_HEAD=<PR #29 merge commit>
+PR29_STATUS=MERGED  PR29_SHA=0e3da91c9b4e32b1ee5980c6ce7ad48fed9d56f1
+END_HEAD=0e3da91c9b4e32b1ee5980c6ce7ad48fed9d56f1
+HARNESSONLY_MERGE_DENIAL=NO
 ```
 
 ## Authority
