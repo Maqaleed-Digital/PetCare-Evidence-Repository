@@ -155,23 +155,61 @@ PRODUCTION_IDENTITY_CREATED=NO
 
 ## Rule adjudication at this base
 
+> **Amended 2026-09-13** against
+> `../MVC-EXECUTION-RULES/EXECUTION_RULES_REGISTER-001.md`. Rules 18–24 were
+> ratified by `[SPONSOR]` on 13 September 2026 and are now governed; the
+> previous `UNDERIVED` finding for Rules 20–22 is superseded. `EVIDENCE_BASE_SHA`
+> and `PLAN_SHA256` are unchanged, so this is an in-place amendment and **not**
+> a reissue.
+
+Governed rules — ratified, and adjudicated as authority:
+
 ```
-RULE_13=GREEN_CI_NECESSARY_NOT_SUFFICIENT              SATISFIED
-RULE_14=LIVE_REGISTER_OUTRANKS_NARRATIVE               SATISFIED
-RULE_15=WRITE_AUTHORITY_PRECEDES_INTEGRITY_CHAIN       SATISFIED
-RULE_16=CONTROL_DELIVERED_ONLY_WHEN_GOVERNED_PATH_REACHES_IT  SATISFIED
-RULE_17=PERTURBATION_PROVEN_APPLIED_BEFORE_ADJUDICATION SATISFIED
-RULE_18=RESIDUE_REMEASURED_FROM_LIVE_SOURCE            SATISFIED
-RULE_19=NO_FALSE_TAMPER_FINDING_UNDER_CORRECT_OPERATION SATISFIED
-RULE_20 · RULE_21 · RULE_22                            UNDERIVED
+RULE_18=LIVE_RESIDUE_REMEASUREMENT                     SATISFIED
+RULE_19=FALSE_POSITIVE_INTEGRITY_CONTROLS              SATISFIED
+RULE_20=SPONSOR_AUTHORITY                              SATISFIED
+RULE_21=ABSENCE_OVER_VALIDATION                        SATISFIED
+RULE_22=REPEATED_PROCESS_FAILURE_BECOMES_A_CONTROL     SATISFIED
+RULE_23=GENESIS_CASE                                   SATISFIED
+RULE_24=LAYERED_DEFENCE_PERTURBATION                   SATISFIED
 ```
 
-`RULE_20`, `RULE_21` and `RULE_22` are cited by label in earlier receipts, but
-**no definition of them exists anywhere in this repository**. They are reported
-as `UNDERIVED` rather than adjudicated: a rule whose text cannot be read cannot
-be applied, and inventing the text would be the defect the rules exist to
-prevent. `RULE_20` is invoked at the top of this document ("only a Sponsor act
-ratifies") on the strength of that established usage, not of a definition.
+* **18** — residue re-measured from live source at this base, not carried from
+  `-001`: migration count 40, tenant rows 0, `PILOT_INVITE_CODES` 2.
+* **19** — the genesis act leaves `verify_chain()` reporting `ok`, so ordinary
+  operation produces no false tamper finding.
+* **20** — this request is `REQUESTED / NOT GRANTED`; its decision line is
+  blank and no agent has signed it.
+* **21** — the genesis procedure has **no** role parameter. The capability is
+  absent rather than validated; the post-write count invariant is the
+  defence-in-depth the rule expressly permits.
+* **22** — the CI PostgreSQL non-skip step had fallen behind the tree three
+  times, and is now enforced by `tests/governance/test_ci_postgres_coverage.py`.
+  The suite list stays **explicit**, so the gate does not self-assemble.
+* **23** — the genesis case was examined and governed by `RATIFICATION-004`
+  *before* the system was allowed to depend on it. This request excludes the
+  genesis act itself.
+* **24** — `P-07` and `P-08` first returned green after their precondition was
+  removed. They were recorded as unresolved and re-perturbed layer by layer
+  until the load-bearing mechanism was identified; the ineffective first probes
+  are recorded in `PERTURBATION_MATRIX.md`, not discarded.
+
+Ungoverned rules — adjudicated as engineering fact, **not** as authority:
+
+```
+RULE_13=GREEN_CI_NECESSARY_NOT_SUFFICIENT              SATISFIED   ungoverned
+RULE_14=LIVE_REGISTER_OUTRANKS_NARRATIVE               SATISFIED   ungoverned
+RULE_15=WRITE_AUTHORITY_PRECEDES_INTEGRITY_CHAIN       SATISFIED   ungoverned
+RULE_16=CONTROL_DELIVERED_ONLY_WHEN_GOVERNED_PATH_REACHES_IT  SATISFIED   ungoverned
+RULE_17=PERTURBATION_PROVEN_APPLIED_BEFORE_ADJUDICATION SATISFIED   ungoverned
+```
+
+**This dependency is stated rather than left implicit.** Rules 13–17 are
+`PROPOSED / NOT GRANTED` in the register: they are drafted from documented usage
+and no Sponsor act has granted them. Rules 14 and 17 additionally carry
+unresolved wording conflicts. The engineering conclusions above hold on their
+own evidence; what they do **not** yet have is constitutional standing, and
+authorizing this request would rest in part on that.
 
 ## Residual carried into this request
 
