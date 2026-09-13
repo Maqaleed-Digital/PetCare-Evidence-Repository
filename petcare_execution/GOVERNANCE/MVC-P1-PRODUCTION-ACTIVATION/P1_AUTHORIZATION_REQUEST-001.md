@@ -1,6 +1,21 @@
 # MVC-P1-AUTHORIZATION-REQUEST-001
 
-**Status:** `REQUESTED / NOT GRANTED`
+> ## ⛔ SUPERSEDED 2026-09-13 — DO NOT EXECUTE AGAINST THIS REQUEST
+>
+> Replaced by **`P1_AUTHORIZATION_REQUEST-002.md`**. Never granted, so nothing
+> is revoked by this banner.
+>
+> It is superseded on a point of **execution safety**, not bookkeeping: this
+> request's abort condition says stop if `D.1` reports a pending count other
+> than **39**, and migration `0035_genesis_platform_admin.sql` (PR #33,
+> `RATIFICATION-004`) made the correct count **40**. Executed as written against
+> today's `main`, phase D would abort on a correct chain.
+>
+> Its evidence base `1531d2c7` and plan revision 1 digest `54157317…` are both
+> superseded too. Retained unedited below as the record of what was requested on
+> 2026-09-12.
+
+**Status:** `SUPERSEDED / NEVER GRANTED`
 **Prepared:** 2026-09-12 · **Requesting lane:** `[LANE]`
 
 ```

@@ -1,8 +1,42 @@
 # MVC-P1-ACTIVATION-PLAN-001 — the exact P1 runbook
 
 **Status:** PREPARED · **NOTHING BELOW HAS BEEN EXECUTED**
-**Prepared:** 2026-09-12 · **Evidence base:** `1531d2c79df67368a910d4681d376be0e9eab794`
+**Prepared:** 2026-09-12 · **Amended:** 2026-09-13 (revision 2)
+**Evidence base:** `e693e6620d80661e34ae970abf0297d0bd37f98e`
 **Authority consumed:** `RATIFICATION-001` · `RATIFICATION-002` · `RATIFICATION-003`
+· `RATIFICATION-004`
+
+## Amendment record — revision 1 → revision 2, 2026-09-13
+
+```
+REVISION_1_SHA256=54157317830c767478db3ec6a2135d0e35e6aedaf5aa1660caf755889f190805
+REVISION_1_EVIDENCE_BASE=1531d2c79df67368a910d4681d376be0e9eab794
+REVISION_2_EVIDENCE_BASE=e693e6620d80661e34ae970abf0297d0bd37f98e
+REQUEST_OF_RECORD=P1_AUTHORIZATION_REQUEST-002.md
+```
+
+**No authorization was ever granted against revision 1**, so no approved plan
+digest is invalidated by this amendment. `P1_AUTHORIZED=NO` throughout.
+
+Revision 1's digest is cited in two sealed evidence bundles
+(`evidence/receipts/2026-09-12-final-pre-p1-readiness.md` and
+`MVC-FINAL-PRE-P1/20260912T153000Z/RUN_RECEIPT.md`). Those records remain true
+about the revision they measured; they are the **outside anchors** that make
+this amendment detectable rather than silent, which is the whole reason a plan's
+digest is never stored inside the plan itself.
+
+What changed, and why it had to:
+
+| | revision 1 | revision 2 |
+|---|---|---|
+| `MIGRATION_TOTAL` / `PENDING` / `APPLIED_NOW` (D.1–D.3) | 39 | **40** |
+| D.4 schema verification | did not know `platform_admin_genesis` | verifies it exists and is EMPTY |
+
+Migration `0035_genesis_platform_admin.sql` landed on `main` in PR #33 under
+`RATIFICATION-004`. Revision 1 would therefore have **aborted a correct chain**:
+its own abort condition says stop if `D.1` reports a pending count other than
+39, and the correct count is now 40. The stale number was the defect, not the
+chain.
 
 ```
 P1_AUTHORIZED=NO
@@ -193,16 +227,17 @@ supply the values — `SEC-SECRET-05`, enforced rather than conventional.
 ```bash
 # D.1 · preflight. Reports what WOULD apply and applies nothing.
 python scripts/governance/apply_migrations.py --dry-run
-# EXPECT: MIGRATION_TOTAL=39  MIGRATION_PENDING=39  MIGRATION_APPLIED_NOW=0
+# EXPECT: MIGRATION_TOTAL=40  MIGRATION_PENDING=40  MIGRATION_APPLIED_NOW=0
+#         40, not 39 — 0035_genesis_platform_admin.sql landed in PR #33.
 
 # D.2 · apply. Each migration runs once, in its own transaction, recorded with
 #       its SHA-256 in schema_migration.
 python scripts/governance/apply_migrations.py
-# EXPECT: MIGRATION_APPLIED_NOW=39
+# EXPECT: MIGRATION_APPLIED_NOW=40
 
 # D.3 · idempotency, proven on the live target rather than assumed
 python scripts/governance/apply_migrations.py
-# EXPECT: MIGRATION_APPLIED_NOW=0  MIGRATION_ALREADY_APPLIED=39
+# EXPECT: MIGRATION_APPLIED_NOW=0  MIGRATION_ALREADY_APPLIED=40
 
 # D.4 · verify the schema the application depends on
 psql "$TARGET" -c "\dt tenant"
@@ -210,8 +245,14 @@ psql "$TARGET" -c "\dt user_identity"
 psql "$TARGET" -c "\dt app_session"
 psql "$TARGET" -c "\dt audit_event"
 psql "$TARGET" -c "\dt audit_chain_head"
+psql "$TARGET" -c "\dt platform_admin_genesis"
 psql "$TARGET" -tc "SELECT count(*) FROM tenant;"          # REQUIRED: 0
 psql "$TARGET" -tc "SELECT count(*) FROM user_identity;"   # REQUIRED: 0
+psql "$TARGET" -tc "SELECT count(*) FROM platform_admin_genesis;"
+                                                            # REQUIRED: 0
+# GENESIS_CONSUMED=NO. Applying the chain creates the genesis SHAPE and must
+# never perform the act: a non-zero count here means an administrator was
+# established by something other than the gated genesis step, and D aborts.
 psql "$TARGET" -tc "SELECT head_hash, next_seq FROM audit_chain_head;"
                                                             # REQUIRED: GENESIS, 1
 psql "$TARGET" -tc "SELECT pg_get_constraintdef(oid) FROM pg_constraint
@@ -289,14 +330,36 @@ POST /api/admin/identities/{user_id}/tenant               (platform_admin only)
 The second produces the two-event audit record. Direct repository mutation is not
 an authorized operating path.
 
-**The first `platform_admin` is a bootstrap problem this plan does not solve.**
-Membership assignment requires an existing `platform_admin`, and creating or
-elevating one is *"a separate privilege-management authority"* that
-`RATIFICATION-002` explicitly does not authorize. It must be ruled before Phase F
-can complete.
+**The first `platform_admin` bootstrap is RULED as of 2026-09-12** and is no
+longer an open item of this plan. `RATIFICATION-004`
+(`MVC-GENESIS-PLATFORM-ADMIN-001`) authorizes a **single-use** genesis act, and
+the mechanism is built and proven non-production.
 
 ```
-OPEN: FIRST_PLATFORM_ADMIN_BOOTSTRAP_AUTHORITY
+FIRST_PLATFORM_ADMIN_BOOTSTRAP_AUTHORITY=RULED   RATIFICATION-004
+GENESIS_AUTHORITY=SINGLE_USE                     GENESIS_REUSE=PROHIBITED
+GENESIS_CONSUMED=NO                              in every environment
+PRODUCTION_GENESIS_EXECUTION=NOT_AUTHORIZED_BY_THIS_RULING
+```
+
+The step runs **between D and F**, not inside either, and has its own document:
+`P1_GENESIS_STEP-001.md`. Executing it is `GATE_LIVE_APPLY` **plus**
+`GATE_CREDENTIAL_ENTRY`; §8 of the ruling authorizes preparing it and withholds
+executing it, so it needs an authorization naming that step specifically — it is
+**not** covered by the B–D request.
+
+Two properties of that step change how Phase F reads:
+
+* The first administrator holds **no tenant**. Platform scope is the absence of
+  one (TENANT-04/TENANT-09), so genesis does **not** depend on Phase E and
+  `PRODUCTION_TENANT_ROW_CREATED=NO` is unaffected by it.
+* The genesis path cannot assign membership and the membership path cannot grant
+  a role. The two authorities stay separate, which is what makes the sequence
+  above safe to run in order.
+
+```
+OPEN: none for the bootstrap. Phase E (the tenant row) is still unauthorized
+      and is what the assignment below actually waits on.
 ```
 
 ---
