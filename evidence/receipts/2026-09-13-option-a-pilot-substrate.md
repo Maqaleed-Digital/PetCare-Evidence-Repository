@@ -107,21 +107,50 @@ Mounting it would have raised the route count and delivered nothing.
 
 ## Evidence
 
+Two environments, reconciled separately. **CI is the authoritative one.**
+
+### CI — the number that describes the programme
+
+```
+                       main@a96bd39      PR #38        delta
+Python estate          882 p /  7 s      925 p / 7 s   +43 passed
+PostgreSQL non-skip    160 p /  0 s      170 p / 0 s   +10
+Web unit               120 p             127 p         + 7
+Responsive regression   —                 90 p
+CONCLUSION=success   JOBS_SKIPPED=0   STEPS_SKIPPED=0
+
+RECONCILIATION (exact):
+  +41  new Option A controls
+  + 2  new dispensing controls (5 -> 7)
+  = 43
+```
+
+The **7 skips are PRE-EXISTING and unchanged** — the seven
+`@port_source_available` tests in
+`tests/governance/test_cross_repository_traceability.py`, which need a second
+repository checked out (`MVC_PORT_SOURCE_ROOT`) that CI does not provide. Same
+seven before and after this branch. Not introduced here, and not fixed here.
+
+### Local — and why its baseline was lower
+
 ```
 REGRESSION_BEFORE=729 passed, 8 skipped
 REGRESSION_AFTER =932 passed, 0 skipped
-DELTA=+203 passed, -8 skipped
+```
 
-RECONCILIATION (exact):
-  +160  PostgreSQL tests that previously did not run at all (psycopg installed)
-  + 41  new Option A controls
-  +  2  new dispensing controls (5 -> 7)
-  = 203
+The local baseline was low because **this workstation** had no `psycopg`, so 8
+PostgreSQL suites skipped at collection. CI always had it and always ran them.
+Installing the declared dependency unlocked 160 tests **locally only** — it is
+not a gain for the programme, and the CI table above is the one that describes
+what this branch changed. It is recorded because a local run that reports 8
+skipped PostgreSQL suites is a local run producing no PostgreSQL evidence, and
+this lane's central claim is about durable storage.
 
-WEB_BEFORE=120 passed        WEB_AFTER=127 passed
+```
 WEB_TYPECHECK=CLEAN          WEB_BUILD=SUCCESS (/pharmacy 3.49 kB)
-POSTGRESQL=REAL, ephemeral cluster, 41 migrations replayed
-SKIPPED_ON_OPTION_A_PATH=0
+POSTGRESQL=REAL — CI service container; locally an ephemeral cluster,
+           41 migrations replayed
+SKIPPED_ON_OPTION_A_PATH=0   (in both environments)
 ```
 
 Each Option A suite was also run **alone**, not only in the combined
