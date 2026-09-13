@@ -156,13 +156,17 @@ PRODUCTION_IDENTITY_CREATED=NO
 ## Rule adjudication at this base
 
 > **Amended 2026-09-13** against
-> `../MVC-EXECUTION-RULES/EXECUTION_RULES_REGISTER-001.md`. Rules 18–24 were
-> ratified by `[SPONSOR]` on 13 September 2026 and are now governed; the
-> previous `UNDERIVED` finding for Rules 20–22 is superseded. `EVIDENCE_BASE_SHA`
-> and `PLAN_SHA256` are unchanged, so this is an in-place amendment and **not**
-> a reissue.
+> `../MVC-EXECUTION-RULES/EXECUTION_RULES_REGISTER-001.md`. Rules **13–24** were
+> ratified by `[SPONSOR]` on 13 September 2026 in two acts and are now governed.
+> The previous `UNDERIVED` finding for Rules 20–22 is superseded, and Rules
+> 13–17 no longer carry the `ungoverned` qualifier. Rules 14–17 are restated
+> under new canonical keys; the earlier shorthands survive as historical aliases
+> in register §2 and are **not** rewritten in any sealed artefact.
+>
+> `EVIDENCE_BASE_SHA` and `PLAN_SHA256` are unchanged, so this is an in-place
+> amendment and **not** a reissue.
 
-Governed rules — ratified, and adjudicated as authority:
+Rules 18–24, ratified and adjudicated as authority:
 
 ```
 RULE_18=LIVE_RESIDUE_REMEASUREMENT                     SATISFIED
@@ -194,22 +198,48 @@ RULE_24=LAYERED_DEFENCE_PERTURBATION                   SATISFIED
   until the load-bearing mechanism was identified; the ineffective first probes
   are recorded in `PERTURBATION_MATRIX.md`, not discarded.
 
-Ungoverned rules — adjudicated as engineering fact, **not** as authority:
+Rules 13–17, ratified `[SPONSOR]` 13 September 2026 and re-adjudicated against
+the **ratified** text rather than the drafted text this request was first
+written against. Canonical keys; the earlier shorthands are retained as
+historical aliases in register §2.
 
 ```
-RULE_13=GREEN_CI_NECESSARY_NOT_SUFFICIENT              SATISFIED   ungoverned
-RULE_14=LIVE_REGISTER_OUTRANKS_NARRATIVE               SATISFIED   ungoverned
-RULE_15=WRITE_AUTHORITY_PRECEDES_INTEGRITY_CHAIN       SATISFIED   ungoverned
-RULE_16=CONTROL_DELIVERED_ONLY_WHEN_GOVERNED_PATH_REACHES_IT  SATISFIED   ungoverned
-RULE_17=PERTURBATION_PROVEN_APPLIED_BEFORE_ADJUDICATION SATISFIED   ungoverned
+RULE_13=GREEN_CI_NECESSARY_NOT_SUFFICIENT              SATISFIED
+RULE_14=NARRATIVE_IS_NOT_LIVE_STATE                    SATISFIED
+RULE_15=INTEGRITY_IS_NOT_AUTHORITY                     SATISFIED
+RULE_16=REACHABILITY_IS_PART_OF_DELIVERY               SATISFIED
+RULE_17=PERTURBATION_ACQUISITION_MUST_BE_PROVEN_BEFORE_ADJUDICATION  SATISFIED
 ```
 
-**This dependency is stated rather than left implicit.** Rules 13–17 are
-`PROPOSED / NOT GRANTED` in the register: they are drafted from documented usage
-and no Sponsor act has granted them. Rules 14 and 17 additionally carry
-unresolved wording conflicts. The engineering conclusions above hold on their
-own evidence; what they do **not** yet have is constitutional standing, and
-authorizing this request would rest in part on that.
+* **13** — the ratified text is broader than the draft: it also requires
+  *reconciliation of material test/coverage counts* and *disposition of material
+  findings*. Both hold. CI's 882 passed / 7 skipped is reconciled against local
+  889 / 0 and against the 847 + 7 baseline (847 + 35 = 882); the 7 are the
+  cross-repository join CI cannot compute, stated rather than absorbed into a
+  green result. The material finding of this lane — the stale 39-migration abort
+  condition — is disposed of in plan revision 2, not merely noted.
+* **14** — every figure above was verified against live state at
+  `EVIDENCE_BASE_SHA`, not carried from `-001`'s narrative. Where the two
+  differed, the live state governed and `-001` was superseded rather than
+  edited.
+* **15** — the genesis audit chain verifies, but that is not what makes the act
+  authorized: authority is established independently, before any record exists,
+  by proving the genesis authority unconsumed and no `platform_admin` present.
+* **16** — the 18 PostgreSQL controls exercise the governed path against a real
+  database; `test_g11`/`test_g12` additionally assert the schema directly with
+  the service bypassed, so the durable guarantees are not taken on the service's
+  word.
+* **17** — every perturbation's acquisition was proven before its result was
+  read: anchor text asserted present, content change asserted non-identical, and
+  each file asserted byte-restored afterwards. `ARMED=13/13, VACUOUS=0`.
+
+```
+ADJUDICATION_BASIS=FULLY_GOVERNED
+```
+
+Every rule this request adjudicates is now ratified. The earlier statement that
+part of the basis rested on ungoverned rules no longer applies and has been
+removed rather than left to be read as still true.
 
 ## Residual carried into this request
 
