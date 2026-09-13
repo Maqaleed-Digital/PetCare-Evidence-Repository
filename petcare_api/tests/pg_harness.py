@@ -128,6 +128,15 @@ def reset_w0f_tables(url: str) -> None:
     with psycopg.connect(url, autocommit=True) as conn:
         for table in ("app_session", "invite_code",
                       "identity_migration_quarantine", "audit_event",
+                      # Option A (migration 0036). These reference BOTH
+                      # prescription and tenant, so they are emptied before
+                      # either — the same dependency trap platform_admin_genesis
+                      # documents below, and with the same failure mode: the
+                      # tenant delete raises and every suite sharing this
+                      # database errors in teardown rather than in the test that
+                      # created the row.
+                      "prescription_document",
+                      "prescription_status_transition", "prescription",
                       # The genesis consumption record references user_identity
                       # (migration 0035), so it is emptied before its parent.
                       # Omitting it does not merely leave a stale row: the FK

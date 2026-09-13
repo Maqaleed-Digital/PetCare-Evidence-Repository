@@ -52,9 +52,35 @@ def _dispense(rx_id: str):
                        headers={"X-Actor-Id": "actor-1"})
 
 
+def _verify(rx_id: str):
+    return client.post(f"/api/prescriptions/{rx_id}/verify",
+                       headers={"X-Actor-Id": "actor-1"})
+
+
+def _issue_and_verify() -> str:
+    """A prescription that has passed veterinarian verification.
+
+    FR-14 added VET_VERIFIED between ISSUED and DISPENSED, so a prescription is
+    no longer dispensable the instant it exists. The negative controls in this
+    file assert that the AUTHORITY guard denies; they must therefore reach it
+    with a prescription whose STATE guard would otherwise have let it through,
+    or a 403 would be indistinguishable from the 409 an unverified prescription
+    gets for an entirely different reason.
+    """
+    rx_id = _issue_prescription()
+    _login(api.ROLE_VETERINARIAN, "rx-verifier@t")
+    try:
+        r = _verify(rx_id)
+        assert r.status_code == 200, r.text
+        assert r.json()["status"] == "VET_VERIFIED"
+    finally:
+        client.cookies.clear()
+    return rx_id
+
+
 def test_t_disp_03_non_veterinarian_is_denied_an_unclassified_act():
     """T-DISP-03 (ARMED) — an OWNER must not dispense."""
-    rx = _issue_prescription()
+    rx = _issue_and_verify()
     _login(api.ROLE_OWNER, "owner-disp@t")
     try:
         r = _dispense(rx)
@@ -65,7 +91,7 @@ def test_t_disp_03_non_veterinarian_is_denied_an_unclassified_act():
 
 def test_t_disp_04_unknown_actor_class_is_denied():
     """T-DISP-04 — no session means no professional class, so DENY."""
-    rx = _issue_prescription()
+    rx = _issue_and_verify()
     r = _dispense(rx)
     assert r.status_code == 401
 
@@ -119,7 +145,7 @@ def test_t_disp_05_retired_pharmacy_operator_cannot_authenticate():
 
 def test_t_disp_06_client_cannot_assert_professional_class():
     """T-DISP-06 (ARMED) — a header must not confer dispensing authority."""
-    rx = _issue_prescription()
+    rx = _issue_and_verify()
     _login(api.ROLE_OWNER, "owner-hdr@t")
     try:
         r = client.post(f"/api/prescriptions/{rx}/dispense",
@@ -132,12 +158,61 @@ def test_t_disp_06_client_cannot_assert_professional_class():
 
 def test_t_disp_01_veterinarian_positive_control():
     """Positive control — the veterinarian MAY dispense. Without this, denying
-    everything would pass every negative test vacuously."""
-    rx = _issue_prescription()
+    everything would pass every negative test vacuously.
+
+    Now dispenses a VERIFIED prescription. Before FR-14 this posted straight to
+    /dispense on a freshly issued record and expected 200 — which is exactly the
+    defect that change closed: the prescription was dispensable the instant it
+    existed. The control is strictly stronger, not weaker; it still proves the
+    veterinarian may dispense, and it now proves it against the state machine
+    rather than around it.
+    """
+    rx = _issue_and_verify()
     _login(api.ROLE_VETERINARIAN, "vet-disp@t")
     try:
         r = _dispense(rx)
         assert r.status_code == 200, r.text
         assert r.json()["status"] == "DISPENSED"
+    finally:
+        client.cookies.clear()
+
+
+def test_t_disp_07_unverified_prescription_cannot_be_dispensed():
+    """T-DISP-07 (ARMED) — the verification gate itself.
+
+    The AUTHORISED actor, on an UNVERIFIED prescription. Both halves matter: a
+    veterinarian is used precisely so the refusal cannot be attributed to the
+    authority guard, which means this test fails if the state guard is removed
+    and passes only while it is there.
+    """
+    rx = _issue_prescription()
+    _login(api.ROLE_VETERINARIAN, "vet-unverified@t")
+    try:
+        r = _dispense(rx)
+        assert r.status_code == 409, (
+            f"an unverified prescription was dispensable: {r.status_code} {r.text}"
+        )
+        # And it did not move.
+        got = client.get(f"/api/prescriptions/{rx}")
+        assert got.json()["status"] == "ISSUED"
+    finally:
+        client.cookies.clear()
+
+
+def test_t_disp_08_a_dispensed_prescription_cannot_be_dispensed_twice():
+    """T-DISP-08 (ARMED) — DISPENSED has no outgoing transition.
+
+    Fails closed rather than being idempotent, and the distinction is the point:
+    a second successful dispense of the same prescription is a second quantity
+    of a veterinary medicine leaving the shelf.
+    """
+    rx = _issue_and_verify()
+    _login(api.ROLE_VETERINARIAN, "vet-twice@t")
+    try:
+        assert _dispense(rx).status_code == 200
+        second = _dispense(rx)
+        assert second.status_code == 409, (
+            f"a dispensed prescription was dispensed again: {second.status_code}"
+        )
     finally:
         client.cookies.clear()

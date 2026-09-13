@@ -3,3 +3,6 @@ uvicorn[standard]==0.29.0
 pydantic==2.7.1
 itsdangerous>=2.1.0
 passlib[bcrypt]>=1.7.4
+# FR-14. Prescription upload is multipart/form-data; FastAPI delegates form
+# parsing to this package and raises at import time without it.
+python-multipart>=0.0.9

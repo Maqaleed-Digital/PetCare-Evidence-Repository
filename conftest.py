@@ -22,6 +22,7 @@ from __future__ import annotations
 
 import os
 import sys
+import tempfile
 from pathlib import Path
 
 _RUNTIME_SRC = Path(__file__).resolve().parent / "petcare_runtime" / "src"
@@ -44,3 +45,16 @@ if _RUNTIME_SRC.is_dir() and str(_RUNTIME_SRC) not in sys.path:
 os.environ.setdefault("SECRET_KEY", "test-only-not-a-deployed-secret")
 os.environ.setdefault("PETCARE_SECRET_MODE", "environment")
 os.environ.setdefault("PETCARE_PERSISTENCE_MODE", "memory")
+
+# FR-14. The prescription document store is REQUIRED for the same reason the
+# persistence mode is, and fails closed the same way: an unset mode is not
+# assumed to be the weaker one. `local` plus a per-run temporary directory is
+# the non-production pair — node-local, outside the repository, and removed with
+# the rest of the temporary tree. It is NOT an object store and the suite does
+# not treat it as one; test_prescription_upload.py asserts that the production
+# adapter refuses rather than falling back to this.
+os.environ.setdefault("PETCARE_DOCUMENT_STORE_MODE", "local")
+os.environ.setdefault(
+    "PETCARE_DOCUMENT_ROOT",
+    str(Path(tempfile.gettempdir()) / "petcare-test-documents"),
+)

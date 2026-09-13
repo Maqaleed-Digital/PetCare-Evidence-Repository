@@ -13,3 +13,5 @@ passlib[bcrypt]>=1.7.4
 # `psycopg[binary]` ships libpq, so CI needs no system PostgreSQL client, and
 # `psycopg[pool]` is the connection pool the adapter opens eagerly at startup.
 psycopg[binary,pool]>=3.2
+# FR-14. The upload suite posts real multipart bodies through TestClient.
+python-multipart>=0.0.9
