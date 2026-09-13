@@ -1,19 +1,24 @@
 # MVC-EXECUTION-RULES-REGISTER-001 — the canonical standing-rules register
 
 **Established:** 2026-09-13 · **Status:** ACTIVE
-**Governing act for Rules 18–24:** `[SPONSOR]` ruling of 13 September 2026,
-*MYVETICARE EXECUTION RULES 18–24*, recorded verbatim in §4 below.
+
+**Governing acts**
+
+| rules | act | date |
+|---|---|---|
+| 13–17 | `[SPONSOR]` *MYVETICARE EXECUTION RULES 13–17* — §4 below | 13 September 2026 |
+| 18–24 | `[SPONSOR]` *MYVETICARE EXECUTION RULES 18–24* — §5 below | 13 September 2026 |
 
 This is the **single canonical register** of MyVetiCare standing execution and
 evidence rules. Where any receipt, evidence bundle, request or summary disagrees
 with this register about what a rule *is*, this register governs.
 
-It does **not** govern what a rule *was*. See §5.
+It does **not** govern what a rule *was*. See §7.
 
 ```
 REGISTER_STATUS=ACTIVE
-RULES_RATIFIED=18,19,20,21,22,23,24
-RULES_DEFINED_BUT_NOT_RATIFIED=13,14,15,16,17
+RULES_RATIFIED=13,14,15,16,17,18,19,20,21,22,23,24
+RULES_UNDEFINED_UNRATIFIED=1,2,3,4,5,6,7,8,9,10,11,12
 P1_AUTHORIZED=NO
 GATE_LIVE_APPLY=NOT_AUTHORIZED
 GATE_CREDENTIAL_ENTRY=NOT_AUTHORIZED
@@ -23,13 +28,13 @@ GATE_CREDENTIAL_ENTRY=NOT_AUTHORIZED
 
 ## 1 — Status summary
 
-| Rule | Shorthand key | Status |
+| Rule | Canonical key | Status |
 |---|---|---|
-| 13 | `GREEN_CI_NECESSARY_NOT_SUFFICIENT` | `PROPOSED_NOT_GRANTED` |
-| 14 | `LIVE_REGISTER_OUTRANKS_NARRATIVE` | `PROPOSED_NOT_GRANTED` · conflict, §3 |
-| 15 | `WRITE_AUTHORITY_PRECEDES_INTEGRITY_CHAIN` | `PROPOSED_NOT_GRANTED` |
-| 16 | `CONTROL_DELIVERED_ONLY_WHEN_GOVERNED_PATH_REACHES_IT` | `PROPOSED_NOT_GRANTED` |
-| 17 | `PERTURBATION_PROVEN_APPLIED_BEFORE_ADJUDICATION` | `PROPOSED_NOT_GRANTED` · conflict, §3 |
+| 13 | `GREEN_CI_NECESSARY_NOT_SUFFICIENT` | **RATIFIED** 2026-09-13 |
+| 14 | `NARRATIVE_IS_NOT_LIVE_STATE` | **RATIFIED** 2026-09-13 |
+| 15 | `INTEGRITY_IS_NOT_AUTHORITY` | **RATIFIED** 2026-09-13 |
+| 16 | `REACHABILITY_IS_PART_OF_DELIVERY` | **RATIFIED** 2026-09-13 |
+| 17 | `PERTURBATION_ACQUISITION_MUST_BE_PROVEN_BEFORE_ADJUDICATION` | **RATIFIED** 2026-09-13 |
 | 18 | `LIVE_RESIDUE_REMEASUREMENT` | **RATIFIED** 2026-09-13 |
 | 19 | `FALSE_POSITIVE_INTEGRITY_CONTROLS` | **RATIFIED** 2026-09-13 |
 | 20 | `SPONSOR_AUTHORITY` | **RATIFIED** 2026-09-13 |
@@ -38,140 +43,184 @@ GATE_CREDENTIAL_ENTRY=NOT_AUTHORIZED
 | 23 | `GENESIS_CASE` | **RATIFIED** 2026-09-13 |
 | 24 | `LAYERED_DEFENCE_PERTURBATION` | **RATIFIED** 2026-09-13 |
 
-**Rules 13–17 are not ratified.** They are drafted below from documented usage,
-for Sponsor review. Until a Sponsor act grants them, any adjudication citing
-them must record that it rests on ungoverned rules — see §6.
+Rules **1–12** remain undefined and unratified. No definition of any of them
+exists in this repository and none is cited by any artefact. Recorded so their
+absence is a known fact rather than an unexamined gap.
 
 ---
 
-## 2 — Rules 13–17 · `PROPOSED / NOT GRANTED`
+## 2 — Superseded keys · historical aliases
 
-Drafted from observed usage across receipts and evidence bundles. **No Sponsor
-act has granted these.** Rule 20 applies to this section: drafted wording is not
-a ruling regardless of how decisively it is phrased, and nothing here is signed
-on the Sponsor's behalf.
+The Rules 13–17 ruling names each rule afresh, so four canonical keys differ
+from the shorthands already in circulation. The earlier keys are **retained and
+resolvable**, not deleted: 15 sealed receipts and evidence bundles use them, and
+both rulings forbid silently rewriting a historical record.
 
-Each carries the evidence of its own use, so the Sponsor is reviewing a rule the
-estate already relies on rather than a proposal in the abstract.
-
-### RULE 13 — GREEN CI IS NECESSARY, NOT SUFFICIENT · `PROPOSED`
-
-> Green CI is a precondition for merge and never, by itself, a demonstration of
-> correctness. A verification command that reports success must additionally be
-> shown to have evaluated the assertions it is relied upon to evaluate.
->
-> Where CI cannot execute a class of verification, that gap must be stated in
-> the evidence rather than absorbed into a green result.
-
-*Observed use.* `pytest tests` failed while the combined command CI runs passed,
-because conftest scope differs per invocation — green CI would have hidden it.
-At `e693e66`, CI reported 882 passed / 7 skipped where local reported 889 / 0;
-the 7 are the cross-repository join CI cannot compute.
-
-### RULE 14 — LIVE REGISTER OUTRANKS NARRATIVE · `PROPOSED` · **conflict**
-
-> Where a summary, transcript, receipt or recollection disagrees with the live
-> register or the live repository, the live source governs and the narrative is
-> corrected.
-
-**Two definitions are in live use.** The Sponsor must select one; §3 records the
-evidence. This register carries `LIVE_REGISTER_OUTRANKS_NARRATIVE` as the
-*drafted* form because it is the later and broader usage, not because the
-question is settled.
-
-### RULE 15 — WRITE AUTHORITY PRECEDES INTEGRITY CHAIN · `PROPOSED`
-
-> Authority to perform a write must be established before any integrity or audit
-> record of that write is created.
->
-> An integrity record produced before its authority is checked describes an act
-> that may not have been permitted, and cannot afterwards be distinguished from
-> one that was.
-
-*Observed use.* The genesis procedure takes its lock, proves the authority
-unconsumed, and proves no `platform_admin` exists — **then** appends the audit
-event.
-
-### RULE 16 — CONTROL DELIVERED ONLY WHEN THE GOVERNED PATH REACHES IT · `PROPOSED`
-
-> A control counts as delivered only when it is exercised through the real
-> governed path. A control proven against a double, a fixture, or a substitute
-> engine is evidence about the substitute.
-
-*Observed use.* The persistence adapter's controls were re-proven on PostgreSQL
-through the real serving path after a prior receipt recorded them as
-`IN_MEMORY_ONLY`.
-
-### RULE 17 — PERTURBATION PROVEN APPLIED BEFORE ADJUDICATION · `PROPOSED` · **conflict**
-
-> A perturbation must be proven to have actually changed the artefact before its
-> result is adjudicated. An unapplied perturbation produces a passing control and
-> no information.
-
-**Two wordings are in live use** (`PERTURBATION_MUST_BE_PROVEN_APPLIED_…` and
-`PERTURBATION_PROVEN_APPLIED_…`). The difference is cosmetic in substance but
-not to a register keyed on the string. See §3.
-
-**Boundary with ratified Rule 24.** They are complementary, not duplicates:
-Rule 17 asks *did the perturbation actually land?*; Rule 24 asks *which layer
-actually held the property?* A perturbation can satisfy 17 and still fail 24 —
-which is exactly what happened at `P-07a`/`P-08a`.
-
----
-
-## 3 — Duplicate and conflicting definitions found
-
-Cross-check performed 2026-09-13 across all `.md` and `.py` in the repository.
-
-### Rule 14 — substantive conflict, **Sponsor decision required**
-
-| wording | occurrences | dates |
+| superseded key | → canonical key | where it appears |
 |---|---|---|
-| `LIVE_REGISTER_OUTRANKS_NARRATIVE` | 7 | 2026-09-12 |
-| `LIVE_REGISTER_OUTRANKS_TRUNCATED_TRANSCRIPT` | 4 | 2026-09-07 |
+| `LIVE_REGISTER_OUTRANKS_NARRATIVE` | `NARRATIVE_IS_NOT_LIVE_STATE` | 7 artefacts, 2026-09-12 |
+| `LIVE_REGISTER_OUTRANKS_TRUNCATED_TRANSCRIPT` | `NARRATIVE_IS_NOT_LIVE_STATE` | 4 artefacts, 2026-09-07 |
+| `WRITE_AUTHORITY_PRECEDES_INTEGRITY_CHAIN` | `INTEGRITY_IS_NOT_AUTHORITY` | receipts + bundles |
+| `CONTROL_DELIVERED_ONLY_WHEN_GOVERNED_PATH_REACHES_IT` | `REACHABILITY_IS_PART_OF_DELIVERY` | receipts + bundles |
+| `PERTURBATION_PROVEN_APPLIED_BEFORE_ADJUDICATION` | `PERTURBATION_ACQUISITION_MUST_BE_PROVEN_BEFORE_ADJUDICATION` | 3 bundles, latest `20260912T140000Z` |
+| `PERTURBATION_MUST_BE_PROVEN_APPLIED_BEFORE_ADJUDICATION` | `PERTURBATION_ACQUISITION_MUST_BE_PROVEN_BEFORE_ADJUDICATION` | 2 bundles, latest `20260912T100000Z` |
+| `RESIDUE_REMEASURED_FROM_LIVE_SOURCE` | `LIVE_RESIDUE_REMEASUREMENT` | receipts + bundles |
+| `NO_FALSE_TAMPER_FINDING_UNDER_CORRECT_OPERATION` | `FALSE_POSITIVE_INTEGRITY_CONTROLS` | receipts + bundles |
 
-Not a paraphrase. *Truncated transcript* is the narrow case — a conversation
-record that lost content. *Narrative* covers any summary, including a complete
-and confident one, which is the harder and more common failure. The later usage
-is the broader form.
+`GREEN_CI_NECESSARY_NOT_SUFFICIENT` is unchanged and needs no alias.
 
-`RECOMMENDED=LIVE_REGISTER_OUTRANKS_NARRATIVE`, with the 2026-09-07 form
-recorded as a superseded historical variant rather than deleted.
-**Not selected here — Rule 20.**
+### How the two recorded conflicts were resolved
 
-### Rule 17 — wording variance, **Sponsor decision required**
+Both were resolved by **supersession, not selection**. The register previously
+recorded a Rule 14 conflict (`…NARRATIVE` vs `…TRUNCATED_TRANSCRIPT`) and a
+Rule 17 wording variance, with recommendations deliberately left unselected
+because selecting them is a Sponsor act. The ruling did not adopt either side of
+either conflict — it named both rules afresh, and both prior variants now map to
+a single canonical key.
 
-| wording | bundles | latest |
-|---|---|---|
-| `PERTURBATION_PROVEN_APPLIED_BEFORE_ADJUDICATION` | 3 | `20260912T140000Z` |
-| `PERTURBATION_MUST_BE_PROVEN_APPLIED_BEFORE_ADJUDICATION` | 2 | `20260912T100000Z` |
+* **Rule 14** — the ruled scope is the broader one. *Narrative* covers any
+  receipt, transcript, handoff, summary or historical decision record, not only
+  a truncated one, which is the harder and more common failure.
+* **Rule 17** — `MUST BE` is normative rather than descriptive, and the subject
+  is **acquisition**: whether the intended change actually landed. That is a
+  sharper statement of the property than "proven applied", and it is the exact
+  question `P-07a`/`P-08a` turned on.
 
-The short form is the later usage.
-`RECOMMENDED=PERTURBATION_PROVEN_APPLIED_BEFORE_ADJUDICATION`.
-**Not selected here — Rule 20.**
-
-### Rules 18 and 19 — reconciled, no conflict
-
-Receipt shorthand `RULE_18=RESIDUE_REMEASURED_FROM_LIVE_SOURCE` and
-`RULE_19=NO_FALSE_TAMPER_FINDING_UNDER_CORRECT_OPERATION` are consistent in
-substance with the ratified text. The register carries the ruling's own keys
-(`LIVE_RESIDUE_REMEASUREMENT`, `FALSE_POSITIVE_INTEGRITY_CONTROLS`); the receipt
-shorthands are recorded here as aliases, and the receipts are not edited.
-
-### Rules 20–24 — no prior definition
-
-Cited by label in earlier receipts with no definition anywhere in the
-repository. The ruling in §4 is their first and only definition.
-
-### Rules 1–12
-
-No definition of any rule numbered 1–12 exists in this repository, and none is
-cited by any current artefact. Recorded so their absence is a known fact rather
-than an unexamined gap.
+```
+RULE_14_CONFLICT=RESOLVED_BY_SUPERSESSION
+RULE_17_CONFLICT=RESOLVED_BY_SUPERSESSION
+```
 
 ---
 
-## 4 — The ruling, verbatim
+## 3 — Boundaries between neighbouring rules
+
+Recorded so the boundaries are stated rather than inferred.
+
+**Rule 17 and Rule 24** are complementary, not duplicates. Rule 17 asks *did the
+perturbation actually land?*; Rule 24 asks *which layer actually held the
+property?* A perturbation can satisfy 17 and still leave 24 unresolved — which is
+precisely what happened at `P-07a`/`P-08a`, where the perturbation demonstrably
+landed and the control stayed green because a deeper layer was holding.
+
+**Rule 15 and Rule 20** are the same principle at two levels. Rule 15 says an
+integrity record does not establish that its writer had authority; Rule 20 says
+decisive wording does not establish that its author was the Sponsor. Both refuse
+to let a well-formed artefact stand in for the authority behind it.
+
+**Rule 13 and Rule 16** meet at vacuity. Rule 13 rejects a passing gate that did
+not measure its governed scope; Rule 16 rejects a control no governed path
+invokes. A control that exists but is unreachable will produce exactly the
+passing gate Rule 13 refuses to accept.
+
+---
+
+## 4 — The Rules 13–17 ruling, verbatim
+
+> ```
+> [SPONSOR RULING — MYVETICARE EXECUTION RULES 13–17]
+>
+> Date: 13 September 2026
+>
+> I ratify the following as standing MyVetiCare execution and evidence rules.
+>
+> RULE 13 — GREEN CI IS NECESSARY, NOT SUFFICIENT
+>
+> Green CI is necessary but is never sufficient by itself for merge, acceptance,
+> or production-readiness determination.
+>
+> Acceptance also requires complete evidence, armed and non-vacuous controls,
+> required perturbation proof, reconciliation of material test/coverage counts,
+> and disposition of material findings.
+>
+> A passing gate that did not measure its governed scope is not evidence of
+> acceptance.
+>
+> RULE 14 — NARRATIVE IS NOT LIVE STATE
+>
+> A narrative artefact — including a receipt, transcript, handoff, summary,
+> historical decision record, or other account of prior state — is not itself the
+> current register or current system state.
+>
+> Before execution or adjudication, live repository, register, PR, infrastructure,
+> or other authoritative state must be verified where available.
+>
+> Where live authoritative state and prior narrative differ, the live state
+> governs, while the prior narrative remains historical evidence and must not be
+> silently rewritten.
+>
+> RULE 15 — INTEGRITY IS NOT AUTHORITY
+>
+> A hash chain, digest, signature, immutable record, sealed bundle, or other
+> integrity mechanism proves properties about the integrity or provenance of a
+> record after it was written.
+>
+> It does not by itself prove that the actor who wrote or caused the record to be
+> written had authority to do so.
+>
+> Write authority must be established independently before the resulting record
+> is treated as governed authority.
+>
+> RULE 16 — REACHABILITY IS PART OF DELIVERY
+>
+> An implemented control, authorization check, repository, guard, or other
+> mechanism is not considered delivered solely because code for it exists.
+>
+> A governed serving or execution path must demonstrably reach the mechanism in
+> the conditions where the control is claimed to apply.
+>
+> A control that no governed path invokes is operationally equivalent to an
+> absent control for acceptance purposes.
+>
+> RULE 17 — PERTURBATION ACQUISITION MUST BE PROVEN BEFORE ADJUDICATION
+>
+> Before the result of a perturbation or mutation test is adjudicated, acquisition
+> of the intended perturbation MUST BE independently proven.
+>
+> Proof must establish that the intended change actually landed in the relevant
+> scope before the control result is interpreted.
+>
+> Acceptable evidence may include a content check, marker, diff, structural
+> inspection, or another independent acquisition proof appropriate to the change.
+>
+> If acquisition is not proven, a green result is not evidence of a vacuous
+> control and a red result is not evidence that the intended perturbation was
+> detected.
+>
+> The perturbation must be corrected or re-applied and the control re-run before
+> adjudication.
+>
+> GOVERNANCE
+>
+> These rules take effect from this Sponsor ruling.
+>
+> Prior receipts and artefacts that cited Rules 13–17 before this ruling remain
+> historical records of the execution reasoning used at the time.
+>
+> This ruling does not retroactively represent those earlier citations as having
+> possessed Sponsor authority when they did not.
+>
+> No historical receipt, sealed evidence bundle, or provenance record is to be
+> silently rewritten to imply otherwise.
+>
+> Rules 18–24 remain governed by their existing ratification.
+>
+> Rules 1–12 remain undefined and unratified unless separately governed later.
+>
+> This ruling does not authorize any production mutation, credential entry,
+> production genesis execution, production tenant creation, production identity
+> creation, serving binding, or cutover.
+>
+> P1_AUTHORIZED=NO
+> GATE_LIVE_APPLY=NOT_AUTHORIZED
+> GATE_CREDENTIAL_ENTRY=NOT_AUTHORIZED
+>
+> [SPONSOR]
+> ```
+
+---
+
+## 5 — The Rules 18–24 ruling, verbatim
 
 > ```
 > [SPONSOR RULING — MYVETICARE EXECUTION RULES 18–24]
@@ -266,59 +315,77 @@ than an unexamined gap.
 
 ---
 
-## 5 — Provenance · prospective effect, no retroactive laundering
+## 6 — Effect on `REQUEST-002`
+
+All twelve rules the request adjudicates are now governed. Its adjudication
+block is updated to the canonical keys, the `ungoverned` qualifier on Rules
+13–17 is removed, and each is re-adjudicated against the **ratified** text
+rather than the drafted text it was written against.
+
+Rule 13's ratified wording is broader than the draft — it additionally requires
+*reconciliation of material test/coverage counts* and *disposition of material
+findings*. The request already satisfies both: CI's 882 passed / 7 skipped is
+reconciled explicitly against local 889 / 0 and against the 847 + 7 baseline,
+and the material finding of this lane (the stale 39-migration abort condition)
+is disposed of in plan revision 2.
 
 ```
+REQUEST_002_ADJUDICATION_BASIS=FULLY_GOVERNED
+EVIDENCE_BASE_SHA=UNCHANGED
+PLAN_SHA256=UNCHANGED
+REQUEST_002_ACTION=AMENDED_IN_PLACE_NOT_REISSUED
+```
+
+A reissue would be required only if the evidence base or the plan digest moved.
+Neither did — this register adds no code, no migration and no test.
+
+---
+
+## 7 — Provenance · prospective effect, no retroactive laundering
+
+```
+RULES_13_17_EFFECTIVE_FROM=2026-09-13
 RULES_18_24_EFFECTIVE_FROM=2026-09-13
 RETROACTIVE_AUTHORITY=NONE
 HISTORICAL_RECEIPTS_REWRITTEN=0
 SEALED_BUNDLES_MODIFIED=0
+SUPERSEDED_KEYS_DELETED=0
 ```
 
-Every receipt and evidence bundle that cited Rules 18–24 before 2026-09-13 did
+Every receipt and evidence bundle that cited Rules 13–24 before 2026-09-13 did
 so **without Sponsor authority**, because none existed. Those citations record
 the execution reasoning genuinely used at the time, and they remain exactly as
 written.
 
 No receipt was edited, no sealed bundle was re-hashed, and no digest was
 recomputed to imply those rules were governed when they were not. Establishing
-this register creates authority **forward**; it does not reach backwards, and
-the earlier documents continue to tell the truth about their own provenance.
+and extending this register creates authority **forward**; it does not reach
+backwards, and the earlier documents continue to tell the truth about their own
+provenance.
 
-The same applies to Rules 13–17, which are cited by current and historical
-artefacts and remain ungoverned until a Sponsor act grants them.
-
----
-
-## 6 — Effect on `REQUEST-002`
-
-`P1_AUTHORIZATION_REQUEST-002.md` adjudicates Rules 13–19 and reports 20–22 as
-`UNDERIVED`. After this register:
-
-* Rules **18–24** are governed. The `UNDERIVED` finding for 20–22 is superseded
-  and the request's adjudication block is corrected to say so.
-* Rules **13–17** remain `PROPOSED / NOT GRANTED`. The request's adjudication of
-  them stands as engineering fact but **rests on ungoverned rules**, and the
-  request now records that dependency explicitly rather than leaving it implicit.
-
-`EVIDENCE_BASE_SHA` and `PLAN_SHA256` are unchanged by this register — it adds
-no code, no migration and no test — so `REQUEST-002` is **amended in place, not
-reissued**. A reissue would be required only if the evidence base or the plan
-digest moved.
+The superseded keys in §2 are retained for the same reason. Rewriting a sealed
+artefact to use a key ratified after it was sealed would make it assert an
+authority it did not have — the precise thing both rulings forbid.
 
 ---
 
-## 7 — Open, for a future Sponsor act
+## 8 — Open, for a future Sponsor act
 
 ```
-RULES_13_17_RATIFICATION=PENDING
-RULE_14_CANONICAL_WORDING=UNDECIDED   (recommendation in §3)
-RULE_17_CANONICAL_WORDING=UNDECIDED   (recommendation in §3)
 RULES_1_12=NO_DEFINITION_EXISTS
 GITHUB_SUPPORT_REFS_PULL_1_6=NOT_SENT — proposed as a hard cutover condition;
-                                        NOT covered by the 13 Sep ruling
+                                        NOT covered by either ruling
 ```
 
-The cutover condition for `GITHUB_SUPPORT_REFS_PULL_1_6` was discussed alongside
-this ruling but does not appear in the ruling text, so it is **not** governed by
-it and is recorded here as an open item rather than as a rule.
+`refs/pull/1–6` was deliberately kept out of both rulings: it is a release
+control, not an execution rule, and combining it with execution-rule
+ratification would blur two different authorities. It is recorded here as an
+open item, not as a rule, and still requires its own act.
+
+Nothing in this register authorizes any production act. The two outstanding
+production authorizations remain separate:
+
+```
+REQUEST_002           P1 phases B-D    GATE_LIVE_APPLY + GATE_CREDENTIAL_ENTRY
+P1_GENESIS_STEP_001   first platform_admin genesis, one time only
+```
