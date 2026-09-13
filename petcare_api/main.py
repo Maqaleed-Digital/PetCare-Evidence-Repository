@@ -12,7 +12,8 @@ from datetime import datetime, timezone
 from typing import Any, Optional
 from uuid import uuid4
 
-from fastapi import Depends, FastAPI, Header, HTTPException, Request
+from fastapi import (Depends, FastAPI, File, Header, HTTPException, Request,
+                     Response, UploadFile)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
@@ -110,6 +111,28 @@ app.add_middleware(
 from routers.auth import (router as auth_router, seed_user, seed_invite_code,
                           read_session, require_tenant, PERSISTENCE)
 from audit_repository import AUDIT_CHAIN_GENESIS, AuditWriteFailed
+# FR-14 · Option A. The prescription store, its governed transitions and the
+# object side of its attachments. No SQL crosses into this module: these are the
+# same repository protocols identity and audit already reach.
+from prescriptions import (
+    Prescription,
+    PrescriptionDocument,
+    PrescriptionNotFound,
+    STATUS_DISPENSED,
+    STATUS_ISSUED,
+    STATUS_VET_VERIFIED,
+    TransitionDenied,
+)
+from prescription_documents import (
+    DocumentRejected,
+    ObjectStoreUnavailable,
+    SERVED_CONTENT_TYPE,
+    build_document_store,
+    new_storage_key,
+    sha256_hex,
+    validate_upload,
+)
+from repositories import RepositoryDenied
 from tenant_membership import (
     TenantMembershipDenied,
     TenantMembershipService,
@@ -709,9 +732,39 @@ def sign_note(
     return note
 
 # ---------------------------------------------------------------------------
-# Prescriptions
+# Prescriptions  (FR-14 · Option A)
 # ---------------------------------------------------------------------------
-_prescriptions: dict[str, dict] = {}
+#
+# The store was `_prescriptions`, a module-level dict. It is now the repository
+# selected by PETCARE_PERSISTENCE_MODE — the same boundary identity, sessions,
+# invite codes and the audit log already reach. There is deliberately no second
+# dict alongside it: a shadow copy is a second source of truth, and the one that
+# disagreed would be the one nobody was reading (W0-G's argument, unchanged).
+#
+# The lifecycle gained a middle state:
+#
+#     ISSUED  ->  VET_VERIFIED  ->  DISPENSED
+#
+# Before this, dispensing's only state guard was `status == "ISSUED"`, so a
+# prescription was dispensable the instant it existed. The transitions are
+# defined in `prescriptions.py`, enforced by both repositories, and enforced a
+# second time by CHECK constraints in migration 0036.
+PRESCRIPTION_REPO = PERSISTENCE.prescriptions
+
+
+def _actor(request: Request) -> tuple[str, str]:
+    """The caller's identity AND role, both from the validated session.
+
+    W0-B, applied to the audit actor. Every route below previously took
+    `x_actor_id: str = Header(...)` and wrote that value into the audit log as
+    the actor — so the log recorded whoever the client said it was, on routes
+    whose whole purpose is attributing a clinical act to a professional. The
+    header is still accepted by FastAPI (clients send it) and carries ZERO
+    authority: it is never read.
+    """
+    payload = read_session(request)
+    return payload["user_id"], payload["role"]
+
 
 class PrescriptionRequest(BaseModel):
     pet_id: str
@@ -722,78 +775,166 @@ class PrescriptionRequest(BaseModel):
     dosage: str
     instructions: str
 
+
+def _rx_or_404(prescription_id: str, tenant_id: str) -> Prescription:
+    """The prescription, scoped to the caller's tenant, or 404.
+
+    404 and not 403. Answering "403 forbidden" for a record that exists in
+    ANOTHER tenant confirms its existence to a caller who may not read it, and
+    the difference between 403 and 404 is a working cross-tenant enumeration
+    oracle. The repository applies the tenant predicate itself, so this cannot
+    be bypassed by forgetting a filter at one call site.
+    """
+    rx = PRESCRIPTION_REPO.get(prescription_id, tenant_id=tenant_id)
+    if rx is None:
+        raise HTTPException(404, "Prescription not found")
+    return rx
+
+
 @app.post("/api/prescriptions")
 def issue_prescription(
     request: Request,
     body: PrescriptionRequest,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
     if role != ROLE_VETERINARIAN:
         raise HTTPException(403, "Only vets may issue prescriptions")
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request, body.tenant_id)
     rx_id = str(uuid4())
-    now = utc_now_iso()
-    rx = {
-        "prescription_id": rx_id,
-        "pet_id": body.pet_id,
-        "session_id": body.session_id,
-        "issuing_vet_id": x_actor_id,
-        "tenant_id": require_tenant(request, body.tenant_id),
-        "clinic_id": body.clinic_id,
-        "medication_name": body.medication_name,
-        "dosage": body.dosage,
-        "instructions": body.instructions,
-        "status": "ISSUED",
-        "issued_at": now,
-        "dispensed_at": None,
-    }
-    _prescriptions[rx_id] = rx
+    rx = Prescription(
+        prescription_id=rx_id,
+        tenant_id=tenant_id,
+        pet_id=body.pet_id,
+        session_id=body.session_id,
+        clinic_id=body.clinic_id,
+        issuing_vet_id=actor_id,
+        medication_name=body.medication_name,
+        dosage=body.dosage,
+        instructions=body.instructions,
+        status=STATUS_ISSUED,
+        issued_at=datetime.now(timezone.utc),
+    )
+    try:
+        stored = PRESCRIPTION_REPO.create(rx, actor_id=actor_id, actor_role=actor_role)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Prescription refused: {exc}") from None
     _audit(
         event_name="prescription.issued",
-        actor_id=x_actor_id,
-        actor_role=role,
-        tenant_id=require_tenant(request, body.tenant_id),
+        actor_id=actor_id,
+        actor_role=actor_role,
+        tenant_id=tenant_id,
         resource_type="prescription",
         resource_id=rx_id,
         action_result="success",
         correlation_id=x_correlation_id,
         clinic_id=body.clinic_id,
     )
-    return rx
+    return stored.to_read_model()
+
 
 @app.get("/api/prescriptions/{prescription_id}")
 def get_prescription(
+    request: Request,
     prescription_id: str,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
-    rx = _prescriptions.get(prescription_id)
-    if not rx:
-        raise HTTPException(404, "Prescription not found")
+    tenant_id = require_tenant(request)
+    rx = _rx_or_404(prescription_id, tenant_id)
+    actor_id, actor_role = _actor(request)
     _audit(
         event_name="prescription.viewed",
-        actor_id=x_actor_id,
-        actor_role=role,
-        tenant_id=rx["tenant_id"],
+        actor_id=actor_id,
+        actor_role=actor_role,
+        tenant_id=tenant_id,
         resource_type="prescription",
         resource_id=prescription_id,
         action_result="success",
         correlation_id=x_correlation_id,
-        clinic_id=rx.get("clinic_id"),
+        clinic_id=rx.clinic_id,
     )
-    return rx
+    return rx.to_read_model()
+
+
+@app.post("/api/prescriptions/{prescription_id}/verify")
+def verify_prescription(
+    request: Request,
+    prescription_id: str,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """The veterinarian verification step. ISSUED -> VET_VERIFIED.
+
+    Authority is the veterinarian's, unchanged and deliberately not widened: the
+    professional-authority class for the dispensing chain is unclassified
+    pending a regulatory fact this estate does not hold (REQ-DISP-AUTH-FAILCLOSED,
+    BRD V3.2 §11.1), and verification sits inside that same chain.
+
+    RECORDED HONESTLY: the issuing veterinarian MAY verify their own
+    prescription. This adds a deliberate second ACT but not a second ACTOR, so
+    it is a workflow gate rather than a separation-of-duties control, and it is
+    not presented as one. `verified_by_vet_id` is stored separately from
+    `issuing_vet_id` precisely so a future ratified rule requiring a distinct
+    verifier can be applied to existing records rather than needing a migration
+    to tell the two apart.
+    """
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(
+            403,
+            "Verification is restricted to a veterinarian: the "
+            "professional-authority class for this act is unclassified "
+            "(REQ-DISP-AUTH-FAILCLOSED)",
+        )
+    tenant_id = require_tenant(request)
+    _rx_or_404(prescription_id, tenant_id)
+    actor_id, actor_role = _actor(request)
+    try:
+        moved = PRESCRIPTION_REPO.transition(
+            prescription_id,
+            tenant_id=tenant_id,
+            to_status=STATUS_VET_VERIFIED,
+            actor_id=actor_id,
+            actor_role=actor_role,
+        )
+    except TransitionDenied as exc:
+        # The refusal is audited. A denied clinical transition that leaves no
+        # trace is indistinguishable from one nobody attempted.
+        _audit(
+            event_name="prescription.verification_denied",
+            actor_id=actor_id,
+            actor_role=actor_role,
+            tenant_id=tenant_id,
+            resource_type="prescription",
+            resource_id=prescription_id,
+            action_result="denied",
+            correlation_id=x_correlation_id,
+            reason_code="TRANSITION_NOT_ALLOWED",
+        )
+        raise HTTPException(409, f"Cannot verify — {exc}") from None
+    _audit(
+        event_name="prescription.vet_verified",
+        actor_id=actor_id,
+        actor_role=actor_role,
+        tenant_id=tenant_id,
+        resource_type="prescription",
+        resource_id=prescription_id,
+        action_result="success",
+        correlation_id=x_correlation_id,
+        clinic_id=moved.clinic_id,
+    )
+    return moved.to_read_model()
+
 
 @app.post("/api/prescriptions/{prescription_id}/dispense")
 def dispense_prescription(
     request: Request,
     prescription_id: str,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
-    # REQ-DISP-AUTH-FAILCLOSED (BRD V3.2 s11.1). Dispensing acts whose
+    # REQ-DISP-AUTH-FAILCLOSED (BRD V3.2 §11.1). Dispensing acts whose
     # professional-authority class is unclassified fail closed to VETERINARIAN.
     # This route previously required PHARMACY_OPERATOR and DENIED the
     # veterinarian - the exact inversion of the governed invariant, using a role
@@ -809,25 +950,247 @@ def dispense_prescription(
             "Dispensing is restricted to a veterinarian: the professional-authority "
             "class for this act is unclassified (REQ-DISP-AUTH-FAILCLOSED)",
         )
-    rx = _prescriptions.get(prescription_id)
-    if not rx:
-        raise HTTPException(404, "Prescription not found")
-    if rx["status"] != "ISSUED":
-        raise HTTPException(409, f"Cannot dispense — status is {rx['status']}")
-    now = utc_now_iso()
-    rx["status"] = "DISPENSED"
-    rx["dispensed_at"] = now
+    tenant_id = require_tenant(request)
+    _rx_or_404(prescription_id, tenant_id)
+    actor_id, actor_role = _actor(request)
+    try:
+        moved = PRESCRIPTION_REPO.transition(
+            prescription_id,
+            tenant_id=tenant_id,
+            to_status=STATUS_DISPENSED,
+            actor_id=actor_id,
+            actor_role=actor_role,
+        )
+    except TransitionDenied as exc:
+        _audit(
+            event_name="prescription.dispense_denied",
+            actor_id=actor_id,
+            actor_role=actor_role,
+            tenant_id=tenant_id,
+            resource_type="prescription",
+            resource_id=prescription_id,
+            action_result="denied",
+            correlation_id=x_correlation_id,
+            reason_code="TRANSITION_NOT_ALLOWED",
+        )
+        # 409, and the message names the state. An unverified prescription and
+        # an already-dispensed one are both refused here, by the same rule.
+        raise HTTPException(409, f"Cannot dispense — {exc}") from None
     _audit(
         event_name="prescription.dispensed",
-        actor_id=x_actor_id,
-        actor_role=role,
-        tenant_id=require_tenant(request),
+        actor_id=actor_id,
+        actor_role=actor_role,
+        tenant_id=tenant_id,
         resource_type="prescription",
         resource_id=prescription_id,
         action_result="success",
         correlation_id=x_correlation_id,
+        clinic_id=moved.clinic_id,
     )
-    return rx
+    return moved.to_read_model()
+
+
+# ---------------------------------------------------------------------------
+# Prescription attachments  (Option A §5)
+# ---------------------------------------------------------------------------
+DOCUMENT_STORE = build_document_store()
+
+
+@app.post("/api/prescriptions/{prescription_id}/documents")
+async def upload_prescription_document(
+    request: Request,
+    prescription_id: str,
+    file: UploadFile = File(...),
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """Attach a prescription document.
+
+    ORDER IS LOAD-BEARING (§5, "upload failure does not create an inconsistent
+    prescription state"):
+      1. authorize, and resolve the prescription inside the caller's tenant;
+      2. validate the payload — type and size — BEFORE anything is written;
+      3. write the object;
+      4. write the metadata row.
+    Nothing about the prescription changes until the bytes are known storable,
+    and the metadata row is written last so a row can never reference an object
+    that was never stored.
+    """
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(403, "Only vets may attach prescription documents")
+    tenant_id = require_tenant(request)
+    _rx_or_404(prescription_id, tenant_id)
+    actor_id, actor_role = _actor(request)
+
+    payload = await file.read()
+    try:
+        validate_upload(content_type=file.content_type or "", payload=payload)
+    except DocumentRejected as exc:
+        _audit(
+            event_name="prescription.document_rejected",
+            actor_id=actor_id,
+            actor_role=actor_role,
+            tenant_id=tenant_id,
+            resource_type="prescription",
+            resource_id=prescription_id,
+            action_result="denied",
+            correlation_id=x_correlation_id,
+            reason_code="DOCUMENT_REJECTED",
+        )
+        raise HTTPException(400, str(exc)) from None
+
+    storage_key = new_storage_key(tenant_id=tenant_id, prescription_id=prescription_id)
+    doc = PrescriptionDocument(
+        document_id=str(uuid4()),
+        prescription_id=prescription_id,
+        tenant_id=tenant_id,
+        uploaded_by_actor_id=actor_id,
+        # The caller's filename is metadata. It is never joined to a path —
+        # storage_key is server-generated, so a traversal sequence in a filename
+        # reaches the same code and the same directory as any other name.
+        filename=file.filename or "prescription",
+        content_type=(file.content_type or "").split(";")[0].strip().lower(),
+        byte_size=len(payload),
+        content_sha256=sha256_hex(payload),
+        storage_key=storage_key,
+        uploaded_at=datetime.now(timezone.utc),
+    )
+    try:
+        DOCUMENT_STORE.put(storage_key, payload)
+    except (ObjectStoreUnavailable, DocumentRejected) as exc:
+        raise HTTPException(503, f"Document store unavailable: {exc}") from None
+    try:
+        stored = PRESCRIPTION_REPO.attach_document(doc)
+    except (RepositoryDenied, PrescriptionNotFound) as exc:
+        raise HTTPException(400, f"Document refused: {exc}") from None
+
+    _audit(
+        event_name="prescription.document_uploaded",
+        actor_id=actor_id,
+        actor_role=actor_role,
+        tenant_id=tenant_id,
+        resource_type="prescription_document",
+        resource_id=stored.document_id,
+        action_result="success",
+        correlation_id=x_correlation_id,
+    )
+    return stored.to_read_model()
+
+
+@app.get("/api/prescriptions/{prescription_id}/documents")
+def list_prescription_documents(
+    request: Request,
+    prescription_id: str,
+    role: str = Depends(require_role),
+):
+    tenant_id = require_tenant(request)
+    _rx_or_404(prescription_id, tenant_id)
+    return [
+        d.to_read_model()
+        for d in PRESCRIPTION_REPO.documents_for(prescription_id, tenant_id=tenant_id)
+    ]
+
+
+@app.get("/api/prescriptions/{prescription_id}/documents/{document_id}")
+def download_prescription_document(
+    request: Request,
+    prescription_id: str,
+    document_id: str,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """Serve the bytes — as a download, never as a rendered document.
+
+    `application/octet-stream` plus `Content-Disposition: attachment` regardless
+    of the stored content type. The stored type is attacker-influenced; serving
+    a file inline under a type the uploader chose is how an attachment becomes
+    stored XSS in the application's own origin.
+    """
+    tenant_id = require_tenant(request)
+    _rx_or_404(prescription_id, tenant_id)
+    doc = PRESCRIPTION_REPO.get_document(document_id, tenant_id=tenant_id)
+    if doc is None or doc.prescription_id != prescription_id:
+        raise HTTPException(404, "Document not found")
+    try:
+        payload = DOCUMENT_STORE.get(doc.storage_key)
+    except ObjectStoreUnavailable as exc:
+        raise HTTPException(503, f"Document store unavailable: {exc}") from None
+
+    actor_id, actor_role = _actor(request)
+    _audit(
+        event_name="prescription.document_downloaded",
+        actor_id=actor_id,
+        actor_role=actor_role,
+        tenant_id=tenant_id,
+        resource_type="prescription_document",
+        resource_id=document_id,
+        action_result="success",
+        correlation_id=x_correlation_id,
+    )
+    return Response(
+        content=payload,
+        media_type=SERVED_CONTENT_TYPE,
+        headers={"Content-Disposition": 'attachment; filename="prescription-document"'},
+    )
+
+
+# ---------------------------------------------------------------------------
+# The dispensing queue  (Option A §7/§8)
+# ---------------------------------------------------------------------------
+@app.get("/api/prescriptions/queue/awaiting-dispense")
+def awaiting_dispense_queue(
+    request: Request,
+    role: str = Depends(require_role),
+):
+    """Verified prescriptions in the caller's tenant, awaiting dispense.
+
+    This is the surface the pilot's dispensing screen reads.
+
+    WHO MAY READ IT. Veterinarian and partner clinic admin — both existing
+    canonical roles. NO new role is introduced here. `pharmacy` is not an
+    authorization principal in this estate (PHARMACY_ROLE=REMOVE, W0-D), and
+    admitting one is a Sponsor product act, not an engineering convenience. The
+    consequence is stated plainly rather than worked around: an external
+    pharmacy operator CANNOT read this queue today, because there is no identity
+    the platform can mint for them.
+
+    The tenant scope comes from the session. There is no tenant parameter to
+    supply, so there is nothing to tamper with.
+    """
+    if role not in (ROLE_VETERINARIAN, ROLE_PARTNER_CLINIC_ADMIN):
+        raise HTTPException(403, "Not authorized to read the dispensing queue")
+    tenant_id = require_tenant(request)
+    return [
+        rx.to_read_model()
+        for rx in PRESCRIPTION_REPO.list_by_status(
+            tenant_id=tenant_id, status=STATUS_VET_VERIFIED
+        )
+    ]
+
+
+@app.get("/api/prescriptions/{prescription_id}/transitions")
+def prescription_transitions(
+    request: Request,
+    prescription_id: str,
+    role: str = Depends(require_role),
+):
+    """The record's own transition ledger, tenant-scoped."""
+    tenant_id = require_tenant(request)
+    _rx_or_404(prescription_id, tenant_id)
+    return [
+        {
+            "transition_id": t.transition_id,
+            "from_status": t.from_status,
+            "to_status": t.to_status,
+            "actor_id": t.actor_id,
+            "actor_role": t.actor_role,
+            "occurred_at": t.occurred_at.astimezone(timezone.utc)
+            .isoformat()
+            .replace("+00:00", "Z"),
+        }
+        for t in PRESCRIPTION_REPO.transitions_for(prescription_id, tenant_id=tenant_id)
+    ]
+
 
 # ---------------------------------------------------------------------------
 # Pet profiles (UPHR)

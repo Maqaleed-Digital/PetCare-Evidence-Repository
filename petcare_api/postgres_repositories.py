@@ -36,6 +36,7 @@ from __future__ import annotations
 import secrets
 from datetime import datetime, timedelta, timezone
 from typing import Any, Iterable, Optional
+from uuid import uuid4
 
 from repositories import (
     InviteCode,
@@ -629,3 +630,239 @@ class PostgresTenantRepository:
     def count(self) -> int:
         with self._pool.connection() as conn:
             return conn.execute("SELECT count(*) FROM tenant").fetchone()[0]
+
+
+# ---------------------------------------------------------------------------
+# Prescriptions (FR-14, migration 0036)
+# ---------------------------------------------------------------------------
+
+
+class PostgresPrescriptionRepository:
+    """`PrescriptionRepository` backed by `prescription` and its two children.
+
+    The transition method is the whole point of this class, and the reason it is
+    written as a single conditional UPDATE rather than read-modify-write:
+
+        UPDATE ... WHERE prescription_id = %s AND tenant_id = %s AND status = %s
+
+    Two processes dispensing the same prescription concurrently both read
+    `VET_VERIFIED`, both decide the move is legal, and both write. With a
+    conditional update the second one matches zero rows and is refused, because
+    the state it believed in is no longer in the table. A read-modify-write
+    would dispense twice and the audit log would faithfully record both.
+
+    `rowcount == 0` is therefore not treated as "already done" — it is a
+    refusal, and it is distinguished from "no such prescription" by a follow-up
+    read inside the same tenant scope.
+    """
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    # -- row mapping -----------------------------------------------------
+    _COLUMNS = (
+        "prescription_id, tenant_id, pet_id, session_id, clinic_id, "
+        "issuing_vet_id, medication_name, dosage, instructions, status, "
+        "issued_at, verified_at, verified_by_vet_id, dispensed_at, "
+        "dispensed_by_actor_id"
+    )
+
+    @staticmethod
+    def _to_prescription(row):
+        from prescriptions import Prescription
+
+        return Prescription(
+            prescription_id=row[0], tenant_id=row[1], pet_id=row[2],
+            session_id=row[3], clinic_id=row[4], issuing_vet_id=row[5],
+            medication_name=row[6], dosage=row[7], instructions=row[8],
+            status=row[9], issued_at=_from_db(row[10]),
+            verified_at=_from_db(row[11]), verified_by_vet_id=row[12],
+            dispensed_at=_from_db(row[13]), dispensed_by_actor_id=row[14],
+        )
+
+    # -- writes ----------------------------------------------------------
+    def create(self, rx, *, actor_id: str, actor_role: str):
+        from prescriptions import STATUS_ISSUED
+
+        if rx.status != STATUS_ISSUED:
+            raise RepositoryDenied(
+                f"a prescription is created in {STATUS_ISSUED}, not {rx.status!r}"
+            )
+        try:
+            with self._pool.connection() as conn:
+                # One transaction. A prescription whose issuing transition was
+                # not recorded is a record with no provenance, and a transition
+                # with no prescription is a ledger entry about nothing; the two
+                # rows are written together or neither is.
+                conn.execute(
+                    f"INSERT INTO prescription ({self._COLUMNS}) "
+                    "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    (rx.prescription_id, rx.tenant_id, rx.pet_id, rx.session_id,
+                     rx.clinic_id, rx.issuing_vet_id, rx.medication_name,
+                     rx.dosage, rx.instructions, rx.status, _to_db(rx.issued_at),
+                     None, None, None, None),
+                )
+                conn.execute(
+                    "INSERT INTO prescription_status_transition "
+                    "(transition_id, prescription_id, from_status, to_status, "
+                    " actor_id, actor_role, tenant_id, occurred_at) "
+                    "VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                    (str(uuid4()), rx.prescription_id, None, STATUS_ISSUED,
+                     actor_id, actor_role, rx.tenant_id, _to_db(rx.issued_at)),
+                )
+        except Exception as exc:
+            raise RepositoryDenied(
+                f"prescription {rx.prescription_id!r} was refused "
+                f"({type(exc).__name__})"
+            ) from None
+        return self.get(rx.prescription_id, tenant_id=rx.tenant_id) or rx
+
+    def transition(self, prescription_id: str, *, tenant_id: str, to_status: str,
+                   actor_id: str, actor_role: str, at=None):
+        from prescriptions import (
+            PrescriptionNotFound, STATUS_DISPENSED, STATUS_VET_VERIFIED,
+            TransitionDenied, assert_transition_allowed,
+        )
+
+        current = self.get(prescription_id, tenant_id=tenant_id)
+        if current is None:
+            raise PrescriptionNotFound(prescription_id)
+        # Checked before the statement so the caller gets the governed reason
+        # rather than "0 rows matched", which is also what a concurrent writer
+        # produces and would be indistinguishable from it.
+        assert_transition_allowed(from_status=current.status, to_status=to_status)
+
+        now = _to_db(at or _utc_now())
+        if to_status == STATUS_VET_VERIFIED:
+            sql = ("UPDATE prescription SET status = %s, verified_at = %s, "
+                   "verified_by_vet_id = %s "
+                   "WHERE prescription_id = %s AND tenant_id = %s AND status = %s")
+        elif to_status == STATUS_DISPENSED:
+            sql = ("UPDATE prescription SET status = %s, dispensed_at = %s, "
+                   "dispensed_by_actor_id = %s "
+                   "WHERE prescription_id = %s AND tenant_id = %s AND status = %s")
+        else:  # pragma: no cover - assert_transition_allowed rejects these first
+            raise TransitionDenied(f"unsupported target status {to_status!r}")
+
+        with self._pool.connection() as conn:
+            cur = conn.execute(
+                sql,
+                (to_status, now, actor_id, prescription_id, tenant_id,
+                 current.status),
+            )
+            if cur.rowcount != 1:
+                raise TransitionDenied(
+                    f"prescription {prescription_id!r} was not in "
+                    f"{current.status!r} when the move was applied; refusing "
+                    "rather than overwriting a state another writer set"
+                )
+            conn.execute(
+                "INSERT INTO prescription_status_transition "
+                "(transition_id, prescription_id, from_status, to_status, "
+                " actor_id, actor_role, tenant_id, occurred_at) "
+                "VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                (str(uuid4()), prescription_id, current.status, to_status,
+                 actor_id, actor_role, tenant_id, now),
+            )
+        return self.get(prescription_id, tenant_id=tenant_id)
+
+    def attach_document(self, doc):
+        from prescriptions import PrescriptionNotFound
+
+        if self.get(doc.prescription_id, tenant_id=doc.tenant_id) is None:
+            raise PrescriptionNotFound(doc.prescription_id)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(
+                    "INSERT INTO prescription_document "
+                    "(document_id, prescription_id, tenant_id, "
+                    " uploaded_by_actor_id, filename, content_type, byte_size, "
+                    " content_sha256, storage_key, uploaded_at) "
+                    "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    (doc.document_id, doc.prescription_id, doc.tenant_id,
+                     doc.uploaded_by_actor_id, doc.filename, doc.content_type,
+                     doc.byte_size, doc.content_sha256, doc.storage_key,
+                     _to_db(doc.uploaded_at)),
+                )
+        except Exception as exc:
+            raise RepositoryDenied(
+                f"document {doc.document_id!r} was refused "
+                f"({type(exc).__name__})"
+            ) from None
+        return doc
+
+    # -- reads -----------------------------------------------------------
+    def get(self, prescription_id: str, *, tenant_id: str):
+        with self._pool.connection() as conn:
+            row = conn.execute(
+                f"SELECT {self._COLUMNS} FROM prescription "
+                "WHERE prescription_id = %s AND tenant_id = %s",
+                (prescription_id, tenant_id),
+            ).fetchone()
+        return self._to_prescription(row) if row else None
+
+    def list_by_status(self, *, tenant_id: str, status: str):
+        with self._pool.connection() as conn:
+            rows = conn.execute(
+                f"SELECT {self._COLUMNS} FROM prescription "
+                "WHERE tenant_id = %s AND status = %s ORDER BY issued_at",
+                (tenant_id, status),
+            ).fetchall()
+        return [self._to_prescription(r) for r in rows]
+
+    def transitions_for(self, prescription_id: str, *, tenant_id: str):
+        from prescriptions import StatusTransition
+
+        with self._pool.connection() as conn:
+            rows = conn.execute(
+                "SELECT transition_id, prescription_id, from_status, to_status, "
+                "       actor_id, actor_role, tenant_id, occurred_at "
+                "FROM prescription_status_transition "
+                "WHERE prescription_id = %s AND tenant_id = %s "
+                "ORDER BY occurred_at, transition_id",
+                (prescription_id, tenant_id),
+            ).fetchall()
+        return [
+            StatusTransition(
+                transition_id=r[0], prescription_id=r[1], from_status=r[2],
+                to_status=r[3], actor_id=r[4], actor_role=r[5], tenant_id=r[6],
+                occurred_at=_from_db(r[7]),
+            )
+            for r in rows
+        ]
+
+    def documents_for(self, prescription_id: str, *, tenant_id: str):
+        with self._pool.connection() as conn:
+            rows = conn.execute(
+                "SELECT document_id, prescription_id, tenant_id, "
+                "       uploaded_by_actor_id, filename, content_type, "
+                "       byte_size, content_sha256, storage_key, uploaded_at "
+                "FROM prescription_document "
+                "WHERE prescription_id = %s AND tenant_id = %s "
+                "ORDER BY uploaded_at, document_id",
+                (prescription_id, tenant_id),
+            ).fetchall()
+        return [self._to_document(r) for r in rows]
+
+    def get_document(self, document_id: str, *, tenant_id: str):
+        with self._pool.connection() as conn:
+            row = conn.execute(
+                "SELECT document_id, prescription_id, tenant_id, "
+                "       uploaded_by_actor_id, filename, content_type, "
+                "       byte_size, content_sha256, storage_key, uploaded_at "
+                "FROM prescription_document "
+                "WHERE document_id = %s AND tenant_id = %s",
+                (document_id, tenant_id),
+            ).fetchone()
+        return self._to_document(row) if row else None
+
+    @staticmethod
+    def _to_document(row):
+        from prescriptions import PrescriptionDocument
+
+        return PrescriptionDocument(
+            document_id=row[0], prescription_id=row[1], tenant_id=row[2],
+            uploaded_by_actor_id=row[3], filename=row[4], content_type=row[5],
+            byte_size=row[6], content_sha256=row[7], storage_key=row[8],
+            uploaded_at=_from_db(row[9]),
+        )

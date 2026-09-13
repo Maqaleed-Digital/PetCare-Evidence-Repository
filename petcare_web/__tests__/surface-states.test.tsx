@@ -72,10 +72,29 @@ describe('PORT-08 empty states', () => {
   })
 
   it('/pharmacy names an empty state for every queue it shows', () => {
+    /*
+     * The surface changed shape, and the expected strings changed with it.
+     *
+     * It used to carry FOUR permanently-empty cards: validated prescriptions,
+     * safety checks, cold-chain tracking and a dispense log. Three of those
+     * named capabilities Option A does not deliver — safety checks is FR-15,
+     * cold-chain is FR-16 — and a card that names a capability reads as a
+     * delivered feature whatever its empty state says. They were removed rather
+     * than left showing "no items", so the strings they owned are gone too.
+     *
+     * What remains is two regions backed by real API calls. Mounted with no
+     * server reachable, the fetch fails and BOTH must still name their state —
+     * which is the property this test actually cares about and the reason it
+     * survives the rewrite rather than being deleted.
+     */
     mount(<PharmacyPage />)
-    for (const empty of ['القائمة فارغة', 'لا توجد تنبيهات نشطة',
-                         'لا توجد عناصر سلسلة باردة', 'لا توجد عمليات صرف بعد']) {
-      expect(screen.getByText(empty)).toBeInTheDocument()
+    const regions = document.querySelectorAll('[data-list-region]')
+    expect(regions.length, 'the pharmacy surface lost its list regions').toBe(2)
+    for (const region of Array.from(regions)) {
+      expect(
+        region.querySelector('[data-list-empty]'),
+        `region "${region.getAttribute('data-list-region')}" named no empty state`,
+      ).not.toBeNull()
     }
   })
 
@@ -159,7 +178,18 @@ describe('PORT-08 forbidden states', () => {
       }
       unmount()
     }
-    expect(inspected).toBe(8)
+    /*
+     * SIX, not eight. The denominator moved because /pharmacy went from four
+     * list regions to two: the cold-chain and safety-check cards named FR-16
+     * and FR-15 capabilities that Option A does not deliver, and the dispense
+     * log was folded into the prescription detail region.
+     *
+     * The count stays hard-coded and is updated deliberately here. That is the
+     * whole point of it — this test failing on the denominator is what forced
+     * the change to be noticed rather than absorbed silently, which is exactly
+     * what it was written to do.
+     */
+    expect(inspected).toBe(6)
   })
 
   it('the list-region guard fails on a region that resolves to neither', () => {
