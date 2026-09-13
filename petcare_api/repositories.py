@@ -57,8 +57,14 @@ def _utc_now() -> datetime:
 PROVENANCE_SEED = "SEED"
 PROVENANCE_REGISTRATION = "REGISTRATION"
 PROVENANCE_IDENTITY_MIGRATION = "IDENTITY_MIGRATION"
+#: The single-use first-`platform_admin` genesis act (migration 0035, Sponsor
+#: ruling MVC-GENESIS-PLATFORM-ADMIN-001). A fourth origin rather than a reuse
+#: of `SEED`, because the first administrator is not a development artefact and
+#: must stay distinguishable from one for as long as the row exists.
+PROVENANCE_GENESIS = "GENESIS"
 VALID_PROVENANCE = frozenset({
-    PROVENANCE_SEED, PROVENANCE_REGISTRATION, PROVENANCE_IDENTITY_MIGRATION
+    PROVENANCE_SEED, PROVENANCE_REGISTRATION, PROVENANCE_IDENTITY_MIGRATION,
+    PROVENANCE_GENESIS,
 })
 
 

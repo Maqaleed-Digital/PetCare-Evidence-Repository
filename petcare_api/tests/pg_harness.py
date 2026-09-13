@@ -128,6 +128,12 @@ def reset_w0f_tables(url: str) -> None:
     with psycopg.connect(url, autocommit=True) as conn:
         for table in ("app_session", "invite_code",
                       "identity_migration_quarantine", "audit_event",
+                      # The genesis consumption record references user_identity
+                      # (migration 0035), so it is emptied before its parent.
+                      # Omitting it does not merely leave a stale row: the FK
+                      # makes the user_identity delete fail, and every suite
+                      # sharing this database errors in teardown.
+                      "platform_admin_genesis",
                       # Children before parents: user_identity and app_session
                       # both reference tenant (migration 0034).
                       "user_identity", "tenant"):
