@@ -1,0 +1,762 @@
+{
+  "FR-01": {
+    "basis": [
+      "petcare_api/routers/auth.py:386 register (invite-gated)",
+      "petcare_api/routers/auth.py:311 sign_in",
+      "petcare_api/routers/auth.py:579 me",
+      "petcare_api/routers/auth.py:611 sign_out",
+      "petcare_api/roles.py:66 ALLOWED_ROLES = platform_admin, partner_clinic_admin, veterinarian, owner",
+      "petcare_api/main.py:141 app.include_router(auth_router)"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "petcare_api/persistence.py:53 PETCARE_PERSISTENCE_MODE selects memory|postgres; no fallback (persistence.py:90); postgres adapter petcare_api/postgres_repositories.py. PERSISTENT_POSTGRES holds only when the deployment sets postgres; W1 imported the app in memory mode",
+        "petcare_api/routers/auth.py:35 PERSISTENCE = build_persistence()",
+        "petcare_api/routers/auth.py:551 require_tenant: tenant from signed session",
+        "petcare_api/routers/auth.py:265 _log_auth_event is a log line, not the audit chain (AUTH_EVENTS_OUTSIDE_AUDIT_CHAIN)",
+        "petcare_web/app/register/page.tsx:45 POST /api/auth/register",
+        "petcare_web/app/signin/page.tsx:37 POST /api/auth/sign-in",
+        "petcare_web/app/account/page.tsx:31 reads localStorage vc_user, not /api/auth/me",
+        "petcare_web/components/Nav.tsx:38 POST /api/auth/sign-out"
+      ],
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/register",
+        "petcare_web:/signin",
+        "petcare_web:/account",
+        "petcare_web:Nav(sign-out)"
+      ]
+    },
+    "implements": [
+      "routers.auth:register",
+      "routers.auth:sign_in",
+      "routers.auth:me",
+      "routers.auth:sign_out",
+      "roles:ALLOWED_ROLES"
+    ],
+    "legacy": [
+      "W0-D",
+      "PHARMACY_ROLE=REMOVE",
+      "CONF-01"
+    ],
+    "routes": [
+      "POST /api/auth/register",
+      "POST /api/auth/sign-in",
+      "GET /api/auth/me",
+      "POST /api/auth/sign-out"
+    ],
+    "tests": [
+      "petcare_api/tests/test_auth.py",
+      "petcare_api/tests/test_register.py",
+      "petcare_api/tests/test_role_authority.py"
+    ],
+    "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role."
+  },
+  "FR-02": {
+    "basis": [
+      "petcare_api/main.py:1204 POST /api/pets -> uphr_service.create_pet",
+      "petcare_runtime/src/petcare/uphr/service.py:50 create_pet",
+      "petcare_runtime/src/petcare/uphr/service.py:71 create_allergy_record",
+      "petcare_runtime/src/petcare/uphr/service.py:89 create_medication_record"
+    ],
+    "fitness": {
+      "audit_actor_source": "CLIENT_SUPPLIED",
+      "basis": [
+        "petcare_runtime/src/petcare/uphr/service.py:44 FileBackedRepository('petcare_runtime/data/uphr_store.json')",
+        "petcare_api/main.py:1215 tenant_id=require_tenant(request, body.tenant_id)",
+        "petcare_api/main.py:1209 x_actor_id: str = Header(...) written as audit actor",
+        "no petcare_web page calls /api/pets (grep of petcare_web/app, components, lib)"
+      ],
+      "storage": "FILE",
+      "tenant_source": "SESSION",
+      "ui_surface": []
+    },
+    "implements": [
+      "main:create_pet",
+      "petcare.uphr.service:UPHRService.create_pet",
+      "petcare.uphr.service:UPHRService.create_allergy_record",
+      "petcare.uphr.service:UPHRService.create_medication_record"
+    ],
+    "legacy": [],
+    "routes": [
+      "POST /api/pets"
+    ],
+    "tests": [],
+    "unresolved": "No test exercises POST /api/pets or main:create_pet. petcare_runtime/tests/test_ep01_ep02_baseline.py:103 tests petcare.api.routes_ep01_ep02:create_pet_profile, an UNMOUNTED router, so it is not bound. Allergy/medication-history writers exist but no served route reaches them; only profile creation (name, species) is served. No read route for a pet profile is served."
+  },
+  "FR-03": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for family|shared access|delegat"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for family|shared access|delegat"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-04": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for kyc"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for kyc"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-05": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for sfda|licen[cs]e (in server code)"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for sfda|licen[cs]e (in server code)"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "Vet identities are minted by invite-gated registration (petcare_api/routers/auth.py:386) and time-bounded professional authority grants exist (petcare_runtime/src/petcare/professional_authority/authority.py:107, unmounted), but no SFDA/licence registration or verification is evidenced. Not bound."
+  },
+  "FR-06": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for video|webrtc|screen share"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for video|webrtc|screen share"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "Consultation session and note routes are served (petcare_api/main.py:595) but carry no video or screen-sharing capability; not bound by naming."
+  },
+  "FR-07": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for chat"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for chat"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "Prescription document upload is served (petcare_api/main.py:999) but is scoped to FR-14 prescriptions, not general chat/file sharing; not bound."
+  },
+  "FR-08": {
+    "basis": [
+      "petcare_runtime/src/petcare/ai_runtime/service.py:36 create_ai_intake(symptom_summary=...) assistive AI intake with HITL",
+      "petcare_runtime/src/petcare/api/routes_ep05_wave03.py:12 APIRouter not included by main.app (petcare_api/main.py:141 mounts auth only)",
+      "petcare_web/lib/triage.ts:102 evaluateTriage: rule-based red-flag table, NO POST (triage.ts:8)"
+    ],
+    "fitness": {
+      "audit_actor_source": "UNKNOWN",
+      "basis": [
+        "petcare_runtime/src/petcare/ai_runtime/service.py:11 FileAIRuntimeRepository",
+        "not served: tenant and actor derivation on a serving path cannot be measured",
+        "petcare_web/app/owner/emergency/page.tsx:10 evaluation runs client-side via lib/triage.ts"
+      ],
+      "storage": "FILE",
+      "tenant_source": "UNKNOWN",
+      "ui_surface": [
+        "petcare_web:/owner/emergency"
+      ]
+    },
+    "implements": [
+      "petcare.ai_runtime.service:AIRuntimeService.create_ai_intake",
+      "petcare_web/lib/triage.ts#evaluateTriage"
+    ],
+    "legacy": [
+      "MVC-UX-WO-001 WI-3"
+    ],
+    "routes": [],
+    "tests": [
+      "tests/ep05/test_ai_runtime.py"
+    ],
+    "unresolved": "The served app mounts no AI intake route. The only customer-facing symptom surface is a client-side rule table, not AI-powered."
+  },
+  "FR-09": {
+    "basis": [
+      "petcare_web/components/LangProvider.tsx:8 default 'ar' (Arabic-first per FR-09)",
+      "petcare_web/app/layout.tsx:29 <LangProvider> wraps every page",
+      "petcare_web/lib/strings.ts:9 STRINGS ar/en catalogue",
+      "web tests (vitest, not pytest-collectable): petcare_web/__tests__/lang-persistence.test.tsx"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "petcare_web/app/layout.tsx:29 language context is client-side; no server state"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": [
+        "petcare_web:* (all pages via app/layout.tsx)"
+      ]
+    },
+    "implements": [
+      "petcare_web/components/LangProvider.tsx#LangProvider",
+      "petcare_web/components/LanguageToggle.tsx#LanguageToggle",
+      "petcare_web/lib/strings.ts#STRINGS"
+    ],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "UI-only requirement. No served API route can bind it, so the W1 taxonomy reports BUILT_UNWIRED; its tests are vitest, which the pytest-collection check cannot bind."
+  },
+  "FR-10": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for specialist referral"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for specialist referral"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "petcare_runtime/src/petcare/emergency_network/referral.py:95 builds an EMERGENCY referral package (bound under FR-11); no specialist referral system is evidenced."
+  },
+  "FR-11": {
+    "basis": [
+      "petcare_runtime/src/petcare/emergency_network/routing.py:98 route_emergency_case",
+      "petcare_runtime/src/petcare/emergency_network/referral.py:95 build_emergency_referral_package",
+      "petcare_runtime/src/petcare/api/routes_ep06_wave01.py:12 APIRouter not included by main.app",
+      "petcare_web/app/owner/emergency/page.tsx:8 'NOT FR-11: no vet queue, no live routing'"
+    ],
+    "fitness": {
+      "audit_actor_source": "UNKNOWN",
+      "basis": [
+        "not served: routing is computed over caller-supplied candidates; persistence and identity derivation on a serving path cannot be measured"
+      ],
+      "storage": "UNKNOWN",
+      "tenant_source": "UNKNOWN",
+      "ui_surface": []
+    },
+    "implements": [
+      "petcare.emergency_network.routing:route_emergency_case",
+      "petcare.emergency_network.referral:build_emergency_referral_package"
+    ],
+    "legacy": [],
+    "routes": [],
+    "tests": [
+      "petcare_runtime/tests/test_emergency_routing_service.py",
+      "petcare_runtime/tests/test_emergency_referral_packet.py"
+    ],
+    "unresolved": ""
+  },
+  "FR-12": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for consultation recording"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for consultation recording"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-13": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for inventory|stock (server code)"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for inventory|stock (server code)"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-14": {
+    "basis": [
+      "petcare_api/main.py:794 POST /api/prescriptions",
+      "petcare_api/main.py:837 GET /api/prescriptions/{id}",
+      "petcare_api/main.py:861 POST .../verify",
+      "petcare_api/main.py:999 POST .../documents",
+      "petcare_api/main.py:1080 GET .../documents",
+      "petcare_api/main.py:1094 GET .../documents/{document_id}",
+      "petcare_api/main.py:1171 GET .../transitions",
+      "petcare_api/prescriptions.py:83 assert_transition_allowed ISSUED->VET_VERIFIED->DISPENSED",
+      "petcare_api/prescription_documents.py:71 validate_upload",
+      "evidence/traceability/OPTION_A_FR14_FR27_BRIDGE.md legacy alias index"
+    ],
+    "fitness": {
+      "audit_actor_source": "SESSION",
+      "basis": [
+        "petcare_api/persistence.py:53 PETCARE_PERSISTENCE_MODE selects memory|postgres; no fallback (persistence.py:90); postgres adapter petcare_api/postgres_repositories.py. PERSISTENT_POSTGRES holds only when the deployment sets postgres; W1 imported the app in memory mode",
+        "petcare_runtime/migrations/0036_option_a_prescription_persistence.sql",
+        "petcare_api/prescription_documents.py:157 ProductionObjectStore refuses; documents use a local adapter outside production",
+        "petcare_api/main.py:804 require_tenant(request, body.tenant_id)",
+        "petcare_api/main.py:755 _actor(): audit actor from the signed session",
+        "petcare_web/app/pharmacy/page.tsx:119 lists documents; :311 downloads a document",
+        "no petcare_web page issues or verifies a prescription (vet page has no fetch)"
+      ],
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/pharmacy"
+      ]
+    },
+    "implements": [
+      "main:issue_prescription",
+      "main:get_prescription",
+      "main:verify_prescription",
+      "main:upload_prescription_document",
+      "main:list_prescription_documents",
+      "main:download_prescription_document",
+      "main:prescription_transitions",
+      "prescriptions:assert_transition_allowed",
+      "prescription_documents:validate_upload"
+    ],
+    "legacy": [
+      "REQ-DISP-AUTH-FAILCLOSED",
+      "PERSIST-01",
+      "W0-G",
+      "TENANT-05",
+      "PRE-1"
+    ],
+    "routes": [
+      "POST /api/prescriptions",
+      "GET /api/prescriptions/{prescription_id}",
+      "POST /api/prescriptions/{prescription_id}/verify",
+      "POST /api/prescriptions/{prescription_id}/documents",
+      "GET /api/prescriptions/{prescription_id}/documents",
+      "GET /api/prescriptions/{prescription_id}/documents/{document_id}",
+      "GET /api/prescriptions/{prescription_id}/transitions"
+    ],
+    "tests": [
+      "petcare_api/tests/test_option_a_workflow.py",
+      "petcare_api/tests/test_prescription_persistence_postgres.py",
+      "petcare_api/tests/test_served_app_reachability.py"
+    ],
+    "unresolved": ""
+  },
+  "FR-15": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for nearest/optimal pharmacy routing"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for nearest/optimal pharmacy routing"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "petcare_runtime/src/petcare/partner_network/orders_service.py:109 route_order routes to the order's pre-set partner_id ('deterministic_partner_route_from_pricing_reference'); no nearest/optimal selection. petcare_web/app/pharmacy/page.tsx:8 records FR-15 out of Option A scope. Not bound."
+  },
+  "FR-16": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for temperature|cold chain tracking"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for temperature|cold chain tracking"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "petcare_runtime/src/petcare/partner_network/catalog_service.py:22 lists 'cold chain delivery' as a catalogue category only; no delivery tracking. petcare_web/app/pharmacy/page.tsx:8 records FR-16 out of scope."
+  },
+  "FR-17": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for compound"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for compound"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-18": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for subscription"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for subscription"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-19": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for sfda batch tracking|recall"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for sfda batch tracking|recall"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "petcare_runtime/src/petcare/uphr/models.py:65 batch_number_nullable on a VACCINATION record, always None at petcare_runtime/src/petcare/uphr/service.py:121; no medicine batch tracking or recall."
+  },
+  "FR-20": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for cash on delivery|cod|digital receipt"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for cash on delivery|cod|digital receipt"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-21": {
+    "basis": [
+      "petcare_runtime/src/petcare/uphr/service.py:211 get_timeline",
+      "petcare_runtime/src/petcare/uphr/service.py:152 create_clinical_note",
+      "petcare_runtime/src/petcare/uphr/service.py:131 create_lab_result",
+      "petcare_runtime/src/petcare/uphr/service.py:112 create_vaccination_record",
+      "petcare_runtime/src/petcare/uphr/service.py:172 create_document",
+      "petcare_runtime/tests/test_ep01_ep02_wave_02.py:42 service.get_timeline",
+      "petcare_api/main.py imports authorize_view_timeline but serves no timeline route"
+    ],
+    "fitness": {
+      "audit_actor_source": "UNKNOWN",
+      "basis": [
+        "petcare_runtime/src/petcare/uphr/service.py:44 FileBackedRepository",
+        "not served: tenant and actor derivation on a serving path cannot be measured"
+      ],
+      "storage": "FILE",
+      "tenant_source": "UNKNOWN",
+      "ui_surface": []
+    },
+    "implements": [
+      "petcare.uphr.service:UPHRService.get_timeline",
+      "petcare.uphr.service:UPHRService.create_clinical_note",
+      "petcare.uphr.service:UPHRService.create_lab_result",
+      "petcare.uphr.service:UPHRService.create_vaccination_record",
+      "petcare.uphr.service:UPHRService.create_document"
+    ],
+    "legacy": [],
+    "routes": [],
+    "tests": [
+      "petcare_runtime/tests/test_ep01_ep02_wave_02.py"
+    ],
+    "unresolved": ""
+  },
+  "FR-22": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for external clinic system integration"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for external clinic system integration"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "petcare_runtime/src/petcare/integration_control/adapters.py:7 adapter types are ERP, accounting export, payment gateway; no clinic-system integration evidenced."
+  },
+  "FR-23": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for reminder"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for reminder"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "petcare_runtime/src/petcare/uphr/models.py:63 next_due_at_nullable exists, always None at petcare_runtime/src/petcare/uphr/service.py:119; no reminder mechanism."
+  },
+  "FR-24": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for trend|analytic"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for trend|analytic"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-25": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for medical record export"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for medical record export"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "'export' hits are AI-evidence and settlement exports (petcare_runtime/src/petcare/ai_evidence, partner_network/settlement_export*); none exports a pet medical record."
+  },
+  "FR-26": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for iot|device (non-sealing)"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for iot|device (non-sealing)"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-27": {
+    "basis": [
+      "petcare_api/main.py:1140 GET queue/awaiting-dispense (veterinarian, partner_clinic_admin)",
+      "petcare_api/main.py:930 POST .../dispense",
+      "petcare_web/app/pharmacy/page.tsx:85 reads the served queue",
+      "evidence/traceability/OPTION_A_FR14_FR27_BRIDGE.md FR-27 PARTIAL / BLOCKED_AT_SPONSOR_GATE"
+    ],
+    "fitness": {
+      "audit_actor_source": "SESSION",
+      "basis": [
+        "petcare_api/persistence.py:53 PETCARE_PERSISTENCE_MODE selects memory|postgres; no fallback (persistence.py:90); postgres adapter petcare_api/postgres_repositories.py. PERSISTENT_POSTGRES holds only when the deployment sets postgres; W1 imported the app in memory mode",
+        "petcare_api/main.py:1162 tenant_id = require_tenant(request)",
+        "petcare_api/main.py:955 _actor(request) on dispense",
+        "petcare_web/app/pharmacy/page.tsx:128 POST dispense"
+      ],
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/pharmacy"
+      ]
+    },
+    "implements": [
+      "main:awaiting_dispense_queue",
+      "main:dispense_prescription"
+    ],
+    "legacy": [
+      "PHARMACY_ROLE=REMOVE",
+      "W0-D",
+      "I-5",
+      "MVC-RETIRED-ROLE-CUSTODY-001",
+      "CONF-01",
+      "DOMAIN_CAPABILITY_PENDING_ROLE_BINDING"
+    ],
+    "routes": [
+      "GET /api/prescriptions/queue/awaiting-dispense",
+      "POST /api/prescriptions/{prescription_id}/dispense"
+    ],
+    "tests": [
+      "petcare_api/tests/test_option_a_workflow.py",
+      "petcare_api/tests/test_dispensing_fail_closed.py"
+    ],
+    "unresolved": "Pharmacy principal absent. petcare_runtime/src/petcare/pharmacy/review.py gates every write on ROLE_PHARMACY, which no mintable role holds; it is unreachable by construction and NOT bound (W1 rule 11). The bound queue is request/response and read by vet/clinic admin; 'real-time' and pharmacy-operator use are not established."
+  },
+  "FR-28": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for forecast|replenish"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for forecast|replenish"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": "petcare_runtime/src/petcare/intelligent_ops/predictive.py:7 signals are expected_delay, dispute_likelihood, liquidity_pressure; no inventory forecasting."
+  },
+  "FR-29": {
+    "basis": [
+      "petcare_runtime/src/petcare/financial_execution/invoices.py:8 generate_partner_invoice (platform_fee_total, net_amount at :22-29)",
+      "petcare_runtime/src/petcare/financial_execution/payouts.py:10 build_partner_payouts (net payout per partner)",
+      "petcare_web/lib/marketplace.ts MARKETPLACE_SEAM_WIRED=false; no served financial route"
+    ],
+    "fitness": {
+      "audit_actor_source": "UNKNOWN",
+      "basis": [
+        "not served: pure computation over a SettlementPackage; store and identity derivation not measurable"
+      ],
+      "storage": "UNKNOWN",
+      "tenant_source": "UNKNOWN",
+      "ui_surface": []
+    },
+    "implements": [
+      "petcare.financial_execution.invoices:generate_partner_invoice",
+      "petcare.financial_execution.payouts:build_partner_payouts"
+    ],
+    "legacy": [],
+    "routes": [],
+    "tests": [
+      "petcare_runtime/tests/financial_execution/test_financial_execution.py"
+    ],
+    "unresolved": "Fee and payout arithmetic exists; commission-rate authoring and automation trigger are not evidenced. Not served."
+  },
+  "FR-30": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for compliance report"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for compliance report"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  },
+  "FR-31": {
+    "basis": [
+      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for behavio(u)r analytics"
+    ],
+    "fitness": {
+      "audit_actor_source": "NONE",
+      "basis": [
+        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for behavio(u)r analytics"
+      ],
+      "storage": "NONE",
+      "tenant_source": "NONE",
+      "ui_surface": []
+    },
+    "implements": [],
+    "legacy": [],
+    "routes": [],
+    "tests": [],
+    "unresolved": ""
+  }
+}

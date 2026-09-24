@@ -1,0 +1,1011 @@
+{
+  "acceptance_note": "Engineering status only. acceptance_state is CRITERIA_NOT_RATIFIED for every requirement; no requirement is ACCEPTED or CLIENT_ACCEPTED.",
+  "inputs": {
+    "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
+    "served_app": "main:app",
+    "served_route_count": 33
+  },
+  "known_limit": "REACHABLE_TESTED does not prove bound tests exercise the served app",
+  "lane": "MVC-BUILD-W1",
+  "requirements": [
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 6,
+        "implements": 5,
+        "legacy": 3,
+        "routes": 4,
+        "tests": 3,
+        "ui_surface": 4
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/register",
+          "petcare_web:/signin",
+          "petcare_web:/account",
+          "petcare_web:Nav(sign-out)"
+        ]
+      },
+      "id": "FR-01",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "all bound routes served; all bound tests collected"
+      ],
+      "status": "REACHABLE_TESTED",
+      "title": "Multi-role user accounts (Owner, Vet, Pharmacist, Admin)",
+      "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 4,
+        "implements": 4,
+        "legacy": 0,
+        "routes": 1,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "CLIENT_SUPPLIED",
+        "storage": "FILE",
+        "tenant_source": "SESSION",
+        "ui_surface": []
+      },
+      "id": "FR-02",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "all bound routes served; no test bound"
+      ],
+      "status": "REACHABLE_UNTESTED",
+      "title": "Comprehensive pet profiles (medical history, allergies, preferences)",
+      "unresolved": "No test exercises POST /api/pets or main:create_pet. petcare_runtime/tests/test_ep01_ep02_baseline.py:103 tests petcare.api.routes_ep01_ep02:create_pet_profile, an UNMOUNTED router, so it is not bound. Allergy/medication-history writers exist but no served route reaches them; only profile creation (name, species) is served. No read route for a pet profile is served."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-03",
+      "phase": 2,
+      "priority": "Medium",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Family/shared access to pet profiles with permission controls",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-04",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "KYC verification for controlled medication purchases",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-05",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "SFDA-compliant vet registration and verification",
+      "unresolved": "Vet identities are minted by invite-gated registration (petcare_api/routers/auth.py:386) and time-bounded professional authority grants exist (petcare_runtime/src/petcare/professional_authority/authority.py:107, unmounted), but no SFDA/licence registration or verification is evidenced. Not bound."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-06",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "HD video consultations with screen sharing",
+      "unresolved": "Consultation session and note routes are served (petcare_api/main.py:595) but carry no video or screen-sharing capability; not bound by naming."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-07",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Secure chat and file sharing (images, lab reports)",
+      "unresolved": "Prescription document upload is served (petcare_api/main.py:999) but is scoped to FR-14 prescriptions, not general chat/file sharing; not bound."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 3,
+        "implements": 2,
+        "legacy": 1,
+        "routes": 0,
+        "tests": 1,
+        "ui_surface": 1
+      },
+      "fitness": {
+        "audit_actor_source": "UNKNOWN",
+        "storage": "FILE",
+        "tenant_source": "UNKNOWN",
+        "ui_surface": [
+          "petcare_web:/owner/emergency"
+        ]
+      },
+      "id": "FR-08",
+      "phase": 2,
+      "priority": "Medium",
+      "reasons": [
+        "no served route bound"
+      ],
+      "status": "BUILT_UNWIRED",
+      "title": "AI-powered symptom checker and triage",
+      "unresolved": "The served app mounts no AI intake route. The only customer-facing symptom surface is a client-side rule table, not AI-powered."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 4,
+        "implements": 3,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 1
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": [
+          "petcare_web:* (all pages via app/layout.tsx)"
+        ]
+      },
+      "id": "FR-09",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no served route bound"
+      ],
+      "status": "BUILT_UNWIRED",
+      "title": "Multi-language support (Arabic primary, English)",
+      "unresolved": "UI-only requirement. No served API route can bind it, so the W1 taxonomy reports BUILT_UNWIRED; its tests are vitest, which the pytest-collection check cannot bind."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-10",
+      "phase": 2,
+      "priority": "Medium",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Specialist referral system",
+      "unresolved": "petcare_runtime/src/petcare/emergency_network/referral.py:95 builds an EMERGENCY referral package (bound under FR-11); no specialist referral system is evidenced."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 4,
+        "implements": 2,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 2,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "UNKNOWN",
+        "storage": "UNKNOWN",
+        "tenant_source": "UNKNOWN",
+        "ui_surface": []
+      },
+      "id": "FR-11",
+      "phase": 2,
+      "priority": "High",
+      "reasons": [
+        "no served route bound"
+      ],
+      "status": "BUILT_UNWIRED",
+      "title": "Emergency consultation routing",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-12",
+      "phase": 3,
+      "priority": "Low",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Consultation recording (with consent)",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-13",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Real-time multi-location inventory visibility",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 10,
+        "implements": 9,
+        "legacy": 5,
+        "routes": 7,
+        "tests": 3,
+        "ui_surface": 1
+      },
+      "fitness": {
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/pharmacy"
+        ]
+      },
+      "id": "FR-14",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "all bound routes served; all bound tests collected"
+      ],
+      "status": "REACHABLE_TESTED",
+      "title": "Prescription upload and vet verification workflow",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-15",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Smart order routing to nearest/optimal pharmacy",
+      "unresolved": "petcare_runtime/src/petcare/partner_network/orders_service.py:109 route_order routes to the order's pre-set partner_id ('deterministic_partner_route_from_pricing_reference'); no nearest/optimal selection. petcare_web/app/pharmacy/page.tsx:8 records FR-15 out of Option A scope. Not bound."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-16",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Temperature-controlled delivery tracking",
+      "unresolved": "petcare_runtime/src/petcare/partner_network/catalog_service.py:22 lists 'cold chain delivery' as a catalogue category only; no delivery tracking. petcare_web/app/pharmacy/page.tsx:8 records FR-16 out of scope."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-17",
+      "phase": 2,
+      "priority": "Medium",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Compounding pharmacy workflow management",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-18",
+      "phase": 2,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Subscription management for chronic medications",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-19",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "SFDA batch tracking and recall notifications",
+      "unresolved": "petcare_runtime/src/petcare/uphr/models.py:65 batch_number_nullable on a VACCINATION record, always None at petcare_runtime/src/petcare/uphr/service.py:121; no medicine batch tracking or recall."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-20",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Cash-on-delivery with digital receipting",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 7,
+        "implements": 5,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 1,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "UNKNOWN",
+        "storage": "FILE",
+        "tenant_source": "UNKNOWN",
+        "ui_surface": []
+      },
+      "id": "FR-21",
+      "phase": 2,
+      "priority": "High",
+      "reasons": [
+        "no served route bound"
+      ],
+      "status": "BUILT_UNWIRED",
+      "title": "Unified Electronic Health Record (EHR) per pet",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-22",
+      "phase": 2,
+      "priority": "Medium",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Integration with external clinic systems (API)",
+      "unresolved": "petcare_runtime/src/petcare/integration_control/adapters.py:7 adapter types are ERP, accounting export, payment gateway; no clinic-system integration evidenced."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-23",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Vaccination and treatment reminders",
+      "unresolved": "petcare_runtime/src/petcare/uphr/models.py:63 next_due_at_nullable exists, always None at petcare_runtime/src/petcare/uphr/service.py:119; no reminder mechanism."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-24",
+      "phase": 3,
+      "priority": "Medium",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Health trends and analytics dashboard",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-25",
+      "phase": 2,
+      "priority": "Medium",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Exportable medical records for travel",
+      "unresolved": "'export' hits are AI-evidence and settlement exports (petcare_runtime/src/petcare/ai_evidence, partner_network/settlement_export*); none exports a pet medical record."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-26",
+      "phase": 3,
+      "priority": "Low",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "IoT device data integration",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 4,
+        "implements": 2,
+        "legacy": 6,
+        "routes": 2,
+        "tests": 2,
+        "ui_surface": 1
+      },
+      "fitness": {
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/pharmacy"
+        ]
+      },
+      "id": "FR-27",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "all bound routes served; all bound tests collected"
+      ],
+      "status": "REACHABLE_TESTED",
+      "title": "Real-time dashboard for pharmacy operations",
+      "unresolved": "Pharmacy principal absent. petcare_runtime/src/petcare/pharmacy/review.py gates every write on ROLE_PHARMACY, which no mintable role holds; it is unreachable by construction and NOT bound (W1 rule 11). The bound queue is request/response and read by vet/clinic admin; 'real-time' and pharmacy-operator use are not established."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-28",
+      "phase": 2,
+      "priority": "Medium",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Inventory forecasting and auto-replenishment",
+      "unresolved": "petcare_runtime/src/petcare/intelligent_ops/predictive.py:7 signals are expected_delay, dispute_likelihood, liquidity_pressure; no inventory forecasting."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 3,
+        "implements": 2,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 1,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "UNKNOWN",
+        "storage": "UNKNOWN",
+        "tenant_source": "UNKNOWN",
+        "ui_surface": []
+      },
+      "id": "FR-29",
+      "phase": 2,
+      "priority": "High",
+      "reasons": [
+        "no served route bound"
+      ],
+      "status": "BUILT_UNWIRED",
+      "title": "Commission and revenue sharing automation",
+      "unresolved": "Fee and payout arithmetic exists; commission-rate authoring and automation trigger are not evidenced. Not served."
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-30",
+      "phase": 1,
+      "priority": "High",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "SFDA compliance reporting automation",
+      "unresolved": ""
+    },
+    {
+      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "counts": {
+        "basis": 1,
+        "implements": 0,
+        "legacy": 0,
+        "routes": 0,
+        "tests": 0,
+        "ui_surface": 0
+      },
+      "fitness": {
+        "audit_actor_source": "NONE",
+        "storage": "NONE",
+        "tenant_source": "NONE",
+        "ui_surface": []
+      },
+      "id": "FR-31",
+      "phase": 3,
+      "priority": "Medium",
+      "reasons": [
+        "no implementing symbol bound"
+      ],
+      "status": "ABSENT",
+      "title": "Customer behavior analytics",
+      "unresolved": ""
+    }
+  ],
+  "summary": {
+    "all": {
+      "counts": {
+        "ABSENT": 22,
+        "BINDING_BROKEN": 0,
+        "BUILT_UNWIRED": 5,
+        "REACHABLE_TESTED": 3,
+        "REACHABLE_UNTESTED": 1
+      },
+      "ids": {
+        "ABSENT": [
+          "FR-03",
+          "FR-04",
+          "FR-05",
+          "FR-06",
+          "FR-07",
+          "FR-10",
+          "FR-12",
+          "FR-13",
+          "FR-15",
+          "FR-16",
+          "FR-17",
+          "FR-18",
+          "FR-19",
+          "FR-20",
+          "FR-22",
+          "FR-23",
+          "FR-24",
+          "FR-25",
+          "FR-26",
+          "FR-28",
+          "FR-30",
+          "FR-31"
+        ],
+        "BINDING_BROKEN": [],
+        "BUILT_UNWIRED": [
+          "FR-08",
+          "FR-09",
+          "FR-11",
+          "FR-21",
+          "FR-29"
+        ],
+        "REACHABLE_TESTED": [
+          "FR-01",
+          "FR-14",
+          "FR-27"
+        ],
+        "REACHABLE_UNTESTED": [
+          "FR-02"
+        ]
+      },
+      "total": 31
+    },
+    "phase1": {
+      "counts": {
+        "ABSENT": 11,
+        "BINDING_BROKEN": 0,
+        "BUILT_UNWIRED": 1,
+        "REACHABLE_TESTED": 3,
+        "REACHABLE_UNTESTED": 1
+      },
+      "ids": {
+        "ABSENT": [
+          "FR-04",
+          "FR-05",
+          "FR-06",
+          "FR-07",
+          "FR-13",
+          "FR-15",
+          "FR-16",
+          "FR-19",
+          "FR-20",
+          "FR-23",
+          "FR-30"
+        ],
+        "BINDING_BROKEN": [],
+        "BUILT_UNWIRED": [
+          "FR-09"
+        ],
+        "REACHABLE_TESTED": [
+          "FR-01",
+          "FR-14",
+          "FR-27"
+        ],
+        "REACHABLE_UNTESTED": [
+          "FR-02"
+        ]
+      },
+      "total": 16
+    },
+    "phase1_high": {
+      "counts": {
+        "ABSENT": 11,
+        "BINDING_BROKEN": 0,
+        "BUILT_UNWIRED": 1,
+        "REACHABLE_TESTED": 3,
+        "REACHABLE_UNTESTED": 1
+      },
+      "ids": {
+        "ABSENT": [
+          "FR-04",
+          "FR-05",
+          "FR-06",
+          "FR-07",
+          "FR-13",
+          "FR-15",
+          "FR-16",
+          "FR-19",
+          "FR-20",
+          "FR-23",
+          "FR-30"
+        ],
+        "BINDING_BROKEN": [],
+        "BUILT_UNWIRED": [
+          "FR-09"
+        ],
+        "REACHABLE_TESTED": [
+          "FR-01",
+          "FR-14",
+          "FR-27"
+        ],
+        "REACHABLE_UNTESTED": [
+          "FR-02"
+        ]
+      },
+      "total": 16
+    },
+    "phase2": {
+      "counts": {
+        "ABSENT": 7,
+        "BINDING_BROKEN": 0,
+        "BUILT_UNWIRED": 4,
+        "REACHABLE_TESTED": 0,
+        "REACHABLE_UNTESTED": 0
+      },
+      "ids": {
+        "ABSENT": [
+          "FR-03",
+          "FR-10",
+          "FR-17",
+          "FR-18",
+          "FR-22",
+          "FR-25",
+          "FR-28"
+        ],
+        "BINDING_BROKEN": [],
+        "BUILT_UNWIRED": [
+          "FR-08",
+          "FR-11",
+          "FR-21",
+          "FR-29"
+        ],
+        "REACHABLE_TESTED": [],
+        "REACHABLE_UNTESTED": []
+      },
+      "total": 11
+    },
+    "phase3": {
+      "counts": {
+        "ABSENT": 4,
+        "BINDING_BROKEN": 0,
+        "BUILT_UNWIRED": 0,
+        "REACHABLE_TESTED": 0,
+        "REACHABLE_UNTESTED": 0
+      },
+      "ids": {
+        "ABSENT": [
+          "FR-12",
+          "FR-24",
+          "FR-26",
+          "FR-31"
+        ],
+        "BINDING_BROKEN": [],
+        "BUILT_UNWIRED": [],
+        "REACHABLE_TESTED": [],
+        "REACHABLE_UNTESTED": []
+      },
+      "total": 4
+    }
+  }
+}
