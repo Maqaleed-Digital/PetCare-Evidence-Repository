@@ -129,3 +129,51 @@ def test_vet_can_get_prompt_safe_summary_with_care_scope(tmp_path: Path) -> None
     assert result["allowed"] is True
     assert result["audit_event"].event_name == "uphr.ai_redaction.applied"
     assert "[REDACTED_EMAIL]" in result["summary"]
+
+
+# ---------------------------------------------------------------------------
+# MVC-HYG-UPHR-001 — identifiers match whole; text matches by substring.
+# ---------------------------------------------------------------------------
+_CBC_UUID = "0cbc0000-1111-4222-8333-444455556666"
+
+
+def _record(**overrides):
+    base = {"lab_result_id": "11111111-2222-4333-8444-555555555555", "pet_id": "pet-1",
+            "lab_name": "Central Lab", "test_name": "Chemistry", "result_value_nullable": None}
+    base.update(overrides)
+    return base
+
+
+def test_uuid_containing_term_does_not_match_text_search(tmp_path: Path, monkeypatch) -> None:
+    """Deterministic regression for the flake: a record whose uuid4 id contains the
+    term, and whose text does not, must not be returned by timeline search."""
+    import uuid
+    import petcare.uphr.service as svc
+    service = build_service(tmp_path)
+    pet = service.create_pet("tenant-a", "owner-a", "Luna", "cat")
+    monkeypatch.setattr(svc, "uuid4", lambda: uuid.UUID(_CBC_UUID))
+    service.create_vaccination_record(pet.pet_id, "Rabies", "2026-03-28T10:00:00Z")
+    monkeypatch.undo()
+    service.create_lab_result(pet.pet_id, "Central Lab", "CBC")
+    timeline = service.get_timeline(pet.pet_id, search_term="cbc")
+    assert len(timeline["labs"]) == 1
+    assert timeline["vaccinations"] == [], timeline["vaccinations"]
+
+
+def test_term_in_text_field_matches() -> None:
+    from petcare.uphr.service import _record_matches
+    assert _record_matches(_record(test_name="CBC panel"), "cbc") is True
+
+
+def test_identifier_matches_only_whole() -> None:
+    from petcare.uphr.service import _record_matches
+    rec = _record(lab_result_id=_CBC_UUID)
+    assert _record_matches(rec, _CBC_UUID.lower()) is True
+    assert _record_matches(rec, _CBC_UUID[:8]) is False
+
+
+def test_timeline_can_search_is_stable_over_200_runs(tmp_path: Path) -> None:
+    for i in range(200):
+        run_dir = tmp_path / f"run{i}"
+        run_dir.mkdir()
+        test_timeline_can_search(run_dir)
