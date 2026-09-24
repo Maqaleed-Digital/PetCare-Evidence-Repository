@@ -26,7 +26,14 @@ def walk(routes, prefix=""):
         path = prefix + getattr(r, "path", "")
         sub = getattr(r, "routes", None)
         endpoint = getattr(r, "endpoint", None)
-        if sub:
+        included = getattr(r, "original_router", None)
+        if included is not None:
+            # FastAPI >= 0.141 wraps include_router() in an _IncludedRouter that
+            # carries no path and no `routes`; without this branch every route
+            # it serves is silently omitted from the table.
+            ctx = getattr(r, "include_context", None)
+            yield from walk(included.routes, prefix + getattr(ctx, "prefix", ""))
+        elif sub:
             yield from walk(sub, path)
         elif endpoint is not None:
             yield {
