@@ -213,3 +213,150 @@ SCANNERS: ACTIVE_LITERAL_DEFAULT=0 · SECRET_SCAN=CLEAN · BUNDLES=32 FAILED=0
    whose candidates carry no authored fails-if).
 10. **F-10 STDLIB_XML** advisory on the new extractor (hash-pinned input, same
     stance as `gen_register.py`).
+
+---
+
+## v1.2 — Authority-source boundary correction
+
+```
+VERSION=1.2
+START_HEAD=f3f524d1d074040edbedb85a93214c129dcce0d5
+REASON=F-4/F-5 — v1.1 pinned non-authority mutable product/test/generated files,
+       creating unnecessary coupling between future build work and acceptance authority.
+V1_1_HISTORICAL_MEASUREMENT_PRESERVED=YES   (sections above are the v1.1 record, unedited)
+```
+
+**SET-A is derived from evidence, not tuned.** `petcare_execution/AUTHORITY/MVC-LINEAGE/DENOMINATOR_RECONCILIATION.md:38`
+declares SET-A as V3.1, V3.2, CLOSE V1.1, SPEC V3.1 Annex K, SPEC V3.0, GAP V1.7. Those six are exactly the
+tracked files under `petcare_execution/AUTHORITY/MVC-LINEAGE/sources/`. Over them alone the governed grammar
+reproduces that document's full figures, not only the union:
+
+```
+                      DENOMINATOR_RECONCILIATION.md   v1.2 measured
+RAW_DISTINCT_TOKENS   516                             516
+PHANTOMS_REMOVED      3  (REQ-FIN, REQ-MVC, REQ-UX)   3
+EXCLUDED              2  (REQ-MVC-n, REQ-UX-4-conformant) 2
+MEASURED_UNIVERSE     511                             511
+```
+
+```
+V1_1_SOURCE_COUNT=43
+V1_2_SOURCE_COUNT=6
+REMOVED_SOURCE_COUNT=37   DERIVATIVE_EVIDENCE 24 · TEST_FIXTURE 7 · TOOL 2 · PRODUCT_RUNTIME 1 · MIGRATION 1 · WEB_APP 1 · GENERATED_REQUIREMENTS 1
+DISTINCT_REQ=511          (528 in v1.1; the 17 removed ids are exactly the v1.1 F-5 non-authority tokens)
+REQ_WITH_FAILS_IF=199     (unchanged; no fails-if line came from a removed source)
+FAILS_IF_LINES=268        attributed 209 · unattributed 59 (unchanged)
+
+PRODUCT_FILES_IN_SOURCES=0
+TEST_FILES_IN_SOURCES=0
+MIGRATION_FILES_IN_SOURCES=0
+GENERATED_FILES_IN_SOURCES=0
+```
+
+### Removed sources (classified by `tools/req_inventory.py::source_class`)
+
+| Path | Classification | Reason |
+|---|---|---|
+| `petcare_api/main.py` | PRODUCT_RUNTIME | serving code cites REQ ids; not a requirement instrument |
+| `petcare_api/tests/test_dispensing_fail_closed.py` | TEST_FIXTURE | test |
+| `petcare_api/tests/test_option_a_workflow.py` | TEST_FIXTURE | test |
+| `petcare_web/__tests__/pharmacy-queue.test.tsx` | TEST_FIXTURE | test |
+| `tests/governance/test_authority_residency.py` | TEST_FIXTURE | test (source of synthetic `REQ-3`) |
+| `tests/governance/test_migration_invariants.py` | TEST_FIXTURE | test |
+| `tests/governance/test_mvc_inventory.py` | TEST_FIXTURE | test |
+| `tests/governance/test_seller_identity_write_authority.py` | TEST_FIXTURE | test |
+| `petcare_runtime/migrations/0029_w0h_seller_identity.sql` | MIGRATION | schema migration |
+| `petcare_web/app/pharmacy/page.tsx` | WEB_APP | UI code |
+| `requirements/bindings.json` | GENERATED_REQUIREMENTS | W1 binding output |
+| `petcare_execution/tools/mvc_inventory.py` | TOOL | grammar tool (still imported; not a source) |
+| `scripts/governance/cross_repository_traceability.py` | TOOL | tooling |
+| `evidence/receipts/2026-09-13-option-a-pilot-substrate.md` | DERIVATIVE_EVIDENCE | receipt quoting REQ ids |
+| `evidence/traceability/OPTION_A_FR14_FR27_BRIDGE.md` | DERIVATIVE_EVIDENCE | traceability index quoting REQ ids |
+| `petcare_execution/AUTHORITY/AUTHORITY_CANDIDATES.md` | DERIVATIVE_EVIDENCE | candidate list, not an instrument |
+| `petcare_execution/AUTHORITY/AUTHORITY_INGESTION_SCHEMA.json` | DERIVATIVE_EVIDENCE | schema |
+| `petcare_execution/AUTHORITY/AUTHORITY_INGESTION_SPEC.md` | DERIVATIVE_EVIDENCE | ingestion spec |
+| `petcare_execution/AUTHORITY/MVC-LINEAGE/DENOMINATOR_RECONCILIATION.md` | DERIVATIVE_EVIDENCE | reconciliation record (declares SET-A) |
+| `petcare_execution/AUTHORITY/MVC-LINEAGE/MVC-V3_3-APPENDIX-T-AUTHORING-PLAN.md` | DERIVATIVE_EVIDENCE | authoring plan |
+| `petcare_execution/AUTHORITY/MVC-LINEAGE/inventory.json` | DERIVATIVE_EVIDENCE | generated inventory |
+| `petcare_execution/EVIDENCE/MVC-AUTHORITY-INGESTION/20260904T140123Z/{AUTHORITY_DISCOVERY,NOTION_UPDATE_BLOCK,REQUIREMENT_MEASUREMENT,RUN_RECEIPT}.md` (4) | DERIVATIVE_EVIDENCE | run evidence |
+| `petcare_execution/EVIDENCE/MVC-LINEAGE-REPAIR/20260904T215919Z/{DENOMINATOR_RECONCILIATION,MVC-V3_3-APPENDIX-T-AUTHORING-PLAN,NOTION_UPDATE_BLOCK,RUN_RECEIPT}.md, inventory.json` (5) | DERIVATIVE_EVIDENCE | run evidence |
+| `petcare_execution/EVIDENCE/MVC-POST-PORT-07-10/20260904T125855Z/AUTHORITY_RESIDENCY_GAP.md` | DERIVATIVE_EVIDENCE | run evidence |
+| `petcare_execution/EVIDENCE/MVC-W0H/20260907T095803Z/RUN_RECEIPT.md` | DERIVATIVE_EVIDENCE | run evidence |
+| `petcare_execution/EVIDENCE/MVC-W0J/20260907T103127Z/RUN_RECEIPT.md` | DERIVATIVE_EVIDENCE | run evidence |
+| `petcare_execution/GOVERNANCE/CANONICAL_REPOSITORY_AUTHORITY/CROSS_REPOSITORY_TRACEABILITY.{json,md}` (2) | DERIVATIVE_EVIDENCE | traceability record |
+| `petcare_execution/GOVERNANCE/MVC-W0A-INCIDENT-001/NOTION_CORRECTION_QUEUE.md` | DERIVATIVE_EVIDENCE | governance queue |
+| `petcare_execution/GOVERNANCE/MVC-W0F-ENGINEERING-HANDOFF-001/MVC-W0F-DATA-STORE-DECISION-001.md` | DERIVATIVE_EVIDENCE | decision record citing REQ ids |
+
+### Authority sources
+
+| Path | sha256 |
+|---|---|
+| `petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx` | `024501e639ba3b6d28c76c5f05072e78dfe8f26b5ee9c79258c2a21141078792` |
+| `petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_2_EXECUTION_BASELINE_CANDIDATE.md` | `32f5366925128ca8f1332a412b253b2a1b797baf08cf6dd5777fac118efc287d` |
+| `petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-CLOSE-001_V1_1_PhaseA_Execution_Boundary.docx` | `27a07179d911e8ff885a5020dee4832ba9c939b1a9758cb0ad5207d4401c85bc` |
+| `petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-GAP-001_V1_7_Ledger_Amendment_ARCH01_Closed_ARCH05_Allocated.md` | `e8d221b4beb82708b14d690dd0202f7a3c8e4b8a030cb6281cff5814e98f3ff1` |
+| `petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx` | `a3f2fb2c2a4eb709187dccbee7f045a0b48e0d8364c4816de8f680e93b0a3a19` |
+| `petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_1_Annex_K_Split_Taxpayer_Requirements.md` | `058356cc916f9a274315bf19e6e6cbb0d9a20e0c2bc69d471cf94a87d6461c3b` |
+
+### Boundary control
+
+`source_class()` in `tools/req_inventory.py` is the single classification. Class rules, most specific first:
+TEST_FIXTURE · MIGRATION · GENERATED_REQUIREMENTS (`requirements/`) · TOOL (`tools/`, `scripts/`) · WEB_APP ·
+PRODUCT_RUNTIME; then anything outside `petcare_execution/AUTHORITY/MVC-LINEAGE/sources/` is DERIVATIVE_EVIDENCE,
+and a non-`.md`/`.docx` file there is NON_DOCUMENT. The tool exits 2 on any non-AUTHORITY manifest entry;
+`test_req_inventory_manifest_contains_authority_sources_only` imports the same predicate and probes 15 paths
+across every class to prove it discriminates.
+
+### Crosswalk reconciliation
+
+```
+CROSSWALK_REMOVALS=0      every v1.1 candidate REQ is in the 511 authority corpus; no mapping added
+UPDATED_COVERAGE:
+HAS_CANDIDATE_CRITERIA=9/31   (unchanged)
+NO_CANDIDATE=22/31
+NO_CANDIDATE_IDS=[FR-05, FR-06, FR-08, FR-09, FR-10, FR-11, FR-12, FR-15, FR-16, FR-17, FR-18, FR-20, FR-21, FR-22, FR-23, FR-24, FR-25, FR-26, FR-27, FR-28, FR-29, FR-31]
+PHASE1_HIGH_16:
+HAS_CANDIDATE_CRITERIA=8
+NO_CANDIDATE=8
+LINKS: HIGH=10 MEDIUM=24 LOW=4 (unchanged)
+UNMAPPED_REQ=475          (492 in v1.1, less the 17 non-authority ids)
+UNMAPPED_BY_NAMESPACE={MVC:432, UX:10, VET:9, FIN:4, A:3, E:3, SAF:3, D:2, SRC:2, 0:1, ABS:1, C:1, F:1, INT:1, PRD12:1, REG:1}
+OPTION_A_BRIDGE_CONSISTENT=YES   (FR-14 retains REQ-DISP-AUTH-FAILCLOSED HIGH; FR-27 bridge names no REQ-*)
+```
+
+### Controls
+
+```
+TESTS=18/18   REGISTER 5 · W1 6 · ACCEPT-AUTH 7 (+ test_req_inventory_manifest_contains_authority_sources_only)
+PERTURBATIONS=7/7_ARMED   P1–P6 re-run ARMED; P7 petcare_api/main.py added to the manifest -> new control FAILED -> restored -> PASSED
+REGRESSION (local, CI command)=950 passed / 0 skipped
+SCANNERS: ACTIVE_LITERAL_DEFAULT=0 · SECRET_SCAN=CLEAN · BUNDLES=32 FAILED=0
+```
+
+### v1.2 artefacts
+
+| Path | sha256 |
+|---|---|
+| `tools/req_inventory.py` | `77ab816255d0ee24391c5c8f3478aa48214e32e6b0186331b1fcb5490726ebd8` |
+| `requirements/authority/req_inventory.json` | `8db00e3ebe4f682839e384922d4956a83b8f5ce8d6764036959f369ad79ea92c` |
+| `requirements/authority/fr_req_crosswalk_candidate.json` | `e4a752565e1de65b71eaebcadfffc821969a1afaabf9259174327fe7fb629d21` |
+| `tests/governance/test_acceptance_authority.py` | `0d7fe1919d0cb1c6be759c8092bad35427d5a0afe7b69c14dca132068c35a8f9` |
+
+Unchanged from v1.1: V3.0 custody bytes, `tools/compare_registers.py`, `tools/extract_v30_requirements.py`,
+`requirements/authority/v1_0_vs_v3_0.json`.
+
+### v1.2 findings
+
+- **F-4 CLOSED.** No product, web, migration, test, tool or generated file is pinned; product work can no
+  longer invalidate `test_req_inventory_is_current`.
+- **F-5 CLOSED.** The 17 non-authority tokens are out of the corpus.
+- **F-11 AUTHORITY-SOURCE CHANGE IS STILL A DELIBERATE ACT.** Editing any of the six instruments fails
+  `test_req_inventory_is_current` until re-pinned — intended coupling.
+
+```
+BRD_RATIFIED=NO
+CROSSWALK_RATIFIED=NO
+ACCEPTANCE_CRITERIA_AUTHORED=NO
+PRODUCT_CODE_CHANGED=NO
+CLOUD_ACTIONS=NONE
+```

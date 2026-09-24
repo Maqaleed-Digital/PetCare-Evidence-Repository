@@ -43,6 +43,38 @@ def test_req_inventory_is_current():
         "requirements/authority/req_inventory.json drifted from its tool or pinned sources")
 
 
+def test_req_inventory_manifest_contains_authority_sources_only():
+    """v1.2 (F-4/F-5): only requirement-authority instruments may be pinned.
+
+    Uses the tool's OWN predicate, so the test and the tool cannot hold two
+    classifications. The probes prove the predicate discriminates: it must
+    refuse each prohibited class, or a green result here would mean nothing.
+    """
+    bad = {s["path"]: req_inventory.source_class(s["path"]) for s in req_inventory.MANIFEST
+           if req_inventory.source_class(s["path"]) != "AUTHORITY"}
+    assert not bad, bad
+    assert sorted(s["path"] for s in req_inventory.MANIFEST) == sorted(req_inventory.SET_A)
+    probes = {
+        "petcare_api/main.py": "PRODUCT_RUNTIME",
+        "petcare_runtime/src/petcare/uphr/service.py": "PRODUCT_RUNTIME",
+        "petcare_web/app/pharmacy/page.tsx": "WEB_APP",
+        "petcare-web/app/page.tsx": "WEB_APP",
+        "petcare_runtime/migrations/0029_w0h_seller_identity.sql": "MIGRATION",
+        "tests/governance/test_mvc_inventory.py": "TEST_FIXTURE",
+        "petcare_api/tests/test_option_a_workflow.py": "TEST_FIXTURE",
+        "petcare_web/__tests__/pharmacy-queue.test.tsx": "TEST_FIXTURE",
+        "tools/req_inventory.py": "TOOL",
+        "petcare_execution/tools/mvc_inventory.py": "TOOL",
+        "requirements/bindings.json": "GENERATED_REQUIREMENTS",
+        "requirements/authority/req_inventory.json": "GENERATED_REQUIREMENTS",
+        "evidence/receipts/2026-09-24-mvc-accept-auth-001.md": "DERIVATIVE_EVIDENCE",
+        req_inventory.AUTHORITY_ROOT + "x.json": "NON_DOCUMENT",
+        req_inventory.SET_A[1]: "AUTHORITY",
+    }
+    for path, expected in probes.items():
+        assert req_inventory.source_class(path) == expected, (path, req_inventory.source_class(path))
+
+
 def test_register_comparison_is_current():
     r = _regen("compare_registers.py")
     assert r.returncode == 0, r.stderr
