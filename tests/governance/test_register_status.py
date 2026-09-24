@@ -95,14 +95,16 @@ def test_every_spine_requirement_has_a_binding_entry():
 
 
 def test_no_requirement_claims_acceptance():
-    doc = json.loads(STATUS.read_text(encoding="utf-8"))
-    rows = doc["requirements"]
-    assert sorted(r["id"] for r in rows) == sorted(_spine_ids())
-    for r in rows:
-        assert r["status"] in EMITTABLE_STATES, (r["id"], r["status"])
-        assert r["acceptance_state"] == "CRITERIA_NOT_RATIFIED", (r["id"], r["acceptance_state"])
-    claims = set(re.findall(r'"(?:status|acceptance_state)": "([A-Z_]+)"', STATUS.read_text(encoding="utf-8")))
-    assert not claims & FORBIDDEN_CLAIMS, claims & FORBIDDEN_CLAIMS
+    # Superseded by MVC-ACCEPT-CHECK-001:
+    # ACCEPTED is reachable, but only as asserted by the checker.
+    # (Mechanical adaptation of the issued body: this repository's status.json carries
+    # `requirements` as a list and names the set EMITTABLE_STATES.)
+    reqs = {r["id"]: r for r in json.loads(STATUS.read_text(encoding="utf-8"))["requirements"]}
+    assert {v["status"] for v in reqs.values()} <= EMITTABLE_STATES | {"ACCEPTED"}
+    for rid, v in reqs.items():
+        assert (v["status"] == "ACCEPTED") == (
+            v["acceptance_state"] == "ACCEPTED"
+        ), rid
 
 
 def test_every_requirement_has_fitness_fields():

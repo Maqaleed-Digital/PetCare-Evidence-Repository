@@ -1,11 +1,19 @@
 #!/usr/bin/env python3
 """
-MVC-BUILD-W1 status checker: asserts ENGINEERING status for every FR in the spine.
+MVC-REQREG-003 v1.3 (MVC-ACCEPT-CHECK-001) — requirement status checker.
+
+Asserts ENGINEERING status for every FR in the spine (MVC-BUILD-W1, unchanged) and,
+on top of it, ACCEPTANCE: an FR is ACCEPTED only when it is ratified in
+requirements/acceptance/phase1_high_pack.ratified.json, its engineering status is
+REACHABLE_TESTED, and every ratified criterion has zero evidence gaps in
+requirements/acceptance/evidence.json. CLIENT_ACCEPTED is never emitted.
 
 Inputs (repository root):
   requirements/register.yaml       the generated spine (tools/gen_register.py)
   requirements/bindings.json       evidence-cited bindings, one entry per FR
   requirements/served_routes.json  routes of the SERVED app (tools/list_served_routes.py)
+  requirements/acceptance/phase1_high_pack.ratified.json   ratified criteria (MVC-ACCEPT-PACK-P1)
+  requirements/acceptance/evidence.json                    criterion/NFR evidence registry
 
 Output: requirements/status.json on stdout, deterministic (no clock, no host facts).
 
@@ -18,10 +26,16 @@ ENGINEERING STATES, derived in this order:
   REACHABLE_UNTESTED  every bound route is served, no test is bound
   REACHABLE_TESTED    every bound route is served and every bound test is collected
 
-REACHABLE_TESTED is engineering evidence only. It is NOT requirement completion:
-every FR carries acceptance_state CRITERIA_NOT_RATIFIED, and this checker has no
-code path that emits anything else. Acceptance criteria are not ratified, and
-nothing measured here can stand in for them.
+  ACCEPTED            REACHABLE_TESTED, ratified, and every ratified criterion evidenced
+
+REACHABLE_TESTED is engineering evidence only. ACCEPTED is reachable ONLY through
+complete ratified-criterion evidence:
+  need(criterion)  = criterion.evidence  (+ DEPENDENCY when criterion.dependency != NONE)
+  have(criterion)  = evidence types whose registry items mechanically hold
+  criteria_gaps    = sorted(need - have)
+TEST items hold when pytest collects them (SERVED_APP_E2E additionally under
+`-m served_app`); ARTEFACT items hold when the file exists and its sha256 matches.
+acceptance_state: ACCEPTED | EVIDENCE_INCOMPLETE (ratified) | CRITERIA_NOT_RATIFIED.
 
 Symbol forms:
   <python.module>:<qualname>        imported; the qualname is resolved attribute by attribute
@@ -46,6 +60,8 @@ ROOT = Path(__file__).resolve().parent.parent
 REGISTER = ROOT / "requirements" / "register.yaml"
 BINDINGS = ROOT / "requirements" / "bindings.json"
 SERVED = ROOT / "requirements" / "served_routes.json"
+PACK = ROOT / "requirements" / "acceptance" / "phase1_high_pack.ratified.json"
+EVIDENCE = ROOT / "requirements" / "acceptance" / "evidence.json"
 
 ABSENT = "ABSENT"
 BINDING_BROKEN = "BINDING_BROKEN"
@@ -53,12 +69,26 @@ BUILT_UNWIRED = "BUILT_UNWIRED"
 REACHABLE_UNTESTED = "REACHABLE_UNTESTED"
 REACHABLE_TESTED = "REACHABLE_TESTED"
 ENGINEERING_STATES = (ABSENT, BINDING_BROKEN, BUILT_UNWIRED, REACHABLE_UNTESTED, REACHABLE_TESTED)
+ACCEPTED = "ACCEPTED"
+STATES = ENGINEERING_STATES + (ACCEPTED,)
 
-#: The only acceptance state this checker can emit. There is deliberately no
-#: parameter, input field or branch that changes it.
-ACCEPTANCE_STATE = "CRITERIA_NOT_RATIFIED"
+ACC_ACCEPTED = "ACCEPTED"
+ACC_INCOMPLETE = "EVIDENCE_INCOMPLETE"
+ACC_NOT_RATIFIED = "CRITERIA_NOT_RATIFIED"
+NFR_EVIDENCED = "EVIDENCED"
+NFR_NOT_RELEVANT = "NOT_PHASE1_RELEVANT"
+
+EVIDENCE_TYPES = ("SERVED_APP_E2E", "PERSISTENCE", "TENANT_ISOLATION", "AUDIT", "ARABIC_RTL", "UI",
+                  "DEPENDENCY", "NFR_EVIDENCE")
+EVIDENCE_KINDS = ("TEST", "ARTEFACT")
+AUTHORITY = ["MVC-COMPLETION-AMENDMENTS-001", "MVC-ACCEPT-PACK-P1"]
 
 KNOWN_LIMIT = "REACHABLE_TESTED does not prove bound tests exercise the served app"
+KNOWN_LIMITS = [
+    KNOWN_LIMIT,
+    "collection is not execution; CI executes",
+    "served_app marker is a declaration",
+]
 
 FITNESS_ENUMS = {
     "storage": ("PERSISTENT_POSTGRES", "IN_MEMORY", "FILE", "NONE", "UNKNOWN"),
@@ -187,17 +217,62 @@ def resolve(symbol: str):
     return None
 
 
-def collected_tests(test_ids: list) -> set:
-    """The bound test ids pytest actually collects."""
+def collected_tests(test_ids: list, marker: str = "") -> set:
+    """The bound test ids pytest actually collects (optionally under `-m marker`)."""
     present = sorted({t for t in test_ids if (ROOT / t.split("::", 1)[0]).exists()})
     if not present:
         return set()
     out = subprocess.run(
         [sys.executable, "-m", "pytest", "--collect-only", "-q", "-p", "no:cacheprovider",
-         "--continue-on-collection-errors", *present],
+         "--continue-on-collection-errors", *(["-m", marker] if marker else []), *present],
         cwd=ROOT, env=_nonprod_env(), capture_output=True, text=True).stdout
     nodes = {ln.strip() for ln in out.splitlines() if "::" in ln}
     return {t for t in present if any(n == t or n.startswith(t + "::") for n in nodes)}
+
+
+def load_acceptance() -> tuple:
+    """(ratified pack, evidence registry). Malformed registry is an InputError."""
+    pack = json.loads(PACK.read_text(encoding="utf-8"))
+    if pack.get("label") != "RATIFIED":
+        raise InputError("acceptance pack is not RATIFIED")
+    evidence = json.loads(EVIDENCE.read_text(encoding="utf-8"), object_pairs_hook=_no_duplicate_keys)
+    if not isinstance(evidence, dict):
+        raise InputError("evidence.json must be an object")
+    keys = {c["id"] for e in pack["fr"].values() for c in e["criteria"]} | set(pack["nfr"])
+    for key, items in evidence.items():
+        if key not in keys:
+            raise InputError(f"evidence key {key!r} is not a ratified criterion or NFR")
+        if not isinstance(items, list) or not items:
+            raise InputError(f"evidence[{key}] must be a non-empty list")
+        for it in items:
+            if not isinstance(it, dict) or it.get("type") not in EVIDENCE_TYPES \
+                    or it.get("kind") not in EVIDENCE_KINDS \
+                    or not isinstance(it.get("ref"), str) or not it["ref"]:
+                raise InputError(f"evidence[{key}] item malformed: {it!r}")
+            if it["kind"] == "ARTEFACT" and not isinstance(it.get("sha256"), str):
+                raise InputError(f"evidence[{key}] ARTEFACT item lacks sha256: {it!r}")
+    return pack, evidence
+
+
+def held_types(items: list, collected: set, served_collected: set) -> set:
+    """Evidence types whose registry items mechanically hold."""
+    have = set()
+    for it in items:
+        if it["kind"] == "TEST":
+            ok = it["ref"] in collected
+            if it["type"] == "SERVED_APP_E2E":
+                ok = ok and it["ref"] in served_collected
+        else:
+            f = ROOT / it["ref"]
+            ok = (it["type"] != "SERVED_APP_E2E" and f.is_file()
+                  and hashlib.sha256(f.read_bytes()).hexdigest() == it["sha256"])
+        if ok:
+            have.add(it["type"])
+    return have
+
+
+def criterion_need(c: dict) -> set:
+    return set(c["evidence"]) | ({"DEPENDENCY"} if c["dependency"] != "NONE" else set())
 
 
 def derive(entry: dict, served: set, collected: set) -> tuple:
@@ -218,11 +293,13 @@ def derive(entry: dict, served: set, collected: set) -> tuple:
 
 
 def _summary(rows: list) -> dict:
-    counts = {s: 0 for s in ENGINEERING_STATES}
+    counts = {s: 0 for s in STATES}
     for r in rows:
         counts[r["status"]] += 1
-    return {"total": len(rows), "counts": counts,
-            "ids": {s: [r["id"] for r in rows if r["status"] == s] for s in ENGINEERING_STATES}}
+    acc = {a: sum(1 for r in rows if r["acceptance_state"] == a)
+           for a in (ACC_ACCEPTED, ACC_INCOMPLETE, ACC_NOT_RATIFIED)}
+    return {"total": len(rows), "counts": counts, "acceptance": acc,
+            "ids": {s: [r["id"] for r in rows if r["status"] == s] for s in STATES}}
 
 
 def main() -> int:
@@ -230,17 +307,37 @@ def main() -> int:
         spine = parse_register()
         bindings = load_bindings([r["id"] for r in spine])
         app, served, route_count = load_served()
+        pack, evidence = load_acceptance()
     except (InputError, OSError, ValueError, KeyError) as exc:
         print(f"check_register: {exc}", file=sys.stderr)
         return 2
     _prepare_imports()
     collected = collected_tests([t for e in bindings.values() for t in e["tests"]])
+    ev_tests = sorted({it["ref"] for items in evidence.values() for it in items if it["kind"] == "TEST"})
+    ev_collected = collected_tests(ev_tests)
+    ev_served = collected_tests([it["ref"] for items in evidence.values() for it in items
+                                 if it["kind"] == "TEST" and it["type"] == "SERVED_APP_E2E"],
+                                marker="served_app")
 
     rows = []
     for fr in spine:
         entry = bindings[fr["id"]]
         status, reasons = derive(entry, served, collected)
         assert status in ENGINEERING_STATES, status
+        engineering = status
+        gaps = {}
+        if fr["id"] in pack["fr"]:
+            for c in pack["fr"][fr["id"]]["criteria"]:
+                have = held_types(evidence.get(c["id"], []), ev_collected, ev_served)
+                gaps[c["id"]] = sorted(criterion_need(c) - have)
+            if engineering == REACHABLE_TESTED and not any(gaps.values()):
+                status, acceptance = ACCEPTED, ACC_ACCEPTED
+                reasons = reasons + ["every ratified criterion evidenced"]
+            else:
+                acceptance = ACC_INCOMPLETE
+        else:
+            acceptance = ACC_NOT_RATIFIED
+        assert status in STATES and acceptance != "CLIENT_ACCEPTED", (status, acceptance)
         rows.append({
             "id": fr["id"],
             "title": fr["title"],
@@ -248,7 +345,9 @@ def main() -> int:
             "phase": fr["phase"],
             "status": status,
             "reasons": reasons,
-            "acceptance_state": ACCEPTANCE_STATE,
+            "engineering_status": engineering,
+            "acceptance_state": acceptance,
+            "criteria_gaps": gaps,
             "unresolved": entry["unresolved"],
             "counts": {"implements": len(entry["implements"]), "routes": len(entry["routes"]),
                        "tests": len(entry["tests"]), "legacy": len(entry["legacy"]),
@@ -259,11 +358,27 @@ def main() -> int:
 
     high = set(re.search(r"^  phase1_high_ids: \[(.*)\]$", REGISTER.read_text(encoding="utf-8"),
                          re.M).group(1).replace(" ", "").split(","))
+    nfr_ids = re.findall(r"^  - id: (NFR-\d{2})$", REGISTER.read_text(encoding="utf-8"), re.M)
+    nfr = {}
+    for n in nfr_ids:
+        e = pack["nfr"].get(n)
+        if e is None:
+            state = ACC_NOT_RATIFIED
+        elif not e["phase1_relevant"]:
+            state = NFR_NOT_RELEVANT
+        elif "NFR_EVIDENCE" in held_types(evidence.get(n, []), ev_collected, ev_served):
+            state = NFR_EVIDENCED
+        else:
+            state = ACC_INCOMPLETE
+        nfr[n] = {"state": state}
     doc = {
-        "lane": "MVC-BUILD-W1",
-        "known_limit": KNOWN_LIMIT,
-        "acceptance_note": ("Engineering status only. acceptance_state is CRITERIA_NOT_RATIFIED for every "
-                            "requirement; no requirement is ACCEPTED or CLIENT_ACCEPTED."),
+        "lane": "MVC-ACCEPT-CHECK-001",
+        "checker": "MVC-REQREG-003 v1.3",
+        "authority": AUTHORITY,
+        "known_limits": KNOWN_LIMITS,
+        "acceptance_note": ("ACCEPTED only when ratified, REACHABLE_TESTED and every ratified criterion has zero "
+                            "evidence gaps. CLIENT_ACCEPTED is never emitted by this checker."),
+        "nfr": nfr,
         "inputs": {
             "register_sha256": hashlib.sha256(REGISTER.read_bytes()).hexdigest(),
             "served_app": app,

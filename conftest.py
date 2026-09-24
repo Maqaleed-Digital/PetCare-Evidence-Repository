@@ -58,3 +58,15 @@ os.environ.setdefault(
     "PETCARE_DOCUMENT_ROOT",
     str(Path(tempfile.gettempdir()) / "petcare-test-documents"),
 )
+
+
+def pytest_configure(config):
+    """MVC-ACCEPT-CHECK-001. Registered here because this root conftest is the one
+    bootstrap every invocation loads (CI's included); there is no root pytest.ini.
+
+    `served_app` is a DECLARATION that a test drives the served application object
+    (`main:app`). The acceptance checker collects SERVED_APP_E2E evidence under
+    `-m served_app`; marking a test that does not drive `main:app` is a false claim.
+    """
+    config.addinivalue_line(
+        "markers", "served_app: test exercises the served application object (main:app)")
