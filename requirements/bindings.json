@@ -242,28 +242,45 @@
       "petcare_web/components/LangProvider.tsx:8 default 'ar' (Arabic-first per FR-09)",
       "petcare_web/app/layout.tsx:29 <LangProvider> wraps every page",
       "petcare_web/lib/strings.ts:9 STRINGS ar/en catalogue",
-      "web tests (vitest, not pytest-collectable): petcare_web/__tests__/lang-persistence.test.tsx"
+      "web tests (vitest, not pytest-collectable): petcare_web/__tests__/lang-persistence.test.tsx",
+      "petcare_api/main.py:1456 GET /api/me/preferences/language (stored or Arabic default)",
+      "petcare_api/main.py:1464 PUT /api/me/preferences/language (session actor, audited)",
+      "petcare_api/postgres_repositories.py:1010 PostgresPreferenceRepository (migration 0038 user_preference)",
+      "petcare_web/components/LanguageToggle.tsx persists the choice when signed in; app/signin/page.tsx restores it",
+      "web tests: petcare_web/__tests__/language-fr09.test.tsx (13 customer-facing pages x ar/en + session)"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "petcare_web/app/layout.tsx:29 language context is client-side; no server state"
+        "petcare_api/persistence.py preferences=PostgresPreferenceRepository in postgres mode",
+        "petcare_api/main.py:1464 actor from _actor(request), tenant from require_tenant(request)",
+        "petcare_web/app/layout.tsx <LangProvider> wraps every page; Arabic default"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
       "ui_surface": [
-        "petcare_web:* (all pages via app/layout.tsx)"
+        "petcare_web:* (all customer-facing pages via app/layout.tsx)"
       ]
     },
     "implements": [
       "petcare_web/components/LangProvider.tsx#LangProvider",
       "petcare_web/components/LanguageToggle.tsx#LanguageToggle",
-      "petcare_web/lib/strings.ts#STRINGS"
+      "petcare_web/lib/strings.ts#STRINGS",
+      "main:get_language_preference",
+      "main:set_language_preference",
+      "preferences:InMemoryPreferenceRepository",
+      "postgres_repositories:PostgresPreferenceRepository"
     ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": "UI-only requirement. No served API route can bind it, so the W1 taxonomy reports BUILT_UNWIRED; its tests are vitest, which the pytest-collection check cannot bind."
+    "routes": [
+      "GET /api/me/preferences/language",
+      "PUT /api/me/preferences/language"
+    ],
+    "tests": [
+      "petcare_api/tests/test_language_preference.py",
+      "petcare_api/tests/test_language_preference_postgres.py"
+    ],
+    "unresolved": "AC-FR-09-03 (notifications and generated documents in the recipient's language) is open: the served app produces no notification or document yet; it closes with the FR-20 receipt / FR-23 reminder units. /admin is the platform-operator console and is outside the customer-facing sweep."
   },
   "FR-10": {
     "basis": [

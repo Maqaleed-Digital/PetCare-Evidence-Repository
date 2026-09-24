@@ -134,6 +134,7 @@ from prescription_documents import (
 )
 from repositories import RepositoryDenied
 from pets import PetIdentification, PetMedicalRecord, PetProfile as Pet  # FR-02 (U2)
+from preferences import DEFAULT_LANGUAGE  # FR-09 (U3)
 from tenant_membership import (
     TenantMembershipDenied,
     TenantMembershipService,
@@ -1438,6 +1439,47 @@ def add_pet_medical_record(
         raise HTTPException(400, f"Medical record refused: {exc}") from None
     _pet_audit("pet.medical_record.recorded", actor_id, actor_role, tenant_id, pet_id, x_correlation_id)
     return stored.to_read_model()
+
+# ---------------------------------------------------------------------------
+# FR-09 · language preference that survives a new session (U3)
+# ---------------------------------------------------------------------------
+PREFERENCE_REPO = PERSISTENCE.preferences
+
+
+class LanguagePreference(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    language: str
+
+
+@app.get("/api/me/preferences/language")
+def get_language_preference(request: Request, role: str = Depends(require_role)):
+    """AC-FR-09-02: the caller's stored language, or Arabic (FR-09 primary) by default."""
+    actor_id, _actor_role = _actor(request)
+    stored = PREFERENCE_REPO.get_language(actor_id)
+    return {"language": stored or DEFAULT_LANGUAGE, "source": "stored" if stored else "default"}
+
+
+@app.put("/api/me/preferences/language")
+def set_language_preference(
+    request: Request,
+    body: LanguagePreference,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """AC-FR-09-02: persist the caller's own language choice; audited as the session actor."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    try:
+        language = PREFERENCE_REPO.set_language(actor_id, tenant_id=tenant_id, language=body.language,
+                                                at=datetime.now(timezone.utc))
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Language preference refused: {exc}") from None
+    _audit(event_name="user.preference.language.set", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="user_preference", resource_id=actor_id,
+           action_result="success", correlation_id=x_correlation_id)
+    return {"language": language, "source": "stored"}
+
 
 # ---------------------------------------------------------------------------
 # Governance status

@@ -59,5 +59,38 @@
       "ref": "petcare_api/tests/test_pet_audit_actor.py::test_e1_client_supplied_actor_has_no_effect_on_audit_record",
       "type": "SERVED_APP_E2E"
     }
+  ],
+  "AC-FR-09-01": [
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/language-fr09.test.tsx",
+      "sha256": "168eb50f52eb4ff1cde94a719e14d90bbefba568c1279db60f4f3e6d9fc869e0",
+      "type": "UI"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/language-fr09.test.tsx",
+      "sha256": "168eb50f52eb4ff1cde94a719e14d90bbefba568c1279db60f4f3e6d9fc869e0",
+      "type": "ARABIC_RTL"
+    }
+  ],
+  "AC-FR-09-02": [
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/language-fr09.test.tsx",
+      "sha256": "168eb50f52eb4ff1cde94a719e14d90bbefba568c1279db60f4f3e6d9fc869e0",
+      "type": "UI"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/language-fr09.test.tsx",
+      "sha256": "168eb50f52eb4ff1cde94a719e14d90bbefba568c1279db60f4f3e6d9fc869e0",
+      "type": "ARABIC_RTL"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_language_preference.py::test_choice_survives_a_new_session",
+      "type": "SERVED_APP_E2E"
+    }
   ]
 }

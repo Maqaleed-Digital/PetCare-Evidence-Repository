@@ -7,3 +7,5 @@
 | U1 AC-FR-02-04 | (this PR) | 899c539 | AC-FR-02-04 | FR-02 REACHABLE_UNTESTED→REACHABLE_TESTED (EVIDENCE_INCOMPLETE) | see PR | see receipt | pending |
 | U1 (merge record) | #46 | 899c539 | AC-FR-02-04 | FR-02 →REACHABLE_TESTED | 1 | M1 ✓ M2 ✓ M3 ✓ M4 ✓ M5 ✓ | YES → 2069dea |
 | U2 FR-02 profile | (this PR) | 2069dea | AC-FR-02-01, -02, -03 | FR-02 REACHABLE_TESTED→ACCEPTED | see PR | see receipt | pending |
+| U2 (merge record) | #47 | 2069dea | AC-FR-02-01, -02, -03 | FR-02 →ACCEPTED | 1 | M1 ✓ M2 ✓ M3 ✓ M4 ✓ M5 ✓ | YES → d9c7b26 |
+| U3 FR-09 language | (this PR) | d9c7b26 | AC-FR-09-01, -02 | FR-09 BUILT_UNWIRED→REACHABLE_TESTED (AC-03 open) | see PR | see receipt | pending |

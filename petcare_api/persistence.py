@@ -38,6 +38,7 @@ from audit_repository import InMemoryAuditRepository, PostgresAuditRepository
 from postgres_repositories import (
     PersistenceUnavailable,
     PostgresPetProfileRepository,
+    PostgresPreferenceRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -48,6 +49,7 @@ from postgres_repositories import (
 )
 from prescriptions import InMemoryPrescriptionRepository
 from pets import InMemoryPetProfileRepository
+from preferences import InMemoryPreferenceRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -80,6 +82,8 @@ class Persistence:
     prescriptions: Any = None
     #: FR-02 (MVC-BUILD-RUNNER-001 U2): durable, tenant-scoped pet profiles.
     pets: Any = None
+    #: FR-09 (U3): server-held language preference.
+    preferences: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -148,6 +152,7 @@ def build_persistence(
             # are: memory mode must refuse a scope the foreign key would refuse.
             prescriptions=InMemoryPrescriptionRepository(tenants),
             pets=InMemoryPetProfileRepository(tenants),
+            preferences=InMemoryPreferenceRepository(tenants),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -175,6 +180,7 @@ def build_persistence(
         audit=PostgresAuditRepository(pool),
         prescriptions=PostgresPrescriptionRepository(pool),
         pets=PostgresPetProfileRepository(pool),
+        preferences=PostgresPreferenceRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )
