@@ -1091,3 +1091,79 @@ class PostgresPractitionerAuthorityRepository:
                 f"SELECT {self._COLS} FROM practitioner_authority_grant WHERE actor_id = %s AND tenant_id = %s "
                 "ORDER BY granted_at, grant_id", (actor_id, tenant_id)).fetchall()
         return [self._to_grant(r) for r in rows]
+
+
+
+class PostgresMessageRepository:
+    """`MessageRepository` over migration 0040 (FR-07, MVC-BUILD-RUNNER-001 U7)."""
+
+    _M = "message_id, tenant_id, consultation_id, sender_id, sender_role, body, created_at"
+    _A = "attachment_id, message_id, tenant_id, filename, content_type, byte_size, sha256, storage_key, created_at"
+    _D = ("record_id, tenant_id, message_id, recipient_id, channel, attempt_no, status, rendered_body, "
+          "occurred_at")
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def _exec(self, sql, params, what):
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(sql, params)
+        except Exception as exc:
+            raise RepositoryDenied(f"{what} was refused ({type(exc).__name__})") from None
+
+    def _rows(self, sql, params):
+        with self._pool.connection() as conn:
+            return conn.execute(sql, params).fetchall()
+
+    def add_message(self, m):
+        from messages import validate_message
+        validate_message(m)
+        self._exec(f"INSERT INTO consultation_message ({self._M}) VALUES (%s,%s,%s,%s,%s,%s,%s)",
+                   (m.message_id, m.tenant_id, m.consultation_id, m.sender_id, m.sender_role, m.body,
+                    _to_db(m.created_at)), f"message {m.message_id!r}")
+        return m
+
+    def _msg(self, r):
+        from messages import ConsultationMessage
+        return ConsultationMessage(message_id=r[0], tenant_id=r[1], consultation_id=r[2], sender_id=r[3],
+                                   sender_role=r[4], body=r[5], created_at=_from_db(r[6]))
+
+    def messages_for(self, consultation_id, *, tenant_id):
+        return [self._msg(r) for r in self._rows(
+            f"SELECT {self._M} FROM consultation_message WHERE consultation_id = %s AND tenant_id = %s "
+            "ORDER BY created_at, message_id", (consultation_id, tenant_id))]
+
+    def get_message(self, message_id, *, tenant_id):
+        rows = self._rows(f"SELECT {self._M} FROM consultation_message WHERE message_id = %s AND tenant_id = %s",
+                          (message_id, tenant_id))
+        return self._msg(rows[0]) if rows else None
+
+    def add_attachment(self, a):
+        if self.get_message(a.message_id, tenant_id=a.tenant_id) is None:
+            raise RepositoryDenied("attachment refers to no message in this tenant")
+        self._exec(f"INSERT INTO consultation_message_attachment ({self._A}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                   (a.attachment_id, a.message_id, a.tenant_id, a.filename, a.content_type, a.byte_size,
+                    a.sha256, a.storage_key, _to_db(a.created_at)), f"attachment {a.attachment_id!r}")
+        return a
+
+    def attachments_for(self, message_id, *, tenant_id):
+        from messages import MessageAttachment
+        return [MessageAttachment(attachment_id=r[0], message_id=r[1], tenant_id=r[2], filename=r[3],
+                                  content_type=r[4], byte_size=r[5], sha256=r[6], storage_key=r[7],
+                                  created_at=_from_db(r[8])) for r in self._rows(
+            f"SELECT {self._A} FROM consultation_message_attachment WHERE message_id = %s AND tenant_id = %s "
+            "ORDER BY created_at, attachment_id", (message_id, tenant_id))]
+
+    def record_delivery(self, r):
+        self._exec(f"INSERT INTO notification_delivery_record ({self._D}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                   (r.record_id, r.tenant_id, r.message_id, r.recipient_id, r.channel, r.attempt_no, r.status,
+                    r.rendered_body, _to_db(r.occurred_at)), f"delivery record {r.record_id!r}")
+        return r
+
+    def deliveries_for(self, message_id, *, tenant_id):
+        from messages import DeliveryRecord
+        return [DeliveryRecord(record_id=r[0], tenant_id=r[1], message_id=r[2], recipient_id=r[3], channel=r[4],
+                               attempt_no=r[5], status=r[6], rendered_body=r[7], occurred_at=_from_db(r[8]))
+                for r in self._rows(f"SELECT {self._D} FROM notification_delivery_record WHERE message_id = %s "
+                                    "AND tenant_id = %s ORDER BY occurred_at, record_id", (message_id, tenant_id))]

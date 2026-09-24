@@ -90,6 +90,42 @@
       "type": "SERVED_APP_E2E"
     }
   ],
+  "AC-FR-07-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_consultation_messaging.py::test_owner_and_vet_exchange_messages_and_a_lab_report_file",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_consultation_messaging.py::test_messages_are_invisible_outside_the_consultation",
+      "type": "TENANT_ISOLATION"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr07-messages.test.tsx",
+      "sha256": "3a208e6bcb7737ac6af564a26dc2c3e70e6a7ca9ba2a07994a3ade016468dcd9",
+      "type": "UI"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr07-messages.test.tsx",
+      "sha256": "3a208e6bcb7737ac6af564a26dc2c3e70e6a7ca9ba2a07994a3ade016468dcd9",
+      "type": "ARABIC_RTL"
+    }
+  ],
+  "AC-FR-07-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_consultation_messaging_postgres.py::test_message_attachment_and_delivery_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_consultation_messaging.py::test_each_delivery_attempt_is_recorded_with_the_rendered_body_and_audited",
+      "type": "AUDIT"
+    }
+  ],
   "AC-FR-09-01": [
     {
       "kind": "ARTEFACT",

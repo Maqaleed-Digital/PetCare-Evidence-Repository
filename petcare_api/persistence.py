@@ -40,6 +40,7 @@ from postgres_repositories import (
     PostgresPetProfileRepository,
     PostgresPreferenceRepository,
     PostgresPractitionerAuthorityRepository,
+    PostgresMessageRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -52,6 +53,7 @@ from prescriptions import InMemoryPrescriptionRepository
 from pets import InMemoryPetProfileRepository
 from preferences import InMemoryPreferenceRepository
 from practitioners import InMemoryPractitionerAuthorityRepository
+from messages import InMemoryMessageRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -88,6 +90,8 @@ class Persistence:
     preferences: Any = None
     #: FR-01 (U5): live practitioner authority grants.
     practitioners: Any = None
+    #: FR-07 (U7): consultation messages, attachments, delivery records.
+    messages: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -158,6 +162,7 @@ def build_persistence(
             pets=InMemoryPetProfileRepository(tenants),
             preferences=InMemoryPreferenceRepository(tenants),
             practitioners=InMemoryPractitionerAuthorityRepository(tenants),
+            messages=InMemoryMessageRepository(tenants),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -187,6 +192,7 @@ def build_persistence(
         pets=PostgresPetProfileRepository(pool),
         preferences=PostgresPreferenceRepository(pool),
         practitioners=PostgresPractitionerAuthorityRepository(pool),
+        messages=PostgresMessageRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )

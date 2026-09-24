@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 43
+    "served_route_count": 47
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -326,45 +326,39 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 1,
-        "implements": 0,
+        "basis": 5,
+        "implements": 8,
         "legacy": 0,
-        "routes": 0,
-        "tests": 0,
-        "ui_surface": 0
+        "routes": 4,
+        "tests": 2,
+        "ui_surface": 1
       },
       "criteria_gaps": {
-        "AC-FR-07-01": [
-          "ARABIC_RTL",
-          "SERVED_APP_E2E",
-          "TENANT_ISOLATION",
-          "UI"
-        ],
-        "AC-FR-07-02": [
-          "AUDIT",
-          "PERSISTENCE"
-        ],
+        "AC-FR-07-01": [],
+        "AC-FR-07-02": [],
         "AC-FR-07-03": [
           "DEPENDENCY",
           "PERSISTENCE"
         ]
       },
-      "engineering_status": "ABSENT",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
-        "storage": "NONE",
-        "tenant_source": "NONE",
-        "ui_surface": []
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/account/messages"
+        ]
       },
       "id": "FR-07",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "no implementing symbol bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "ABSENT",
+      "status": "REACHABLE_TESTED",
       "title": "Secure chat and file sharing (images, lab reports)",
-      "unresolved": "Prescription document upload is served (petcare_api/main.py:999) but is scoped to FR-14 prescriptions, not general chat/file sharing; not bound."
+      "unresolved": "AC-FR-07-03 depends on PRODUCTION: files use the local document adapter outside production; the production object store is not bound (prescription_documents.ProductionObjectStore refuses). Consultation sessions themselves are still an in-memory store in main.py; messages reference them by id."
     },
     {
       "acceptance_state": "CRITERIA_NOT_RATIFIED",
@@ -1236,11 +1230,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 22,
+        "ABSENT": 21,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
-        "REACHABLE_TESTED": 4,
+        "REACHABLE_TESTED": 5,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1249,7 +1243,6 @@
           "FR-04",
           "FR-05",
           "FR-06",
-          "FR-07",
           "FR-10",
           "FR-12",
           "FR-13",
@@ -1280,6 +1273,7 @@
         ],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-07",
           "FR-09",
           "FR-14",
           "FR-27"
@@ -1295,11 +1289,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 11,
+        "ABSENT": 10,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 4,
+        "REACHABLE_TESTED": 5,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1307,7 +1301,6 @@
           "FR-04",
           "FR-05",
           "FR-06",
-          "FR-07",
           "FR-13",
           "FR-15",
           "FR-16",
@@ -1323,6 +1316,7 @@
         "BUILT_UNWIRED": [],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-07",
           "FR-09",
           "FR-14",
           "FR-27"
@@ -1338,11 +1332,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 11,
+        "ABSENT": 10,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 4,
+        "REACHABLE_TESTED": 5,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1350,7 +1344,6 @@
           "FR-04",
           "FR-05",
           "FR-06",
-          "FR-07",
           "FR-13",
           "FR-15",
           "FR-16",
@@ -1366,6 +1359,7 @@
         "BUILT_UNWIRED": [],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-07",
           "FR-09",
           "FR-14",
           "FR-27"

@@ -142,6 +142,9 @@ def reset_w0f_tables(url: str) -> None:
                       "user_preference",
                       # FR-01 (migration 0039) references user_identity and tenant.
                       "practitioner_authority_grant",
+                      # FR-07 (migration 0040): children before consultation_message.
+                      "notification_delivery_record", "consultation_message_attachment",
+                      "consultation_message",
                       "prescription_document",
                       "prescription_status_transition", "prescription",
                       # The genesis consumption record references user_identity

@@ -135,6 +135,8 @@ from prescription_documents import (
 from repositories import RepositoryDenied
 from pets import PetIdentification, PetMedicalRecord, PetProfile as Pet  # FR-02 (U2)
 from preferences import DEFAULT_LANGUAGE  # FR-09 (U3)
+from messages import (CHANNEL_IN_APP, DELIVERED, ConsultationMessage,  # FR-07 (U7)
+                      DeliveryRecord, MessageAttachment)
 from practitioners import (CLASS_VETERINARIAN, PractitionerAuthorityGrant,  # FR-01 (U5)
                            evaluate as practitioner_evaluate)
 from tenant_membership import (
@@ -1470,6 +1472,124 @@ def add_pet_medical_record(
         raise HTTPException(400, f"Medical record refused: {exc}") from None
     _pet_audit("pet.medical_record.recorded", actor_id, actor_role, tenant_id, pet_id, x_correlation_id)
     return stored.to_read_model()
+
+# ---------------------------------------------------------------------------
+# FR-07 · consultation messaging and file sharing (U7)
+# ---------------------------------------------------------------------------
+MESSAGE_REPO = PERSISTENCE.messages
+
+
+class MessageRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    body: str
+
+
+def _consultation_participant(request: Request, consultation_id: str):
+    """The consultation, if the session actor is one of its two participants, else 404.
+
+    AC-FR-07-01: nothing is visible outside the consultation. 404 (not 403) outside it
+    or outside the tenant, so existence is not confirmed to a non-participant.
+    """
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    session = _sessions.get(consultation_id)
+    if (not session or session["tenant_id"] != tenant_id
+            or actor_id not in (session["owner_id"], session["veterinarian_id"])):
+        raise HTTPException(404, "Consultation not found")
+    return session, actor_id, actor_role, tenant_id
+
+
+def _render_notification(sender_role: str, consultation_id: str, body: str) -> str:
+    return f"New message from your {sender_role} in consultation {consultation_id}: {body[:200]}"
+
+
+@app.post("/api/consultations/{consultation_id}/messages")
+def send_consultation_message(
+    consultation_id: str,
+    body: MessageRequest,
+    request: Request,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    session, actor_id, actor_role, tenant_id = _consultation_participant(request, consultation_id)
+    now = datetime.now(timezone.utc)
+    msg = ConsultationMessage(message_id=str(uuid4()), tenant_id=tenant_id, consultation_id=consultation_id,
+                              sender_id=actor_id, sender_role=actor_role, body=body.body, created_at=now)
+    try:
+        MESSAGE_REPO.add_message(msg)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Message refused: {exc}") from None
+    rendered = _render_notification(actor_role, consultation_id, body.body)
+    for recipient in {session["owner_id"], session["veterinarian_id"]} - {actor_id}:
+        MESSAGE_REPO.record_delivery(DeliveryRecord(
+            record_id=str(uuid4()), tenant_id=tenant_id, message_id=msg.message_id, recipient_id=recipient,
+            channel=CHANNEL_IN_APP, attempt_no=1, status=DELIVERED, rendered_body=rendered,
+            occurred_at=datetime.now(timezone.utc)))
+    _audit(event_name="consultation.message.sent", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="consultation_message", resource_id=msg.message_id,
+           action_result="success", correlation_id=x_correlation_id)
+    return msg.to_read_model()
+
+
+@app.get("/api/consultations/{consultation_id}/messages")
+def list_consultation_messages(consultation_id: str, request: Request, role: str = Depends(require_role)):
+    _session, _a, _r, tenant_id = _consultation_participant(request, consultation_id)
+    return [{**m.to_read_model(),
+             "attachments": [a.to_read_model() for a in MESSAGE_REPO.attachments_for(m.message_id, tenant_id=tenant_id)]}
+            for m in MESSAGE_REPO.messages_for(consultation_id, tenant_id=tenant_id)]
+
+
+@app.post("/api/consultations/{consultation_id}/messages/{message_id}/attachments")
+async def attach_to_consultation_message(
+    consultation_id: str,
+    message_id: str,
+    request: Request,
+    file: UploadFile = File(...),
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """AC-FR-07-01/03: an image or lab report, validated for type and size, stored in the
+    document store (object store in production), never served inline."""
+    _session, actor_id, actor_role, tenant_id = _consultation_participant(request, consultation_id)
+    msg = MESSAGE_REPO.get_message(message_id, tenant_id=tenant_id)
+    if msg is None or msg.consultation_id != consultation_id or msg.sender_id != actor_id:
+        raise HTTPException(404, "Message not found")
+    payload = await file.read()
+    content_type = file.content_type or ""
+    try:
+        validate_upload(content_type=content_type, payload=payload)
+    except DocumentRejected as exc:
+        raise HTTPException(400, f"Attachment refused: {exc}") from None
+    key = new_storage_key(tenant_id=tenant_id, prescription_id=f"consultation-{consultation_id}")
+    try:
+        DOCUMENT_STORE.put(key, payload)
+    except ObjectStoreUnavailable as exc:
+        raise HTTPException(503, f"Document store unavailable: {exc}") from None
+    att = MessageAttachment(attachment_id=str(uuid4()), message_id=message_id, tenant_id=tenant_id,
+                            filename=(file.filename or "attachment")[:200], content_type=content_type,
+                            byte_size=len(payload), sha256=sha256_hex(payload), storage_key=key,
+                            created_at=datetime.now(timezone.utc))
+    MESSAGE_REPO.add_attachment(att)
+    _audit(event_name="consultation.message.attachment_added", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="consultation_message_attachment", resource_id=att.attachment_id,
+           action_result="success", correlation_id=x_correlation_id)
+    return att.to_read_model()
+
+
+@app.get("/api/consultations/{consultation_id}/messages/{message_id}/attachments/{attachment_id}")
+def download_consultation_attachment(consultation_id: str, message_id: str, attachment_id: str,
+                                     request: Request, role: str = Depends(require_role)):
+    _session, _a, _r, tenant_id = _consultation_participant(request, consultation_id)
+    msg = MESSAGE_REPO.get_message(message_id, tenant_id=tenant_id)
+    att = next((a for a in MESSAGE_REPO.attachments_for(message_id, tenant_id=tenant_id)
+                if a.attachment_id == attachment_id), None)
+    if msg is None or msg.consultation_id != consultation_id or att is None:
+        raise HTTPException(404, "Attachment not found")
+    return Response(content=DOCUMENT_STORE.get(att.storage_key), media_type=SERVED_CONTENT_TYPE,
+                    headers={"Content-Disposition": f'attachment; filename="{att.attachment_id}"',
+                             "X-Content-Type-Options": "nosniff"})
+
 
 # ---------------------------------------------------------------------------
 # FR-01 · practitioner authority administration (U5). Never self-service.
