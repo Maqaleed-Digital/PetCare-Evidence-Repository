@@ -1,0 +1,170 @@
+{
+  "baseline": "governance/brd/PetCare KSA - BRD1.docx (via requirements/register.yaml)",
+  "candidate": "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx sha256=b6991f0888eba781fceb2ae13a9d4c7a85f3204bbecce5b1c68bf160ff79a190 (OOXML_DISPOSITION_TABLE)",
+  "candidate_disposition": {
+    "FR-01": "MODIFY",
+    "FR-02": "MODIFY",
+    "FR-03": "MODIFY",
+    "FR-04": "MODIFY",
+    "FR-05": "MODIFY — regulator corrected",
+    "FR-06": "FENCE → constrained modality",
+    "FR-07": "DEFER",
+    "FR-08": "REJECT — structurally",
+    "FR-09": "RETAIN and strengthen",
+    "FR-10": "DEFER",
+    "FR-11": "FENCE",
+    "FR-12": "MODIFY",
+    "FR-13": "MODIFY",
+    "FR-14": "REJECT as specified, MODIFY in substance",
+    "FR-15": "REJECT — business model",
+    "FR-16": "REJECT — business model",
+    "FR-17": "DEFER",
+    "FR-18": "MODIFY → DEFER",
+    "FR-19": "RETAIN and strengthen",
+    "FR-20": "MODIFY",
+    "FR-21": "RETAIN and strengthen",
+    "FR-22": "DEFER",
+    "FR-23": "RETAIN",
+    "FR-24": "MODIFY",
+    "FR-25": "RETAIN",
+    "FR-26": "DEFER indefinitely",
+    "FR-27": "MODIFY",
+    "FR-28": "MODIFY → D-108",
+    "FR-29": "REJECT — business model",
+    "FR-30": "MODIFY — regulator corrected",
+    "FR-31": "REJECT"
+  },
+  "candidate_new_unnumbered": [
+    {
+      "disposition": "NEW — P0",
+      "legacy": "—",
+      "title": "Notifiable-disease reporting"
+    },
+    {
+      "disposition": "NEW — the wedge",
+      "legacy": "—",
+      "title": "ZATCA Phase 2 e-invoicing"
+    },
+    {
+      "disposition": "NEW — P0",
+      "legacy": "—",
+      "title": "Licence lifecycle and gating"
+    },
+    {
+      "disposition": "NEW — the killer journey",
+      "legacy": "—",
+      "title": "Inspection evidence pack"
+    }
+  ],
+  "changed": {
+    "FR-01": {
+      "title": {
+        "baseline": "Multi-role user accounts (Owner, Vet, Pharmacist, Admin)",
+        "candidate": "Multi-role user accounts"
+      }
+    },
+    "FR-02": {
+      "title": {
+        "baseline": "Comprehensive pet profiles (medical history, allergies, preferences)",
+        "candidate": "Comprehensive pet profiles"
+      }
+    },
+    "FR-03": {
+      "title": {
+        "baseline": "Family/shared access to pet profiles with permission controls",
+        "candidate": "Family/shared access with permission controls"
+      }
+    },
+    "FR-04": {
+      "title": {
+        "baseline": "KYC verification for controlled medication purchases",
+        "candidate": "KYC for controlled medication purchases"
+      }
+    },
+    "FR-05": {
+      "title": {
+        "baseline": "SFDA-compliant vet registration and verification",
+        "candidate": "\"SFDA-compliant vet registration and verification\""
+      }
+    },
+    "FR-07": {
+      "title": {
+        "baseline": "Secure chat and file sharing (images, lab reports)",
+        "candidate": "Secure chat and file sharing"
+      }
+    },
+    "FR-09": {
+      "title": {
+        "baseline": "Multi-language support (Arabic primary, English)",
+        "candidate": "Multi-language support, Arabic primary"
+      }
+    },
+    "FR-12": {
+      "title": {
+        "baseline": "Consultation recording (with consent)",
+        "candidate": "Consultation recording with consent"
+      }
+    },
+    "FR-15": {
+      "title": {
+        "baseline": "Smart order routing to nearest/optimal pharmacy",
+        "candidate": "Smart order routing to nearest pharmacy"
+      }
+    },
+    "FR-17": {
+      "title": {
+        "baseline": "Compounding pharmacy workflow management",
+        "candidate": "Compounding pharmacy workflow"
+      }
+    },
+    "FR-20": {
+      "title": {
+        "baseline": "Cash-on-delivery with digital receipting",
+        "candidate": "Cash on delivery with digital receipting"
+      }
+    },
+    "FR-21": {
+      "title": {
+        "baseline": "Unified Electronic Health Record (EHR) per pet",
+        "candidate": "Unified EHR per pet"
+      }
+    },
+    "FR-22": {
+      "title": {
+        "baseline": "Integration with external clinic systems (API)",
+        "candidate": "Integration with external clinic systems"
+      }
+    },
+    "FR-27": {
+      "title": {
+        "baseline": "Real-time dashboard for pharmacy operations",
+        "candidate": "Real-time pharmacy operations dashboard"
+      }
+    },
+    "FR-29": {
+      "title": {
+        "baseline": "Commission and revenue sharing automation",
+        "candidate": "Commission and revenue-sharing automation"
+      }
+    },
+    "FR-31": {
+      "title": {
+        "baseline": "Customer behavior analytics",
+        "candidate": "Customer behaviour analytics"
+      }
+    }
+  },
+  "counts": {
+    "baseline_fr": 31,
+    "candidate_fr": 31,
+    "phase_changes": 0,
+    "priority_changes": 0,
+    "title_changes": 16
+  },
+  "fields_not_carried_by_candidate": [
+    "priority",
+    "phase"
+  ],
+  "only_in_baseline": [],
+  "only_in_candidate": []
+}
