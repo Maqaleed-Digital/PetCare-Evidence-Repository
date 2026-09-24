@@ -123,7 +123,8 @@ export default function EmergencyPage() {
                   />
                   <span style={{ fontSize: 14 }}>{t(label)}</span>
                   <span className={`badge ${sev === 'critical' ? 'badge-amber' : 'badge-gray'}`} style={{ marginInlineStart: 'auto' }}>
-                    {sev}
+                    {t(sev === 'critical' ? s.severityBadgeCritical
+                       : sev === 'urgent' ? s.severityBadgeUrgent : s.severityBadgeRoutine)}
                   </span>
                 </label>
               )

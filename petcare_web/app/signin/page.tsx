@@ -19,7 +19,7 @@ function setRoleCookie(role: string) {
 
 export default function SignInPage() {
   const router = useRouter()
-  const { t } = useLang()
+  const { t, setLanguage } = useLang()
   const s = STRINGS.signin
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -56,6 +56,15 @@ export default function SignInPage() {
           role:    data.user.role,
         }))
         window.dispatchEvent(new Event('vc_user_changed'))
+        // FR-09 (U3): restore the language this identity chose in any earlier
+        // session. A failure keeps the current language; it never blocks sign-in.
+        try {
+          const pref = await fetch(`${apiBase}/api/me/preferences/language`, { credentials: 'include' })
+          if (pref.ok) {
+            const p = await pref.json()
+            if (p?.source === 'stored' && (p.language === 'ar' || p.language === 'en')) setLanguage(p.language)
+          }
+        } catch { /* keep current language */ }
       }
       router.replace(ROLE_REDIRECT[role] ?? '/')
     } catch {

@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 38
+    "served_route_count": 40
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -406,46 +406,39 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 4,
-        "implements": 3,
+        "basis": 9,
+        "implements": 7,
         "legacy": 0,
-        "routes": 0,
-        "tests": 0,
+        "routes": 2,
+        "tests": 2,
         "ui_surface": 1
       },
       "criteria_gaps": {
-        "AC-FR-09-01": [
-          "ARABIC_RTL",
-          "UI"
-        ],
-        "AC-FR-09-02": [
-          "ARABIC_RTL",
-          "SERVED_APP_E2E",
-          "UI"
-        ],
+        "AC-FR-09-01": [],
+        "AC-FR-09-02": [],
         "AC-FR-09-03": [
           "ARABIC_RTL",
           "SERVED_APP_E2E"
         ]
       },
-      "engineering_status": "BUILT_UNWIRED",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
-        "storage": "NONE",
-        "tenant_source": "NONE",
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
         "ui_surface": [
-          "petcare_web:* (all pages via app/layout.tsx)"
+          "petcare_web:* (all customer-facing pages via app/layout.tsx)"
         ]
       },
       "id": "FR-09",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "no served route bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "BUILT_UNWIRED",
+      "status": "REACHABLE_TESTED",
       "title": "Multi-language support (Arabic primary, English)",
-      "unresolved": "UI-only requirement. No served API route can bind it, so the W1 taxonomy reports BUILT_UNWIRED; its tests are vitest, which the pytest-collection check cannot bind."
+      "unresolved": "AC-FR-09-03 (notifications and generated documents in the recipient's language) is open: the served app produces no notification or document yet; it closes with the FR-20 receipt / FR-23 reminder units. /admin is the platform-operator console and is outside the customer-facing sweep."
     },
     {
       "acceptance_state": "CRITERIA_NOT_RATIFIED",
@@ -1263,8 +1256,8 @@
         "ABSENT": 22,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
-        "BUILT_UNWIRED": 5,
-        "REACHABLE_TESTED": 3,
+        "BUILT_UNWIRED": 4,
+        "REACHABLE_TESTED": 4,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1298,13 +1291,13 @@
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [
           "FR-08",
-          "FR-09",
           "FR-11",
           "FR-21",
           "FR-29"
         ],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-09",
           "FR-14",
           "FR-27"
         ],
@@ -1322,8 +1315,8 @@
         "ABSENT": 11,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
-        "BUILT_UNWIRED": 1,
-        "REACHABLE_TESTED": 3,
+        "BUILT_UNWIRED": 0,
+        "REACHABLE_TESTED": 4,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1344,11 +1337,10 @@
           "FR-02"
         ],
         "BINDING_BROKEN": [],
-        "BUILT_UNWIRED": [
-          "FR-09"
-        ],
+        "BUILT_UNWIRED": [],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-09",
           "FR-14",
           "FR-27"
         ],
@@ -1366,8 +1358,8 @@
         "ABSENT": 11,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
-        "BUILT_UNWIRED": 1,
-        "REACHABLE_TESTED": 3,
+        "BUILT_UNWIRED": 0,
+        "REACHABLE_TESTED": 4,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1388,11 +1380,10 @@
           "FR-02"
         ],
         "BINDING_BROKEN": [],
-        "BUILT_UNWIRED": [
-          "FR-09"
-        ],
+        "BUILT_UNWIRED": [],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-09",
           "FR-14",
           "FR-27"
         ],

@@ -138,6 +138,8 @@ def reset_w0f_tables(url: str) -> None:
                       # FR-02 pet profile (migration 0037). Children before
                       # pet_profile, and all three before tenant.
                       "pet_identification", "pet_medical_record", "pet_profile",
+                      # FR-09 (migration 0038) references user_identity and tenant.
+                      "user_preference",
                       "prescription_document",
                       "prescription_status_transition", "prescription",
                       # The genesis consumption record references user_identity

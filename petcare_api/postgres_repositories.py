@@ -1004,3 +1004,34 @@ class PostgresPetProfileRepository:
                 f"SELECT {self._REC} FROM pet_medical_record WHERE pet_id = %s AND tenant_id = %s "
                 "ORDER BY recorded_at, record_id", (pet_id, tenant_id)).fetchall()
         return [self._to_rec(r) for r in rows]
+
+
+
+class PostgresPreferenceRepository:
+    """`PreferenceRepository` over migration 0038 (FR-09, MVC-BUILD-RUNNER-001 U3)."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def get_language(self, user_id: str):
+        with self._pool.connection() as conn:
+            row = conn.execute("SELECT language FROM user_preference WHERE user_id = %s",
+                               (user_id,)).fetchone()
+        return row[0] if row else None
+
+    def set_language(self, user_id: str, *, tenant_id: str, language: str, at):
+        from preferences import validate_language
+
+        validate_language(language)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(
+                    "INSERT INTO user_preference (user_id, tenant_id, language, updated_at) "
+                    "VALUES (%s,%s,%s,%s) ON CONFLICT (user_id) DO UPDATE "
+                    "SET language = EXCLUDED.language, tenant_id = EXCLUDED.tenant_id, "
+                    "updated_at = EXCLUDED.updated_at",
+                    (user_id, tenant_id, language, _to_db(at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"language preference for {user_id!r} was refused "
+                                   f"({type(exc).__name__})") from None
+        return language

@@ -93,6 +93,20 @@
       "path": "/api/governance/status"
     },
     {
+      "endpoint": "main:get_language_preference",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/me/preferences/language"
+    },
+    {
+      "endpoint": "main:set_language_preference",
+      "methods": [
+        "PUT"
+      ],
+      "path": "/api/me/preferences/language"
+    },
+    {
       "endpoint": "main:list_pets",
       "methods": [
         "GET"

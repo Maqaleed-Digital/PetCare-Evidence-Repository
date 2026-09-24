@@ -16,12 +16,15 @@ import type { Lang } from '@/lib/strings'
 interface LangContextValue {
   lang: Lang
   toggle: () => void
+  /** FR-09 (U3): apply a language restored from the server on sign-in. */
+  setLanguage: (l: Lang) => void
   t: (strings: { ar: string; en: string }) => string
 }
 
 const LangContext = createContext<LangContextValue>({
   lang: 'ar',
   toggle: () => {},
+  setLanguage: () => {},
   t: (s) => s.ar,
 })
 
@@ -47,13 +50,21 @@ export function LangProvider({ children }: { children: ReactNode }) {
     })
   }, [])
 
+  const setLanguage = useCallback((next: Lang) => {
+    const l: Lang = next === 'en' ? 'en' : 'ar'
+    localStorage.setItem('vc_lang', l)
+    document.documentElement.lang = l
+    document.documentElement.dir  = l === 'ar' ? 'rtl' : 'ltr'
+    setLang(l)
+  }, [])
+
   const t = useCallback(
     (strings: { ar: string; en: string }) => strings[lang],
     [lang],
   )
 
   return (
-    <LangContext.Provider value={{ lang, toggle, t }}>
+    <LangContext.Provider value={{ lang, toggle, setLanguage, t }}>
       {children}
     </LangContext.Provider>
   )
