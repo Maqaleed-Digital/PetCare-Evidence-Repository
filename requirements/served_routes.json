@@ -86,6 +86,34 @@
       "path": "/api/consultations/notes/{note_id}/sign"
     },
     {
+      "endpoint": "main:list_consultation_messages",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/consultations/{consultation_id}/messages"
+    },
+    {
+      "endpoint": "main:send_consultation_message",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/consultations/{consultation_id}/messages"
+    },
+    {
+      "endpoint": "main:attach_to_consultation_message",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/consultations/{consultation_id}/messages/{message_id}/attachments"
+    },
+    {
+      "endpoint": "main:download_consultation_attachment",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/consultations/{consultation_id}/messages/{message_id}/attachments/{attachment_id}"
+    },
+    {
       "endpoint": "main:get_consultation",
       "methods": [
         "GET"

@@ -209,22 +209,47 @@
   },
   "FR-07": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for chat"
+      "petcare_api/main.py:1488 _consultation_participant: session actor must be the consultation's owner or vet, same tenant (404 otherwise)",
+      "petcare_api/main.py:1508 send: sender from session; one IN_APP delivery record per recipient carrying the rendered body; audited",
+      "petcare_api/main.py:1544 attach: validate_upload allowlist (PDF/JPEG/PNG/HEIC, 15 MB) into DOCUMENT_STORE",
+      "petcare_api/postgres_repositories.py:1097 PostgresMessageRepository (migration 0040)",
+      "petcare_web/app/account/messages/page.tsx thread, send, attach, download; Arabic default RTL"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for chat"
+        "petcare_api/persistence.py messages=PostgresMessageRepository in postgres mode",
+        "petcare_api/main.py:1488 tenant from require_tenant; actor from _actor",
+        "petcare_web/app/account/messages/page.tsx calls the four served routes"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/account/messages"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "main:send_consultation_message",
+      "main:list_consultation_messages",
+      "main:attach_to_consultation_message",
+      "main:download_consultation_attachment",
+      "main:_consultation_participant",
+      "messages:InMemoryMessageRepository",
+      "postgres_repositories:PostgresMessageRepository",
+      "petcare_web/app/account/messages/page.tsx#MessagesPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": "Prescription document upload is served (petcare_api/main.py:999) but is scoped to FR-14 prescriptions, not general chat/file sharing; not bound."
+    "routes": [
+      "POST /api/consultations/{consultation_id}/messages",
+      "GET /api/consultations/{consultation_id}/messages",
+      "POST /api/consultations/{consultation_id}/messages/{message_id}/attachments",
+      "GET /api/consultations/{consultation_id}/messages/{message_id}/attachments/{attachment_id}"
+    ],
+    "tests": [
+      "petcare_api/tests/test_consultation_messaging.py",
+      "petcare_api/tests/test_consultation_messaging_postgres.py"
+    ],
+    "unresolved": "AC-FR-07-03 depends on PRODUCTION: files use the local document adapter outside production; the production object store is not bound (prescription_documents.ProductionObjectStore refuses). Consultation sessions themselves are still an in-memory store in main.py; messages reference them by id."
   },
   "FR-08": {
     "basis": [
