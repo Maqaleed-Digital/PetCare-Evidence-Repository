@@ -1,0 +1,230 @@
+# MVC-REQREG-001 canonical requirement register (spine)
+# GENERATED: do not hand-edit. Regenerate with tools/gen_register.py.
+# Bindings: requirements/bindings.json. Asserted status: requirements/status.json.
+source_instrument:
+  path: governance/brd/PetCare KSA - BRD1.docx
+  sha256: 5450f7832260532aafd080fa54999a66e7af914f1f3452ed3cb3c64950c640dc
+  form: OOXML
+  fr_count: 31
+  nfr_count: 15
+  phase1_high_count: 16
+  phase1_high_ids: [FR-01, FR-02, FR-04, FR-05, FR-06, FR-07, FR-09, FR-13, FR-14, FR-15, FR-16, FR-19, FR-20, FR-23, FR-27, FR-30]
+
+requirements:
+  - id: FR-01
+    title: "Multi-role user accounts (Owner, Vet, Pharmacist, Admin)"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-02
+    title: "Comprehensive pet profiles (medical history, allergies, preferences)"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-03
+    title: "Family/shared access to pet profiles with permission controls"
+    priority: Medium
+    phase: 2
+    status: UNASSESSED
+  - id: FR-04
+    title: "KYC verification for controlled medication purchases"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-05
+    title: "SFDA-compliant vet registration and verification"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-06
+    title: "HD video consultations with screen sharing"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-07
+    title: "Secure chat and file sharing (images, lab reports)"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-08
+    title: "AI-powered symptom checker and triage"
+    priority: Medium
+    phase: 2
+    status: UNASSESSED
+  - id: FR-09
+    title: "Multi-language support (Arabic primary, English)"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-10
+    title: "Specialist referral system"
+    priority: Medium
+    phase: 2
+    status: UNASSESSED
+  - id: FR-11
+    title: "Emergency consultation routing"
+    priority: High
+    phase: 2
+    status: UNASSESSED
+  - id: FR-12
+    title: "Consultation recording (with consent)"
+    priority: Low
+    phase: 3
+    status: UNASSESSED
+  - id: FR-13
+    title: "Real-time multi-location inventory visibility"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-14
+    title: "Prescription upload and vet verification workflow"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-15
+    title: "Smart order routing to nearest/optimal pharmacy"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-16
+    title: "Temperature-controlled delivery tracking"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-17
+    title: "Compounding pharmacy workflow management"
+    priority: Medium
+    phase: 2
+    status: UNASSESSED
+  - id: FR-18
+    title: "Subscription management for chronic medications"
+    priority: High
+    phase: 2
+    status: UNASSESSED
+  - id: FR-19
+    title: "SFDA batch tracking and recall notifications"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-20
+    title: "Cash-on-delivery with digital receipting"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-21
+    title: "Unified Electronic Health Record (EHR) per pet"
+    priority: High
+    phase: 2
+    status: UNASSESSED
+  - id: FR-22
+    title: "Integration with external clinic systems (API)"
+    priority: Medium
+    phase: 2
+    status: UNASSESSED
+  - id: FR-23
+    title: "Vaccination and treatment reminders"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-24
+    title: "Health trends and analytics dashboard"
+    priority: Medium
+    phase: 3
+    status: UNASSESSED
+  - id: FR-25
+    title: "Exportable medical records for travel"
+    priority: Medium
+    phase: 2
+    status: UNASSESSED
+  - id: FR-26
+    title: "IoT device data integration"
+    priority: Low
+    phase: 3
+    status: UNASSESSED
+  - id: FR-27
+    title: "Real-time dashboard for pharmacy operations"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-28
+    title: "Inventory forecasting and auto-replenishment"
+    priority: Medium
+    phase: 2
+    status: UNASSESSED
+  - id: FR-29
+    title: "Commission and revenue sharing automation"
+    priority: High
+    phase: 2
+    status: UNASSESSED
+  - id: FR-30
+    title: "SFDA compliance reporting automation"
+    priority: High
+    phase: 1
+    status: UNASSESSED
+  - id: FR-31
+    title: "Customer behavior analytics"
+    priority: Medium
+    phase: 3
+    status: UNASSESSED
+
+non_functional:
+  - id: NFR-01
+    title: "System Response Time"
+    target: "< 2 seconds for 95% of requests"
+    status: UNASSESSED
+  - id: NFR-02
+    title: "Concurrent Users"
+    target: "Support 10,000 simultaneous users"
+    status: UNASSESSED
+  - id: NFR-03
+    title: "Video Consultation Quality"
+    target: "HD (720p) minimum, adaptive bitrate"
+    status: UNASSESSED
+  - id: NFR-04
+    title: "Database Performance"
+    target: "Sub-second query response for inventory checks"
+    status: UNASSESSED
+  - id: NFR-05
+    title: "Data Encryption"
+    target: "AES-256 at rest, TLS 1.3 in transit"
+    status: UNASSESSED
+  - id: NFR-06
+    title: "SFDA Compliance"
+    target: "Full audit trail for controlled substances"
+    status: UNASSESSED
+  - id: NFR-07
+    title: "Data Residency"
+    target: "All data stored in KSA-based servers"
+    status: UNASSESSED
+  - id: NFR-08
+    title: "Access Controls"
+    target: "Role-based with MFA for sensitive operations"
+    status: UNASSESSED
+  - id: NFR-09
+    title: "HIPAA Equivalent"
+    target: "Pet health data protection standards"
+    status: UNASSESSED
+  - id: NFR-10
+    title: "System Uptime"
+    target: "99.5% availability (excluding maintenance)"
+    status: UNASSESSED
+  - id: NFR-11
+    title: "Disaster Recovery"
+    target: "RTO < 4 hours, RPO < 15 minutes"
+    status: UNASSESSED
+  - id: NFR-12
+    title: "Backup Strategy"
+    target: "Daily incremental, weekly full backups"
+    status: UNASSESSED
+  - id: NFR-13
+    title: "Horizontal Scaling"
+    target: "Support 10x current user base without redesign"
+    status: UNASSESSED
+  - id: NFR-14
+    title: "Geographic Expansion"
+    target: "Architecture supports GCC expansion"
+    status: UNASSESSED
+  - id: NFR-15
+    title: "API Rate Limiting"
+    target: "Protect against abuse while allowing legitimate use"
+    status: UNASSESSED
