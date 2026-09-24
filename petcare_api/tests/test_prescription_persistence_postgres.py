@@ -24,6 +24,7 @@ psycopg = pytest.importorskip("psycopg")
 import main as api  # noqa: E402
 import routers.auth as auth  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
+from tenant_fixtures import grant_practitioner_authority  # noqa: E402
 from persistence import (  # noqa: E402
     MODE_POSTGRES,
     PERSISTENCE_MODE_ENV_VAR,
@@ -233,11 +234,14 @@ def test_the_served_app_writes_prescriptions_to_postgres(pg):
     auth.INVITE_REPO = persistence.invites
     api.AUDIT_REPO = persistence.audit
     api.PRESCRIPTION_REPO = persistence.prescriptions
+    saved_practitioners = api.PRACTITIONER_REPO  # FR-01 (U5)
+    api.PRACTITIONER_REPO = persistence.practitioners
 
     client = TestClient(api.app)
     try:
         auth.seed_user("u-vet-pg", "vet-pg@t", "pw", ROLE_VETERINARIAN,
                        tenant_id=T_A)
+        grant_practitioner_authority("u-vet-pg", T_A, persistence=persistence)
         r = client.post("/api/auth/sign-in",
                         json={"email": "vet-pg@t", "password": "pw"})
         assert r.status_code == 200, r.text
@@ -264,6 +268,7 @@ def test_the_served_app_writes_prescriptions_to_postgres(pg):
         client.cookies.clear()
         (auth.PERSISTENCE, auth.SESSION_STORE, auth.IDENTITY_REPO,
          auth.INVITE_REPO, api.AUDIT_REPO, api.PRESCRIPTION_REPO) = saved
+        api.PRACTITIONER_REPO = saved_practitioners
 
 
 def test_j_audit_events_for_the_workflow_persist_and_chain(pg):
@@ -277,11 +282,14 @@ def test_j_audit_events_for_the_workflow_persist_and_chain(pg):
     auth.INVITE_REPO = persistence.invites
     api.AUDIT_REPO = persistence.audit
     api.PRESCRIPTION_REPO = persistence.prescriptions
+    saved_practitioners = api.PRACTITIONER_REPO  # FR-01 (U5)
+    api.PRACTITIONER_REPO = persistence.practitioners
 
     client = TestClient(api.app)
     try:
         auth.seed_user("u-vet-audit-pg", "vet-audit-pg@t", "pw",
                        ROLE_VETERINARIAN, tenant_id=T_A)
+        grant_practitioner_authority("u-vet-audit-pg", T_A, persistence=persistence)
         r = client.post("/api/auth/sign-in",
                         json={"email": "vet-audit-pg@t", "password": "pw"})
         client.cookies.set("petcare_session", r.cookies["petcare_session"])
@@ -296,6 +304,7 @@ def test_j_audit_events_for_the_workflow_persist_and_chain(pg):
         client.cookies.clear()
         (auth.PERSISTENCE, auth.SESSION_STORE, auth.IDENTITY_REPO,
          auth.INVITE_REPO, api.AUDIT_REPO, api.PRESCRIPTION_REPO) = saved
+        api.PRACTITIONER_REPO = saved_practitioners
 
     # A repository the requests never touched.
     events = _persistence(pg).audit.all_events()

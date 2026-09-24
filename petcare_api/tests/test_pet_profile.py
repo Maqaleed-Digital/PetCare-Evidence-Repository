@@ -14,7 +14,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import main as api  # noqa: E402
 from routers import auth  # noqa: E402
-from tenant_fixtures import ensure_tenant  # noqa: E402
+from tenant_fixtures import ensure_tenant, grant_practitioner_authority  # noqa: E402
 
 pytestmark = pytest.mark.served_app
 
@@ -28,6 +28,8 @@ def _login(user_id: str, tenant: str, role: str) -> None:
     client.cookies.clear()
     ensure_tenant(tenant)
     auth.seed_user(user_id, f"{user_id}@petprof.test", "pw", role, tenant_id=tenant)
+    if role == "veterinarian":  # AC-FR-01-02: prescribing needs a live authority grant
+        grant_practitioner_authority(user_id, tenant)
     r = client.post("/api/auth/sign-in", json={"email": f"{user_id}@petprof.test", "password": "pw"})
     assert r.status_code == 200, r.text
     client.cookies.set("petcare_session", r.cookies["petcare_session"])

@@ -17,6 +17,18 @@
       "type": "UI"
     }
   ],
+  "AC-FR-01-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_practitioner_authority.py::test_role_alone_is_refused_and_the_refusal_names_the_attribute",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_practitioner_authority.py::test_a_grant_in_force_permits_the_act_and_the_audit_records_it",
+      "type": "AUDIT"
+    }
+  ],
   "AC-FR-02-01": [
     {
       "kind": "TEST",
