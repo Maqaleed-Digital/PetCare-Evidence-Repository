@@ -1,4 +1,22 @@
 {
+  "AC-FR-01-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr01_session_identity.py::test_registered_owner_and_vet_and_governed_admin_reach_their_surfaces",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr01_session_identity.py::test_appointment_and_consultation_records_are_tenant_scoped",
+      "type": "TENANT_ISOLATION"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr01-account.test.tsx",
+      "sha256": "4796256a7062c9fb6354215dc7b376b610cc70336e699ee683a855cb9fb0ea5c",
+      "type": "UI"
+    }
+  ],
   "AC-FR-02-01": [
     {
       "kind": "TEST",

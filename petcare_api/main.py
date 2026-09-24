@@ -529,9 +529,9 @@ def book_appointment(
     request: Request,
     body: AppointmentRequest,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
+    actor_id, actor_role = _actor(request)  # AC-FR-01-01: never a client-supplied actor
     if role not in {ROLE_OWNER, ROLE_PLATFORM_ADMIN}:
         raise HTTPException(403, "Only owners or admins may book appointments")
     appt_id = str(uuid4())
@@ -550,8 +550,8 @@ def book_appointment(
     _appointments[appt_id] = appt
     _audit(
         event_name="appointment.booked",
-        actor_id=x_actor_id,
-        actor_role=role,
+        actor_id=actor_id,
+        actor_role=actor_role,
         tenant_id=require_tenant(request, body.tenant_id),
         resource_type="appointment",
         resource_id=appt_id,
@@ -563,18 +563,19 @@ def book_appointment(
 
 @app.get("/api/appointments/{appointment_id}")
 def get_appointment(
+    request: Request,
     appointment_id: str,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
+    actor_id, actor_role = _actor(request)  # AC-FR-01-01: never a client-supplied actor
     appt = _appointments.get(appointment_id)
-    if not appt:
+    if not appt or appt["tenant_id"] != require_tenant(request):
         raise HTTPException(404, "Appointment not found")
     _audit(
         event_name="appointment.viewed",
-        actor_id=x_actor_id,
-        actor_role=role,
+        actor_id=actor_id,
+        actor_role=actor_role,
         tenant_id=appt["tenant_id"],
         resource_type="appointment",
         resource_id=appointment_id,
@@ -599,9 +600,9 @@ def start_consultation(
     request: Request,
     body: ConsultationRequest,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
+    actor_id, actor_role = _actor(request)  # AC-FR-01-01: never a client-supplied actor
     if role not in {ROLE_VETERINARIAN, ROLE_PLATFORM_ADMIN}:
         raise HTTPException(403, "Only vets or admins may start consultations")
     session_id = str(uuid4())
@@ -622,8 +623,8 @@ def start_consultation(
     _sessions[session_id] = session
     _audit(
         event_name="consultation.session.requested",
-        actor_id=x_actor_id,
-        actor_role=role,
+        actor_id=actor_id,
+        actor_role=actor_role,
         tenant_id=require_tenant(request, body.tenant_id),
         resource_type="consultation_session",
         resource_id=session_id,
@@ -635,18 +636,19 @@ def start_consultation(
 
 @app.get("/api/consultations/{session_id}")
 def get_consultation(
+    request: Request,
     session_id: str,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
+    actor_id, actor_role = _actor(request)  # AC-FR-01-01: never a client-supplied actor
     session = _sessions.get(session_id)
-    if not session:
+    if not session or session["tenant_id"] != require_tenant(request):
         raise HTTPException(404, "Consultation session not found")
     _audit(
         event_name="consultation.session.viewed",
-        actor_id=x_actor_id,
-        actor_role=role,
+        actor_id=actor_id,
+        actor_role=actor_role,
         tenant_id=session["tenant_id"],
         resource_type="consultation_session",
         resource_id=session_id,
@@ -668,13 +670,13 @@ def create_note(
     session_id: str,
     body: NoteRequest,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
+    actor_id, actor_role = _actor(request)  # AC-FR-01-01: never a client-supplied actor
     if role != ROLE_VETERINARIAN:
         raise HTTPException(403, "Only vets may create consultation notes")
     session = _sessions.get(session_id)
-    if not session:
+    if not session or session["tenant_id"] != require_tenant(request):
         raise HTTPException(404, "Session not found")
     note_id = str(uuid4())
     now = utc_now_iso()
@@ -682,7 +684,7 @@ def create_note(
         "note_id": note_id,
         "session_id": session_id,
         "pet_id": body.pet_id,
-        "veterinarian_id": x_actor_id,
+        "veterinarian_id": actor_id,
         "content": body.content,
         "status": NOTE_DRAFT,
         "created_at": now,
@@ -692,8 +694,8 @@ def create_note(
     _notes[note_id] = note
     _audit(
         event_name="consultation.note.created",
-        actor_id=x_actor_id,
-        actor_role=role,
+        actor_id=actor_id,
+        actor_role=actor_role,
         tenant_id=require_tenant(request, body.tenant_id),
         resource_type="consultation_note",
         resource_id=note_id,
@@ -707,24 +709,25 @@ def sign_note(
     request: Request,
     note_id: str,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
+    actor_id, actor_role = _actor(request)  # AC-FR-01-01: never a client-supplied actor
     if role != ROLE_VETERINARIAN:
         raise HTTPException(403, "Only vets may sign notes")
     note = _notes.get(note_id)
-    if not note:
+    parent = _sessions.get(note["session_id"]) if note else None
+    if not note or not parent or parent["tenant_id"] != require_tenant(request):
         raise HTTPException(404, "Note not found")
     if note["status"] == NOTE_SIGNED:
         raise HTTPException(409, "Note already signed — immutable")
     now = utc_now_iso()
     note["status"] = NOTE_SIGNED
     note["signed_at"] = now
-    note["signed_by_actor_id"] = x_actor_id
+    note["signed_by_actor_id"] = actor_id
     _audit(
         event_name="consultation.note.signed",
-        actor_id=x_actor_id,
-        actor_role=role,
+        actor_id=actor_id,
+        actor_role=actor_role,
         tenant_id=require_tenant(request),
         resource_type="consultation_note",
         resource_id=note_id,

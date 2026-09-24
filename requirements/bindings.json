@@ -6,7 +6,11 @@
       "petcare_api/routers/auth.py:579 me",
       "petcare_api/routers/auth.py:611 sign_out",
       "petcare_api/roles.py:66 ALLOWED_ROLES = platform_admin, partner_clinic_admin, veterinarian, owner",
-      "petcare_api/main.py:141 app.include_router(auth_router)"
+      "petcare_api/main.py:141 app.include_router(auth_router)",
+      "petcare_api/main.py:528 appointments and :599 consultations: actor/role from _actor(request); client X-Actor-Id removed (U4)",
+      "petcare_api/main.py get_appointment / get_consultation / create_note / sign_note: 404 outside the session tenant (U4)",
+      "petcare_api/tests/test_fr01_session_identity.py served-app: register->sign-in->role surface; spoofed actor ignored; tenant-scoped reads",
+      "petcare_web/app/signin/page.tsx ROLE_REDIRECT: partner_clinic_admin -> /account (was dead key clinic_admin)"
     ],
     "fitness": {
       "audit_actor_source": "NONE",
@@ -50,7 +54,8 @@
     "tests": [
       "petcare_api/tests/test_auth.py",
       "petcare_api/tests/test_register.py",
-      "petcare_api/tests/test_role_authority.py"
+      "petcare_api/tests/test_role_authority.py",
+      "petcare_api/tests/test_fr01_session_identity.py"
     ],
     "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role."
   },

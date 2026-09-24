@@ -9,3 +9,5 @@
 | U2 FR-02 profile | (this PR) | 2069dea | AC-FR-02-01, -02, -03 | FR-02 REACHABLE_TESTED→ACCEPTED | see PR | see receipt | pending |
 | U2 (merge record) | #47 | 2069dea | AC-FR-02-01, -02, -03 | FR-02 →ACCEPTED | 1 | M1 ✓ M2 ✓ M3 ✓ M4 ✓ M5 ✓ | YES → d9c7b26 |
 | U3 FR-09 language | (this PR) | d9c7b26 | AC-FR-09-01, -02 | FR-09 BUILT_UNWIRED→REACHABLE_TESTED (AC-03 open) | see PR | see receipt | pending |
+| U3 (merge record) | #48 | d9c7b26 | AC-FR-09-01, -02 | FR-09 →REACHABLE_TESTED | 1 | M1 ✓ M2 ✓ M3 ✓ M4 ✓ M5 ✓ | YES → 301d1c7 |
+| U4 FR-01 session identity | (this PR) | 301d1c7 | AC-FR-01-01 | FR-01 REACHABLE_TESTED (3 criteria open; SQ-1 queued) | see PR | see receipt | pending |

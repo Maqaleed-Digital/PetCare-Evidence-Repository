@@ -67,19 +67,15 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 6,
+        "basis": 10,
         "implements": 5,
         "legacy": 3,
         "routes": 4,
-        "tests": 3,
+        "tests": 4,
         "ui_surface": 4
       },
       "criteria_gaps": {
-        "AC-FR-01-01": [
-          "SERVED_APP_E2E",
-          "TENANT_ISOLATION",
-          "UI"
-        ],
+        "AC-FR-01-01": [],
         "AC-FR-01-02": [
           "AUDIT",
           "SERVED_APP_E2E"
