@@ -56,38 +56,59 @@
   },
   "FR-02": {
     "basis": [
-      "petcare_api/main.py:1204 POST /api/pets -> uphr_service.create_pet",
-      "petcare_runtime/src/petcare/uphr/service.py:50 create_pet",
-      "petcare_runtime/src/petcare/uphr/service.py:71 create_allergy_record",
-      "petcare_runtime/src/petcare/uphr/service.py:89 create_medication_record",
-      "petcare_api/tests/test_pet_audit_actor.py:58 E1 client X-Actor-Id has no effect; audit actor is the session principal (served_app)"
+      "petcare_api/main.py:1287 POST /api/pets create (session actor, session tenant)",
+      "petcare_api/main.py:1326 GET /api/pets (tenant-scoped; owner sees own)",
+      "petcare_api/main.py:1337 GET /api/pets/{pet_id} profile + identifications + medical history (records + prescriptions)",
+      "petcare_api/main.py:1363 PATCH /api/pets/{pet_id} (fields, preferences; audited)",
+      "petcare_api/main.py:1392 POST identifications (structured, optional)",
+      "petcare_api/main.py:1418 POST medical-records (veterinarian only)",
+      "petcare_api/pets.py:142 InMemoryPetProfileRepository (tenant-checked)",
+      "petcare_api/postgres_repositories.py:872 PostgresPetProfileRepository (tenant in every predicate)",
+      "petcare_runtime/migrations/0037_fr02_pet_profile.sql:10 pet_profile, :34 pet_identification, :54 pet_medical_record",
+      "petcare_api/tests/test_pet_audit_actor.py:58 E1 session actor",
+      "petcare_api/tests/test_pet_profile.py:51 served-app AC-FR-02-01..04",
+      "petcare_api/tests/test_pet_profile_postgres.py:53 second-instance read-back"
     ],
     "fitness": {
       "audit_actor_source": "SESSION",
       "basis": [
-        "petcare_runtime/src/petcare/uphr/service.py:44 FileBackedRepository('petcare_runtime/data/uphr_store.json')",
-        "petcare_api/main.py:1215 tenant_id=require_tenant(request, body.tenant_id)",
-        "petcare_api/main.py:1222 actor_id, actor_role = _actor(request): audit actor from the signed session (U1, AC-FR-02-04)",
-        "no petcare_web page calls /api/pets (grep of petcare_web/app, components, lib)"
+        "petcare_api/persistence.py pets=PostgresPetProfileRepository in postgres mode (PERSISTENT_POSTGRES only when PETCARE_PERSISTENCE_MODE=postgres)",
+        "petcare_api/main.py:1266 _pet_or_404: tenant from require_tenant(request); owner restricted to own pets",
+        "petcare_api/main.py:1288 create_pet: actor from _actor(request) (signed session)",
+        "petcare_web/app/owner/pets/page.tsx calls GET/POST /api/pets, GET/PATCH /api/pets/{id}"
       ],
-      "storage": "FILE",
+      "storage": "PERSISTENT_POSTGRES",
       "tenant_source": "SESSION",
-      "ui_surface": []
+      "ui_surface": [
+        "petcare_web:/owner/pets"
+      ]
     },
     "implements": [
       "main:create_pet",
-      "petcare.uphr.service:UPHRService.create_pet",
-      "petcare.uphr.service:UPHRService.create_allergy_record",
-      "petcare.uphr.service:UPHRService.create_medication_record"
+      "main:list_pets",
+      "main:get_pet_profile",
+      "main:update_pet_profile",
+      "main:add_pet_identification",
+      "main:add_pet_medical_record",
+      "pets:InMemoryPetProfileRepository",
+      "postgres_repositories:PostgresPetProfileRepository",
+      "pets:validate_identification"
     ],
     "legacy": [],
     "routes": [
-      "POST /api/pets"
+      "POST /api/pets",
+      "GET /api/pets",
+      "GET /api/pets/{pet_id}",
+      "PATCH /api/pets/{pet_id}",
+      "POST /api/pets/{pet_id}/identifications",
+      "POST /api/pets/{pet_id}/medical-records"
     ],
     "tests": [
-      "petcare_api/tests/test_pet_audit_actor.py"
+      "petcare_api/tests/test_pet_audit_actor.py",
+      "petcare_api/tests/test_pet_profile.py",
+      "petcare_api/tests/test_pet_profile_postgres.py"
     ],
-    "unresolved": "No test exercises POST /api/pets or main:create_pet. petcare_runtime/tests/test_ep01_ep02_baseline.py:103 tests petcare.api.routes_ep01_ep02:create_pet_profile, an UNMOUNTED router, so it is not bound. Allergy/medication-history writers exist but no served route reaches them; only profile creation (name, species) is served. No read route for a pet profile is served."
+    "unresolved": ""
   },
   "FR-03": {
     "basis": [

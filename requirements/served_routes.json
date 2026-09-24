@@ -93,11 +93,46 @@
       "path": "/api/governance/status"
     },
     {
+      "endpoint": "main:list_pets",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/pets"
+    },
+    {
       "endpoint": "main:create_pet",
       "methods": [
         "POST"
       ],
       "path": "/api/pets"
+    },
+    {
+      "endpoint": "main:get_pet_profile",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/pets/{pet_id}"
+    },
+    {
+      "endpoint": "main:update_pet_profile",
+      "methods": [
+        "PATCH"
+      ],
+      "path": "/api/pets/{pet_id}"
+    },
+    {
+      "endpoint": "main:add_pet_identification",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/pets/{pet_id}/identifications"
+    },
+    {
+      "endpoint": "main:add_pet_medical_record",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/pets/{pet_id}/medical-records"
     },
     {
       "endpoint": "main:issue_prescription",

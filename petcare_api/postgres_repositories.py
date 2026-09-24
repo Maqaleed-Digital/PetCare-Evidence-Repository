@@ -866,3 +866,141 @@ class PostgresPrescriptionRepository:
             byte_size=row[6], content_sha256=row[7], storage_key=row[8],
             uploaded_at=_from_db(row[9]),
         )
+
+
+
+class PostgresPetProfileRepository:
+    """`PetProfileRepository` over migration 0037 (FR-02, MVC-BUILD-RUNNER-001 U2).
+
+    Every statement carries `tenant_id` in its predicate, so a profile, its
+    identifications and its history are unreachable from another tenant through
+    this class regardless of what a caller forgets.
+    """
+
+    _PET = ("pet_id, tenant_id, owner_id, name, species, breed, birth_date, weight_kg, "
+            "medical_conditions, allergies, preferences, created_by_actor_id, created_at, updated_at")
+    _IDENT = ("identification_id, pet_id, tenant_id, id_type, id_value, issuing_scheme, "
+              "captured_at, capture_method, recorded_by_actor_id, recorded_at")
+    _REC = "record_id, pet_id, tenant_id, record_type, title, detail, recorded_by_actor_id, recorded_at"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    @staticmethod
+    def _to_pet(row):
+        from pets import PetProfile
+
+        return PetProfile(
+            pet_id=row[0], tenant_id=row[1], owner_id=row[2], name=row[3], species=row[4],
+            breed=row[5], birth_date=row[6],
+            weight_kg=float(row[7]) if row[7] is not None else None,
+            medical_conditions=row[8], allergies=row[9], preferences=row[10],
+            created_by_actor_id=row[11], created_at=_from_db(row[12]), updated_at=_from_db(row[13]),
+        )
+
+    @staticmethod
+    def _to_ident(row):
+        from pets import PetIdentification
+
+        return PetIdentification(
+            identification_id=row[0], pet_id=row[1], tenant_id=row[2], id_type=row[3],
+            id_value=row[4], issuing_scheme=row[5], captured_at=row[6], capture_method=row[7],
+            recorded_by_actor_id=row[8], recorded_at=_from_db(row[9]),
+        )
+
+    @staticmethod
+    def _to_rec(row):
+        from pets import PetMedicalRecord
+
+        return PetMedicalRecord(
+            record_id=row[0], pet_id=row[1], tenant_id=row[2], record_type=row[3], title=row[4],
+            detail=row[5], recorded_by_actor_id=row[6], recorded_at=_from_db(row[7]),
+        )
+
+    def _write(self, sql: str, params: tuple, what: str) -> None:
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(sql, params)
+        except Exception as exc:
+            raise RepositoryDenied(f"{what} was refused ({type(exc).__name__})") from None
+
+    def create(self, pet):
+        self._write(
+            f"INSERT INTO pet_profile ({self._PET}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            (pet.pet_id, pet.tenant_id, pet.owner_id, pet.name, pet.species, pet.breed, pet.birth_date,
+             pet.weight_kg, pet.medical_conditions, pet.allergies, pet.preferences,
+             pet.created_by_actor_id, _to_db(pet.created_at), _to_db(pet.updated_at)),
+            f"pet {pet.pet_id!r}")
+        return self.get(pet.pet_id, tenant_id=pet.tenant_id) or pet
+
+    def get(self, pet_id: str, *, tenant_id: str):
+        with self._pool.connection() as conn:
+            row = conn.execute(f"SELECT {self._PET} FROM pet_profile WHERE pet_id = %s AND tenant_id = %s",
+                               (pet_id, tenant_id)).fetchone()
+        return self._to_pet(row) if row else None
+
+    def list_for_tenant(self, *, tenant_id: str, owner_id=None):
+        sql = f"SELECT {self._PET} FROM pet_profile WHERE tenant_id = %s"
+        params: tuple = (tenant_id,)
+        if owner_id is not None:
+            sql += " AND owner_id = %s"
+            params = (tenant_id, owner_id)
+        with self._pool.connection() as conn:
+            rows = conn.execute(sql + " ORDER BY created_at, pet_id", params).fetchall()
+        return [self._to_pet(r) for r in rows]
+
+    def update(self, pet_id: str, *, tenant_id: str, changes: dict, updated_at):
+        from pets import MUTABLE_FIELDS
+
+        bad = [k for k in changes if k not in MUTABLE_FIELDS]
+        if bad:
+            raise RepositoryDenied(f"fields {bad} are not mutable")
+        if self.get(pet_id, tenant_id=tenant_id) is None:
+            raise RepositoryDenied(f"pet {pet_id!r} is not in tenant {tenant_id!r}")
+        cols = list(changes)
+        assignments = ", ".join(f"{c} = %s" for c in cols + ["updated_at"])
+        self._write(f"UPDATE pet_profile SET {assignments} WHERE pet_id = %s AND tenant_id = %s",
+                    tuple(changes[c] for c in cols) + (_to_db(updated_at), pet_id, tenant_id),
+                    f"update of pet {pet_id!r}")
+        return self.get(pet_id, tenant_id=tenant_id)
+
+    def add_identification(self, ident):
+        from pets import validate_identification
+
+        validate_identification(ident)
+        if self.get(ident.pet_id, tenant_id=ident.tenant_id) is None:
+            raise RepositoryDenied(f"pet {ident.pet_id!r} is not in tenant {ident.tenant_id!r}")
+        self._write(
+            f"INSERT INTO pet_identification ({self._IDENT}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            (ident.identification_id, ident.pet_id, ident.tenant_id, ident.id_type, ident.id_value,
+             ident.issuing_scheme, ident.captured_at, ident.capture_method, ident.recorded_by_actor_id,
+             _to_db(ident.recorded_at)),
+            f"identification for pet {ident.pet_id!r}")
+        return ident
+
+    def identifications_for(self, pet_id: str, *, tenant_id: str):
+        with self._pool.connection() as conn:
+            rows = conn.execute(
+                f"SELECT {self._IDENT} FROM pet_identification WHERE pet_id = %s AND tenant_id = %s "
+                "ORDER BY recorded_at, identification_id", (pet_id, tenant_id)).fetchall()
+        return [self._to_ident(r) for r in rows]
+
+    def add_medical_record(self, rec):
+        from pets import validate_medical_record
+
+        validate_medical_record(rec)
+        if self.get(rec.pet_id, tenant_id=rec.tenant_id) is None:
+            raise RepositoryDenied(f"pet {rec.pet_id!r} is not in tenant {rec.tenant_id!r}")
+        self._write(
+            f"INSERT INTO pet_medical_record ({self._REC}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+            (rec.record_id, rec.pet_id, rec.tenant_id, rec.record_type, rec.title, rec.detail,
+             rec.recorded_by_actor_id, _to_db(rec.recorded_at)),
+            f"medical record for pet {rec.pet_id!r}")
+        return rec
+
+    def medical_records_for(self, pet_id: str, *, tenant_id: str):
+        with self._pool.connection() as conn:
+            rows = conn.execute(
+                f"SELECT {self._REC} FROM pet_medical_record WHERE pet_id = %s AND tenant_id = %s "
+                "ORDER BY recorded_at, record_id", (pet_id, tenant_id)).fetchall()
+        return [self._to_rec(r) for r in rows]

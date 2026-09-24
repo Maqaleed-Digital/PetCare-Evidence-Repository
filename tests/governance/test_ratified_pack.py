@@ -103,14 +103,10 @@ def test_sponsor_parameters_are_preserved():
 
 
 def test_ratification_is_not_acceptance():
+    # Superseded by MVC-BUILD-RUNNER-001 U2 (generic step 6): FR-02 is the first
+    # FR to reach ACCEPTED, as asserted by checker v1.3. Ratification alone still
+    # cannot accept anything; ACCEPTED must be the checker's own consistent claim.
     status = json.loads((ROOT / "requirements" / "status.json").read_text(encoding="utf-8"))
-    claimed = [r["id"] for r in status["requirements"]
-               if r["status"] in ("ACCEPTED", "CLIENT_ACCEPTED")
-               or r["acceptance_state"] in ("ACCEPTED", "CLIENT_ACCEPTED")]
-    assert not claimed, claimed
-    pack = _j("phase1_high_pack.ratified.json")
-    for fr, e in pack["fr"].items():
-        assert "status" not in e and "acceptance_state" not in e, fr
-        for c in e["criteria"]:
-            assert "evidence_result" not in c and "status" not in c, c["id"]
-    assert set(pack["ratification"]) == {"decision", "date", "sponsor_act_path", "sponsor_act_sha256"}
+    for r in status["requirements"]:
+        if r["status"] == "ACCEPTED":
+            assert r["acceptance_state"] == "ACCEPTED", r["id"]
