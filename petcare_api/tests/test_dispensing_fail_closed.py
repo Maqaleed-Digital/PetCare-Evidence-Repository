@@ -18,7 +18,7 @@ import main as api
 from repositories import RepositoryDenied
 from role_probes import a_role_the_catalogue_refuses, roles_the_catalogue_refuses
 from routers import auth
-from tenant_fixtures import ensure_tenant
+from tenant_fixtures import ensure_tenant, grant_practitioner_authority
 
 client = TestClient(api.app)
 TENANT = "t1"
@@ -27,6 +27,8 @@ TENANT = "t1"
 def _login(role: str, email: str):
     ensure_tenant(TENANT)
     auth.seed_user("u-" + email, email, "pw", role, tenant_id=TENANT)
+    if role == "veterinarian":  # AC-FR-01-02: regulated acts need a live authority grant
+        grant_practitioner_authority("u-" + email, TENANT)
     r = client.post("/api/auth/sign-in", json={"email": email, "password": "pw"})
     assert r.status_code == 200, r.text
     client.cookies.set("petcare_session", r.cookies["petcare_session"])

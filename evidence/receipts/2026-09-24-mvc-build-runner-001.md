@@ -11,3 +11,5 @@
 | U3 FR-09 language | (this PR) | d9c7b26 | AC-FR-09-01, -02 | FR-09 BUILT_UNWIRED→REACHABLE_TESTED (AC-03 open) | see PR | see receipt | pending |
 | U3 (merge record) | #48 | d9c7b26 | AC-FR-09-01, -02 | FR-09 →REACHABLE_TESTED | 1 | M1 ✓ M2 ✓ M3 ✓ M4 ✓ M5 ✓ | YES → 301d1c7 |
 | U4 FR-01 session identity | (this PR) | 301d1c7 | AC-FR-01-01 | FR-01 REACHABLE_TESTED (3 criteria open; SQ-1 queued) | see PR | see receipt | pending |
+| U4 (merge record) | #49 | 301d1c7 | AC-FR-01-01 | FR-01 REACHABLE_TESTED | 1 | M1 ✓ M2 ✓ M3 ✓ M4 ✓ M5 ✓ | YES → 770117f |
+| U5 FR-01 practitioner authority | (this PR) | 770117f | AC-FR-01-02 | FR-01 REACHABLE_TESTED (2/4) | see PR | see receipt | pending |

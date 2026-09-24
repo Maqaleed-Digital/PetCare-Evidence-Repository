@@ -135,6 +135,8 @@ from prescription_documents import (
 from repositories import RepositoryDenied
 from pets import PetIdentification, PetMedicalRecord, PetProfile as Pet  # FR-02 (U2)
 from preferences import DEFAULT_LANGUAGE  # FR-09 (U3)
+from practitioners import (CLASS_VETERINARIAN, PractitionerAuthorityGrant,  # FR-01 (U5)
+                           evaluate as practitioner_evaluate)
 from tenant_membership import (
     TenantMembershipDenied,
     TenantMembershipService,
@@ -771,6 +773,26 @@ def _actor(request: Request) -> tuple[str, str]:
     return payload["user_id"], payload["role"]
 
 
+#: FR-01 · U5 — the live practitioner authority attribute (AC-FR-01-02).
+PRACTITIONER_REPO = PERSISTENCE.practitioners
+
+
+def _require_practitioner_authority(actor_id: str, tenant_id: str):
+    """The grant in force NOW for this actor in this tenant, or 403.
+
+    Role is necessary and not sufficient: a regulated act additionally reads a
+    live, time-bounded authority attribute at the moment of the act (REQ-MVC-8.32).
+    The refusal names the attribute and why it is not in force (REQ-MVC-8.38).
+    """
+    grant, reason = practitioner_evaluate(
+        PRACTITIONER_REPO.grants_for(actor_id, tenant_id=tenant_id),
+        professional_class=CLASS_VETERINARIAN, when=datetime.now(timezone.utc))
+    if grant is None:
+        raise HTTPException(403, detail={"error": "PRACTITIONER_AUTHORITY_REQUIRED",
+                                         "attribute": CLASS_VETERINARIAN, "reason": reason})
+    return grant
+
+
 class PrescriptionRequest(BaseModel):
     pet_id: str
     session_id: str
@@ -807,6 +829,7 @@ def issue_prescription(
         raise HTTPException(403, "Only vets may issue prescriptions")
     actor_id, actor_role = _actor(request)
     tenant_id = require_tenant(request, body.tenant_id)
+    authority = _require_practitioner_authority(actor_id, tenant_id)  # AC-FR-01-02: live attribute at the act
     rx_id = str(uuid4())
     rx = Prescription(
         prescription_id=rx_id,
@@ -827,6 +850,7 @@ def issue_prescription(
         raise HTTPException(400, f"Prescription refused: {exc}") from None
     _audit(
         event_name="prescription.issued",
+        reason_code=f"authority:{authority.grant_id}",
         actor_id=actor_id,
         actor_role=actor_role,
         tenant_id=tenant_id,
@@ -895,6 +919,7 @@ def verify_prescription(
     tenant_id = require_tenant(request)
     _rx_or_404(prescription_id, tenant_id)
     actor_id, actor_role = _actor(request)
+    authority = _require_practitioner_authority(actor_id, tenant_id)  # AC-FR-01-02: live attribute at the act
     try:
         moved = PRESCRIPTION_REPO.transition(
             prescription_id,
@@ -920,6 +945,7 @@ def verify_prescription(
         raise HTTPException(409, f"Cannot verify — {exc}") from None
     _audit(
         event_name="prescription.vet_verified",
+        reason_code=f"authority:{authority.grant_id}",
         actor_id=actor_id,
         actor_role=actor_role,
         tenant_id=tenant_id,
@@ -958,6 +984,7 @@ def dispense_prescription(
     tenant_id = require_tenant(request)
     _rx_or_404(prescription_id, tenant_id)
     actor_id, actor_role = _actor(request)
+    authority = _require_practitioner_authority(actor_id, tenant_id)  # AC-FR-01-02: live attribute at the act
     try:
         moved = PRESCRIPTION_REPO.transition(
             prescription_id,
@@ -983,6 +1010,7 @@ def dispense_prescription(
         raise HTTPException(409, f"Cannot dispense — {exc}") from None
     _audit(
         event_name="prescription.dispensed",
+        reason_code=f"authority:{authority.grant_id}",
         actor_id=actor_id,
         actor_role=actor_role,
         tenant_id=tenant_id,
@@ -1442,6 +1470,92 @@ def add_pet_medical_record(
         raise HTTPException(400, f"Medical record refused: {exc}") from None
     _pet_audit("pet.medical_record.recorded", actor_id, actor_role, tenant_id, pet_id, x_correlation_id)
     return stored.to_read_model()
+
+# ---------------------------------------------------------------------------
+# FR-01 · practitioner authority administration (U5). Never self-service.
+# ---------------------------------------------------------------------------
+class AuthorityGrantRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    professional_class: str = CLASS_VETERINARIAN
+    licence_ref: str
+    effective_from: Optional[str] = None
+    expires_at: Optional[str] = None
+
+
+def _iso_datetime(value: Optional[str], field_name: str):
+    if value is None:
+        return None
+    try:
+        d = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        raise HTTPException(400, f"{field_name} must be an ISO datetime") from None
+    return d if d.tzinfo else d.replace(tzinfo=timezone.utc)
+
+
+@app.post("/api/admin/practitioners/{user_id}/authority")
+def grant_practitioner_authority(
+    user_id: str,
+    body: AuthorityGrantRequest,
+    request: Request,
+    role: str = Depends(require_admin),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """platform_admin records an authority attribute against another natural person."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    if user_id == actor_id:
+        raise HTTPException(403, "Authority attributes are never self-granted")
+    target = PERSISTENCE.identities.get_by_user_id(user_id)
+    if target is None or target.tenant_id != tenant_id or target.role != ROLE_VETERINARIAN:
+        raise HTTPException(404, "No veterinarian with that id in this tenant")
+    now = datetime.now(timezone.utc)
+    grant = PractitionerAuthorityGrant(
+        grant_id=str(uuid4()), tenant_id=tenant_id, actor_id=user_id,
+        professional_class=body.professional_class, licence_ref=body.licence_ref,
+        effective_from=_iso_datetime(body.effective_from, "effective_from") or now,
+        expires_at=_iso_datetime(body.expires_at, "expires_at"),
+        granted_by_actor_id=actor_id, granted_at=now)
+    try:
+        stored = PRACTITIONER_REPO.grant(grant)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Authority grant refused: {exc}") from None
+    _audit(event_name="practitioner.authority.granted", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="practitioner_authority", resource_id=stored.grant_id,
+           action_result="success", correlation_id=x_correlation_id, reason_code=f"subject:{user_id}")
+    return stored.to_read_model()
+
+
+@app.post("/api/admin/practitioners/authority/{grant_id}/revoke")
+def revoke_practitioner_authority(
+    grant_id: str,
+    request: Request,
+    role: str = Depends(require_admin),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    try:
+        g = PRACTITIONER_REPO.revoke(grant_id, tenant_id=tenant_id, at=datetime.now(timezone.utc), by=actor_id)
+    except RepositoryDenied:
+        raise HTTPException(404, "No unrevoked grant with that id in this tenant") from None
+    _audit(event_name="practitioner.authority.revoked", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="practitioner_authority", resource_id=grant_id,
+           action_result="success", correlation_id=x_correlation_id, reason_code=f"subject:{g.actor_id}")
+    return g.to_read_model()
+
+
+@app.get("/api/practitioners/me/authority")
+def my_practitioner_authority(request: Request, role: str = Depends(require_role)):
+    """The caller's own grants and whether one is in force now."""
+    actor_id, _r = _actor(request)
+    tenant_id = require_tenant(request)
+    grants = PRACTITIONER_REPO.grants_for(actor_id, tenant_id=tenant_id)
+    live, reason = practitioner_evaluate(grants, professional_class=CLASS_VETERINARIAN,
+                                         when=datetime.now(timezone.utc))
+    return {"in_force": live is not None, "reason": reason,
+            "grants": [g.to_read_model() for g in grants]}
+
 
 # ---------------------------------------------------------------------------
 # FR-09 · language preference that survives a new session (U3)

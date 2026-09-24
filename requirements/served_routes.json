@@ -16,6 +16,20 @@
       "path": "/api/admin/identities/{user_id}/tenant"
     },
     {
+      "endpoint": "main:revoke_practitioner_authority",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/practitioners/authority/{grant_id}/revoke"
+    },
+    {
+      "endpoint": "main:grant_practitioner_authority",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/practitioners/{user_id}/authority"
+    },
+    {
       "endpoint": "main:book_appointment",
       "methods": [
         "POST"
@@ -147,6 +161,13 @@
         "POST"
       ],
       "path": "/api/pets/{pet_id}/medical-records"
+    },
+    {
+      "endpoint": "main:my_practitioner_authority",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/practitioners/me/authority"
     },
     {
       "endpoint": "main:issue_prescription",

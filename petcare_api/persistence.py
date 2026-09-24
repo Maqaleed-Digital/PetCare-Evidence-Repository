@@ -39,6 +39,7 @@ from postgres_repositories import (
     PersistenceUnavailable,
     PostgresPetProfileRepository,
     PostgresPreferenceRepository,
+    PostgresPractitionerAuthorityRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -50,6 +51,7 @@ from postgres_repositories import (
 from prescriptions import InMemoryPrescriptionRepository
 from pets import InMemoryPetProfileRepository
 from preferences import InMemoryPreferenceRepository
+from practitioners import InMemoryPractitionerAuthorityRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -84,6 +86,8 @@ class Persistence:
     pets: Any = None
     #: FR-09 (U3): server-held language preference.
     preferences: Any = None
+    #: FR-01 (U5): live practitioner authority grants.
+    practitioners: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -153,6 +157,7 @@ def build_persistence(
             prescriptions=InMemoryPrescriptionRepository(tenants),
             pets=InMemoryPetProfileRepository(tenants),
             preferences=InMemoryPreferenceRepository(tenants),
+            practitioners=InMemoryPractitionerAuthorityRepository(tenants),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -181,6 +186,7 @@ def build_persistence(
         prescriptions=PostgresPrescriptionRepository(pool),
         pets=PostgresPetProfileRepository(pool),
         preferences=PostgresPreferenceRepository(pool),
+        practitioners=PostgresPractitionerAuthorityRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )

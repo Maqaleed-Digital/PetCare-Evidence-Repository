@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 40
+    "served_route_count": 43
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -67,19 +67,16 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 10,
-        "implements": 5,
+        "basis": 14,
+        "implements": 12,
         "legacy": 3,
-        "routes": 4,
-        "tests": 4,
+        "routes": 7,
+        "tests": 6,
         "ui_surface": 4
       },
       "criteria_gaps": {
         "AC-FR-01-01": [],
-        "AC-FR-01-02": [
-          "AUDIT",
-          "SERVED_APP_E2E"
-        ],
+        "AC-FR-01-02": [],
         "AC-FR-01-03": [
           "AUDIT",
           "PERSISTENCE",

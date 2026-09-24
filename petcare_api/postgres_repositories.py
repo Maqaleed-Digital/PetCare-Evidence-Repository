@@ -1035,3 +1035,59 @@ class PostgresPreferenceRepository:
             raise RepositoryDenied(f"language preference for {user_id!r} was refused "
                                    f"({type(exc).__name__})") from None
         return language
+
+
+
+class PostgresPractitionerAuthorityRepository:
+    """`PractitionerAuthorityRepository` over migration 0039 (FR-01, MVC-BUILD-RUNNER-001 U5)."""
+
+    _COLS = ("grant_id, tenant_id, actor_id, professional_class, licence_ref, effective_from, expires_at, "
+             "revoked_at, granted_by_actor_id, granted_at, revoked_by_actor_id")
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    @staticmethod
+    def _to_grant(row):
+        from practitioners import PractitionerAuthorityGrant
+
+        return PractitionerAuthorityGrant(
+            grant_id=row[0], tenant_id=row[1], actor_id=row[2], professional_class=row[3],
+            licence_ref=row[4], effective_from=_from_db(row[5]), expires_at=_from_db(row[6]),
+            revoked_at=_from_db(row[7]), granted_by_actor_id=row[8], granted_at=_from_db(row[9]),
+            revoked_by_actor_id=row[10])
+
+    def grant(self, g):
+        from practitioners import validate_grant
+
+        validate_grant(g)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(
+                    f"INSERT INTO practitioner_authority_grant ({self._COLS}) "
+                    "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    (g.grant_id, g.tenant_id, g.actor_id, g.professional_class, g.licence_ref,
+                     _to_db(g.effective_from), _to_db(g.expires_at), None, g.granted_by_actor_id,
+                     _to_db(g.granted_at), None))
+        except Exception as exc:
+            raise RepositoryDenied(f"authority grant {g.grant_id!r} was refused ({type(exc).__name__})") from None
+        return g
+
+    def revoke(self, grant_id: str, *, tenant_id: str, at, by: str):
+        with self._pool.connection() as conn:
+            cur = conn.execute(
+                "UPDATE practitioner_authority_grant SET revoked_at = %s, revoked_by_actor_id = %s "
+                "WHERE grant_id = %s AND tenant_id = %s AND revoked_at IS NULL",
+                (_to_db(at), by, grant_id, tenant_id))
+            if cur.rowcount != 1:
+                raise RepositoryDenied(f"grant {grant_id!r} is not an unrevoked grant in tenant {tenant_id!r}")
+            row = conn.execute(f"SELECT {self._COLS} FROM practitioner_authority_grant WHERE grant_id = %s",
+                               (grant_id,)).fetchone()
+        return self._to_grant(row)
+
+    def grants_for(self, actor_id: str, *, tenant_id: str):
+        with self._pool.connection() as conn:
+            rows = conn.execute(
+                f"SELECT {self._COLS} FROM practitioner_authority_grant WHERE actor_id = %s AND tenant_id = %s "
+                "ORDER BY granted_at, grant_id", (actor_id, tenant_id)).fetchall()
+        return [self._to_grant(r) for r in rows]

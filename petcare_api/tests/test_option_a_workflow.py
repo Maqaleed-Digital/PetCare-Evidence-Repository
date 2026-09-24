@@ -31,7 +31,7 @@ from prescriptions import (  # noqa: E402
     STATUS_VET_VERIFIED,
 )
 from routers import auth  # noqa: E402
-from tenant_fixtures import ensure_tenant  # noqa: E402
+from tenant_fixtures import ensure_tenant, grant_practitioner_authority  # noqa: E402
 
 client = TestClient(api.app)
 
@@ -47,6 +47,8 @@ PDF_BYTES = b"%PDF-1.4\n1 0 obj<</Type/Catalog>>endobj\ntrailer<</Root 1 0 R>>\n
 def _login(role: str, email: str, tenant: str) -> None:
     ensure_tenant(tenant)
     auth.seed_user("u-" + email, email, "pw", role, tenant_id=tenant)
+    if role == "veterinarian":  # AC-FR-01-02: regulated acts need a live authority grant
+        grant_practitioner_authority("u-" + email, tenant)
     r = client.post("/api/auth/sign-in", json={"email": email, "password": "pw"})
     assert r.status_code == 200, r.text
     client.cookies.set("petcare_session", r.cookies["petcare_session"])
