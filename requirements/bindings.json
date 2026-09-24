@@ -700,7 +700,9 @@
       "petcare_api/main.py:1140 GET queue/awaiting-dispense (veterinarian, partner_clinic_admin)",
       "petcare_api/main.py:930 POST .../dispense",
       "petcare_web/app/pharmacy/page.tsx:85 reads the served queue",
-      "evidence/traceability/OPTION_A_FR14_FR27_BRIDGE.md FR-27 PARTIAL / BLOCKED_AT_SPONSOR_GATE"
+      "evidence/traceability/OPTION_A_FR14_FR27_BRIDGE.md FR-27 PARTIAL / BLOCKED_AT_SPONSOR_GATE",
+      "petcare_web/app/pharmacy/page.tsx silent auto-refresh every QUEUE_REFRESH_MS (petcare_web/lib/pharmacyQueue.ts = 2000)",
+      "petcare_api/tests/test_pharmacy_dashboard_realtime.py p95(server visibility, 100 events) + refresh interval <= 5 s"
     ],
     "fitness": {
       "audit_actor_source": "SESSION",
@@ -734,7 +736,8 @@
     ],
     "tests": [
       "petcare_api/tests/test_option_a_workflow.py",
-      "petcare_api/tests/test_dispensing_fail_closed.py"
+      "petcare_api/tests/test_dispensing_fail_closed.py",
+      "petcare_api/tests/test_pharmacy_dashboard_realtime.py"
     ],
     "unresolved": "Pharmacy principal absent. petcare_runtime/src/petcare/pharmacy/review.py gates every write on ROLE_PHARMACY, which no mintable role holds; it is unreachable by construction and NOT bound (W1 rule 11). The bound queue is request/response and read by vet/clinic admin; 'real-time' and pharmacy-operator use are not established."
   },
