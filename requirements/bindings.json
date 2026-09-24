@@ -59,14 +59,15 @@
       "petcare_api/main.py:1204 POST /api/pets -> uphr_service.create_pet",
       "petcare_runtime/src/petcare/uphr/service.py:50 create_pet",
       "petcare_runtime/src/petcare/uphr/service.py:71 create_allergy_record",
-      "petcare_runtime/src/petcare/uphr/service.py:89 create_medication_record"
+      "petcare_runtime/src/petcare/uphr/service.py:89 create_medication_record",
+      "petcare_api/tests/test_pet_audit_actor.py:58 E1 client X-Actor-Id has no effect; audit actor is the session principal (served_app)"
     ],
     "fitness": {
-      "audit_actor_source": "CLIENT_SUPPLIED",
+      "audit_actor_source": "SESSION",
       "basis": [
         "petcare_runtime/src/petcare/uphr/service.py:44 FileBackedRepository('petcare_runtime/data/uphr_store.json')",
         "petcare_api/main.py:1215 tenant_id=require_tenant(request, body.tenant_id)",
-        "petcare_api/main.py:1209 x_actor_id: str = Header(...) written as audit actor",
+        "petcare_api/main.py:1222 actor_id, actor_role = _actor(request): audit actor from the signed session (U1, AC-FR-02-04)",
         "no petcare_web page calls /api/pets (grep of petcare_web/app, components, lib)"
       ],
       "storage": "FILE",
@@ -83,7 +84,9 @@
     "routes": [
       "POST /api/pets"
     ],
-    "tests": [],
+    "tests": [
+      "petcare_api/tests/test_pet_audit_actor.py"
+    ],
     "unresolved": "No test exercises POST /api/pets or main:create_pet. petcare_runtime/tests/test_ep01_ep02_baseline.py:103 tests petcare.api.routes_ep01_ep02:create_pet_profile, an UNMOUNTED router, so it is not bound. Allergy/medication-history writers exist but no served route reaches them; only profile creation (name, species) is served. No read route for a pet profile is served."
   },
   "FR-03": {

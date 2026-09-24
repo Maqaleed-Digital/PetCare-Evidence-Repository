@@ -1206,22 +1206,32 @@ def create_pet(
     request: Request,
     body: PetRequest,
     role: str = Depends(require_role),
-    x_actor_id: str = Header(...),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
+    """AC-FR-02-04: every profile create is attributed to the SESSION actor.
+
+    Rule 21 — the client-supplied `x_actor_id` header is REMOVED, not validated.
+    It was written into the audit chain as the actor (W1 fitness finding), so the
+    log recorded whoever the client said it was. The actor and its role now come
+    from the signed session exactly as the prescription routes derive them (PR #38,
+    `_actor`), and the tenant from `require_tenant`. A client that still sends
+    X-Actor-Id has no effect on the record.
+    """
     if role not in {ROLE_OWNER, ROLE_PLATFORM_ADMIN}:
         raise HTTPException(403, "Only owners or admins may create pet profiles")
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request, body.tenant_id)
     pet = uphr_service.create_pet(
-        tenant_id=require_tenant(request, body.tenant_id),
+        tenant_id=tenant_id,
         owner_id=body.owner_id,
         name=body.name,
         species=body.species,
     )
     _audit(
         event_name="pet.profile.created",
-        actor_id=x_actor_id,
-        actor_role=role,
-        tenant_id=require_tenant(request, body.tenant_id),
+        actor_id=actor_id,
+        actor_role=actor_role,
+        tenant_id=tenant_id,
         resource_type="pet",
         resource_id=pet.pet_id,
         action_result="success",

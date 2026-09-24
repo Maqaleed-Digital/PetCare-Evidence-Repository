@@ -1,1 +1,14 @@
-{}
+{
+  "AC-FR-02-04": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_pet_audit_actor.py::test_e1_client_supplied_actor_has_no_effect_on_audit_record",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_pet_audit_actor.py::test_e1_client_supplied_actor_has_no_effect_on_audit_record",
+      "type": "SERVED_APP_E2E"
+    }
+  ]
+}
