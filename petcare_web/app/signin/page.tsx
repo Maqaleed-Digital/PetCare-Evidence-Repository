@@ -7,7 +7,9 @@ import { STRINGS } from '@/lib/strings'
 
 const ROLE_REDIRECT: Record<string, string> = {
   platform_admin: '/admin',
-  clinic_admin: '/admin',
+  // Canonical id (petcare_api/roles.py). Reaches self-service only, per the
+  // middleware's DOMAIN_CAPABILITY_PENDING_ROLE_BINDING; was the dead key `clinic_admin`.
+  partner_clinic_admin: '/account',
   veterinarian: '/vet',
   owner: '/owner',
 }
