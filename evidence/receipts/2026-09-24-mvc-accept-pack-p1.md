@@ -149,3 +149,99 @@ test_acceptance_pack.py sha256=d8deabf064b2dc4e8f82c27717e3d66d8cb1527a8a66c7a60
 - **F-1 CLOSED.**
 - **F-7 OPEN (unchanged).** The renderer's trailing blank line remains; this version's scope excludes the renderer.
 - **AC-FR-02-04 failing today is FR-02 build work** (client-supplied audit actor on `POST /api/pets`), not a pack defect.
+
+---
+
+## v1.2 — Sponsor ratification frozen
+
+```
+MVC_ACCEPT_PACK_P1=COMPLETE
+VERSION=1.2
+FROZEN=YES
+
+BASE_HEAD=2c7f48ee00d9f56fa11fa602f44430714187543d
+SPONSOR_DECISION=MVC-ACCEPT-PACK-P1   (RESULT=RATIFY_ALL_WITH_INTERPRETATIONS, LOCK=YES, EXCEPTIONS=[])
+SPONSOR_ACT_PATH=governance/sponsor_acts/MVC-ACCEPT-PACK-P1.md   (decision text verbatim, marker lines excluded)
+SPONSOR_ACT_SHA256=2d272abe5defcd666dc76ad7ddfafc714f2f07d82e34110d48e8ae6813b4d7e3
+RATIFIED_DATE=2026-09-24   HASH_BINDING_DATE=2026-09-24
+
+CRITERIA_RATIFIED=68
+FR_COVERED=16/16
+PHASE1_RELEVANT_NFR=13/15
+
+DISPOSITIONS={ACCEPT:59, ACCEPT_WITH_CLARIFICATION:4, ACCEPT_WITH_LIMIT:1, ACCEPT_WITH_SCOPE:1, ACCEPT_WITH_THRESHOLD:3}
+NFR_DISPOSITIONS={ACCEPT:11, ACCEPT_WITH_THRESHOLD:2}   (NFR-13, NFR-14 phase1_relevant=false, no disposition)
+
+PARAMETERISED=[AC-FR-13-01, AC-FR-15-01, AC-FR-23-01, AC-FR-27-01, NFR-09, NFR-15]
+
+KNOWN_FAILING=[AC-FR-02-04]   (DISPOSITION=BUILD_REMEDIATION_NOT_REQUIREMENT_REOPEN)
+ACCEPTED=0
+CLIENT_ACCEPTED=0
+
+DRAFT_JSON_UNCHANGED=YES   sha256 72705323bae1ed0e77181e3948fd46abdced1d1eaac3dbf58c0506bdc9069302
+DRAFT_MD_UNCHANGED=YES     sha256 4267149bba4cc2b43c18b1a843c73fdc5535c2d8699f8989b38a2fcdaa94b9cc
+STATUS_JSON_UNCHANGED=YES  sha256 5f74fd4aecaa9c17f2be5f914441135907dd7325081e240e79bc6bdff17bfa42 (git diff vs BASE_HEAD empty)
+```
+
+**Derivation.** `requirements/acceptance/phase1_high_pack.ratified.json` was produced mechanically from the draft
+JSON and the committed Sponsor-act bytes: each `I-nn AC-…=DISPOSITION` / `NFR-nn=DISPOSITION` header gives the
+disposition; its body lines, verbatim, are `ratified_text`; `KEY=VALUE` lines are `parameters`; an indented block
+under `KEY:` (OPTIMAL_ROUTING_RULE) is one parameter. Criteria without an I-entry: `ACCEPT`, `""`, `{}`. Every
+decision entry was consumed; none unmatched. The six frozen fields of every criterion are byte-equal to the draft.
+
+### Non-ACCEPT dispositions and parameters (for Sponsor verification)
+
+| Item | Disposition | Parameters |
+|---|---|---|
+| AC-FR-04-01 | ACCEPT_WITH_CLARIFICATION | — |
+| AC-FR-05-01 | ACCEPT_WITH_CLARIFICATION | — |
+| AC-FR-07-02 | ACCEPT_WITH_LIMIT | — |
+| AC-FR-13-01 | ACCEPT_WITH_THRESHOLD | REAL_TIME_BOUND=5_SECONDS |
+| AC-FR-15-01 | ACCEPT_WITH_CLARIFICATION | OPTIMAL_ROUTING_RULE=1 eligible/licensed for supply class · 2 fulfils complete basket · 3 lowest route ETA · 4 tie-break route distance · 5 tie-break stable pharmacy identifier |
+| AC-FR-20-02 | ACCEPT_WITH_CLARIFICATION | — |
+| AC-FR-23-01 | ACCEPT_WITH_THRESHOLD | REMINDER_DEFAULT=7_DAYS_BEFORE_DUE · SECOND_REMINDER=24_HOURS_BEFORE_DUE_IF_OUTSTANDING |
+| AC-FR-27-01 | ACCEPT_WITH_THRESHOLD | REAL_TIME_BOUND=5_SECONDS |
+| AC-FR-30-01 | ACCEPT_WITH_SCOPE | — |
+| NFR-09 | ACCEPT_WITH_THRESHOLD | STANDARD=Saudi_PDPL + Implementing_Regulations + applicable_SDAIA_instruments · PASS=100_PERCENT_APPLICABLE_CONTROLS_EVIDENCED · UNRESOLVED_CRITICAL_FINDINGS=0 · UNRESOLVED_HIGH_FINDINGS=0 · EVIDENCE_BASIS=PDPL compliance matrix, to be produced and Sponsor-approved · DEPENDENCY=COUNSEL:PDPL_COMPLIANCE_MATRIX |
+| NFR-15 | ACCEPT_WITH_THRESHOLD | AUTHENTICATED_DEFAULT=100_REQUESTS_PER_MINUTE_PER_PRINCIPAL · ANONYMOUS_DEFAULT=30_REQUESTS_PER_MINUTE_PER_CLIENT_IP · EXCESS_RESPONSE=HTTP_429 · ENDPOINT_SPECIFIC_STRICTER_LIMITS=PERMITTED |
+
+I-entries with disposition ACCEPT that carry ratified text: AC-FR-01-04, AC-FR-02-04, AC-FR-04-04, AC-FR-06-05,
+AC-FR-14-06, AC-FR-16-03, AC-FR-30-03, NFR-07.
+
+### Controls
+
+```
+TESTS=34/34   register 5 · W1 6 · accept-auth 7 · accept-pack 9 · ratified-pack 7 (tests/governance/test_ratified_pack.py)
+  test_ratified_pack_is_bound_to_sponsor_act
+  test_ratification_did_not_alter_criteria_text
+  test_every_criterion_has_a_disposition
+  test_all_68_criteria_present_and_known_failing_recorded
+  test_relevant_nfrs_have_a_disposition
+  test_sponsor_parameters_are_preserved
+  test_ratification_is_not_acceptance
+PERTURBATIONS=7_APPLIED/7_ARMED/0_VACUOUS   (Sponsor act never perturbed; sha re-verified after run)
+  P1 sponsor_act_sha256 changed                         -> ..._bound_to_sponsor_act              ARMED
+  P2 AC-FR-14-01 statement edited                       -> ..._did_not_alter_criteria_text       ARMED
+  P3 AC-FR-09-01 disposition removed                    -> ..._every_criterion_has_a_disposition ARMED
+  P4 AC-FR-04-01 ratified_text emptied                  -> ..._every_criterion_has_a_disposition ARMED
+  P5 AC-FR-13-01 REAL_TIME_BOUND -> 10_SECONDS          -> ..._sponsor_parameters_are_preserved  ARMED
+  P6 NFR-09 COUNSEL:PDPL_COMPLIANCE_MATRIX removed      -> ..._sponsor_parameters_are_preserved  ARMED
+  P7 known_failing -> []                                -> ..._known_failing_recorded             ARMED
+
+REGRESSION_LOCAL=966 passed / 0 skipped   (= 959 + 7; includes PostgreSQL suites against a local ephemeral cluster)
+WEB_UNIT / RESPONSIVE: measured in CI (worktree carries no node_modules; web code unchanged)
+SCANNERS: ACTIVE_LITERAL_DEFAULT=0 · SECRET_SCAN=CLEAN
+DIFF_CHECK=CLEAN   (F-7 residual lives only in the unchanged draft .md; not reported against this diff)
+CI_CONFIG_CHANGED=NO (directory collection)
+```
+
+### v1.2 findings
+- **F-7 COSMETIC RESIDUAL.** The frozen draft `.md` still ends with a blank line; not modified, per instruction.
+- **NFR-15 line `LIMITS_MUST_BE_CONFIGURABLE_AND_AUDITABLE`** carries no `=` and is therefore recorded in
+  `ratified_text`, not as a parameter.
+- **Ratification is authority only.** `ACCEPTED` stays unreachable until the checker lane binds criterion evidence.
+
+```
+PHASE1_REQUIREMENTS_DEFINITION=CLOSED_PENDING_MERGE
+NEXT_ACCEPTANCE_BOUNDARY=SPONSOR_MERGE_PR43
+```
