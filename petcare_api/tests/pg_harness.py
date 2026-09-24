@@ -135,6 +135,9 @@ def reset_w0f_tables(url: str) -> None:
                       # tenant delete raises and every suite sharing this
                       # database errors in teardown rather than in the test that
                       # created the row.
+                      # FR-02 pet profile (migration 0037). Children before
+                      # pet_profile, and all three before tenant.
+                      "pet_identification", "pet_medical_record", "pet_profile",
                       "prescription_document",
                       "prescription_status_transition", "prescription",
                       # The genesis consumption record references user_identity

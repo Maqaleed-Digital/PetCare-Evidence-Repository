@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 33
+    "served_route_count": 38
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -118,48 +118,40 @@
       "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role."
     },
     {
-      "acceptance_state": "EVIDENCE_INCOMPLETE",
+      "acceptance_state": "ACCEPTED",
       "counts": {
-        "basis": 5,
-        "implements": 4,
+        "basis": 12,
+        "implements": 9,
         "legacy": 0,
-        "routes": 1,
-        "tests": 1,
-        "ui_surface": 0
+        "routes": 6,
+        "tests": 3,
+        "ui_surface": 1
       },
       "criteria_gaps": {
-        "AC-FR-02-01": [
-          "PERSISTENCE",
-          "SERVED_APP_E2E",
-          "TENANT_ISOLATION",
-          "UI"
-        ],
-        "AC-FR-02-02": [
-          "ARABIC_RTL",
-          "SERVED_APP_E2E",
-          "UI"
-        ],
-        "AC-FR-02-03": [
-          "PERSISTENCE"
-        ],
+        "AC-FR-02-01": [],
+        "AC-FR-02-02": [],
+        "AC-FR-02-03": [],
         "AC-FR-02-04": []
       },
       "engineering_status": "REACHABLE_TESTED",
       "fitness": {
         "audit_actor_source": "SESSION",
-        "storage": "FILE",
+        "storage": "PERSISTENT_POSTGRES",
         "tenant_source": "SESSION",
-        "ui_surface": []
+        "ui_surface": [
+          "petcare_web:/owner/pets"
+        ]
       },
       "id": "FR-02",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "all bound routes served; all bound tests collected"
+        "all bound routes served; all bound tests collected",
+        "every ratified criterion evidenced"
       ],
-      "status": "REACHABLE_TESTED",
+      "status": "ACCEPTED",
       "title": "Comprehensive pet profiles (medical history, allergies, preferences)",
-      "unresolved": "No test exercises POST /api/pets or main:create_pet. petcare_runtime/tests/test_ep01_ep02_baseline.py:103 tests petcare.api.routes_ep01_ep02:create_pet_profile, an UNMOUNTED router, so it is not bound. Allergy/medication-history writers exist but no served route reaches them; only profile creation (name, species) is served. No read route for a pet profile is served."
+      "unresolved": ""
     },
     {
       "acceptance_state": "CRITERIA_NOT_RATIFIED",
@@ -1263,16 +1255,16 @@
   "summary": {
     "all": {
       "acceptance": {
-        "ACCEPTED": 0,
+        "ACCEPTED": 1,
         "CRITERIA_NOT_RATIFIED": 15,
-        "EVIDENCE_INCOMPLETE": 16
+        "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
         "ABSENT": 22,
-        "ACCEPTED": 0,
+        "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 5,
-        "REACHABLE_TESTED": 4,
+        "REACHABLE_TESTED": 3,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1300,7 +1292,9 @@
           "FR-30",
           "FR-31"
         ],
-        "ACCEPTED": [],
+        "ACCEPTED": [
+          "FR-02"
+        ],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [
           "FR-08",
@@ -1311,7 +1305,6 @@
         ],
         "REACHABLE_TESTED": [
           "FR-01",
-          "FR-02",
           "FR-14",
           "FR-27"
         ],
@@ -1321,16 +1314,16 @@
     },
     "phase1": {
       "acceptance": {
-        "ACCEPTED": 0,
+        "ACCEPTED": 1,
         "CRITERIA_NOT_RATIFIED": 0,
-        "EVIDENCE_INCOMPLETE": 16
+        "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
         "ABSENT": 11,
-        "ACCEPTED": 0,
+        "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 1,
-        "REACHABLE_TESTED": 4,
+        "REACHABLE_TESTED": 3,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1347,14 +1340,15 @@
           "FR-23",
           "FR-30"
         ],
-        "ACCEPTED": [],
+        "ACCEPTED": [
+          "FR-02"
+        ],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [
           "FR-09"
         ],
         "REACHABLE_TESTED": [
           "FR-01",
-          "FR-02",
           "FR-14",
           "FR-27"
         ],
@@ -1364,16 +1358,16 @@
     },
     "phase1_high": {
       "acceptance": {
-        "ACCEPTED": 0,
+        "ACCEPTED": 1,
         "CRITERIA_NOT_RATIFIED": 0,
-        "EVIDENCE_INCOMPLETE": 16
+        "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
         "ABSENT": 11,
-        "ACCEPTED": 0,
+        "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 1,
-        "REACHABLE_TESTED": 4,
+        "REACHABLE_TESTED": 3,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1390,14 +1384,15 @@
           "FR-23",
           "FR-30"
         ],
-        "ACCEPTED": [],
+        "ACCEPTED": [
+          "FR-02"
+        ],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [
           "FR-09"
         ],
         "REACHABLE_TESTED": [
           "FR-01",
-          "FR-02",
           "FR-14",
           "FR-27"
         ],

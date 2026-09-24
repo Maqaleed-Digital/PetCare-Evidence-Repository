@@ -1,4 +1,53 @@
 {
+  "AC-FR-02-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_pet_profile.py::test_ac01_every_brd_field_is_recorded_and_read_back",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_pet_profile_postgres.py::test_profile_with_every_brd_field_survives_a_second_instance",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_pet_profile.py::test_ac01_profile_is_unreadable_from_another_tenant",
+      "type": "TENANT_ISOLATION"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/pet-profile.test.tsx",
+      "sha256": "b24344aa5e764ab6126dfe13c293685d074c0a53b8ca92f9fd07c5cddf666f32",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-02-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_pet_profile.py::test_ac02_history_shows_lab_result_and_prescription",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/pet-profile.test.tsx",
+      "sha256": "b24344aa5e764ab6126dfe13c293685d074c0a53b8ca92f9fd07c5cddf666f32",
+      "type": "UI"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/pet-profile.test.tsx",
+      "sha256": "b24344aa5e764ab6126dfe13c293685d074c0a53b8ca92f9fd07c5cddf666f32",
+      "type": "ARABIC_RTL"
+    }
+  ],
+  "AC-FR-02-03": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_pet_profile_postgres.py::test_identification_and_history_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    }
+  ],
   "AC-FR-02-04": [
     {
       "kind": "TEST",

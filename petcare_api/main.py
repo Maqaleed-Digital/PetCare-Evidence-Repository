@@ -8,7 +8,7 @@ from __future__ import annotations
 import json
 import logging
 import os
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 from typing import Any, Optional
 from uuid import uuid4
 
@@ -133,6 +133,7 @@ from prescription_documents import (
     validate_upload,
 )
 from repositories import RepositoryDenied
+from pets import PetIdentification, PetMedicalRecord, PetProfile as Pet  # FR-02 (U2)
 from tenant_membership import (
     TenantMembershipDenied,
     TenantMembershipService,
@@ -1196,10 +1197,92 @@ def prescription_transitions(
 # Pet profiles (UPHR)
 # ---------------------------------------------------------------------------
 class PetRequest(BaseModel):
-    tenant_id: str
-    owner_id: str
+    """BRD P373-P374 fields (AC-FR-02-01). `owner_id` is honoured only for an
+    admin creating on an owner's behalf; an owner always creates for themself."""
+
+    model_config = {"extra": "forbid"}
+
+    #: Optional: the tenant comes from the session. If supplied it must match it
+    #: (`require_tenant`), never widen it.
+    tenant_id: Optional[str] = None
+    owner_id: Optional[str] = None
     name: str
     species: str
+    breed: Optional[str] = None
+    birth_date: Optional[str] = None
+    weight_kg: Optional[float] = None
+    medical_conditions: Optional[str] = None
+    allergies: Optional[str] = None
+    preferences: Optional[str] = None
+
+
+class PetUpdate(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    name: Optional[str] = None
+    species: Optional[str] = None
+    breed: Optional[str] = None
+    birth_date: Optional[str] = None
+    weight_kg: Optional[float] = None
+    medical_conditions: Optional[str] = None
+    allergies: Optional[str] = None
+    preferences: Optional[str] = None
+
+
+class PetIdentificationRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    id_type: str
+    id_value: str
+    captured_at: str
+    capture_method: str
+    issuing_scheme: Optional[str] = None
+
+
+class PetMedicalRecordRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    record_type: str
+    title: str
+    detail: Optional[str] = None
+
+
+#: FR-02 · the durable pet store selected by PETCARE_PERSISTENCE_MODE (U2). The
+#: profile no longer lives in the node-local UPHR JSON file.
+PET_REPO = PERSISTENCE.pets
+
+PET_READERS = {ROLE_OWNER, ROLE_VETERINARIAN, ROLE_PARTNER_CLINIC_ADMIN, ROLE_PLATFORM_ADMIN}
+
+
+def _iso_date(value: Optional[str], field_name: str):
+    if value is None:
+        return None
+    try:
+        return date.fromisoformat(value[:10])
+    except ValueError:
+        raise HTTPException(400, f"{field_name} must be an ISO date") from None
+
+
+def _pet_or_404(request: Request, pet_id: str):
+    """The pet, scoped to the session tenant — and, for an owner, to their own pets.
+
+    404 rather than 403 for a pet in another tenant or of another owner: a 403
+    would confirm the record exists (the enumeration oracle `_rx_or_404` refuses).
+    """
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    pet = PET_REPO.get(pet_id, tenant_id=tenant_id)
+    if pet is None or (actor_role == ROLE_OWNER and pet.owner_id != actor_id):
+        raise HTTPException(404, "Pet not found")
+    return pet, actor_id, actor_role, tenant_id
+
+
+def _pet_audit(event: str, actor_id: str, actor_role: str, tenant_id: str, pet_id: str,
+               correlation_id: str) -> None:
+    _audit(event_name=event, actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="pet", resource_id=pet_id, action_result="success",
+           correlation_id=correlation_id)
+
 
 @app.post("/api/pets")
 def create_pet(
@@ -1208,37 +1291,153 @@ def create_pet(
     role: str = Depends(require_role),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
-    """AC-FR-02-04: every profile create is attributed to the SESSION actor.
+    """AC-FR-02-01 create; AC-FR-02-04: attributed to the SESSION actor.
 
-    Rule 21 — the client-supplied `x_actor_id` header is REMOVED, not validated.
-    It was written into the audit chain as the actor (W1 fitness finding), so the
-    log recorded whoever the client said it was. The actor and its role now come
-    from the signed session exactly as the prescription routes derive them (PR #38,
-    `_actor`), and the tenant from `require_tenant`. A client that still sends
-    X-Actor-Id has no effect on the record.
+    Rule 21 — there is no client-supplied actor input (U1). The actor and role
+    come from the signed session (`_actor`, as the prescription routes derive
+    them) and the tenant from `require_tenant`.
     """
     if role not in {ROLE_OWNER, ROLE_PLATFORM_ADMIN}:
         raise HTTPException(403, "Only owners or admins may create pet profiles")
     actor_id, actor_role = _actor(request)
     tenant_id = require_tenant(request, body.tenant_id)
-    pet = uphr_service.create_pet(
-        tenant_id=tenant_id,
-        owner_id=body.owner_id,
-        name=body.name,
-        species=body.species,
+    if actor_role == ROLE_OWNER:
+        owner_id = actor_id
+    elif body.owner_id and body.owner_id.strip():
+        owner_id = body.owner_id
+    else:
+        raise HTTPException(400, "owner_id is required when an admin creates a pet profile")
+    now = datetime.now(timezone.utc)
+    pet = Pet(
+        pet_id=str(uuid4()), tenant_id=tenant_id, owner_id=owner_id, name=body.name,
+        species=body.species, breed=body.breed, birth_date=_iso_date(body.birth_date, "birth_date"),
+        weight_kg=body.weight_kg, medical_conditions=body.medical_conditions,
+        allergies=body.allergies, preferences=body.preferences,
+        created_by_actor_id=actor_id, created_at=now, updated_at=now,
     )
-    _audit(
-        event_name="pet.profile.created",
-        actor_id=actor_id,
-        actor_role=actor_role,
-        tenant_id=tenant_id,
-        resource_type="pet",
-        resource_id=pet.pet_id,
-        action_result="success",
-        correlation_id=x_correlation_id,
+    try:
+        stored = PET_REPO.create(pet)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Pet profile refused: {exc}") from None
+    _pet_audit("pet.profile.created", actor_id, actor_role, tenant_id, stored.pet_id, x_correlation_id)
+    return stored.to_read_model()
+
+
+@app.get("/api/pets")
+def list_pets(request: Request, role: str = Depends(require_role)):
+    """The session tenant's pets; an owner sees only their own."""
+    if role not in PET_READERS:
+        raise HTTPException(403, "Not authorized to read pet profiles")
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    owner = actor_id if actor_role == ROLE_OWNER else None
+    return [p.to_read_model() for p in PET_REPO.list_for_tenant(tenant_id=tenant_id, owner_id=owner)]
+
+
+@app.get("/api/pets/{pet_id}")
+def get_pet_profile(request: Request, pet_id: str, role: str = Depends(require_role)):
+    """AC-FR-02-01/02/03: profile, identifications and medical history.
+
+    History = the profile's lab results and clinical records, plus every
+    prescription for the pet read from the prescription store (not copied).
+    """
+    if role not in PET_READERS:
+        raise HTTPException(403, "Not authorized to read pet profiles")
+    pet, _actor_id, _role, tenant_id = _pet_or_404(request, pet_id)
+    prescriptions = [
+        rx.to_read_model()
+        for status in (STATUS_ISSUED, STATUS_VET_VERIFIED, STATUS_DISPENSED)
+        for rx in PRESCRIPTION_REPO.list_by_status(tenant_id=tenant_id, status=status)
+        if rx.pet_id == pet_id
+    ]
+    return {
+        "profile": pet.to_read_model(),
+        "identifications": [i.to_read_model() for i in PET_REPO.identifications_for(pet_id, tenant_id=tenant_id)],
+        "medical_history": {
+            "records": [r.to_read_model() for r in PET_REPO.medical_records_for(pet_id, tenant_id=tenant_id)],
+            "prescriptions": sorted(prescriptions, key=lambda r: (r["issued_at"], r["prescription_id"])),
+        },
+    }
+
+
+@app.patch("/api/pets/{pet_id}")
+def update_pet_profile(
+    request: Request,
+    pet_id: str,
+    body: PetUpdate,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """AC-FR-02-01/02 change (incl. preferences); AC-FR-02-04 audited as the session actor."""
+    if role not in {ROLE_OWNER, ROLE_PLATFORM_ADMIN}:
+        raise HTTPException(403, "Only owners or admins may change pet profiles")
+    _pet, actor_id, actor_role, tenant_id = _pet_or_404(request, pet_id)
+    changes = body.model_dump(exclude_unset=True)
+    if "birth_date" in changes:
+        changes["birth_date"] = _iso_date(changes["birth_date"], "birth_date")
+    for required in ("name", "species"):
+        if required in changes and not (changes[required] or "").strip():
+            raise HTTPException(400, f"{required} cannot be empty")
+    if not changes:
+        raise HTTPException(400, "No changes supplied")
+    try:
+        pet = PET_REPO.update(pet_id, tenant_id=tenant_id, changes=changes,
+                              updated_at=datetime.now(timezone.utc))
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Pet profile change refused: {exc}") from None
+    _pet_audit("pet.profile.updated", actor_id, actor_role, tenant_id, pet_id, x_correlation_id)
+    return pet.to_read_model()
+
+
+@app.post("/api/pets/{pet_id}/identifications")
+def add_pet_identification(
+    request: Request,
+    pet_id: str,
+    body: PetIdentificationRequest,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """AC-FR-02-03: structured identification (type, value, capture date). Optional."""
+    if role not in {ROLE_OWNER, ROLE_VETERINARIAN, ROLE_PLATFORM_ADMIN}:
+        raise HTTPException(403, "Not authorized to record identification")
+    _pet, actor_id, actor_role, tenant_id = _pet_or_404(request, pet_id)
+    ident = PetIdentification(
+        identification_id=str(uuid4()), pet_id=pet_id, tenant_id=tenant_id, id_type=body.id_type,
+        id_value=body.id_value, issuing_scheme=body.issuing_scheme,
+        captured_at=_iso_date(body.captured_at, "captured_at"), capture_method=body.capture_method,
+        recorded_by_actor_id=actor_id, recorded_at=datetime.now(timezone.utc),
     )
-    return {"pet_id": pet.pet_id, "name": pet.name, "species": pet.species,
-            "owner_id": pet.owner_id, "tenant_id": pet.tenant_id}
+    try:
+        stored = PET_REPO.add_identification(ident)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Identification refused: {exc}") from None
+    _pet_audit("pet.identification.recorded", actor_id, actor_role, tenant_id, pet_id, x_correlation_id)
+    return stored.to_read_model()
+
+
+@app.post("/api/pets/{pet_id}/medical-records")
+def add_pet_medical_record(
+    request: Request,
+    pet_id: str,
+    body: PetMedicalRecordRequest,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """AC-FR-02-02: a lab result or clinical record on the pet's history. Veterinarian only."""
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(403, "Only veterinarians may record medical history")
+    _pet, actor_id, actor_role, tenant_id = _pet_or_404(request, pet_id)
+    rec = PetMedicalRecord(
+        record_id=str(uuid4()), pet_id=pet_id, tenant_id=tenant_id, record_type=body.record_type,
+        title=body.title, detail=body.detail, recorded_by_actor_id=actor_id,
+        recorded_at=datetime.now(timezone.utc),
+    )
+    try:
+        stored = PET_REPO.add_medical_record(rec)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Medical record refused: {exc}") from None
+    _pet_audit("pet.medical_record.recorded", actor_id, actor_role, tenant_id, pet_id, x_correlation_id)
+    return stored.to_read_model()
 
 # ---------------------------------------------------------------------------
 # Governance status
