@@ -105,3 +105,47 @@ CI_CONFIG_CHANGED=NO (directory collection)
    control are issued text. Cosmetic only.
 7. **F-6 UPHR_LANE_NOT_RUN_HERE.** The MVC-HYG-UPHR-001 block was not in this session's input; its worktree
    `~/dev/petcare-wt-uphr` exists at origin/main, untouched.
+
+---
+
+## v1.1 — AA-3 enforced in the standing controls
+
+```
+VERSION=1.1   FROZEN=YES (AM-5)   START_HEAD=2fcf24c22b4766d6f9b13c5269b9e6e3551c111d
+REASON=v1.0 F-1 — the REQ-source control admitted REQs from mappings AA-3 did not ratify
+       (FR-05, FR-06, FR-09, FR-20 have candidates but no evidence-backed criteria); candidate_source was unvalidated.
+V1_0_TEXT_PRESERVED=YES (sections above unedited)
+```
+
+**Changes (exactly three).**
+1. `test_req_sources_are_ratified_candidate_mappings` now admits a REQ only when that FR's crosswalk
+   coverage is `HAS_CANDIDATE_CRITERIA` (AA-3's evidence-backed set), via `_aa3_ratified()`, read from the
+   crosswalk and not from a hard-coded list.
+2. New `test_candidate_source_matches_aa3`: `candidate_source` must be `RATIFIED_CANDIDATE_MAPPING` exactly for
+   AA-3-ratified FRs, `NONE` otherwise.
+3. Perturbations P7 and P8 added.
+
+No criteria text, pack data, renderer or rendered document changed. An earlier shorter v1.1 variant (renderer
+edit) was begun and discarded before commit on Sponsor instruction; it is not part of this version.
+
+```
+AA3_RATIFIED_FRS_IN_PACK=[FR-01, FR-02, FR-04, FR-07, FR-13, FR-14, FR-19, FR-30]
+REQ_CITATIONS=18   REQ_CITATIONS_OUTSIDE_AA3=0
+CANDIDATE_SOURCE_CORRECTIONS=0   (existing pack data already matched AA-3)
+TESTS=27/27   register 5 · W1 6 · accept-auth 7 · accept-pack 9
+PERTURBATIONS=8 applied, 8 ARMED, 0 vacuous
+  P1–P6 re-run from v1.0                                                  ARMED
+  P7 FR-05 crosswalk candidate REQ-MVC-4.11 cited in AC-FR-05-01
+     -> test_req_sources_are_ratified_candidate_mappings FAILS             ARMED
+     discrimination: the same perturbation PASSES the v1.0 control (vacuous there) — F-1 was real and is closed
+  P8 FR-05 candidate_source -> RATIFIED_CANDIDATE_MAPPING
+     -> test_candidate_source_matches_aa3 FAILS                            ARMED
+  git diff after reverts: only the intended test-file change
+REGRESSION (local, CI command)=959 passed / 0 skipped   (= 958 + 1)
+test_acceptance_pack.py sha256=d8deabf064b2dc4e8f82c27717e3d66d8cb1527a8a66c7a60e6f2960cf338b91
+```
+
+### v1.1 findings
+- **F-1 CLOSED.**
+- **F-7 OPEN (unchanged).** The renderer's trailing blank line remains; this version's scope excludes the renderer.
+- **AC-FR-02-04 failing today is FR-02 build work** (client-supplied audit actor on `POST /api/pets`), not a pack defect.

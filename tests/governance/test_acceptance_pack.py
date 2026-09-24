@@ -52,17 +52,34 @@ def test_every_criterion_is_well_formed():
             assert DEP.match(c["dependency"]), c["id"]
 
 
+def _aa3_ratified(entry):
+    # AA-3: only the evidence-backed mappings (coverage HAS_CANDIDATE_CRITERIA) are ratified source material
+    return entry["coverage"] == "HAS_CANDIDATE_CRITERIA"
+
+
+def _crosswalk():
+    return json.loads((ROOT / "requirements" / "authority" / "fr_req_crosswalk_candidate.json")
+                      .read_text(encoding="utf-8"))
+
+
 def test_req_sources_are_ratified_candidate_mappings():
-    cw = json.loads((ROOT / "requirements" / "authority" / "fr_req_crosswalk_candidate.json")
-                    .read_text(encoding="utf-8"))
+    cw = _crosswalk()
     for fr, e in _pack()["fr"].items():
-        allowed = {c["req"] for c in cw["fr"][fr]["candidates"]}
+        entry = cw["fr"][fr]
+        allowed = {c["req"] for c in entry["candidates"]} if _aa3_ratified(entry) else set()
         for c in e["criteria"]:
             for s in c["sources"]:
                 if s["kind"] == "REQ":
                     assert s["ref"] in allowed, (c["id"], s["ref"])
                 if s["kind"] == "BRD":
                     assert s["ref"] == fr, (c["id"], s["ref"])
+
+
+def test_candidate_source_matches_aa3():
+    cw = _crosswalk()
+    for fr, e in _pack()["fr"].items():
+        expected = "RATIFIED_CANDIDATE_MAPPING" if _aa3_ratified(cw["fr"][fr]) else "NONE"
+        assert e["candidate_source"] == expected, (fr, e["candidate_source"], expected)
 
 
 def test_customer_facing_requirements_carry_ui_evidence():
