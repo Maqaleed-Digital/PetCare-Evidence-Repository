@@ -1,0 +1,240 @@
+{
+  "app": "main:app",
+  "routes": [
+    {
+      "endpoint": "main:read_tenant_membership",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/admin/identities/{user_id}/tenant"
+    },
+    {
+      "endpoint": "main:set_tenant_membership",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/identities/{user_id}/tenant"
+    },
+    {
+      "endpoint": "main:book_appointment",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/appointments"
+    },
+    {
+      "endpoint": "main:get_appointment",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/appointments/{appointment_id}"
+    },
+    {
+      "endpoint": "routers.auth:me",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/auth/me"
+    },
+    {
+      "endpoint": "routers.auth:register",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/auth/register"
+    },
+    {
+      "endpoint": "routers.auth:sign_in",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/auth/sign-in"
+    },
+    {
+      "endpoint": "routers.auth:sign_out",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/auth/sign-out"
+    },
+    {
+      "endpoint": "main:start_consultation",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/consultations"
+    },
+    {
+      "endpoint": "main:sign_note",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/consultations/notes/{note_id}/sign"
+    },
+    {
+      "endpoint": "main:get_consultation",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/consultations/{session_id}"
+    },
+    {
+      "endpoint": "main:create_note",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/consultations/{session_id}/notes"
+    },
+    {
+      "endpoint": "main:governance_status",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/governance/status"
+    },
+    {
+      "endpoint": "main:create_pet",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/pets"
+    },
+    {
+      "endpoint": "main:issue_prescription",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/prescriptions"
+    },
+    {
+      "endpoint": "main:awaiting_dispense_queue",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/prescriptions/queue/awaiting-dispense"
+    },
+    {
+      "endpoint": "main:get_prescription",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/prescriptions/{prescription_id}"
+    },
+    {
+      "endpoint": "main:dispense_prescription",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/prescriptions/{prescription_id}/dispense"
+    },
+    {
+      "endpoint": "main:list_prescription_documents",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/prescriptions/{prescription_id}/documents"
+    },
+    {
+      "endpoint": "main:upload_prescription_document",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/prescriptions/{prescription_id}/documents"
+    },
+    {
+      "endpoint": "main:download_prescription_document",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/prescriptions/{prescription_id}/documents/{document_id}"
+    },
+    {
+      "endpoint": "main:prescription_transitions",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/prescriptions/{prescription_id}/transitions"
+    },
+    {
+      "endpoint": "main:verify_prescription",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/prescriptions/{prescription_id}/verify"
+    },
+    {
+      "endpoint": "main:verify_audit_chain_endpoint",
+      "methods": [
+        "GET"
+      ],
+      "path": "/audit/chain/verify"
+    },
+    {
+      "endpoint": "main:list_audit_events",
+      "methods": [
+        "GET"
+      ],
+      "path": "/audit/events"
+    },
+    {
+      "endpoint": "main:list_audit_events_for_tenant",
+      "methods": [
+        "GET"
+      ],
+      "path": "/audit/events/tenant"
+    },
+    {
+      "endpoint": "main:audit_ui_probe",
+      "methods": [
+        "POST"
+      ],
+      "path": "/audit/ui"
+    },
+    {
+      "endpoint": "fastapi.applications:FastAPI.setup.<locals>.swagger_ui_html",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "path": "/docs"
+    },
+    {
+      "endpoint": "fastapi.applications:FastAPI.setup.<locals>.swagger_ui_redirect",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "path": "/docs/oauth2-redirect"
+    },
+    {
+      "endpoint": "main:health",
+      "methods": [
+        "GET"
+      ],
+      "path": "/health"
+    },
+    {
+      "endpoint": "fastapi.applications:FastAPI.setup.<locals>.openapi",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "path": "/openapi.json"
+    },
+    {
+      "endpoint": "main:ready",
+      "methods": [
+        "GET"
+      ],
+      "path": "/ready"
+    },
+    {
+      "endpoint": "fastapi.applications:FastAPI.setup.<locals>.redoc_html",
+      "methods": [
+        "GET",
+        "HEAD"
+      ],
+      "path": "/redoc"
+    }
+  ]
+}
