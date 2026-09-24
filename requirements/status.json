@@ -1,15 +1,71 @@
 {
-  "acceptance_note": "Engineering status only. acceptance_state is CRITERIA_NOT_RATIFIED for every requirement; no requirement is ACCEPTED or CLIENT_ACCEPTED.",
+  "acceptance_note": "ACCEPTED only when ratified, REACHABLE_TESTED and every ratified criterion has zero evidence gaps. CLIENT_ACCEPTED is never emitted by this checker.",
+  "authority": [
+    "MVC-COMPLETION-AMENDMENTS-001",
+    "MVC-ACCEPT-PACK-P1"
+  ],
+  "checker": "MVC-REQREG-003 v1.3",
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
     "served_route_count": 33
   },
-  "known_limit": "REACHABLE_TESTED does not prove bound tests exercise the served app",
-  "lane": "MVC-BUILD-W1",
+  "known_limits": [
+    "REACHABLE_TESTED does not prove bound tests exercise the served app",
+    "collection is not execution; CI executes",
+    "served_app marker is a declaration"
+  ],
+  "lane": "MVC-ACCEPT-CHECK-001",
+  "nfr": {
+    "NFR-01": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-02": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-03": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-04": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-05": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-06": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-07": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-08": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-09": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-10": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-11": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-12": {
+      "state": "EVIDENCE_INCOMPLETE"
+    },
+    "NFR-13": {
+      "state": "NOT_PHASE1_RELEVANT"
+    },
+    "NFR-14": {
+      "state": "NOT_PHASE1_RELEVANT"
+    },
+    "NFR-15": {
+      "state": "EVIDENCE_INCOMPLETE"
+    }
+  },
   "requirements": [
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 6,
         "implements": 5,
@@ -18,6 +74,28 @@
         "tests": 3,
         "ui_surface": 4
       },
+      "criteria_gaps": {
+        "AC-FR-01-01": [
+          "SERVED_APP_E2E",
+          "TENANT_ISOLATION",
+          "UI"
+        ],
+        "AC-FR-01-02": [
+          "AUDIT",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-01-03": [
+          "AUDIT",
+          "PERSISTENCE",
+          "TENANT_ISOLATION"
+        ],
+        "AC-FR-01-04": [
+          "AUDIT",
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ]
+      },
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "PERSISTENT_POSTGRES",
@@ -40,7 +118,7 @@
       "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role."
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 4,
         "implements": 4,
@@ -49,6 +127,27 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-02-01": [
+          "PERSISTENCE",
+          "SERVED_APP_E2E",
+          "TENANT_ISOLATION",
+          "UI"
+        ],
+        "AC-FR-02-02": [
+          "ARABIC_RTL",
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-02-03": [
+          "PERSISTENCE"
+        ],
+        "AC-FR-02-04": [
+          "AUDIT",
+          "SERVED_APP_E2E"
+        ]
+      },
+      "engineering_status": "REACHABLE_UNTESTED",
       "fitness": {
         "audit_actor_source": "CLIENT_SUPPLIED",
         "storage": "FILE",
@@ -75,6 +174,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -92,7 +193,7 @@
       "unresolved": ""
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -101,6 +202,32 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-04-01": [
+          "AUDIT",
+          "DEPENDENCY",
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-04-02": [
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-04-03": [
+          "AUDIT",
+          "PERSISTENCE",
+          "TENANT_ISOLATION"
+        ],
+        "AC-FR-04-04": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-04-05": [
+          "AUDIT",
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -118,7 +245,7 @@
       "unresolved": ""
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -127,6 +254,27 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-05-01": [
+          "AUDIT",
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-05-02": [
+          "AUDIT",
+          "PERSISTENCE",
+          "TENANT_ISOLATION"
+        ],
+        "AC-FR-05-03": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-05-04": [
+          "AUDIT",
+          "DEPENDENCY"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -144,7 +292,7 @@
       "unresolved": "Vet identities are minted by invite-gated registration (petcare_api/routers/auth.py:386) and time-bounded professional authority grants exist (petcare_runtime/src/petcare/professional_authority/authority.py:107, unmounted), but no SFDA/licence registration or verification is evidenced. Not bound."
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -153,6 +301,30 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-06-01": [
+          "ARABIC_RTL",
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-06-02": [
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-06-03": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-06-04": [
+          "AUDIT",
+          "PERSISTENCE",
+          "TENANT_ISOLATION"
+        ],
+        "AC-FR-06-05": [
+          "DEPENDENCY",
+          "UI"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -170,7 +342,7 @@
       "unresolved": "Consultation session and note routes are served (petcare_api/main.py:595) but carry no video or screen-sharing capability; not bound by naming."
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -179,6 +351,23 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-07-01": [
+          "ARABIC_RTL",
+          "SERVED_APP_E2E",
+          "TENANT_ISOLATION",
+          "UI"
+        ],
+        "AC-FR-07-02": [
+          "AUDIT",
+          "PERSISTENCE"
+        ],
+        "AC-FR-07-03": [
+          "DEPENDENCY",
+          "PERSISTENCE"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -205,6 +394,8 @@
         "tests": 1,
         "ui_surface": 1
       },
+      "criteria_gaps": {},
+      "engineering_status": "BUILT_UNWIRED",
       "fitness": {
         "audit_actor_source": "UNKNOWN",
         "storage": "FILE",
@@ -224,7 +415,7 @@
       "unresolved": "The served app mounts no AI intake route. The only customer-facing symptom surface is a client-side rule table, not AI-powered."
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 4,
         "implements": 3,
@@ -233,6 +424,22 @@
         "tests": 0,
         "ui_surface": 1
       },
+      "criteria_gaps": {
+        "AC-FR-09-01": [
+          "ARABIC_RTL",
+          "UI"
+        ],
+        "AC-FR-09-02": [
+          "ARABIC_RTL",
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-09-03": [
+          "ARABIC_RTL",
+          "SERVED_APP_E2E"
+        ]
+      },
+      "engineering_status": "BUILT_UNWIRED",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -261,6 +468,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -287,6 +496,8 @@
         "tests": 2,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "BUILT_UNWIRED",
       "fitness": {
         "audit_actor_source": "UNKNOWN",
         "storage": "UNKNOWN",
@@ -313,6 +524,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -330,7 +543,7 @@
       "unresolved": ""
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -339,6 +552,26 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-13-01": [
+          "SERVED_APP_E2E",
+          "TENANT_ISOLATION",
+          "UI"
+        ],
+        "AC-FR-13-02": [
+          "AUDIT",
+          "PERSISTENCE"
+        ],
+        "AC-FR-13-03": [
+          "PERSISTENCE"
+        ],
+        "AC-FR-13-04": [
+          "AUDIT",
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -356,7 +589,7 @@
       "unresolved": ""
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 10,
         "implements": 9,
@@ -365,6 +598,38 @@
         "tests": 3,
         "ui_surface": 1
       },
+      "criteria_gaps": {
+        "AC-FR-14-01": [
+          "PERSISTENCE",
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-14-02": [
+          "AUDIT",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-14-03": [
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-14-04": [
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-14-05": [
+          "AUDIT",
+          "PERSISTENCE",
+          "TENANT_ISOLATION"
+        ],
+        "AC-FR-14-06": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-14-07": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ]
+      },
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
         "audit_actor_source": "SESSION",
         "storage": "PERSISTENT_POSTGRES",
@@ -384,7 +649,7 @@
       "unresolved": ""
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -393,6 +658,27 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-15-01": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E",
+          "TENANT_ISOLATION"
+        ],
+        "AC-FR-15-02": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-15-03": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-15-04": [
+          "AUDIT",
+          "PERSISTENCE",
+          "UI"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -410,7 +696,7 @@
       "unresolved": "petcare_runtime/src/petcare/partner_network/orders_service.py:109 route_order routes to the order's pre-set partner_id ('deterministic_partner_route_from_pricing_reference'); no nearest/optimal selection. petcare_web/app/pharmacy/page.tsx:8 records FR-15 out of Option A scope. Not bound."
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -419,6 +705,26 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-16-01": [
+          "PERSISTENCE",
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-16-02": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-16-03": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-16-04": [
+          "AUDIT",
+          "TENANT_ISOLATION"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -445,6 +751,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -471,6 +779,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -488,7 +798,7 @@
       "unresolved": ""
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -497,6 +807,27 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-19-01": [
+          "AUDIT",
+          "PERSISTENCE"
+        ],
+        "AC-FR-19-02": [
+          "AUDIT",
+          "SERVED_APP_E2E",
+          "TENANT_ISOLATION",
+          "UI"
+        ],
+        "AC-FR-19-03": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-19-04": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -514,7 +845,7 @@
       "unresolved": "petcare_runtime/src/petcare/uphr/models.py:65 batch_number_nullable on a VACCINATION record, always None at petcare_runtime/src/petcare/uphr/service.py:121; no medicine batch tracking or recall."
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -523,6 +854,30 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-20-01": [
+          "PERSISTENCE",
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-20-02": [
+          "ARABIC_RTL",
+          "PERSISTENCE",
+          "SERVED_APP_E2E",
+          "UI"
+        ],
+        "AC-FR-20-03": [
+          "AUDIT",
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-20-04": [
+          "AUDIT",
+          "DEPENDENCY",
+          "TENANT_ISOLATION"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -549,6 +904,8 @@
         "tests": 1,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "BUILT_UNWIRED",
       "fitness": {
         "audit_actor_source": "UNKNOWN",
         "storage": "FILE",
@@ -575,6 +932,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -592,7 +951,7 @@
       "unresolved": "petcare_runtime/src/petcare/integration_control/adapters.py:7 adapter types are ERP, accounting export, payment gateway; no clinic-system integration evidenced."
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -601,6 +960,27 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-23-01": [
+          "PERSISTENCE",
+          "SERVED_APP_E2E",
+          "TENANT_ISOLATION",
+          "UI"
+        ],
+        "AC-FR-23-02": [
+          "ARABIC_RTL",
+          "AUDIT"
+        ],
+        "AC-FR-23-03": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-23-04": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -627,6 +1007,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -653,6 +1035,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -679,6 +1063,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -696,7 +1082,7 @@
       "unresolved": ""
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 4,
         "implements": 2,
@@ -705,6 +1091,27 @@
         "tests": 2,
         "ui_surface": 1
       },
+      "criteria_gaps": {
+        "AC-FR-27-01": [
+          "SERVED_APP_E2E",
+          "TENANT_ISOLATION",
+          "UI"
+        ],
+        "AC-FR-27-02": [
+          "AUDIT",
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-27-03": [
+          "AUDIT",
+          "PERSISTENCE"
+        ],
+        "AC-FR-27-04": [
+          "ARABIC_RTL",
+          "UI"
+        ]
+      },
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
         "audit_actor_source": "SESSION",
         "storage": "PERSISTENT_POSTGRES",
@@ -733,6 +1140,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -759,6 +1168,8 @@
         "tests": 1,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "BUILT_UNWIRED",
       "fitness": {
         "audit_actor_source": "UNKNOWN",
         "storage": "UNKNOWN",
@@ -776,7 +1187,7 @@
       "unresolved": "Fee and payout arithmetic exists; commission-rate authoring and automation trigger are not evidenced. Not served."
     },
     {
-      "acceptance_state": "CRITERIA_NOT_RATIFIED",
+      "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
         "basis": 1,
         "implements": 0,
@@ -785,6 +1196,28 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {
+        "AC-FR-30-01": [
+          "AUDIT",
+          "PERSISTENCE",
+          "TENANT_ISOLATION"
+        ],
+        "AC-FR-30-02": [
+          "PERSISTENCE"
+        ],
+        "AC-FR-30-03": [
+          "AUDIT"
+        ],
+        "AC-FR-30-04": [
+          "DEPENDENCY",
+          "SERVED_APP_E2E"
+        ],
+        "AC-FR-30-05": [
+          "AUDIT",
+          "DEPENDENCY"
+        ]
+      },
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -811,6 +1244,8 @@
         "tests": 0,
         "ui_surface": 0
       },
+      "criteria_gaps": {},
+      "engineering_status": "ABSENT",
       "fitness": {
         "audit_actor_source": "NONE",
         "storage": "NONE",
@@ -830,8 +1265,14 @@
   ],
   "summary": {
     "all": {
+      "acceptance": {
+        "ACCEPTED": 0,
+        "CRITERIA_NOT_RATIFIED": 15,
+        "EVIDENCE_INCOMPLETE": 16
+      },
       "counts": {
         "ABSENT": 22,
+        "ACCEPTED": 0,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 5,
         "REACHABLE_TESTED": 3,
@@ -862,6 +1303,7 @@
           "FR-30",
           "FR-31"
         ],
+        "ACCEPTED": [],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [
           "FR-08",
@@ -882,8 +1324,14 @@
       "total": 31
     },
     "phase1": {
+      "acceptance": {
+        "ACCEPTED": 0,
+        "CRITERIA_NOT_RATIFIED": 0,
+        "EVIDENCE_INCOMPLETE": 16
+      },
       "counts": {
         "ABSENT": 11,
+        "ACCEPTED": 0,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 1,
         "REACHABLE_TESTED": 3,
@@ -903,6 +1351,7 @@
           "FR-23",
           "FR-30"
         ],
+        "ACCEPTED": [],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [
           "FR-09"
@@ -919,8 +1368,14 @@
       "total": 16
     },
     "phase1_high": {
+      "acceptance": {
+        "ACCEPTED": 0,
+        "CRITERIA_NOT_RATIFIED": 0,
+        "EVIDENCE_INCOMPLETE": 16
+      },
       "counts": {
         "ABSENT": 11,
+        "ACCEPTED": 0,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 1,
         "REACHABLE_TESTED": 3,
@@ -940,6 +1395,7 @@
           "FR-23",
           "FR-30"
         ],
+        "ACCEPTED": [],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [
           "FR-09"
@@ -956,8 +1412,14 @@
       "total": 16
     },
     "phase2": {
+      "acceptance": {
+        "ACCEPTED": 0,
+        "CRITERIA_NOT_RATIFIED": 11,
+        "EVIDENCE_INCOMPLETE": 0
+      },
       "counts": {
         "ABSENT": 7,
+        "ACCEPTED": 0,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
         "REACHABLE_TESTED": 0,
@@ -973,6 +1435,7 @@
           "FR-25",
           "FR-28"
         ],
+        "ACCEPTED": [],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [
           "FR-08",
@@ -986,8 +1449,14 @@
       "total": 11
     },
     "phase3": {
+      "acceptance": {
+        "ACCEPTED": 0,
+        "CRITERIA_NOT_RATIFIED": 4,
+        "EVIDENCE_INCOMPLETE": 0
+      },
       "counts": {
         "ABSENT": 4,
+        "ACCEPTED": 0,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
         "REACHABLE_TESTED": 0,
@@ -1000,6 +1469,7 @@
           "FR-26",
           "FR-31"
         ],
+        "ACCEPTED": [],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [],
         "REACHABLE_TESTED": [],
