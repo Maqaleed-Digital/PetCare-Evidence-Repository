@@ -120,11 +120,11 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 4,
+        "basis": 5,
         "implements": 4,
         "legacy": 0,
         "routes": 1,
-        "tests": 0,
+        "tests": 1,
         "ui_surface": 0
       },
       "criteria_gaps": {
@@ -142,14 +142,11 @@
         "AC-FR-02-03": [
           "PERSISTENCE"
         ],
-        "AC-FR-02-04": [
-          "AUDIT",
-          "SERVED_APP_E2E"
-        ]
+        "AC-FR-02-04": []
       },
-      "engineering_status": "REACHABLE_UNTESTED",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "CLIENT_SUPPLIED",
+        "audit_actor_source": "SESSION",
         "storage": "FILE",
         "tenant_source": "SESSION",
         "ui_surface": []
@@ -158,9 +155,9 @@
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "all bound routes served; no test bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "REACHABLE_UNTESTED",
+      "status": "REACHABLE_TESTED",
       "title": "Comprehensive pet profiles (medical history, allergies, preferences)",
       "unresolved": "No test exercises POST /api/pets or main:create_pet. petcare_runtime/tests/test_ep01_ep02_baseline.py:103 tests petcare.api.routes_ep01_ep02:create_pet_profile, an UNMOUNTED router, so it is not bound. Allergy/medication-history writers exist but no served route reaches them; only profile creation (name, species) is served. No read route for a pet profile is served."
     },
@@ -1275,8 +1272,8 @@
         "ACCEPTED": 0,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 5,
-        "REACHABLE_TESTED": 3,
-        "REACHABLE_UNTESTED": 1
+        "REACHABLE_TESTED": 4,
+        "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
@@ -1314,12 +1311,11 @@
         ],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-02",
           "FR-14",
           "FR-27"
         ],
-        "REACHABLE_UNTESTED": [
-          "FR-02"
-        ]
+        "REACHABLE_UNTESTED": []
       },
       "total": 31
     },
@@ -1334,8 +1330,8 @@
         "ACCEPTED": 0,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 1,
-        "REACHABLE_TESTED": 3,
-        "REACHABLE_UNTESTED": 1
+        "REACHABLE_TESTED": 4,
+        "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
@@ -1358,12 +1354,11 @@
         ],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-02",
           "FR-14",
           "FR-27"
         ],
-        "REACHABLE_UNTESTED": [
-          "FR-02"
-        ]
+        "REACHABLE_UNTESTED": []
       },
       "total": 16
     },
@@ -1378,8 +1373,8 @@
         "ACCEPTED": 0,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 1,
-        "REACHABLE_TESTED": 3,
-        "REACHABLE_UNTESTED": 1
+        "REACHABLE_TESTED": 4,
+        "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
@@ -1402,12 +1397,11 @@
         ],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-02",
           "FR-14",
           "FR-27"
         ],
-        "REACHABLE_UNTESTED": [
-          "FR-02"
-        ]
+        "REACHABLE_UNTESTED": []
       },
       "total": 16
     },
