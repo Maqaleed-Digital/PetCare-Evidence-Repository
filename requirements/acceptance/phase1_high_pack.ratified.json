@@ -1,0 +1,1894 @@
+{
+  "label": "RATIFIED",
+  "authority": [
+    "MVC-ACCEPTANCE-AUTHORITY-001",
+    "MVC-COMPLETION-AMENDMENTS-001",
+    "MVC-PHARM-001"
+  ],
+  "denominator": {
+    "brd_sha256": "5450f7832260532aafd080fa54999a66e7af914f1f3452ed3cb3c64950c640dc",
+    "phase1_high_ids": [
+      "FR-01",
+      "FR-02",
+      "FR-04",
+      "FR-05",
+      "FR-06",
+      "FR-07",
+      "FR-09",
+      "FR-13",
+      "FR-14",
+      "FR-15",
+      "FR-16",
+      "FR-19",
+      "FR-20",
+      "FR-23",
+      "FR-27",
+      "FR-30"
+    ]
+  },
+  "w1_measured_at": "6b16e28d4a07442f5e60fed102cff79d2170bfb7",
+  "fr": {
+    "FR-01": {
+      "title": "Multi-role user accounts (Owner, Vet, Pharmacist, Admin)",
+      "w1_status": "REACHABLE_TESTED",
+      "candidate_source": "RATIFIED_CANDIDATE_MAPPING",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-01-01",
+          "statement": "A person can register and sign in as one of the BRD roles owner, vet or admin (BRD §5.1 table FR-01; data model P368 'role (owner/vet/pharmacist/admin)'), and the served application authorises each request from the signed session, never from a client-supplied role.",
+          "fails_if": "any served route accepts a role, actor or tenant asserted by the client in place of the signed session; or a registered identity cannot sign in and reach the surface of its role.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-01"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-8.34"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-01-02",
+          "statement": "Every regulated act (prescribing, dispensing) is authorised by a live practitioner authority attribute evaluated at the moment of the act, in addition to role and tenant membership.",
+          "fails_if": "any permission check resolves a regulated act from a role, group, permission string or token claim without reading a live authority attribute (verbatim limb of REQ-MVC-8.32).",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-01"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-8.32"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-01-03",
+          "statement": "Tenant membership is a server-held, time-bounded relationship; ending it does not make any historical record unattributable, and every account action is written to the audit chain with the session actor.",
+          "fails_if": "tenant_id is read from a token or provider assertion at an authorisation decision point; or ending a membership renders any historical record unattributable; or an account action is absent from the audit chain.",
+          "evidence": [
+            "PERSISTENCE",
+            "AUDIT",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-01"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-8.34"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-01-04",
+          "statement": "The BRD 'Pharmacist' role is realised only as a class-scoped pharmacy authority requiring an establishment licence and an individual credential; no general-purpose pharmacy role exists.",
+          "fails_if": "any role grants pharmacy authority not scoped to a supply class; or a pharmacy authority is usable without both an establishment licence and an actor credential.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-01"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §6b"
+            }
+          ],
+          "dependency": "COUNSEL:L-2",
+          "interpretation": "BRD FR-01 names Pharmacist as a role; MVC-PHARM-001 §6b forbids a general-purpose pharmacy role and §5 holds the POM/RESTRICTED/CONTROLLED dispensing credential pending counsel. Confirm that FR-01 is satisfied by class-scoped authority rather than a 'pharmacist' role.",
+          "disposition": "ACCEPT",
+          "ratified_text": "\"Pharmacist\" in BRD FR-01 is satisfied through class-scoped pharmacy\nauthority under MVC-PHARM-001. No general-purpose pharmacy role is created.",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-02": {
+      "title": "Comprehensive pet profiles (medical history, allergies, preferences)",
+      "w1_status": "REACHABLE_UNTESTED",
+      "candidate_source": "RATIFIED_CANDIDATE_MAPPING",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-02-01",
+          "statement": "An owner can create and view a pet profile carrying the BRD fields name, species, breed, birth date, weight, medical conditions and allergies (BRD P373-P374), persisted durably and scoped to the owner's tenant.",
+          "fails_if": "a profile created through the served app is lost on process restart; or any profile field listed in BRD P373-P374 cannot be recorded; or a profile is readable from another tenant.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "PERSISTENCE",
+            "TENANT_ISOLATION",
+            "UI"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-02"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-7.3"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-02-02",
+          "statement": "The profile shows the pet's medical history (records, prescriptions, lab results; BRD P111, P380) and owner preferences (BRD FR-02 title).",
+          "fails_if": "the profile surface cannot display a recorded prescription or lab result for that pet; or preferences cannot be stored.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "ARABIC_RTL"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-02"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-02-03",
+          "statement": "Animal identification (e.g. microchip id, BRD P375) is a structured field with identifier type, value and capture date, never free text.",
+          "fails_if": "identification is stored as unstructured text; or the field is made mandatory on the strength of an unsourced obligation (limbs of REQ-MVC-6.10).",
+          "evidence": [
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-02"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-6.10"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-02-04",
+          "statement": "Every profile create and change is attributed in the audit chain to the session actor.",
+          "fails_if": "a profile mutation is written with a client-supplied actor or without an audit event.",
+          "evidence": [
+            "AUDIT",
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-02"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "W1 measured POST /api/pets writing a client-supplied audit actor (x_actor_id); this criterion would fail today.",
+          "disposition": "ACCEPT",
+          "ratified_text": "Current failure on POST /api/pets is implementation debt and MUST be\nremediated against this criterion. It does not weaken the criterion.",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-04": {
+      "title": "KYC verification for controlled medication purchases",
+      "w1_status": "ABSENT",
+      "candidate_source": "RATIFIED_CANDIDATE_MAPPING",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-04-01",
+          "statement": "A controlled or restricted medication cannot be supplied unless the verification the BRD requires for such purchases has been completed and recorded (BRD FR-04; REG-05 'Controlled Substance Tracking' P237).",
+          "fails_if": "any path supplies a RESTRICTED or CONTROLLED product without a recorded, passed verification; or the purchaser is not shown, in the purchase flow, that verification is required and why.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-04"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-4.25"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §5"
+            }
+          ],
+          "dependency": "COUNSEL:EV-11",
+          "interpretation": "BRD FR-04 says purchaser 'KYC'; the candidate REQ-MVC-4.25 places the control on prescriber authority. Confirm which party the verification binds before this criterion is testable.",
+          "disposition": "ACCEPT_WITH_CLARIFICATION",
+          "ratified_text": "Purchaser identity/KYC verification and veterinarian prescribing authority\nare separate controls. KYC binds the purchaser where legally required;\npractitioner authority is independently verified.",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-04-02",
+          "statement": "Until counsel resolves EV-11 and L-2, the restricted-substance workflow is disabled in every environment and cannot be enabled by flag, admin action or configuration.",
+          "fails_if": "any code path, feature flag, admin action or configuration value can enable a restricted-substance dispensing, register or wastage workflow while EV-11 is open (verbatim limb of REQ-MVC-6.19).",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-04"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-6.19"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §5"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-04-03",
+          "statement": "Supply class is taken from SFDA product registration; a veterinary medicine with no verified class is treated as POM.",
+          "fails_if": "any product's supply class is set by MyVetiCare or tenant staff; or an unclassified veterinary medicine is sold without the POM prescription gate.",
+          "evidence": [
+            "PERSISTENCE",
+            "AUDIT",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-04"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §6a"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-04-04",
+          "statement": "The identity-verification step is exercised against a contract/adapter test of the chosen KYC provider.",
+          "fails_if": "the adapter accepts an unverified or failed verification as passed.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-04"
+            }
+          ],
+          "dependency": "EXTERNAL:KYC_PROVIDER",
+          "interpretation": "BRD names no KYC provider; one must be chosen before the live criterion can exist.",
+          "disposition": "ACCEPT",
+          "ratified_text": "KYC provider selection remains an external implementation dependency.",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-04-05",
+          "statement": "Live verification completes against the chosen KYC provider in production.",
+          "fails_if": "a production controlled-medication purchase completes without a live provider verification record.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-04"
+            }
+          ],
+          "dependency": "EXTERNAL:KYC_PROVIDER",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-05": {
+      "title": "SFDA-compliant vet registration and verification",
+      "w1_status": "ABSENT",
+      "candidate_source": "NONE",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-05-01",
+          "statement": "A veterinarian registers with licence details and is not able to perform clinical acts until the licence is verified (BRD FR-05; medical governance 'Vet Credentialing: rigorous verification' P598).",
+          "fails_if": "an unverified vet can issue a prescription or sign a clinical record; or registration completes without licence details.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-05"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "BRD v1.0 says 'SFDA-compliant'; V3.0 proposes MEWA as the licensing regulator. AA-2 keeps the v1.0 wording in force. Confirm the licensing authority to verify against.",
+          "disposition": "ACCEPT_WITH_CLARIFICATION",
+          "ratified_text": "Veterinarian licensing verification targets MEWA/the competent KSA\nveterinary licensing authority. Exact live verification mechanism remains\nan external integration dependency.",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-05-02",
+          "statement": "Verification state and its evidence (who verified, when, against what) are persisted, audited and re-checked for expiry at the moment of each clinical act.",
+          "fails_if": "a vet whose licence has expired can still perform a clinical act; or a verification has no recorded verifier and timestamp.",
+          "evidence": [
+            "PERSISTENCE",
+            "AUDIT",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-05"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-05-03",
+          "statement": "Licence verification passes an adapter/contract test against the licensing authority's lookup.",
+          "fails_if": "the adapter returns verified for an unknown or lapsed licence number.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-05"
+            }
+          ],
+          "dependency": "EXTERNAL:VET_LICENSING_AUTHORITY",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-05-04",
+          "statement": "Licence verification runs live against the licensing authority in production.",
+          "fails_if": "a production vet becomes verified without a live authority lookup or a recorded manual verification by a named staff member.",
+          "evidence": [
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-05"
+            }
+          ],
+          "dependency": "EXTERNAL:VET_LICENSING_AUTHORITY",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-06": {
+      "title": "HD video consultations with screen sharing",
+      "w1_status": "ABSENT",
+      "candidate_source": "NONE",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-06-01",
+          "statement": "An owner and a verified vet can hold a scheduled video consultation with screen sharing from the served application (BRD FR-06; Milestone 1.2 P445; Journey 1 P267).",
+          "fails_if": "a booked consultation cannot connect both parties with video; or screen sharing is unavailable in-session.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "ARABIC_RTL"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-06"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-06-02",
+          "statement": "Video meets NFR-03: HD (720p) minimum with adaptive bitrate.",
+          "fails_if": "a consultation on a qualifying connection renders below 720p without an adaptive-bitrate step-down record.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-06"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-06-03",
+          "statement": "Consultation success rate exceeds 99% over the Phase-1 measurement window (BRD §13.1 P574).",
+          "fails_if": "measured production consultation success rate is 99% or below.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-06"
+            }
+          ],
+          "dependency": "PRODUCTION",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-06-04",
+          "statement": "The consultation, its participants and outcome are persisted and audited within the owner's tenant.",
+          "fails_if": "a consultation record is missing, unattributed, or readable across tenants.",
+          "evidence": [
+            "PERSISTENCE",
+            "AUDIT",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-06"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-06-05",
+          "statement": "Remote consultation is offered only in the form counsel confirms lawful in KSA.",
+          "fails_if": "the product offers remote veterinary consultation before REG-02 / telemedicine counsel is recorded.",
+          "evidence": [
+            "UI"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-06"
+            }
+          ],
+          "dependency": "COUNSEL:REG-02_TELEMEDICINE",
+          "interpretation": "BRD REG-02 lists telemedicine guidelines as a regulatory requirement; the repository records KSA veterinary telemedicine as unresolved.",
+          "disposition": "ACCEPT",
+          "ratified_text": "Remote veterinary consultation remains fail-closed pending the recorded\nKSA regulatory/counsel determination.",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-07": {
+      "title": "Secure chat and file sharing (images, lab reports)",
+      "w1_status": "ABSENT",
+      "candidate_source": "RATIFIED_CANDIDATE_MAPPING",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-07-01",
+          "statement": "Owner and vet can exchange messages and share files (images, lab reports) within a consultation context from the served app (BRD FR-07).",
+          "fails_if": "an image or lab-report file cannot be attached and retrieved by the other party; or a message is visible to anyone outside the consultation.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "TENANT_ISOLATION",
+            "ARABIC_RTL"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-07"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-07-02",
+          "statement": "Messages and files are encrypted in transit and at rest (NFR-05) and every attempt to deliver a notification writes a delivery record.",
+          "fails_if": "any delivery attempt lacks a record; or a record references a mutable template instead of carrying the rendered body (limbs of REQ-MVC-8.67).",
+          "evidence": [
+            "PERSISTENCE",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-07"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-8.67"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "Candidate REQ-MVC-8.67 (LOW confidence) covers notification delivery evidence only, not chat; confirm it is an acceptable source.",
+          "disposition": "ACCEPT_WITH_LIMIT",
+          "ratified_text": "REQ-MVC-8.67 is authoritative only for notification-delivery evidence\nwithin this criterion; it does not define the chat capability itself.",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-07-03",
+          "statement": "Shared files are validated for type and size and stored in an object store, not on the serving node.",
+          "fails_if": "an unsupported file type is accepted; or files are held on node-local storage in production.",
+          "evidence": [
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-07"
+            }
+          ],
+          "dependency": "PRODUCTION",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-09": {
+      "title": "Multi-language support (Arabic primary, English)",
+      "w1_status": "BUILT_UNWIRED",
+      "candidate_source": "NONE",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-09-01",
+          "statement": "Every customer-facing surface is available in Arabic (primary, default) and English, with the owner able to switch language (BRD FR-09).",
+          "fails_if": "any customer-facing page renders English-only text in Arabic mode; or Arabic is not the default for a new visitor.",
+          "evidence": [
+            "UI",
+            "ARABIC_RTL"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-09"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-09-02",
+          "statement": "Arabic renders right-to-left with correct direction on every customer-facing page and the persistent language choice survives a new session.",
+          "fails_if": "any customer-facing page renders LTR layout in Arabic mode; or the chosen language resets on reload.",
+          "evidence": [
+            "UI",
+            "ARABIC_RTL",
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-09"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-09-03",
+          "statement": "Notifications and generated documents (receipts, reminders) are produced in the recipient's chosen language.",
+          "fails_if": "an Arabic-preferring owner receives a notification or document only in English.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "ARABIC_RTL"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-09"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-13": {
+      "title": "Real-time multi-location inventory visibility",
+      "w1_status": "ABSENT",
+      "candidate_source": "RATIFIED_CANDIDATE_MAPPING",
+      "customer_facing": false,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-13-01",
+          "statement": "Stock is visible per location for every pharmacy in the tenant (BRD P394 'locations: {pharmacy_id: quantity}'; P93, P103), and a stock change at one location is visible to all authorised users of the tenant without manual refresh.",
+          "fails_if": "a stock change at location A is not reflected for location B's authorised user within the agreed interval; or stock of another tenant is visible.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-13"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "BRD says 'real-time'; the agreed propagation interval must be set by the Sponsor.",
+          "disposition": "ACCEPT_WITH_THRESHOLD",
+          "ratified_text": "REAL_TIME_BOUND=5_SECONDS\nA committed stock change becomes visible to another authorised session of\nthe same tenant with p95 <= 5 seconds, measured over at least 100 events\nin the acceptance environment.",
+          "parameters": {
+            "REAL_TIME_BOUND": "5_SECONDS"
+          }
+        },
+        {
+          "id": "AC-FR-13-02",
+          "statement": "Stock is an immutable movement ledger with a derived balance.",
+          "fails_if": "any stock quantity is stored as authoritative mutable state; or any code path updates or deletes a movement row; or any shown balance cannot be reproduced by summing the movements for that (product, batch) (REQ-MVC-7.30).",
+          "evidence": [
+            "PERSISTENCE",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-13"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-7.30"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-4.68"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-13-03",
+          "statement": "Inventory checks meet NFR-04: sub-second query response.",
+          "fails_if": "an inventory check on production-sized data takes one second or more.",
+          "evidence": [
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-13"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-13-04",
+          "statement": "POM, RESTRICTED and CONTROLLED stock are excluded from non-veterinarian inventory handling until counsel.",
+          "fails_if": "a non-veterinarian actor can move or adjust POM/RESTRICTED/CONTROLLED stock.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-13"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §5"
+            }
+          ],
+          "dependency": "COUNSEL:L-2",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-14": {
+      "title": "Prescription upload and vet verification workflow",
+      "w1_status": "REACHABLE_TESTED",
+      "candidate_source": "RATIFIED_CANDIDATE_MAPPING",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-14-01",
+          "statement": "A prescription can be issued or uploaded with its documents and moves ISSUED -> VET_VERIFIED -> DISPENSED only through the governed transitions, persisted durably (BRD FR-14; P384-P387; P92).",
+          "fails_if": "a prescription can be dispensed without vet verification; or a transition outside the governed set is accepted; or the prescription is lost on restart.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "PERSISTENCE",
+            "UI"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-14"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-7.11"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-14-02",
+          "statement": "Dispensing authority fails closed: a POM/RESTRICTED/CONTROLLED dispense is authorised only for a veterinarian until counsel, and never on a client-asserted class.",
+          "fails_if": "any dispensing path authorises on a client-asserted class (REQ-DISP-AUTH-FAILCLOSED); or a non-veterinarian dispenses a POM product.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-14"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-DISP-AUTH-FAILCLOSED"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §5"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-14-03",
+          "statement": "The prescription gate applies to POM, RESTRICTED and CONTROLLED products only; GENERAL and OTC need no prescription.",
+          "fails_if": "a GENERAL or OTC product is blocked for lack of a prescription; or a POM product is supplied without one.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-14"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §4"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §6a"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-14-04",
+          "statement": "A vet whose professional status does not permit prescribing is shown the prescribing control as unavailable, with the reason.",
+          "fails_if": "the scenario yields a signed prescription through any path; or the control fails on submit instead of being presented as unavailable; or the refusal does not name the attribute and its expiry (REQ-MVC-8.38).",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-14"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-8.38"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-14-05",
+          "statement": "Every prescription read and transition is tenant-scoped and audited with the session actor.",
+          "fails_if": "a prescription is readable from another tenant; or a transition has no audit event naming the session actor.",
+          "evidence": [
+            "TENANT_ISOLATION",
+            "AUDIT",
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-14"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-14-06",
+          "statement": "Prescription validation passes an adapter/contract test of the SFDA prescription-validation interface (BRD P419).",
+          "fails_if": "the adapter treats an invalid or unknown prescription as valid.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-14"
+            }
+          ],
+          "dependency": "EXTERNAL:SFDA_API",
+          "interpretation": "BRD P621 assumes SFDA will provide API access; unconfirmed.",
+          "disposition": "ACCEPT",
+          "ratified_text": "SFDA integration remains adapter/contract-testable before live API access.\nAbsence of external API access does not permit fabricated integration proof.",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-14-07",
+          "statement": "95% of prescriptions are verified within 30 minutes in production (BRD §13.1 P572).",
+          "fails_if": "measured production verification time exceeds 30 minutes for more than 5% of prescriptions.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-14"
+            }
+          ],
+          "dependency": "PRODUCTION",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-15": {
+      "title": "Smart order routing to nearest/optimal pharmacy",
+      "w1_status": "ABSENT",
+      "candidate_source": "NONE",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-15-01",
+          "statement": "An order is routed to the nearest pharmacy that holds the items and is licensed for their supply class (BRD FR-15; Journey 1 P270; Milestone 1.3 P452).",
+          "fails_if": "an order is routed to a pharmacy without stock of an item; or to one not licensed for that supply class; or not to the nearest qualifying pharmacy under the defined distance measure.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-15"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §6b"
+            }
+          ],
+          "dependency": "COUNSEL:MVC-PHARM-001_§6c",
+          "interpretation": "V3.0 proposes rejecting FR-15; AA-2 keeps it in force. 'Optimal' needs a Sponsor-defined tie-break.",
+          "disposition": "ACCEPT_WITH_CLARIFICATION",
+          "ratified_text": "OPTIMAL_ROUTING_RULE:\n  1. pharmacy is eligible/licensed for the applicable supply class;\n  2. pharmacy can fulfil the complete basket;\n  3. choose lowest route ETA;\n  4. tie-break by route distance;\n  5. final deterministic tie-break by stable pharmacy identifier.\nUntil establishment licence requirements are defined (MVC-PHARM-001 §6c),\nstep 1 is evidenced with test fixtures; no pharmacy is live-eligible.\nExternal maps availability remains separately evidenced.",
+          "parameters": {
+            "OPTIMAL_ROUTING_RULE": "  1. pharmacy is eligible/licensed for the applicable supply class;\n  2. pharmacy can fulfil the complete basket;\n  3. choose lowest route ETA;\n  4. tie-break by route distance;\n  5. final deterministic tie-break by stable pharmacy identifier."
+          }
+        },
+        {
+          "id": "AC-FR-15-02",
+          "statement": "Routing distance is computed through an adapter/contract test of the maps provider (BRD P423).",
+          "fails_if": "the router uses a hard-coded distance or ignores the owner's location.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-15"
+            }
+          ],
+          "dependency": "EXTERNAL:MAPS_API",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-15-03",
+          "statement": "Routing uses the live maps provider in production.",
+          "fails_if": "production routing decisions are made without a live maps lookup.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-15"
+            }
+          ],
+          "dependency": "EXTERNAL:MAPS_API",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-15-04",
+          "statement": "Each routing decision is recorded with its inputs and the chosen pharmacy, and is visible to the owner.",
+          "fails_if": "a routed order has no recorded routing decision; or the owner cannot see which pharmacy fulfils it.",
+          "evidence": [
+            "AUDIT",
+            "UI",
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-15"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-16": {
+      "title": "Temperature-controlled delivery tracking",
+      "w1_status": "ABSENT",
+      "candidate_source": "NONE",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-16-01",
+          "statement": "For a product whose storage requirements need temperature control (BRD P393), the delivery carries a temperature log (BRD P401) visible to the owner in the app (Journey 1 P272).",
+          "fails_if": "a temperature-controlled delivery completes with no temperature log; or the owner cannot see it.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-16"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-16-02",
+          "statement": "Temperature readings are ingested through an adapter/contract test of the logistics partner interface (BRD P422).",
+          "fails_if": "the adapter accepts a reading without timestamp or value, or silently drops out-of-range readings.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-16"
+            }
+          ],
+          "dependency": "EXTERNAL:LOGISTICS_PARTNER",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-16-03",
+          "statement": "Live deliveries report temperature from the logistics partner in production.",
+          "fails_if": "a production temperature-controlled delivery has no partner-reported readings.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-16"
+            }
+          ],
+          "dependency": "EXTERNAL:LOGISTICS_PARTNER",
+          "interpretation": "V3.0 proposes rejecting FR-16; AA-2 keeps it in force.",
+          "disposition": "ACCEPT",
+          "ratified_text": "FR-16 remains Phase-1 scope under BRD v1.0. V3.0's proposed rejection\nhas no force under AA-2.",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-16-04",
+          "statement": "An out-of-range reading raises an alert to the pharmacy and is audited.",
+          "fails_if": "an out-of-range reading produces no alert or no audit event.",
+          "evidence": [
+            "AUDIT",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-16"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-19": {
+      "title": "SFDA batch tracking and recall notifications",
+      "w1_status": "ABSENT",
+      "candidate_source": "RATIFIED_CANDIDATE_MAPPING",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-19-01",
+          "statement": "Every stock movement and dispense records the batch (BRD P392 'batch_number, expiry_date').",
+          "fails_if": "a movement can be written without a batch; or signed_quantity is zero; or a movement row is ever updated or deleted (REQ-MVC-7.32).",
+          "evidence": [
+            "PERSISTENCE",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-19"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-7.32"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-7.12"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-19-02",
+          "statement": "A recall of a product and batch resolves to every affected dispense and owner through stored relationships, and notifies each affected owner.",
+          "fails_if": "any hop resolves through free text; or the indeterminate partition is absent or hidden; or an output omits its completeness statement (REQ-MVC-6.22); or an affected owner is not notified.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "TENANT_ISOLATION",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-19"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-6.22"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-19-03",
+          "statement": "Batch tracking and recall ingestion pass an adapter/contract test of the SFDA interface (BRD P419).",
+          "fails_if": "the adapter accepts a recall without product and batch identifiers.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-19"
+            }
+          ],
+          "dependency": "EXTERNAL:SFDA_API",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-19-04",
+          "statement": "Recalls are received live from SFDA in production.",
+          "fails_if": "a production SFDA recall is not reflected in the platform.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-19"
+            }
+          ],
+          "dependency": "EXTERNAL:SFDA_API",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-20": {
+      "title": "Cash-on-delivery with digital receipting",
+      "w1_status": "ABSENT",
+      "candidate_source": "NONE",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-20-01",
+          "statement": "An owner can choose cash on delivery at checkout, and the order records COD as its payment method (BRD FR-20).",
+          "fails_if": "COD cannot be selected for an eligible order; or the order does not record COD.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-20"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-20-02",
+          "statement": "On delivery the owner receives a digital receipt in the chosen language, and the receipt is persisted against the order.",
+          "fails_if": "a delivered COD order has no digital receipt; or the receipt is not retrievable later.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "ARABIC_RTL",
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-20"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "BRD says 'digital receipting'; V3.0 proposes ZATCA e-invoicing. Confirm whether a tax invoice (ZATCA) is required for Phase-1 acceptance.",
+          "disposition": "ACCEPT_WITH_CLARIFICATION",
+          "ratified_text": "\"Digital receipt\" does not by itself redefine FR-20 as ZATCA e-invoicing.\nZATCA requirements apply where legally required for the actual\nseller/taxpayer transaction and are governed separately.",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-20-03",
+          "statement": "Cash collection is confirmed through an adapter/contract test of the logistics partner (BRD P422).",
+          "fails_if": "an order is marked paid without a collection confirmation.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-20"
+            }
+          ],
+          "dependency": "EXTERNAL:LOGISTICS_PARTNER",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-20-04",
+          "statement": "Cash collection is confirmed live by the logistics partner in production, and receipts reconcile to collections per tenant.",
+          "fails_if": "a production collection has no partner confirmation; or receipts and collections do not reconcile within a tenant.",
+          "evidence": [
+            "AUDIT",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-20"
+            }
+          ],
+          "dependency": "EXTERNAL:LOGISTICS_PARTNER",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-23": {
+      "title": "Vaccination and treatment reminders",
+      "w1_status": "ABSENT",
+      "candidate_source": "NONE",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-23-01",
+          "statement": "A vaccination or treatment due date recorded for a pet produces a reminder to the owner before it falls due (BRD FR-23; Journey 1 P265; P113).",
+          "fails_if": "a recorded due date produces no reminder; or a reminder is sent for another tenant's pet.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "PERSISTENCE",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-23"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "BRD does not fix the reminder lead time; Sponsor to set it.",
+          "disposition": "ACCEPT_WITH_THRESHOLD",
+          "ratified_text": "REMINDER_DEFAULT=7_DAYS_BEFORE_DUE\nSECOND_REMINDER=24_HOURS_BEFORE_DUE_IF_OUTSTANDING\nTenant/user configuration may add reminders but may not suppress these defaults.",
+          "parameters": {
+            "REMINDER_DEFAULT": "7_DAYS_BEFORE_DUE",
+            "SECOND_REMINDER": "24_HOURS_BEFORE_DUE_IF_OUTSTANDING"
+          }
+        },
+        {
+          "id": "AC-FR-23-02",
+          "statement": "Reminders are delivered in the owner's chosen language and each send is audited.",
+          "fails_if": "an Arabic-preferring owner receives an English-only reminder; or a send has no audit record.",
+          "evidence": [
+            "ARABIC_RTL",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-23"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-23-03",
+          "statement": "SMS reminders pass an adapter/contract test of the SMS gateway (BRD P421).",
+          "fails_if": "the adapter reports success for a rejected send.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-23"
+            }
+          ],
+          "dependency": "EXTERNAL:SMS_GATEWAY",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-23-04",
+          "statement": "SMS reminders are delivered live through the SMS gateway in production.",
+          "fails_if": "production reminders have no gateway delivery status.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-23"
+            }
+          ],
+          "dependency": "EXTERNAL:SMS_GATEWAY",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-27": {
+      "title": "Real-time dashboard for pharmacy operations",
+      "w1_status": "REACHABLE_TESTED",
+      "candidate_source": "NONE",
+      "customer_facing": true,
+      "client_acceptance_applies": true,
+      "criteria": [
+        {
+          "id": "AC-FR-27-01",
+          "statement": "Pharmacy operations staff see a dashboard of the tenant's orders and verified prescriptions awaiting fulfilment that updates without manual refresh (BRD FR-27; P101).",
+          "fails_if": "a new verified prescription does not appear within the agreed interval; or another tenant's item appears.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "UI",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-27"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "BRD says 'real-time'; the propagation interval must be set by the Sponsor. W1 measured a request/response queue.",
+          "disposition": "ACCEPT_WITH_THRESHOLD",
+          "ratified_text": "REAL_TIME_BOUND=5_SECONDS\nA qualifying pharmacy-operation event becomes visible on another authorised\ndashboard session with p95 <= 5 seconds, measured over at least 100 events\nin the acceptance environment.",
+          "parameters": {
+            "REAL_TIME_BOUND": "5_SECONDS"
+          }
+        },
+        {
+          "id": "AC-FR-27-02",
+          "statement": "Actions taken from the dashboard are limited by supply class: GENERAL/OTC actions by a class-scoped actor, POM dispense by a veterinarian only until counsel.",
+          "fails_if": "a non-veterinarian completes a POM dispense from the dashboard; or an actor acts on a class outside its scope.",
+          "evidence": [
+            "SERVED_APP_E2E",
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-27"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §4"
+            },
+            {
+              "kind": "SPONSOR_ACT",
+              "ref": "MVC-PHARM-001 §5"
+            }
+          ],
+          "dependency": "COUNSEL:L-2",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-27-03",
+          "statement": "Every dashboard action is audited with the session actor and persisted.",
+          "fails_if": "a dashboard action has no audit event or uses a client-supplied actor.",
+          "evidence": [
+            "AUDIT",
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-27"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-27-04",
+          "statement": "The dashboard is usable in Arabic with RTL layout.",
+          "fails_if": "the dashboard renders English-only or LTR in Arabic mode.",
+          "evidence": [
+            "UI",
+            "ARABIC_RTL"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-27"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    },
+    "FR-30": {
+      "title": "SFDA compliance reporting automation",
+      "w1_status": "ABSENT",
+      "candidate_source": "RATIFIED_CANDIDATE_MAPPING",
+      "customer_facing": false,
+      "client_acceptance_applies": false,
+      "criteria": [
+        {
+          "id": "AC-FR-30-01",
+          "statement": "The platform produces the SFDA compliance reports the BRD requires, including the controlled-substance audit trail (BRD FR-30; REG-05 P237; NFR-06), generated automatically from recorded events.",
+          "fails_if": "a required report must be assembled manually; or a report figure cannot be traced to recorded events.",
+          "evidence": [
+            "PERSISTENCE",
+            "AUDIT",
+            "TENANT_ISOLATION"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-30"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "BRD does not enumerate the report set; V3.0 proposes MEWA case-register and antimicrobial reporting. Sponsor to fix the Phase-1 report list.",
+          "disposition": "ACCEPT_WITH_SCOPE",
+          "ratified_text": "Phase-1 automated compliance reporting covers the BRD controlled-substance\naudit trail plus applicable antimicrobial and notifiable-disease records\nrepresented by the ratified criteria. Live regulator submission remains\nsubject to confirmed regulator obligation/interface.",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-30-02",
+          "statement": "Antimicrobial prescribing is individually recorded and aggregable by agent, class, species, practitioner and period.",
+          "fails_if": "an antimicrobial aggregate is producible only by text search; or any register output omits its coverage statement (REQ-MVC-6.20).",
+          "evidence": [
+            "PERSISTENCE"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-30"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-6.20"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-30-03",
+          "statement": "Notifiable-disease reports carry the statutory clock from detection.",
+          "fails_if": "a notifiable-disease case exists with no reporting clock.",
+          "evidence": [
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-30"
+            },
+            {
+              "kind": "REQ",
+              "ref": "REQ-MVC-4.28"
+            }
+          ],
+          "dependency": "NONE",
+          "interpretation": "Candidate REQ-MVC-4.28 has no source-authored fails-if; this criterion text is drafted here.",
+          "disposition": "ACCEPT",
+          "ratified_text": "The drafted fails-if becomes the ratified criterion despite the source REQ\nhaving no source-authored fails-if.",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-30-04",
+          "statement": "Report submission passes an adapter/contract test of the regulator interface.",
+          "fails_if": "the adapter accepts a report missing a mandatory field.",
+          "evidence": [
+            "SERVED_APP_E2E"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-30"
+            }
+          ],
+          "dependency": "EXTERNAL:SFDA",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        },
+        {
+          "id": "AC-FR-30-05",
+          "statement": "Reports are submitted live to the regulator in production.",
+          "fails_if": "a production reporting period passes without a recorded submission.",
+          "evidence": [
+            "AUDIT"
+          ],
+          "sources": [
+            {
+              "kind": "BRD",
+              "ref": "FR-30"
+            }
+          ],
+          "dependency": "EXTERNAL:SFDA",
+          "interpretation": "",
+          "disposition": "ACCEPT",
+          "ratified_text": "",
+          "parameters": {}
+        }
+      ]
+    }
+  },
+  "nfr": {
+    "NFR-01": {
+      "title": "System Response Time",
+      "phase1_relevant": true,
+      "rationale": "Phase-1 surfaces are user-facing; BRD states a single response target.",
+      "evidence_definition": {
+        "metric": "p95 server response time",
+        "method": "load test of Phase-1 served routes at the NFR-02 concurrency",
+        "threshold": "< 2 seconds for 95% of requests",
+        "environment": "NON_PROD",
+        "dependency": "NONE"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-02": {
+      "title": "Concurrent Users",
+      "phase1_relevant": true,
+      "rationale": "BRD §13.1 P571 makes 10,000 concurrent users a Phase-1 acceptance criterion.",
+      "evidence_definition": {
+        "metric": "simultaneous active sessions without degradation",
+        "method": "load test with degradation defined as breaching NFR-01",
+        "threshold": "Support 10,000 simultaneous users",
+        "environment": "NON_PROD",
+        "dependency": "NONE"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-03": {
+      "title": "Video Consultation Quality",
+      "phase1_relevant": true,
+      "rationale": "FR-06 video consultation is Phase-1 High.",
+      "evidence_definition": {
+        "metric": "delivered video resolution and bitrate adaptation",
+        "method": "instrumented consultation sessions across network profiles",
+        "threshold": "HD (720p) minimum, adaptive bitrate",
+        "environment": "NON_PROD",
+        "dependency": "NONE"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-04": {
+      "title": "Database Performance",
+      "phase1_relevant": true,
+      "rationale": "FR-13 inventory visibility is Phase-1 High.",
+      "evidence_definition": {
+        "metric": "inventory query latency",
+        "method": "timed inventory checks on production-sized data",
+        "threshold": "Sub-second query response for inventory checks",
+        "environment": "NON_PROD",
+        "dependency": "NONE"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-05": {
+      "title": "Data Encryption",
+      "phase1_relevant": true,
+      "rationale": "Phase-1 stores personal and pet health data.",
+      "evidence_definition": {
+        "metric": "encryption at rest and in transit",
+        "method": "configuration inspection of stores and TLS scan of every endpoint",
+        "threshold": "AES-256 at rest, TLS 1.3 in transit",
+        "environment": "PRODUCTION",
+        "dependency": "PRODUCTION"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-06": {
+      "title": "SFDA Compliance",
+      "phase1_relevant": true,
+      "rationale": "FR-04 and FR-30 are Phase-1 High and depend on it.",
+      "evidence_definition": {
+        "metric": "completeness of the controlled-substance audit trail",
+        "method": "trace every controlled-substance event to an audit record",
+        "threshold": "Full audit trail for controlled substances",
+        "environment": "NON_PROD",
+        "dependency": "COUNSEL:EV-11"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-07": {
+      "title": "Data Residency",
+      "phase1_relevant": true,
+      "rationale": "Phase-1 production holds customer data. Interpretation for Sponsor: BRD §7.2 P360 recommends 'AWS/GCP in Bahrain region', which conflicts with this NFR; the NFR target is used here.",
+      "evidence_definition": {
+        "metric": "storage and processing location of all data",
+        "method": "inventory of every data store and backup with its region",
+        "threshold": "All data stored in KSA-based servers",
+        "environment": "PRODUCTION",
+        "dependency": "PRODUCTION"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "KSA residency is the governing target. Historical Bahrain-region language\ndoes not override the subsequently governed residency decision.",
+      "parameters": {}
+    },
+    "NFR-08": {
+      "title": "Access Controls",
+      "phase1_relevant": true,
+      "rationale": "Phase-1 has role-based surfaces and regulated acts.",
+      "evidence_definition": {
+        "metric": "role enforcement and MFA on sensitive operations",
+        "method": "served-app tests per role plus MFA challenge on each sensitive operation",
+        "threshold": "Role-based with MFA for sensitive operations",
+        "environment": "NON_PROD",
+        "dependency": "NONE"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-09": {
+      "title": "HIPAA Equivalent",
+      "phase1_relevant": true,
+      "rationale": "Phase-1 holds pet health records. Interpretation for Sponsor: the BRD target is not measurable as written; PDPL (REG-03) is proposed as the concrete standard.",
+      "evidence_definition": {
+        "metric": "conformance to the adopted data-protection standard",
+        "method": "control-by-control inspection against the adopted standard",
+        "threshold": "Pet health data protection standards",
+        "environment": "PRODUCTION",
+        "dependency": "COUNSEL:REG-03_PDPL"
+      },
+      "disposition": "ACCEPT_WITH_THRESHOLD",
+      "ratified_text": "STANDARD=Saudi_PDPL + Implementing_Regulations + applicable_SDAIA_instruments\nPASS=100_PERCENT_APPLICABLE_CONTROLS_EVIDENCED\nUNRESOLVED_CRITICAL_FINDINGS=0\nUNRESOLVED_HIGH_FINDINGS=0\nEVIDENCE_BASIS=PDPL compliance matrix, to be produced and Sponsor-approved\nDEPENDENCY=COUNSEL:PDPL_COMPLIANCE_MATRIX\nThis interprets the BRD \"HIPAA equivalent\" target; it is not a BRD\namendment. PDPL is the mandatory KSA floor.",
+      "parameters": {
+        "STANDARD": "Saudi_PDPL + Implementing_Regulations + applicable_SDAIA_instruments",
+        "PASS": "100_PERCENT_APPLICABLE_CONTROLS_EVIDENCED",
+        "UNRESOLVED_CRITICAL_FINDINGS": "0",
+        "UNRESOLVED_HIGH_FINDINGS": "0",
+        "EVIDENCE_BASIS": "PDPL compliance matrix, to be produced and Sponsor-approved",
+        "DEPENDENCY": "COUNSEL:PDPL_COMPLIANCE_MATRIX"
+      }
+    },
+    "NFR-10": {
+      "title": "System Uptime",
+      "phase1_relevant": true,
+      "rationale": "BRD §13.1 P576 requires > 99.5% uptime in the first 90 days.",
+      "evidence_definition": {
+        "metric": "availability over the first 90 days",
+        "method": "external uptime monitoring of production",
+        "threshold": "99.5% availability (excluding maintenance)",
+        "environment": "PRODUCTION",
+        "dependency": "PRODUCTION"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-11": {
+      "title": "Disaster Recovery",
+      "phase1_relevant": true,
+      "rationale": "Phase-1 production requires recovery objectives.",
+      "evidence_definition": {
+        "metric": "measured recovery time and data-loss window",
+        "method": "timed restore drill from production backups",
+        "threshold": "RTO < 4 hours, RPO < 15 minutes",
+        "environment": "PRODUCTION",
+        "dependency": "PRODUCTION"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-12": {
+      "title": "Backup Strategy",
+      "phase1_relevant": true,
+      "rationale": "Phase-1 production requires backups.",
+      "evidence_definition": {
+        "metric": "backup schedule adherence",
+        "method": "inspection of backup schedule and restore of a sample",
+        "threshold": "Daily incremental, weekly full backups",
+        "environment": "PRODUCTION",
+        "dependency": "PRODUCTION"
+      },
+      "disposition": "ACCEPT",
+      "ratified_text": "",
+      "parameters": {}
+    },
+    "NFR-13": {
+      "title": "Horizontal Scaling",
+      "phase1_relevant": false,
+      "rationale": "Growth beyond the Phase-1 load (NFR-02) is not a Phase-1 acceptance item; BRD places scale optimisation at Milestone 2.3 (P471).",
+      "evidence_definition": null
+    },
+    "NFR-14": {
+      "title": "Geographic Expansion",
+      "phase1_relevant": false,
+      "rationale": "BRD places GCC expansion preparation at Milestone 2.3 (P473).",
+      "evidence_definition": null
+    },
+    "NFR-15": {
+      "title": "API Rate Limiting",
+      "phase1_relevant": true,
+      "rationale": "BRD places rate limiting in the Phase-1 gateway (P317). Interpretation for Sponsor: the target is not measurable as written; a numeric limit must be set.",
+      "evidence_definition": {
+        "metric": "request rate limit per client",
+        "method": "served-app test that excess requests are throttled and normal traffic is not",
+        "threshold": "Protect against abuse while allowing legitimate use",
+        "environment": "NON_PROD",
+        "dependency": "NONE"
+      },
+      "disposition": "ACCEPT_WITH_THRESHOLD",
+      "ratified_text": "AUTHENTICATED_DEFAULT=100_REQUESTS_PER_MINUTE_PER_PRINCIPAL\nANONYMOUS_DEFAULT=30_REQUESTS_PER_MINUTE_PER_CLIENT_IP\nEXCESS_RESPONSE=HTTP_429\nENDPOINT_SPECIFIC_STRICTER_LIMITS=PERMITTED\nLIMITS_MUST_BE_CONFIGURABLE_AND_AUDITABLE",
+      "parameters": {
+        "AUTHENTICATED_DEFAULT": "100_REQUESTS_PER_MINUTE_PER_PRINCIPAL",
+        "ANONYMOUS_DEFAULT": "30_REQUESTS_PER_MINUTE_PER_CLIENT_IP",
+        "EXCESS_RESPONSE": "HTTP_429",
+        "ENDPOINT_SPECIFIC_STRICTER_LIMITS": "PERMITTED"
+      }
+    }
+  },
+  "ratification": {
+    "decision": "MVC-ACCEPT-PACK-P1",
+    "date": "2026-09-24",
+    "sponsor_act_path": "governance/sponsor_acts/MVC-ACCEPT-PACK-P1.md",
+    "sponsor_act_sha256": "2d272abe5defcd666dc76ad7ddfafc714f2f07d82e34110d48e8ae6813b4d7e3"
+  },
+  "known_failing": [
+    "AC-FR-02-04"
+  ]
+}
