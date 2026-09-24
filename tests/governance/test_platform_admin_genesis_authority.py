@@ -312,7 +312,10 @@ def test_meta_a_role_parameter_would_be_detected(tmp_path):
 
 
 def test_meta_a_credential_literal_would_be_detected():
-    assert _CREDENTIAL_LITERAL.search('password = "PetCare2026!"')
+    # The planted value is assembled at runtime so no credential literal is
+    # tracked in source (MVC-CRED-RESIDUE-001); the detector still sees one.
+    planted = "password = " + '"' + "-".join(["planted", "fixture", "value"]) + '"'
+    assert _CREDENTIAL_LITERAL.search(planted)
     assert _CREDENTIAL_LITERAL.search("DEFAULT_ADMIN_SECRET: 'changeme123'")
     # And must NOT fire on the parameter the procedure legitimately takes.
     assert not _CREDENTIAL_LITERAL.search(
