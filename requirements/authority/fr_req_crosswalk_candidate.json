@@ -1,0 +1,925 @@
+{
+  "authority": "MVC-COMPLETION-AMENDMENTS-001 AM-1",
+  "fr": {
+    "FR-01": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:158 authorisation is membership x staff role x authority attribute",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1832 V3.0 disposition row FR-01"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-8.32"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:233 authorisation matrix: non-regulated capability decided by role"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-8.37"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:167 time-bounded tenant membership of a natural person"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-8.34"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:914 Practitioner entity with MEWA licence and authority attributes; V3.0 splits FR-01 into StaffMember and Practitioner",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1832 V3.0 disposition row FR-01"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-7.7"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1045 owner access OTP-gated and account-free",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1633 Annex A (REQ-MVC-A.3) legacy theme 'Owner-facing app with account'"
+          ],
+          "confidence": "LOW",
+          "req": "REQ-MVC-8.16"
+        }
+      ],
+      "coverage": "HAS_CANDIDATE_CRITERIA"
+    },
+    "FR-02": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:881 canonical animal health record entity (UAHR); V3.0 maps FR-02 to Patient §S7.3",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1836 V3.0 disposition row FR-02",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1615 Annex A (REQ-MVC-A.3) legacy theme 'Pet health record as the continuity object'"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-7.3"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:1535 animal identification as first-class structured field; V3.0 adds microchip as first-class identifier",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1836 V3.0 disposition row FR-02"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-6.10"
+        }
+      ],
+      "coverage": "HAS_CANDIDATE_CRITERIA"
+    },
+    "FR-03": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:884 OwnerLink associates the record with an owning party; V3.0 FR-03 lands on OwnerLink",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1840 V3.0 disposition row FR-03",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1618 Annex A (REQ-MVC-A.3) legacy theme 'Owner as a natural person'"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-MVC-7.4"
+        }
+      ],
+      "coverage": "HAS_CANDIDATE_CRITERIA"
+    },
+    "FR-04": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:607 restricted-substance path requires prescriber authority; V3.0 reframes FR-04 from purchaser KYC to prescriber authority",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1844 V3.0 disposition row FR-04"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.25"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:1576 restricted-substance workflow DISABLED pending evidence",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1844 V3.0 disposition row FR-04"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-6.19"
+        }
+      ],
+      "coverage": "HAS_CANDIDATE_CRITERIA"
+    },
+    "FR-05": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:598 practitioner verification ladder; V3.0 FR-05 becomes MEWA verification ladder",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1848 V3.0 disposition row FR-05"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-MVC-4.11"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:599 practitioner without verified in-date MEWA licence cannot attest",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1848 V3.0 disposition row FR-05"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-MVC-4.12"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:914 Practitioner entity carrying MEWA practitioner licence"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-7.7"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:597 establishment identity capture incl. MEWA establishment licence"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.10"
+        }
+      ],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-06": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:641 KSA veterinary telemedicine is SILENT-UNRESOLVED; V3.0 fences video to a constrained modality",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1852 V3.0 disposition row FR-06",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1648 Annex A (REQ-MVC-A.3) legacy theme 'Telemedicine'"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.69"
+        }
+      ],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-07": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:1133 owner notification delivery evidence; V3.0 defers chat, owner communication link-based one-directional",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1856 V3.0 disposition row FR-07"
+          ],
+          "confidence": "LOW",
+          "req": "REQ-MVC-8.67"
+        }
+      ],
+      "coverage": "HAS_CANDIDATE_CRITERIA"
+    },
+    "FR-08": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:773 AI cannot hold a diagnosis state; V3.0 rejects FR-08 structurally (D-301)",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1860 V3.0 disposition row FR-08"
+          ],
+          "confidence": "LOW",
+          "req": "REQ-MVC-5.4"
+        }
+      ],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-09": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:623 Arabic experience is the design origin; English derived",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1864 V3.0 disposition row FR-09"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-MVC-4.55"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1078 Arabic-first is a non-functional requirement (RTL correctness)",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1630 Annex A (REQ-MVC-A.3) legacy theme 'Arabic-language support'"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-MVC-8.25"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:625 direction is field-level; Latin runs isolated inside Arabic"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.57"
+        }
+      ],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-10": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:643 Specialist Consult + Local Prescribe pattern (PROPOSED-FUTURE)",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1868 V3.0 disposition row FR-10"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.71"
+        }
+      ],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-11": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:642 named, contactable, in-date 24/7 in-person escalation practice; V3.0 fences FR-11 to a static contact message",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1872 V3.0 disposition row FR-11"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.70"
+        }
+      ],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-12": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-13": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:498 stock as immutable movement ledger with derived balance; V3.0 FR-13 site-scoped stock derived from DispenseEvent",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1880 V3.0 disposition row FR-13"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-7.30"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:639 event-sourced append-only stock and controlled balances"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.68"
+        }
+      ],
+      "coverage": "HAS_CANDIDATE_CRITERIA"
+    },
+    "FR-14": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_2_EXECUTION_BASELINE_CANDIDATE.md:257 dispensing authority fails closed; named for FR-14 in the Option A bridge",
+            "evidence/traceability/OPTION_A_FR14_FR27_BRIDGE.md:42 bridge row REQ-DISP-AUTH-FAILCLOSED under FR-14"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-DISP-AUTH-FAILCLOSED"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:933 prescription and dispensing event as separate entities",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1621 Annex A (REQ-MVC-A.3) legacy theme 'Prescribing and dispensing'"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-MVC-7.11"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:319 prescribing worked example: role vs professional status is a required test"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-8.38"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:606 dispense is one action, one screen (product, batch, expiry, label)"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.24"
+        }
+      ],
+      "coverage": "HAS_CANDIDATE_CRITERIA"
+    },
+    "FR-15": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-16": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-17": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-18": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-19": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:934 product, batch and recall; SFDA registration state and GS1 identifiers",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1624 Annex A (REQ-MVC-A.3) legacy theme 'Batch, expiry and recall traceability'",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1904 V3.0 disposition row FR-19"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-MVC-7.12"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:1591 recall resolves product plus batch to every affected dispense and owner contact",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1904 V3.0 disposition row FR-19"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-MVC-6.22"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:511 every stock movement recorded against (product, batch)"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-7.32"
+        }
+      ],
+      "coverage": "HAS_CANDIDATE_CRITERIA"
+    },
+    "FR-20": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:972 invoice-type extensible FATOORA architecture; V3.0 FR-20 becomes in-clinic ZATCA invoicing",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1627 Annex A (REQ-MVC-A.3) legacy theme 'Invoicing and payment'",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1908 V3.0 disposition row FR-20"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-8.7"
+        }
+      ],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-21": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:881 canonical unified animal health record (UAHR); V3.0 retains FR-21 continuity thesis",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1615 Annex A (REQ-MVC-A.3) legacy theme 'Pet health record as the continuity object'",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1912 V3.0 disposition row FR-21"
+          ],
+          "confidence": "HIGH",
+          "req": "REQ-MVC-7.3"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:590 every clinical artefact is draft or attested"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.6"
+        }
+      ],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-22": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-23": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-24": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-25": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-26": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-27": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-28": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-29": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_1_Annex_K_Split_Taxpayer_Requirements.md:52 platform fees and commissions recorded as separate movements against the gross sale",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1944 V3.0 disposition row FR-29"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-FIN-G2"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_1_Annex_K_Split_Taxpayer_Requirements.md:48 gross consideration is an immutable commercial fact"
+          ],
+          "confidence": "LOW",
+          "req": "REQ-FIN-G1"
+        }
+      ],
+      "coverage": "NO_CANDIDATE"
+    },
+    "FR-30": {
+      "candidates": [
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:610 statutory notifiable-disease reporting clock; V3.0 FR-30 becomes MEWA case-register reporting",
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-BRD-001_V3_1_CANDIDATE_MyVetiCare_Master_BRD.docx:1660 Annex A (REQ-MVC-A.3) legacy theme 'Government reporting'",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1948 V3.0 disposition row FR-30"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-4.28"
+        },
+        {
+          "basis": [
+            "petcare_execution/AUTHORITY/MVC-LINEAGE/sources/MVC-SPEC-001_V3_0_Execution_Specification_Completion_Pass_Tranches_1_to_3.docx:1581 antimicrobial prescribing individually recorded and aggregable; V3.0 FR-30 antimicrobial utilisation",
+            "governance/brd/MVC-BRD-001_V3_0_DRAFT_MyVetiCare_Master_BRD.docx:1948 V3.0 disposition row FR-30"
+          ],
+          "confidence": "MEDIUM",
+          "req": "REQ-MVC-6.20"
+        }
+      ],
+      "coverage": "HAS_CANDIDATE_CRITERIA"
+    },
+    "FR-31": {
+      "candidates": [],
+      "coverage": "NO_CANDIDATE"
+    }
+  },
+  "label": "CANDIDATE_NOT_RATIFIED",
+  "unmapped_req": [
+    "REQ-0.8",
+    "REQ-A.1",
+    "REQ-A.5",
+    "REQ-A.8",
+    "REQ-ABS-4",
+    "REQ-C.35",
+    "REQ-D.22",
+    "REQ-D.23",
+    "REQ-E.1",
+    "REQ-E.2",
+    "REQ-E.5",
+    "REQ-F.12",
+    "REQ-FIN-G3",
+    "REQ-FIN-S1",
+    "REQ-FIN-S2",
+    "REQ-FIN-S3",
+    "REQ-INT-1",
+    "REQ-MVC-0.1",
+    "REQ-MVC-0.2",
+    "REQ-MVC-0.3",
+    "REQ-MVC-1",
+    "REQ-MVC-1.1",
+    "REQ-MVC-1.2",
+    "REQ-MVC-1.3",
+    "REQ-MVC-1.4",
+    "REQ-MVC-1.5",
+    "REQ-MVC-1.6",
+    "REQ-MVC-1.7",
+    "REQ-MVC-10.1",
+    "REQ-MVC-10.10",
+    "REQ-MVC-10.11",
+    "REQ-MVC-10.12",
+    "REQ-MVC-10.13",
+    "REQ-MVC-10.14",
+    "REQ-MVC-10.15",
+    "REQ-MVC-10.16",
+    "REQ-MVC-10.17",
+    "REQ-MVC-10.18",
+    "REQ-MVC-10.19",
+    "REQ-MVC-10.2",
+    "REQ-MVC-10.20",
+    "REQ-MVC-10.21",
+    "REQ-MVC-10.22",
+    "REQ-MVC-10.23",
+    "REQ-MVC-10.24",
+    "REQ-MVC-10.25",
+    "REQ-MVC-10.26",
+    "REQ-MVC-10.27",
+    "REQ-MVC-10.28",
+    "REQ-MVC-10.29",
+    "REQ-MVC-10.3",
+    "REQ-MVC-10.30",
+    "REQ-MVC-10.4",
+    "REQ-MVC-10.5",
+    "REQ-MVC-10.6",
+    "REQ-MVC-10.7",
+    "REQ-MVC-10.8",
+    "REQ-MVC-10.9",
+    "REQ-MVC-2.1",
+    "REQ-MVC-2.10",
+    "REQ-MVC-2.11",
+    "REQ-MVC-2.12",
+    "REQ-MVC-2.13",
+    "REQ-MVC-2.14",
+    "REQ-MVC-2.15",
+    "REQ-MVC-2.16",
+    "REQ-MVC-2.17",
+    "REQ-MVC-2.18",
+    "REQ-MVC-2.19",
+    "REQ-MVC-2.2",
+    "REQ-MVC-2.20",
+    "REQ-MVC-2.21",
+    "REQ-MVC-2.22",
+    "REQ-MVC-2.23",
+    "REQ-MVC-2.24",
+    "REQ-MVC-2.25",
+    "REQ-MVC-2.26",
+    "REQ-MVC-2.27",
+    "REQ-MVC-2.28",
+    "REQ-MVC-2.29",
+    "REQ-MVC-2.3",
+    "REQ-MVC-2.30",
+    "REQ-MVC-2.4",
+    "REQ-MVC-2.5",
+    "REQ-MVC-2.6",
+    "REQ-MVC-2.7",
+    "REQ-MVC-2.7a",
+    "REQ-MVC-2.7b",
+    "REQ-MVC-2.8",
+    "REQ-MVC-2.8a",
+    "REQ-MVC-2.8b",
+    "REQ-MVC-2.9",
+    "REQ-MVC-2.9a",
+    "REQ-MVC-3.1",
+    "REQ-MVC-3.2",
+    "REQ-MVC-3.3",
+    "REQ-MVC-3.4",
+    "REQ-MVC-3.5",
+    "REQ-MVC-3.6",
+    "REQ-MVC-4.1",
+    "REQ-MVC-4.100",
+    "REQ-MVC-4.101",
+    "REQ-MVC-4.102",
+    "REQ-MVC-4.103",
+    "REQ-MVC-4.104",
+    "REQ-MVC-4.105",
+    "REQ-MVC-4.106",
+    "REQ-MVC-4.107",
+    "REQ-MVC-4.108",
+    "REQ-MVC-4.109",
+    "REQ-MVC-4.110",
+    "REQ-MVC-4.111",
+    "REQ-MVC-4.112",
+    "REQ-MVC-4.113",
+    "REQ-MVC-4.114",
+    "REQ-MVC-4.115",
+    "REQ-MVC-4.116",
+    "REQ-MVC-4.117",
+    "REQ-MVC-4.118",
+    "REQ-MVC-4.119",
+    "REQ-MVC-4.120",
+    "REQ-MVC-4.121",
+    "REQ-MVC-4.122",
+    "REQ-MVC-4.123",
+    "REQ-MVC-4.124",
+    "REQ-MVC-4.125",
+    "REQ-MVC-4.13",
+    "REQ-MVC-4.14",
+    "REQ-MVC-4.15",
+    "REQ-MVC-4.16",
+    "REQ-MVC-4.17",
+    "REQ-MVC-4.18",
+    "REQ-MVC-4.19",
+    "REQ-MVC-4.2",
+    "REQ-MVC-4.20",
+    "REQ-MVC-4.21",
+    "REQ-MVC-4.22",
+    "REQ-MVC-4.23",
+    "REQ-MVC-4.26",
+    "REQ-MVC-4.27",
+    "REQ-MVC-4.29",
+    "REQ-MVC-4.3",
+    "REQ-MVC-4.30",
+    "REQ-MVC-4.31",
+    "REQ-MVC-4.32",
+    "REQ-MVC-4.33",
+    "REQ-MVC-4.34",
+    "REQ-MVC-4.35",
+    "REQ-MVC-4.36",
+    "REQ-MVC-4.37",
+    "REQ-MVC-4.38",
+    "REQ-MVC-4.39",
+    "REQ-MVC-4.4",
+    "REQ-MVC-4.44",
+    "REQ-MVC-4.49",
+    "REQ-MVC-4.5",
+    "REQ-MVC-4.56",
+    "REQ-MVC-4.58",
+    "REQ-MVC-4.59",
+    "REQ-MVC-4.60",
+    "REQ-MVC-4.61",
+    "REQ-MVC-4.62",
+    "REQ-MVC-4.63",
+    "REQ-MVC-4.64",
+    "REQ-MVC-4.65",
+    "REQ-MVC-4.66",
+    "REQ-MVC-4.67",
+    "REQ-MVC-4.7",
+    "REQ-MVC-4.72",
+    "REQ-MVC-4.73",
+    "REQ-MVC-4.74",
+    "REQ-MVC-4.75",
+    "REQ-MVC-4.76",
+    "REQ-MVC-4.77",
+    "REQ-MVC-4.78",
+    "REQ-MVC-4.79",
+    "REQ-MVC-4.8",
+    "REQ-MVC-4.80",
+    "REQ-MVC-4.81",
+    "REQ-MVC-4.82",
+    "REQ-MVC-4.83",
+    "REQ-MVC-4.84",
+    "REQ-MVC-4.85",
+    "REQ-MVC-4.86",
+    "REQ-MVC-4.87",
+    "REQ-MVC-4.88",
+    "REQ-MVC-4.89",
+    "REQ-MVC-4.9",
+    "REQ-MVC-4.90",
+    "REQ-MVC-4.91",
+    "REQ-MVC-4.92",
+    "REQ-MVC-4.93",
+    "REQ-MVC-4.94",
+    "REQ-MVC-4.95",
+    "REQ-MVC-4.96",
+    "REQ-MVC-4.97",
+    "REQ-MVC-4.98",
+    "REQ-MVC-4.99",
+    "REQ-MVC-5.1",
+    "REQ-MVC-5.2",
+    "REQ-MVC-5.3",
+    "REQ-MVC-5.3a",
+    "REQ-MVC-5.3b",
+    "REQ-MVC-5.3c",
+    "REQ-MVC-5.3d",
+    "REQ-MVC-5.3e",
+    "REQ-MVC-5.3f",
+    "REQ-MVC-5.5",
+    "REQ-MVC-5.6",
+    "REQ-MVC-5.7",
+    "REQ-MVC-5.8",
+    "REQ-MVC-6.1",
+    "REQ-MVC-6.11",
+    "REQ-MVC-6.12",
+    "REQ-MVC-6.13",
+    "REQ-MVC-6.14",
+    "REQ-MVC-6.15",
+    "REQ-MVC-6.16",
+    "REQ-MVC-6.17",
+    "REQ-MVC-6.18",
+    "REQ-MVC-6.2",
+    "REQ-MVC-6.21",
+    "REQ-MVC-6.23",
+    "REQ-MVC-6.24",
+    "REQ-MVC-6.25",
+    "REQ-MVC-6.26",
+    "REQ-MVC-6.27",
+    "REQ-MVC-6.28",
+    "REQ-MVC-6.29",
+    "REQ-MVC-6.3",
+    "REQ-MVC-6.30",
+    "REQ-MVC-6.31",
+    "REQ-MVC-6.32",
+    "REQ-MVC-6.33",
+    "REQ-MVC-6.34",
+    "REQ-MVC-6.35",
+    "REQ-MVC-6.36",
+    "REQ-MVC-6.37",
+    "REQ-MVC-6.38",
+    "REQ-MVC-6.39",
+    "REQ-MVC-6.4",
+    "REQ-MVC-6.40",
+    "REQ-MVC-6.41",
+    "REQ-MVC-6.42",
+    "REQ-MVC-6.43",
+    "REQ-MVC-6.44",
+    "REQ-MVC-6.45",
+    "REQ-MVC-6.46",
+    "REQ-MVC-6.47",
+    "REQ-MVC-6.48",
+    "REQ-MVC-6.49",
+    "REQ-MVC-6.5",
+    "REQ-MVC-6.6",
+    "REQ-MVC-6.7",
+    "REQ-MVC-6.8",
+    "REQ-MVC-6.9",
+    "REQ-MVC-7.1",
+    "REQ-MVC-7.10",
+    "REQ-MVC-7.13",
+    "REQ-MVC-7.14",
+    "REQ-MVC-7.15",
+    "REQ-MVC-7.16",
+    "REQ-MVC-7.17",
+    "REQ-MVC-7.18",
+    "REQ-MVC-7.19",
+    "REQ-MVC-7.2",
+    "REQ-MVC-7.20",
+    "REQ-MVC-7.21",
+    "REQ-MVC-7.22",
+    "REQ-MVC-7.23",
+    "REQ-MVC-7.24",
+    "REQ-MVC-7.25",
+    "REQ-MVC-7.26",
+    "REQ-MVC-7.27",
+    "REQ-MVC-7.28",
+    "REQ-MVC-7.29",
+    "REQ-MVC-7.2a",
+    "REQ-MVC-7.31",
+    "REQ-MVC-7.33",
+    "REQ-MVC-7.34",
+    "REQ-MVC-7.35",
+    "REQ-MVC-7.36",
+    "REQ-MVC-7.37",
+    "REQ-MVC-7.38",
+    "REQ-MVC-7.39",
+    "REQ-MVC-7.40",
+    "REQ-MVC-7.41",
+    "REQ-MVC-7.42",
+    "REQ-MVC-7.43",
+    "REQ-MVC-7.44",
+    "REQ-MVC-7.45",
+    "REQ-MVC-7.46",
+    "REQ-MVC-7.47",
+    "REQ-MVC-7.48",
+    "REQ-MVC-7.49",
+    "REQ-MVC-7.5",
+    "REQ-MVC-7.50",
+    "REQ-MVC-7.51",
+    "REQ-MVC-7.52",
+    "REQ-MVC-7.53",
+    "REQ-MVC-7.54",
+    "REQ-MVC-7.55",
+    "REQ-MVC-7.5a",
+    "REQ-MVC-7.6",
+    "REQ-MVC-7.8",
+    "REQ-MVC-7.9",
+    "REQ-MVC-8.1",
+    "REQ-MVC-8.10",
+    "REQ-MVC-8.100",
+    "REQ-MVC-8.101",
+    "REQ-MVC-8.102",
+    "REQ-MVC-8.103",
+    "REQ-MVC-8.104",
+    "REQ-MVC-8.105",
+    "REQ-MVC-8.106",
+    "REQ-MVC-8.107",
+    "REQ-MVC-8.108",
+    "REQ-MVC-8.109",
+    "REQ-MVC-8.11",
+    "REQ-MVC-8.110",
+    "REQ-MVC-8.111",
+    "REQ-MVC-8.112",
+    "REQ-MVC-8.113",
+    "REQ-MVC-8.114",
+    "REQ-MVC-8.115",
+    "REQ-MVC-8.116",
+    "REQ-MVC-8.117",
+    "REQ-MVC-8.118",
+    "REQ-MVC-8.119",
+    "REQ-MVC-8.12",
+    "REQ-MVC-8.120",
+    "REQ-MVC-8.121",
+    "REQ-MVC-8.122",
+    "REQ-MVC-8.123",
+    "REQ-MVC-8.124",
+    "REQ-MVC-8.125",
+    "REQ-MVC-8.126",
+    "REQ-MVC-8.127",
+    "REQ-MVC-8.128",
+    "REQ-MVC-8.129",
+    "REQ-MVC-8.13",
+    "REQ-MVC-8.130",
+    "REQ-MVC-8.14",
+    "REQ-MVC-8.15",
+    "REQ-MVC-8.17",
+    "REQ-MVC-8.18",
+    "REQ-MVC-8.19",
+    "REQ-MVC-8.2",
+    "REQ-MVC-8.20",
+    "REQ-MVC-8.21",
+    "REQ-MVC-8.22",
+    "REQ-MVC-8.23",
+    "REQ-MVC-8.24",
+    "REQ-MVC-8.26",
+    "REQ-MVC-8.27",
+    "REQ-MVC-8.28",
+    "REQ-MVC-8.29",
+    "REQ-MVC-8.3",
+    "REQ-MVC-8.30",
+    "REQ-MVC-8.31",
+    "REQ-MVC-8.33",
+    "REQ-MVC-8.35",
+    "REQ-MVC-8.36",
+    "REQ-MVC-8.39",
+    "REQ-MVC-8.4",
+    "REQ-MVC-8.40",
+    "REQ-MVC-8.41",
+    "REQ-MVC-8.42",
+    "REQ-MVC-8.43",
+    "REQ-MVC-8.44",
+    "REQ-MVC-8.45",
+    "REQ-MVC-8.46",
+    "REQ-MVC-8.47",
+    "REQ-MVC-8.48",
+    "REQ-MVC-8.49",
+    "REQ-MVC-8.5",
+    "REQ-MVC-8.50",
+    "REQ-MVC-8.51",
+    "REQ-MVC-8.52",
+    "REQ-MVC-8.53",
+    "REQ-MVC-8.54",
+    "REQ-MVC-8.55",
+    "REQ-MVC-8.56",
+    "REQ-MVC-8.57",
+    "REQ-MVC-8.58",
+    "REQ-MVC-8.59",
+    "REQ-MVC-8.6",
+    "REQ-MVC-8.60",
+    "REQ-MVC-8.61",
+    "REQ-MVC-8.62",
+    "REQ-MVC-8.63",
+    "REQ-MVC-8.64",
+    "REQ-MVC-8.65",
+    "REQ-MVC-8.66",
+    "REQ-MVC-8.68",
+    "REQ-MVC-8.69",
+    "REQ-MVC-8.70",
+    "REQ-MVC-8.71",
+    "REQ-MVC-8.72",
+    "REQ-MVC-8.73",
+    "REQ-MVC-8.74",
+    "REQ-MVC-8.75",
+    "REQ-MVC-8.76",
+    "REQ-MVC-8.77",
+    "REQ-MVC-8.78",
+    "REQ-MVC-8.79",
+    "REQ-MVC-8.8",
+    "REQ-MVC-8.80",
+    "REQ-MVC-8.81",
+    "REQ-MVC-8.82",
+    "REQ-MVC-8.83",
+    "REQ-MVC-8.84",
+    "REQ-MVC-8.85",
+    "REQ-MVC-8.86",
+    "REQ-MVC-8.87",
+    "REQ-MVC-8.88",
+    "REQ-MVC-8.89",
+    "REQ-MVC-8.9",
+    "REQ-MVC-8.90",
+    "REQ-MVC-8.91",
+    "REQ-MVC-8.92",
+    "REQ-MVC-8.93",
+    "REQ-MVC-8.94",
+    "REQ-MVC-8.95",
+    "REQ-MVC-8.96",
+    "REQ-MVC-8.97",
+    "REQ-MVC-8.98",
+    "REQ-MVC-8.99",
+    "REQ-MVC-9.1",
+    "REQ-MVC-9.10",
+    "REQ-MVC-9.11",
+    "REQ-MVC-9.12",
+    "REQ-MVC-9.13",
+    "REQ-MVC-9.2",
+    "REQ-MVC-9.3",
+    "REQ-MVC-9.4",
+    "REQ-MVC-9.5",
+    "REQ-MVC-9.6",
+    "REQ-MVC-9.7",
+    "REQ-MVC-9.8",
+    "REQ-MVC-9.9",
+    "REQ-MVC-A.1",
+    "REQ-MVC-A.2",
+    "REQ-MVC-A.3",
+    "REQ-MVC-A.4",
+    "REQ-MVC-B.1",
+    "REQ-MVC-B.2",
+    "REQ-MVC-M.1",
+    "REQ-MVC-M.2",
+    "REQ-PRD12-NS",
+    "REQ-REG-2",
+    "REQ-SAF-F1",
+    "REQ-SAF-F2",
+    "REQ-SAF-F3",
+    "REQ-SRC-2",
+    "REQ-SRC-3",
+    "REQ-UX-3",
+    "REQ-UX-34",
+    "REQ-UX-39",
+    "REQ-UX-4",
+    "REQ-UX-6",
+    "REQ-UX-8",
+    "REQ-UX-9",
+    "REQ-UX-NTI-1",
+    "REQ-UX-NTI-2",
+    "REQ-UX-NTI-3",
+    "REQ-VET-1",
+    "REQ-VET-10",
+    "REQ-VET-11",
+    "REQ-VET-3",
+    "REQ-VET-5",
+    "REQ-VET-6",
+    "REQ-VET-7",
+    "REQ-VET-8",
+    "REQ-VET-9"
+  ]
+}
