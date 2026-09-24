@@ -69,6 +69,9 @@ describe('FR-09 — Arabic primary on every customer-facing page', () => {
       await waitFor(() => expect(document.documentElement.dir).toBe('rtl'))
       expect(document.documentElement.lang).toBe('ar')
       expect(englishOnlyText(container)).toEqual([])
+      // A page must not override the document's RTL with its own LTR block.
+      const ltr = [...container.querySelectorAll('[dir]')].filter(e => e.getAttribute('dir') === 'ltr')
+      expect(ltr.map(e => e.tagName)).toEqual([])
       cleanup()
     })
 

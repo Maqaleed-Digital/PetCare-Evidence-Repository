@@ -13,3 +13,5 @@
 | U4 FR-01 session identity | (this PR) | 301d1c7 | AC-FR-01-01 | FR-01 REACHABLE_TESTED (3 criteria open; SQ-1 queued) | see PR | see receipt | pending |
 | U4 (merge record) | #49 | 301d1c7 | AC-FR-01-01 | FR-01 REACHABLE_TESTED | 1 | M1 ✓ M2 ✓ M3 ✓ M4 ✓ M5 ✓ | YES → 770117f |
 | U5 FR-01 practitioner authority | (this PR) | 770117f | AC-FR-01-02 | FR-01 REACHABLE_TESTED (2/4) | see PR | see receipt | pending |
+| U5 (merge record) | #50 | 770117f | AC-FR-01-02 | FR-01 REACHABLE_TESTED | 1 | M1 ✓ M2 ✓ M3 ✓ M4 ✓ M5 ✓ | YES → 853e0fe |
+| U6 FR-27 dashboard | (this PR) | 853e0fe | AC-FR-27-01, -03, -04 | FR-27 REACHABLE_TESTED (3/4; AC-02 L-2) | see PR | see receipt | pending |

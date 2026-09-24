@@ -25,6 +25,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
+import { QUEUE_REFRESH_MS } from '@/lib/pharmacyQueue'
 
 type Prescription = {
   prescription_id: string
@@ -111,6 +112,19 @@ export default function PharmacyPage() {
   }, [isAr])
 
   useEffect(() => { void loadQueue() }, [loadQueue])
+
+  // FR-27 AC-FR-27-01: refresh without a manual reload. Silent — no loading
+  // flash — and a transient failure keeps the last good queue on screen rather
+  // than blanking it; the next tick retries.
+  useEffect(() => {
+    const id = setInterval(async () => {
+      try {
+        const res = await call('/api/prescriptions/queue/awaiting-dispense')
+        if (res.ok) setQueue(await res.json())
+      } catch { /* keep the last good queue */ }
+    }, QUEUE_REFRESH_MS)
+    return () => clearInterval(id)
+  }, [])
 
   async function open(rx: Prescription) {
     setSelected(rx)

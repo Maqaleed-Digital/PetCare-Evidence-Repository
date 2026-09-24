@@ -1059,32 +1059,22 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 4,
+        "basis": 6,
         "implements": 2,
         "legacy": 6,
         "routes": 2,
-        "tests": 2,
+        "tests": 3,
         "ui_surface": 1
       },
       "criteria_gaps": {
-        "AC-FR-27-01": [
-          "SERVED_APP_E2E",
-          "TENANT_ISOLATION",
-          "UI"
-        ],
+        "AC-FR-27-01": [],
         "AC-FR-27-02": [
           "AUDIT",
           "DEPENDENCY",
           "SERVED_APP_E2E"
         ],
-        "AC-FR-27-03": [
-          "AUDIT",
-          "PERSISTENCE"
-        ],
-        "AC-FR-27-04": [
-          "ARABIC_RTL",
-          "UI"
-        ]
+        "AC-FR-27-03": [],
+        "AC-FR-27-04": []
       },
       "engineering_status": "REACHABLE_TESTED",
       "fitness": {

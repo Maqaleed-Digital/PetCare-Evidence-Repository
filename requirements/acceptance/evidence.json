@@ -94,13 +94,13 @@
     {
       "kind": "ARTEFACT",
       "ref": "petcare_web/__tests__/language-fr09.test.tsx",
-      "sha256": "168eb50f52eb4ff1cde94a719e14d90bbefba568c1279db60f4f3e6d9fc869e0",
+      "sha256": "eee75b96945fa66b42c4a63c12883982b9377591faad4640bc2173c5e51f75b5",
       "type": "UI"
     },
     {
       "kind": "ARTEFACT",
       "ref": "petcare_web/__tests__/language-fr09.test.tsx",
-      "sha256": "168eb50f52eb4ff1cde94a719e14d90bbefba568c1279db60f4f3e6d9fc869e0",
+      "sha256": "eee75b96945fa66b42c4a63c12883982b9377591faad4640bc2173c5e51f75b5",
       "type": "ARABIC_RTL"
     }
   ],
@@ -108,19 +108,63 @@
     {
       "kind": "ARTEFACT",
       "ref": "petcare_web/__tests__/language-fr09.test.tsx",
-      "sha256": "168eb50f52eb4ff1cde94a719e14d90bbefba568c1279db60f4f3e6d9fc869e0",
+      "sha256": "eee75b96945fa66b42c4a63c12883982b9377591faad4640bc2173c5e51f75b5",
       "type": "UI"
     },
     {
       "kind": "ARTEFACT",
       "ref": "petcare_web/__tests__/language-fr09.test.tsx",
-      "sha256": "168eb50f52eb4ff1cde94a719e14d90bbefba568c1279db60f4f3e6d9fc869e0",
+      "sha256": "eee75b96945fa66b42c4a63c12883982b9377591faad4640bc2173c5e51f75b5",
       "type": "ARABIC_RTL"
     },
     {
       "kind": "TEST",
       "ref": "petcare_api/tests/test_language_preference.py::test_choice_survives_a_new_session",
       "type": "SERVED_APP_E2E"
+    }
+  ],
+  "AC-FR-27-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_pharmacy_dashboard_realtime.py::test_new_verified_prescription_visible_within_bound_p95_over_100_events",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_option_a_workflow.py::test_c3_the_queue_is_scoped_to_the_callers_tenant",
+      "type": "TENANT_ISOLATION"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr27-dashboard.test.tsx",
+      "sha256": "438708765e7129089a24512d7147aeb52c6c6e0e17fc46f1b72857e843f6d1da",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-27-03": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_option_a_workflow.py::test_j_every_step_is_audited_with_a_server_derived_actor",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_prescription_persistence_postgres.py::test_j_audit_events_for_the_workflow_persist_and_chain",
+      "type": "PERSISTENCE"
+    }
+  ],
+  "AC-FR-27-04": [
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/language-fr09.test.tsx",
+      "sha256": "eee75b96945fa66b42c4a63c12883982b9377591faad4640bc2173c5e51f75b5",
+      "type": "UI"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/language-fr09.test.tsx",
+      "sha256": "eee75b96945fa66b42c4a63c12883982b9377591faad4640bc2173c5e51f75b5",
+      "type": "ARABIC_RTL"
     }
   ]
 }
