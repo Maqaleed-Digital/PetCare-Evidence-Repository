@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import asdict
+import re
 from datetime import datetime, timezone
 from typing import Dict, List
 from uuid import uuid4
@@ -37,6 +38,35 @@ def utc_now_iso() -> str:
 def _sort_key_for_item(item: dict, bucket_key: str) -> str:
     primary = BUCKET_SORT_KEY.get(bucket_key, "recorded_at")
     return item.get(primary) or item.get("recorded_at") or item.get("created_at") or ""
+
+
+_UUID = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$", re.I)
+
+
+def _is_identifier(name: str, value: object) -> bool:
+    """IDENTIFIER: named `id` / `*_id` (a `_nullable` suffix ignored), or UUID-valued."""
+    base = name[: -len("_nullable")] if name.endswith("_nullable") else name
+    return base == "id" or base.endswith("_id") or (isinstance(value, str) and bool(_UUID.match(value)))
+
+
+def _record_matches(record: object, lowered: str, name: str = "", identifier: bool = False) -> bool:
+    """MVC-HYG-UPHR-001. A record matches a (lower-cased) term iff the term occurs in
+    a TEXT string leaf, or EQUALS an IDENTIFIER leaf exactly.
+
+    Previously the whole record was stringified, so a term such as "cbc" matched any
+    record whose uuid4 id happened to contain it (~1% of runs of
+    test_timeline_can_search). Identifiers now match only whole.
+    """
+    if isinstance(record, dict):
+        return any(_record_matches(v, lowered, k, identifier or _is_identifier(k, v))
+                   for k, v in record.items())
+    if isinstance(record, (list, tuple)):
+        return any(_record_matches(v, lowered, name, identifier) for v in record)
+    if not isinstance(record, str):
+        return False
+    if identifier or _is_identifier(name, record):
+        return record.lower() == lowered
+    return lowered in record.lower()
 
 
 class UPHRService:
@@ -238,7 +268,7 @@ class UPHRService:
                     continue
                 timeline[key] = [
                     item for item in items  # type: ignore[union-attr]
-                    if lowered in str(item).lower()
+                    if _record_matches(item, lowered)
                 ]
 
         ordered_keys = [key for key in timeline.keys() if key != "pet_id"]
