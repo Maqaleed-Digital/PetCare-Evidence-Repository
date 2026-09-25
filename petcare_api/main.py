@@ -1735,7 +1735,17 @@ def _consultation_participant(request: Request, consultation_id: str):
     return session, actor_id, actor_role, tenant_id
 
 
-def _render_notification(sender_role: str, consultation_id: str, body: str) -> str:
+_ROLE_AR = {ROLE_VETERINARIAN: "طبيبك البيطري", ROLE_OWNER: "مالك الحيوان"}
+
+
+def _recipient_language(user_id: str) -> str:
+    """FR-09 AC-FR-09-03 (U19): notifications and documents follow the RECIPIENT's stored language (Arabic default)."""
+    return PREFERENCE_REPO.get_language(user_id) or DEFAULT_LANGUAGE
+
+
+def _render_notification(sender_role: str, consultation_id: str, body: str, language: str = "en") -> str:
+    if language == "ar":
+        return f"رسالة جديدة من {_ROLE_AR.get(sender_role, sender_role)} في الاستشارة {consultation_id}: {body[:200]}"
     return f"New message from your {sender_role} in consultation {consultation_id}: {body[:200]}"
 
 
@@ -1755,8 +1765,8 @@ def send_consultation_message(
         MESSAGE_REPO.add_message(msg)
     except RepositoryDenied as exc:
         raise HTTPException(400, f"Message refused: {exc}") from None
-    rendered = _render_notification(actor_role, consultation_id, body.body)
     for recipient in {session["owner_id"], session["veterinarian_id"]} - {actor_id}:
+        rendered = _render_notification(actor_role, consultation_id, body.body, _recipient_language(recipient))
         MESSAGE_REPO.record_delivery(DeliveryRecord(
             record_id=str(uuid4()), tenant_id=tenant_id, message_id=msg.message_id, recipient_id=recipient,
             channel=CHANNEL_IN_APP, attempt_no=1, status=DELIVERED, rendered_body=rendered,
@@ -2245,8 +2255,8 @@ def create_recall(body: RecallRequest, request: Request, role: str = Depends(req
     notices = [rcl.RecallNotification(
         notification_id=str(uuid4()), recall_id=r.recall_id, tenant_id=tenant_id, owner_id=x["owner_id"],
         movement_id=x["movement_id"], created_at=now,
-        rendered_body=(f"Recall: {product} batch {batch} dispensed for your pet ({x['pet_id']}) under prescription "
-                       f"{x['prescription_id']} has been recalled. Reason: {r.reason}. Please contact your clinic."))
+        rendered_body=rcl.render_notice(_recipient_language(x["owner_id"]), product=product, batch=batch,
+                                        pet_id=x["pet_id"], prescription_id=x["prescription_id"], reason=r.reason))
         for x in res["resolved"]]
     RECALL_REPO.create(r, notices)
     _audit(event_name="recall.created", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,

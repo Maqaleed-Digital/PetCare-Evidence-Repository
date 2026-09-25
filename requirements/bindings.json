@@ -369,7 +369,8 @@
       "petcare_api/main.py:1464 PUT /api/me/preferences/language (session actor, audited)",
       "petcare_api/postgres_repositories.py:1010 PostgresPreferenceRepository (migration 0038 user_preference)",
       "petcare_web/components/LanguageToggle.tsx persists the choice when signed in; app/signin/page.tsx restores it",
-      "web tests: petcare_web/__tests__/language-fr09.test.tsx (13 customer-facing pages x ar/en + session)"
+      "web tests: petcare_web/__tests__/language-fr09.test.tsx (13 customer-facing pages x ar/en + session)",
+      "petcare_api/main.py _recipient_language: notifications and documents follow the recipient's stored language (Arabic default)"
     ],
     "fitness": {
       "audit_actor_source": "SESSION",
@@ -400,9 +401,10 @@
     ],
     "tests": [
       "petcare_api/tests/test_language_preference.py",
-      "petcare_api/tests/test_language_preference_postgres.py"
+      "petcare_api/tests/test_language_preference_postgres.py",
+      "petcare_api/tests/test_fr09_notification_language.py"
     ],
-    "unresolved": "AC-FR-09-03 (notifications and generated documents in the recipient's language) is open: the served app produces no notification or document yet; it closes with the FR-20 receipt / FR-23 reminder units. /admin is the platform-operator console and is outside the customer-facing sweep."
+    "unresolved": "AC-FR-09-03 closed in U19: every notification/document the served app produces (consultation-message notifications, recall notices, COD receipts, care reminders) is rendered in the RECIPIENT's stored language, Arabic by default. /admin is the platform-operator console and is outside the customer-facing sweep."
   },
   "FR-10": {
     "basis": [
