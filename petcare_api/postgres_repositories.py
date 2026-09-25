@@ -1361,3 +1361,75 @@ class PostgresLicenceRepository:
         r = rows[0]
         return LicenceVerification(verification_id=r[0], licence_id=r[1], tenant_id=r[2], verified_by_actor_id=r[3],
                                    verified_at=_from_db(r[4]), method=r[5], basis=r[6], grant_id=r[7])
+
+
+class PostgresConsultationRepository:
+    """`ConsultationRepository` over migration 0044 (FR-06, MVC-BUILD-RUNNER-001 U11). Insert-only."""
+
+    _C = ("session_id, tenant_id, pet_id, owner_id, veterinarian_id, requested_by_actor_id, mode, clinic_id, "
+          "created_at")
+    _O = "session_id, tenant_id, outcome, recorded_by_actor_id, recorded_at"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def create(self, c):
+        from consultations import validate_consultation
+        validate_consultation(c)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO consultation ({self._C}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                             (c.session_id, c.tenant_id, c.pet_id, c.owner_id, c.veterinarian_id,
+                              c.requested_by_actor_id, c.mode, c.clinic_id, _to_db(c.created_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"consultation was refused ({type(exc).__name__})") from None
+        return c
+
+    def _c(self, r):
+        from consultations import Consultation
+        return Consultation(session_id=r[0], tenant_id=r[1], pet_id=r[2], owner_id=r[3], veterinarian_id=r[4],
+                            requested_by_actor_id=r[5], mode=r[6], clinic_id=r[7], created_at=_from_db(r[8]))
+
+    def get(self, session_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._C} FROM consultation WHERE session_id = %s AND tenant_id = %s",
+                                (session_id, tenant_id)).fetchall()
+        return self._c(rows[0]) if rows else None
+
+    def for_tenant(self, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._C} FROM consultation WHERE tenant_id = %s "
+                                "ORDER BY created_at, session_id", (tenant_id,)).fetchall()
+        return [self._c(r) for r in rows]
+
+    def record_outcome(self, o):
+        from consultations import validate_outcome
+        validate_outcome(o)
+        if self.get(o.session_id, tenant_id=o.tenant_id) is None:
+            raise RepositoryDenied("outcome refers to no consultation in this tenant")
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO consultation_outcome ({self._O}) VALUES (%s,%s,%s,%s,%s)",
+                             (o.session_id, o.tenant_id, o.outcome, o.recorded_by_actor_id, _to_db(o.recorded_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"outcome was refused ({type(exc).__name__})") from None
+        return o
+
+    def outcome_of(self, session_id, *, tenant_id):
+        from consultations import ConsultationOutcome
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._O} FROM consultation_outcome WHERE session_id = %s AND tenant_id = %s",
+                                (session_id, tenant_id)).fetchall()
+        if not rows:
+            return None
+        r = rows[0]
+        return ConsultationOutcome(session_id=r[0], tenant_id=r[1], outcome=r[2], recorded_by_actor_id=r[3],
+                                   recorded_at=_from_db(r[4]))
+
+    def determinations(self):
+        from consultations import RegulatoryDetermination
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT determination_id, subject, decision, form, reference, recorded_by, recorded_at "
+                                "FROM regulatory_determination ORDER BY recorded_at").fetchall()
+        return [RegulatoryDetermination(determination_id=r[0], subject=r[1], decision=r[2], form=r[3], reference=r[4],
+                                        recorded_by=r[5], recorded_at=_from_db(r[6])) for r in rows]

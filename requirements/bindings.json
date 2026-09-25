@@ -217,22 +217,49 @@
   },
   "FR-06": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for video|webrtc|screen share"
+      "petcare_api/main.py:628 start_consultation: session actor and tenant; participants must be the tenant's owner and veterinarian; REMOTE_VIDEO refused (audited) while the REG-02 gate is closed",
+      "petcare_api/main.py:619 _remote_consultation_gate: offered only when the latest REG-02 determination is LAWFUL (no served write path)",
+      "petcare_api/main.py:727 outcome: the consultation's veterinarian with a live authority, once; audited",
+      "petcare_api/main.py:613 every consultation read is tenant-scoped through the repository",
+      "petcare_runtime/migrations/0044_fr06_consultation_record.sql consultation / consultation_outcome (insert-only; one outcome) / regulatory_determination",
+      "petcare_web/app/account/consultations/page.tsx lists consultations with outcomes; states remote consultation is not offered; no video control"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for video|webrtc|screen share"
+        "petcare_api/persistence.py consultations=PostgresConsultationRepository in postgres mode",
+        "petcare_api/main.py:628 tenant from require_tenant; actor from _actor"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/account/consultations"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "main:start_consultation",
+      "main:get_consultation",
+      "main:list_consultations",
+      "main:record_consultation_outcome",
+      "main:remote_consultation_availability",
+      "main:_remote_consultation_gate",
+      "consultations:InMemoryConsultationRepository",
+      "postgres_repositories:PostgresConsultationRepository",
+      "petcare_web/app/account/consultations/page.tsx#ConsultationsPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": "Consultation session and note routes are served (petcare_api/main.py:595) but carry no video or screen-sharing capability; not bound by naming."
+    "routes": [
+      "POST /api/consultations",
+      "GET /api/consultations",
+      "GET /api/consultations/{session_id}",
+      "POST /api/consultations/{session_id}/outcome",
+      "GET /api/consultations/remote/availability"
+    ],
+    "tests": [
+      "petcare_api/tests/test_fr06_consultation.py",
+      "petcare_api/tests/test_fr06_consultation_postgres.py"
+    ],
+    "unresolved": "AC-FR-06-01/02 (video with screen sharing, 720p with adaptive bitrate) are NOT built in U11: remote consultation is fail-closed pending COUNSEL:REG-02_TELEMEDICINE (AC-FR-06-05), so the served deployment cannot offer video; SPONSOR_QUEUE SQ-2 asks how AC-01/02 are to be accepted. AC-FR-06-03 depends on PRODUCTION. AC-FR-06-05 is built fail-closed; its dependency is not evidenced. Consultation notes (_notes) remain an in-memory store (clinical records; not an FR-06 criterion)."
   },
   "FR-07": {
     "basis": [
@@ -276,7 +303,7 @@
       "petcare_api/tests/test_consultation_messaging.py",
       "petcare_api/tests/test_consultation_messaging_postgres.py"
     ],
-    "unresolved": "AC-FR-07-03 depends on PRODUCTION: files use the local document adapter outside production; the production object store is not bound (prescription_documents.ProductionObjectStore refuses). Consultation sessions themselves are still an in-memory store in main.py; messages reference them by id."
+    "unresolved": "AC-FR-07-03 depends on PRODUCTION: files use the local document adapter outside production; the production object store is not bound (prescription_documents.ProductionObjectStore refuses). Consultation sessions are durable since U11 (migration 0044); messages reference them by id."
   },
   "FR-08": {
     "basis": [

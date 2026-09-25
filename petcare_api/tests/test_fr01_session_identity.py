@@ -120,7 +120,8 @@ def test_appointment_and_consultation_records_are_tenant_scoped():
         "pet_id": "p1", "owner_id": "u-fr01-owner2", "clinic_id": "c1", "tenant_id": T_A}).json()
     vet_a = _client_for("u-fr01-vet2", T_A, "veterinarian")
     sess = vet_a.post("/api/consultations", json={
-        "pet_id": "p1", "owner_id": "o", "veterinarian_id": "u-fr01-vet2", "tenant_id": T_A}).json()
+        "pet_id": "p1", "owner_id": "u-fr01-owner2", "veterinarian_id": "u-fr01-vet2",
+        "tenant_id": T_A}).json()  # FR-06 (U11): participants are real identities of the tenant
     note = vet_a.post(f"/api/consultations/{sess['session_id']}/notes", json={
         "session_id": sess["session_id"], "pet_id": "p1", "content": "ok", "tenant_id": T_A}).json()
     vet_b = _client_for("u-fr01-vet-b", T_B, "veterinarian")

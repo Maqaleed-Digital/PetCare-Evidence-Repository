@@ -86,6 +86,13 @@
       "path": "/api/auth/sign-out"
     },
     {
+      "endpoint": "main:list_consultations",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/consultations"
+    },
+    {
       "endpoint": "main:start_consultation",
       "methods": [
         "POST"
@@ -98,6 +105,13 @@
         "POST"
       ],
       "path": "/api/consultations/notes/{note_id}/sign"
+    },
+    {
+      "endpoint": "main:remote_consultation_availability",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/consultations/remote/availability"
     },
     {
       "endpoint": "main:list_consultation_messages",
@@ -140,6 +154,13 @@
         "POST"
       ],
       "path": "/api/consultations/{session_id}/notes"
+    },
+    {
+      "endpoint": "main:record_consultation_outcome",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/consultations/{session_id}/outcome"
     },
     {
       "endpoint": "main:governance_status",
