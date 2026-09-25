@@ -134,6 +134,18 @@ def test_pom_restricted_controlled_are_never_supplied_without_a_verified_prescri
     vet = _client("u-rx14-vet-4", T_A, "veterinarian")
     if klass:
         _register(product, klass)
+    if klass in ("RESTRICTED", "CONTROLLED"):
+        # FR-04 AC-FR-04-02 (U17): the restricted-substance workflow is disabled until EV-11/L-2 — never supplied,
+        # with or without a verified prescription, by any actor.
+        loc = admin.post("/api/inventory/locations", json={"name": f"Rx {product}"}).json()["location_id"]
+        body = {"location_id": loc, "product_id": product, "batch": "L1", "quantity": 2}
+        rx = _issue(vet)
+        assert vet.post(f"/api/prescriptions/{rx}/verify").status_code == 200
+        for b in (body, {**body, "prescription_id": rx}):
+            r = vet.post("/api/inventory/supplies", json=b)
+            assert r.status_code == 403 and r.json()["detail"]["error"] == "RESTRICTED_SUBSTANCE_WORKFLOW_DISABLED"
+        assert vet.get(f"/api/prescriptions/{rx}").json()["status"] == "VET_VERIFIED"
+        return
     loc = _stocked_location(admin, vet, product)
     body = {"location_id": loc, "product_id": product, "batch": "L1", "quantity": 2}
     r = vet.post("/api/inventory/supplies", json=body)

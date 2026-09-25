@@ -90,6 +90,63 @@
       "type": "SERVED_APP_E2E"
     }
   ],
+  "AC-FR-04-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr04_restricted_substances.py::test_the_restricted_substance_workflow_is_disabled_on_every_path_and_nothing_enables_it[RESTRICTED]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr04_restricted_substances.py::test_the_restricted_substance_workflow_is_disabled_on_every_path_and_nothing_enables_it[CONTROLLED]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr04_restricted_substances.py::test_the_restricted_substance_workflow_is_disabled_on_every_path_and_nothing_enables_it[RESTRICTED]",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr04_restricted_substances.py::test_the_restricted_substance_workflow_is_disabled_on_every_path_and_nothing_enables_it[CONTROLLED]",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr04-restricted-notice.test.tsx",
+      "sha256": "6083cebc88036ba8d9e2fdc4024a2148016717ec55fc0c9e7a42febc0e6a119c",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-04-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr04_restricted_substances.py::test_the_restricted_substance_workflow_is_disabled_on_every_path_and_nothing_enables_it[RESTRICTED]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr04_restricted_substances.py::test_the_restricted_substance_workflow_is_disabled_on_every_path_and_nothing_enables_it[CONTROLLED]",
+      "type": "SERVED_APP_E2E"
+    }
+  ],
+  "AC-FR-04-03": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory_postgres.py::test_ledger_survives_a_second_instance_and_the_balance_is_the_sum",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr04_restricted_substances.py::test_supply_class_comes_only_from_registration_and_an_unregistered_medicine_is_pom",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr04_restricted_substances.py::test_supply_class_comes_only_from_registration_and_an_unregistered_medicine_is_pom",
+      "type": "TENANT_ISOLATION"
+    }
+  ],
   "AC-FR-05-01": [
     {
       "kind": "TEST",

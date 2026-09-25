@@ -214,6 +214,13 @@ def test_non_veterinarian_cannot_move_or_adjust_veterinarian_only_stock(product,
     refused = [e for e in _events(admin, "inventory.movement.refused") if e["resource_id"] == product]
     assert {e["actor_id"] for e in refused} >= {"u-inv-admin-pharm", "u-inv-vet-lapsed"}
     assert all(e["action_result"] == "denied" for e in refused)
+    if klass in ("RESTRICTED", "CONTROLLED"):
+        # FR-04 AC-FR-04-02 (U17): until EV-11/L-2 the restricted-substance register is disabled for EVERY actor,
+        # the veterinarian included — stricter than, and consistent with, this criterion.
+        refused_vet = _move(vet, location_id=loc, product_id=product, batch="P", quantity_delta=5, reason="RECEIPT")
+        assert refused_vet.status_code == 403
+        assert refused_vet.json()["detail"]["error"] == "RESTRICTED_SUBSTANCE_WORKFLOW_DISABLED"
+        return
     # A veterinarian with a live practitioner authority handles it, audited under their own identity.
     ok = _move(vet, location_id=loc, product_id=product, batch="P", quantity_delta=5, reason="RECEIPT")
     assert ok.status_code == 200, ok.text

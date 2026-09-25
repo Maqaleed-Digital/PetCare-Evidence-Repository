@@ -34,6 +34,11 @@ const L = {
   DELIVERED: { ar: 'تم التسليم والدفع', en: 'Delivered and paid' },
   sar: { ar: 'ر.س', en: 'SAR' },
   error: { ar: 'تعذر إتمام الطلب', en: 'The order could not be placed' },
+  // FR-04 AC-FR-04-01 (U17): the purchaser is told, in the purchase flow, that verification is required and why.
+  restricted: { ar: 'الأدوية المقيّدة والخاضعة للرقابة غير متاحة للشراء عبر التطبيق: يتطلب شراؤها التحقق من هوية المشتري، '
+    + 'وسير عملها معطّل إلى حين صدور الرأي القانوني المعتمد (EV-11).',
+    en: 'Restricted and controlled medicines cannot be bought in the app: their purchase requires verification of the '
+    + "purchaser's identity, and the workflow is disabled until counsel's determination is recorded (EV-11)." },
 } as const
 
 export default function OwnerOrdersPage() {
@@ -68,6 +73,7 @@ export default function OwnerOrdersPage() {
   return (
     <main className="stack" dir={isAr ? 'rtl' : 'ltr'}>
       <h1 className="title-lg">{t('title')}</h1>
+      <p role="note" data-testid="restricted-notice">{t('restricted')}</p>
       {catalog.length > 0 && (
         <form onSubmit={place} className="card stack" aria-label={t('checkout')}>
           <h2 className="title-md">{t('checkout')}</h2>

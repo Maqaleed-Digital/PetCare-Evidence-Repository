@@ -24,6 +24,18 @@ GENERAL, OTC, POM, RESTRICTED, CONTROLLED = "GENERAL", "OTC", "POM", "RESTRICTED
 SUPPLY_CLASSES = (GENERAL, OTC, POM, RESTRICTED, CONTROLLED)
 #: MVC-PHARM-001 §5: handled by a veterinarian only, until counsel (L-2) determines otherwise.
 VETERINARIAN_ONLY = frozenset({POM, RESTRICTED, CONTROLLED})
+#: FR-04 AC-FR-04-02 (U17): the restricted-substance classes.
+RESTRICTED_SUBSTANCE_CLASSES = frozenset({RESTRICTED, CONTROLLED})
+
+
+def restricted_substance_workflow_enabled() -> bool:
+    """AC-FR-04-02: until counsel resolves EV-11 and L-2, the restricted-substance dispensing, register and
+    wastage workflow is DISABLED in every environment. This is a constant, not configuration: it reads no
+    environment variable, feature flag, tenant setting or admin record, so nothing at runtime can enable it.
+    Enabling it is a code change made under a recorded counsel determination — never a switch."""
+    return False
+
+
 #: AC-FR-04-03: a product with no verified registration is treated as POM.
 UNREGISTERED_CLASS = POM
 REGISTRATION_SOURCE = "SFDA_REGISTRATION"
