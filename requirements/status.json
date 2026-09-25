@@ -177,28 +177,19 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 1,
-        "implements": 0,
+        "basis": 4,
+        "implements": 8,
         "legacy": 0,
-        "routes": 0,
-        "tests": 0,
-        "ui_surface": 0
+        "routes": 3,
+        "tests": 2,
+        "ui_surface": 1
       },
       "criteria_gaps": {
         "AC-FR-04-01": [
-          "AUDIT",
-          "DEPENDENCY",
-          "SERVED_APP_E2E",
-          "UI"
+          "DEPENDENCY"
         ],
-        "AC-FR-04-02": [
-          "SERVED_APP_E2E"
-        ],
-        "AC-FR-04-03": [
-          "AUDIT",
-          "PERSISTENCE",
-          "TENANT_ISOLATION"
-        ],
+        "AC-FR-04-02": [],
+        "AC-FR-04-03": [],
         "AC-FR-04-04": [
           "DEPENDENCY",
           "SERVED_APP_E2E"
@@ -209,22 +200,24 @@
           "SERVED_APP_E2E"
         ]
       },
-      "engineering_status": "ABSENT",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
-        "storage": "NONE",
-        "tenant_source": "NONE",
-        "ui_surface": []
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/owner/orders"
+        ]
       },
       "id": "FR-04",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "no implementing symbol bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "ABSENT",
+      "status": "REACHABLE_TESTED",
       "title": "KYC verification for controlled medication purchases",
-      "unresolved": ""
+      "unresolved": "AC-FR-04-01 depends on COUNSEL:EV-11 (what verification the BRD requires and when it binds the purchaser); until then no path supplies a RESTRICTED/CONTROLLED product at all. AC-FR-04-04/05 depend on EXTERNAL:KYC_PROVIDER: no KYC adapter is built. Enabling the restricted-substance workflow is a code change under a recorded counsel determination."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
@@ -537,7 +530,7 @@
       ],
       "status": "REACHABLE_TESTED",
       "title": "Real-time multi-location inventory visibility",
-      "unresolved": "AC-FR-13-04 depends on COUNSEL:L-2: until counsel, POM/RESTRICTED/CONTROLLED stock is veterinarian-only (built, fail closed); the dependency itself is not evidenced. Product registration (supply class) has no served write path: it is the SFDA registration feed of FR-04 (AC-FR-04-03), not built here; unregistered products are treated as POM."
+      "unresolved": "AC-FR-13-04 depends on COUNSEL:L-2: until counsel, POM/RESTRICTED/CONTROLLED stock is veterinarian-only (built, fail closed); the dependency itself is not evidenced. Product registration (supply class) has no served write path: it is the SFDA registration feed of FR-04 (AC-FR-04-03), not built here; unregistered products are treated as POM. Since U17, RESTRICTED/CONTROLLED stock is refused for EVERY actor (AC-FR-04-02, EV-11/L-2 open); POM remains veterinarian-only."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
@@ -582,7 +575,7 @@
       ],
       "status": "REACHABLE_TESTED",
       "title": "Prescription upload and vet verification workflow",
-      "unresolved": "AC-FR-14-06 depends on EXTERNAL:SFDA_API: the port and its fail-closed contract are built and tested (only VALID is valid; served adapter answers UNAVAILABLE), but no SERVED_APP_E2E evidence is registered because the published SFDA interface is not held — a contract double of our own is not the SFDA contract. AC-FR-14-07 depends on PRODUCTION: the verification-time instrument is built and tested; the production reading is the evidence. Prescriptions name medication as free text; binding a prescription to a registered product is FR-04 (catalogue)."
+      "unresolved": "AC-FR-14-06 depends on EXTERNAL:SFDA_API: the port and its fail-closed contract are built and tested (only VALID is valid; served adapter answers UNAVAILABLE), but no SERVED_APP_E2E evidence is registered because the published SFDA interface is not held — a contract double of our own is not the SFDA contract. AC-FR-14-07 depends on PRODUCTION: the verification-time instrument is built and tested; the production reading is the evidence. Prescriptions name medication as free text; binding a prescription to a registered product is FR-04 (catalogue). Since U17, RESTRICTED/CONTROLLED supply and dispense are disabled for every actor (AC-FR-04-02); the prescription gate governs POM."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
@@ -1166,17 +1159,16 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 13,
+        "ABSENT": 12,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
-        "REACHABLE_TESTED": 13,
+        "REACHABLE_TESTED": 14,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-03",
-          "FR-04",
           "FR-10",
           "FR-12",
           "FR-15",
@@ -1201,6 +1193,7 @@
         ],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-04",
           "FR-05",
           "FR-06",
           "FR-07",
@@ -1225,16 +1218,15 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 2,
+        "ABSENT": 1,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 13,
+        "REACHABLE_TESTED": 14,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
-          "FR-04",
           "FR-15"
         ],
         "ACCEPTED": [
@@ -1244,6 +1236,7 @@
         "BUILT_UNWIRED": [],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-04",
           "FR-05",
           "FR-06",
           "FR-07",
@@ -1268,16 +1261,15 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 2,
+        "ABSENT": 1,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 13,
+        "REACHABLE_TESTED": 14,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
-          "FR-04",
           "FR-15"
         ],
         "ACCEPTED": [
@@ -1287,6 +1279,7 @@
         "BUILT_UNWIRED": [],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-04",
           "FR-05",
           "FR-06",
           "FR-07",

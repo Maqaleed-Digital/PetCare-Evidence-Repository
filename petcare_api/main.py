@@ -139,7 +139,8 @@ from preferences import DEFAULT_LANGUAGE  # FR-09 (U3)
 from messages import (CHANNEL_IN_APP, DELIVERED, ConsultationMessage,  # FR-07 (U7)
                       DeliveryRecord, MessageAttachment)
 from inventory import (ADJUSTMENT, RECEIPT, REASONS, SUPPLY, TRANSFER_IN, TRANSFER_OUT,  # FR-13 (U8)
-                       VETERINARIAN_ONLY, InventoryLocation, StockMovement, prescription_required)
+                       VETERINARIAN_ONLY, InventoryLocation, StockMovement, prescription_required,
+                       RESTRICTED_SUBSTANCE_CLASSES, restricted_substance_workflow_enabled)  # FR-04 (U17)
 import sfda  # FR-14 AC-06 (U9): the SFDA prescription-validation port
 import licences  # FR-05 (U10): veterinarian licence registration and verification
 import consultations as consult  # FR-06 (U11): durable consultations and the REG-02 gate
@@ -867,6 +868,19 @@ def _actor(request: Request) -> tuple[str, str]:
 PRACTITIONER_REPO = PERSISTENCE.practitioners
 
 
+def _refuse_restricted_substance(supply_class: str, *, actor_id: str, actor_role: str, tenant_id: str,
+                                 resource_id: str, event_name: str, correlation_id: str) -> None:
+    """FR-04 AC-FR-04-02 (U17): every served stock path calls this. RESTRICTED/CONTROLLED dispensing, register
+    and wastage are disabled for EVERY actor while EV-11/L-2 are open; the refusal is audited."""
+    if supply_class in RESTRICTED_SUBSTANCE_CLASSES and not restricted_substance_workflow_enabled():
+        _audit(event_name=event_name, actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+               resource_type="stock_movement", resource_id=resource_id, action_result="denied",
+               correlation_id=correlation_id, reason_code="RESTRICTED_SUBSTANCE_WORKFLOW_DISABLED:EV-11")
+        raise HTTPException(403, detail={"error": "RESTRICTED_SUBSTANCE_WORKFLOW_DISABLED", "supply_class": supply_class,
+                                         "reason": "Restricted and controlled substances cannot be dispensed, registered "
+                                                   "or written off until counsel resolves EV-11 and L-2."})
+
+
 def _require_practitioner_authority(actor_id: str, tenant_id: str):
     """The grant in force NOW for this actor in this tenant, or 403.
 
@@ -1115,6 +1129,10 @@ def dispense_prescription(
     # movement citing the prescription. Checked after authority/tenancy/state so those refusals keep
     # their meaning; a verified prescription with no stock origin is refused, never dispensed blind.
     movement = None
+    if rx.status == STATUS_VET_VERIFIED and body is not None:
+        _refuse_restricted_substance(INVENTORY_REPO.supply_class_of(body.product_id), actor_id=actor_id,
+                                     actor_role=actor_role, tenant_id=tenant_id, resource_id=prescription_id,
+                                     event_name="prescription.dispense_denied", correlation_id=x_correlation_id)
     if rx.status == STATUS_VET_VERIFIED:
         if body is None or body.quantity <= 0:
             raise HTTPException(400, {"error": "STOCK_ORIGIN_REQUIRED",
@@ -1897,6 +1915,9 @@ def record_stock_movement(
     authority only; the class is read from product registration, never from the request."""
     actor_id, actor_role, tenant_id = _inventory_actor(request)
     supply_class = INVENTORY_REPO.supply_class_of(body.product_id)
+    _refuse_restricted_substance(supply_class, actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+                                 resource_id=body.product_id, event_name="inventory.movement.refused",
+                                 correlation_id=x_correlation_id)
     if supply_class in VETERINARIAN_ONLY:
         try:
             if actor_role != ROLE_VETERINARIAN:
@@ -1980,6 +2001,9 @@ def supply_stock(
     if body.quantity <= 0:
         raise HTTPException(400, "a supply is a positive quantity")
     supply_class = INVENTORY_REPO.supply_class_of(body.product_id)
+    _refuse_restricted_substance(supply_class, actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+                                 resource_id=body.product_id, event_name="inventory.supply.refused",
+                                 correlation_id=x_correlation_id)
     gated = prescription_required(supply_class)
 
     def refuse(status_code, detail, reason_code):

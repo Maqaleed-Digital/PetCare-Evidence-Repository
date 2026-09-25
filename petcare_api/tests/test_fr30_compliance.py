@@ -12,7 +12,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import main as api  # noqa: E402
 from compliance import NotifiableDisease  # noqa: E402
-from inventory import REGISTRATION_SOURCE, ProductRegistration  # noqa: E402
+from inventory import REGISTRATION_SOURCE, ProductRegistration, StockMovement  # noqa: E402
 from routers import auth  # noqa: E402
 from tenant_fixtures import ensure_tenant, grant_practitioner_authority, stock_origin  # noqa: E402
 
@@ -59,14 +59,23 @@ def test_the_controlled_substance_report_is_generated_from_recorded_events_and_t
     owner = _client("u-fr30-owner", T_A, "owner")
     admin_b = _client("u-fr30-admin-b", T_B, "partner_clinic_admin")
     _register("keta-30", "CONTROLLED")
-    origin = stock_origin(T_A, product_id="keta-30", batch="K1")          # RECEIPT +1000 CONTROLLED
+    # FR-04 AC-FR-04-02 (U17): the served app can no longer create CONTROLLED movements while EV-11 is open, so the
+    # recorded controlled history is written at the repository layer — the report must still be generated from it.
+    origin = stock_origin(T_A, product_id="keta-30", batch="K1")          # RECEIPT +1000 CONTROLLED (recorded)
     pet = owner.post("/api/pets", json={"name": "Luna", "species": "cat"}).json()["pet_id"]
     rx = _issue(vet, pet, "keta-30")
     assert vet.post(f"/api/prescriptions/{rx}/verify").status_code == 200
-    assert vet.post(f"/api/prescriptions/{rx}/dispense", json={**origin, "quantity": 2}).status_code == 200
-    assert vet.post("/api/inventory/movements", json={"location_id": origin["location_id"], "product_id": "keta-30",
-                                                      "batch": "K1", "quantity_delta": -3,
-                                                      "reason": "ADJUSTMENT"}).status_code == 200
+    assert vet.post(f"/api/prescriptions/{rx}/dispense", json={**origin, "quantity": 2}).status_code == 403
+
+    def _hist(delta, reason, rx_id=None):
+        api.INVENTORY_REPO.record([StockMovement(
+            movement_id=f"hist-{reason}-{delta}-{datetime.now(timezone.utc).timestamp()}", tenant_id=T_A,
+            location_id=origin["location_id"], product_id="keta-30", batch="K1", quantity_delta=delta, reason=reason,
+            supply_class="CONTROLLED", actor_id="u-fr30-vet", actor_role="veterinarian",
+            created_at=datetime.now(timezone.utc), prescription_id=rx_id)])
+
+    _hist(-2, "SUPPLY", rx)
+    _hist(-3, "ADJUSTMENT")
     r = vet.post("/api/compliance/reports/controlled-substances", json=_window())
     assert r.status_code == 200, r.text
     rep = r.json()
@@ -78,8 +87,7 @@ def test_the_controlled_substance_report_is_generated_from_recorded_events_and_t
     assert [x["prescription_id"] for x in rep["rows"] if x["reason"] == "SUPPLY"] == [rx]
     again = vet.get(f"/api/compliance/reports/{rep['report_id']}").json()
     assert again["reproduces"] is True and again["content_sha256"] == rep["content_sha256"]
-    vet.post("/api/inventory/movements", json={"location_id": origin["location_id"], "product_id": "keta-30",
-                                               "batch": "K1", "quantity_delta": -1, "reason": "ADJUSTMENT"})
+    _hist(-1, "ADJUSTMENT")
     assert vet.get(f"/api/compliance/reports/{rep['report_id']}").json()["reproduces"] is False  # the check is live
     audited = [e for e in vet.get("/audit/events/tenant", params={"limit": 5000}).json()["events"]
                if e["event_name"] == "compliance.report.generated" and e["resource_id"] == rep["report_id"]]

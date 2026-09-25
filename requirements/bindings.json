@@ -152,22 +152,44 @@
   },
   "FR-04": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for kyc"
+      "petcare_api/inventory.py restricted_substance_workflow_enabled: a constant False — reads no environment, flag, setting or admin record (AC-FR-04-02)",
+      "petcare_api/main.py:871 _refuse_restricted_substance: called by every served stock path (movements incl. receipt/adjustment/transfer, supplies, dispense); refuses RESTRICTED/CONTROLLED for every actor; audited EV-11",
+      "petcare_api/inventory.py UNREGISTERED_CLASS = POM; supply_class_of reads product_registration only; no served route writes it (AC-FR-04-03)",
+      "petcare_web/app/owner/orders/page.tsx purchase flow states that restricted/controlled medicines require purchaser identity verification and are disabled pending EV-11"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for kyc"
+        "petcare_api/persistence.py inventory=PostgresInventoryRepository (product_registration) in postgres mode",
+        "petcare_api/main.py:871 refusal audited with the session actor"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/owner/orders"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "inventory:restricted_substance_workflow_enabled",
+      "main:_refuse_restricted_substance",
+      "main:record_stock_movement",
+      "main:supply_stock",
+      "main:dispense_prescription",
+      "inventory:InMemoryInventoryRepository",
+      "postgres_repositories:PostgresInventoryRepository",
+      "petcare_web/app/owner/orders/page.tsx#OwnerOrdersPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": ""
+    "routes": [
+      "POST /api/inventory/movements",
+      "POST /api/inventory/supplies",
+      "POST /api/prescriptions/{prescription_id}/dispense"
+    ],
+    "tests": [
+      "petcare_api/tests/test_fr04_restricted_substances.py",
+      "petcare_api/tests/test_fr04_gate_is_constant.py"
+    ],
+    "unresolved": "AC-FR-04-01 depends on COUNSEL:EV-11 (what verification the BRD requires and when it binds the purchaser); until then no path supplies a RESTRICTED/CONTROLLED product at all. AC-FR-04-04/05 depend on EXTERNAL:KYC_PROVIDER: no KYC adapter is built. Enabling the restricted-substance workflow is a code change under a recorded counsel determination."
   },
   "FR-05": {
     "basis": [
@@ -492,7 +514,7 @@
       "petcare_api/tests/test_inventory.py",
       "petcare_api/tests/test_inventory_postgres.py"
     ],
-    "unresolved": "AC-FR-13-04 depends on COUNSEL:L-2: until counsel, POM/RESTRICTED/CONTROLLED stock is veterinarian-only (built, fail closed); the dependency itself is not evidenced. Product registration (supply class) has no served write path: it is the SFDA registration feed of FR-04 (AC-FR-04-03), not built here; unregistered products are treated as POM."
+    "unresolved": "AC-FR-13-04 depends on COUNSEL:L-2: until counsel, POM/RESTRICTED/CONTROLLED stock is veterinarian-only (built, fail closed); the dependency itself is not evidenced. Product registration (supply class) has no served write path: it is the SFDA registration feed of FR-04 (AC-FR-04-03), not built here; unregistered products are treated as POM. Since U17, RESTRICTED/CONTROLLED stock is refused for EVERY actor (AC-FR-04-02, EV-11/L-2 open); POM remains veterinarian-only."
   },
   "FR-14": {
     "basis": [
@@ -572,7 +594,7 @@
       "petcare_api/tests/test_fr14_prescriptions.py",
       "petcare_api/tests/test_fr14_supply_postgres.py"
     ],
-    "unresolved": "AC-FR-14-06 depends on EXTERNAL:SFDA_API: the port and its fail-closed contract are built and tested (only VALID is valid; served adapter answers UNAVAILABLE), but no SERVED_APP_E2E evidence is registered because the published SFDA interface is not held — a contract double of our own is not the SFDA contract. AC-FR-14-07 depends on PRODUCTION: the verification-time instrument is built and tested; the production reading is the evidence. Prescriptions name medication as free text; binding a prescription to a registered product is FR-04 (catalogue)."
+    "unresolved": "AC-FR-14-06 depends on EXTERNAL:SFDA_API: the port and its fail-closed contract are built and tested (only VALID is valid; served adapter answers UNAVAILABLE), but no SERVED_APP_E2E evidence is registered because the published SFDA interface is not held — a contract double of our own is not the SFDA contract. AC-FR-14-07 depends on PRODUCTION: the verification-time instrument is built and tested; the production reading is the evidence. Prescriptions name medication as free text; binding a prescription to a registered product is FR-04 (catalogue). Since U17, RESTRICTED/CONTROLLED supply and dispense are disabled for every actor (AC-FR-04-02); the prescription gate governs POM."
   },
   "FR-15": {
     "basis": [
