@@ -1021,9 +1021,10 @@
     "tests": [
       "petcare_api/tests/test_option_a_workflow.py",
       "petcare_api/tests/test_dispensing_fail_closed.py",
-      "petcare_api/tests/test_pharmacy_dashboard_realtime.py"
+      "petcare_api/tests/test_pharmacy_dashboard_realtime.py",
+      "petcare_api/tests/test_fr27_dashboard_class_scope.py"
     ],
-    "unresolved": "Pharmacy principal absent. petcare_runtime/src/petcare/pharmacy/review.py gates every write on ROLE_PHARMACY, which no mintable role holds; it is unreachable by construction and NOT bound (W1 rule 11). The bound queue is request/response and read by vet/clinic admin; 'real-time' and pharmacy-operator use are not established."
+    "unresolved": "Pharmacy principal absent. petcare_runtime/src/petcare/pharmacy/review.py gates every write on ROLE_PHARMACY, which no mintable role holds; it is unreachable by construction and NOT bound (W1 rule 11). The bound queue is request/response and read by vet/clinic admin; 'real-time' and pharmacy-operator use are not established. U21: AC-FR-27-02's internal part is evidenced — a non-veterinarian dashboard user cannot complete a POM dispense (directly or via supply), RESTRICTED/CONTROLLED are outside every actor's scope (AC-FR-04-02), GENERAL/OTC remain with dashboard staff, refusals audited; the class-scoped pharmacy actor awaits COUNSEL:L-2."
   },
   "FR-28": {
     "basis": [
