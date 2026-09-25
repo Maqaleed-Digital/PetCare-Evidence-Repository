@@ -792,5 +792,12 @@
       "ref": "petcare_api/tests/test_fr30_compliance.py::test_a_notifiable_case_carries_its_statutory_clock_from_detection",
       "type": "AUDIT"
     }
+  ],
+  "NFR-04": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory_postgres.py::test_inventory_check_is_sub_second_on_production_sized_data",
+      "type": "NFR_EVIDENCE"
+    }
   ]
 }
