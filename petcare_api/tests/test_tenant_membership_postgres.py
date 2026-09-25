@@ -379,7 +379,14 @@ def test_the_target_route_authority_is_unchanged_after_a_move(pg):
     _as_admin()
     assert _post(uid, T_B).status_code == 200
 
+    # FR-01 AC-FR-01-03 (U20): tenant authority is server-held. The session issued under tenant A no longer carries
+    # authority once the membership has moved — it fails closed rather than acting with the old tenant.
     client.cookies.set("petcare_session", cookie)
+    stale = client.get("/audit/events")
+    assert stale.status_code == 401 and stale.json()["detail"]["error"] == "SESSION_TENANT_STALE"
+    # Roles are not tenant-scoped: a fresh session after the move has the same role authority as before.
+    fresh = client.post("/api/auth/sign-in", json={"email": TARGET, "password": "pw"}).cookies["petcare_session"]
+    client.cookies.set("petcare_session", fresh)
     after = client.get("/audit/events").status_code
     assert before == after == 403
 

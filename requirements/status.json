@@ -67,11 +67,11 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 14,
+        "basis": 15,
         "implements": 12,
         "legacy": 3,
         "routes": 7,
-        "tests": 6,
+        "tests": 7,
         "ui_surface": 4
       },
       "criteria_gaps": {
@@ -83,9 +83,7 @@
           "TENANT_ISOLATION"
         ],
         "AC-FR-01-04": [
-          "AUDIT",
-          "DEPENDENCY",
-          "SERVED_APP_E2E"
+          "DEPENDENCY"
         ]
       },
       "engineering_status": "REACHABLE_TESTED",
@@ -108,7 +106,7 @@
       ],
       "status": "REACHABLE_TESTED",
       "title": "Multi-role user accounts (Owner, Vet, Pharmacist, Admin)",
-      "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role."
+      "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role. U20: AC-FR-01-03's session-bearing parts are built (server-held tenant authority, stale sessions fail closed, sign-in/sign-out chained, sign-out revokes, history attributable after membership ends) but NOT registered: pre-session account actions (registration, failed sign-in) are tenantless and remain SPONSOR_QUEUE SQ-1. AC-FR-01-04: no general-purpose pharmacy role exists and no role dispenses unscoped (evidenced); the class-scoped pharmacy authority awaits COUNSEL:L-2."
     },
     {
       "acceptance_state": "ACCEPTED",
