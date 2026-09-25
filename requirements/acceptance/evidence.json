@@ -248,6 +248,108 @@
       "type": "AUDIT"
     }
   ],
+  "AC-FR-14-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_issue_upload_verify_dispense_only_through_the_governed_transitions",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_prescription_persistence_postgres.py::test_b2_the_whole_lifecycle_survives",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_prescription_persistence_postgres.py::test_the_served_app_writes_prescriptions_to_postgres",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr14-prescriptions.test.tsx",
+      "sha256": "0e02b6de7e922f64fc2a524828d763a799baaa452c2e368f050f5c29fd29ad29",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-14-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_dispensing_never_authorises_on_a_client_asserted_class",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_dispensing_never_authorises_on_a_client_asserted_class",
+      "type": "AUDIT"
+    }
+  ],
+  "AC-FR-14-03": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_general_and_otc_are_supplied_without_a_prescription[GENERAL]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_general_and_otc_are_supplied_without_a_prescription[OTC]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_pom_restricted_controlled_are_never_supplied_without_a_verified_prescription[pom-14-POM]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_pom_restricted_controlled_are_never_supplied_without_a_verified_prescription[res-14-RESTRICTED]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_pom_restricted_controlled_are_never_supplied_without_a_verified_prescription[ctl-14-CONTROLLED]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_pom_restricted_controlled_are_never_supplied_without_a_verified_prescription[unreg-14-None]",
+      "type": "SERVED_APP_E2E"
+    }
+  ],
+  "AC-FR-14-04": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_a_vet_without_a_live_authority_is_refused_naming_the_attribute_and_its_expiry",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr14-prescriptions.test.tsx",
+      "sha256": "0e02b6de7e922f64fc2a524828d763a799baaa452c2e368f050f5c29fd29ad29",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-14-05": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_every_prescription_read_and_transition_is_tenant_scoped_and_audited",
+      "type": "TENANT_ISOLATION"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr14_prescriptions.py::test_every_prescription_read_and_transition_is_tenant_scoped_and_audited",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_prescription_persistence_postgres.py::test_j_audit_events_for_the_workflow_persist_and_chain",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_prescription_persistence_postgres.py::test_c_tenant_b_cannot_read_or_move_tenant_a_prescription",
+      "type": "PERSISTENCE"
+    }
+  ],
   "AC-FR-27-01": [
     {
       "kind": "TEST",

@@ -163,6 +163,13 @@
       "path": "/api/inventory/stock"
     },
     {
+      "endpoint": "main:supply_stock",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/inventory/supplies"
+    },
+    {
       "endpoint": "main:get_language_preference",
       "methods": [
         "GET"
@@ -233,11 +240,25 @@
       "path": "/api/prescriptions"
     },
     {
+      "endpoint": "main:prescription_verification_metric",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/prescriptions/metrics/verification-time"
+    },
+    {
       "endpoint": "main:awaiting_dispense_queue",
       "methods": [
         "GET"
       ],
       "path": "/api/prescriptions/queue/awaiting-dispense"
+    },
+    {
+      "endpoint": "main:awaiting_verification_queue",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/prescriptions/queue/awaiting-verification"
     },
     {
       "endpoint": "main:get_prescription",
@@ -273,6 +294,13 @@
         "GET"
       ],
       "path": "/api/prescriptions/{prescription_id}/documents/{document_id}"
+    },
+    {
+      "endpoint": "main:sfda_validate_prescription",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/prescriptions/{prescription_id}/sfda-validation"
     },
     {
       "endpoint": "main:prescription_transitions",

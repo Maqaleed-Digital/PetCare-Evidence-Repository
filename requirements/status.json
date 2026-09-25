@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 51
+    "served_route_count": 55
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -551,35 +551,19 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 10,
-        "implements": 9,
+        "basis": 11,
+        "implements": 17,
         "legacy": 5,
-        "routes": 7,
-        "tests": 3,
-        "ui_surface": 1
+        "routes": 12,
+        "tests": 5,
+        "ui_surface": 2
       },
       "criteria_gaps": {
-        "AC-FR-14-01": [
-          "PERSISTENCE",
-          "SERVED_APP_E2E",
-          "UI"
-        ],
-        "AC-FR-14-02": [
-          "AUDIT",
-          "SERVED_APP_E2E"
-        ],
-        "AC-FR-14-03": [
-          "SERVED_APP_E2E"
-        ],
-        "AC-FR-14-04": [
-          "SERVED_APP_E2E",
-          "UI"
-        ],
-        "AC-FR-14-05": [
-          "AUDIT",
-          "PERSISTENCE",
-          "TENANT_ISOLATION"
-        ],
+        "AC-FR-14-01": [],
+        "AC-FR-14-02": [],
+        "AC-FR-14-03": [],
+        "AC-FR-14-04": [],
+        "AC-FR-14-05": [],
         "AC-FR-14-06": [
           "DEPENDENCY",
           "SERVED_APP_E2E"
@@ -595,7 +579,8 @@
         "storage": "PERSISTENT_POSTGRES",
         "tenant_source": "SESSION",
         "ui_surface": [
-          "petcare_web:/pharmacy"
+          "petcare_web:/pharmacy",
+          "petcare_web:/vet/prescriptions"
         ]
       },
       "id": "FR-14",
@@ -606,7 +591,7 @@
       ],
       "status": "REACHABLE_TESTED",
       "title": "Prescription upload and vet verification workflow",
-      "unresolved": ""
+      "unresolved": "AC-FR-14-06 depends on EXTERNAL:SFDA_API: the port and its fail-closed contract are built and tested (only VALID is valid; served adapter answers UNAVAILABLE), but no SERVED_APP_E2E evidence is registered because the published SFDA interface is not held — a contract double of our own is not the SFDA contract. AC-FR-14-07 depends on PRODUCTION: the verification-time instrument is built and tested; the production reading is the evidence. Prescriptions name medication as free text; binding a prescription to a registered product is FR-04 (catalogue)."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",

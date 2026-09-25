@@ -1178,7 +1178,7 @@ class PostgresInventoryRepository:
 
     _L = "location_id, tenant_id, name, created_at"
     _M = ("movement_id, tenant_id, location_id, product_id, batch, quantity_delta, reason, supply_class, "
-          "actor_id, actor_role, created_at, transfer_id")
+          "actor_id, actor_role, created_at, transfer_id, prescription_id")
 
     def __init__(self, pool: Any) -> None:
         self._pool = pool
@@ -1253,10 +1253,10 @@ class PostgresInventoryRepository:
                     pending[k] += m.quantity_delta
                     if pending[k] < 0:
                         raise RepositoryDenied("insufficient stock: a balance may not go below zero")
-                    conn.execute(f"INSERT INTO stock_movement ({self._M}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    conn.execute(f"INSERT INTO stock_movement ({self._M}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                                  (m.movement_id, m.tenant_id, m.location_id, m.product_id, m.batch, m.quantity_delta,
                                   m.reason, m.supply_class, m.actor_id, m.actor_role, _to_db(m.created_at),
-                                  m.transfer_id))
+                                  m.transfer_id, m.prescription_id))
         except RepositoryDenied:
             raise
         except Exception as exc:
@@ -1274,7 +1274,7 @@ class PostgresInventoryRepository:
             rows = conn.execute(sql + " ORDER BY created_at, movement_id", params).fetchall()
         return [StockMovement(movement_id=r[0], tenant_id=r[1], location_id=r[2], product_id=r[3], batch=r[4],
                               quantity_delta=r[5], reason=r[6], supply_class=r[7], actor_id=r[8], actor_role=r[9],
-                              created_at=_from_db(r[10]), transfer_id=r[11]) for r in rows]
+                              created_at=_from_db(r[10]), transfer_id=r[11], prescription_id=r[12]) for r in rows]
 
     def balances(self, *, tenant_id, location_id=None, product_id=None):
         """AC-FR-13-02/03: derived by SUM over the ledger, served by idx_stock_movement_balance

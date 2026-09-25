@@ -29,7 +29,14 @@ UNREGISTERED_CLASS = POM
 REGISTRATION_SOURCE = "SFDA_REGISTRATION"
 
 RECEIPT, ADJUSTMENT, TRANSFER_OUT, TRANSFER_IN = "RECEIPT", "ADJUSTMENT", "TRANSFER_OUT", "TRANSFER_IN"
-REASONS = (RECEIPT, ADJUSTMENT, TRANSFER_OUT, TRANSFER_IN)
+#: FR-14 (U9, migration 0042): stock leaving to a customer.
+SUPPLY = "SUPPLY"
+REASONS = (RECEIPT, ADJUSTMENT, TRANSFER_OUT, TRANSFER_IN, SUPPLY)
+
+
+def prescription_required(supply_class: str) -> bool:
+    """AC-FR-14-03: the prescription gate applies to POM/RESTRICTED/CONTROLLED only."""
+    return supply_class in VETERINARIAN_ONLY
 
 
 @dataclass(frozen=True)
@@ -66,6 +73,7 @@ class StockMovement:
     actor_role: str
     created_at: datetime
     transfer_id: Optional[str] = None
+    prescription_id: Optional[str] = None
 
     def to_read_model(self) -> dict:
         d = asdict(self); d["created_at"] = self.created_at.isoformat(); return d
@@ -80,6 +88,9 @@ def validate_movement(m: StockMovement) -> None:
         raise RepositoryDenied("a movement changes stock by a non-zero whole quantity")
     if not m.product_id.strip() or not m.batch.strip():
         raise RepositoryDenied("a movement names a product and a batch")
+    if m.reason == SUPPLY and (m.quantity_delta >= 0
+                               or (prescription_required(m.supply_class) and not m.prescription_id)):
+        raise RepositoryDenied("a supply removes stock, and POM/RESTRICTED/CONTROLLED supply cites a prescription")
 
 
 def balance_rows(movements, supply_class_of) -> list:

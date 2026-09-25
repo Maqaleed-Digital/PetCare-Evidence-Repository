@@ -137,8 +137,9 @@ from pets import PetIdentification, PetMedicalRecord, PetProfile as Pet  # FR-02
 from preferences import DEFAULT_LANGUAGE  # FR-09 (U3)
 from messages import (CHANNEL_IN_APP, DELIVERED, ConsultationMessage,  # FR-07 (U7)
                       DeliveryRecord, MessageAttachment)
-from inventory import (ADJUSTMENT, RECEIPT, REASONS, TRANSFER_IN, TRANSFER_OUT,  # FR-13 (U8)
-                       VETERINARIAN_ONLY, InventoryLocation, StockMovement)
+from inventory import (ADJUSTMENT, RECEIPT, REASONS, SUPPLY, TRANSFER_IN, TRANSFER_OUT,  # FR-13 (U8)
+                       VETERINARIAN_ONLY, InventoryLocation, StockMovement, prescription_required)
+import sfda  # FR-14 AC-06 (U9): the SFDA prescription-validation port
 from practitioners import (CLASS_VETERINARIAN, PractitionerAuthorityGrant,  # FR-01 (U5)
                            evaluate as practitioner_evaluate)
 from tenant_membership import (
@@ -800,7 +801,8 @@ def _require_practitioner_authority(actor_id: str, tenant_id: str):
 class PrescriptionRequest(BaseModel):
     pet_id: str
     session_id: str
-    tenant_id: str
+    #: Optional (U9): the session decides. A value that disagrees with the session is refused.
+    tenant_id: Optional[str] = None
     clinic_id: Optional[str] = None
     medication_name: str
     dosage: str
@@ -820,6 +822,15 @@ def _rx_or_404(prescription_id: str, tenant_id: str) -> Prescription:
     if rx is None:
         raise HTTPException(404, "Prescription not found")
     return rx
+
+
+def _rx_read_audit(request: Request, event_name: str, resource_type: str, resource_id: str,
+                   tenant_id: str) -> None:
+    """AC-FR-14-05 (U9): every prescription read is audited with the session actor."""
+    actor_id, actor_role = _actor(request)
+    _audit(event_name=event_name, actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type=resource_type, resource_id=resource_id, action_result="success",
+           correlation_id=request.headers.get("x-correlation-id") or str(uuid4()))
 
 
 @app.post("/api/prescriptions")
@@ -980,6 +991,12 @@ def dispense_prescription(
     # rule names another actor class, veterinarian only. This is a fail-closed
     # DEFAULT, not a determination, and must not be widened for convenience.
     if role != ROLE_VETERINARIAN:
+        # AC-FR-14-02 (U9): the refusal is audited. The request carries no class and none
+        # is read from it — nothing a client asserts can widen this rule.
+        actor_id, actor_role = _actor(request)
+        _audit(event_name="prescription.dispense_denied", actor_id=actor_id, actor_role=actor_role,
+               tenant_id=require_tenant(request), resource_type="prescription", resource_id=prescription_id,
+               action_result="denied", correlation_id=x_correlation_id, reason_code="NOT_VETERINARIAN")
         raise HTTPException(
             403,
             "Dispensing is restricted to a veterinarian: the professional-authority "
@@ -1122,6 +1139,7 @@ def list_prescription_documents(
 ):
     tenant_id = require_tenant(request)
     _rx_or_404(prescription_id, tenant_id)
+    _rx_read_audit(request, "prescription.documents_listed", "prescription", prescription_id, tenant_id)
     return [
         d.to_read_model()
         for d in PRESCRIPTION_REPO.documents_for(prescription_id, tenant_id=tenant_id)
@@ -1197,12 +1215,80 @@ def awaiting_dispense_queue(
     if role not in (ROLE_VETERINARIAN, ROLE_PARTNER_CLINIC_ADMIN):
         raise HTTPException(403, "Not authorized to read the dispensing queue")
     tenant_id = require_tenant(request)
+    _rx_read_audit(request, "prescription.queue_viewed", "prescription_queue", STATUS_VET_VERIFIED, tenant_id)
     return [
         rx.to_read_model()
         for rx in PRESCRIPTION_REPO.list_by_status(
             tenant_id=tenant_id, status=STATUS_VET_VERIFIED
         )
     ]
+
+
+@app.get("/api/prescriptions/queue/awaiting-verification")
+def awaiting_verification_queue(request: Request, role: str = Depends(require_role)):
+    """AC-FR-14-01 (U9): issued prescriptions in the session tenant awaiting the vet's
+    verification — the list /vet/prescriptions works from. Veterinarians only."""
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(403, "Only a veterinarian verifies prescriptions")
+    tenant_id = require_tenant(request)
+    _rx_read_audit(request, "prescription.queue_viewed", "prescription_queue", STATUS_ISSUED, tenant_id)
+    return [rx.to_read_model() for rx in PRESCRIPTION_REPO.list_by_status(tenant_id=tenant_id, status=STATUS_ISSUED)]
+
+
+#: AC-FR-14-06 (U9). The served app has no live SFDA adapter; tests substitute a contract double.
+SFDA_PORT = sfda.UnconfiguredSfdaAdapter()
+
+
+@app.post("/api/prescriptions/{prescription_id}/sfda-validation")
+def sfda_validate_prescription(
+    request: Request,
+    prescription_id: str,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """Ask the SFDA prescription-validation port. Only an explicit VALID is valid; the
+    result is audited. Dependency EXTERNAL:SFDA_API: no live adapter is bound."""
+    if role not in (ROLE_VETERINARIAN, ROLE_PARTNER_CLINIC_ADMIN):
+        raise HTTPException(403, "Not authorized to validate prescriptions")
+    tenant_id = require_tenant(request)
+    rx = _rx_or_404(prescription_id, tenant_id)
+    try:
+        result = sfda.normalise(SFDA_PORT.validate(prescription_id=rx.prescription_id,
+                                                   medication_name=rx.medication_name))
+    except Exception:
+        result = sfda.SfdaResult(sfda.UNAVAILABLE, "the SFDA interface did not answer")
+    actor_id, actor_role = _actor(request)
+    _audit(event_name="prescription.sfda_validated", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="prescription", resource_id=prescription_id,
+           action_result="success" if result.valid else "denied", correlation_id=x_correlation_id,
+           reason_code=f"SFDA_{result.status}")
+    return {"prescription_id": prescription_id, "status": result.status, "valid": result.valid,
+            "detail": result.detail}
+
+
+#: AC-FR-14-07 (U9): BRD §13.1 target — 95% verified within 30 minutes (measured in production).
+VERIFICATION_TARGET_MINUTES = 30
+
+
+@app.get("/api/prescriptions/metrics/verification-time")
+def prescription_verification_metric(request: Request, role: str = Depends(require_role)):
+    """Share of the session tenant's verified prescriptions verified within 30 minutes of
+    issue, and the p95 verification time. The instrument for AC-FR-14-07; the production
+    reading itself is the PRODUCTION dependency."""
+    if role not in (ROLE_VETERINARIAN, ROLE_PARTNER_CLINIC_ADMIN):
+        raise HTTPException(403, "Not authorized to read prescription metrics")
+    tenant_id = require_tenant(request)
+    minutes = sorted((rx.verified_at - rx.issued_at).total_seconds() / 60.0
+                     for status in (STATUS_VET_VERIFIED, STATUS_DISPENSED)
+                     for rx in PRESCRIPTION_REPO.list_by_status(tenant_id=tenant_id, status=status)
+                     if rx.verified_at is not None)
+    _rx_read_audit(request, "prescription.metrics_viewed", "prescription_metric", "verification-time", tenant_id)
+    n = len(minutes)
+    within = sum(1 for m in minutes if m <= VERIFICATION_TARGET_MINUTES)
+    p95 = minutes[max(0, int(round(0.95 * n)) - 1)] if n else None
+    return {"verified": n, "within_target": within, "target_minutes": VERIFICATION_TARGET_MINUTES,
+            "share_within_target": (within / n) if n else None, "p95_minutes": p95,
+            "meets_target": (n > 0 and within / n >= 0.95)}
 
 
 @app.get("/api/prescriptions/{prescription_id}/transitions")
@@ -1214,6 +1300,7 @@ def prescription_transitions(
     """The record's own transition ledger, tenant-scoped."""
     tenant_id = require_tenant(request)
     _rx_or_404(prescription_id, tenant_id)
+    _rx_read_audit(request, "prescription.transitions_viewed", "prescription", prescription_id, tenant_id)
     return [
         {
             "transition_id": t.transition_id,
@@ -1722,6 +1809,93 @@ def record_stock_movement(
                action_result="success", correlation_id=x_correlation_id,
                reason_code=f"{m.reason}:{m.supply_class}")
     return [m.to_read_model() for m in movements]
+
+
+class SupplyRequest(BaseModel):
+    """No actor, tenant or supply class — the session and the product registration decide."""
+    model_config = {"extra": "forbid"}
+
+    location_id: str
+    product_id: str
+    batch: str
+    quantity: int
+    prescription_id: Optional[str] = None
+
+
+@app.post("/api/inventory/supplies")
+def supply_stock(
+    body: SupplyRequest,
+    request: Request,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """FR-14 AC-FR-14-03 (U9): the prescription gate applies by supply class.
+
+    GENERAL / OTC: supplied by tenant staff with NO prescription — being sold in a pharmacy
+    is not a reason to demand one. POM / RESTRICTED / CONTROLLED (and any unregistered
+    product, AC-FR-04-03): a VET_VERIFIED prescription of the session tenant is required,
+    and the act is a dispense by a veterinarian with a live authority (AC-FR-14-02, until
+    counsel). The supply is a SUPPLY movement on the FR-13 ledger; the database refuses a
+    veterinarian-only SUPPLY that cites no prescription (migration 0042).
+    """
+    actor_id, actor_role, tenant_id = _inventory_actor(request)
+    if body.quantity <= 0:
+        raise HTTPException(400, "a supply is a positive quantity")
+    supply_class = INVENTORY_REPO.supply_class_of(body.product_id)
+    gated = prescription_required(supply_class)
+
+    def refuse(status_code, detail, reason_code):
+        _audit(event_name="inventory.supply.refused", actor_id=actor_id, actor_role=actor_role,
+               tenant_id=tenant_id, resource_type="stock_movement", resource_id=body.product_id,
+               action_result="denied", correlation_id=x_correlation_id, reason_code=reason_code)
+        raise HTTPException(status_code, detail)
+
+    rx = None
+    if gated:
+        if not body.prescription_id:
+            refuse(403, {"error": "PRESCRIPTION_REQUIRED", "supply_class": supply_class}, "PRESCRIPTION_REQUIRED")
+        if actor_role != ROLE_VETERINARIAN:
+            refuse(403, {"error": "VETERINARIAN_ONLY_SUPPLY_CLASS", "supply_class": supply_class},
+                   f"SUPPLY_CLASS_{supply_class}")
+        try:
+            _require_practitioner_authority(actor_id, tenant_id)
+        except HTTPException as exc:
+            refuse(403, exc.detail, "PRACTITIONER_AUTHORITY_REQUIRED")
+        rx = PRESCRIPTION_REPO.get(body.prescription_id, tenant_id=tenant_id)
+        if rx is None:
+            refuse(404, "Prescription not found", "PRESCRIPTION_NOT_FOUND")
+        if rx.status != STATUS_VET_VERIFIED:
+            refuse(409, f"Prescription is {rx.status}; only a VET_VERIFIED prescription can be supplied",
+                   "PRESCRIPTION_NOT_VERIFIED")
+    movement = StockMovement(movement_id=str(uuid4()), tenant_id=tenant_id, location_id=body.location_id,
+                             product_id=body.product_id, batch=body.batch, quantity_delta=-body.quantity,
+                             reason=SUPPLY, supply_class=supply_class, actor_id=actor_id, actor_role=actor_role,
+                             created_at=datetime.now(timezone.utc),
+                             prescription_id=rx.prescription_id if rx is not None else None)
+    try:
+        INVENTORY_REPO.record([movement])
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Supply refused: {exc}") from None
+    if rx is not None:
+        try:
+            PRESCRIPTION_REPO.transition(rx.prescription_id, tenant_id=tenant_id, to_status=STATUS_DISPENSED,
+                                         actor_id=actor_id, actor_role=actor_role)
+        except TransitionDenied as exc:
+            # Lost a race with another dispense: return the stock with a compensating movement
+            # (the ledger is never rewritten) and refuse.
+            INVENTORY_REPO.record([StockMovement(
+                movement_id=str(uuid4()), tenant_id=tenant_id, location_id=body.location_id,
+                product_id=body.product_id, batch=body.batch, quantity_delta=body.quantity, reason=ADJUSTMENT,
+                supply_class=supply_class, actor_id=actor_id, actor_role=actor_role,
+                created_at=datetime.now(timezone.utc), prescription_id=rx.prescription_id)])
+            refuse(409, f"Cannot dispense — {exc}", "TRANSITION_NOT_ALLOWED")
+        _audit(event_name="prescription.dispensed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+               resource_type="prescription", resource_id=rx.prescription_id, action_result="success",
+               correlation_id=x_correlation_id, reason_code=f"supply:{movement.movement_id}")
+    _audit(event_name="inventory.movement.recorded", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="stock_movement", resource_id=movement.movement_id,
+           action_result="success", correlation_id=x_correlation_id, reason_code=f"{SUPPLY}:{supply_class}")
+    return {**movement.to_read_model(), "prescription_required": gated}
 
 
 # ---------------------------------------------------------------------------
