@@ -425,6 +425,41 @@
       "type": "PERSISTENCE"
     }
   ],
+  "AC-FR-16-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr16_delivery.py::test_a_cold_chain_delivery_carries_a_temperature_log_the_owner_sees",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr16_delivery.py::test_an_ambient_delivery_needs_no_temperature_log",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr16_delivery_postgres.py::test_a_cold_chain_delivery_and_its_log_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr16-deliveries.test.tsx",
+      "sha256": "af7631c066a5b428341255b7e58cbaa9e89f4b91842fbe75f5b52a00d9cd8a0d",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-16-04": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr16_delivery.py::test_an_out_of_range_reading_raises_an_audited_alert_to_the_pharmacy_only",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr16_delivery.py::test_an_out_of_range_reading_raises_an_audited_alert_to_the_pharmacy_only",
+      "type": "TENANT_ISOLATION"
+    }
+  ],
   "AC-FR-27-01": [
     {
       "kind": "TEST",

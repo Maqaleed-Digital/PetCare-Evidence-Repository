@@ -57,6 +57,9 @@ class ProductRegistration:
     supply_class: str
     source: str
     registered_at: datetime
+    #: FR-16 (U12): storage requirement (BRD P393); both set = temperature-controlled.
+    storage_min_c: Optional[float] = None
+    storage_max_c: Optional[float] = None
 
 
 @dataclass(frozen=True)
@@ -147,6 +150,11 @@ class InMemoryInventoryRepository:
     def supply_class_of(self, product_id):
         p = self._products.get(product_id)
         return p.supply_class if p is not None else UNREGISTERED_CLASS
+
+    def storage_range_of(self, product_id):
+        """(min, max) °C when the registration requires temperature control, else None."""
+        p = self._products.get(product_id)
+        return (p.storage_min_c, p.storage_max_c) if p is not None and p.storage_min_c is not None else None
 
     def _balance(self, tenant_id, location_id, product_id, batch):
         return sum(m.quantity_delta for m in self._movements if (m.tenant_id, m.location_id, m.product_id, m.batch)

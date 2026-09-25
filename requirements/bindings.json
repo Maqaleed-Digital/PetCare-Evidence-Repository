@@ -595,22 +595,52 @@
   },
   "FR-16": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for temperature|cold chain tracking"
+      "petcare_api/main.py:2025 create_delivery: tenant staff; recipient an owner of the tenant; range copied from the product registration (BRD P393), never from the request",
+      "petcare_api/main.py:2052 record_temperature_reading: append-only; out-of-range kept, flagged, alert raised in the same transaction, audited delivery.temperature.alert",
+      "petcare_api/main.py:2086 complete_delivery: a cold-chain delivery cannot complete without a temperature log",
+      "petcare_api/main.py:2106 list_deliveries: an owner sees their own with the log; staff the tenant's · :2115 pharmacy alert list (tenant staff)",
+      "petcare_api/deliveries.py normalise_partner_reading: refuses a reading without timestamp (with offset) or value; never drops out-of-range",
+      "petcare_runtime/migrations/0045_fr16_cold_chain_delivery.sql product storage range; delivery / temperature_reading / delivery_alert (one per reading) / delivery_completion",
+      "petcare_web/app/owner/deliveries/page.tsx the owner's deliveries with temperature logs (Arabic default)"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for temperature|cold chain tracking"
+        "petcare_api/persistence.py deliveries=PostgresDeliveryRepository in postgres mode",
+        "petcare_api/main.py:2007 _delivery_for: tenant from require_tenant; actor from _actor"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/owner/deliveries"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "main:create_delivery",
+      "main:record_temperature_reading",
+      "main:complete_delivery",
+      "main:list_deliveries",
+      "main:delivery_alerts",
+      "main:get_delivery",
+      "deliveries:InMemoryDeliveryRepository",
+      "deliveries:normalise_partner_reading",
+      "postgres_repositories:PostgresDeliveryRepository",
+      "petcare_web/app/owner/deliveries/page.tsx#OwnerDeliveriesPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": "petcare_runtime/src/petcare/partner_network/catalog_service.py:22 lists 'cold chain delivery' as a catalogue category only; no delivery tracking. petcare_web/app/pharmacy/page.tsx:8 records FR-16 out of scope."
+    "routes": [
+      "POST /api/deliveries",
+      "GET /api/deliveries",
+      "GET /api/deliveries/alerts",
+      "GET /api/deliveries/{delivery_id}",
+      "POST /api/deliveries/{delivery_id}/readings",
+      "POST /api/deliveries/{delivery_id}/complete"
+    ],
+    "tests": [
+      "petcare_api/tests/test_fr16_delivery.py",
+      "petcare_api/tests/test_fr16_delivery_postgres.py"
+    ],
+    "unresolved": "AC-FR-16-02/03 depend on EXTERNAL:LOGISTICS_PARTNER: readings are recorded by tenant staff (source STAFF) through the same validation the partner adapter will use; the partner's interface contract is not held and no evidence is registered for it. Product storage ranges come from the registration feed (FR-04), not built here."
   },
   "FR-17": {
     "basis": [
