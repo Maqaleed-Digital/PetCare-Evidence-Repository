@@ -100,6 +100,41 @@
       "path": "/api/catalog/prices"
     },
     {
+      "endpoint": "main:antimicrobial_register",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/compliance/antimicrobials"
+    },
+    {
+      "endpoint": "main:list_notifiable_cases",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/compliance/notifiable-cases"
+    },
+    {
+      "endpoint": "main:mark_case_reported",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/compliance/notifiable-cases/{case_id}/reported"
+    },
+    {
+      "endpoint": "main:generate_controlled_report",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/compliance/reports/controlled-substances"
+    },
+    {
+      "endpoint": "main:get_compliance_report",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/compliance/reports/{report_id}"
+    },
+    {
       "endpoint": "main:list_consultations",
       "methods": [
         "GET"
@@ -378,6 +413,13 @@
         "POST"
       ],
       "path": "/api/pets/{pet_id}/medical-records"
+    },
+    {
+      "endpoint": "main:record_notifiable_case",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/pets/{pet_id}/notifiable-cases"
     },
     {
       "endpoint": "main:my_practitioner_authority",

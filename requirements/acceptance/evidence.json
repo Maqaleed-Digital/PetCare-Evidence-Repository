@@ -626,5 +626,36 @@
       "sha256": "eee75b96945fa66b42c4a63c12883982b9377591faad4640bc2173c5e51f75b5",
       "type": "ARABIC_RTL"
     }
+  ],
+  "AC-FR-30-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr30_compliance_postgres.py::test_report_headers_product_links_and_cases_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr30_compliance.py::test_the_controlled_substance_report_is_generated_from_recorded_events_and_traces_to_them",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr30_compliance.py::test_the_controlled_substance_report_is_generated_from_recorded_events_and_traces_to_them",
+      "type": "TENANT_ISOLATION"
+    }
+  ],
+  "AC-FR-30-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr30_compliance_postgres.py::test_report_headers_product_links_and_cases_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    }
+  ],
+  "AC-FR-30-03": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr30_compliance.py::test_a_notifiable_case_carries_its_statutory_clock_from_detection",
+      "type": "AUDIT"
+    }
   ]
 }
