@@ -724,6 +724,18 @@
       "type": "UI"
     }
   ],
+  "AC-FR-27-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr27_dashboard_class_scope.py::test_dashboard_actions_are_limited_by_supply_class",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr27_dashboard_class_scope.py::test_dashboard_actions_are_limited_by_supply_class",
+      "type": "AUDIT"
+    }
+  ],
   "AC-FR-27-03": [
     {
       "kind": "TEST",
