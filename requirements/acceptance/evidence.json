@@ -547,6 +547,42 @@
       "type": "ARABIC_RTL"
     }
   ],
+  "AC-FR-23-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr23_reminders.py::test_a_due_date_reminds_the_owner_seven_days_and_again_24_hours_before_if_outstanding",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr23_reminders_postgres.py::test_due_items_completions_and_reminders_survive_and_a_send_happens_once",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr23_reminders.py::test_reminders_never_reach_another_tenants_owner",
+      "type": "TENANT_ISOLATION"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr23-reminders.test.tsx",
+      "sha256": "58e8be33e6171955bf12ef9f85420abb5f6f383c636dbb2e37e1fb8aa8ba6ef7",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-23-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr23_reminders.py::test_reminders_are_in_the_owners_language_and_every_send_is_audited",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr23-reminders.test.tsx",
+      "sha256": "58e8be33e6171955bf12ef9f85420abb5f6f383c636dbb2e37e1fb8aa8ba6ef7",
+      "type": "ARABIC_RTL"
+    }
+  ],
   "AC-FR-27-01": [
     {
       "kind": "TEST",

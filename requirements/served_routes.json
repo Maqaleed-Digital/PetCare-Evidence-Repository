@@ -282,6 +282,13 @@
       "path": "/api/me/recall-notices"
     },
     {
+      "endpoint": "main:my_reminders",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/me/reminders"
+    },
+    {
       "endpoint": "main:list_orders",
       "methods": [
         "GET"
@@ -336,6 +343,27 @@
         "PATCH"
       ],
       "path": "/api/pets/{pet_id}"
+    },
+    {
+      "endpoint": "main:list_care_due",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/pets/{pet_id}/care-due"
+    },
+    {
+      "endpoint": "main:record_care_due",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/pets/{pet_id}/care-due"
+    },
+    {
+      "endpoint": "main:complete_care_due",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/pets/{pet_id}/care-due/{due_id}/complete"
     },
     {
       "endpoint": "main:add_pet_identification",
@@ -462,6 +490,13 @@
         "GET"
       ],
       "path": "/api/recalls/{recall_id}"
+    },
+    {
+      "endpoint": "main:run_reminders",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/reminders/run"
     },
     {
       "endpoint": "main:verify_audit_chain_endpoint",

@@ -47,6 +47,7 @@ from postgres_repositories import (
     PostgresDeliveryRepository,
     PostgresRecallRepository,
     PostgresOrderRepository,
+    PostgresReminderRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -66,6 +67,7 @@ from consultations import InMemoryConsultationRepository
 from deliveries import InMemoryDeliveryRepository
 from recalls import InMemoryRecallRepository
 from orders import InMemoryOrderRepository
+from reminders import InMemoryReminderRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -116,6 +118,8 @@ class Persistence:
     recalls: Any = None
     #: FR-20 (U14): tenant prices, COD orders, collections, receipts.
     orders: Any = None
+    #: FR-23 (U15): care due dates and owner reminders.
+    reminders: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -193,6 +197,7 @@ def build_persistence(
             deliveries=InMemoryDeliveryRepository(tenants),
             recalls=InMemoryRecallRepository(tenants),
             orders=InMemoryOrderRepository(tenants),
+            reminders=InMemoryReminderRepository(tenants),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -229,6 +234,7 @@ def build_persistence(
         deliveries=PostgresDeliveryRepository(pool),
         recalls=PostgresRecallRepository(pool),
         orders=PostgresOrderRepository(pool),
+        reminders=PostgresReminderRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )
