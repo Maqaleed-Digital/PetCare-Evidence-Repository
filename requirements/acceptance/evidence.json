@@ -90,6 +90,51 @@
       "type": "SERVED_APP_E2E"
     }
   ],
+  "AC-FR-05-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr05_licence.py::test_an_unverified_vet_performs_no_clinical_act_until_the_licence_is_verified",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr05_licence.py::test_a_veterinarian_cannot_register_without_licence_details",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr05_licence.py::test_an_unverified_vet_performs_no_clinical_act_until_the_licence_is_verified",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr05-licence-registration.test.tsx",
+      "sha256": "487661e60f3fe55a9773a642d4f30b1de666be6e8e09af6f13691d05865c3e62",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-05-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr05_licence_postgres.py::test_a_licence_and_its_verification_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr05_licence_postgres.py::test_the_database_refuses_an_unnamed_or_repeated_verification",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr05_licence.py::test_an_unverified_vet_performs_no_clinical_act_until_the_licence_is_verified",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr05_licence.py::test_a_verification_records_who_when_how_and_against_what_and_is_tenant_scoped",
+      "type": "TENANT_ISOLATION"
+    }
+  ],
   "AC-FR-07-01": [
     {
       "kind": "TEST",

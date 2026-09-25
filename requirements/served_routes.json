@@ -23,6 +23,20 @@
       "path": "/api/admin/practitioners/authority/{grant_id}/revoke"
     },
     {
+      "endpoint": "main:list_vet_licences",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/admin/practitioners/licences"
+    },
+    {
+      "endpoint": "main:verify_vet_licence",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/practitioners/licences/{licence_id}/verify"
+    },
+    {
       "endpoint": "main:grant_practitioner_authority",
       "methods": [
         "POST"
@@ -231,6 +245,13 @@
         "GET"
       ],
       "path": "/api/practitioners/me/authority"
+    },
+    {
+      "endpoint": "main:my_vet_licence",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/practitioners/me/licence"
     },
     {
       "endpoint": "main:issue_prescription",

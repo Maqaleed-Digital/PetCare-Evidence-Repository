@@ -18,7 +18,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
 import main as api  # noqa: E402
 from routers import auth  # noqa: E402
-from tenant_fixtures import ensure_tenant  # noqa: E402
+from tenant_fixtures import ensure_tenant, grant_practitioner_authority  # noqa: E402
 
 pytestmark = pytest.mark.served_app
 T_A, T_B = "t-fr01-alpha", "t-fr01-beta"
@@ -28,6 +28,8 @@ def _client_for(user_id: str, tenant: str, role: str, seed: bool = True) -> Test
     ensure_tenant(tenant)
     if seed:
         auth.seed_user(user_id, f"{user_id}@fr01.test", "pw", role, tenant_id=tenant)
+        if role == "veterinarian":  # FR-05 (U10): clinical acts need a verified licence (live grant)
+            grant_practitioner_authority(user_id, tenant)
     c = TestClient(api.app)
     r = c.post("/api/auth/sign-in", json={"email": f"{user_id}@fr01.test", "password": "pw"})
     assert r.status_code == 200, r.text
@@ -40,8 +42,11 @@ def _register(role: str) -> str:
     auth.seed_invite_code(code, role)
     email = f"new-{uuid.uuid4().hex[:8]}@fr01.test"
     c = TestClient(api.app)
+    # FR-05 (U10): a veterinarian registers with licence details.
+    licence = ({"licence": {"licence_number": "MEWA-FR01-1", "issuing_authority": "MEWA",
+                            "expires_on": "2099-12-31"}} if role == "veterinarian" else {})
     r = c.post("/api/auth/register", json={"email": email, "password": "Pw-long-enough-1",
-                                           "invite_code": code, "role": role, "name": role})
+                                           "invite_code": code, "role": role, "name": role, **licence})
     assert r.status_code == 201, r.text
     return email
 

@@ -140,6 +140,7 @@ from messages import (CHANNEL_IN_APP, DELIVERED, ConsultationMessage,  # FR-07 (
 from inventory import (ADJUSTMENT, RECEIPT, REASONS, SUPPLY, TRANSFER_IN, TRANSFER_OUT,  # FR-13 (U8)
                        VETERINARIAN_ONLY, InventoryLocation, StockMovement, prescription_required)
 import sfda  # FR-14 AC-06 (U9): the SFDA prescription-validation port
+import licences  # FR-05 (U10): veterinarian licence registration and verification
 from practitioners import (CLASS_VETERINARIAN, PractitionerAuthorityGrant,  # FR-01 (U5)
                            evaluate as practitioner_evaluate)
 from tenant_membership import (
@@ -685,6 +686,7 @@ def create_note(
     session = _sessions.get(session_id)
     if not session or session["tenant_id"] != require_tenant(request):
         raise HTTPException(404, "Session not found")
+    _require_practitioner_authority(actor_id, session["tenant_id"])  # FR-05 (U10): verified licence at the act
     note_id = str(uuid4())
     now = utc_now_iso()
     note = {
@@ -725,6 +727,7 @@ def sign_note(
     parent = _sessions.get(note["session_id"]) if note else None
     if not note or not parent or parent["tenant_id"] != require_tenant(request):
         raise HTTPException(404, "Note not found")
+    _require_practitioner_authority(actor_id, parent["tenant_id"])  # FR-05 (U10): verified licence at the act
     if note["status"] == NOTE_SIGNED:
         raise HTTPException(409, "Note already signed — immutable")
     now = utc_now_iso()
@@ -793,6 +796,11 @@ def _require_practitioner_authority(actor_id: str, tenant_id: str):
         PRACTITIONER_REPO.grants_for(actor_id, tenant_id=tenant_id),
         professional_class=CLASS_VETERINARIAN, when=datetime.now(timezone.utc))
     if grant is None:
+        # FR-05 AC-FR-05-01 (U10): a clinical act refused for want of a verified, unexpired
+        # licence is audited — a refusal that leaves no trace is indistinguishable from no attempt.
+        _audit(event_name="practitioner.authority.refused", actor_id=actor_id, actor_role=ROLE_VETERINARIAN,
+               tenant_id=tenant_id, resource_type="practitioner_authority", resource_id=actor_id,
+               action_result="denied", correlation_id=str(uuid4()), reason_code=reason)
         raise HTTPException(403, detail={"error": "PRACTITIONER_AUTHORITY_REQUIRED",
                                          "attribute": CLASS_VETERINARIAN, "reason": reason})
     return grant
@@ -1550,6 +1558,7 @@ def add_pet_medical_record(
     if role != ROLE_VETERINARIAN:
         raise HTTPException(403, "Only veterinarians may record medical history")
     _pet, actor_id, actor_role, tenant_id = _pet_or_404(request, pet_id)
+    _require_practitioner_authority(actor_id, tenant_id)  # FR-05 (U10): verified licence at the act
     rec = PetMedicalRecord(
         record_id=str(uuid4()), pet_id=pet_id, tenant_id=tenant_id, record_type=body.record_type,
         title=body.title, detail=body.detail, recorded_by_actor_id=actor_id,
@@ -1970,6 +1979,108 @@ def revoke_practitioner_authority(
            tenant_id=tenant_id, resource_type="practitioner_authority", resource_id=grant_id,
            action_result="success", correlation_id=x_correlation_id, reason_code=f"subject:{g.actor_id}")
     return g.to_read_model()
+
+
+# ---------------------------------------------------------------------------
+# FR-05 · veterinarian licence verification (U10)
+# ---------------------------------------------------------------------------
+LICENCE_REPO = PERSISTENCE.licences
+#: The served app has no live licensing-authority adapter (EXTERNAL:VET_LICENSING_AUTHORITY).
+LICENSING_PORT = licences.UnconfiguredLicensingAdapter()
+
+
+def _licence_view(lic) -> dict:
+    v = LICENCE_REPO.verification_of(lic.licence_id)
+    return {"licence_id": lic.licence_id, "actor_id": lic.actor_id, "licence_number": lic.licence_number,
+            "issuing_authority": lic.issuing_authority, "expires_on": lic.expires_on.isoformat(),
+            "submitted_at": lic.submitted_at.isoformat(),
+            "status": licences.VERIFIED if v else licences.SUBMITTED,
+            "verification": None if v is None else {
+                "verified_by_actor_id": v.verified_by_actor_id, "verified_at": v.verified_at.isoformat(),
+                "method": v.method, "basis": v.basis, "grant_id": v.grant_id}}
+
+
+def _tenant_vet(user_id: str, tenant_id: str):
+    target = PERSISTENCE.identities.get_by_user_id(user_id)
+    if target is None or target.tenant_id != tenant_id or target.role != ROLE_VETERINARIAN:
+        return None
+    return target
+
+
+@app.get("/api/admin/practitioners/licences")
+def list_vet_licences(request: Request, role: str = Depends(require_admin)):
+    """Licences of the veterinarians of the SESSION tenant, with their verification state."""
+    tenant_id = require_tenant(request)
+    return [_licence_view(lic) for lic in LICENCE_REPO.all() if _tenant_vet(lic.actor_id, tenant_id) is not None]
+
+
+class LicenceVerificationRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    method: str
+    basis: str = ""
+
+
+@app.post("/api/admin/practitioners/licences/{licence_id}/verify")
+def verify_vet_licence(
+    licence_id: str,
+    body: LicenceVerificationRequest,
+    request: Request,
+    role: str = Depends(require_admin),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """AC-FR-05-01/02: verify a submitted licence. MANUAL_STAFF names what the session admin
+    checked it against; AUTHORITY_LOOKUP asks the licensing-authority port and accepts only an
+    explicit VALID. Verification mints the practitioner authority grant that expires with the
+    licence (re-checked at every clinical act) and is audited with the session actor."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    lic = LICENCE_REPO.get(licence_id)
+    if lic is None or _tenant_vet(lic.actor_id, tenant_id) is None:
+        raise HTTPException(404, "No licence with that id for a veterinarian of this tenant")
+    if lic.actor_id == actor_id:
+        raise HTTPException(403, "A licence is never self-verified")
+    if LICENCE_REPO.verification_of(licence_id) is not None:
+        raise HTTPException(409, "The licence is already verified")
+    now = datetime.now(timezone.utc)
+    if lic.expires_at() <= now:
+        raise HTTPException(409, f"The licence expired on {lic.expires_on.isoformat()}")
+    if body.method == licences.MANUAL_STAFF:
+        if not body.basis.strip():
+            raise HTTPException(400, "A manual verification states what the licence was checked against")
+        basis = body.basis.strip()[:500]
+    elif body.method == licences.AUTHORITY_LOOKUP:
+        try:
+            result = licences.normalise_lookup(LICENSING_PORT.lookup(
+                licence_number=lic.licence_number, issuing_authority=lic.issuing_authority))
+        except Exception:
+            result = licences.LookupResult(licences.LOOKUP_UNAVAILABLE, "the licensing authority did not answer")
+        if not result.verified:
+            _audit(event_name="practitioner.licence.verification_refused", actor_id=actor_id, actor_role=actor_role,
+                   tenant_id=tenant_id, resource_type="vet_licence", resource_id=licence_id, action_result="denied",
+                   correlation_id=x_correlation_id, reason_code=f"LOOKUP_{result.status}")
+            raise HTTPException(409, detail={"error": "LICENCE_NOT_VERIFIED", "lookup": result.status,
+                                             "detail": result.detail})
+        basis = f"{lic.issuing_authority} lookup: {result.status} {result.detail}".strip()
+    else:
+        raise HTTPException(400, f"method must be {licences.MANUAL_STAFF} or {licences.AUTHORITY_LOOKUP}")
+    grant = PRACTITIONER_REPO.grant(PractitionerAuthorityGrant(
+        grant_id=str(uuid4()), tenant_id=tenant_id, actor_id=lic.actor_id, professional_class=CLASS_VETERINARIAN,
+        licence_ref=f"{lic.issuing_authority}:{lic.licence_number}", effective_from=now,
+        expires_at=lic.expires_at(), granted_by_actor_id=actor_id, granted_at=now))
+    LICENCE_REPO.record_verification(licences.LicenceVerification(
+        verification_id=str(uuid4()), licence_id=licence_id, tenant_id=tenant_id, verified_by_actor_id=actor_id,
+        verified_at=now, method=body.method, basis=basis, grant_id=grant.grant_id))
+    _audit(event_name="practitioner.licence.verified", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="vet_licence", resource_id=licence_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"{body.method}:grant:{grant.grant_id}")
+    return _licence_view(lic)
+
+
+@app.get("/api/practitioners/me/licence")
+def my_vet_licence(request: Request, role: str = Depends(require_role)):
+    actor_id, _r = _actor(request)
+    return [_licence_view(lic) for lic in LICENCE_REPO.for_actor(actor_id)]
 
 
 @app.get("/api/practitioners/me/authority")

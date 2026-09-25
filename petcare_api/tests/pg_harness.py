@@ -145,6 +145,9 @@ def reset_w0f_tables(url: str) -> None:
                       "pet_identification", "pet_medical_record", "pet_profile",
                       # FR-09 (migration 0038) references user_identity and tenant.
                       "user_preference",
+                      # FR-05 (migration 0043): the verification references the licence,
+                      # the grant and tenant; the licence references user_identity.
+                      "vet_licence_verification", "vet_licence",
                       # FR-01 (migration 0039) references user_identity and tenant.
                       "practitioner_authority_grant",
                       # FR-07 (migration 0040): children before consultation_message.
