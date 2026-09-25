@@ -142,6 +142,7 @@ from inventory import (ADJUSTMENT, RECEIPT, REASONS, SUPPLY, TRANSFER_IN, TRANSF
 import sfda  # FR-14 AC-06 (U9): the SFDA prescription-validation port
 import licences  # FR-05 (U10): veterinarian licence registration and verification
 import consultations as consult  # FR-06 (U11): durable consultations and the REG-02 gate
+import deliveries as dlv  # FR-16 (U12): cold-chain delivery tracking
 from practitioners import (CLASS_VETERINARIAN, PractitionerAuthorityGrant,  # FR-01 (U5)
                            evaluate as practitioner_evaluate)
 from tenant_membership import (
@@ -1984,6 +1985,144 @@ def supply_stock(
            tenant_id=tenant_id, resource_type="stock_movement", resource_id=movement.movement_id,
            action_result="success", correlation_id=x_correlation_id, reason_code=f"{SUPPLY}:{supply_class}")
     return {**movement.to_read_model(), "prescription_required": gated}
+
+
+# ---------------------------------------------------------------------------
+# FR-16 · temperature-controlled delivery tracking (U12)
+# ---------------------------------------------------------------------------
+DELIVERY_REPO = PERSISTENCE.deliveries
+
+
+def _delivery_view(d, tenant_id: str) -> dict:
+    readings = DELIVERY_REPO.readings(d.delivery_id, tenant_id=tenant_id)
+    done = DELIVERY_REPO.completion_of(d.delivery_id, tenant_id=tenant_id)
+    return {"delivery_id": d.delivery_id, "owner_id": d.owner_id, "product_id": d.product_id,
+            "cold_chain": d.cold_chain, "temp_min_c": d.temp_min_c, "temp_max_c": d.temp_max_c,
+            "status": dlv.DELIVERED if done else dlv.IN_TRANSIT, "created_at": d.created_at.isoformat(),
+            "completed_at": done.completed_at.isoformat() if done else None,
+            "temperature_log": [{"recorded_at": r.recorded_at.isoformat(), "celsius": r.celsius, "source": r.source,
+                                 "out_of_range": r.out_of_range} for r in readings]}
+
+
+def _delivery_for(request: Request, delivery_id: str):
+    """(delivery, actor_id, actor_role, tenant_id): staff of the tenant, or the delivery's owner; else 404."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    d = DELIVERY_REPO.get(delivery_id, tenant_id=tenant_id)
+    if d is None or (actor_role not in INVENTORY_ROLES and actor_id != d.owner_id):
+        raise HTTPException(404, "Delivery not found")
+    return d, actor_id, actor_role, tenant_id
+
+
+class DeliveryRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    owner_id: str
+    product_id: str
+
+
+@app.post("/api/deliveries")
+def create_delivery(body: DeliveryRequest, request: Request, role: str = Depends(require_role),
+                    x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """Tenant staff open a delivery to an owner of the tenant. The temperature range comes from the
+    product's registration (BRD P393), never from the request."""
+    actor_id, actor_role, tenant_id = _inventory_actor(request)
+    ident = PERSISTENCE.identities.get_by_user_id(body.owner_id)
+    if ident is None or ident.tenant_id != tenant_id or ident.role != ROLE_OWNER:
+        raise HTTPException(400, "The recipient is not an owner of this tenant")
+    rng = INVENTORY_REPO.storage_range_of(body.product_id)
+    d = dlv.Delivery(delivery_id=str(uuid4()), tenant_id=tenant_id, owner_id=body.owner_id, product_id=body.product_id,
+                     created_by_actor_id=actor_id, created_at=datetime.now(timezone.utc),
+                     temp_min_c=rng[0] if rng else None, temp_max_c=rng[1] if rng else None)
+    DELIVERY_REPO.create(d)
+    _audit(event_name="delivery.created", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="delivery", resource_id=d.delivery_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code="COLD_CHAIN" if d.cold_chain else "AMBIENT")
+    return _delivery_view(d, tenant_id)
+
+
+class ReadingRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    recorded_at: Optional[str] = None
+    celsius: Optional[float] = None
+
+
+@app.post("/api/deliveries/{delivery_id}/readings")
+def record_temperature_reading(delivery_id: str, body: ReadingRequest, request: Request,
+                               role: str = Depends(require_role),
+                               x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """AC-FR-16-01/04: append a reading to the delivery's log. An out-of-range reading is kept,
+    raises a pharmacy alert (same transaction) and is audited."""
+    d, actor_id, actor_role, tenant_id = _delivery_for(request, delivery_id)
+    if actor_role not in INVENTORY_ROLES:
+        raise HTTPException(403, "Readings are recorded by tenant staff or the logistics partner")
+    try:
+        when, celsius = dlv.normalise_partner_reading(body.model_dump())
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Reading refused: {exc}") from None
+    reading = dlv.TemperatureReading(reading_id=str(uuid4()), delivery_id=delivery_id, tenant_id=tenant_id,
+                                     recorded_at=when, celsius=celsius, source=dlv.SOURCE_STAFF, recorded_by=actor_id,
+                                     out_of_range=dlv.out_of_range(d, celsius))
+    alert = None if not reading.out_of_range else dlv.DeliveryAlert(
+        alert_id=str(uuid4()), delivery_id=delivery_id, tenant_id=tenant_id, reading_id=reading.reading_id,
+        kind=dlv.ALERT_OUT_OF_RANGE, raised_at=datetime.now(timezone.utc))
+    try:
+        DELIVERY_REPO.add_reading(reading, alert)
+    except RepositoryDenied as exc:
+        raise HTTPException(409, f"Reading refused: {exc}") from None
+    _audit(event_name="delivery.temperature.recorded", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="delivery", resource_id=delivery_id, action_result="success", correlation_id=x_correlation_id,
+           reason_code=f"{celsius}C")
+    if alert is not None:
+        _audit(event_name="delivery.temperature.alert", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+               resource_type="delivery_alert", resource_id=alert.alert_id, action_result="success",
+               correlation_id=x_correlation_id,
+               reason_code=f"{dlv.ALERT_OUT_OF_RANGE}:{celsius}C:[{d.temp_min_c},{d.temp_max_c}]")
+    return {**_delivery_view(d, tenant_id), "alert_raised": alert is not None}
+
+
+@app.post("/api/deliveries/{delivery_id}/complete")
+def complete_delivery(delivery_id: str, request: Request, role: str = Depends(require_role),
+                      x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """A temperature-controlled delivery never completes without a temperature log (AC-FR-16-01)."""
+    d, actor_id, actor_role, tenant_id = _delivery_for(request, delivery_id)
+    if actor_role not in INVENTORY_ROLES:
+        raise HTTPException(403, "Deliveries are completed by tenant staff")
+    if d.cold_chain and not DELIVERY_REPO.readings(delivery_id, tenant_id=tenant_id):
+        raise HTTPException(409, "A temperature-controlled delivery cannot complete without a temperature log")
+    try:
+        DELIVERY_REPO.complete(dlv.DeliveryCompletion(delivery_id=delivery_id, tenant_id=tenant_id,
+                                                      completed_by_actor_id=actor_id,
+                                                      completed_at=datetime.now(timezone.utc)))
+    except RepositoryDenied as exc:
+        raise HTTPException(409, f"Completion refused: {exc}") from None
+    _audit(event_name="delivery.completed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="delivery", resource_id=delivery_id, action_result="success", correlation_id=x_correlation_id)
+    return _delivery_view(d, tenant_id)
+
+
+@app.get("/api/deliveries")
+def list_deliveries(request: Request, role: str = Depends(require_role)):
+    """An owner sees their own deliveries with the temperature log; tenant staff see the tenant's."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    return [_delivery_view(d, tenant_id) for d in DELIVERY_REPO.for_tenant(tenant_id)
+            if actor_role in INVENTORY_ROLES or d.owner_id == actor_id]
+
+
+@app.get("/api/deliveries/alerts")
+def delivery_alerts(request: Request, role: str = Depends(require_role)):
+    """The pharmacy's alert list: out-of-range readings in the session tenant."""
+    _a, _r, tenant_id = _inventory_actor(request)
+    return [{"alert_id": a.alert_id, "delivery_id": a.delivery_id, "reading_id": a.reading_id, "kind": a.kind,
+             "raised_at": a.raised_at.isoformat()} for a in DELIVERY_REPO.alerts(tenant_id=tenant_id)]
+
+
+@app.get("/api/deliveries/{delivery_id}")
+def get_delivery(delivery_id: str, request: Request, role: str = Depends(require_role)):
+    d, _a, _r, tenant_id = _delivery_for(request, delivery_id)
+    return _delivery_view(d, tenant_id)
 
 
 # ---------------------------------------------------------------------------

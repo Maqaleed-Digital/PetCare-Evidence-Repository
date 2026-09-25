@@ -163,6 +163,48 @@
       "path": "/api/consultations/{session_id}/outcome"
     },
     {
+      "endpoint": "main:list_deliveries",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/deliveries"
+    },
+    {
+      "endpoint": "main:create_delivery",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/deliveries"
+    },
+    {
+      "endpoint": "main:delivery_alerts",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/deliveries/alerts"
+    },
+    {
+      "endpoint": "main:get_delivery",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/deliveries/{delivery_id}"
+    },
+    {
+      "endpoint": "main:complete_delivery",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/deliveries/{delivery_id}/complete"
+    },
+    {
+      "endpoint": "main:record_temperature_reading",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/deliveries/{delivery_id}/readings"
+    },
+    {
       "endpoint": "main:governance_status",
       "methods": [
         "GET"

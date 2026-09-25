@@ -1216,9 +1216,10 @@ class PostgresInventoryRepository:
         if p.supply_class not in SUPPLY_CLASSES or p.source != REGISTRATION_SOURCE:
             raise RepositoryDenied("a registration carries a known class from the registration source")
         with self._pool.connection() as conn:
-            conn.execute("INSERT INTO product_registration (product_id, name, supply_class, source, registered_at) "
-                         "VALUES (%s,%s,%s,%s,%s)",
-                         (p.product_id, p.name, p.supply_class, p.source, _to_db(p.registered_at)))
+            conn.execute("INSERT INTO product_registration (product_id, name, supply_class, source, registered_at, "
+                         "storage_min_c, storage_max_c) VALUES (%s,%s,%s,%s,%s,%s,%s)",
+                         (p.product_id, p.name, p.supply_class, p.source, _to_db(p.registered_at),
+                          p.storage_min_c, p.storage_max_c))
         return p
 
     def supply_class_of(self, product_id):
@@ -1227,6 +1228,12 @@ class PostgresInventoryRepository:
             rows = conn.execute("SELECT supply_class FROM product_registration WHERE product_id = %s",
                                 (product_id,)).fetchall()
         return rows[0][0] if rows else UNREGISTERED_CLASS
+
+    def storage_range_of(self, product_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT storage_min_c, storage_max_c FROM product_registration WHERE product_id = %s "
+                                "AND storage_min_c IS NOT NULL", (product_id,)).fetchall()
+        return (float(rows[0][0]), float(rows[0][1])) if rows else None
 
     def record(self, movements):
         """All-or-nothing in ONE transaction. Each (tenant, location, product, batch) key is
@@ -1433,3 +1440,95 @@ class PostgresConsultationRepository:
                                 "FROM regulatory_determination ORDER BY recorded_at").fetchall()
         return [RegulatoryDetermination(determination_id=r[0], subject=r[1], decision=r[2], form=r[3], reference=r[4],
                                         recorded_by=r[5], recorded_at=_from_db(r[6])) for r in rows]
+
+
+
+class PostgresDeliveryRepository:
+    """`DeliveryRepository` over migration 0045 (FR-16, MVC-BUILD-RUNNER-001 U12). Insert-only."""
+
+    _D = "delivery_id, tenant_id, owner_id, product_id, created_by_actor_id, created_at, temp_min_c, temp_max_c"
+    _R = "reading_id, delivery_id, tenant_id, recorded_at, celsius, source, recorded_by, out_of_range"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def create(self, d):
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO delivery ({self._D}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                             (d.delivery_id, d.tenant_id, d.owner_id, d.product_id, d.created_by_actor_id,
+                              _to_db(d.created_at), d.temp_min_c, d.temp_max_c))
+        except Exception as exc:
+            raise RepositoryDenied(f"delivery was refused ({type(exc).__name__})") from None
+        return d
+
+    def _d(self, r):
+        from deliveries import Delivery
+        return Delivery(delivery_id=r[0], tenant_id=r[1], owner_id=r[2], product_id=r[3], created_by_actor_id=r[4],
+                        created_at=_from_db(r[5]), temp_min_c=None if r[6] is None else float(r[6]),
+                        temp_max_c=None if r[7] is None else float(r[7]))
+
+    def get(self, delivery_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._D} FROM delivery WHERE delivery_id = %s AND tenant_id = %s",
+                                (delivery_id, tenant_id)).fetchall()
+        return self._d(rows[0]) if rows else None
+
+    def for_tenant(self, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._D} FROM delivery WHERE tenant_id = %s ORDER BY created_at, delivery_id",
+                                (tenant_id,)).fetchall()
+        return [self._d(r) for r in rows]
+
+    def add_reading(self, r, alert):
+        """The reading and its alert in ONE transaction: an out-of-range reading never lands without its alert."""
+        try:
+            with self._pool.connection() as conn:
+                if conn.execute("SELECT 1 FROM delivery_completion WHERE delivery_id = %s", (r.delivery_id,)).fetchall():
+                    raise RepositoryDenied("the delivery is complete")
+                conn.execute(f"INSERT INTO temperature_reading ({self._R}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                             (r.reading_id, r.delivery_id, r.tenant_id, _to_db(r.recorded_at), r.celsius, r.source,
+                              r.recorded_by, r.out_of_range))
+                if alert is not None:
+                    conn.execute("INSERT INTO delivery_alert (alert_id, delivery_id, tenant_id, reading_id, kind, raised_at) "
+                                 "VALUES (%s,%s,%s,%s,%s,%s)", (alert.alert_id, alert.delivery_id, alert.tenant_id,
+                                                              alert.reading_id, alert.kind, _to_db(alert.raised_at)))
+        except RepositoryDenied:
+            raise
+        except Exception as exc:
+            raise RepositoryDenied(f"reading was refused ({type(exc).__name__})") from None
+        return r
+
+    def readings(self, delivery_id, *, tenant_id):
+        from deliveries import TemperatureReading
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._R} FROM temperature_reading WHERE delivery_id = %s AND tenant_id = %s "
+                                "ORDER BY recorded_at, reading_id", (delivery_id, tenant_id)).fetchall()
+        return [TemperatureReading(reading_id=x[0], delivery_id=x[1], tenant_id=x[2], recorded_at=_from_db(x[3]),
+                                   celsius=float(x[4]), source=x[5], recorded_by=x[6], out_of_range=x[7]) for x in rows]
+
+    def alerts(self, *, tenant_id):
+        from deliveries import DeliveryAlert
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT alert_id, delivery_id, tenant_id, reading_id, kind, raised_at FROM delivery_alert "
+                                "WHERE tenant_id = %s ORDER BY raised_at, alert_id", (tenant_id,)).fetchall()
+        return [DeliveryAlert(alert_id=x[0], delivery_id=x[1], tenant_id=x[2], reading_id=x[3], kind=x[4],
+                              raised_at=_from_db(x[5])) for x in rows]
+
+    def complete(self, c):
+        try:
+            with self._pool.connection() as conn:
+                conn.execute("INSERT INTO delivery_completion (delivery_id, tenant_id, completed_by_actor_id, completed_at) "
+                             "VALUES (%s,%s,%s,%s)", (c.delivery_id, c.tenant_id, c.completed_by_actor_id,
+                                                     _to_db(c.completed_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"completion was refused ({type(exc).__name__})") from None
+        return c
+
+    def completion_of(self, delivery_id, *, tenant_id):
+        from deliveries import DeliveryCompletion
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT delivery_id, tenant_id, completed_by_actor_id, completed_at FROM delivery_completion "
+                                "WHERE delivery_id = %s AND tenant_id = %s", (delivery_id, tenant_id)).fetchall()
+        return None if not rows else DeliveryCompletion(delivery_id=rows[0][0], tenant_id=rows[0][1],
+                                                        completed_by_actor_id=rows[0][2], completed_at=_from_db(rows[0][3]))
