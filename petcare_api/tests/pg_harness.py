@@ -147,6 +147,10 @@ def reset_w0f_tables(url: str) -> None:
                       # FR-23 (migration 0048): reminders and completions before the due
                       # item, which references pet_profile.
                       "care_reminder", "pet_care_completion", "pet_care_due",
+                      # FR-30 (migration 0049): cases reference pet_profile and the register;
+                      # the product link references prescription.
+                      "compliance_report", "notifiable_case_report", "notifiable_case",
+                      "notifiable_disease", "prescription_product",
                       "pet_identification", "pet_medical_record", "pet_profile",
                       # FR-09 (migration 0038) references user_identity and tenant.
                       "user_preference",

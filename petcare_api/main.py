@@ -9,7 +9,7 @@ import dataclasses
 import json
 import logging
 import os
-from datetime import date, datetime, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import Any, Optional
 from uuid import uuid4
 
@@ -894,6 +894,8 @@ class PrescriptionRequest(BaseModel):
     #: Optional (U9): the session decides. A value that disagrees with the session is refused.
     tenant_id: Optional[str] = None
     clinic_id: Optional[str] = None
+    #: FR-30 (U16): the registered product prescribed (structured; antimicrobial reporting reads it).
+    product_id: Optional[str] = None
     medication_name: str
     dosage: str
     instructions: str
@@ -953,6 +955,8 @@ def issue_prescription(
         stored = PRESCRIPTION_REPO.create(rx, actor_id=actor_id, actor_role=actor_role)
     except RepositoryDenied as exc:
         raise HTTPException(400, f"Prescription refused: {exc}") from None
+    if body.product_id:
+        COMPLIANCE_REPO.link_product(rx_id, tenant_id, body.product_id, datetime.now(timezone.utc))
     _audit(
         event_name="prescription.issued",
         reason_code=f"authority:{authority.grant_id}",
@@ -2540,6 +2544,172 @@ def my_reminders(request: Request, role: str = Depends(require_role)):
     return [{"reminder_id": r.reminder_id, "due_id": r.due_id, "kind": r.kind, "language": r.language,
              "body": r.rendered, "sent_at": r.sent_at.isoformat()}
             for r in REMINDER_REPO.for_owner(actor_id, tenant_id=tenant_id)]
+
+
+# ---------------------------------------------------------------------------
+# FR-30 · SFDA compliance reporting automation (U16)
+# ---------------------------------------------------------------------------
+import compliance as cmp  # noqa: E402
+
+COMPLIANCE_REPO = PERSISTENCE.compliance
+
+
+def _compliance_admin(request: Request):
+    actor_id, actor_role = _actor(request)
+    if actor_role not in (ROLE_PARTNER_CLINIC_ADMIN, ROLE_PLATFORM_ADMIN, ROLE_VETERINARIAN):
+        raise HTTPException(403, "Compliance reporting is for tenant staff")
+    return actor_id, actor_role, require_tenant(request)
+
+
+def _period(value: str, what: str) -> datetime:
+    try:
+        d = datetime.fromisoformat(value.replace("Z", "+00:00"))
+    except ValueError:
+        raise HTTPException(400, f"{what} is an ISO-8601 timestamp with offset") from None
+    if d.tzinfo is None:
+        raise HTTPException(400, f"{what} carries its offset")
+    return d
+
+
+class ReportRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    period_from: str
+    period_to: str
+
+
+def _controlled_report(tenant_id, pf, pt) -> dict:
+    rows = cmp.controlled_rows(INVENTORY_REPO.movements(tenant_id=tenant_id), pf, pt)
+    return {"kind": cmp.KIND_CONTROLLED, "period_from": pf.isoformat(), "period_to": pt.isoformat(), "rows": rows,
+            "totals": cmp.totals(rows), "content_sha256": cmp.content_hash(rows),
+            "coverage": {"statement": (f"Every CONTROLLED stock movement of this tenant recorded in the period "
+                                       f"({len(rows)}), generated from the ledger; each total lists the movement ids "
+                                       f"it sums.")}}
+
+
+@app.post("/api/compliance/reports/controlled-substances")
+def generate_controlled_report(body: ReportRequest, request: Request, role: str = Depends(require_role),
+                               x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """AC-FR-30-01: generated automatically from recorded events; the header is stored so the report can be
+    re-derived and checked later."""
+    actor_id, actor_role, tenant_id = _compliance_admin(request)
+    pf, pt = _period(body.period_from, "period_from"), _period(body.period_to, "period_to")
+    if pt <= pf:
+        raise HTTPException(400, "period_to is after period_from")
+    rep = _controlled_report(tenant_id, pf, pt)
+    h = COMPLIANCE_REPO.save_report(cmp.ReportHeader(
+        report_id=str(uuid4()), tenant_id=tenant_id, kind=cmp.KIND_CONTROLLED, period_from=pf, period_to=pt,
+        generated_by=actor_id, generated_at=datetime.now(timezone.utc), row_count=len(rep["rows"]),
+        content_sha256=rep["content_sha256"]))
+    _audit(event_name="compliance.report.generated", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="compliance_report", resource_id=h.report_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"{h.kind}:{h.row_count}:{h.content_sha256[:16]}")
+    return {**rep, "report_id": h.report_id}
+
+
+@app.get("/api/compliance/reports/{report_id}")
+def get_compliance_report(report_id: str, request: Request, role: str = Depends(require_role)):
+    """Re-derive the stored report from the ledger: every figure traces to recorded events."""
+    _a, _r, tenant_id = _compliance_admin(request)
+    h = COMPLIANCE_REPO.get_report(report_id, tenant_id=tenant_id)
+    if h is None:
+        raise HTTPException(404, "Report not found")
+    rep = _controlled_report(tenant_id, h.period_from, h.period_to)
+    return {**rep, "report_id": h.report_id, "generated_by": h.generated_by, "generated_at": h.generated_at.isoformat(),
+            "stored_content_sha256": h.content_sha256, "reproduces": rep["content_sha256"] == h.content_sha256}
+
+
+@app.get("/api/compliance/antimicrobials")
+def antimicrobial_register(request: Request, group_by: str = "agent,agent_class,species,practitioner,period",
+                           period_from: Optional[str] = None, period_to: Optional[str] = None,
+                           role: str = Depends(require_role)):
+    """AC-FR-30-02: antimicrobial prescribing aggregated from structured records (product registration),
+    never text search, with a coverage statement."""
+    _a, _r, tenant_id = _compliance_admin(request)
+    pf = _period(period_from, "period_from") if period_from else None
+    pt = _period(period_to, "period_to") if period_to else None
+    records = []
+    for status in (STATUS_ISSUED, STATUS_VET_VERIFIED, STATUS_DISPENSED):
+        for rx in PRESCRIPTION_REPO.list_by_status(tenant_id=tenant_id, status=status):
+            if (pf and rx.issued_at < pf) or (pt and rx.issued_at >= pt):
+                continue
+            product = COMPLIANCE_REPO.product_of(rx.prescription_id, tenant_id=tenant_id)
+            am = INVENTORY_REPO.antimicrobial_of(product) if product else None
+            if am is None:
+                continue
+            pet = PET_REPO.get(rx.pet_id, tenant_id=tenant_id)
+            records.append({"prescription_id": rx.prescription_id, "agent": am[0], "agent_class": am[1],
+                            "species": pet.species if pet else "UNRESOLVED", "practitioner": rx.issuing_vet_id,
+                            "period": rx.issued_at.strftime("%Y-%m")})
+    try:
+        return cmp.antimicrobial_aggregate(records, tuple(g for g in group_by.split(",") if g))
+    except RepositoryDenied as exc:
+        raise HTTPException(400, str(exc)) from None
+
+
+class NotifiableCaseRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    disease_code: str
+    detected_at: str
+
+
+@app.post("/api/pets/{pet_id}/notifiable-cases")
+def record_notifiable_case(pet_id: str, body: NotifiableCaseRequest, request: Request,
+                           role: str = Depends(require_role),
+                           x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """AC-FR-30-03: a veterinarian records a notifiable-disease detection; the statutory clock starts at
+    detection with the window from the governed register (never typed here)."""
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(403, "Only a veterinarian records a notifiable-disease case")
+    _pet, actor_id, actor_role, tenant_id = _pet_or_404(request, pet_id)
+    _require_practitioner_authority(actor_id, tenant_id)
+    disease = COMPLIANCE_REPO.disease(body.disease_code)
+    if disease is None:
+        raise HTTPException(400, f"{body.disease_code!r} is not on the notifiable-disease register")
+    detected = _period(body.detected_at, "detected_at")
+    case = COMPLIANCE_REPO.add_case(cmp.NotifiableCase(
+        case_id=str(uuid4()), tenant_id=tenant_id, pet_id=pet_id, disease_code=disease.disease_code,
+        detected_at=detected, report_due_at=detected + timedelta(hours=disease.report_within_hours),
+        recorded_by=actor_id, created_at=datetime.now(timezone.utc)))
+    _audit(event_name="notifiable.case.recorded", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="notifiable_case", resource_id=case.case_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"{case.disease_code}:due:{case.report_due_at.isoformat()}")
+    return {"case_id": case.case_id, "disease_code": case.disease_code, "clock": cmp.clock(case, None, datetime.now(timezone.utc))}
+
+
+@app.get("/api/compliance/notifiable-cases")
+def list_notifiable_cases(request: Request, role: str = Depends(require_role)):
+    _a, _r, tenant_id = _compliance_admin(request)
+    now = datetime.now(timezone.utc)
+    return [{"case_id": c.case_id, "pet_id": c.pet_id, "disease_code": c.disease_code,
+             "clock": cmp.clock(c, COMPLIANCE_REPO.report_of(c.case_id, tenant_id=tenant_id), now)}
+            for c in COMPLIANCE_REPO.cases(tenant_id=tenant_id)]
+
+
+class CaseReportRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    reference: str
+
+
+@app.post("/api/compliance/notifiable-cases/{case_id}/reported")
+def mark_case_reported(case_id: str, body: CaseReportRequest, request: Request, role: str = Depends(require_role),
+                       x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    actor_id, actor_role, tenant_id = _compliance_admin(request)
+    if COMPLIANCE_REPO.get_case(case_id, tenant_id=tenant_id) is None:
+        raise HTTPException(404, "Case not found")
+    if not body.reference.strip():
+        raise HTTPException(400, "a report names its reference")
+    try:
+        COMPLIANCE_REPO.report_case(cmp.CaseReport(case_id=case_id, tenant_id=tenant_id, reported_by=actor_id,
+                                                   reported_at=datetime.now(timezone.utc), reference=body.reference.strip()))
+    except RepositoryDenied as exc:
+        raise HTTPException(409, f"Report refused: {exc}") from None
+    _audit(event_name="notifiable.case.reported", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="notifiable_case", resource_id=case_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=body.reference.strip()[:100])
+    return {"case_id": case_id, "reported": True}
 
 
 # ---------------------------------------------------------------------------

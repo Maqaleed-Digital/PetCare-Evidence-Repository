@@ -60,6 +60,9 @@ class ProductRegistration:
     #: FR-16 (U12): storage requirement (BRD P393); both set = temperature-controlled.
     storage_min_c: Optional[float] = None
     storage_max_c: Optional[float] = None
+    #: FR-30 (U16): antimicrobial agent and class, both or neither (registration facts).
+    antimicrobial_agent: Optional[str] = None
+    antimicrobial_class: Optional[str] = None
 
 
 @dataclass(frozen=True)
@@ -158,6 +161,11 @@ class InMemoryInventoryRepository:
     def supply_class_of(self, product_id):
         p = self._products.get(product_id)
         return p.supply_class if p is not None else UNREGISTERED_CLASS
+
+    def antimicrobial_of(self, product_id):
+        """(agent, class) when the registration marks the product antimicrobial, else None."""
+        p = self._products.get(product_id)
+        return (p.antimicrobial_agent, p.antimicrobial_class) if p is not None and p.antimicrobial_agent else None
 
     def storage_range_of(self, product_id):
         """(min, max) °C when the registration requires temperature control, else None."""

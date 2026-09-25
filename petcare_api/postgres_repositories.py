@@ -1217,9 +1217,10 @@ class PostgresInventoryRepository:
             raise RepositoryDenied("a registration carries a known class from the registration source")
         with self._pool.connection() as conn:
             conn.execute("INSERT INTO product_registration (product_id, name, supply_class, source, registered_at, "
-                         "storage_min_c, storage_max_c) VALUES (%s,%s,%s,%s,%s,%s,%s)",
+                         "storage_min_c, storage_max_c, antimicrobial_agent, antimicrobial_class) "
+                         "VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                          (p.product_id, p.name, p.supply_class, p.source, _to_db(p.registered_at),
-                          p.storage_min_c, p.storage_max_c))
+                          p.storage_min_c, p.storage_max_c, p.antimicrobial_agent, p.antimicrobial_class))
         return p
 
     def supply_class_of(self, product_id):
@@ -1228,6 +1229,12 @@ class PostgresInventoryRepository:
             rows = conn.execute("SELECT supply_class FROM product_registration WHERE product_id = %s",
                                 (product_id,)).fetchall()
         return rows[0][0] if rows else UNREGISTERED_CLASS
+
+    def antimicrobial_of(self, product_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT antimicrobial_agent, antimicrobial_class FROM product_registration "
+                                "WHERE product_id = %s AND antimicrobial_agent IS NOT NULL", (product_id,)).fetchall()
+        return (rows[0][0], rows[0][1]) if rows else None
 
     def storage_range_of(self, product_id):
         with self._pool.connection() as conn:
@@ -1765,3 +1772,99 @@ class PostgresReminderRepository:
                                 "ORDER BY sent_at, reminder_id", (owner_id, tenant_id)).fetchall()
         return [Reminder(reminder_id=r[0], due_id=r[1], tenant_id=r[2], owner_id=r[3], kind=r[4], language=r[5],
                          rendered=r[6], channel=r[7], sent_at=_from_db(r[8])) for r in rows]
+
+
+
+class PostgresComplianceRepository:
+    """`ComplianceRepository` over migration 0049 (FR-30, MVC-BUILD-RUNNER-001 U16). Insert-only."""
+
+    _C = "case_id, tenant_id, pet_id, disease_code, detected_at, report_due_at, recorded_by, created_at"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def _exec(self, sql, params, what):
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(sql, params)
+        except Exception as exc:
+            raise RepositoryDenied(f"{what} was refused ({type(exc).__name__})") from None
+
+    def link_product(self, prescription_id, tenant_id, product_id, at):
+        self._exec("INSERT INTO prescription_product (prescription_id, tenant_id, product_id, recorded_at) "
+                   "VALUES (%s,%s,%s,%s)", (prescription_id, tenant_id, product_id, _to_db(at)), "product link")
+
+    def product_of(self, prescription_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT product_id FROM prescription_product WHERE prescription_id = %s AND tenant_id = %s",
+                                (prescription_id, tenant_id)).fetchall()
+        return rows[0][0] if rows else None
+
+    def register_disease(self, d):
+        """Governed reference only (the notifiable-disease register). No served route calls this."""
+        self._exec("INSERT INTO notifiable_disease (disease_code, name, report_within_hours, source) VALUES (%s,%s,%s,%s)",
+                   (d.disease_code, d.name, d.report_within_hours, d.source), "disease")
+        return d
+
+    def disease(self, code):
+        from compliance import NotifiableDisease
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT disease_code, name, report_within_hours, source FROM notifiable_disease "
+                                "WHERE disease_code = %s", (code,)).fetchall()
+        return NotifiableDisease(*rows[0]) if rows else None
+
+    def add_case(self, c):
+        self._exec(f"INSERT INTO notifiable_case ({self._C}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                   (c.case_id, c.tenant_id, c.pet_id, c.disease_code, _to_db(c.detected_at), _to_db(c.report_due_at),
+                    c.recorded_by, _to_db(c.created_at)), "notifiable case")
+        return c
+
+    def _case(self, r):
+        from compliance import NotifiableCase
+        return NotifiableCase(case_id=r[0], tenant_id=r[1], pet_id=r[2], disease_code=r[3], detected_at=_from_db(r[4]),
+                              report_due_at=_from_db(r[5]), recorded_by=r[6], created_at=_from_db(r[7]))
+
+    def cases(self, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._C} FROM notifiable_case WHERE tenant_id = %s ORDER BY report_due_at, case_id",
+                                (tenant_id,)).fetchall()
+        return [self._case(r) for r in rows]
+
+    def get_case(self, case_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._C} FROM notifiable_case WHERE case_id = %s AND tenant_id = %s",
+                                (case_id, tenant_id)).fetchall()
+        return self._case(rows[0]) if rows else None
+
+    def report_case(self, r):
+        self._exec("INSERT INTO notifiable_case_report (case_id, tenant_id, reported_by, reported_at, reference) "
+                   "VALUES (%s,%s,%s,%s,%s)", (r.case_id, r.tenant_id, r.reported_by, _to_db(r.reported_at), r.reference),
+                   "case report")
+        return r
+
+    def report_of(self, case_id, *, tenant_id):
+        from compliance import CaseReport
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT case_id, tenant_id, reported_by, reported_at, reference FROM notifiable_case_report "
+                                "WHERE case_id = %s AND tenant_id = %s", (case_id, tenant_id)).fetchall()
+        return None if not rows else CaseReport(case_id=rows[0][0], tenant_id=rows[0][1], reported_by=rows[0][2],
+                                                reported_at=_from_db(rows[0][3]), reference=rows[0][4])
+
+    def save_report(self, h):
+        self._exec("INSERT INTO compliance_report (report_id, tenant_id, kind, period_from, period_to, generated_by, "
+                   "generated_at, row_count, content_sha256) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                   (h.report_id, h.tenant_id, h.kind, _to_db(h.period_from), _to_db(h.period_to), h.generated_by,
+                    _to_db(h.generated_at), h.row_count, h.content_sha256), "report")
+        return h
+
+    def get_report(self, report_id, *, tenant_id):
+        from compliance import ReportHeader
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT report_id, tenant_id, kind, period_from, period_to, generated_by, generated_at, "
+                                "row_count, content_sha256 FROM compliance_report WHERE report_id = %s AND tenant_id = %s",
+                                (report_id, tenant_id)).fetchall()
+        if not rows:
+            return None
+        r = rows[0]
+        return ReportHeader(report_id=r[0], tenant_id=r[1], kind=r[2], period_from=_from_db(r[3]), period_to=_from_db(r[4]),
+                            generated_by=r[5], generated_at=_from_db(r[6]), row_count=r[7], content_sha256=r[8])

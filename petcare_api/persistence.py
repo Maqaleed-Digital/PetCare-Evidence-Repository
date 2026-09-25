@@ -48,6 +48,7 @@ from postgres_repositories import (
     PostgresRecallRepository,
     PostgresOrderRepository,
     PostgresReminderRepository,
+    PostgresComplianceRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -68,6 +69,7 @@ from deliveries import InMemoryDeliveryRepository
 from recalls import InMemoryRecallRepository
 from orders import InMemoryOrderRepository
 from reminders import InMemoryReminderRepository
+from compliance import InMemoryComplianceRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -120,6 +122,8 @@ class Persistence:
     orders: Any = None
     #: FR-23 (U15): care due dates and owner reminders.
     reminders: Any = None
+    #: FR-30 (U16): product links, notifiable cases, generated compliance reports.
+    compliance: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -198,6 +202,7 @@ def build_persistence(
             recalls=InMemoryRecallRepository(tenants),
             orders=InMemoryOrderRepository(tenants),
             reminders=InMemoryReminderRepository(tenants),
+            compliance=InMemoryComplianceRepository(),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -235,6 +240,7 @@ def build_persistence(
         recalls=PostgresRecallRepository(pool),
         orders=PostgresOrderRepository(pool),
         reminders=PostgresReminderRepository(pool),
+        compliance=PostgresComplianceRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )

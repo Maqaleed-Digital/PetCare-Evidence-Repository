@@ -1023,22 +1023,49 @@
   },
   "FR-30": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for compliance report"
+      "petcare_api/main.py:2591 generate_controlled_report: every CONTROLLED ledger movement of the session tenant in the period, generated automatically; header (period, row count, content sha256) stored; audited",
+      "petcare_api/main.py:2611 get_compliance_report: re-derives from the ledger and reports whether it reproduces the stored hash",
+      "petcare_api/main.py:2623 antimicrobial_register: structured records (prescription -> registered product -> agent/class; pet -> species) aggregated by agent, class, species, practitioner, period with a coverage statement",
+      "petcare_api/main.py:2658 record_notifiable_case: clock = detection + the register's statutory window; audited",
+      "petcare_api/compliance.py controlled_rows / totals (movement ids per figure) / antimicrobial_aggregate / clock",
+      "petcare_runtime/migrations/0049_fr30_compliance_reporting.sql antimicrobial registration facts; prescription_product; notifiable_disease register; notifiable_case (clock NOT NULL, due > detection); compliance_report"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for compliance report"
+        "petcare_api/persistence.py compliance=PostgresComplianceRepository in postgres mode",
+        "petcare_api/main.py:2557 tenant from require_tenant; actor from _actor"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
       "ui_surface": []
     },
-    "implements": [],
+    "implements": [
+      "main:generate_controlled_report",
+      "main:get_compliance_report",
+      "main:antimicrobial_register",
+      "main:record_notifiable_case",
+      "main:list_notifiable_cases",
+      "main:mark_case_reported",
+      "compliance:controlled_rows",
+      "compliance:antimicrobial_aggregate",
+      "compliance:InMemoryComplianceRepository",
+      "postgres_repositories:PostgresComplianceRepository"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": ""
+    "routes": [
+      "POST /api/compliance/reports/controlled-substances",
+      "GET /api/compliance/reports/{report_id}",
+      "GET /api/compliance/antimicrobials",
+      "POST /api/pets/{pet_id}/notifiable-cases",
+      "GET /api/compliance/notifiable-cases",
+      "POST /api/compliance/notifiable-cases/{case_id}/reported"
+    ],
+    "tests": [
+      "petcare_api/tests/test_fr30_compliance.py",
+      "petcare_api/tests/test_fr30_compliance_postgres.py"
+    ],
+    "unresolved": "AC-FR-30-04/05 depend on EXTERNAL:SFDA: submission to the regulator is not built (interface not held). The notifiable-disease register (codes and statutory windows) and the antimicrobial agent/class are governed REGISTRATION facts with no served write path; populating them from the competent authority is outside the programme. No report UI is built (the ratified evidence types for FR-30 carry none)."
   },
   "FR-31": {
     "basis": [

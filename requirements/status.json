@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 81
+    "served_route_count": 87
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -1092,25 +1092,17 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 1,
-        "implements": 0,
+        "basis": 6,
+        "implements": 10,
         "legacy": 0,
-        "routes": 0,
-        "tests": 0,
+        "routes": 6,
+        "tests": 2,
         "ui_surface": 0
       },
       "criteria_gaps": {
-        "AC-FR-30-01": [
-          "AUDIT",
-          "PERSISTENCE",
-          "TENANT_ISOLATION"
-        ],
-        "AC-FR-30-02": [
-          "PERSISTENCE"
-        ],
-        "AC-FR-30-03": [
-          "AUDIT"
-        ],
+        "AC-FR-30-01": [],
+        "AC-FR-30-02": [],
+        "AC-FR-30-03": [],
         "AC-FR-30-04": [
           "DEPENDENCY",
           "SERVED_APP_E2E"
@@ -1120,22 +1112,22 @@
           "DEPENDENCY"
         ]
       },
-      "engineering_status": "ABSENT",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
-        "storage": "NONE",
-        "tenant_source": "NONE",
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
         "ui_surface": []
       },
       "id": "FR-30",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "no implementing symbol bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "ABSENT",
+      "status": "REACHABLE_TESTED",
       "title": "SFDA compliance reporting automation",
-      "unresolved": ""
+      "unresolved": "AC-FR-30-04/05 depend on EXTERNAL:SFDA: submission to the regulator is not built (interface not held). The notifiable-disease register (codes and statutory windows) and the antimicrobial agent/class are governed REGISTRATION facts with no served write path; populating them from the competent authority is outside the programme. No report UI is built (the ratified evidence types for FR-30 carry none)."
     },
     {
       "acceptance_state": "CRITERIA_NOT_RATIFIED",
@@ -1174,11 +1166,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 14,
+        "ABSENT": 13,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
-        "REACHABLE_TESTED": 12,
+        "REACHABLE_TESTED": 13,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1195,7 +1187,6 @@
           "FR-25",
           "FR-26",
           "FR-28",
-          "FR-30",
           "FR-31"
         ],
         "ACCEPTED": [
@@ -1220,7 +1211,8 @@
           "FR-19",
           "FR-20",
           "FR-23",
-          "FR-27"
+          "FR-27",
+          "FR-30"
         ],
         "REACHABLE_UNTESTED": []
       },
@@ -1233,18 +1225,17 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 3,
+        "ABSENT": 2,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 12,
+        "REACHABLE_TESTED": 13,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-04",
-          "FR-15",
-          "FR-30"
+          "FR-15"
         ],
         "ACCEPTED": [
           "FR-02"
@@ -1263,7 +1254,8 @@
           "FR-19",
           "FR-20",
           "FR-23",
-          "FR-27"
+          "FR-27",
+          "FR-30"
         ],
         "REACHABLE_UNTESTED": []
       },
@@ -1276,18 +1268,17 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 3,
+        "ABSENT": 2,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 12,
+        "REACHABLE_TESTED": 13,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-04",
-          "FR-15",
-          "FR-30"
+          "FR-15"
         ],
         "ACCEPTED": [
           "FR-02"
@@ -1306,7 +1297,8 @@
           "FR-19",
           "FR-20",
           "FR-23",
-          "FR-27"
+          "FR-27",
+          "FR-30"
         ],
         "REACHABLE_UNTESTED": []
       },
