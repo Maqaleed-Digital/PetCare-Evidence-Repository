@@ -374,6 +374,8 @@ async def sign_in(body: SignInRequest):
 
     _log_auth_event("auth.sign_in_success",
            {"user_id": user_id, "email": body.email, "role": role})
+    _chain_account_event("account.signed_in", user_id=user_id, role=role, tenant_id=user.tenant_id,
+                         session_id=record.session_id)
 
     resp = JSONResponse(content={
         "user": {
@@ -581,11 +583,30 @@ def read_session(request: Request) -> dict:
         # acceptance path is a second, ungoverned way in.
         raise HTTPException(status_code=401, detail={"error": "SESSION_NOT_ESTABLISHED"})
 
-    if SESSION_STORE.get_active(sid, tenant_id=payload.get("tenant_id")) is None:
+    record = SESSION_STORE.get_active(sid, tenant_id=payload.get("tenant_id"))
+    if record is None:
         # Unknown, revoked, expired and cross-tenant are deliberately one answer.
         raise HTTPException(status_code=401, detail={"error": "SESSION_REVOKED_OR_EXPIRED"})
 
-    return payload
+    # FR-01 AC-FR-01-03 (U20): authority comes from SERVER-HELD state, never from the token. The tenant and role are
+    # the session record's, and the identity's CURRENT membership must still match it: a membership that has ended
+    # or moved makes every older session fail closed at the next request.
+    ident = IDENTITY_REPO.get_by_user_id(record.user_id)
+    if (ident is None or getattr(ident, "disabled_at", None) is not None or ident.tenant_id != record.tenant_id
+            or ident.user_id != payload.get("user_id")):
+        raise HTTPException(status_code=401, detail={"error": "SESSION_TENANT_STALE"})
+    return {**payload, "user_id": record.user_id, "tenant_id": record.tenant_id, "role": record.role}
+
+
+def _chain_account_event(event_name: str, *, user_id: str, role: str, tenant_id, session_id: str) -> None:
+    """FR-01 AC-FR-01-03 (U20): a session-bearing account action is written to the governed audit chain with the
+    session actor. Tenantless (pre-session) events stay in the auth log — SPONSOR_QUEUE SQ-1 decides them."""
+    if not tenant_id:
+        return
+    import main as _main  # the served app module; loaded before any request reaches this router
+    _main._audit(event_name=event_name, actor_id=user_id, actor_role=role, tenant_id=tenant_id,
+                 resource_type="account_session", resource_id=session_id, action_result="success",
+                 correlation_id=str(uuid4()))
 
 
 def require_tenant(request: Request, requested: str | None = None) -> str:
@@ -656,7 +677,16 @@ async def sign_out(request: Request):
             payload = _serializer().loads(token, max_age=COOKIE_MAX_AGE)
             user_id = payload.get("user_id", "anonymous")
         except Exception:
-            pass
+            payload = None
+        # FR-01 (U20): sign-out ENDS the server session — deleting the cookie alone left the session live for
+        # anyone holding a copy of it. The act is chained with the session actor.
+        record = SESSION_STORE.get_active(payload.get("sid"), tenant_id=payload.get("tenant_id")) \
+            if isinstance(payload, dict) and payload.get("sid") else None
+        if record is not None:
+            if record.tenant_id:
+                SESSION_STORE.revoke(record.session_id, tenant_id=record.tenant_id)
+            _chain_account_event("account.signed_out", user_id=record.user_id, role=record.role,
+                                 tenant_id=record.tenant_id, session_id=record.session_id)
 
     _log_auth_event("auth.sign_out", {"user_id": user_id})
 

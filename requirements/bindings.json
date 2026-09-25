@@ -14,7 +14,8 @@
       "petcare_api/main.py:780 _require_practitioner_authority: live VETERINARIAN grant at the act (issue/verify/dispense)",
       "petcare_api/main.py:1497 grant (platform_admin; never self-granted) and :1530 revoke; both audited",
       "petcare_api/postgres_repositories.py:1041 PostgresPractitionerAuthorityRepository (migration 0039)",
-      "petcare_api/practitioners.py evaluate(): time-bounded grant in force at `when`, else the reason"
+      "petcare_api/practitioners.py evaluate(): time-bounded grant in force at `when`, else the reason",
+      "petcare_api/routers/auth.py read_session (U20): tenant and role from the server-held session record; the identity's current membership must match, else 401 SESSION_TENANT_STALE; sign-out revokes the server session; sign-in/sign-out chained (account.signed_in / account.signed_out)"
     ],
     "fitness": {
       "audit_actor_source": "NONE",
@@ -71,9 +72,10 @@
       "petcare_api/tests/test_role_authority.py",
       "petcare_api/tests/test_fr01_session_identity.py",
       "petcare_api/tests/test_practitioner_authority.py",
-      "petcare_api/tests/test_practitioner_authority_postgres.py"
+      "petcare_api/tests/test_practitioner_authority_postgres.py",
+      "petcare_api/tests/test_fr01_account_authority.py"
     ],
-    "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role."
+    "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role. U20: AC-FR-01-03's session-bearing parts are built (server-held tenant authority, stale sessions fail closed, sign-in/sign-out chained, sign-out revokes, history attributable after membership ends) but NOT registered: pre-session account actions (registration, failed sign-in) are tenantless and remain SPONSOR_QUEUE SQ-1. AC-FR-01-04: no general-purpose pharmacy role exists and no role dispenses unscoped (evidenced); the class-scoped pharmacy authority awaits COUNSEL:L-2."
   },
   "FR-02": {
     "basis": [

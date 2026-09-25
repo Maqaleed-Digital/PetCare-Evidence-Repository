@@ -29,6 +29,18 @@
       "type": "AUDIT"
     }
   ],
+  "AC-FR-01-04": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr01_account_authority.py::test_no_general_purpose_pharmacy_role_exists_and_no_role_dispenses_unscoped",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr01_account_authority.py::test_no_general_purpose_pharmacy_role_exists_and_no_role_dispenses_unscoped",
+      "type": "AUDIT"
+    }
+  ],
   "AC-FR-02-01": [
     {
       "kind": "TEST",
