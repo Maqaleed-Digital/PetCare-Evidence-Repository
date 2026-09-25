@@ -500,6 +500,53 @@
       "type": "UI"
     }
   ],
+  "AC-FR-20-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr20_cod_receipt.py::test_an_owner_chooses_cash_on_delivery_and_the_order_records_it",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr20_order_postgres.py::test_a_cod_order_its_collection_and_receipt_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr20-cod-orders.test.tsx",
+      "sha256": "9b2bd423d5564e8bc7f8790251519d93cd022d72341d369cf9c0372a17bf86ad",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-20-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr20_cod_receipt.py::test_on_delivery_the_owner_receives_a_receipt_in_their_language_retrievable_later",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr20_order_postgres.py::test_a_cod_order_its_collection_and_receipt_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr20_order_postgres.py::test_the_database_refuses_a_receipt_without_a_collection_and_a_wrong_amount",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr20-cod-orders.test.tsx",
+      "sha256": "9b2bd423d5564e8bc7f8790251519d93cd022d72341d369cf9c0372a17bf86ad",
+      "type": "UI"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr20-cod-orders.test.tsx",
+      "sha256": "9b2bd423d5564e8bc7f8790251519d93cd022d72341d369cf9c0372a17bf86ad",
+      "type": "ARABIC_RTL"
+    }
+  ],
   "AC-FR-27-01": [
     {
       "kind": "TEST",

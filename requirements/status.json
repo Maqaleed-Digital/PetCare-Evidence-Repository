@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 70
+    "served_route_count": 76
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -773,25 +773,16 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 1,
-        "implements": 0,
+        "basis": 6,
+        "implements": 10,
         "legacy": 0,
-        "routes": 0,
-        "tests": 0,
-        "ui_surface": 0
+        "routes": 6,
+        "tests": 2,
+        "ui_surface": 1
       },
       "criteria_gaps": {
-        "AC-FR-20-01": [
-          "PERSISTENCE",
-          "SERVED_APP_E2E",
-          "UI"
-        ],
-        "AC-FR-20-02": [
-          "ARABIC_RTL",
-          "PERSISTENCE",
-          "SERVED_APP_E2E",
-          "UI"
-        ],
+        "AC-FR-20-01": [],
+        "AC-FR-20-02": [],
         "AC-FR-20-03": [
           "AUDIT",
           "DEPENDENCY",
@@ -803,22 +794,24 @@
           "TENANT_ISOLATION"
         ]
       },
-      "engineering_status": "ABSENT",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
-        "storage": "NONE",
-        "tenant_source": "NONE",
-        "ui_surface": []
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/owner/orders"
+        ]
       },
       "id": "FR-20",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "no implementing symbol bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "ABSENT",
+      "status": "REACHABLE_TESTED",
       "title": "Cash-on-delivery with digital receipting",
-      "unresolved": ""
+      "unresolved": "AC-FR-20-03/04 depend on EXTERNAL:LOGISTICS_PARTNER: collection is confirmed by tenant staff (source STAFF) through the same rule the partner adapter will use (exact total + reference); the partner's confirmation interface is not held and nothing is registered for it. A digital receipt is not ZATCA e-invoicing (ratified). Prescription products are dispensed via the pharmacy, not ordered."
     },
     {
       "acceptance_state": "CRITERIA_NOT_RATIFIED",
@@ -1187,11 +1180,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 16,
+        "ABSENT": 15,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
-        "REACHABLE_TESTED": 10,
+        "REACHABLE_TESTED": 11,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1203,7 +1196,6 @@
           "FR-15",
           "FR-17",
           "FR-18",
-          "FR-20",
           "FR-22",
           "FR-23",
           "FR-24",
@@ -1233,6 +1225,7 @@
           "FR-14",
           "FR-16",
           "FR-19",
+          "FR-20",
           "FR-27"
         ],
         "REACHABLE_UNTESTED": []
@@ -1246,18 +1239,17 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 5,
+        "ABSENT": 4,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 10,
+        "REACHABLE_TESTED": 11,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-04",
           "FR-15",
-          "FR-20",
           "FR-23",
           "FR-30"
         ],
@@ -1276,6 +1268,7 @@
           "FR-14",
           "FR-16",
           "FR-19",
+          "FR-20",
           "FR-27"
         ],
         "REACHABLE_UNTESTED": []
@@ -1289,18 +1282,17 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 5,
+        "ABSENT": 4,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 10,
+        "REACHABLE_TESTED": 11,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-04",
           "FR-15",
-          "FR-20",
           "FR-23",
           "FR-30"
         ],
@@ -1319,6 +1311,7 @@
           "FR-14",
           "FR-16",
           "FR-19",
+          "FR-20",
           "FR-27"
         ],
         "REACHABLE_UNTESTED": []
