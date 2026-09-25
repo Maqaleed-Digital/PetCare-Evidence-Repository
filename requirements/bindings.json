@@ -598,22 +598,45 @@
   },
   "FR-15": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for nearest/optimal pharmacy routing"
+      "petcare_api/main.py:2771 route_order: candidates = the session tenant's positioned pharmacies; step 1 licence register per supply class; step 2 complete basket from ledger balances; ETA/distance from the maps port with the owner's location; decision recorded with every input; audited",
+      "petcare_api/routing.py choose: (licensed, basket) then ETA, distance, stable id; UnavailableMapsAdapter (served) — routing fails closed (503) without a maps provider",
+      "petcare_api/main.py:2820 get_order_routing + _fulfilled_by: the owner sees which pharmacy fulfils the order",
+      "petcare_api/main.py:2402 deliver_order: a routed order is delivered only from the routed pharmacy (409 otherwise)",
+      "petcare_runtime/migrations/0050_fr15_order_routing.sql location coordinates; pharmacy_licence (governed register); routing_decision (candidates JSONB non-empty)",
+      "petcare_web/app/owner/orders/page.tsx shows the fulfilling pharmacy"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for nearest/optimal pharmacy routing"
+        "petcare_api/persistence.py routing=PostgresRoutingRepository in postgres mode",
+        "petcare_api/main.py:2771 tenant from require_tenant; actor from _actor"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/owner/orders"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "main:route_order",
+      "main:get_order_routing",
+      "main:_fulfilled_by",
+      "routing:choose",
+      "routing:UnavailableMapsAdapter",
+      "routing:InMemoryRoutingRepository",
+      "postgres_repositories:PostgresRoutingRepository",
+      "petcare_web/app/owner/orders/page.tsx#OwnerOrdersPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": "petcare_runtime/src/petcare/partner_network/orders_service.py:109 route_order routes to the order's pre-set partner_id ('deterministic_partner_route_from_pricing_reference'); no nearest/optimal selection. petcare_web/app/pharmacy/page.tsx:8 records FR-15 out of Option A scope. Not bound."
+    "routes": [
+      "POST /api/orders/{order_id}/route",
+      "GET /api/orders/{order_id}/routing"
+    ],
+    "tests": [
+      "petcare_api/tests/test_fr15_routing.py",
+      "petcare_api/tests/test_fr15_routing_postgres.py"
+    ],
+    "unresolved": "AC-FR-15-01 depends on COUNSEL:MVC-PHARM-001 §6c (establishment licences): the licence register has no served write path and is populated only by test fixtures, as the ratified text directs — no pharmacy is live-eligible. AC-FR-15-02/03 depend on EXTERNAL:MAPS_API: the served app has no maps adapter and routing fails closed (503); tests use a contract double that is not registered as maps evidence."
   },
   "FR-16": {
     "basis": [

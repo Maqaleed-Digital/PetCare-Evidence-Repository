@@ -1845,6 +1845,9 @@ class LocationRequest(BaseModel):
     model_config = {"extra": "forbid"}
 
     name: str
+    #: FR-15 (U18): the pharmacy's position (routing destination).
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
 
 class MovementRequest(BaseModel):
@@ -1872,7 +1875,7 @@ def create_inventory_location(
     if actor_role != ROLE_PARTNER_CLINIC_ADMIN:
         raise HTTPException(403, "Only a clinic administrator adds a pharmacy location")
     loc = InventoryLocation(location_id=str(uuid4()), tenant_id=tenant_id, name=body.name.strip(),
-                            created_at=datetime.now(timezone.utc))
+                            created_at=datetime.now(timezone.utc), latitude=body.latitude, longitude=body.longitude)
     try:
         INVENTORY_REPO.add_location(loc)
     except RepositoryDenied as exc:
@@ -2342,7 +2345,15 @@ def _order_view(o, tenant_id: str) -> dict:
             "lines": [{"product_id": l.product_id, "quantity": l.quantity, "unit_price_halalas": l.unit_price_halalas}
                       for l in o.lines],
             "receipt": None if rec is None else {"receipt_id": rec.receipt_id, "language": rec.language,
-                                                 "rendered": rec.rendered, "issued_at": rec.issued_at.isoformat()}}
+                                                 "rendered": rec.rendered, "issued_at": rec.issued_at.isoformat()},
+            "fulfilled_by": _fulfilled_by(o.order_id, tenant_id)}
+
+
+def _fulfilled_by(order_id: str, tenant_id: str):
+    """FR-15 AC-FR-15-04 (U18): the pharmacy the order was routed to, for the owner to see."""
+    d = ROUTING_REPO.latest_for(order_id, tenant_id=tenant_id)
+    loc = INVENTORY_REPO.get_location(d.chosen_location_id, tenant_id=tenant_id) if d and d.chosen_location_id else None
+    return None if loc is None else {"location_id": loc.location_id, "name": loc.name, "decided_at": d.decided_at.isoformat()}
 
 
 @app.post("/api/orders")
@@ -2404,6 +2415,9 @@ def deliver_order(order_id: str, body: DeliverOrderRequest, request: Request, ro
                                   "detail": "delivery needs a collection confirmation of the exact total, with a reference"})
     if set(body.batches) != {l.product_id for l in o.lines}:
         raise HTTPException(400, "name the batch supplied for every product of the order")
+    routed = ROUTING_REPO.latest_for(order_id, tenant_id=tenant_id)
+    if routed is not None and routed.chosen_location_id and routed.chosen_location_id != body.location_id:
+        raise HTTPException(409, {"error": "NOT_THE_ROUTED_PHARMACY", "routed_location_id": routed.chosen_location_id})
     now = datetime.now(timezone.utc)
     moves = [StockMovement(movement_id=str(uuid4()), tenant_id=tenant_id, location_id=body.location_id,
                            product_id=l.product_id, batch=body.batches[l.product_id], quantity_delta=-l.quantity,
@@ -2734,6 +2748,87 @@ def mark_case_reported(case_id: str, body: CaseReportRequest, request: Request, 
            resource_type="notifiable_case", resource_id=case_id, action_result="success",
            correlation_id=x_correlation_id, reason_code=body.reference.strip()[:100])
     return {"case_id": case_id, "reported": True}
+
+
+# ---------------------------------------------------------------------------
+# FR-15 · smart order routing (U18)
+# ---------------------------------------------------------------------------
+import routing as rtg  # noqa: E402
+
+ROUTING_REPO = PERSISTENCE.routing
+#: AC-FR-15-02/03 (EXTERNAL:MAPS_API): the served app has no maps adapter; tests substitute a contract double.
+MAPS_PORT = rtg.UnavailableMapsAdapter()
+
+
+class RouteRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    latitude: float
+    longitude: float
+
+
+@app.post("/api/orders/{order_id}/route")
+def route_order(order_id: str, body: RouteRequest, request: Request, role: str = Depends(require_role),
+                x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """AC-FR-15-01/04: route the owner's order to the optimal pharmacy of the tenant under the ratified rule, and
+    record the decision with every input. Fails closed when the maps provider cannot route (EXTERNAL:MAPS_API)."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    o = ORDER_REPO.get(order_id, tenant_id=tenant_id)
+    if o is None or (actor_role not in INVENTORY_ROLES and o.owner_id != actor_id):
+        raise HTTPException(404, "Order not found")
+    if not (-90 <= body.latitude <= 90 and -180 <= body.longitude <= 180):
+        raise HTTPException(400, "the owner's location is a valid latitude/longitude")
+    classes = {INVENTORY_REPO.supply_class_of(l.product_id) for l in o.lines}
+    stock = {}
+    for b in INVENTORY_REPO.balances(tenant_id=tenant_id):
+        stock[(b["location_id"], b["product_id"])] = stock.get((b["location_id"], b["product_id"]), 0) + b["quantity"]
+    candidates = []
+    for loc in INVENTORY_REPO.locations(tenant_id=tenant_id):
+        if loc.latitude is None or loc.longitude is None:
+            continue
+        licensed = all(ROUTING_REPO.licensed(loc.location_id, k) for k in classes)
+        has_basket = all(stock.get((loc.location_id, l.product_id), 0) >= l.quantity for l in o.lines)
+        eta = dist = None
+        if licensed and has_basket:
+            try:
+                eta, dist = MAPS_PORT.route(origin=(body.latitude, body.longitude), destination=(loc.latitude, loc.longitude))
+            except rtg.RoutingUnavailable as exc:
+                _audit(event_name="order.routing.unavailable", actor_id=actor_id, actor_role=actor_role,
+                       tenant_id=tenant_id, resource_type="customer_order", resource_id=order_id,
+                       action_result="denied", correlation_id=x_correlation_id, reason_code="EXTERNAL:MAPS_API")
+                raise HTTPException(503, {"error": "ROUTING_UNAVAILABLE", "detail": str(exc)}) from None
+        candidates.append(rtg.Candidate(location_id=loc.location_id, name=loc.name, licensed=licensed,
+                                        has_basket=has_basket, eta_seconds=eta, distance_metres=dist))
+    if not candidates:
+        raise HTTPException(409, {"error": "NO_PHARMACY_LOCATED", "detail": "no pharmacy of this tenant has a position"})
+    chosen = rtg.choose(candidates)
+    d = ROUTING_REPO.record(rtg.RoutingDecision(
+        decision_id=str(uuid4()), order_id=order_id, tenant_id=tenant_id, owner_latitude=body.latitude,
+        owner_longitude=body.longitude, candidates=tuple(dataclasses.asdict(c) for c in candidates),
+        chosen_location_id=chosen.location_id if chosen else None, rule_version=rtg.RULE_VERSION,
+        decided_by=actor_id, decided_at=datetime.now(timezone.utc)))
+    _audit(event_name="order.routed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="routing_decision", resource_id=d.decision_id, action_result="success" if chosen else "denied",
+           correlation_id=x_correlation_id, reason_code=f"order:{order_id}:chosen:{d.chosen_location_id}")
+    if chosen is None:
+        raise HTTPException(409, {"error": "NO_QUALIFYING_PHARMACY", "decision": d.to_read_model()})
+    return {**d.to_read_model(), "chosen_pharmacy": chosen.name}
+
+
+@app.get("/api/orders/{order_id}/routing")
+def get_order_routing(order_id: str, request: Request, role: str = Depends(require_role)):
+    """AC-FR-15-04: the owner sees which pharmacy fulfils the order, and why."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    o = ORDER_REPO.get(order_id, tenant_id=tenant_id)
+    if o is None or (actor_role not in INVENTORY_ROLES and o.owner_id != actor_id):
+        raise HTTPException(404, "Order not found")
+    d = ROUTING_REPO.latest_for(order_id, tenant_id=tenant_id)
+    if d is None:
+        raise HTTPException(404, "The order has not been routed")
+    loc = INVENTORY_REPO.get_location(d.chosen_location_id, tenant_id=tenant_id) if d.chosen_location_id else None
+    return {**d.to_read_model(), "chosen_pharmacy": loc.name if loc else None}
 
 
 # ---------------------------------------------------------------------------
