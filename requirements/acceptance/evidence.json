@@ -135,6 +135,36 @@
       "type": "TENANT_ISOLATION"
     }
   ],
+  "AC-FR-06-04": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr06_consultation_postgres.py::test_consultation_and_outcome_survive_a_second_instance_within_the_tenant",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr06_consultation_postgres.py::test_the_database_refuses_a_second_outcome_and_an_unknown_participant",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr06_consultation.py::test_the_consultation_its_participants_and_outcome_are_recorded_and_audited",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr06_consultation.py::test_a_consultation_is_invisible_and_immovable_across_tenants",
+      "type": "TENANT_ISOLATION"
+    }
+  ],
+  "AC-FR-06-05": [
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr06-consultations.test.tsx",
+      "sha256": "f17234bed8cfe9af77fbea5c9cfe92553dfba5c15d2abfb10e728a82fed90ede",
+      "type": "UI"
+    }
+  ],
   "AC-FR-07-01": [
     {
       "kind": "TEST",

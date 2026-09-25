@@ -141,6 +141,7 @@ from inventory import (ADJUSTMENT, RECEIPT, REASONS, SUPPLY, TRANSFER_IN, TRANSF
                        VETERINARIAN_ONLY, InventoryLocation, StockMovement, prescription_required)
 import sfda  # FR-14 AC-06 (U9): the SFDA prescription-validation port
 import licences  # FR-05 (U10): veterinarian licence registration and verification
+import consultations as consult  # FR-06 (U11): durable consultations and the REG-02 gate
 from practitioners import (CLASS_VETERINARIAN, PractitionerAuthorityGrant,  # FR-01 (U5)
                            evaluate as practitioner_evaluate)
 from tenant_membership import (
@@ -192,7 +193,6 @@ AUDIT_REPO = PERSISTENCE.audit
 #: Direct repository access is not an authorized operating path; this is.
 TENANT_MEMBERSHIP = TenantMembershipService(PERSISTENCE)
 
-_sessions: dict[str, dict] = {}
 _notes: dict[str, dict] = {}
 _appointments: dict[str, dict] = {}
 
@@ -600,8 +600,29 @@ class ConsultationRequest(BaseModel):
     pet_id: str
     owner_id: str
     veterinarian_id: str
-    tenant_id: str
+    #: Optional (U11): the session decides; a disagreeing value is refused.
+    tenant_id: Optional[str] = None
     clinic_id: Optional[str] = None
+    #: FR-06: IN_PERSON, or REMOTE_VIDEO — fail-closed until REG-02 counsel is recorded (AC-FR-06-05).
+    mode: str = consult.MODE_IN_PERSON
+
+
+CONSULTATION_REPO = PERSISTENCE.consultations
+
+
+def _consultation(session_id: str, tenant_id: str) -> Optional[dict]:
+    """The consultation of the SESSION tenant as its read model, or None (AC-FR-06-04)."""
+    c = CONSULTATION_REPO.get(session_id, tenant_id=tenant_id)
+    return None if c is None else consult.read_model(c, CONSULTATION_REPO.outcome_of(session_id, tenant_id=tenant_id))
+
+
+def _remote_consultation_gate() -> dict:
+    d = consult.remote_consultation_lawful(CONSULTATION_REPO.determinations())
+    if d is None:
+        return {"offered": False, "dependency": "COUNSEL:REG-02_TELEMEDICINE",
+                "reason": "Remote veterinary consultation is not offered until the KSA telemedicine counsel "
+                          "determination (REG-02) is recorded."}
+    return {"offered": True, "form": d.form, "reference": d.reference}
 
 @app.post("/api/consultations")
 def start_consultation(
@@ -613,34 +634,40 @@ def start_consultation(
     actor_id, actor_role = _actor(request)  # AC-FR-01-01: never a client-supplied actor
     if role not in {ROLE_VETERINARIAN, ROLE_PLATFORM_ADMIN}:
         raise HTTPException(403, "Only vets or admins may start consultations")
+    tenant_id = require_tenant(request, body.tenant_id)
+    if body.mode not in consult.MODES:
+        raise HTTPException(400, f"mode must be one of {list(consult.MODES)}")
+    if body.mode == consult.MODE_REMOTE_VIDEO and not _remote_consultation_gate()["offered"]:
+        # AC-FR-06-05: fail closed until counsel; the refusal is audited.
+        _audit(event_name="consultation.remote.refused", actor_id=actor_id, actor_role=actor_role,
+               tenant_id=tenant_id, resource_type="consultation_session", resource_id=body.pet_id,
+               action_result="denied", correlation_id=x_correlation_id, reason_code="COUNSEL:REG-02_TELEMEDICINE")
+        raise HTTPException(403, detail={"error": "REMOTE_CONSULTATION_NOT_OFFERED", **_remote_consultation_gate()})
+    # AC-FR-06-04: both participants are identities of THIS tenant in their roles.
+    for uid, want in ((body.owner_id, ROLE_OWNER), (body.veterinarian_id, ROLE_VETERINARIAN)):
+        ident = PERSISTENCE.identities.get_by_user_id(uid)
+        if ident is None or ident.tenant_id != tenant_id or ident.role != want:
+            raise HTTPException(400, f"{want} {uid!r} is not a {want} of this tenant")
     session_id = str(uuid4())
-    now = utc_now_iso()
-    session = {
-        "session_id": session_id,
-        "pet_id": body.pet_id,
-        "owner_id": body.owner_id,
-        "veterinarian_id": body.veterinarian_id,
-        "tenant_id": require_tenant(request, body.tenant_id),
-        "clinic_id": body.clinic_id,
-        "status": SESSION_REQUESTED,
-        "created_at": now,
-        "started_at": None,
-        "completed_at": None,
-        "cancelled_at": None,
-    }
-    _sessions[session_id] = session
+    c = consult.Consultation(session_id=session_id, tenant_id=tenant_id, pet_id=body.pet_id, owner_id=body.owner_id,
+                             veterinarian_id=body.veterinarian_id, requested_by_actor_id=actor_id, mode=body.mode,
+                             created_at=datetime.now(timezone.utc), clinic_id=body.clinic_id)
+    try:
+        CONSULTATION_REPO.create(c)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Consultation refused: {exc}") from None
     _audit(
         event_name="consultation.session.requested",
         actor_id=actor_id,
         actor_role=actor_role,
-        tenant_id=require_tenant(request, body.tenant_id),
+        tenant_id=tenant_id,
         resource_type="consultation_session",
         resource_id=session_id,
         action_result="success",
         correlation_id=x_correlation_id,
         clinic_id=body.clinic_id,
     )
-    return session
+    return consult.read_model(c, None)
 
 @app.get("/api/consultations/{session_id}")
 def get_consultation(
@@ -650,8 +677,8 @@ def get_consultation(
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
     actor_id, actor_role = _actor(request)  # AC-FR-01-01: never a client-supplied actor
-    session = _sessions.get(session_id)
-    if not session or session["tenant_id"] != require_tenant(request):
+    session = _consultation(session_id, require_tenant(request))
+    if not session:
         raise HTTPException(404, "Consultation session not found")
     _audit(
         event_name="consultation.session.viewed",
@@ -672,6 +699,59 @@ class NoteRequest(BaseModel):
     content: str
     tenant_id: str
 
+@app.get("/api/consultations")
+def list_consultations(request: Request, role: str = Depends(require_role)):
+    """The caller's consultations in the session tenant (an admin sees the tenant's), plus whether
+    remote consultation is offered (AC-FR-06-05)."""
+    actor_id, _r = _actor(request)
+    tenant_id = require_tenant(request)
+    rows = [c for c in CONSULTATION_REPO.for_tenant(tenant_id)
+            if role in (ROLE_PLATFORM_ADMIN, ROLE_PARTNER_CLINIC_ADMIN) or actor_id in (c.owner_id, c.veterinarian_id)]
+    return {"remote": _remote_consultation_gate(),
+            "consultations": [consult.read_model(c, CONSULTATION_REPO.outcome_of(c.session_id, tenant_id=tenant_id))
+                              for c in rows]}
+
+
+@app.get("/api/consultations/remote/availability")
+def remote_consultation_availability(request: Request, role: str = Depends(require_role)):
+    return _remote_consultation_gate()
+
+
+class OutcomeRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    outcome: str
+
+
+@app.post("/api/consultations/{session_id}/outcome")
+def record_consultation_outcome(
+    session_id: str,
+    body: OutcomeRequest,
+    request: Request,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """AC-FR-06-04: the consultation's veterinarian records its outcome once; audited."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    session = _consultation(session_id, tenant_id)
+    if not session:
+        raise HTTPException(404, "Consultation session not found")
+    if actor_id != session["veterinarian_id"]:
+        raise HTTPException(403, "Only the consultation's veterinarian records its outcome")
+    _require_practitioner_authority(actor_id, tenant_id)
+    try:
+        CONSULTATION_REPO.record_outcome(consult.ConsultationOutcome(
+            session_id=session_id, tenant_id=tenant_id, outcome=body.outcome, recorded_by_actor_id=actor_id,
+            recorded_at=datetime.now(timezone.utc)))
+    except RepositoryDenied as exc:
+        raise HTTPException(409 if "already" in str(exc) else 400, f"Outcome refused: {exc}") from None
+    _audit(event_name="consultation.outcome.recorded", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="consultation_session", resource_id=session_id,
+           action_result="success", correlation_id=x_correlation_id)
+    return _consultation(session_id, tenant_id)
+
+
 @app.post("/api/consultations/{session_id}/notes")
 def create_note(
     request: Request,
@@ -683,8 +763,8 @@ def create_note(
     actor_id, actor_role = _actor(request)  # AC-FR-01-01: never a client-supplied actor
     if role != ROLE_VETERINARIAN:
         raise HTTPException(403, "Only vets may create consultation notes")
-    session = _sessions.get(session_id)
-    if not session or session["tenant_id"] != require_tenant(request):
+    session = _consultation(session_id, require_tenant(request))
+    if not session:
         raise HTTPException(404, "Session not found")
     _require_practitioner_authority(actor_id, session["tenant_id"])  # FR-05 (U10): verified licence at the act
     note_id = str(uuid4())
@@ -724,8 +804,8 @@ def sign_note(
     if role != ROLE_VETERINARIAN:
         raise HTTPException(403, "Only vets may sign notes")
     note = _notes.get(note_id)
-    parent = _sessions.get(note["session_id"]) if note else None
-    if not note or not parent or parent["tenant_id"] != require_tenant(request):
+    parent = _consultation(note["session_id"], require_tenant(request)) if note else None
+    if not note or not parent:
         raise HTTPException(404, "Note not found")
     _require_practitioner_authority(actor_id, parent["tenant_id"])  # FR-05 (U10): verified licence at the act
     if note["status"] == NOTE_SIGNED:
@@ -1591,9 +1671,8 @@ def _consultation_participant(request: Request, consultation_id: str):
     """
     actor_id, actor_role = _actor(request)
     tenant_id = require_tenant(request)
-    session = _sessions.get(consultation_id)
-    if (not session or session["tenant_id"] != tenant_id
-            or actor_id not in (session["owner_id"], session["veterinarian_id"])):
+    session = _consultation(consultation_id, tenant_id)
+    if not session or actor_id not in (session["owner_id"], session["veterinarian_id"]):
         raise HTTPException(404, "Consultation not found")
     return session, actor_id, actor_role, tenant_id
 
