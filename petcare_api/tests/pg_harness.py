@@ -130,8 +130,9 @@ def reset_w0f_tables(url: str) -> None:
         # immutable ledger), so the fixture reset TRUNCATEs it, which fires no row
         # trigger. This is the test owner emptying a scratch database, not an
         # application path; both reference tenant, so they go first.
-        conn.execute("TRUNCATE delivery_completion, delivery_alert, temperature_reading, delivery, "
-                     "stock_movement, inventory_location, product_registration")  # + FR-16 (0045)
+        conn.execute("TRUNCATE recall_notification, recall, delivery_completion, delivery_alert, "
+                     "temperature_reading, delivery, stock_movement, inventory_location, "
+                     "product_registration")  # + FR-16 (0045), FR-19 (0046)
         for table in ("app_session", "invite_code",
                       "identity_migration_quarantine", "audit_event",
                       # Option A (migration 0036). These reference BOTH

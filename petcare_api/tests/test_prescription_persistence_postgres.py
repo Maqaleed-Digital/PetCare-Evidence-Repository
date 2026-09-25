@@ -24,7 +24,7 @@ psycopg = pytest.importorskip("psycopg")
 import main as api  # noqa: E402
 import routers.auth as auth  # noqa: E402
 from fastapi.testclient import TestClient  # noqa: E402
-from tenant_fixtures import grant_practitioner_authority  # noqa: E402
+from tenant_fixtures import grant_practitioner_authority, stock_origin  # noqa: E402
 from persistence import (  # noqa: E402
     MODE_POSTGRES,
     PERSISTENCE_MODE_ENV_VAR,
@@ -236,6 +236,8 @@ def test_the_served_app_writes_prescriptions_to_postgres(pg):
     api.PRESCRIPTION_REPO = persistence.prescriptions
     saved_practitioners = api.PRACTITIONER_REPO  # FR-01 (U5)
     api.PRACTITIONER_REPO = persistence.practitioners
+    saved_inventory = api.INVENTORY_REPO  # FR-19 (U13): a dispense draws from stock
+    api.INVENTORY_REPO = persistence.inventory
 
     client = TestClient(api.app)
     try:
@@ -257,7 +259,8 @@ def test_the_served_app_writes_prescriptions_to_postgres(pg):
         rx_id = issued.json()["prescription_id"]
 
         assert client.post(f"/api/prescriptions/{rx_id}/verify").status_code == 200
-        assert client.post(f"/api/prescriptions/{rx_id}/dispense").status_code == 200
+        assert client.post(f"/api/prescriptions/{rx_id}/dispense",
+                           json=stock_origin(T_A, persistence=persistence)).status_code == 200
 
         # Read back with a repository the request never touched.
         fresh = _persistence(pg).prescriptions.get(rx_id, tenant_id=T_A)
@@ -269,6 +272,7 @@ def test_the_served_app_writes_prescriptions_to_postgres(pg):
         (auth.PERSISTENCE, auth.SESSION_STORE, auth.IDENTITY_REPO,
          auth.INVITE_REPO, api.AUDIT_REPO, api.PRESCRIPTION_REPO) = saved
         api.PRACTITIONER_REPO = saved_practitioners
+        api.INVENTORY_REPO = saved_inventory
 
 
 def test_j_audit_events_for_the_workflow_persist_and_chain(pg):
@@ -284,6 +288,8 @@ def test_j_audit_events_for_the_workflow_persist_and_chain(pg):
     api.PRESCRIPTION_REPO = persistence.prescriptions
     saved_practitioners = api.PRACTITIONER_REPO  # FR-01 (U5)
     api.PRACTITIONER_REPO = persistence.practitioners
+    saved_inventory = api.INVENTORY_REPO  # FR-19 (U13): a dispense draws from stock
+    api.INVENTORY_REPO = persistence.inventory
 
     client = TestClient(api.app)
     try:
@@ -299,12 +305,13 @@ def test_j_audit_events_for_the_workflow_persist_and_chain(pg):
                   "medication_name": "m", "dosage": "d", "instructions": "i"},
         ).json()["prescription_id"]
         client.post(f"/api/prescriptions/{rx_id}/verify")
-        client.post(f"/api/prescriptions/{rx_id}/dispense")
+        client.post(f"/api/prescriptions/{rx_id}/dispense", json=stock_origin(T_A, persistence=persistence))
     finally:
         client.cookies.clear()
         (auth.PERSISTENCE, auth.SESSION_STORE, auth.IDENTITY_REPO,
          auth.INVITE_REPO, api.AUDIT_REPO, api.PRESCRIPTION_REPO) = saved
         api.PRACTITIONER_REPO = saved_practitioners
+        api.INVENTORY_REPO = saved_inventory
 
     # A repository the requests never touched.
     events = _persistence(pg).audit.all_events()

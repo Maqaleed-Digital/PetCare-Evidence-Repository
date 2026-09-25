@@ -460,6 +460,46 @@
       "type": "TENANT_ISOLATION"
     }
   ],
+  "AC-FR-19-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr19_recall_postgres.py::test_a_batch_bearing_dispense_and_its_recall_notice_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr19_recall_postgres.py::test_the_database_refuses_a_movement_without_a_batch_or_quantity",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr19_batch_recall.py::test_every_movement_and_dispense_records_the_batch",
+      "type": "AUDIT"
+    }
+  ],
+  "AC-FR-19-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr19_batch_recall.py::test_a_recall_resolves_through_stored_relationships_and_notifies_every_affected_owner",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr19_batch_recall.py::test_a_recall_resolves_through_stored_relationships_and_notifies_every_affected_owner",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr19_batch_recall.py::test_a_recall_never_crosses_tenants",
+      "type": "TENANT_ISOLATION"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr19-recall-notices.test.tsx",
+      "sha256": "7e8d99fa1561ccef0fde1aab6abd4e269df81a90b6eca9267d5d3dd92767e448",
+      "type": "UI"
+    }
+  ],
   "AC-FR-27-01": [
     {
       "kind": "TEST",

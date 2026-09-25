@@ -682,22 +682,48 @@
   },
   "FR-19": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for sfda batch tracking|recall"
+      "petcare_api/main.py:1077 dispense_prescription: a verified prescription is dispensed only FROM STOCK — a SUPPLY movement carrying product, batch and prescription (400 STOCK_ORIGIN_REQUIRED otherwise); audited with the batch",
+      "petcare_api/main.py:1885 record_stock_movement: a RECEIPT records the batch expiry (BRD P392); every movement names a batch",
+      "petcare_api/main.py:2198 create_recall: resolves SUPPLY -> prescription -> pet -> owner through stored records of the session tenant; notifies every resolved owner in the same transaction; returns resolved + indeterminate + completeness",
+      "petcare_api/recalls.py resolve: indeterminate partition always present; completeness statement on every output (REQ-MVC-6.22)",
+      "petcare_runtime/migrations/0041 batch NOT NULL CHECK non-blank, quantity_delta <> 0, UPDATE/DELETE trigger; 0046 batch_expiry, recall, recall_notification (one per dispense)",
+      "petcare_web/app/owner/recalls/page.tsx the owner's recall notices · petcare_web/app/pharmacy/page.tsx dispense sends the stock origin"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for sfda batch tracking|recall"
+        "petcare_api/persistence.py recalls=PostgresRecallRepository, inventory=PostgresInventoryRepository in postgres mode",
+        "petcare_api/main.py:2198 tenant and actor from the session (_inventory_actor)"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/owner/recalls",
+        "petcare_web:/pharmacy"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "main:dispense_prescription",
+      "main:create_recall",
+      "main:get_recall",
+      "main:my_recall_notices",
+      "recalls:resolve",
+      "recalls:InMemoryRecallRepository",
+      "postgres_repositories:PostgresRecallRepository",
+      "petcare_web/app/owner/recalls/page.tsx#OwnerRecallsPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": "petcare_runtime/src/petcare/uphr/models.py:65 batch_number_nullable on a VACCINATION record, always None at petcare_runtime/src/petcare/uphr/service.py:121; no medicine batch tracking or recall."
+    "routes": [
+      "POST /api/prescriptions/{prescription_id}/dispense",
+      "POST /api/recalls",
+      "GET /api/recalls/{recall_id}",
+      "GET /api/me/recall-notices"
+    ],
+    "tests": [
+      "petcare_api/tests/test_fr19_batch_recall.py",
+      "petcare_api/tests/test_fr19_recall_postgres.py"
+    ],
+    "unresolved": "AC-FR-19-03/04 depend on EXTERNAL:SFDA_API: recalls are recorded by tenant staff through the same ingestion boundary (normalise_sfda_recall refuses a recall without product and batch); the SFDA interface contract and live feed are not held and nothing is registered for them. GENERAL/OTC supplies without a prescription are INDETERMINATE for owner resolution by construction (no stored owner link), and are listed as such."
   },
   "FR-20": {
     "basis": [

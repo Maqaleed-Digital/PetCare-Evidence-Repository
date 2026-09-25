@@ -261,6 +261,13 @@
       "path": "/api/me/preferences/language"
     },
     {
+      "endpoint": "main:my_recall_notices",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/me/recall-notices"
+    },
+    {
       "endpoint": "main:list_pets",
       "methods": [
         "GET"
@@ -399,6 +406,20 @@
         "POST"
       ],
       "path": "/api/prescriptions/{prescription_id}/verify"
+    },
+    {
+      "endpoint": "main:create_recall",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/recalls"
+    },
+    {
+      "endpoint": "main:get_recall",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/recalls/{recall_id}"
     },
     {
       "endpoint": "main:verify_audit_chain_endpoint",

@@ -45,6 +45,7 @@ from postgres_repositories import (
     PostgresLicenceRepository,
     PostgresConsultationRepository,
     PostgresDeliveryRepository,
+    PostgresRecallRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -62,6 +63,7 @@ from inventory import InMemoryInventoryRepository
 from licences import InMemoryLicenceRepository
 from consultations import InMemoryConsultationRepository
 from deliveries import InMemoryDeliveryRepository
+from recalls import InMemoryRecallRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -108,6 +110,8 @@ class Persistence:
     consultations: Any = None
     #: FR-16 (U12): cold-chain deliveries, temperature logs, alerts.
     deliveries: Any = None
+    #: FR-19 (U13): batch recalls and owner recall notices.
+    recalls: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -183,6 +187,7 @@ def build_persistence(
             licences=InMemoryLicenceRepository(),
             consultations=InMemoryConsultationRepository(tenants),
             deliveries=InMemoryDeliveryRepository(tenants),
+            recalls=InMemoryRecallRepository(tenants),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -217,6 +222,7 @@ def build_persistence(
         licences=PostgresLicenceRepository(pool),
         consultations=PostgresConsultationRepository(pool),
         deliveries=PostgresDeliveryRepository(pool),
+        recalls=PostgresRecallRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )

@@ -15,7 +15,7 @@ comes from product registration, never from the caller or tenant staff
 from __future__ import annotations
 
 from dataclasses import asdict, dataclass, field
-from datetime import datetime
+from datetime import date, datetime
 from typing import Optional, Protocol
 
 from repositories import RepositoryDenied
@@ -77,9 +77,13 @@ class StockMovement:
     created_at: datetime
     transfer_id: Optional[str] = None
     prescription_id: Optional[str] = None
+    #: FR-19 (U13): BRD P392 expiry of the batch, recorded on receipt.
+    batch_expiry: Optional[date] = None
 
     def to_read_model(self) -> dict:
-        d = asdict(self); d["created_at"] = self.created_at.isoformat(); return d
+        d = asdict(self); d["created_at"] = self.created_at.isoformat()
+        d["batch_expiry"] = self.batch_expiry.isoformat() if self.batch_expiry else None
+        return d
 
 
 def validate_movement(m: StockMovement) -> None:
@@ -99,11 +103,15 @@ def validate_movement(m: StockMovement) -> None:
 def balance_rows(movements, supply_class_of) -> list:
     """The derived balance: SUM(quantity_delta) per (location, product, batch)."""
     totals: dict = {}
+    expiry: dict = {}
     for m in movements:
         k = (m.location_id, m.product_id, m.batch)
         totals[k] = totals.get(k, 0) + m.quantity_delta
+        if m.batch_expiry is not None:
+            expiry[k] = max(expiry.get(k, m.batch_expiry), m.batch_expiry)
     return [{"location_id": k[0], "product_id": k[1], "batch": k[2], "quantity": q,
-             "supply_class": supply_class_of(k[1])} for k, q in sorted(totals.items())]
+             "supply_class": supply_class_of(k[1]),
+             "batch_expiry": expiry[k].isoformat() if k in expiry else None} for k, q in sorted(totals.items())]
 
 
 class InventoryRepository(Protocol):
@@ -178,6 +186,11 @@ class InMemoryInventoryRepository:
     def movements(self, *, tenant_id, location_id=None):
         return [m for m in self._movements
                 if m.tenant_id == tenant_id and (location_id is None or m.location_id == location_id)]
+
+    def supplies_of_batch(self, *, tenant_id, product_id, batch):
+        """FR-19: the SUPPLY movements (dispenses) of one product batch in the tenant."""
+        return [m for m in self._movements if m.tenant_id == tenant_id and m.reason == SUPPLY
+                and m.product_id == product_id and m.batch == batch]
 
     def balances(self, *, tenant_id, location_id=None, product_id=None):
         return [b for b in balance_rows(self.movements(tenant_id=tenant_id, location_id=location_id),

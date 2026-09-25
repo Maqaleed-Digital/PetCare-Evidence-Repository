@@ -18,7 +18,7 @@ import main as api
 from repositories import RepositoryDenied
 from role_probes import a_role_the_catalogue_refuses, roles_the_catalogue_refuses
 from routers import auth
-from tenant_fixtures import ensure_tenant, grant_practitioner_authority
+from tenant_fixtures import ensure_tenant, grant_practitioner_authority, stock_origin
 
 client = TestClient(api.app)
 TENANT = "t1"
@@ -50,8 +50,9 @@ def _issue_prescription() -> str:
 
 
 def _dispense(rx_id: str):
+    # FR-19 (U13): a dispense draws from stock and records its batch.
     return client.post(f"/api/prescriptions/{rx_id}/dispense",
-                       headers={"X-Actor-Id": "actor-1"})
+                       headers={"X-Actor-Id": "actor-1"}, json=stock_origin(TENANT))
 
 
 def _verify(rx_id: str):

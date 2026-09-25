@@ -31,7 +31,7 @@ from prescriptions import (  # noqa: E402
     STATUS_VET_VERIFIED,
 )
 from routers import auth  # noqa: E402
-from tenant_fixtures import ensure_tenant, grant_practitioner_authority  # noqa: E402
+from tenant_fixtures import ensure_tenant, grant_practitioner_authority, stock_origin  # noqa: E402
 
 client = TestClient(api.app)
 
@@ -107,7 +107,7 @@ def test_a_upload_then_verify_then_dispense():
     assert q.status_code == 200, q.text
     assert rx_id in [row["prescription_id"] for row in q.json()]
 
-    d = client.post(f"/api/prescriptions/{rx_id}/dispense")
+    d = client.post(f"/api/prescriptions/{rx_id}/dispense", json=stock_origin(T_A))
     assert d.status_code == 200, d.text
     assert d.json()["status"] == STATUS_DISPENSED
     assert d.json()["dispensed_at"] is not None
@@ -129,7 +129,7 @@ def test_a2_the_transition_ledger_records_every_move():
     _login(api.ROLE_VETERINARIAN, "vet-ledger@t", T_A)
     rx_id = _issue(T_A)["prescription_id"]
     client.post(f"/api/prescriptions/{rx_id}/verify")
-    client.post(f"/api/prescriptions/{rx_id}/dispense")
+    client.post(f"/api/prescriptions/{rx_id}/dispense", json=stock_origin(T_A))
 
     t = client.get(f"/api/prescriptions/{rx_id}/transitions")
     assert t.status_code == 200, t.text
@@ -260,7 +260,7 @@ def test_e_an_unverified_prescription_is_not_in_the_queue_and_is_not_dispensable
     q = client.get("/api/prescriptions/queue/awaiting-dispense")
     assert rx_id not in [row["prescription_id"] for row in q.json()]
 
-    d = client.post(f"/api/prescriptions/{rx_id}/dispense")
+    d = client.post(f"/api/prescriptions/{rx_id}/dispense", json=stock_origin(T_A))
     assert d.status_code == 409, d.text
     assert client.get(f"/api/prescriptions/{rx_id}").json()["status"] == STATUS_ISSUED
 
@@ -347,7 +347,7 @@ def test_j_every_step_is_audited_with_a_server_derived_actor():
     )
     doc_id = up.json()["document_id"]
     client.post(f"/api/prescriptions/{rx_id}/verify")
-    client.post(f"/api/prescriptions/{rx_id}/dispense")
+    client.post(f"/api/prescriptions/{rx_id}/dispense", json=stock_origin(T_A))
 
     # Scoped to THIS prescription and THIS document. The in-memory audit log is
     # shared across the module, so a filter on resource_type alone would pick up

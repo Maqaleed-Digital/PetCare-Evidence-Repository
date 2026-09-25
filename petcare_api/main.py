@@ -5,6 +5,7 @@ No autonomous execution. No unauthenticated writes.
 """
 from __future__ import annotations
 
+import dataclasses
 import json
 import logging
 import os
@@ -1062,10 +1063,21 @@ def verify_prescription(
     return moved.to_read_model()
 
 
+class DispenseRequest(BaseModel):
+    """FR-19 AC-FR-19-01 (U13): a dispense draws from stock and records the batch."""
+    model_config = {"extra": "forbid"}
+
+    location_id: str
+    product_id: str
+    batch: str
+    quantity: int
+
+
 @app.post("/api/prescriptions/{prescription_id}/dispense")
 def dispense_prescription(
     request: Request,
     prescription_id: str,
+    body: Optional[DispenseRequest] = None,
     role: str = Depends(require_role),
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
@@ -1092,9 +1104,26 @@ def dispense_prescription(
             "class for this act is unclassified (REQ-DISP-AUTH-FAILCLOSED)",
         )
     tenant_id = require_tenant(request)
-    _rx_or_404(prescription_id, tenant_id)
+    rx = _rx_or_404(prescription_id, tenant_id)
     actor_id, actor_role = _actor(request)
     authority = _require_practitioner_authority(actor_id, tenant_id)  # AC-FR-01-02: live attribute at the act
+    # FR-19 AC-FR-19-01 (U13): every dispense records the batch — it draws from stock as a SUPPLY
+    # movement citing the prescription. Checked after authority/tenancy/state so those refusals keep
+    # their meaning; a verified prescription with no stock origin is refused, never dispensed blind.
+    movement = None
+    if rx.status == STATUS_VET_VERIFIED:
+        if body is None or body.quantity <= 0:
+            raise HTTPException(400, {"error": "STOCK_ORIGIN_REQUIRED",
+                                      "detail": "a dispense names the location, product, batch and a positive quantity"})
+        movement = StockMovement(movement_id=str(uuid4()), tenant_id=tenant_id, location_id=body.location_id,
+                                 product_id=body.product_id, batch=body.batch, quantity_delta=-body.quantity,
+                                 reason=SUPPLY, supply_class=INVENTORY_REPO.supply_class_of(body.product_id),
+                                 actor_id=actor_id, actor_role=actor_role, created_at=datetime.now(timezone.utc),
+                                 prescription_id=prescription_id)
+        try:
+            INVENTORY_REPO.record([movement])
+        except RepositoryDenied as exc:
+            raise HTTPException(400, f"Dispense refused: {exc}") from None
     try:
         moved = PRESCRIPTION_REPO.transition(
             prescription_id,
@@ -1104,6 +1133,9 @@ def dispense_prescription(
             actor_role=actor_role,
         )
     except TransitionDenied as exc:
+        if movement is not None:  # lost a race: return the stock (compensating movement; the ledger is never rewritten)
+            INVENTORY_REPO.record([dataclasses.replace(movement, movement_id=str(uuid4()), quantity_delta=body.quantity,
+                                                       reason=ADJUSTMENT, created_at=datetime.now(timezone.utc))])
         _audit(
             event_name="prescription.dispense_denied",
             actor_id=actor_id,
@@ -1130,7 +1162,10 @@ def dispense_prescription(
         correlation_id=x_correlation_id,
         clinic_id=moved.clinic_id,
     )
-    return moved.to_read_model()
+    _audit(event_name="inventory.movement.recorded", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="stock_movement", resource_id=movement.movement_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"{SUPPLY}:{movement.supply_class}:batch:{movement.batch}")
+    return {**moved.to_read_model(), "dispensed_batch": movement.batch, "movement_id": movement.movement_id}
 
 
 # ---------------------------------------------------------------------------
@@ -1800,6 +1835,8 @@ class MovementRequest(BaseModel):
     quantity_delta: int
     reason: str
     to_location_id: Optional[str] = None
+    #: FR-19 (U13): BRD P392 — a RECEIPT records the batch's expiry date (YYYY-MM-DD).
+    batch_expiry: Optional[str] = None
 
 
 @app.post("/api/inventory/locations")
@@ -1868,15 +1905,23 @@ def record_stock_movement(
                    action_result="denied", correlation_id=x_correlation_id,
                    reason_code=f"SUPPLY_CLASS_{supply_class}")
             raise
-    if body.reason not in REASONS or body.reason == TRANSFER_IN:
+    if body.reason not in REASONS or body.reason in (TRANSFER_IN, SUPPLY):
         raise HTTPException(400, f"reason must be one of {RECEIPT}, {ADJUSTMENT}, {TRANSFER_OUT}")
+    expiry = None
+    if body.reason == RECEIPT:
+        try:
+            expiry = datetime.strptime(body.batch_expiry or "", "%Y-%m-%d").date()
+        except ValueError:
+            raise HTTPException(400, {"error": "BATCH_EXPIRY_REQUIRED",
+                                      "detail": "a receipt records the batch expiry (YYYY-MM-DD)"}) from None
     now = datetime.now(timezone.utc)
 
     def mv(location_id, delta, reason, transfer_id=None):
         return StockMovement(movement_id=str(uuid4()), tenant_id=tenant_id, location_id=location_id,
                              product_id=body.product_id, batch=body.batch, quantity_delta=delta, reason=reason,
                              supply_class=supply_class, actor_id=actor_id, actor_role=actor_role,
-                             created_at=now, transfer_id=transfer_id)
+                             created_at=now, transfer_id=transfer_id,
+                             batch_expiry=expiry if reason == RECEIPT else None)
 
     if body.reason == TRANSFER_OUT:
         if not body.to_location_id or body.to_location_id == body.location_id or body.quantity_delta <= 0:
@@ -2123,6 +2168,83 @@ def delivery_alerts(request: Request, role: str = Depends(require_role)):
 def get_delivery(delivery_id: str, request: Request, role: str = Depends(require_role)):
     d, _a, _r, tenant_id = _delivery_for(request, delivery_id)
     return _delivery_view(d, tenant_id)
+
+
+# ---------------------------------------------------------------------------
+# FR-19 · batch recall resolution and owner notification (U13)
+# ---------------------------------------------------------------------------
+import recalls as rcl  # noqa: E402
+
+RECALL_REPO = PERSISTENCE.recalls
+
+
+def _recall_resolution(r) -> dict:
+    """AC-FR-19-02: resolve through stored relationships of the recall's tenant only."""
+    return rcl.resolve(
+        r, INVENTORY_REPO.supplies_of_batch(tenant_id=r.tenant_id, product_id=r.product_id, batch=r.batch),
+        prescription_of=lambda pid: PRESCRIPTION_REPO.get(pid, tenant_id=r.tenant_id),
+        pet_of=lambda pet_id: PET_REPO.get(pet_id, tenant_id=r.tenant_id))
+
+
+class RecallRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    product_id: str
+    batch: str
+    reason: str
+
+
+@app.post("/api/recalls")
+def create_recall(body: RecallRequest, request: Request, role: str = Depends(require_role),
+                  x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """Tenant staff record a recall of (product, batch). It resolves to every affected dispense and owner
+    through stored relationships, notifies each resolved owner (one notice per affected dispense, in the
+    same transaction as the recall), and returns both partitions with the completeness statement."""
+    actor_id, actor_role, tenant_id = _inventory_actor(request)
+    try:
+        product, batch, _ = rcl.normalise_sfda_recall(body.model_dump())
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Recall refused: {exc}") from None
+    if not body.reason.strip():
+        raise HTTPException(400, "Recall refused: a recall states its reason")
+    now = datetime.now(timezone.utc)
+    r = rcl.Recall(recall_id=str(uuid4()), tenant_id=tenant_id, product_id=product, batch=batch,
+                   reason=body.reason.strip(), source=rcl.SOURCE_STAFF, initiated_by_actor_id=actor_id, created_at=now)
+    res = _recall_resolution(r)
+    notices = [rcl.RecallNotification(
+        notification_id=str(uuid4()), recall_id=r.recall_id, tenant_id=tenant_id, owner_id=x["owner_id"],
+        movement_id=x["movement_id"], created_at=now,
+        rendered_body=(f"Recall: {product} batch {batch} dispensed for your pet ({x['pet_id']}) under prescription "
+                       f"{x['prescription_id']} has been recalled. Reason: {r.reason}. Please contact your clinic."))
+        for x in res["resolved"]]
+    RECALL_REPO.create(r, notices)
+    _audit(event_name="recall.created", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="recall", resource_id=r.recall_id, action_result="success", correlation_id=x_correlation_id,
+           reason_code=f"{product}:{batch}:resolved={len(res['resolved'])}:indeterminate={len(res['indeterminate'])}")
+    for n in notices:
+        _audit(event_name="recall.owner_notified", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+               resource_type="recall_notification", resource_id=n.notification_id, action_result="success",
+               correlation_id=x_correlation_id, reason_code=f"owner:{n.owner_id}")
+    return {**res, "notified_owners": sorted({n.owner_id for n in notices})}
+
+
+@app.get("/api/recalls/{recall_id}")
+def get_recall(recall_id: str, request: Request, role: str = Depends(require_role)):
+    _a, _r, tenant_id = _inventory_actor(request)
+    r = RECALL_REPO.get(recall_id, tenant_id=tenant_id)
+    if r is None:
+        raise HTTPException(404, "Recall not found")
+    return {**_recall_resolution(r),
+            "notified_owners": sorted({n.owner_id for n in RECALL_REPO.notifications(recall_id, tenant_id=tenant_id)})}
+
+
+@app.get("/api/me/recall-notices")
+def my_recall_notices(request: Request, role: str = Depends(require_role)):
+    """The owner's recall notices (AC-FR-19-02: each affected owner is notified)."""
+    actor_id, _r = _actor(request)
+    tenant_id = require_tenant(request)
+    return [{"notification_id": n.notification_id, "recall_id": n.recall_id, "body": n.rendered_body,
+             "created_at": n.created_at.isoformat()} for n in RECALL_REPO.notices_for_owner(actor_id, tenant_id=tenant_id)]
 
 
 # ---------------------------------------------------------------------------
