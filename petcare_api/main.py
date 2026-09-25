@@ -2432,6 +2432,117 @@ def get_order_receipt(order_id: str, request: Request, role: str = Depends(requi
 
 
 # ---------------------------------------------------------------------------
+# FR-23 · vaccination and treatment reminders (U15)
+# ---------------------------------------------------------------------------
+import reminders as rmd  # noqa: E402
+
+REMINDER_REPO = PERSISTENCE.reminders
+
+
+class CareDueRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    kind: str
+    title: str
+    due_at: str
+
+
+def _due_view(d) -> dict:
+    return {"due_id": d.due_id, "pet_id": d.pet_id, "kind": d.kind, "title": d.title, "due_at": d.due_at.isoformat(),
+            "completed": REMINDER_REPO.completed(d.due_id, tenant_id=d.tenant_id),
+            "reminders_sent": sorted(REMINDER_REPO.sent_kinds(d.due_id, tenant_id=d.tenant_id))}
+
+
+@app.post("/api/pets/{pet_id}/care-due")
+def record_care_due(pet_id: str, body: CareDueRequest, request: Request, role: str = Depends(require_role),
+                    x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """AC-FR-23-01: a veterinarian (live authority) records a vaccination or treatment due date."""
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(403, "Only a veterinarian records a vaccination or treatment due date")
+    _pet, actor_id, actor_role, tenant_id = _pet_or_404(request, pet_id)
+    _require_practitioner_authority(actor_id, tenant_id)
+    try:
+        due_at = datetime.fromisoformat(body.due_at.replace("Z", "+00:00"))
+        d = REMINDER_REPO.add_due(rmd.CareDue(due_id=str(uuid4()), tenant_id=tenant_id, pet_id=pet_id, kind=body.kind,
+                                              title=body.title.strip(), due_at=due_at, recorded_by=actor_id,
+                                              created_at=datetime.now(timezone.utc)))
+    except (ValueError, RepositoryDenied) as exc:
+        raise HTTPException(400, f"Due item refused: {exc}") from None
+    _audit(event_name="pet.care_due.recorded", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="pet_care_due", resource_id=d.due_id, action_result="success", correlation_id=x_correlation_id,
+           reason_code=f"{d.kind}:{d.due_at.isoformat()}")
+    return _due_view(d)
+
+
+@app.post("/api/pets/{pet_id}/care-due/{due_id}/complete")
+def complete_care_due(pet_id: str, due_id: str, request: Request, role: str = Depends(require_role),
+                      x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """The vaccination/treatment was given: the item is no longer outstanding (no 24-hour reminder)."""
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(403, "Only a veterinarian records that care was given")
+    _pet, actor_id, actor_role, tenant_id = _pet_or_404(request, pet_id)
+    _require_practitioner_authority(actor_id, tenant_id)
+    d = REMINDER_REPO.get_due(due_id, tenant_id=tenant_id)
+    if d is None or d.pet_id != pet_id:
+        raise HTTPException(404, "Due item not found")
+    try:
+        REMINDER_REPO.complete(rmd.CareCompletion(due_id=due_id, tenant_id=tenant_id, completed_by=actor_id,
+                                                  completed_at=datetime.now(timezone.utc)))
+    except RepositoryDenied as exc:
+        raise HTTPException(409, f"Completion refused: {exc}") from None
+    _audit(event_name="pet.care_due.completed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="pet_care_due", resource_id=due_id, action_result="success", correlation_id=x_correlation_id)
+    return _due_view(d)
+
+
+@app.get("/api/pets/{pet_id}/care-due")
+def list_care_due(pet_id: str, request: Request, role: str = Depends(require_role)):
+    _pet, _a, _r, tenant_id = _pet_or_404(request, pet_id)
+    return [_due_view(d) for d in REMINDER_REPO.dues(tenant_id=tenant_id) if d.pet_id == pet_id]
+
+
+@app.post("/api/reminders/run")
+def run_reminders(request: Request, role: str = Depends(require_role),
+                  x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """The reminder scheduler for the SESSION tenant, at the current time. Idempotent: each (item, kind) is
+    sent once. Invoked by the tenant's administrator or a platform scheduler; there is no suppression input."""
+    actor_id, actor_role = _actor(request)
+    if actor_role not in (ROLE_PARTNER_CLINIC_ADMIN, ROLE_PLATFORM_ADMIN):
+        raise HTTPException(403, "The reminder run is an administrative act")
+    tenant_id = require_tenant(request)
+    now = datetime.now(timezone.utc)
+    sent = []
+    for d in REMINDER_REPO.dues(tenant_id=tenant_id):
+        kinds = rmd.reminders_due(d, now=now, completed=REMINDER_REPO.completed(d.due_id, tenant_id=tenant_id),
+                                  already=REMINDER_REPO.sent_kinds(d.due_id, tenant_id=tenant_id))
+        if not kinds:
+            continue
+        pet = PET_REPO.get(d.pet_id, tenant_id=tenant_id)  # the owner of THIS tenant's pet — never another tenant's
+        if pet is None:
+            continue
+        language = PREFERENCE_REPO.get_language(pet.owner_id) or DEFAULT_LANGUAGE
+        for kind in kinds:
+            r = rmd.Reminder(reminder_id=str(uuid4()), due_id=d.due_id, tenant_id=tenant_id, owner_id=pet.owner_id,
+                             kind=kind, language=language, rendered=rmd.render(d, kind, language, pet.name),
+                             channel=rmd.CHANNEL_IN_APP, sent_at=now)
+            if REMINDER_REPO.record(r):
+                _audit(event_name="reminder.sent", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+                       resource_type="care_reminder", resource_id=r.reminder_id, action_result="success",
+                       correlation_id=x_correlation_id, reason_code=f"{kind}:{language}:owner:{pet.owner_id}")
+                sent.append({"due_id": d.due_id, "kind": kind, "owner_id": pet.owner_id, "language": language})
+    return {"run_at": now.isoformat(), "sent": sent}
+
+
+@app.get("/api/me/reminders")
+def my_reminders(request: Request, role: str = Depends(require_role)):
+    actor_id, _r = _actor(request)
+    tenant_id = require_tenant(request)
+    return [{"reminder_id": r.reminder_id, "due_id": r.due_id, "kind": r.kind, "language": r.language,
+             "body": r.rendered, "sent_at": r.sent_at.isoformat()}
+            for r in REMINDER_REPO.for_owner(actor_id, tenant_id=tenant_id)]
+
+
+# ---------------------------------------------------------------------------
 # FR-01 · practitioner authority administration (U5). Never self-service.
 # ---------------------------------------------------------------------------
 class AuthorityGrantRequest(BaseModel):

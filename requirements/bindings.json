@@ -828,22 +828,50 @@
   },
   "FR-23": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for reminder"
+      "petcare_api/main.py:2457 record_care_due: a veterinarian with a live authority records a vaccination/treatment due date on a pet of the session tenant",
+      "petcare_api/main.py:2505 run_reminders: the session tenant's scheduler; 7-day and 24-hour-if-outstanding defaults (no suppression input); owner of THIS tenant's pet; rendered in the owner's language; each send audited",
+      "petcare_api/main.py:2478 complete_care_due: the item is no longer outstanding",
+      "petcare_api/reminders.py reminders_due: the ratified defaults; render: Arabic / English",
+      "petcare_runtime/migrations/0048_fr23_care_reminders.sql pet_care_due / pet_care_completion / care_reminder UNIQUE(due_id, kind)",
+      "petcare_web/app/owner/reminders/page.tsx the owner's reminders, RTL for Arabic"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for reminder"
+        "petcare_api/persistence.py reminders=PostgresReminderRepository in postgres mode",
+        "petcare_api/main.py:2505 tenant from require_tenant; actor from _actor"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/owner/reminders"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "main:record_care_due",
+      "main:complete_care_due",
+      "main:list_care_due",
+      "main:run_reminders",
+      "main:my_reminders",
+      "reminders:reminders_due",
+      "reminders:render",
+      "reminders:InMemoryReminderRepository",
+      "postgres_repositories:PostgresReminderRepository",
+      "petcare_web/app/owner/reminders/page.tsx#OwnerRemindersPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": "petcare_runtime/src/petcare/uphr/models.py:63 next_due_at_nullable exists, always None at petcare_runtime/src/petcare/uphr/service.py:119; no reminder mechanism."
+    "routes": [
+      "POST /api/pets/{pet_id}/care-due",
+      "GET /api/pets/{pet_id}/care-due",
+      "POST /api/pets/{pet_id}/care-due/{due_id}/complete",
+      "POST /api/reminders/run",
+      "GET /api/me/reminders"
+    ],
+    "tests": [
+      "petcare_api/tests/test_fr23_reminders.py",
+      "petcare_api/tests/test_fr23_reminders_postgres.py"
+    ],
+    "unresolved": "AC-FR-23-03/04 depend on EXTERNAL:SMS_GATEWAY: reminders are delivered IN_APP; no SMS adapter is built or claimed. The scheduler is a served, idempotent run for the session tenant; binding it to a production timer is a PRODUCTION act. Configuration that ADDS reminders is not built; there is no path that suppresses the defaults."
   },
   "FR-24": {
     "basis": [

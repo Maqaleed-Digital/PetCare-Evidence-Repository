@@ -1691,3 +1691,77 @@ class PostgresOrderRepository:
         return None if not rows else Receipt(receipt_id=rows[0][0], order_id=rows[0][1], tenant_id=rows[0][2],
                                              owner_id=rows[0][3], language=rows[0][4], rendered=rows[0][5],
                                              total_halalas=rows[0][6], issued_at=_from_db(rows[0][7]))
+
+
+class PostgresReminderRepository:
+    """`ReminderRepository` over migration 0048 (FR-23, MVC-BUILD-RUNNER-001 U15). Insert-only."""
+
+    _D = "due_id, tenant_id, pet_id, kind, title, due_at, recorded_by, created_at"
+    _R = "reminder_id, due_id, tenant_id, owner_id, kind, language, rendered, channel, sent_at"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def add_due(self, d):
+        from reminders import validate_due
+        validate_due(d)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO pet_care_due ({self._D}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                             (d.due_id, d.tenant_id, d.pet_id, d.kind, d.title, _to_db(d.due_at), d.recorded_by,
+                              _to_db(d.created_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"due item was refused ({type(exc).__name__})") from None
+        return d
+
+    def _due(self, r):
+        from reminders import CareDue
+        return CareDue(due_id=r[0], tenant_id=r[1], pet_id=r[2], kind=r[3], title=r[4], due_at=_from_db(r[5]),
+                       recorded_by=r[6], created_at=_from_db(r[7]))
+
+    def get_due(self, due_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._D} FROM pet_care_due WHERE due_id = %s AND tenant_id = %s",
+                                (due_id, tenant_id)).fetchall()
+        return self._due(rows[0]) if rows else None
+
+    def dues(self, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._D} FROM pet_care_due WHERE tenant_id = %s ORDER BY due_at, due_id",
+                                (tenant_id,)).fetchall()
+        return [self._due(r) for r in rows]
+
+    def complete(self, c):
+        try:
+            with self._pool.connection() as conn:
+                conn.execute("INSERT INTO pet_care_completion (due_id, tenant_id, completed_by, completed_at) "
+                             "VALUES (%s,%s,%s,%s)", (c.due_id, c.tenant_id, c.completed_by, _to_db(c.completed_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"completion was refused ({type(exc).__name__})") from None
+        return c
+
+    def completed(self, due_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            return bool(conn.execute("SELECT 1 FROM pet_care_completion WHERE due_id = %s AND tenant_id = %s",
+                                     (due_id, tenant_id)).fetchall())
+
+    def record(self, r):
+        with self._pool.connection() as conn:
+            cur = conn.execute(f"INSERT INTO care_reminder ({self._R}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) "
+                               "ON CONFLICT (due_id, kind) DO NOTHING",
+                               (r.reminder_id, r.due_id, r.tenant_id, r.owner_id, r.kind, r.language, r.rendered,
+                                r.channel, _to_db(r.sent_at)))
+            return cur.rowcount == 1
+
+    def sent_kinds(self, due_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            return {r[0] for r in conn.execute("SELECT kind FROM care_reminder WHERE due_id = %s AND tenant_id = %s",
+                                               (due_id, tenant_id)).fetchall()}
+
+    def for_owner(self, owner_id, *, tenant_id):
+        from reminders import Reminder
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._R} FROM care_reminder WHERE owner_id = %s AND tenant_id = %s "
+                                "ORDER BY sent_at, reminder_id", (owner_id, tenant_id)).fetchall()
+        return [Reminder(reminder_id=r[0], due_id=r[1], tenant_id=r[2], owner_id=r[3], kind=r[4], language=r[5],
+                         rendered=r[6], channel=r[7], sent_at=_from_db(r[8])) for r in rows]
