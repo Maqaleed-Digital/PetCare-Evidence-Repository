@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 89
+    "served_route_count": 93
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -261,12 +261,12 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 6,
-        "implements": 9,
+        "basis": 7,
+        "implements": 16,
         "legacy": 0,
-        "routes": 5,
-        "tests": 2,
-        "ui_surface": 1
+        "routes": 9,
+        "tests": 3,
+        "ui_surface": 2
       },
       "criteria_gaps": {
         "AC-FR-06-01": [
@@ -292,7 +292,8 @@
         "storage": "PERSISTENT_POSTGRES",
         "tenant_source": "SESSION",
         "ui_surface": [
-          "petcare_web:/account/consultations"
+          "petcare_web:/account/consultations",
+          "petcare_web:/account/consultations/video"
         ]
       },
       "id": "FR-06",
@@ -303,7 +304,7 @@
       ],
       "status": "REACHABLE_TESTED",
       "title": "HD video consultations with screen sharing",
-      "unresolved": "AC-FR-06-01/02 (video with screen sharing, 720p with adaptive bitrate) are NOT built in U11: remote consultation is fail-closed pending COUNSEL:REG-02_TELEMEDICINE (AC-FR-06-05), so the served deployment cannot offer video; SPONSOR_QUEUE SQ-2 asks how AC-01/02 are to be accepted. AC-FR-06-03 depends on PRODUCTION. AC-FR-06-05 is built fail-closed; its dependency is not evidenced. Consultation notes (_notes) remain an in-memory store (clinical records; not an FR-06 criterion)."
+      "unresolved": "AC-FR-06-01/02: the video capability is BUILT behind the REG-02 gate (U22: WebRTC signalling via the served app, 720p capture, screen sharing, NFR-03 quality/ABR step-down records) but NOT registered — SPONSOR_QUEUE SQ-2 decides how they are accepted while remote consultation is fail-closed, and a real two-party media path (TURN relay; multi-instance signalling fan-out) is PRODUCTION infrastructure. AC-FR-06-03 depends on PRODUCTION. AC-FR-06-05 is built fail-closed; its dependency is not evidenced. Consultation notes (_notes) remain an in-memory store."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",

@@ -191,6 +191,34 @@
       "path": "/api/consultations/{consultation_id}/messages/{message_id}/attachments/{attachment_id}"
     },
     {
+      "endpoint": "main:get_video_quality",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/consultations/{consultation_id}/video/quality"
+    },
+    {
+      "endpoint": "main:post_video_quality",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/consultations/{consultation_id}/video/quality"
+    },
+    {
+      "endpoint": "main:get_video_signals",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/consultations/{consultation_id}/video/signal"
+    },
+    {
+      "endpoint": "main:post_video_signal",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/consultations/{consultation_id}/video/signal"
+    },
+    {
       "endpoint": "main:get_consultation",
       "methods": [
         "GET"
