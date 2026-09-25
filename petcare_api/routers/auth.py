@@ -10,6 +10,7 @@ from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from pydantic import BaseModel
 
 from persistence import build_persistence
+from licences import VetLicence  # FR-05 (U10)
 from repositories import (
     InviteCode,
     PROVENANCE_REGISTRATION,
@@ -297,6 +298,17 @@ class SignInRequest(BaseModel):
     password: str
 
 
+class LicenceDetails(BaseModel):
+    """FR-05 AC-FR-05-01: a veterinarian registers WITH licence details (MEWA / the competent
+    KSA veterinary licensing authority). Nothing here verifies the licence; verification is a
+    separate, named, audited act (/api/admin/practitioners/licences/{id}/verify)."""
+    model_config = {"extra": "forbid"}
+
+    licence_number: str
+    issuing_authority: str
+    expires_on: str  # YYYY-MM-DD
+
+
 class RegisterRequest(BaseModel):
     email: str
     password: str
@@ -304,6 +316,7 @@ class RegisterRequest(BaseModel):
     role: str
     name: str
     phone: str | None = None
+    licence: LicenceDetails | None = None
 
 
 # ── POST /api/auth/sign-in ────────────────────────────────────────
@@ -414,6 +427,23 @@ async def register(body: RegisterRequest):
         raise HTTPException(status_code=400,
                             detail={"error": "ROLE_MISMATCH"})
 
+    # FR-05 (U10). Checked before the invite is spent: a veterinarian registration without
+    # licence details, or with a licence already expired, never completes.
+    licence_expiry = None
+    if body.role == "veterinarian":
+        lic = body.licence
+        try:
+            licence_expiry = datetime.strptime(lic.expires_on, "%Y-%m-%d").date() if lic else None
+        except ValueError:
+            licence_expiry = None
+        if (lic is None or licence_expiry is None or not lic.licence_number.strip()
+                or not lic.issuing_authority.strip()):
+            _log_auth_event("auth.register_failed", {"reason": "licence_details_required", "email": body.email})
+            raise HTTPException(status_code=400, detail={"error": "LICENCE_DETAILS_REQUIRED"})
+        if licence_expiry < now.date():
+            _log_auth_event("auth.register_failed", {"reason": "licence_expired", "email": body.email})
+            raise HTTPException(status_code=400, detail={"error": "LICENCE_EXPIRED"})
+
     # Checked before the code is spent, so a registration that was never going
     # to succeed does not burn somebody else's invite.
     if IDENTITY_REPO.get_by_email(body.email) is not None:
@@ -462,6 +492,16 @@ async def register(body: RegisterRequest):
     _log_auth_event("auth.user_registered",
            {"user_id": user_id, "email": body.email, "role": body.role,
             "invite_code": body.invite_code})
+
+    if licence_expiry is not None:
+        submitted = PERSISTENCE.licences.submit(VetLicence(
+            licence_id=str(uuid4()), actor_id=user_id, licence_number=body.licence.licence_number.strip(),
+            issuing_authority=body.licence.issuing_authority.strip(), expires_on=licence_expiry,
+            submitted_at=now))
+        # Pre-session and tenantless: recorded in the auth event log (SQ-1 covers whether such
+        # events belong in the tenant audit chain). The verification itself is chain-audited.
+        _log_auth_event("auth.vet_licence_submitted",
+                        {"user_id": user_id, "licence_id": submitted.licence_id})
 
     # W0-F AC-7. Registration mints a cookie, so registration must create the
     # session record too.

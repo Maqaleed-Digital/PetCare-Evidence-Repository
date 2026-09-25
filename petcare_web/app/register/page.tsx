@@ -31,6 +31,10 @@ export default function RegisterPage() {
   const [inviteCode, setInviteCode] = useState('')
   const [password, setPassword] = useState('')
   const [role, setRole] = useState<'owner' | 'veterinarian'>('owner')
+  // FR-05 (U10): licence details, sent only for a veterinarian registration.
+  const [licenceNumber, setLicenceNumber] = useState('')
+  const [licenceAuthority, setLicenceAuthority] = useState('')
+  const [licenceExpiry, setLicenceExpiry] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -49,6 +53,9 @@ export default function RegisterPage() {
         body: JSON.stringify({
           email, password, invite_code: inviteCode, role, name,
           phone: phone || null,
+          ...(role === 'veterinarian' ? { licence: {
+            licence_number: licenceNumber.trim(), issuing_authority: licenceAuthority.trim(),
+            expires_on: licenceExpiry } } : {}),
         }),
       })
 
@@ -59,6 +66,8 @@ export default function RegisterPage() {
         if (code === 'INVITE_EXPIRED')      { setError(t(s.errInviteExpired)); return }
         if (code === 'ROLE_MISMATCH')       { setError(t(s.errRoleMismatch));  return }
         if (code === 'EMAIL_EXISTS')        { setError(t(s.errEmailExists));   return }
+        if (code === 'LICENCE_DETAILS_REQUIRED') { setError(t(s.errLicenceRequired)); return }
+        if (code === 'LICENCE_EXPIRED')     { setError(t(s.errLicenceExpired)); return }
         setError(`${t(s.errFailed)} (${res.status})`)
         return
       }
@@ -158,6 +167,27 @@ export default function RegisterPage() {
               <option value="veterinarian">{t(s.roleVet)}</option>
             </select>
           </div>
+
+          {role === 'veterinarian' && (
+            <fieldset data-testid="licence-fields" style={{ border: 0, padding: 0, margin: 0, display: 'grid', gap: 12 }}>
+              <p style={{ margin: 0 }}>{t(s.licenceNotice)}</p>
+              <div>
+                <label htmlFor="reg-licence-number" style={labelStyle}>{t(s.licenceNumberLabel)}</label>
+                <input id="reg-licence-number" type="text" required autoComplete="off"
+                  value={licenceNumber} onChange={e => setLicenceNumber(e.target.value)} style={inputStyle} />
+              </div>
+              <div>
+                <label htmlFor="reg-licence-authority" style={labelStyle}>{t(s.licenceAuthorityLabel)}</label>
+                <input id="reg-licence-authority" type="text" required autoComplete="off"
+                  value={licenceAuthority} onChange={e => setLicenceAuthority(e.target.value)} style={inputStyle} />
+              </div>
+              <div>
+                <label htmlFor="reg-licence-expiry" style={labelStyle}>{t(s.licenceExpiryLabel)}</label>
+                <input id="reg-licence-expiry" type="date" required
+                  value={licenceExpiry} onChange={e => setLicenceExpiry(e.target.value)} style={inputStyle} />
+              </div>
+            </fieldset>
+          )}
 
           <div>
             <label htmlFor="reg-password" style={labelStyle}>{t(s.passwordLabel)}</label>

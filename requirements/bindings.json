@@ -171,22 +171,49 @@
   },
   "FR-05": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for sfda|licen[cs]e (in server code)"
+      "petcare_api/routers/auth.py:433 register: a veterinarian registration requires licence number, issuing authority and an unexpired expiry date (LICENCE_DETAILS_REQUIRED / LICENCE_EXPIRED) before the invite is spent; the licence is stored SUBMITTED",
+      "petcare_api/main.py:788 _require_practitioner_authority: the live grant evaluated at every clinical act; refusal audited practitioner.authority.refused",
+      "petcare_api/main.py:676/717/1550 clinical notes, note signing and medical records now require the live authority",
+      "petcare_api/main.py:2025 verify: MANUAL_STAFF names the basis; AUTHORITY_LOOKUP accepts only VALID; mints a grant expiring with the licence; records verifier, time, method, basis; audited",
+      "petcare_api/licences.py VetLicence.expires_at: valid through expires_on (UTC)",
+      "petcare_runtime/migrations/0043_fr05_vet_licence.sql vet_licence + vet_licence_verification (CHECK verifier and basis named; one verification per licence)",
+      "petcare_web/app/register/page.tsx licence fields for a veterinarian (Arabic default)"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for sfda|licen[cs]e (in server code)"
+        "petcare_api/persistence.py licences=PostgresLicenceRepository in postgres mode",
+        "petcare_api/main.py:2025 tenant from require_tenant; verifier from _actor",
+        "petcare_web/app/register/page.tsx posts licence details to /api/auth/register"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/register"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "main:list_vet_licences",
+      "main:verify_vet_licence",
+      "main:my_vet_licence",
+      "main:_require_practitioner_authority",
+      "routers.auth:register",
+      "licences:InMemoryLicenceRepository",
+      "postgres_repositories:PostgresLicenceRepository",
+      "petcare_web/app/register/page.tsx#RegisterPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": "Vet identities are minted by invite-gated registration (petcare_api/routers/auth.py:386) and time-bounded professional authority grants exist (petcare_runtime/src/petcare/professional_authority/authority.py:107, unmounted), but no SFDA/licence registration or verification is evidenced. Not bound."
+    "routes": [
+      "POST /api/auth/register",
+      "GET /api/admin/practitioners/licences",
+      "POST /api/admin/practitioners/licences/{licence_id}/verify",
+      "GET /api/practitioners/me/licence"
+    ],
+    "tests": [
+      "petcare_api/tests/test_fr05_licence.py",
+      "petcare_api/tests/test_fr05_licence_postgres.py"
+    ],
+    "unresolved": "AC-FR-05-03/04 depend on EXTERNAL:VET_LICENSING_AUTHORITY (MEWA or the competent KSA authority): the lookup port fails closed (served adapter UNAVAILABLE; only VALID verifies) and is exercised with a double of our own reading, which is NOT registered as evidence. Until the live lookup exists, verification is a recorded MANUAL verification by a named staff member. There is no admin UI for verification yet (served routes only); AC-FR-05-02 has no UI evidence type."
   },
   "FR-06": {
     "basis": [

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { LangProvider } from '@/components/LangProvider'
 import RegisterPage from '@/app/register/page'
@@ -25,6 +25,10 @@ async function fillAndSubmit(opts?: { role?: string }) {
   await user.type(screen.getByLabelText(/رمز الدعوة/), 'OWNER-PILOT-001')
   if (opts?.role === 'veterinarian') {
     await user.selectOptions(screen.getByLabelText(/نوع الحساب/), 'veterinarian')
+    // FR-05 (U10): a veterinarian registers with licence details.
+    await user.type(screen.getByLabelText('رقم الترخيص المهني'), 'MEWA-123')
+    await user.type(screen.getByLabelText('جهة إصدار الترخيص'), 'MEWA')
+    fireEvent.change(screen.getByLabelText('تاريخ انتهاء الترخيص'), { target: { value: '2030-01-31' } })
   }
   await user.type(screen.getByLabelText(/كلمة المرور/), 'Pilot2026!')
   await user.click(screen.getByRole('button', { name: /إنشاء الحساب/ }))

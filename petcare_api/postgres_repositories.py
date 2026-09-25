@@ -1295,3 +1295,69 @@ class PostgresInventoryRepository:
             rows = conn.execute(sql, params).fetchall()
         return [{"location_id": r[0], "product_id": r[1], "batch": r[2], "quantity": int(r[3]),
                  "supply_class": r[4]} for r in rows]
+
+
+class PostgresLicenceRepository:
+    """`LicenceRepository` over migration 0043 (FR-05, MVC-BUILD-RUNNER-001 U10). No UPDATE path."""
+
+    _L = "licence_id, actor_id, licence_number, issuing_authority, expires_on, submitted_at"
+    _V = "verification_id, licence_id, tenant_id, verified_by_actor_id, verified_at, method, basis, grant_id"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def submit(self, lic):
+        from licences import validate_licence
+        validate_licence(lic, today=lic.submitted_at.date())
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO vet_licence ({self._L}) VALUES (%s,%s,%s,%s,%s,%s)",
+                             (lic.licence_id, lic.actor_id, lic.licence_number, lic.issuing_authority,
+                              lic.expires_on, _to_db(lic.submitted_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"licence was refused ({type(exc).__name__})") from None
+        return lic
+
+    def _lic(self, r):
+        from licences import VetLicence
+        return VetLicence(licence_id=r[0], actor_id=r[1], licence_number=r[2], issuing_authority=r[3],
+                          expires_on=r[4], submitted_at=_from_db(r[5]))
+
+    def get(self, licence_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._L} FROM vet_licence WHERE licence_id = %s", (licence_id,)).fetchall()
+        return self._lic(rows[0]) if rows else None
+
+    def for_actor(self, actor_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._L} FROM vet_licence WHERE actor_id = %s "
+                                "ORDER BY submitted_at, licence_id", (actor_id,)).fetchall()
+        return [self._lic(r) for r in rows]
+
+    def all(self):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._L} FROM vet_licence ORDER BY submitted_at, licence_id").fetchall()
+        return [self._lic(r) for r in rows]
+
+    def record_verification(self, v):
+        from licences import validate_verification
+        validate_verification(v)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO vet_licence_verification ({self._V}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                             (v.verification_id, v.licence_id, v.tenant_id, v.verified_by_actor_id,
+                              _to_db(v.verified_at), v.method, v.basis, v.grant_id))
+        except Exception as exc:
+            raise RepositoryDenied(f"verification was refused ({type(exc).__name__})") from None
+        return v
+
+    def verification_of(self, licence_id):
+        from licences import LicenceVerification
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._V} FROM vet_licence_verification WHERE licence_id = %s",
+                                (licence_id,)).fetchall()
+        if not rows:
+            return None
+        r = rows[0]
+        return LicenceVerification(verification_id=r[0], licence_id=r[1], tenant_id=r[2], verified_by_actor_id=r[3],
+                                   verified_at=_from_db(r[4]), method=r[5], basis=r[6], grant_id=r[7])

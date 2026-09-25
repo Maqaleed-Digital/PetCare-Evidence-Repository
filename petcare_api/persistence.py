@@ -42,6 +42,7 @@ from postgres_repositories import (
     PostgresPractitionerAuthorityRepository,
     PostgresMessageRepository,
     PostgresInventoryRepository,
+    PostgresLicenceRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -56,6 +57,7 @@ from preferences import InMemoryPreferenceRepository
 from practitioners import InMemoryPractitionerAuthorityRepository
 from messages import InMemoryMessageRepository
 from inventory import InMemoryInventoryRepository
+from licences import InMemoryLicenceRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -96,6 +98,8 @@ class Persistence:
     messages: Any = None
     #: FR-13 (U8): multi-location stock movement ledger.
     inventory: Any = None
+    #: FR-05 (U10): veterinarian licences and their verifications.
+    licences: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -168,6 +172,7 @@ def build_persistence(
             practitioners=InMemoryPractitionerAuthorityRepository(tenants),
             messages=InMemoryMessageRepository(tenants),
             inventory=InMemoryInventoryRepository(tenants),
+            licences=InMemoryLicenceRepository(),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -199,6 +204,7 @@ def build_persistence(
         practitioners=PostgresPractitionerAuthorityRepository(pool),
         messages=PostgresMessageRepository(pool),
         inventory=PostgresInventoryRepository(pool),
+        licences=PostgresLicenceRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )

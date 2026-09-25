@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 55
+    "served_route_count": 58
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -229,24 +229,16 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 1,
-        "implements": 0,
+        "basis": 7,
+        "implements": 8,
         "legacy": 0,
-        "routes": 0,
-        "tests": 0,
-        "ui_surface": 0
+        "routes": 4,
+        "tests": 2,
+        "ui_surface": 1
       },
       "criteria_gaps": {
-        "AC-FR-05-01": [
-          "AUDIT",
-          "SERVED_APP_E2E",
-          "UI"
-        ],
-        "AC-FR-05-02": [
-          "AUDIT",
-          "PERSISTENCE",
-          "TENANT_ISOLATION"
-        ],
+        "AC-FR-05-01": [],
+        "AC-FR-05-02": [],
         "AC-FR-05-03": [
           "DEPENDENCY",
           "SERVED_APP_E2E"
@@ -256,22 +248,24 @@
           "DEPENDENCY"
         ]
       },
-      "engineering_status": "ABSENT",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
-        "storage": "NONE",
-        "tenant_source": "NONE",
-        "ui_surface": []
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/register"
+        ]
       },
       "id": "FR-05",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "no implementing symbol bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "ABSENT",
+      "status": "REACHABLE_TESTED",
       "title": "SFDA-compliant vet registration and verification",
-      "unresolved": "Vet identities are minted by invite-gated registration (petcare_api/routers/auth.py:386) and time-bounded professional authority grants exist (petcare_runtime/src/petcare/professional_authority/authority.py:107, unmounted), but no SFDA/licence registration or verification is evidenced. Not bound."
+      "unresolved": "AC-FR-05-03/04 depend on EXTERNAL:VET_LICENSING_AUTHORITY (MEWA or the competent KSA authority): the lookup port fails closed (served adapter UNAVAILABLE; only VALID verifies) and is exercised with a double of our own reading, which is NOT registered as evidence. Until the live lookup exists, verification is a recorded MANUAL verification by a named staff member. There is no admin UI for verification yet (served routes only); AC-FR-05-02 has no UI evidence type."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
@@ -1206,18 +1200,17 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 20,
+        "ABSENT": 19,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
-        "REACHABLE_TESTED": 6,
+        "REACHABLE_TESTED": 7,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-03",
           "FR-04",
-          "FR-05",
           "FR-06",
           "FR-10",
           "FR-12",
@@ -1248,6 +1241,7 @@
         ],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-05",
           "FR-07",
           "FR-09",
           "FR-13",
@@ -1265,17 +1259,16 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 9,
+        "ABSENT": 8,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 6,
+        "REACHABLE_TESTED": 7,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-04",
-          "FR-05",
           "FR-06",
           "FR-15",
           "FR-16",
@@ -1291,6 +1284,7 @@
         "BUILT_UNWIRED": [],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-05",
           "FR-07",
           "FR-09",
           "FR-13",
@@ -1308,17 +1302,16 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 9,
+        "ABSENT": 8,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 6,
+        "REACHABLE_TESTED": 7,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-04",
-          "FR-05",
           "FR-06",
           "FR-15",
           "FR-16",
@@ -1334,6 +1327,7 @@
         "BUILT_UNWIRED": [],
         "REACHABLE_TESTED": [
           "FR-01",
+          "FR-05",
           "FR-07",
           "FR-09",
           "FR-13",
