@@ -2842,6 +2842,95 @@ def get_order_routing(order_id: str, request: Request, role: str = Depends(requi
 
 
 # ---------------------------------------------------------------------------
+# FR-06 · video consultation signalling and quality (U22) — behind the REG-02 gate
+# ---------------------------------------------------------------------------
+import video as vid  # noqa: E402
+
+VIDEO_HUB = vid.SignallingHub()
+
+
+def _video_call(request: Request, consultation_id: str):
+    """(session, actor_id, tenant_id) for a REMOTE_VIDEO consultation the session actor participates in, while the
+    REG-02 gate is open; 403 when remote consultation is not offered, 404 outside the consultation."""
+    actor_id, _role = _actor(request)
+    tenant_id = require_tenant(request)
+    session = _consultation(consultation_id, tenant_id)
+    if not session or actor_id not in (session["owner_id"], session["veterinarian_id"]):
+        raise HTTPException(404, "Consultation not found")
+    if not _remote_consultation_gate()["offered"]:
+        raise HTTPException(403, detail={"error": "REMOTE_CONSULTATION_NOT_OFFERED", **_remote_consultation_gate()})
+    if session["mode"] != consult.MODE_REMOTE_VIDEO:
+        raise HTTPException(409, "This consultation is not a video consultation")
+    return session, actor_id, tenant_id
+
+
+class SignalRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    kind: str
+    payload: dict
+
+
+@app.post("/api/consultations/{consultation_id}/video/signal")
+def post_video_signal(consultation_id: str, body: SignalRequest, request: Request, role: str = Depends(require_role)):
+    """AC-FR-06-01: relay one WebRTC signalling message (offer/answer/ICE/screen-share renegotiation) to the other
+    participant. The media itself flows peer to peer."""
+    _session, actor_id, tenant_id = _video_call(request, consultation_id)
+    try:
+        s = VIDEO_HUB.post(consultation_id=consultation_id, tenant_id=tenant_id, sender_id=actor_id, kind=body.kind,
+                           payload=body.payload, at=datetime.now(timezone.utc))
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Signal refused: {exc}") from None
+    return {"seq": s.seq, "kind": s.kind}
+
+
+@app.get("/api/consultations/{consultation_id}/video/signal")
+def get_video_signals(consultation_id: str, request: Request, after: int = 0, role: str = Depends(require_role)):
+    _session, actor_id, tenant_id = _video_call(request, consultation_id)
+    return [{"seq": s.seq, "kind": s.kind, "payload": s.payload, "from": s.sender_id}
+            for s in VIDEO_HUB.inbox(consultation_id=consultation_id, tenant_id=tenant_id, recipient_id=actor_id,
+                                     after=after)]
+
+
+class QualityRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    frame_width: int
+    frame_height: int
+    bitrate_kbps: int
+    quality_limitation_reason: Optional[str] = None
+
+
+@app.post("/api/consultations/{consultation_id}/video/quality")
+def post_video_quality(consultation_id: str, body: QualityRequest, request: Request, role: str = Depends(require_role),
+                       x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """AC-FR-06-02 (NFR-03): record the rendered resolution; below 720p is compliant only with an ABR step-down
+    reason. A non-compliant sample is audited."""
+    _session, actor_id, tenant_id = _video_call(request, consultation_id)
+    reason = (body.quality_limitation_reason or "").lower() or None
+    try:
+        q = VIDEO_HUB.record_quality(vid.QualitySample(
+            consultation_id=consultation_id, tenant_id=tenant_id, reporter_id=actor_id, frame_width=body.frame_width,
+            frame_height=body.frame_height, bitrate_kbps=body.bitrate_kbps, limitation_reason=reason,
+            at=datetime.now(timezone.utc)))
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Sample refused: {exc}") from None
+    if not q.compliant:
+        _audit(event_name="consultation.video.below_hd", actor_id=actor_id, actor_role=role, tenant_id=tenant_id,
+               resource_type="consultation_session", resource_id=consultation_id, action_result="denied",
+               correlation_id=x_correlation_id, reason_code=f"{q.frame_width}x{q.frame_height}:no-step-down")
+    return {"hd": q.hd, "step_down": q.step_down, "compliant": q.compliant}
+
+
+@app.get("/api/consultations/{consultation_id}/video/quality")
+def get_video_quality(consultation_id: str, request: Request, role: str = Depends(require_role)):
+    _session, _a, tenant_id = _video_call(request, consultation_id)
+    samples = VIDEO_HUB.quality(consultation_id=consultation_id, tenant_id=tenant_id)
+    return {"samples": len(samples), "hd": sum(q.hd for q in samples), "step_downs": sum(q.step_down for q in samples),
+            "non_compliant": sum(not q.compliant for q in samples), "min_height_hd": vid.HD_MIN_HEIGHT}
+
+
+# ---------------------------------------------------------------------------
 # FR-01 · practitioner authority administration (U5). Never self-service.
 # ---------------------------------------------------------------------------
 class AuthorityGrantRequest(BaseModel):

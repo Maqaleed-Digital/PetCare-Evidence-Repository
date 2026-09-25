@@ -246,7 +246,8 @@
       "petcare_api/main.py:727 outcome: the consultation's veterinarian with a live authority, once; audited",
       "petcare_api/main.py:613 every consultation read is tenant-scoped through the repository",
       "petcare_runtime/migrations/0044_fr06_consultation_record.sql consultation / consultation_outcome (insert-only; one outcome) / regulatory_determination",
-      "petcare_web/app/account/consultations/page.tsx lists consultations with outcomes; states remote consultation is not offered; no video control"
+      "petcare_web/app/account/consultations/page.tsx lists consultations with outcomes; states remote consultation is not offered; no video control",
+      "petcare_api/main.py:2852 _video_call (U22): participants only, REMOTE_VIDEO only, REG-02 gate enforced; signalling relay + quality/ABR step-down records; petcare_web/app/account/consultations/video/page.tsx 720p capture + screen share (replaceTrack)"
     ],
     "fitness": {
       "audit_actor_source": "SESSION",
@@ -257,7 +258,8 @@
       "storage": "PERSISTENT_POSTGRES",
       "tenant_source": "SESSION",
       "ui_surface": [
-        "petcare_web:/account/consultations"
+        "petcare_web:/account/consultations",
+        "petcare_web:/account/consultations/video"
       ]
     },
     "implements": [
@@ -269,7 +271,14 @@
       "main:_remote_consultation_gate",
       "consultations:InMemoryConsultationRepository",
       "postgres_repositories:PostgresConsultationRepository",
-      "petcare_web/app/account/consultations/page.tsx#ConsultationsPage"
+      "petcare_web/app/account/consultations/page.tsx#ConsultationsPage",
+      "main:post_video_signal",
+      "main:get_video_signals",
+      "main:post_video_quality",
+      "main:get_video_quality",
+      "main:_video_call",
+      "video:SignallingHub",
+      "petcare_web/app/account/consultations/video/page.tsx#VideoConsultationPage"
     ],
     "legacy": [],
     "routes": [
@@ -277,13 +286,18 @@
       "GET /api/consultations",
       "GET /api/consultations/{session_id}",
       "POST /api/consultations/{session_id}/outcome",
-      "GET /api/consultations/remote/availability"
+      "GET /api/consultations/remote/availability",
+      "POST /api/consultations/{consultation_id}/video/signal",
+      "GET /api/consultations/{consultation_id}/video/signal",
+      "POST /api/consultations/{consultation_id}/video/quality",
+      "GET /api/consultations/{consultation_id}/video/quality"
     ],
     "tests": [
       "petcare_api/tests/test_fr06_consultation.py",
-      "petcare_api/tests/test_fr06_consultation_postgres.py"
+      "petcare_api/tests/test_fr06_consultation_postgres.py",
+      "petcare_api/tests/test_fr06_video.py"
     ],
-    "unresolved": "AC-FR-06-01/02 (video with screen sharing, 720p with adaptive bitrate) are NOT built in U11: remote consultation is fail-closed pending COUNSEL:REG-02_TELEMEDICINE (AC-FR-06-05), so the served deployment cannot offer video; SPONSOR_QUEUE SQ-2 asks how AC-01/02 are to be accepted. AC-FR-06-03 depends on PRODUCTION. AC-FR-06-05 is built fail-closed; its dependency is not evidenced. Consultation notes (_notes) remain an in-memory store (clinical records; not an FR-06 criterion)."
+    "unresolved": "AC-FR-06-01/02: the video capability is BUILT behind the REG-02 gate (U22: WebRTC signalling via the served app, 720p capture, screen sharing, NFR-03 quality/ABR step-down records) but NOT registered — SPONSOR_QUEUE SQ-2 decides how they are accepted while remote consultation is fail-closed, and a real two-party media path (TURN relay; multi-instance signalling fan-out) is PRODUCTION infrastructure. AC-FR-06-03 depends on PRODUCTION. AC-FR-06-05 is built fail-closed; its dependency is not evidenced. Consultation notes (_notes) remain an in-memory store."
   },
   "FR-07": {
     "basis": [
