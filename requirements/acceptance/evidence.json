@@ -482,6 +482,41 @@
       "type": "PERSISTENCE"
     }
   ],
+  "AC-FR-15-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr15_routing.py::test_an_order_is_routed_by_licence_then_basket_then_eta_then_distance_then_id",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr15_routing.py::test_routing_fails_closed_without_maps_or_without_a_licensed_pharmacy",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr15_routing.py::test_an_order_is_routed_by_licence_then_basket_then_eta_then_distance_then_id",
+      "type": "TENANT_ISOLATION"
+    }
+  ],
+  "AC-FR-15-04": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr15_routing.py::test_every_routing_decision_is_recorded_with_its_inputs_and_shown_to_the_owner",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr15_routing_postgres.py::test_a_routing_decision_and_its_inputs_survive_a_second_instance",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr15-fulfilled-by.test.tsx",
+      "sha256": "cd3ea09a264f6981083eecd2a4ae6f5384ac64d200aab4b832638824bad1d775",
+      "type": "UI"
+    }
+  ],
   "AC-FR-16-01": [
     {
       "kind": "TEST",

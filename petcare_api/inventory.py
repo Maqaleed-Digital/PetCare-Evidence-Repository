@@ -57,6 +57,9 @@ class InventoryLocation:
     tenant_id: str
     name: str
     created_at: datetime
+    #: FR-15 (U18): the pharmacy's position, the routing destination.
+    latitude: Optional[float] = None
+    longitude: Optional[float] = None
 
     def to_read_model(self) -> dict:
         d = asdict(self); d["created_at"] = self.created_at.isoformat(); return d

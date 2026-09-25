@@ -15,7 +15,7 @@ import { useLang } from '@/components/LangProvider'
 type Priced = { product_id: string; unit_price_halalas: number }
 type Receipt = { receipt_id: string; language: string; rendered: string; issued_at: string }
 type Order = { order_id: string; payment_method: string; status: string; paid: boolean; total_halalas: number;
-  receipt: Receipt | null }
+  receipt: Receipt | null; fulfilled_by?: { location_id: string; name: string } | null }
 
 const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL ?? '').replace(/\/$/, '')
 const call = (path: string, init?: RequestInit) =>
@@ -30,6 +30,7 @@ const L = {
   place: { ar: 'تأكيد الطلب', en: 'Place order' },
   none: { ar: 'لا توجد طلبات بعد.', en: 'No orders yet.' },
   receipt: { ar: 'الإيصال الرقمي', en: 'Digital receipt' },
+  fulfilledBy: { ar: 'تُنفَّذ من صيدلية', en: 'Fulfilled by pharmacy' },
   PLACED: { ar: 'بانتظار التوصيل', en: 'Awaiting delivery' },
   DELIVERED: { ar: 'تم التسليم والدفع', en: 'Delivered and paid' },
   sar: { ar: 'ر.س', en: 'SAR' },
@@ -95,6 +96,7 @@ export default function OwnerOrdersPage() {
       {orders.map(o => (
         <section key={o.order_id} className="card stack" data-testid="order">
           <div>{t(o.status === 'DELIVERED' ? 'DELIVERED' : 'PLACED')} · {t('cod')} · {money(o.total_halalas)}</div>
+          {o.fulfilled_by && <div data-testid="fulfilled-by">{t('fulfilledBy')}: {o.fulfilled_by.name}</div>}
           {o.receipt && (
             <article data-testid="receipt" lang={o.receipt.language} dir={o.receipt.language === 'ar' ? 'rtl' : 'ltr'}>
               <h3>{t('receipt')}</h3>

@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 87
+    "served_route_count": 89
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -580,18 +580,16 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 1,
-        "implements": 0,
+        "basis": 6,
+        "implements": 8,
         "legacy": 0,
-        "routes": 0,
-        "tests": 0,
-        "ui_surface": 0
+        "routes": 2,
+        "tests": 2,
+        "ui_surface": 1
       },
       "criteria_gaps": {
         "AC-FR-15-01": [
-          "DEPENDENCY",
-          "SERVED_APP_E2E",
-          "TENANT_ISOLATION"
+          "DEPENDENCY"
         ],
         "AC-FR-15-02": [
           "DEPENDENCY",
@@ -601,28 +599,26 @@
           "DEPENDENCY",
           "SERVED_APP_E2E"
         ],
-        "AC-FR-15-04": [
-          "AUDIT",
-          "PERSISTENCE",
-          "UI"
-        ]
+        "AC-FR-15-04": []
       },
-      "engineering_status": "ABSENT",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
-        "storage": "NONE",
-        "tenant_source": "NONE",
-        "ui_surface": []
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/owner/orders"
+        ]
       },
       "id": "FR-15",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "no implementing symbol bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "ABSENT",
+      "status": "REACHABLE_TESTED",
       "title": "Smart order routing to nearest/optimal pharmacy",
-      "unresolved": "petcare_runtime/src/petcare/partner_network/orders_service.py:109 route_order routes to the order's pre-set partner_id ('deterministic_partner_route_from_pricing_reference'); no nearest/optimal selection. petcare_web/app/pharmacy/page.tsx:8 records FR-15 out of Option A scope. Not bound."
+      "unresolved": "AC-FR-15-01 depends on COUNSEL:MVC-PHARM-001 §6c (establishment licences): the licence register has no served write path and is populated only by test fixtures, as the ratified text directs — no pharmacy is live-eligible. AC-FR-15-02/03 depend on EXTERNAL:MAPS_API: the served app has no maps adapter and routing fails closed (503); tests use a contract double that is not registered as maps evidence."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
@@ -1159,11 +1155,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 12,
+        "ABSENT": 11,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
-        "REACHABLE_TESTED": 14,
+        "REACHABLE_TESTED": 15,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1171,7 +1167,6 @@
           "FR-03",
           "FR-10",
           "FR-12",
-          "FR-15",
           "FR-17",
           "FR-18",
           "FR-22",
@@ -1200,6 +1195,7 @@
           "FR-09",
           "FR-13",
           "FR-14",
+          "FR-15",
           "FR-16",
           "FR-19",
           "FR-20",
@@ -1218,17 +1214,15 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 1,
+        "ABSENT": 0,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 14,
+        "REACHABLE_TESTED": 15,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
-        "ABSENT": [
-          "FR-15"
-        ],
+        "ABSENT": [],
         "ACCEPTED": [
           "FR-02"
         ],
@@ -1243,6 +1237,7 @@
           "FR-09",
           "FR-13",
           "FR-14",
+          "FR-15",
           "FR-16",
           "FR-19",
           "FR-20",
@@ -1261,17 +1256,15 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 1,
+        "ABSENT": 0,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 14,
+        "REACHABLE_TESTED": 15,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
-        "ABSENT": [
-          "FR-15"
-        ],
+        "ABSENT": [],
         "ACCEPTED": [
           "FR-02"
         ],
@@ -1286,6 +1279,7 @@
           "FR-09",
           "FR-13",
           "FR-14",
+          "FR-15",
           "FR-16",
           "FR-19",
           "FR-20",

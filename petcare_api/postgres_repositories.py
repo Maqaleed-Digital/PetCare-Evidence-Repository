@@ -1176,7 +1176,7 @@ class PostgresInventoryRepository:
     trigger refuses both regardless. A balance is always SUM(quantity_delta).
     """
 
-    _L = "location_id, tenant_id, name, created_at"
+    _L = "location_id, tenant_id, name, created_at, latitude, longitude"
     _M = ("movement_id, tenant_id, location_id, product_id, batch, quantity_delta, reason, supply_class, "
           "actor_id, actor_role, created_at, transfer_id, prescription_id, batch_expiry")
 
@@ -1188,15 +1188,18 @@ class PostgresInventoryRepository:
             raise RepositoryDenied("a location needs a name")
         try:
             with self._pool.connection() as conn:
-                conn.execute(f"INSERT INTO inventory_location ({self._L}) VALUES (%s,%s,%s,%s)",
-                             (loc.location_id, loc.tenant_id, loc.name, _to_db(loc.created_at)))
+                conn.execute(f"INSERT INTO inventory_location ({self._L}) VALUES (%s,%s,%s,%s,%s,%s)",
+                             (loc.location_id, loc.tenant_id, loc.name, _to_db(loc.created_at), loc.latitude,
+                              loc.longitude))
         except Exception as exc:
             raise RepositoryDenied(f"location {loc.location_id!r} was refused ({type(exc).__name__})") from None
         return loc
 
     def _loc(self, r):
         from inventory import InventoryLocation
-        return InventoryLocation(location_id=r[0], tenant_id=r[1], name=r[2], created_at=_from_db(r[3]))
+        return InventoryLocation(location_id=r[0], tenant_id=r[1], name=r[2], created_at=_from_db(r[3]),
+                                 latitude=None if r[4] is None else float(r[4]),
+                                 longitude=None if r[5] is None else float(r[5]))
 
     def locations(self, *, tenant_id):
         with self._pool.connection() as conn:
@@ -1868,3 +1871,51 @@ class PostgresComplianceRepository:
         r = rows[0]
         return ReportHeader(report_id=r[0], tenant_id=r[1], kind=r[2], period_from=_from_db(r[3]), period_to=_from_db(r[4]),
                             generated_by=r[5], generated_at=_from_db(r[6]), row_count=r[7], content_sha256=r[8])
+
+
+class PostgresRoutingRepository:
+    """`RoutingRepository` over migration 0050 (FR-15, MVC-BUILD-RUNNER-001 U18). Insert-only decisions."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def license(self, location_id, supply_class, source="test fixture (MVC-PHARM-001 §6c undefined)"):
+        """Governed register only (MVC-PHARM-001 §6c). No served route calls this."""
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO pharmacy_licence (location_id, supply_class, source) VALUES (%s,%s,%s) "
+                         "ON CONFLICT DO NOTHING", (location_id, supply_class, source))
+
+    def licensed(self, location_id, supply_class):
+        with self._pool.connection() as conn:
+            return bool(conn.execute("SELECT 1 FROM pharmacy_licence WHERE location_id = %s AND supply_class = %s",
+                                     (location_id, supply_class)).fetchall())
+
+    def record(self, d):
+        import json as _json
+        if not d.candidates:
+            raise RepositoryDenied("a routing decision records the candidates it evaluated")
+        try:
+            with self._pool.connection() as conn:
+                conn.execute("INSERT INTO routing_decision (decision_id, order_id, tenant_id, owner_latitude, "
+                             "owner_longitude, candidates, chosen_location_id, rule_version, decided_by, decided_at) "
+                             "VALUES (%s,%s,%s,%s,%s,%s::jsonb,%s,%s,%s,%s)",
+                             (d.decision_id, d.order_id, d.tenant_id, d.owner_latitude, d.owner_longitude,
+                              _json.dumps(list(d.candidates)), d.chosen_location_id, d.rule_version, d.decided_by,
+                              _to_db(d.decided_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"routing decision was refused ({type(exc).__name__})") from None
+        return d
+
+    def latest_for(self, order_id, *, tenant_id):
+        from routing import RoutingDecision
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT decision_id, order_id, tenant_id, owner_latitude, owner_longitude, candidates, "
+                                "chosen_location_id, rule_version, decided_by, decided_at FROM routing_decision "
+                                "WHERE order_id = %s AND tenant_id = %s ORDER BY decided_at DESC, decision_id DESC LIMIT 1",
+                                (order_id, tenant_id)).fetchall()
+        if not rows:
+            return None
+        r = rows[0]
+        return RoutingDecision(decision_id=r[0], order_id=r[1], tenant_id=r[2], owner_latitude=float(r[3]),
+                               owner_longitude=float(r[4]), candidates=tuple(r[5]), chosen_location_id=r[6],
+                               rule_version=r[7], decided_by=r[8], decided_at=_from_db(r[9]))

@@ -352,6 +352,20 @@
       "path": "/api/orders/{order_id}/receipt"
     },
     {
+      "endpoint": "main:route_order",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/orders/{order_id}/route"
+    },
+    {
+      "endpoint": "main:get_order_routing",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/orders/{order_id}/routing"
+    },
+    {
       "endpoint": "main:list_pets",
       "methods": [
         "GET"
