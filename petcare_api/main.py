@@ -2248,6 +2248,190 @@ def my_recall_notices(request: Request, role: str = Depends(require_role)):
 
 
 # ---------------------------------------------------------------------------
+# FR-20 · cash on delivery with digital receipting (U14)
+# ---------------------------------------------------------------------------
+import orders as ordr  # noqa: E402
+
+ORDER_REPO = PERSISTENCE.orders
+
+
+class PriceRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    product_id: str
+    unit_price_halalas: int
+
+
+@app.post("/api/catalog/prices")
+def set_price(body: PriceRequest, request: Request, role: str = Depends(require_role),
+              x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """A clinic administrator sets the tenant's price for a product (append-only history, latest wins)."""
+    actor_id, actor_role, tenant_id = _inventory_actor(request)
+    if actor_role != ROLE_PARTNER_CLINIC_ADMIN:
+        raise HTTPException(403, "Only a clinic administrator sets prices")
+    try:
+        ORDER_REPO.set_price(ordr.PriceEntry(tenant_id=tenant_id, product_id=body.product_id,
+                                             unit_price_halalas=body.unit_price_halalas, set_by_actor_id=actor_id,
+                                             set_at=datetime.now(timezone.utc)))
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Price refused: {exc}") from None
+    _audit(event_name="catalog.price.set", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="tenant_price", resource_id=body.product_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"{body.unit_price_halalas}")
+    return {"product_id": body.product_id, "unit_price_halalas": body.unit_price_halalas}
+
+
+@app.get("/api/catalog/prices")
+def list_prices(request: Request, role: str = Depends(require_role)):
+    """The session tenant's orderable products: priced and GENERAL/OTC (eligible for an order)."""
+    tenant_id = require_tenant(request)
+    return [{"product_id": pid, "unit_price_halalas": price, "supply_class": INVENTORY_REPO.supply_class_of(pid)}
+            for pid, price in sorted(ORDER_REPO.prices(tenant_id=tenant_id).items())
+            if not prescription_required(INVENTORY_REPO.supply_class_of(pid))]
+
+
+class OrderLineRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    product_id: str
+    quantity: int
+
+
+class OrderRequest(BaseModel):
+    """No price, owner or tenant: the tenant's price list and the session decide."""
+    model_config = {"extra": "forbid"}
+
+    lines: list[OrderLineRequest]
+    payment_method: str
+
+
+def _order_view(o, tenant_id: str) -> dict:
+    col = ORDER_REPO.collection_of(o.order_id, tenant_id=tenant_id)
+    rec = ORDER_REPO.receipt_of(o.order_id, tenant_id=tenant_id)
+    return {"order_id": o.order_id, "owner_id": o.owner_id, "payment_method": o.payment_method,
+            "status": ordr.DELIVERED if col else ordr.PLACED, "paid": col is not None,
+            "total_halalas": o.total_halalas, "created_at": o.created_at.isoformat(),
+            "lines": [{"product_id": l.product_id, "quantity": l.quantity, "unit_price_halalas": l.unit_price_halalas}
+                      for l in o.lines],
+            "receipt": None if rec is None else {"receipt_id": rec.receipt_id, "language": rec.language,
+                                                 "rendered": rec.rendered, "issued_at": rec.issued_at.isoformat()}}
+
+
+@app.post("/api/orders")
+def place_order(body: OrderRequest, request: Request, role: str = Depends(require_role),
+                x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """AC-FR-20-01: an owner places an order and chooses cash on delivery; the order records COD."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    if actor_role != ROLE_OWNER:
+        raise HTTPException(403, "Orders are placed by owners")
+    if body.payment_method not in ordr.PAYMENT_METHODS:
+        raise HTTPException(400, f"payment_method must be one of {list(ordr.PAYMENT_METHODS)}")
+    if not body.lines or len(body.lines) > ordr.MAX_LINES:
+        raise HTTPException(400, f"an order has 1..{ordr.MAX_LINES} lines")
+    lines = []
+    for l in body.lines:
+        if not 0 < l.quantity <= ordr.MAX_QTY:
+            raise HTTPException(400, f"quantity must be 1..{ordr.MAX_QTY}")
+        if prescription_required(INVENTORY_REPO.supply_class_of(l.product_id)):
+            raise HTTPException(409, {"error": "PRESCRIPTION_PRODUCT_NOT_ORDERABLE", "product_id": l.product_id,
+                                      "detail": "POM/RESTRICTED/CONTROLLED products are dispensed against a prescription"})
+        price = ORDER_REPO.price_of(l.product_id, tenant_id=tenant_id)
+        if price is None:
+            raise HTTPException(400, {"error": "PRODUCT_NOT_PRICED", "product_id": l.product_id})
+        lines.append(ordr.OrderLine(product_id=l.product_id, quantity=l.quantity, unit_price_halalas=price))
+    o = ordr.Order(order_id=str(uuid4()), tenant_id=tenant_id, owner_id=actor_id, payment_method=body.payment_method,
+                   lines=tuple(lines), created_at=datetime.now(timezone.utc))
+    ORDER_REPO.create(o)
+    _audit(event_name="order.placed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="customer_order", resource_id=o.order_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"{o.payment_method}:{o.total_halalas}")
+    return _order_view(o, tenant_id)
+
+
+class DeliverOrderRequest(BaseModel):
+    """The collection confirmation (AC-FR-20-03) and the stock the order leaves from (FR-13 ledger)."""
+    model_config = {"extra": "forbid"}
+
+    location_id: str
+    batches: dict[str, str]
+    collected_amount_halalas: int
+    collection_reference: str
+
+
+@app.post("/api/orders/{order_id}/deliver")
+def deliver_order(order_id: str, body: DeliverOrderRequest, request: Request, role: str = Depends(require_role),
+                  x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """Tenant staff record delivery: the stock leaves as SUPPLY movements, the cash collection is confirmed
+    for the exact total, and the digital receipt is issued in the owner's language — collection and
+    receipt in one transaction. An order is never marked paid without the confirmation."""
+    actor_id, actor_role, tenant_id = _inventory_actor(request)
+    o = ORDER_REPO.get(order_id, tenant_id=tenant_id)
+    if o is None:
+        raise HTTPException(404, "Order not found")
+    if ORDER_REPO.collection_of(order_id, tenant_id=tenant_id) is not None:
+        raise HTTPException(409, "The order is already delivered")
+    if body.collected_amount_halalas != o.total_halalas or not body.collection_reference.strip():
+        raise HTTPException(409, {"error": "COLLECTION_NOT_CONFIRMED", "total_halalas": o.total_halalas,
+                                  "detail": "delivery needs a collection confirmation of the exact total, with a reference"})
+    if set(body.batches) != {l.product_id for l in o.lines}:
+        raise HTTPException(400, "name the batch supplied for every product of the order")
+    now = datetime.now(timezone.utc)
+    moves = [StockMovement(movement_id=str(uuid4()), tenant_id=tenant_id, location_id=body.location_id,
+                           product_id=l.product_id, batch=body.batches[l.product_id], quantity_delta=-l.quantity,
+                           reason=SUPPLY, supply_class=INVENTORY_REPO.supply_class_of(l.product_id), actor_id=actor_id,
+                           actor_role=actor_role, created_at=now) for l in o.lines]
+    try:
+        INVENTORY_REPO.record(moves)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Delivery refused: {exc}") from None
+    language = PREFERENCE_REPO.get_language(o.owner_id) or DEFAULT_LANGUAGE
+    collection = ordr.Collection(order_id=order_id, tenant_id=tenant_id, amount_halalas=body.collected_amount_halalas,
+                                 reference=body.collection_reference.strip(), source=ordr.SOURCE_STAFF,
+                                 confirmed_by=actor_id, confirmed_at=now)
+    receipt = ordr.Receipt(receipt_id=str(uuid4()), order_id=order_id, tenant_id=tenant_id, owner_id=o.owner_id,
+                           language=language, rendered=ordr.render_receipt(o, collection, language, now),
+                           total_halalas=o.total_halalas, issued_at=now)
+    try:
+        ORDER_REPO.deliver(collection, receipt)
+    except RepositoryDenied as exc:
+        INVENTORY_REPO.record([dataclasses.replace(m, movement_id=str(uuid4()), quantity_delta=-m.quantity_delta,
+                                                   reason=ADJUSTMENT) for m in moves])  # return the stock
+        raise HTTPException(409, f"Delivery refused: {exc}") from None
+    for event, rid in (("order.cash_collected", order_id), ("order.delivered", order_id),
+                       ("order.receipt_issued", receipt.receipt_id)):
+        _audit(event_name=event, actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+               resource_type="order_receipt" if event == "order.receipt_issued" else "customer_order", resource_id=rid,
+               action_result="success", correlation_id=x_correlation_id,
+               reason_code=f"{collection.source}:{collection.reference}" if event == "order.cash_collected" else None)
+    return _order_view(o, tenant_id)
+
+
+@app.get("/api/orders")
+def list_orders(request: Request, role: str = Depends(require_role)):
+    """An owner sees their own orders with receipts; tenant staff see the tenant's."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    return [_order_view(o, tenant_id) for o in ORDER_REPO.for_tenant(tenant_id)
+            if actor_role in INVENTORY_ROLES or o.owner_id == actor_id]
+
+
+@app.get("/api/orders/{order_id}/receipt")
+def get_order_receipt(order_id: str, request: Request, role: str = Depends(require_role)):
+    """AC-FR-20-02: the receipt is retrievable later, by the order's owner or tenant staff."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    o = ORDER_REPO.get(order_id, tenant_id=tenant_id)
+    if o is None or (actor_role not in INVENTORY_ROLES and o.owner_id != actor_id):
+        raise HTTPException(404, "Order not found")
+    rec = ORDER_REPO.receipt_of(order_id, tenant_id=tenant_id)
+    if rec is None:
+        raise HTTPException(404, "No receipt: the order is not delivered")
+    return {"receipt_id": rec.receipt_id, "order_id": order_id, "language": rec.language, "rendered": rec.rendered,
+            "total_halalas": rec.total_halalas, "issued_at": rec.issued_at.isoformat()}
+
+
+# ---------------------------------------------------------------------------
 # FR-01 · practitioner authority administration (U5). Never self-service.
 # ---------------------------------------------------------------------------
 class AuthorityGrantRequest(BaseModel):

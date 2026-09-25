@@ -86,6 +86,20 @@
       "path": "/api/auth/sign-out"
     },
     {
+      "endpoint": "main:list_prices",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/catalog/prices"
+    },
+    {
+      "endpoint": "main:set_price",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/catalog/prices"
+    },
+    {
       "endpoint": "main:list_consultations",
       "methods": [
         "GET"
@@ -266,6 +280,34 @@
         "GET"
       ],
       "path": "/api/me/recall-notices"
+    },
+    {
+      "endpoint": "main:list_orders",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/orders"
+    },
+    {
+      "endpoint": "main:place_order",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/orders"
+    },
+    {
+      "endpoint": "main:deliver_order",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/orders/{order_id}/deliver"
+    },
+    {
+      "endpoint": "main:get_order_receipt",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/orders/{order_id}/receipt"
     },
     {
       "endpoint": "main:list_pets",

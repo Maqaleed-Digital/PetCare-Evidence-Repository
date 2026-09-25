@@ -727,22 +727,51 @@
   },
   "FR-20": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for cash on delivery|cod|digital receipt"
+      "petcare_api/main.py:2321 place_order: owner (session); payment_method COD recorded; lines priced from the tenant price list; POM/RESTRICTED/CONTROLLED not orderable (409)",
+      "petcare_api/main.py:2363 deliver_order: stock leaves as SUPPLY movements; paid only with a collection confirmation of the exact total; receipt in the owner's stored language (Arabic default) — collection and receipt in one transaction",
+      "petcare_api/main.py:2420 get_order_receipt: retrievable later by the order's owner or tenant staff",
+      "petcare_api/main.py:2266 set_price / list_prices: tenant price list (clinic administrator; append-only, latest wins)",
+      "petcare_runtime/migrations/0047_fr20_cod_receipt.sql tenant_price / customer_order (+lines) / order_collection / order_receipt (FK to the collection)",
+      "petcare_web/app/owner/orders/page.tsx checkout with cash on delivery; receipts rendered in their language, RTL for Arabic"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for cash on delivery|cod|digital receipt"
+        "petcare_api/persistence.py orders=PostgresOrderRepository in postgres mode",
+        "petcare_api/main.py:2321 tenant from require_tenant; owner from _actor"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/owner/orders"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "main:place_order",
+      "main:deliver_order",
+      "main:list_orders",
+      "main:get_order_receipt",
+      "main:set_price",
+      "main:list_prices",
+      "orders:InMemoryOrderRepository",
+      "orders:render_receipt",
+      "postgres_repositories:PostgresOrderRepository",
+      "petcare_web/app/owner/orders/page.tsx#OwnerOrdersPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": ""
+    "routes": [
+      "POST /api/catalog/prices",
+      "GET /api/catalog/prices",
+      "POST /api/orders",
+      "GET /api/orders",
+      "POST /api/orders/{order_id}/deliver",
+      "GET /api/orders/{order_id}/receipt"
+    ],
+    "tests": [
+      "petcare_api/tests/test_fr20_cod_receipt.py",
+      "petcare_api/tests/test_fr20_order_postgres.py"
+    ],
+    "unresolved": "AC-FR-20-03/04 depend on EXTERNAL:LOGISTICS_PARTNER: collection is confirmed by tenant staff (source STAFF) through the same rule the partner adapter will use (exact total + reference); the partner's confirmation interface is not held and nothing is registered for it. A digital receipt is not ZATCA e-invoicing (ratified). Prescription products are dispensed via the pharmacy, not ordered."
   },
   "FR-21": {
     "basis": [

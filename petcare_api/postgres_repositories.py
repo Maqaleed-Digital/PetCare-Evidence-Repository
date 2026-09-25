@@ -1587,3 +1587,107 @@ class PostgresRecallRepository:
 
     def notices_for_owner(self, owner_id, *, tenant_id):
         return self._notes("owner_id = %s AND tenant_id = %s", (owner_id, tenant_id))
+
+
+class PostgresOrderRepository:
+    """`OrderRepository` over migration 0047 (FR-20, MVC-BUILD-RUNNER-001 U14). Insert-only."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def set_price(self, p):
+        if p.unit_price_halalas <= 0:
+            raise RepositoryDenied("a price is a positive number of halalas")
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO tenant_price (price_id, tenant_id, product_id, unit_price_halalas, set_by_actor_id, "
+                         "set_at) VALUES (%s,%s,%s,%s,%s,%s)", (str(uuid4()), p.tenant_id, p.product_id,
+                                                                p.unit_price_halalas, p.set_by_actor_id, _to_db(p.set_at)))
+        return p
+
+    def price_of(self, product_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT unit_price_halalas FROM tenant_price WHERE tenant_id = %s AND product_id = %s "
+                                "ORDER BY set_at DESC, seq DESC LIMIT 1", (tenant_id, product_id)).fetchall()
+        return rows[0][0] if rows else None
+
+    def prices(self, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT DISTINCT ON (product_id) product_id, unit_price_halalas FROM tenant_price "
+                                "WHERE tenant_id = %s ORDER BY product_id, set_at DESC, seq DESC",
+                                (tenant_id,)).fetchall()
+        return {r[0]: r[1] for r in rows}
+
+    def create(self, o):
+        try:
+            with self._pool.connection() as conn:
+                conn.execute("INSERT INTO customer_order (order_id, tenant_id, owner_id, payment_method, total_halalas, "
+                             "created_at) VALUES (%s,%s,%s,%s,%s,%s)", (o.order_id, o.tenant_id, o.owner_id,
+                                                                        o.payment_method, o.total_halalas, _to_db(o.created_at)))
+                for i, l in enumerate(o.lines, 1):
+                    conn.execute("INSERT INTO customer_order_line (order_id, line_no, product_id, quantity, "
+                                 "unit_price_halalas) VALUES (%s,%s,%s,%s,%s)",
+                                 (o.order_id, i, l.product_id, l.quantity, l.unit_price_halalas))
+        except Exception as exc:
+            raise RepositoryDenied(f"order was refused ({type(exc).__name__})") from None
+        return o
+
+    def _order(self, conn, r):
+        from orders import Order, OrderLine
+        lines = conn.execute("SELECT product_id, quantity, unit_price_halalas FROM customer_order_line WHERE order_id = %s "
+                             "ORDER BY line_no", (r[0],)).fetchall()
+        return Order(order_id=r[0], tenant_id=r[1], owner_id=r[2], payment_method=r[3],
+                     lines=tuple(OrderLine(product_id=x[0], quantity=x[1], unit_price_halalas=x[2]) for x in lines),
+                     created_at=_from_db(r[4]))
+
+    def get(self, order_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT order_id, tenant_id, owner_id, payment_method, created_at FROM customer_order "
+                                "WHERE order_id = %s AND tenant_id = %s", (order_id, tenant_id)).fetchall()
+            return self._order(conn, rows[0]) if rows else None
+
+    def for_tenant(self, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT order_id, tenant_id, owner_id, payment_method, created_at FROM customer_order "
+                                "WHERE tenant_id = %s ORDER BY created_at, order_id", (tenant_id,)).fetchall()
+            return [self._order(conn, r) for r in rows]
+
+    def deliver(self, c, r):
+        """The collection confirmation and the receipt in ONE transaction; the amount must equal the stored total."""
+        from orders import validate_collection
+        o = self.get(c.order_id, tenant_id=c.tenant_id)
+        if o is None:
+            raise RepositoryDenied("collection refers to no order in this tenant")
+        validate_collection(o, c)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute("INSERT INTO order_collection (order_id, tenant_id, amount_halalas, reference, source, "
+                             "confirmed_by, confirmed_at) SELECT %s,%s,%s,%s,%s,%s,%s FROM customer_order "
+                             "WHERE order_id = %s AND total_halalas = %s",
+                             (c.order_id, c.tenant_id, c.amount_halalas, c.reference, c.source, c.confirmed_by,
+                              _to_db(c.confirmed_at), c.order_id, c.amount_halalas))
+                conn.execute("INSERT INTO order_receipt (receipt_id, order_id, tenant_id, owner_id, language, rendered, "
+                             "total_halalas, issued_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                             (r.receipt_id, r.order_id, r.tenant_id, r.owner_id, r.language, r.rendered, r.total_halalas,
+                              _to_db(r.issued_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"delivery was refused ({type(exc).__name__})") from None
+        return r
+
+    def collection_of(self, order_id, *, tenant_id):
+        from orders import Collection
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT order_id, tenant_id, amount_halalas, reference, source, confirmed_by, confirmed_at "
+                                "FROM order_collection WHERE order_id = %s AND tenant_id = %s", (order_id, tenant_id)).fetchall()
+        return None if not rows else Collection(order_id=rows[0][0], tenant_id=rows[0][1], amount_halalas=rows[0][2],
+                                                reference=rows[0][3], source=rows[0][4], confirmed_by=rows[0][5],
+                                                confirmed_at=_from_db(rows[0][6]))
+
+    def receipt_of(self, order_id, *, tenant_id):
+        from orders import Receipt
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT receipt_id, order_id, tenant_id, owner_id, language, rendered, total_halalas, "
+                                "issued_at FROM order_receipt WHERE order_id = %s AND tenant_id = %s",
+                                (order_id, tenant_id)).fetchall()
+        return None if not rows else Receipt(receipt_id=rows[0][0], order_id=rows[0][1], tenant_id=rows[0][2],
+                                             owner_id=rows[0][3], language=rows[0][4], rendered=rows[0][5],
+                                             total_halalas=rows[0][6], issued_at=_from_db(rows[0][7]))
