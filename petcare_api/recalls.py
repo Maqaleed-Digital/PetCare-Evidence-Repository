@@ -43,6 +43,15 @@ class RecallNotification:
     created_at: datetime
 
 
+def render_notice(language: str, *, product: str, batch: str, pet_id: str, prescription_id: str, reason: str) -> str:
+    """The owner's recall notice in the owner's language (FR-09 AC-FR-09-03; Arabic primary)."""
+    if language == "ar":
+        return (f"تنبيه سحب: تم سحب التشغيلة {batch} من المنتج {product} الذي صُرف لحيوانك ({pet_id}) بموجب الوصفة "
+                f"{prescription_id}. السبب: {reason}. يرجى التواصل مع عيادتك.")
+    return (f"Recall: {product} batch {batch} dispensed for your pet ({pet_id}) under prescription {prescription_id} "
+            f"has been recalled. Reason: {reason}. Please contact your clinic.")
+
+
 def normalise_sfda_recall(raw: dict) -> tuple:
     """(product_id, batch, reason) from an SFDA recall payload, or RepositoryDenied."""
     if not isinstance(raw, dict):

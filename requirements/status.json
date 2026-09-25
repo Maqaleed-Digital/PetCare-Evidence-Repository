@@ -375,22 +375,19 @@
       "unresolved": "The served app mounts no AI intake route. The only customer-facing symptom surface is a client-side rule table, not AI-powered."
     },
     {
-      "acceptance_state": "EVIDENCE_INCOMPLETE",
+      "acceptance_state": "ACCEPTED",
       "counts": {
-        "basis": 9,
+        "basis": 10,
         "implements": 7,
         "legacy": 0,
         "routes": 2,
-        "tests": 2,
+        "tests": 3,
         "ui_surface": 1
       },
       "criteria_gaps": {
         "AC-FR-09-01": [],
         "AC-FR-09-02": [],
-        "AC-FR-09-03": [
-          "ARABIC_RTL",
-          "SERVED_APP_E2E"
-        ]
+        "AC-FR-09-03": []
       },
       "engineering_status": "REACHABLE_TESTED",
       "fitness": {
@@ -405,11 +402,12 @@
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "all bound routes served; all bound tests collected"
+        "all bound routes served; all bound tests collected",
+        "every ratified criterion evidenced"
       ],
-      "status": "REACHABLE_TESTED",
+      "status": "ACCEPTED",
       "title": "Multi-language support (Arabic primary, English)",
-      "unresolved": "AC-FR-09-03 (notifications and generated documents in the recipient's language) is open: the served app produces no notification or document yet; it closes with the FR-20 receipt / FR-23 reminder units. /admin is the platform-operator console and is outside the customer-facing sweep."
+      "unresolved": "AC-FR-09-03 closed in U19: every notification/document the served app produces (consultation-message notifications, recall notices, COD receipts, care reminders) is rendered in the RECIPIENT's stored language, Arabic by default. /admin is the platform-operator console and is outside the customer-facing sweep."
     },
     {
       "acceptance_state": "CRITERIA_NOT_RATIFIED",
@@ -1150,16 +1148,16 @@
   "summary": {
     "all": {
       "acceptance": {
-        "ACCEPTED": 1,
+        "ACCEPTED": 2,
         "CRITERIA_NOT_RATIFIED": 15,
-        "EVIDENCE_INCOMPLETE": 15
+        "EVIDENCE_INCOMPLETE": 14
       },
       "counts": {
         "ABSENT": 11,
-        "ACCEPTED": 1,
+        "ACCEPTED": 2,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
-        "REACHABLE_TESTED": 15,
+        "REACHABLE_TESTED": 14,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1177,7 +1175,8 @@
           "FR-31"
         ],
         "ACCEPTED": [
-          "FR-02"
+          "FR-02",
+          "FR-09"
         ],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [
@@ -1192,7 +1191,6 @@
           "FR-05",
           "FR-06",
           "FR-07",
-          "FR-09",
           "FR-13",
           "FR-14",
           "FR-15",
@@ -1209,22 +1207,23 @@
     },
     "phase1": {
       "acceptance": {
-        "ACCEPTED": 1,
+        "ACCEPTED": 2,
         "CRITERIA_NOT_RATIFIED": 0,
-        "EVIDENCE_INCOMPLETE": 15
+        "EVIDENCE_INCOMPLETE": 14
       },
       "counts": {
         "ABSENT": 0,
-        "ACCEPTED": 1,
+        "ACCEPTED": 2,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 15,
+        "REACHABLE_TESTED": 14,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [],
         "ACCEPTED": [
-          "FR-02"
+          "FR-02",
+          "FR-09"
         ],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [],
@@ -1234,7 +1233,6 @@
           "FR-05",
           "FR-06",
           "FR-07",
-          "FR-09",
           "FR-13",
           "FR-14",
           "FR-15",
@@ -1251,22 +1249,23 @@
     },
     "phase1_high": {
       "acceptance": {
-        "ACCEPTED": 1,
+        "ACCEPTED": 2,
         "CRITERIA_NOT_RATIFIED": 0,
-        "EVIDENCE_INCOMPLETE": 15
+        "EVIDENCE_INCOMPLETE": 14
       },
       "counts": {
         "ABSENT": 0,
-        "ACCEPTED": 1,
+        "ACCEPTED": 2,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 15,
+        "REACHABLE_TESTED": 14,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [],
         "ACCEPTED": [
-          "FR-02"
+          "FR-02",
+          "FR-09"
         ],
         "BINDING_BROKEN": [],
         "BUILT_UNWIRED": [],
@@ -1276,7 +1275,6 @@
           "FR-05",
           "FR-06",
           "FR-07",
-          "FR-09",
           "FR-13",
           "FR-14",
           "FR-15",

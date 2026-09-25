@@ -291,6 +291,25 @@
       "type": "SERVED_APP_E2E"
     }
   ],
+  "AC-FR-09-03": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr09_notification_language.py::test_every_notification_and_document_is_in_the_recipients_language",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr20-cod-orders.test.tsx",
+      "sha256": "9b2bd423d5564e8bc7f8790251519d93cd022d72341d369cf9c0372a17bf86ad",
+      "type": "ARABIC_RTL"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr23-reminders.test.tsx",
+      "sha256": "58e8be33e6171955bf12ef9f85420abb5f6f383c636dbb2e37e1fb8aa8ba6ef7",
+      "type": "ARABIC_RTL"
+    }
+  ],
   "AC-FR-13-01": [
     {
       "kind": "TEST",
