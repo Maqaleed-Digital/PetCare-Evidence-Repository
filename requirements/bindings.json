@@ -442,32 +442,33 @@
   },
   "FR-14": {
     "basis": [
-      "petcare_api/main.py:794 POST /api/prescriptions",
-      "petcare_api/main.py:837 GET /api/prescriptions/{id}",
-      "petcare_api/main.py:861 POST .../verify",
-      "petcare_api/main.py:999 POST .../documents",
-      "petcare_api/main.py:1080 GET .../documents",
-      "petcare_api/main.py:1094 GET .../documents/{document_id}",
-      "petcare_api/main.py:1171 GET .../transitions",
-      "petcare_api/prescriptions.py:83 assert_transition_allowed ISSUED->VET_VERIFIED->DISPENSED",
+      "petcare_api/main.py:837 POST /api/prescriptions — vet + live practitioner authority; tenant from session (body tenant optional, refused if it disagrees)",
+      "petcare_api/main.py:882 GET /api/prescriptions/{id} (audited prescription.viewed)",
+      "petcare_api/main.py:906 POST .../verify · :977 POST .../dispense (non-veterinarian refusal audited, :994)",
+      "petcare_api/main.py:1135 GET .../documents (audited) · :1196/:1228 awaiting-dispense / awaiting-verification queues (audited) · :1295 GET .../transitions (audited) via _rx_read_audit :827",
+      "petcare_api/main.py:1243 POST .../sfda-validation — SFDA port (petcare_api/sfda.py:28 only VALID is valid); served adapter UNAVAILABLE",
+      "petcare_api/main.py:1274 GET /api/prescriptions/metrics/verification-time — the AC-FR-14-07 instrument",
+      "petcare_api/main.py:1845 POST /api/inventory/supplies — prescription gate by supply class (GENERAL/OTC none; POM/RESTRICTED/CONTROLLED need a VET_VERIFIED prescription, dispensed by a vet)",
+      "petcare_runtime/migrations/0042_fr14_supply_gate.sql:16 stock_movement_supply_gate — DB refuses a vet-only SUPPLY without a prescription",
+      "petcare_api/prescriptions.py:63 ALLOWED_TRANSITIONS ISSUED->VET_VERIFIED->DISPENSED",
       "petcare_api/prescription_documents.py:71 validate_upload",
       "evidence/traceability/OPTION_A_FR14_FR27_BRIDGE.md legacy alias index"
     ],
     "fitness": {
       "audit_actor_source": "SESSION",
       "basis": [
-        "petcare_api/persistence.py:53 PETCARE_PERSISTENCE_MODE selects memory|postgres; no fallback (persistence.py:90); postgres adapter petcare_api/postgres_repositories.py. PERSISTENT_POSTGRES holds only when the deployment sets postgres; W1 imported the app in memory mode",
-        "petcare_runtime/migrations/0036_option_a_prescription_persistence.sql",
-        "petcare_api/prescription_documents.py:157 ProductionObjectStore refuses; documents use a local adapter outside production",
-        "petcare_api/main.py:804 require_tenant(request, body.tenant_id)",
-        "petcare_api/main.py:755 _actor(): audit actor from the signed session",
-        "petcare_web/app/pharmacy/page.tsx:119 lists documents; :311 downloads a document",
-        "no petcare_web page issues or verifies a prescription (vet page has no fetch)"
+        "petcare_api/persistence.py PETCARE_PERSISTENCE_MODE selects memory|postgres; no fallback; postgres adapter petcare_api/postgres_repositories.py",
+        "petcare_runtime/migrations/0036_option_a_prescription_persistence.sql; 0042 supply gate",
+        "petcare_api/prescription_documents.py ProductionObjectStore refuses; documents use a local adapter outside production",
+        "petcare_api/main.py:837 require_tenant(request, body.tenant_id); _actor(): audit actor from the signed session",
+        "petcare_web/app/vet/prescriptions/page.tsx issues, attaches documents, verifies; shows prescribing unavailable with the reason",
+        "petcare_web/app/pharmacy/page.tsx lists documents and dispenses"
       ],
       "storage": "PERSISTENT_POSTGRES",
       "tenant_source": "SESSION",
       "ui_surface": [
-        "petcare_web:/pharmacy"
+        "petcare_web:/pharmacy",
+        "petcare_web:/vet/prescriptions"
       ]
     },
     "implements": [
@@ -479,7 +480,15 @@
       "main:download_prescription_document",
       "main:prescription_transitions",
       "prescriptions:assert_transition_allowed",
-      "prescription_documents:validate_upload"
+      "prescription_documents:validate_upload",
+      "main:awaiting_verification_queue",
+      "main:sfda_validate_prescription",
+      "main:prescription_verification_metric",
+      "main:supply_stock",
+      "main:_rx_read_audit",
+      "main:dispense_prescription",
+      "sfda:UnconfiguredSfdaAdapter",
+      "petcare_web/app/vet/prescriptions/page.tsx#VetPrescriptionsPage"
     ],
     "legacy": [
       "REQ-DISP-AUTH-FAILCLOSED",
@@ -495,14 +504,21 @@
       "POST /api/prescriptions/{prescription_id}/documents",
       "GET /api/prescriptions/{prescription_id}/documents",
       "GET /api/prescriptions/{prescription_id}/documents/{document_id}",
-      "GET /api/prescriptions/{prescription_id}/transitions"
+      "GET /api/prescriptions/{prescription_id}/transitions",
+      "POST /api/prescriptions/{prescription_id}/dispense",
+      "GET /api/prescriptions/queue/awaiting-verification",
+      "POST /api/prescriptions/{prescription_id}/sfda-validation",
+      "GET /api/prescriptions/metrics/verification-time",
+      "POST /api/inventory/supplies"
     ],
     "tests": [
       "petcare_api/tests/test_option_a_workflow.py",
       "petcare_api/tests/test_prescription_persistence_postgres.py",
-      "petcare_api/tests/test_served_app_reachability.py"
+      "petcare_api/tests/test_served_app_reachability.py",
+      "petcare_api/tests/test_fr14_prescriptions.py",
+      "petcare_api/tests/test_fr14_supply_postgres.py"
     ],
-    "unresolved": ""
+    "unresolved": "AC-FR-14-06 depends on EXTERNAL:SFDA_API: the port and its fail-closed contract are built and tested (only VALID is valid; served adapter answers UNAVAILABLE), but no SERVED_APP_E2E evidence is registered because the published SFDA interface is not held — a contract double of our own is not the SFDA contract. AC-FR-14-07 depends on PRODUCTION: the verification-time instrument is built and tested; the production reading is the evidence. Prescriptions name medication as free text; binding a prescription to a registered product is FR-04 (catalogue)."
   },
   "FR-15": {
     "basis": [
