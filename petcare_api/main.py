@@ -137,6 +137,8 @@ from pets import PetIdentification, PetMedicalRecord, PetProfile as Pet  # FR-02
 from preferences import DEFAULT_LANGUAGE  # FR-09 (U3)
 from messages import (CHANNEL_IN_APP, DELIVERED, ConsultationMessage,  # FR-07 (U7)
                       DeliveryRecord, MessageAttachment)
+from inventory import (ADJUSTMENT, RECEIPT, REASONS, TRANSFER_IN, TRANSFER_OUT,  # FR-13 (U8)
+                       VETERINARIAN_ONLY, InventoryLocation, StockMovement)
 from practitioners import (CLASS_VETERINARIAN, PractitionerAuthorityGrant,  # FR-01 (U5)
                            evaluate as practitioner_evaluate)
 from tenant_membership import (
@@ -1589,6 +1591,137 @@ def download_consultation_attachment(consultation_id: str, message_id: str, atta
     return Response(content=DOCUMENT_STORE.get(att.storage_key), media_type=SERVED_CONTENT_TYPE,
                     headers={"Content-Disposition": f'attachment; filename="{att.attachment_id}"',
                              "X-Content-Type-Options": "nosniff"})
+
+
+# ---------------------------------------------------------------------------
+# FR-13 · real-time multi-location inventory (U8)
+# ---------------------------------------------------------------------------
+INVENTORY_REPO = PERSISTENCE.inventory
+#: Tenant staff who see and handle stock. Owners do not (FR-13 is not customer-facing).
+INVENTORY_ROLES = frozenset({ROLE_VETERINARIAN, ROLE_PARTNER_CLINIC_ADMIN})
+
+
+def _inventory_actor(request: Request):
+    actor_id, actor_role = _actor(request)
+    if actor_role not in INVENTORY_ROLES:
+        raise HTTPException(403, "Inventory is available to tenant staff only")
+    return actor_id, actor_role, require_tenant(request)
+
+
+class LocationRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    name: str
+
+
+class MovementRequest(BaseModel):
+    """No actor, role, tenant or supply class: the session and the product registration decide."""
+    model_config = {"extra": "forbid"}
+
+    location_id: str
+    product_id: str
+    batch: str
+    quantity_delta: int
+    reason: str
+    to_location_id: Optional[str] = None
+
+
+@app.post("/api/inventory/locations")
+def create_inventory_location(
+    body: LocationRequest,
+    request: Request,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    actor_id, actor_role, tenant_id = _inventory_actor(request)
+    if actor_role != ROLE_PARTNER_CLINIC_ADMIN:
+        raise HTTPException(403, "Only a clinic administrator adds a pharmacy location")
+    loc = InventoryLocation(location_id=str(uuid4()), tenant_id=tenant_id, name=body.name.strip(),
+                            created_at=datetime.now(timezone.utc))
+    try:
+        INVENTORY_REPO.add_location(loc)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Location refused: {exc}") from None
+    _audit(event_name="inventory.location.created", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="inventory_location", resource_id=loc.location_id,
+           action_result="success", correlation_id=x_correlation_id)
+    return loc.to_read_model()
+
+
+@app.get("/api/inventory/locations")
+def list_inventory_locations(request: Request, role: str = Depends(require_role)):
+    _a, _r, tenant_id = _inventory_actor(request)
+    return [x.to_read_model() for x in INVENTORY_REPO.locations(tenant_id=tenant_id)]
+
+
+@app.get("/api/inventory/stock")
+def inventory_stock(request: Request, product_id: Optional[str] = None, role: str = Depends(require_role)):
+    """AC-FR-13-01: stock per location for every location of the SESSION tenant, derived
+    from the ledger at read time (AC-FR-13-02). Polled by /pharmacy/inventory. With
+    `product_id`, the inventory check for one product across locations (AC-FR-13-03)."""
+    _a, _r, tenant_id = _inventory_actor(request)
+    locations = INVENTORY_REPO.locations(tenant_id=tenant_id)
+    balances = INVENTORY_REPO.balances(tenant_id=tenant_id, product_id=product_id)
+    return {"as_of": datetime.now(timezone.utc).isoformat(),
+            "locations": [{**x.to_read_model(),
+                           "stock": [b for b in balances if b["location_id"] == x.location_id]}
+                          for x in locations]}
+
+
+@app.post("/api/inventory/movements")
+def record_stock_movement(
+    body: MovementRequest,
+    request: Request,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """Append movements to the ledger. AC-FR-13-04 (MVC-PHARM-001 §5, until counsel L-2):
+    POM/RESTRICTED/CONTROLLED stock is handled by a veterinarian with a LIVE practitioner
+    authority only; the class is read from product registration, never from the request."""
+    actor_id, actor_role, tenant_id = _inventory_actor(request)
+    supply_class = INVENTORY_REPO.supply_class_of(body.product_id)
+    if supply_class in VETERINARIAN_ONLY:
+        try:
+            if actor_role != ROLE_VETERINARIAN:
+                raise HTTPException(403, detail={"error": "VETERINARIAN_ONLY_SUPPLY_CLASS",
+                                                 "supply_class": supply_class})
+            _require_practitioner_authority(actor_id, tenant_id)
+        except HTTPException:
+            _audit(event_name="inventory.movement.refused", actor_id=actor_id, actor_role=actor_role,
+                   tenant_id=tenant_id, resource_type="stock_movement", resource_id=body.product_id,
+                   action_result="denied", correlation_id=x_correlation_id,
+                   reason_code=f"SUPPLY_CLASS_{supply_class}")
+            raise
+    if body.reason not in REASONS or body.reason == TRANSFER_IN:
+        raise HTTPException(400, f"reason must be one of {RECEIPT}, {ADJUSTMENT}, {TRANSFER_OUT}")
+    now = datetime.now(timezone.utc)
+
+    def mv(location_id, delta, reason, transfer_id=None):
+        return StockMovement(movement_id=str(uuid4()), tenant_id=tenant_id, location_id=location_id,
+                             product_id=body.product_id, batch=body.batch, quantity_delta=delta, reason=reason,
+                             supply_class=supply_class, actor_id=actor_id, actor_role=actor_role,
+                             created_at=now, transfer_id=transfer_id)
+
+    if body.reason == TRANSFER_OUT:
+        if not body.to_location_id or body.to_location_id == body.location_id or body.quantity_delta <= 0:
+            raise HTTPException(400, "a transfer names another location and a positive quantity")
+        tid = str(uuid4())
+        movements = [mv(body.location_id, -body.quantity_delta, TRANSFER_OUT, tid),
+                     mv(body.to_location_id, body.quantity_delta, TRANSFER_IN, tid)]
+    else:
+        if body.reason == RECEIPT and body.quantity_delta <= 0:
+            raise HTTPException(400, "a receipt adds a positive quantity")
+        movements = [mv(body.location_id, body.quantity_delta, body.reason)]
+    try:
+        INVENTORY_REPO.record(movements)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Movement refused: {exc}") from None
+    for m in movements:
+        _audit(event_name="inventory.movement.recorded", actor_id=actor_id, actor_role=actor_role,
+               tenant_id=tenant_id, resource_type="stock_movement", resource_id=m.movement_id,
+               action_result="success", correlation_id=x_correlation_id,
+               reason_code=f"{m.reason}:{m.supply_class}")
+    return [m.to_read_model() for m in movements]
 
 
 # ---------------------------------------------------------------------------
