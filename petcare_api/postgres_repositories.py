@@ -1167,3 +1167,131 @@ class PostgresMessageRepository:
                                attempt_no=r[5], status=r[6], rendered_body=r[7], occurred_at=_from_db(r[8]))
                 for r in self._rows(f"SELECT {self._D} FROM notification_delivery_record WHERE message_id = %s "
                                     "AND tenant_id = %s ORDER BY occurred_at, record_id", (message_id, tenant_id))]
+
+
+class PostgresInventoryRepository:
+    """`InventoryRepository` over migration 0041 (FR-13, MVC-BUILD-RUNNER-001 U8).
+
+    Append-only: this class has no UPDATE or DELETE on stock_movement, and the table's
+    trigger refuses both regardless. A balance is always SUM(quantity_delta).
+    """
+
+    _L = "location_id, tenant_id, name, created_at"
+    _M = ("movement_id, tenant_id, location_id, product_id, batch, quantity_delta, reason, supply_class, "
+          "actor_id, actor_role, created_at, transfer_id")
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def add_location(self, loc):
+        if not loc.name.strip():
+            raise RepositoryDenied("a location needs a name")
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO inventory_location ({self._L}) VALUES (%s,%s,%s,%s)",
+                             (loc.location_id, loc.tenant_id, loc.name, _to_db(loc.created_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"location {loc.location_id!r} was refused ({type(exc).__name__})") from None
+        return loc
+
+    def _loc(self, r):
+        from inventory import InventoryLocation
+        return InventoryLocation(location_id=r[0], tenant_id=r[1], name=r[2], created_at=_from_db(r[3]))
+
+    def locations(self, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._L} FROM inventory_location WHERE tenant_id = %s "
+                                "ORDER BY name, location_id", (tenant_id,)).fetchall()
+        return [self._loc(r) for r in rows]
+
+    def get_location(self, location_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._L} FROM inventory_location WHERE location_id = %s "
+                                "AND tenant_id = %s", (location_id, tenant_id)).fetchall()
+        return self._loc(rows[0]) if rows else None
+
+    def register_product(self, p):
+        """Registration feed only (AC-FR-04-03). No served route calls this."""
+        from inventory import REGISTRATION_SOURCE, SUPPLY_CLASSES
+        if p.supply_class not in SUPPLY_CLASSES or p.source != REGISTRATION_SOURCE:
+            raise RepositoryDenied("a registration carries a known class from the registration source")
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO product_registration (product_id, name, supply_class, source, registered_at) "
+                         "VALUES (%s,%s,%s,%s,%s)",
+                         (p.product_id, p.name, p.supply_class, p.source, _to_db(p.registered_at)))
+        return p
+
+    def supply_class_of(self, product_id):
+        from inventory import UNREGISTERED_CLASS
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT supply_class FROM product_registration WHERE product_id = %s",
+                                (product_id,)).fetchall()
+        return rows[0][0] if rows else UNREGISTERED_CLASS
+
+    def record(self, movements):
+        """All-or-nothing in ONE transaction. Each (tenant, location, product, batch) key is
+        serialised by a transaction-scoped advisory lock, so two concurrent withdrawals
+        cannot both read the same balance and drive it below zero."""
+        from inventory import validate_movement
+        for m in movements:
+            validate_movement(m)
+        try:
+            with self._pool.connection() as conn:
+                for m in sorted(movements, key=lambda m: (m.location_id, m.product_id, m.batch)):
+                    conn.execute("SELECT pg_advisory_xact_lock(hashtextextended(%s, 0))",
+                                 ("|".join((m.tenant_id, m.location_id, m.product_id, m.batch)),))
+                pending: dict = {}
+                for m in movements:
+                    if not conn.execute("SELECT 1 FROM inventory_location WHERE location_id = %s AND tenant_id = %s",
+                                        (m.location_id, m.tenant_id)).fetchall():
+                        raise RepositoryDenied("movement refers to no location in this tenant")
+                    k = (m.tenant_id, m.location_id, m.product_id, m.batch)
+                    if k not in pending:
+                        pending[k] = conn.execute(
+                            "SELECT COALESCE(SUM(quantity_delta), 0) FROM stock_movement WHERE tenant_id = %s "
+                            "AND location_id = %s AND product_id = %s AND batch = %s", k).fetchone()[0]
+                    pending[k] += m.quantity_delta
+                    if pending[k] < 0:
+                        raise RepositoryDenied("insufficient stock: a balance may not go below zero")
+                    conn.execute(f"INSERT INTO stock_movement ({self._M}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                                 (m.movement_id, m.tenant_id, m.location_id, m.product_id, m.batch, m.quantity_delta,
+                                  m.reason, m.supply_class, m.actor_id, m.actor_role, _to_db(m.created_at),
+                                  m.transfer_id))
+        except RepositoryDenied:
+            raise
+        except Exception as exc:
+            raise RepositoryDenied(f"movement was refused ({type(exc).__name__})") from None
+        return list(movements)
+
+    def movements(self, *, tenant_id, location_id=None):
+        from inventory import StockMovement
+        sql = f"SELECT {self._M} FROM stock_movement WHERE tenant_id = %s"
+        params: tuple = (tenant_id,)
+        if location_id is not None:
+            sql += " AND location_id = %s"
+            params += (location_id,)
+        with self._pool.connection() as conn:
+            rows = conn.execute(sql + " ORDER BY created_at, movement_id", params).fetchall()
+        return [StockMovement(movement_id=r[0], tenant_id=r[1], location_id=r[2], product_id=r[3], batch=r[4],
+                              quantity_delta=r[5], reason=r[6], supply_class=r[7], actor_id=r[8], actor_role=r[9],
+                              created_at=_from_db(r[10]), transfer_id=r[11]) for r in rows]
+
+    def balances(self, *, tenant_id, location_id=None, product_id=None):
+        """AC-FR-13-02/03: derived by SUM over the ledger, served by idx_stock_movement_balance
+        (per location) and idx_stock_movement_product (per product, across locations)."""
+        sql = ("SELECT m.location_id, m.product_id, m.batch, SUM(m.quantity_delta)::bigint, "
+               "COALESCE(p.supply_class, 'POM') FROM stock_movement m "
+               "LEFT JOIN product_registration p ON p.product_id = m.product_id WHERE m.tenant_id = %s")
+        params: tuple = (tenant_id,)
+        if location_id is not None:
+            sql += " AND m.location_id = %s"
+            params += (location_id,)
+        if product_id is not None:
+            sql += " AND m.product_id = %s"
+            params += (product_id,)
+        sql += (" GROUP BY m.location_id, m.product_id, m.batch, p.supply_class "
+                "HAVING SUM(m.quantity_delta) <> 0 ORDER BY 1, 2, 3")
+        with self._pool.connection() as conn:
+            rows = conn.execute(sql, params).fetchall()
+        return [{"location_id": r[0], "product_id": r[1], "batch": r[2], "quantity": int(r[3]),
+                 "supply_class": r[4]} for r in rows]

@@ -135,6 +135,34 @@
       "path": "/api/governance/status"
     },
     {
+      "endpoint": "main:list_inventory_locations",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/inventory/locations"
+    },
+    {
+      "endpoint": "main:create_inventory_location",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/inventory/locations"
+    },
+    {
+      "endpoint": "main:record_stock_movement",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/inventory/movements"
+    },
+    {
+      "endpoint": "main:inventory_stock",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/inventory/stock"
+    },
+    {
       "endpoint": "main:get_language_preference",
       "methods": [
         "GET"

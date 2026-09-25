@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 47
+    "served_route_count": 51
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -514,48 +514,39 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 1,
-        "implements": 0,
+        "basis": 7,
+        "implements": 8,
         "legacy": 0,
-        "routes": 0,
-        "tests": 0,
-        "ui_surface": 0
+        "routes": 4,
+        "tests": 2,
+        "ui_surface": 1
       },
       "criteria_gaps": {
-        "AC-FR-13-01": [
-          "SERVED_APP_E2E",
-          "TENANT_ISOLATION",
-          "UI"
-        ],
-        "AC-FR-13-02": [
-          "AUDIT",
-          "PERSISTENCE"
-        ],
-        "AC-FR-13-03": [
-          "PERSISTENCE"
-        ],
+        "AC-FR-13-01": [],
+        "AC-FR-13-02": [],
+        "AC-FR-13-03": [],
         "AC-FR-13-04": [
-          "AUDIT",
-          "DEPENDENCY",
-          "SERVED_APP_E2E"
+          "DEPENDENCY"
         ]
       },
-      "engineering_status": "ABSENT",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
-        "storage": "NONE",
-        "tenant_source": "NONE",
-        "ui_surface": []
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/pharmacy/inventory"
+        ]
       },
       "id": "FR-13",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "no implementing symbol bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "ABSENT",
+      "status": "REACHABLE_TESTED",
       "title": "Real-time multi-location inventory visibility",
-      "unresolved": ""
+      "unresolved": "AC-FR-13-04 depends on COUNSEL:L-2: until counsel, POM/RESTRICTED/CONTROLLED stock is veterinarian-only (built, fail closed); the dependency itself is not evidenced. Product registration (supply class) has no served write path: it is the SFDA registration feed of FR-04 (AC-FR-04-03), not built here; unregistered products are treated as POM."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
@@ -1230,11 +1221,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 21,
+        "ABSENT": 20,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
-        "REACHABLE_TESTED": 5,
+        "REACHABLE_TESTED": 6,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1245,7 +1236,6 @@
           "FR-06",
           "FR-10",
           "FR-12",
-          "FR-13",
           "FR-15",
           "FR-16",
           "FR-17",
@@ -1275,6 +1265,7 @@
           "FR-01",
           "FR-07",
           "FR-09",
+          "FR-13",
           "FR-14",
           "FR-27"
         ],
@@ -1289,11 +1280,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 10,
+        "ABSENT": 9,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 5,
+        "REACHABLE_TESTED": 6,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1301,7 +1292,6 @@
           "FR-04",
           "FR-05",
           "FR-06",
-          "FR-13",
           "FR-15",
           "FR-16",
           "FR-19",
@@ -1318,6 +1308,7 @@
           "FR-01",
           "FR-07",
           "FR-09",
+          "FR-13",
           "FR-14",
           "FR-27"
         ],
@@ -1332,11 +1323,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 10,
+        "ABSENT": 9,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 5,
+        "REACHABLE_TESTED": 6,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1344,7 +1335,6 @@
           "FR-04",
           "FR-05",
           "FR-06",
-          "FR-13",
           "FR-15",
           "FR-16",
           "FR-19",
@@ -1361,6 +1351,7 @@
           "FR-01",
           "FR-07",
           "FR-09",
+          "FR-13",
           "FR-14",
           "FR-27"
         ],

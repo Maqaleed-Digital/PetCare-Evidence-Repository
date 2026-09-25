@@ -396,22 +396,49 @@
   },
   "FR-13": {
     "basis": [
-      "code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for inventory|stock (server code)"
+      "petcare_api/main.py:1604 _inventory_actor: actor/role from session (_actor), tenant from require_tenant; tenant staff only (vet, partner_clinic_admin)",
+      "petcare_api/main.py:1658 inventory_stock: every location of the session tenant with its ledger-derived balances; ?product_id= inventory check",
+      "petcare_api/main.py:1683 record_stock_movement: POM/RESTRICTED/CONTROLLED (class from product registration, unregistered=POM) need role veterinarian + live practitioner authority; refusal audited; each movement audited",
+      "petcare_api/postgres_repositories.py:1231 record: one transaction, advisory lock per (tenant, location, product, batch), balance never below zero",
+      "petcare_api/postgres_repositories.py:1279 balances: SUM(quantity_delta) over the ledger; no stored quantity",
+      "petcare_runtime/migrations/0041_fr13_inventory_ledger.sql:64 trigger refuses UPDATE/DELETE on stock_movement; :50/:53 balance and product indexes",
+      "petcare_web/app/pharmacy/inventory/page.tsx stock per location, re-read every INVENTORY_REFRESH_MS (petcare_web/lib/inventory.ts = 2000 ms); Arabic default RTL"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
-        "no implementation bound: code sweep 2026-09-24 over petcare_runtime/src, petcare_api, petcare_web/{app,lib,components} (tests excluded): 0 hits for inventory|stock (server code)"
+        "petcare_api/persistence.py:201 inventory=PostgresInventoryRepository in postgres mode",
+        "petcare_api/main.py:1604 tenant from require_tenant; actor from _actor",
+        "petcare_web/app/pharmacy/inventory/page.tsx calls GET /api/inventory/stock and POST /api/inventory/movements"
       ],
-      "storage": "NONE",
-      "tenant_source": "NONE",
-      "ui_surface": []
+      "storage": "PERSISTENT_POSTGRES",
+      "tenant_source": "SESSION",
+      "ui_surface": [
+        "petcare_web:/pharmacy/inventory"
+      ]
     },
-    "implements": [],
+    "implements": [
+      "main:create_inventory_location",
+      "main:list_inventory_locations",
+      "main:inventory_stock",
+      "main:record_stock_movement",
+      "main:_inventory_actor",
+      "inventory:InMemoryInventoryRepository",
+      "postgres_repositories:PostgresInventoryRepository",
+      "petcare_web/app/pharmacy/inventory/page.tsx#InventoryPage"
+    ],
     "legacy": [],
-    "routes": [],
-    "tests": [],
-    "unresolved": ""
+    "routes": [
+      "POST /api/inventory/locations",
+      "GET /api/inventory/locations",
+      "GET /api/inventory/stock",
+      "POST /api/inventory/movements"
+    ],
+    "tests": [
+      "petcare_api/tests/test_inventory.py",
+      "petcare_api/tests/test_inventory_postgres.py"
+    ],
+    "unresolved": "AC-FR-13-04 depends on COUNSEL:L-2: until counsel, POM/RESTRICTED/CONTROLLED stock is veterinarian-only (built, fail closed); the dependency itself is not evidenced. Product registration (supply class) has no served write path: it is the SFDA registration feed of FR-04 (AC-FR-04-03), not built here; unregistered products are treated as POM."
   },
   "FR-14": {
     "basis": [

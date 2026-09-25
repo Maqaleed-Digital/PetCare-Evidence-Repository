@@ -159,6 +159,95 @@
       "type": "SERVED_APP_E2E"
     }
   ],
+  "AC-FR-13-01": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_stock_change_visible_to_another_session_within_bound_p95_over_100_events",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_stock_is_visible_per_location_for_every_location_of_the_tenant",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_another_tenant_never_sees_or_moves_the_tenants_stock",
+      "type": "TENANT_ISOLATION"
+    },
+    {
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr13-inventory.test.tsx",
+      "sha256": "e313ea8bc7f3573d0f5d5bd5967e30cd11d727e981baf6502fc0c83019d6329e",
+      "type": "UI"
+    }
+  ],
+  "AC-FR-13-02": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory_postgres.py::test_ledger_survives_a_second_instance_and_the_balance_is_the_sum",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory_postgres.py::test_the_database_refuses_update_and_delete_of_a_movement",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_every_movement_is_audited_with_the_session_actor_and_client_identity_is_refused",
+      "type": "AUDIT"
+    }
+  ],
+  "AC-FR-13-03": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory_postgres.py::test_inventory_check_is_sub_second_on_production_sized_data",
+      "type": "PERSISTENCE"
+    }
+  ],
+  "AC-FR-13-04": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_non_veterinarian_cannot_move_or_adjust_veterinarian_only_stock[amoxi-pom-POM]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_non_veterinarian_cannot_move_or_adjust_veterinarian_only_stock[keta-res-RESTRICTED]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_non_veterinarian_cannot_move_or_adjust_veterinarian_only_stock[bupre-ctl-CONTROLLED]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_non_veterinarian_cannot_move_or_adjust_veterinarian_only_stock[unregistered-med-None]",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_non_veterinarian_cannot_move_or_adjust_veterinarian_only_stock[amoxi-pom-POM]",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_non_veterinarian_cannot_move_or_adjust_veterinarian_only_stock[keta-res-RESTRICTED]",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_non_veterinarian_cannot_move_or_adjust_veterinarian_only_stock[bupre-ctl-CONTROLLED]",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_inventory.py::test_non_veterinarian_cannot_move_or_adjust_veterinarian_only_stock[unregistered-med-None]",
+      "type": "AUDIT"
+    }
+  ],
   "AC-FR-27-01": [
     {
       "kind": "TEST",

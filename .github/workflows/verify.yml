@@ -134,6 +134,7 @@ jobs:
             petcare_api/tests/test_language_preference_postgres.py \
             petcare_api/tests/test_practitioner_authority_postgres.py \
             petcare_api/tests/test_consultation_messaging_postgres.py \
+            petcare_api/tests/test_inventory_postgres.py \
             -q --no-header -rs | tee /tmp/pg.txt
           grep -qE '[0-9]+ passed' /tmp/pg.txt
           if grep -qE '[0-9]+ skipped' /tmp/pg.txt; then
