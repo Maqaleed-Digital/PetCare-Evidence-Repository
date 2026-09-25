@@ -78,6 +78,19 @@ export default function PharmacyPage() {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState('')
   const [notice, setNotice] = useState('')
+  // FR-19 (U13): a dispense draws from stock and records the batch — the stock origin is sent with it.
+  const [locations, setLocations] = useState<{ location_id: string; name: string }[]>([])
+  const [origin, setOrigin] = useState({ location_id: '', product_id: '', batch: '', quantity: 1 })
+
+  useEffect(() => {
+    void (async () => {
+      try {
+        const r = await call('/api/inventory/locations')
+        const body = r.ok ? await r.json() : []
+        if (Array.isArray(body)) setLocations(body.filter(l => l && typeof l.location_id === 'string'))
+      } catch { /* the server still refuses a dispense without a stock origin */ }
+    })()
+  }, [])
 
   const loadQueue = useCallback(async () => {
     setLoading(true)
@@ -139,7 +152,10 @@ export default function PharmacyPage() {
     setError('')
     setNotice('')
     try {
-      const res = await call(`/api/prescriptions/${rx.prescription_id}/dispense`, { method: 'POST' })
+      const res = await call(`/api/prescriptions/${rx.prescription_id}/dispense`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...origin, location_id: origin.location_id || locations[0]?.location_id || '' }),
+      })
       if (res.ok) {
         setNotice(isAr ? 'تم الصرف وتسجيله في سجل التدقيق.' : 'Dispensed and recorded in the audit log.')
         setSelected(null)
@@ -165,6 +181,9 @@ export default function PharmacyPage() {
         setError(isAr
           ? 'لا يمكن الصرف: الوصفة ليست في حالة «تم التحقق».'
           : 'Cannot dispense: the prescription is not in the verified state.')
+      } else if (res.status === 400 || res.status === 422) {
+        setError(isAr ? 'حدّد الموقع والمنتج والتشغيلة والكمية المصروفة من المخزون.'
+          : 'Choose the stock location, product, batch and quantity being dispensed.')
       } else if (res.status === 404) {
         await loadQueue()
         setError(isAr ? 'الوصفة غير موجودة في نطاقك.' : 'Prescription not found in your scope.')
@@ -330,6 +349,25 @@ export default function PharmacyPage() {
                   </a>
                 ))}
               </div>
+
+              <fieldset data-testid="dispense-origin" style={{ border: 0, padding: 0, margin: 0, display: 'grid', gap: 8 }}>
+                <label>{isAr ? 'موقع المخزون' : 'Stock location'}
+                  <select value={origin.location_id} onChange={e => setOrigin({ ...origin, location_id: e.target.value })}>
+                    {locations.map(l => <option key={l.location_id} value={l.location_id}>{l.name}</option>)}
+                  </select>
+                </label>
+                <label>{isAr ? 'رمز المنتج' : 'Product'}
+                  <input name="product_id" value={origin.product_id}
+                    onChange={e => setOrigin({ ...origin, product_id: e.target.value })} />
+                </label>
+                <label>{isAr ? 'رقم التشغيلة' : 'Batch'}
+                  <input name="batch" value={origin.batch} onChange={e => setOrigin({ ...origin, batch: e.target.value })} />
+                </label>
+                <label>{isAr ? 'الكمية' : 'Quantity'}
+                  <input name="quantity" type="number" min={1} value={origin.quantity}
+                    onChange={e => setOrigin({ ...origin, quantity: Number(e.target.value) })} />
+                </label>
+              </fieldset>
 
               <button
                 type="button"

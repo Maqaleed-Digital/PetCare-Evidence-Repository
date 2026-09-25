@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 67
+    "served_route_count": 70
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -731,24 +731,16 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 1,
-        "implements": 0,
+        "basis": 6,
+        "implements": 8,
         "legacy": 0,
-        "routes": 0,
-        "tests": 0,
-        "ui_surface": 0
+        "routes": 4,
+        "tests": 2,
+        "ui_surface": 2
       },
       "criteria_gaps": {
-        "AC-FR-19-01": [
-          "AUDIT",
-          "PERSISTENCE"
-        ],
-        "AC-FR-19-02": [
-          "AUDIT",
-          "SERVED_APP_E2E",
-          "TENANT_ISOLATION",
-          "UI"
-        ],
+        "AC-FR-19-01": [],
+        "AC-FR-19-02": [],
         "AC-FR-19-03": [
           "DEPENDENCY",
           "SERVED_APP_E2E"
@@ -758,22 +750,25 @@
           "SERVED_APP_E2E"
         ]
       },
-      "engineering_status": "ABSENT",
+      "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
-        "storage": "NONE",
-        "tenant_source": "NONE",
-        "ui_surface": []
+        "audit_actor_source": "SESSION",
+        "storage": "PERSISTENT_POSTGRES",
+        "tenant_source": "SESSION",
+        "ui_surface": [
+          "petcare_web:/owner/recalls",
+          "petcare_web:/pharmacy"
+        ]
       },
       "id": "FR-19",
       "phase": 1,
       "priority": "High",
       "reasons": [
-        "no implementing symbol bound"
+        "all bound routes served; all bound tests collected"
       ],
-      "status": "ABSENT",
+      "status": "REACHABLE_TESTED",
       "title": "SFDA batch tracking and recall notifications",
-      "unresolved": "petcare_runtime/src/petcare/uphr/models.py:65 batch_number_nullable on a VACCINATION record, always None at petcare_runtime/src/petcare/uphr/service.py:121; no medicine batch tracking or recall."
+      "unresolved": "AC-FR-19-03/04 depend on EXTERNAL:SFDA_API: recalls are recorded by tenant staff through the same ingestion boundary (normalise_sfda_recall refuses a recall without product and batch); the SFDA interface contract and live feed are not held and nothing is registered for them. GENERAL/OTC supplies without a prescription are INDETERMINATE for owner resolution by construction (no stored owner link), and are listed as such."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
@@ -1192,11 +1187,11 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 17,
+        "ABSENT": 16,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 4,
-        "REACHABLE_TESTED": 9,
+        "REACHABLE_TESTED": 10,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
@@ -1208,7 +1203,6 @@
           "FR-15",
           "FR-17",
           "FR-18",
-          "FR-19",
           "FR-20",
           "FR-22",
           "FR-23",
@@ -1238,6 +1232,7 @@
           "FR-13",
           "FR-14",
           "FR-16",
+          "FR-19",
           "FR-27"
         ],
         "REACHABLE_UNTESTED": []
@@ -1251,18 +1246,17 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 6,
+        "ABSENT": 5,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 9,
+        "REACHABLE_TESTED": 10,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-04",
           "FR-15",
-          "FR-19",
           "FR-20",
           "FR-23",
           "FR-30"
@@ -1281,6 +1275,7 @@
           "FR-13",
           "FR-14",
           "FR-16",
+          "FR-19",
           "FR-27"
         ],
         "REACHABLE_UNTESTED": []
@@ -1294,18 +1289,17 @@
         "EVIDENCE_INCOMPLETE": 15
       },
       "counts": {
-        "ABSENT": 6,
+        "ABSENT": 5,
         "ACCEPTED": 1,
         "BINDING_BROKEN": 0,
         "BUILT_UNWIRED": 0,
-        "REACHABLE_TESTED": 9,
+        "REACHABLE_TESTED": 10,
         "REACHABLE_UNTESTED": 0
       },
       "ids": {
         "ABSENT": [
           "FR-04",
           "FR-15",
-          "FR-19",
           "FR-20",
           "FR-23",
           "FR-30"
@@ -1324,6 +1318,7 @@
           "FR-13",
           "FR-14",
           "FR-16",
+          "FR-19",
           "FR-27"
         ],
         "REACHABLE_UNTESTED": []

@@ -22,7 +22,7 @@ from inventory import REGISTRATION_SOURCE, ProductRegistration  # noqa: E402
 from practitioners import CLASS_VETERINARIAN, PractitionerAuthorityGrant  # noqa: E402
 from prescriptions import Prescription  # noqa: E402
 from routers import auth  # noqa: E402
-from tenant_fixtures import ensure_tenant, grant_practitioner_authority  # noqa: E402
+from tenant_fixtures import ensure_tenant, grant_practitioner_authority, stock_origin  # noqa: E402
 
 pytestmark = pytest.mark.served_app
 T_A, T_B = "t-rx14-alpha", "t-rx14-beta"
@@ -65,7 +65,8 @@ def _stocked_location(admin, vet, product, qty=10):
     loc = admin.post("/api/inventory/locations", json={"name": f"Rx {product} {uuid4().hex[:6]}"}).json()["location_id"]
     who = vet if api.INVENTORY_REPO.supply_class_of(product) in ("POM", "RESTRICTED", "CONTROLLED") else admin
     r = who.post("/api/inventory/movements", json={"location_id": loc, "product_id": product, "batch": "L1",
-                                                   "quantity_delta": qty, "reason": "RECEIPT"})
+                                                   "quantity_delta": qty, "reason": "RECEIPT",
+                                                   "batch_expiry": "2099-12-31"})
     assert r.status_code == 200, r.text
     return loc
 
@@ -80,8 +81,8 @@ def test_issue_upload_verify_dispense_only_through_the_governed_transitions():
     assert vet.post(f"/api/prescriptions/{rx}/dispense").status_code == 409  # not verified yet
     assert vet.post(f"/api/prescriptions/{rx}/verify").status_code == 200
     assert vet.post(f"/api/prescriptions/{rx}/verify").status_code == 409  # outside the governed set
-    assert vet.post(f"/api/prescriptions/{rx}/dispense").status_code == 200
-    assert vet.post(f"/api/prescriptions/{rx}/dispense").status_code == 409
+    assert vet.post(f"/api/prescriptions/{rx}/dispense", json=stock_origin(T_A)).status_code == 200
+    assert vet.post(f"/api/prescriptions/{rx}/dispense", json=stock_origin(T_A)).status_code == 409
     moves = [(t["from_status"], t["to_status"]) for t in vet.get(f"/api/prescriptions/{rx}/transitions").json()]
     assert moves[-2:] == [("ISSUED", "VET_VERIFIED"), ("VET_VERIFIED", "DISPENSED")]
     assert vet.get(f"/api/prescriptions/{rx}").json()["status"] == "DISPENSED"

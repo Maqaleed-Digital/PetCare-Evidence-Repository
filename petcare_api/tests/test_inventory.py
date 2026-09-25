@@ -70,6 +70,8 @@ def _location(admin: TestClient, name: str) -> str:
 
 
 def _move(c: TestClient, **body):
+    if body.get("reason") == "RECEIPT":  # FR-19 (U13): a receipt records the batch expiry
+        body.setdefault("batch_expiry", "2099-12-31")
     return c.post("/api/inventory/movements", json=body)
 
 
@@ -155,7 +157,7 @@ def test_every_movement_is_audited_with_the_session_actor_and_client_identity_is
     loc = _location(admin, "Audit Street")
     r = admin.post("/api/inventory/movements", headers={"X-Actor-Id": "u-somebody-else"},
                    json={"location_id": loc, "product_id": "gauze-aud", "batch": "A", "quantity_delta": 3,
-                         "reason": "RECEIPT"})
+                         "reason": "RECEIPT", "batch_expiry": "2099-12-31"})
     assert r.status_code == 200, r.text
     mid = r.json()[0]["movement_id"]
     assert r.json()[0]["actor_id"] == "u-inv-admin-aud"

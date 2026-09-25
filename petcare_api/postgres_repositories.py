@@ -1178,7 +1178,7 @@ class PostgresInventoryRepository:
 
     _L = "location_id, tenant_id, name, created_at"
     _M = ("movement_id, tenant_id, location_id, product_id, batch, quantity_delta, reason, supply_class, "
-          "actor_id, actor_role, created_at, transfer_id, prescription_id")
+          "actor_id, actor_role, created_at, transfer_id, prescription_id, batch_expiry")
 
     def __init__(self, pool: Any) -> None:
         self._pool = pool
@@ -1260,10 +1260,10 @@ class PostgresInventoryRepository:
                     pending[k] += m.quantity_delta
                     if pending[k] < 0:
                         raise RepositoryDenied("insufficient stock: a balance may not go below zero")
-                    conn.execute(f"INSERT INTO stock_movement ({self._M}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                    conn.execute(f"INSERT INTO stock_movement ({self._M}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                                  (m.movement_id, m.tenant_id, m.location_id, m.product_id, m.batch, m.quantity_delta,
                                   m.reason, m.supply_class, m.actor_id, m.actor_role, _to_db(m.created_at),
-                                  m.transfer_id, m.prescription_id))
+                                  m.transfer_id, m.prescription_id, m.batch_expiry))
         except RepositoryDenied:
             raise
         except Exception as exc:
@@ -1281,13 +1281,18 @@ class PostgresInventoryRepository:
             rows = conn.execute(sql + " ORDER BY created_at, movement_id", params).fetchall()
         return [StockMovement(movement_id=r[0], tenant_id=r[1], location_id=r[2], product_id=r[3], batch=r[4],
                               quantity_delta=r[5], reason=r[6], supply_class=r[7], actor_id=r[8], actor_role=r[9],
-                              created_at=_from_db(r[10]), transfer_id=r[11], prescription_id=r[12]) for r in rows]
+                              created_at=_from_db(r[10]), transfer_id=r[11], prescription_id=r[12],
+                              batch_expiry=r[13]) for r in rows]
+
+    def supplies_of_batch(self, *, tenant_id, product_id, batch):
+        return [m for m in self.movements(tenant_id=tenant_id)
+                if m.reason == "SUPPLY" and m.product_id == product_id and m.batch == batch]
 
     def balances(self, *, tenant_id, location_id=None, product_id=None):
         """AC-FR-13-02/03: derived by SUM over the ledger, served by idx_stock_movement_balance
         (per location) and idx_stock_movement_product (per product, across locations)."""
         sql = ("SELECT m.location_id, m.product_id, m.batch, SUM(m.quantity_delta)::bigint, "
-               "COALESCE(p.supply_class, 'POM') FROM stock_movement m "
+               "COALESCE(p.supply_class, 'POM'), MAX(m.batch_expiry) FROM stock_movement m "
                "LEFT JOIN product_registration p ON p.product_id = m.product_id WHERE m.tenant_id = %s")
         params: tuple = (tenant_id,)
         if location_id is not None:
@@ -1301,7 +1306,7 @@ class PostgresInventoryRepository:
         with self._pool.connection() as conn:
             rows = conn.execute(sql, params).fetchall()
         return [{"location_id": r[0], "product_id": r[1], "batch": r[2], "quantity": int(r[3]),
-                 "supply_class": r[4]} for r in rows]
+                 "supply_class": r[4], "batch_expiry": r[5].isoformat() if r[5] else None} for r in rows]
 
 
 class PostgresLicenceRepository:
@@ -1532,3 +1537,53 @@ class PostgresDeliveryRepository:
                                 "WHERE delivery_id = %s AND tenant_id = %s", (delivery_id, tenant_id)).fetchall()
         return None if not rows else DeliveryCompletion(delivery_id=rows[0][0], tenant_id=rows[0][1],
                                                         completed_by_actor_id=rows[0][2], completed_at=_from_db(rows[0][3]))
+
+
+class PostgresRecallRepository:
+    """`RecallRepository` over migration 0046 (FR-19, MVC-BUILD-RUNNER-001 U13). Insert-only."""
+
+    _R = "recall_id, tenant_id, product_id, batch, reason, source, initiated_by_actor_id, created_at"
+    _N = "notification_id, recall_id, tenant_id, owner_id, movement_id, rendered_body, created_at"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def create(self, r, notifications):
+        """The recall and every owner notification in ONE transaction: no recall without its notices."""
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO recall ({self._R}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                             (r.recall_id, r.tenant_id, r.product_id, r.batch, r.reason, r.source,
+                              r.initiated_by_actor_id, _to_db(r.created_at)))
+                for n in notifications:
+                    conn.execute(f"INSERT INTO recall_notification ({self._N}) VALUES (%s,%s,%s,%s,%s,%s,%s)",
+                                 (n.notification_id, n.recall_id, n.tenant_id, n.owner_id, n.movement_id,
+                                  n.rendered_body, _to_db(n.created_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"recall was refused ({type(exc).__name__})") from None
+        return r
+
+    def get(self, recall_id, *, tenant_id):
+        from recalls import Recall
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._R} FROM recall WHERE recall_id = %s AND tenant_id = %s",
+                                (recall_id, tenant_id)).fetchall()
+        if not rows:
+            return None
+        x = rows[0]
+        return Recall(recall_id=x[0], tenant_id=x[1], product_id=x[2], batch=x[3], reason=x[4], source=x[5],
+                      initiated_by_actor_id=x[6], created_at=_from_db(x[7]))
+
+    def _notes(self, where, params):
+        from recalls import RecallNotification
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._N} FROM recall_notification WHERE {where} "
+                                "ORDER BY created_at, notification_id", params).fetchall()
+        return [RecallNotification(notification_id=x[0], recall_id=x[1], tenant_id=x[2], owner_id=x[3],
+                                   movement_id=x[4], rendered_body=x[5], created_at=_from_db(x[6])) for x in rows]
+
+    def notifications(self, recall_id, *, tenant_id):
+        return self._notes("recall_id = %s AND tenant_id = %s", (recall_id, tenant_id))
+
+    def notices_for_owner(self, owner_id, *, tenant_id):
+        return self._notes("owner_id = %s AND tenant_id = %s", (owner_id, tenant_id))
