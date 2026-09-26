@@ -155,6 +155,8 @@ def reset_w0f_tables(url: str) -> None:
                       "pet_identification", "pet_medical_record", "pet_profile",
                       # FR-09 (migration 0038) references user_identity and tenant.
                       "user_preference",
+                      # NFR-08 (migration 0052): factors and step-ups reference user_identity.
+                      "mfa_step_up", "mfa_factor",
                       # NFR-15 (migration 0051): shared rate-limit counters (no references).
                       "rate_limit_counter",
                       # FR-20 (migration 0047): receipt before collection before order.

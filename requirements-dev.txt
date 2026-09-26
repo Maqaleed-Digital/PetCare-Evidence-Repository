@@ -15,3 +15,5 @@ passlib[bcrypt]>=1.7.4
 psycopg[binary,pool]>=3.2
 # FR-14. The upload suite posts real multipart bodies through TestClient.
 python-multipart>=0.0.9
+# NFR-08 (v1.2 U25): AES-256-GCM for the stored TOTP secret.
+cryptography==44.0.2

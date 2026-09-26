@@ -1933,3 +1933,50 @@ class PostgresRateLimitRepository:
                 "INSERT INTO rate_limit_counter (bucket, window_start, count) VALUES (%s, %s, 1) "
                 "ON CONFLICT (bucket, window_start) DO UPDATE SET count = rate_limit_counter.count + 1 "
                 "RETURNING count", (bucket, window_start)).fetchone()[0]
+
+
+class PostgresMfaRepository:
+    """NFR-08 MFA over migration 0052 (MVC-BUILD-RUNNER-001 v1.2 U25). The secret column holds ciphertext only."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def put_factor(self, f):
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO mfa_factor (user_id, nonce, ciphertext, created_at, confirmed_at, last_used_step) "
+                         "VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT (user_id) DO UPDATE SET nonce = EXCLUDED.nonce, "
+                         "ciphertext = EXCLUDED.ciphertext, created_at = EXCLUDED.created_at, confirmed_at = NULL, "
+                         "last_used_step = NULL", (f.user_id, f.nonce, f.ciphertext, _to_db(f.created_at),
+                                                   _to_db(f.confirmed_at), f.last_used_step))
+        return f
+
+    def factor(self, user_id):
+        from mfa import Factor
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT user_id, nonce, ciphertext, created_at, confirmed_at, last_used_step FROM mfa_factor "
+                                "WHERE user_id = %s", (user_id,)).fetchall()
+        if not rows:
+            return None
+        r = rows[0]
+        return Factor(user_id=r[0], nonce=bytes(r[1]), ciphertext=bytes(r[2]), created_at=_from_db(r[3]),
+                      confirmed_at=_from_db(r[4]), last_used_step=r[5])
+
+    def use_step(self, user_id, step, *, confirm_at=None):
+        """Atomic single-use: the UPDATE succeeds only if no equal-or-later step was used (no replay race)."""
+        with self._pool.connection() as conn:
+            cur = conn.execute("UPDATE mfa_factor SET last_used_step = %s, confirmed_at = COALESCE(confirmed_at, %s) "
+                               "WHERE user_id = %s AND (last_used_step IS NULL OR last_used_step < %s)",
+                               (step, _to_db(confirm_at), user_id, step))
+            return cur.rowcount == 1
+
+    def record_step_up(self, session_id, user_id, at):
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO mfa_step_up (session_id, user_id, verified_at) VALUES (%s,%s,%s) "
+                         "ON CONFLICT (session_id) DO UPDATE SET verified_at = EXCLUDED.verified_at",
+                         (session_id, user_id, _to_db(at)))
+
+    def step_up_at(self, session_id, user_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT verified_at FROM mfa_step_up WHERE session_id = %s AND user_id = %s",
+                                (session_id, user_id)).fetchall()
+        return _from_db(rows[0][0]) if rows else None

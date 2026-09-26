@@ -145,6 +145,7 @@ jobs:
             petcare_api/tests/test_fr30_compliance_postgres.py \
             petcare_api/tests/test_fr15_routing_postgres.py \
             petcare_api/tests/test_nfr15_rate_limit_postgres.py \
+            petcare_api/tests/test_nfr08_mfa_postgres.py \
             -q --no-header -rs | tee /tmp/pg.txt
           grep -qE '[0-9]+ passed' /tmp/pg.txt
           if grep -qE '[0-9]+ skipped' /tmp/pg.txt; then

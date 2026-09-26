@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 94
+    "served_route_count": 97
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
