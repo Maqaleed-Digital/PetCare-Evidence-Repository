@@ -2977,6 +2977,111 @@ def effective_rate_limits(role: str = Depends(require_admin)):
 
 
 # ---------------------------------------------------------------------------
+# NFR-08 · MFA step-up mechanism (v1.2 U25) — WHICH operations is a Sponsor decision (SQ-3)
+# ---------------------------------------------------------------------------
+import mfa as mfa_mod  # noqa: E402
+from starlette.routing import Match as _Match  # noqa: E402
+from secret_provider import build_secret_provider as _build_sp, resolve_secret as _resolve_secret  # noqa: E402
+
+MFA_REPO = PERSISTENCE.mfa
+MFA_POLICY = mfa_mod.MfaPolicy.from_env(os.environ)
+
+
+def _mfa_key() -> str:
+    """The TOTP-secret encryption key, through the governed secret provider. Unavailable -> fail closed (503)."""
+    try:
+        return _resolve_secret(os.environ.get(mfa_mod.ENV_KEY_SECRET_ID, mfa_mod.DEFAULT_KEY_SECRET_ID),
+                               provider=_build_sp(os.environ))
+    except Exception:
+        raise HTTPException(503, {"error": "MFA_KEY_UNAVAILABLE"}) from None
+
+
+def _operation_of(request: Request) -> Optional[str]:
+    for route in app.routes:
+        m, _ = route.matches(request.scope)
+        if m == _Match.FULL and getattr(route, "path", None):
+            return f"{request.method} {route.path}"
+    return None
+
+
+@app.middleware("http")
+async def enforce_mfa_step_up(request: Request, call_next):
+    """NFR-08: a configured sensitive operation requires a fresh TOTP step-up bound to THIS session."""
+    if not MFA_POLICY.sensitive_operations or _operation_of(request) not in MFA_POLICY.sensitive_operations:
+        return await call_next(request)
+    try:
+        session = read_session(request)
+    except HTTPException as exc:
+        return _JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
+    user_id = session["user_id"]
+    factor = MFA_REPO.factor(user_id)
+    if factor is None or factor.confirmed_at is None:
+        return _JSONResponse(status_code=403, content={"detail": {"error": "MFA_ENROLMENT_REQUIRED"}})
+    at = MFA_REPO.step_up_at(session["sid"], user_id)
+    if at is None or (datetime.now(timezone.utc) - at).total_seconds() > MFA_POLICY.max_age_seconds:
+        return _JSONResponse(status_code=403, content={"detail": {"error": "MFA_STEP_UP_REQUIRED",
+                                                                  "operation": _operation_of(request)}})
+    return await call_next(request)
+
+
+class MfaCode(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    code: str
+
+
+@app.post("/api/me/mfa/enrol")
+def mfa_enrol(request: Request, role: str = Depends(require_role)):
+    """Start TOTP enrolment. The secret is returned ONCE (as an otpauth URI for the authenticator app), stored only as
+    ciphertext, and never logged. Re-enrolling replaces an unconfirmed or confirmed factor for the caller only."""
+    session = read_session(request)
+    secret = os.urandom(20)
+    nonce, ct = mfa_mod.encrypt(_mfa_key(), secret)
+    MFA_REPO.put_factor(mfa_mod.Factor(user_id=session["user_id"], nonce=nonce, ciphertext=ct,
+                                       created_at=datetime.now(timezone.utc)))
+    return {"otpauth_uri": mfa_mod.otpauth_uri(secret, session.get("email", session["user_id"]))}
+
+
+def _check_code(user_id: str, code: str, *, confirm: bool) -> None:
+    f = MFA_REPO.factor(user_id)
+    if f is None:
+        raise HTTPException(403, {"error": "MFA_ENROLMENT_REQUIRED"})
+    now = datetime.now(timezone.utc)
+    step = mfa_mod.matching_step(mfa_mod.decrypt(_mfa_key(), f.nonce, f.ciphertext), code, now.timestamp())
+    if step is None or not MFA_REPO.use_step(user_id, step, confirm_at=now if confirm else None):
+        raise HTTPException(401, {"error": "MFA_CODE_INVALID"})
+
+
+@app.post("/api/me/mfa/confirm")
+def mfa_confirm(body: MfaCode, request: Request, role: str = Depends(require_role),
+                x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    session = read_session(request)
+    _check_code(session["user_id"], body.code, confirm=True)
+    if session.get("tenant_id"):
+        _audit(event_name="mfa.factor.confirmed", actor_id=session["user_id"], actor_role=role,
+               tenant_id=session["tenant_id"], resource_type="mfa_factor", resource_id=session["user_id"],
+               action_result="success", correlation_id=x_correlation_id)
+    return {"confirmed": True}
+
+
+@app.post("/api/me/mfa/step-up")
+def mfa_step_up(body: MfaCode, request: Request, role: str = Depends(require_role),
+                x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """Verify a TOTP code for THIS session (single-use codes; bound to the session id)."""
+    session = read_session(request)
+    f = MFA_REPO.factor(session["user_id"])
+    if f is None or f.confirmed_at is None:
+        raise HTTPException(403, {"error": "MFA_ENROLMENT_REQUIRED"})
+    _check_code(session["user_id"], body.code, confirm=False)
+    MFA_REPO.record_step_up(session["sid"], session["user_id"], datetime.now(timezone.utc))
+    if session.get("tenant_id"):
+        _audit(event_name="mfa.step_up.verified", actor_id=session["user_id"], actor_role=role,
+               tenant_id=session["tenant_id"], resource_type="account_session", resource_id=session["sid"],
+               action_result="success", correlation_id=x_correlation_id)
+    return {"stepped_up": True}
+
+
+# ---------------------------------------------------------------------------
 # FR-01 · practitioner authority administration (U5). Never self-service.
 # ---------------------------------------------------------------------------
 class AuthorityGrantRequest(BaseModel):

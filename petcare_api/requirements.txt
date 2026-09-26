@@ -6,3 +6,5 @@ passlib[bcrypt]>=1.7.4
 # FR-14. Prescription upload is multipart/form-data; FastAPI delegates form
 # parsing to this package and raises at import time without it.
 python-multipart>=0.0.9
+# NFR-08 (v1.2 U25): AES-256-GCM for the stored TOTP secret.
+cryptography==44.0.2

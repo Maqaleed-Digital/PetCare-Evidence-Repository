@@ -331,6 +331,27 @@
       "path": "/api/inventory/supplies"
     },
     {
+      "endpoint": "main:mfa_confirm",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/me/mfa/confirm"
+    },
+    {
+      "endpoint": "main:mfa_enrol",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/me/mfa/enrol"
+    },
+    {
+      "endpoint": "main:mfa_step_up",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/me/mfa/step-up"
+    },
+    {
       "endpoint": "main:get_language_preference",
       "methods": [
         "GET"
