@@ -799,5 +799,22 @@
       "ref": "petcare_api/tests/test_inventory_postgres.py::test_inventory_check_is_sub_second_on_production_sized_data",
       "type": "NFR_EVIDENCE"
     }
+  ],
+  "NFR-15": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr15_rate_limit.py::test_an_authenticated_principal_gets_100_per_minute_then_429_and_others_are_unaffected",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr15_rate_limit.py::test_an_anonymous_client_gets_30_per_minute_and_a_spoofed_forwarded_for_is_ignored",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr15_rate_limit.py::test_the_default_policy_is_the_ratified_one_and_configuration_is_validated",
+      "type": "NFR_EVIDENCE"
+    }
   ]
 }

@@ -2931,6 +2931,52 @@ def get_video_quality(consultation_id: str, request: Request, role: str = Depend
 
 
 # ---------------------------------------------------------------------------
+# NFR-15 · API rate limiting (v1.2 U24) — every served route
+# ---------------------------------------------------------------------------
+import ratelimit as rl  # noqa: E402
+import time as _time  # noqa: E402
+from fastapi.responses import JSONResponse as _JSONResponse  # noqa: E402
+
+RATE_LIMITER = rl.Limiter(repo=PERSISTENCE.ratelimits, policy=rl.Policy.from_env(os.environ))
+log.info("NFR-15 rate limits in force: %s", RATE_LIMITER.policy)
+
+
+def _rate_clock() -> float:
+    return _time.time()
+
+
+@app.middleware("http")
+async def enforce_rate_limit(request: Request, call_next):
+    """NFR-15: principal from the validated session (never a header); anonymous callers keyed by client IP. Excess ->
+    429 with Retry-After. The first excess of an authenticated principal in a window is audited."""
+    session = None
+    try:
+        session = read_session(request)
+    except HTTPException:
+        session = None
+    principal = session.get("user_id") if session else None
+    d = RATE_LIMITER.hit(principal=principal, peer=request.client.host if request.client else None,
+                         forwarded_for=request.headers.get("x-forwarded-for"), now=_rate_clock())
+    if d.allowed:
+        return await call_next(request)
+    if d.first_excess and session and session.get("tenant_id"):
+        _audit(event_name="rate_limit.throttled", actor_id=principal, actor_role=session.get("role", ""),
+               tenant_id=session["tenant_id"], resource_type="rate_limit", resource_id=d.bucket, action_result="denied",
+               correlation_id=str(uuid4()), reason_code=f"{d.count}>{d.limit}/min")
+    return _JSONResponse(status_code=429, headers={"Retry-After": str(d.retry_after)},
+                         content={"detail": {"error": "RATE_LIMITED", "limit_per_minute": d.limit,
+                                             "retry_after_seconds": d.retry_after}})
+
+
+@app.get("/api/admin/rate-limits")
+def effective_rate_limits(role: str = Depends(require_admin)):
+    """Auditable (ratified NFR-15): the limits in force and where they came from."""
+    p = RATE_LIMITER.policy
+    return {"principal_per_minute": p.principal_per_min, "anonymous_per_minute": p.anonymous_per_min,
+            "trusted_proxies": sorted(p.trusted_proxies), "source": p.source, "window_seconds": rl.WINDOW_SECONDS}
+
+
+# ---------------------------------------------------------------------------
 # FR-01 · practitioner authority administration (U5). Never self-service.
 # ---------------------------------------------------------------------------
 class AuthorityGrantRequest(BaseModel):

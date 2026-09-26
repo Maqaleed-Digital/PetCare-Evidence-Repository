@@ -44,6 +44,13 @@
       "path": "/api/admin/practitioners/{user_id}/authority"
     },
     {
+      "endpoint": "main:effective_rate_limits",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/admin/rate-limits"
+    },
+    {
       "endpoint": "main:book_appointment",
       "methods": [
         "POST"

@@ -54,6 +54,11 @@ os.environ.setdefault("PETCARE_PERSISTENCE_MODE", "memory")
 # not treat it as one; test_prescription_upload.py asserts that the production
 # adapter refuses rather than falling back to this.
 os.environ.setdefault("PETCARE_DOCUMENT_STORE_MODE", "local")
+# NFR-15 (v1.2 U24): limits are CONFIGURABLE (ratified). Suites that are not about rate limiting legitimately send
+# thousands of requests per principal per minute (the real-time visibility tests poll), so the harness configures
+# high limits. The NFR-15 tests themselves run the DEFAULT policy (Policy.from_env({})) — 100 / 30.
+os.environ.setdefault("PETCARE_RATE_LIMIT_PRINCIPAL_PER_MIN", "1000000")
+os.environ.setdefault("PETCARE_RATE_LIMIT_ANONYMOUS_PER_MIN", "1000000")
 os.environ.setdefault(
     "PETCARE_DOCUMENT_ROOT",
     str(Path(tempfile.gettempdir()) / "petcare-test-documents"),
