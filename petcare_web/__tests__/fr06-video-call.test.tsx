@@ -5,8 +5,9 @@ import VideoConsultationPage from '@/app/account/consultations/video/page'
 import { QUALITY_REPORT_MS } from '@/lib/videoCall'
 
 /**
- * FR-06 video call client (MVC-BUILD-RUNNER-001 U22) with the browser media APIs stubbed. Served signalling:
- * petcare_api/tests/test_fr06_video.py. Not registered as AC-FR-06-01/02 evidence (SPONSOR_QUEUE SQ-2).
+ * FR-06 video call client (MVC-BUILD-RUNNER-001 U22; U27 under SQ-2) with the browser media APIs stubbed. Served
+ * signalling: petcare_api/tests/test_sq2_video_nonprod.py. AC-FR-06-01 UI / ARABIC_RTL evidence, NON_PROD, with the
+ * video feature switch reported on by the (mocked) served app.
  */
 
 vi.mock('next/navigation', () => ({
@@ -52,9 +53,17 @@ describe('FR-06 video call page', () => {
     expect(container.querySelectorAll('button').length).toBe(0)
   })
 
+  it('offers no call control while the video feature switch is off, even with the gate open (SQ-2)', async () => {
+    vi.stubGlobal('fetch', vi.fn(() => json({ offered: true, video_capability: false })))
+    const { container } = render(<LangProvider><VideoConsultationPage /></LangProvider>)
+    await waitFor(() => expect(screen.getByTestId('video-not-offered')).toBeTruthy())
+    expect(screen.queryByTestId('video-call')).toBeNull()
+    expect(container.querySelectorAll('button').length).toBe(0)
+  })
+
   it('captures at 720p, sends the offer through the served app, shares the screen and reports quality', async () => {
     const fetchMock = vi.fn((url: string, _i?: RequestInit) =>
-      String(url).endsWith('/remote/availability') ? json({ offered: true }) : json([]))
+      String(url).endsWith('/remote/availability') ? json({ offered: true, video_capability: true }) : json([]))
     vi.stubGlobal('fetch', fetchMock)
     render(<LangProvider><VideoConsultationPage /></LangProvider>)
     await waitFor(() => expect(screen.getByTestId('video-call')).toBeTruthy())

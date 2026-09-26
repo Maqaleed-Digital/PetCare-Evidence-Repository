@@ -257,22 +257,16 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 7,
+        "basis": 8,
         "implements": 16,
         "legacy": 0,
         "routes": 9,
-        "tests": 3,
+        "tests": 4,
         "ui_surface": 2
       },
       "criteria_gaps": {
-        "AC-FR-06-01": [
-          "ARABIC_RTL",
-          "SERVED_APP_E2E",
-          "UI"
-        ],
-        "AC-FR-06-02": [
-          "SERVED_APP_E2E"
-        ],
+        "AC-FR-06-01": [],
+        "AC-FR-06-02": [],
         "AC-FR-06-03": [
           "DEPENDENCY",
           "SERVED_APP_E2E"
@@ -300,7 +294,7 @@
       ],
       "status": "REACHABLE_TESTED",
       "title": "HD video consultations with screen sharing",
-      "unresolved": "AC-FR-06-01/02: the video capability is BUILT behind the REG-02 gate (U22: WebRTC signalling via the served app, 720p capture, screen sharing, NFR-03 quality/ABR step-down records) but NOT registered — SPONSOR_QUEUE SQ-2 decides how they are accepted while remote consultation is fail-closed, and a real two-party media path (TURN relay; multi-instance signalling fan-out) is PRODUCTION infrastructure. AC-FR-06-03 depends on PRODUCTION. AC-FR-06-05 is built fail-closed; its dependency is not evidenced. Consultation notes (_notes) remain an in-memory store."
+      "unresolved": "AC-FR-06-01/02: evidenced NON_PROD under SQ-2 (act sha256 7b698f111cd08fdabbf65f048e05fe330f72b99fae63f4fede6743b83f0e6219) with the video feature switch enabled in test configuration only; the switch defaults OFF in every non-test configuration; no production activation. A real two-party media path (TURN relay; multi-instance signalling fan-out) is PRODUCTION infrastructure. AC-FR-06-03 depends on PRODUCTION. AC-FR-06-05 is built fail-closed; its dependency is not evidenced. Consultation notes (_notes) remain an in-memory store."
     },
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",

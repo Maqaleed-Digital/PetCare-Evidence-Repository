@@ -36,6 +36,7 @@ def _client(user_id, tenant, role):
 
 
 def _open_gate(monkeypatch):
+    monkeypatch.setenv("PETCARE_VIDEO_CAPABILITY_ENABLED", "true")  # SQ-2 switch: test configuration only
     monkeypatch.setattr(api.CONSULTATION_REPO, "_determinations", [consult.RegulatoryDetermination(
         "d-v", consult.REG02_TELEMEDICINE, consult.LAWFUL, "video, licensed vet", "test setup", "counsel",
         datetime.now(timezone.utc))])
