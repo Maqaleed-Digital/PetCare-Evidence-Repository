@@ -16,6 +16,13 @@
       "path": "/api/admin/identities/{user_id}/tenant"
     },
     {
+      "endpoint": "main:platform_identity_audit",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/admin/platform-identity-audit"
+    },
+    {
       "endpoint": "main:revoke_practitioner_authority",
       "methods": [
         "POST"

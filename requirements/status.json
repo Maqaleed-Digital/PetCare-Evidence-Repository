@@ -8,7 +8,7 @@
   "inputs": {
     "register_sha256": "655dd30234d82695c14da6f66599e0b6e83a55821a7ccd03703044fc4bdef013",
     "served_app": "main:app",
-    "served_route_count": 97
+    "served_route_count": 98
   },
   "known_limits": [
     "REACHABLE_TESTED does not prove bound tests exercise the served app",
@@ -67,28 +67,24 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 15,
-        "implements": 12,
+        "basis": 16,
+        "implements": 15,
         "legacy": 3,
-        "routes": 7,
-        "tests": 7,
+        "routes": 8,
+        "tests": 9,
         "ui_surface": 4
       },
       "criteria_gaps": {
         "AC-FR-01-01": [],
         "AC-FR-01-02": [],
-        "AC-FR-01-03": [
-          "AUDIT",
-          "PERSISTENCE",
-          "TENANT_ISOLATION"
-        ],
+        "AC-FR-01-03": [],
         "AC-FR-01-04": [
           "DEPENDENCY"
         ]
       },
       "engineering_status": "REACHABLE_TESTED",
       "fitness": {
-        "audit_actor_source": "NONE",
+        "audit_actor_source": "SESSION",
         "storage": "PERSISTENT_POSTGRES",
         "tenant_source": "SESSION",
         "ui_surface": [
@@ -106,7 +102,7 @@
       ],
       "status": "REACHABLE_TESTED",
       "title": "Multi-role user accounts (Owner, Vet, Pharmacist, Admin)",
-      "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role. U20: AC-FR-01-03's session-bearing parts are built (server-held tenant authority, stale sessions fail closed, sign-in/sign-out chained, sign-out revokes, history attributable after membership ends) but NOT registered: pre-session account actions (registration, failed sign-in) are tenantless and remain SPONSOR_QUEUE SQ-1. AC-FR-01-04: no general-purpose pharmacy role exists and no role dispenses unscoped (evidenced); the class-scoped pharmacy authority awaits COUNSEL:L-2."
+      "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role. AC-FR-01-03 evidenced (U20 session-bearing parts + U26 platform identity chain under SQ-1 act sha256 639c82bf3cebc9cd0347b9683b853a6085362b467d5ccc7dd99ebdd59af20c43). AC-FR-01-04: no general-purpose pharmacy role exists and no role dispenses unscoped (evidenced); the class-scoped pharmacy authority awaits COUNSEL:L-2."
     },
     {
       "acceptance_state": "ACCEPTED",

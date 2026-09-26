@@ -29,6 +29,43 @@
       "type": "AUDIT"
     }
   ],
+  "AC-FR-01-03": [
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_sq1_platform_identity_chain.py::test_registration_success_and_failure_are_on_the_platform_chain_only",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_sq1_platform_identity_chain.py::test_every_failed_sign_in_is_on_the_platform_chain_even_for_an_identity_with_a_tenant",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr01_account_authority.py::test_sign_in_and_sign_out_are_chained_and_sign_out_ends_the_session",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr01_account_authority.py::test_ending_a_membership_keeps_history_attributable",
+      "type": "AUDIT"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_sq1_platform_identity_chain_postgres.py::test_the_platform_chain_is_durable_serialised_and_tenantless_and_the_tenant_invariant_holds",
+      "type": "PERSISTENCE"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_fr01_account_authority.py::test_tenant_authority_is_server_held_and_a_moved_membership_fails_closed",
+      "type": "TENANT_ISOLATION"
+    },
+    {
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_sq1_platform_identity_chain.py::test_every_failed_sign_in_is_on_the_platform_chain_even_for_an_identity_with_a_tenant",
+      "type": "TENANT_ISOLATION"
+    }
+  ],
   "AC-FR-01-04": [
     {
       "kind": "TEST",
