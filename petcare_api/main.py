@@ -717,7 +717,7 @@ def list_consultations(request: Request, role: str = Depends(require_role)):
 
 @app.get("/api/consultations/remote/availability")
 def remote_consultation_availability(request: Request, role: str = Depends(require_role)):
-    return _remote_consultation_gate()
+    return {**_remote_consultation_gate(), "video_capability": vid.capability_enabled(os.environ)}
 
 
 class OutcomeRequest(BaseModel):
@@ -2859,6 +2859,9 @@ def _video_call(request: Request, consultation_id: str):
         raise HTTPException(404, "Consultation not found")
     if not _remote_consultation_gate()["offered"]:
         raise HTTPException(403, detail={"error": "REMOTE_CONSULTATION_NOT_OFFERED", **_remote_consultation_gate()})
+    # AC-FR-06-05 is decided first and unchanged; the SQ-2 switch is an additional, later condition.
+    if not vid.capability_enabled(os.environ):  # SQ-2: feature switch, OFF unless configured
+        raise HTTPException(403, detail={"error": "VIDEO_CAPABILITY_DISABLED", "switch": vid.SWITCH_ENV})
     if session["mode"] != consult.MODE_REMOTE_VIDEO:
         raise HTTPException(409, "This consultation is not a video consultation")
     return session, actor_id, tenant_id

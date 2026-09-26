@@ -3,7 +3,8 @@
 /**
  * FR-06 — video consultation with screen sharing (MVC-BUILD-RUNNER-001 U22), behind the REG-02 gate.
  * Route: /account/consultations/video?consultation=<id>. While the served app says remote consultation is not
- * offered (AC-FR-06-05), the page shows why and presents no call control. Arabic default, RTL.
+ * offered (AC-FR-06-05) or the SQ-2 video feature switch is off, the page shows why and presents no call control.
+ * Arabic default, RTL.
  */
 
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
@@ -40,7 +41,9 @@ function Call() {
   useEffect(() => {
     void (async () => {
       const r = await call('/api/consultations/remote/availability')
-      setOffered(r.ok ? Boolean((await r.json()).offered) : false)
+      // SQ-2: the call needs the REG-02 gate open AND the video feature switch on (OFF unless configured).
+      const a = r.ok ? await r.json() : {}
+      setOffered(Boolean(a.offered) && a.video_capability === true)
     })()
   }, [])
 

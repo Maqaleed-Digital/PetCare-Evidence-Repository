@@ -241,6 +241,40 @@
       "type": "TENANT_ISOLATION"
     }
   ],
+  "AC-FR-06-01": [
+    {
+      "authority": "MVC-SQ2-VIDEO-CAPABILITY-ACCEPTANCE-001 sha256 7b698f111cd08fdabbf65f048e05fe330f72b99fae63f4fede6743b83f0e6219",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_sq2_video_nonprod.py::test_ac_fr_06_01_a_booked_video_consultation_connects_both_parties_with_screen_sharing",
+      "type": "SERVED_APP_E2E"
+    },
+    {
+      "authority": "MVC-SQ2-VIDEO-CAPABILITY-ACCEPTANCE-001 sha256 7b698f111cd08fdabbf65f048e05fe330f72b99fae63f4fede6743b83f0e6219",
+      "environment": "NON_PROD",
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr06-video-call.test.tsx",
+      "sha256": "fd3514b24b090a8f52e78ba09eb4357e232996c40130a8001aa3b832dda6aaff",
+      "type": "UI"
+    },
+    {
+      "authority": "MVC-SQ2-VIDEO-CAPABILITY-ACCEPTANCE-001 sha256 7b698f111cd08fdabbf65f048e05fe330f72b99fae63f4fede6743b83f0e6219",
+      "environment": "NON_PROD",
+      "kind": "ARTEFACT",
+      "ref": "petcare_web/__tests__/fr06-video-call.test.tsx",
+      "sha256": "fd3514b24b090a8f52e78ba09eb4357e232996c40130a8001aa3b832dda6aaff",
+      "type": "ARABIC_RTL"
+    }
+  ],
+  "AC-FR-06-02": [
+    {
+      "authority": "MVC-SQ2-VIDEO-CAPABILITY-ACCEPTANCE-001 sha256 7b698f111cd08fdabbf65f048e05fe330f72b99fae63f4fede6743b83f0e6219",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_sq2_video_nonprod.py::test_ac_fr_06_02_below_720p_needs_an_adaptive_bitrate_step_down_record",
+      "type": "SERVED_APP_E2E"
+    }
+  ],
   "AC-FR-06-04": [
     {
       "kind": "TEST",

@@ -22,6 +22,20 @@ HD_MIN_HEIGHT = 720
 STEP_DOWN_REASONS = ("bandwidth", "cpu")
 MAX_PAYLOAD = 20_000
 
+#: SQ-2 (governance/sponsor_acts/MVC-SQ2-VIDEO-CAPABILITY-ACCEPTANCE-001.md): the capability is behind a feature switch
+#: that is OFF unless a configuration turns it on — and only test configuration does. No production activation is
+#: authorised; the REG-02 gate (AC-FR-06-05) still applies with the switch on.
+SWITCH_ENV = "PETCARE_VIDEO_CAPABILITY_ENABLED"
+SWITCH_DEFAULT = False
+
+
+def capability_enabled(env) -> bool:
+    """The switch as configured in `env`. Unset -> the default (OFF); anything but an explicit true/1 is OFF."""
+    raw = (env.get(SWITCH_ENV) or "").strip().lower()
+    if not raw:
+        return SWITCH_DEFAULT
+    return raw in ("true", "1")
+
 
 @dataclass(frozen=True)
 class Signal:

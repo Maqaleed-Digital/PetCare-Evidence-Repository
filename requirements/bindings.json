@@ -254,7 +254,8 @@
       "petcare_api/main.py:613 every consultation read is tenant-scoped through the repository",
       "petcare_runtime/migrations/0044_fr06_consultation_record.sql consultation / consultation_outcome (insert-only; one outcome) / regulatory_determination",
       "petcare_web/app/account/consultations/page.tsx lists consultations with outcomes; states remote consultation is not offered; no video control",
-      "petcare_api/main.py:2852 _video_call (U22): participants only, REMOTE_VIDEO only, REG-02 gate enforced; signalling relay + quality/ABR step-down records; petcare_web/app/account/consultations/video/page.tsx 720p capture + screen share (replaceTrack)"
+      "petcare_api/main.py:2852 _video_call (U22): participants only, REMOTE_VIDEO only, REG-02 gate enforced; signalling relay + quality/ABR step-down records; petcare_web/app/account/consultations/video/page.tsx 720p capture + screen share (replaceTrack)",
+      "petcare_api/video.py capability_enabled / SWITCH_ENV PETCARE_VIDEO_CAPABILITY_ENABLED (U27, SQ-2 act sha256 7b698f111cd08fdabbf65f048e05fe330f72b99fae63f4fede6743b83f0e6219): the video routes also require the feature switch, OFF unless configured and ON only in test configuration; the REG-02 gate (AC-FR-06-05) is decided first and unchanged; petcare_web video page offers call controls only when the served app reports offered AND video_capability"
     ],
     "fitness": {
       "audit_actor_source": "SESSION",
@@ -302,9 +303,10 @@
     "tests": [
       "petcare_api/tests/test_fr06_consultation.py",
       "petcare_api/tests/test_fr06_consultation_postgres.py",
-      "petcare_api/tests/test_fr06_video.py"
+      "petcare_api/tests/test_fr06_video.py",
+      "petcare_api/tests/test_sq2_video_nonprod.py"
     ],
-    "unresolved": "AC-FR-06-01/02: the video capability is BUILT behind the REG-02 gate (U22: WebRTC signalling via the served app, 720p capture, screen sharing, NFR-03 quality/ABR step-down records) but NOT registered — SPONSOR_QUEUE SQ-2 decides how they are accepted while remote consultation is fail-closed, and a real two-party media path (TURN relay; multi-instance signalling fan-out) is PRODUCTION infrastructure. AC-FR-06-03 depends on PRODUCTION. AC-FR-06-05 is built fail-closed; its dependency is not evidenced. Consultation notes (_notes) remain an in-memory store."
+    "unresolved": "AC-FR-06-01/02: evidenced NON_PROD under SQ-2 (act sha256 7b698f111cd08fdabbf65f048e05fe330f72b99fae63f4fede6743b83f0e6219) with the video feature switch enabled in test configuration only; the switch defaults OFF in every non-test configuration; no production activation. A real two-party media path (TURN relay; multi-instance signalling fan-out) is PRODUCTION infrastructure. AC-FR-06-03 depends on PRODUCTION. AC-FR-06-05 is built fail-closed; its dependency is not evidenced. Consultation notes (_notes) remain an in-memory store."
   },
   "FR-07": {
     "basis": [
