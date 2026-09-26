@@ -1,0 +1,183 @@
+=== perturb.py
+P-AC03-SLOW ARMED ["hint: you can try to call 'close()' explicitly or to use the pool as context manager"]
+P-AC04-CLASS ARMED ['2 failed, 2 passed, 9 deselected in 1.36s']
+ARMED=2 VACUOUS=0
+=== perturb_u9.py
+P-AC01-SKIPVERIFY ARMED ['1 failed in 1.01s']
+P-AC01-UI-NOVERIFY ARMED ['      Tests  1 failed | 1 skipped (2)']
+P-AC02-DISPENSE-ROLE ARMED ['1 failed in 0.68s']
+P-AC03-UNGATED ARMED ['2 failed, 2 passed in 1.11s']
+P-AC03-OVERGATED ARMED ['2 failed in 0.82s']
+P-AC04-NOAUTHORITY ARMED ['1 failed in 0.65s']
+P-AC04-UI-ENABLED ARMED ['      Tests  1 failed | 1 skipped (2)']
+P-AC05-READ-UNAUDITED ARMED ['1 failed in 0.70s']
+P-AC06-UNKNOWN-VALID ARMED ['1 failed in 0.64s']
+P-AC07-TARGET ARMED ['1 failed in 0.65s']
+ARMED=10 VACUOUS=0
+=== perturb_u10.py
+P-AC01-REG-NOLICENCE ARMED ['1 failed in 0.57s']
+P-AC01-RECORD-UNGATED ARMED ['1 failed in 0.75s']
+P-AC01-REFUSAL-UNAUDITED ARMED ['1 failed in 0.77s']
+P-AC01-UI-NOLICENCE ARMED ['      Tests  1 failed | 1 skipped (2)']
+P-AC02-NOBASIS ARMED ['1 failed in 1.05s']
+P-AC02-NOEXPIRY ARMED ['1 failed in 0.68s']
+P-AC02-CROSSTENANT ARMED ['1 failed in 0.71s']
+P-AC02-DB-BASIS ARMED ['1 failed in 1.94s']
+P-AC03-PORT-OPEN ARMED ['1 failed in 0.78s']
+ARMED=9 VACUOUS=0
+=== perturb_u11.py
+P-AC04-OUTCOME-UNAUDITED ARMED ['1 failed in 0.75s']
+P-AC04-OUTCOME-ANYONE ARMED ['1 failed in 0.72s']
+P-AC04-PARTICIPANTS ARMED ['1 failed in 0.72s']
+P-AC04-TENANT ARMED ['1 failed in 0.72s']
+P-AC04-DB-ONE-OUTCOME ARMED ['1 failed in 1.95s']
+P-AC05-GATE-OPEN ARMED ['1 failed in 0.63s']
+P-AC05-UI-NONOTICE ARMED ['      Tests  1 failed (1)']
+ARMED=7 VACUOUS=0
+=== perturb_u12.py
+P-AC01-COMPLETE-NOLOG ARMED ['1 failed in 0.72s']
+P-AC01-OWNER-BLIND ARMED ['1 failed in 0.75s']
+P-AC01-NO-RANGE ARMED ['1 failed in 0.71s']
+P-AC01-UI-NOLOG ARMED ['      Tests  1 failed (1)']
+P-AC01-DB-AFTER-COMPLETE ARMED ['1 failed in 2.02s']
+P-AC04-NOALERT ARMED ['1 failed in 0.83s']
+P-AC04-UNAUDITED ARMED ['1 failed in 0.82s']
+P-AC04-TENANT ARMED ['1 failed in 0.80s']
+P-AC02-NO-TIMESTAMP VACUOUS ['4 passed, 3 deselected in 1.00s']
+ARMED=8 VACUOUS=1
+=== perturb_u12b.py
+P-AC02-DEFAULTED-TIMESTAMP ARMED ['1 failed, 3 passed, 3 deselected in 1.02s']
+ARMED=1 VACUOUS=0
+=== perturb_u13.py
+P-AC01-DISPENSE-NOSTOCK ARMED ['1 failed in 1.06s']
+P-AC01-RECEIPT-NOEXPIRY ARMED ['1 failed in 0.78s']
+P-AC01-DB-BATCH ARMED ['1 failed in 2.09s']
+P-AC01-UI-NOBATCH ARMED ['      Tests  1 failed (1)']
+P-AC02-HIDE-INDETERMINATE ARMED ['1 failed in 0.93s']
+P-AC02-NO-COMPLETENESS ARMED ['1 failed in 0.86s']
+P-AC02-NO-NOTIFY ARMED ['1 failed in 0.91s']
+P-AC02-CROSS-TENANT ARMED ['1 failed in 0.74s']
+P-AC02-UI-HIDDEN ARMED ['      Tests  1 failed | 1 passed (2)']
+P-AC03-EMPTY-BATCH ARMED ['1 failed, 1 passed in 0.64s']
+ARMED=10 VACUOUS=0
+=== perturb_u14.py
+P-AC01-NOT-COD ARMED ['1 failed in 0.68s']
+P-AC01-PRICE-NOT-SERVER ARMED ['1 failed in 0.67s']
+P-AC01-POM-ORDERABLE ARMED ['1 failed in 0.69s']
+P-AC01-UI-NOT-COD ARMED ['      Tests  1 failed | 1 passed (2)']
+P-AC02-NO-RECEIPT ARMED ['1 failed in 0.77s']
+P-AC02-WRONG-LANGUAGE ARMED ['1 failed in 0.86s']
+P-AC02-RECEIPT-UNSCOPED ARMED ['1 failed in 0.78s']
+P-AC02-UI-LTR ARMED ['      Tests  1 failed | 1 passed (2)']
+P-AC02-DB-NO-FK ARMED ['1 failed, 1 passed in 2.11s']
+P-AC03-PAID-UNCONFIRMED VACUOUS ['1 passed in 0.72s']
+ARMED=9 VACUOUS=1
+=== perturb_u15.py
+P-AC01-NO-7D ARMED ['1 failed in 0.75s']
+P-AC01-24H-EVEN-IF-DONE ARMED ['1 failed in 0.75s']
+P-AC01-NOT-IDEMPOTENT ARMED ['1 failed in 0.80s']
+P-AC01-NO-TENANT-SCOPE ARMED ['1 failed in 0.92s']
+P-AC01-UI-HIDDEN ARMED ['      Tests  1 failed (1)']
+P-AC02-ALWAYS-EN ARMED ['1 failed in 0.81s']
+P-AC02-UNAUDITED ARMED ['1 failed in 0.81s']
+P-AC02-UI-LTR ARMED ['      Tests  1 failed (1)']
+P-AC01-DB-NO-UNIQUE ARMED ['1 failed in 2.00s']
+ARMED=9 VACUOUS=0
+=== perturb_u16.py
+P-AC01-DISPENSES-OMITTED ARMED ['1 failed in 0.76s']
+P-AC01-UNTRACEABLE-TOTALS ARMED ['1 failed in 0.71s']
+P-AC01-REPRODUCE-UNCHECKED ARMED ['1 failed in 0.77s']
+P-AC01-UNAUDITED ARMED ['1 failed in 0.77s']
+P-AC01-CROSS-TENANT ARMED ['1 failed in 0.75s']
+P-AC02-TEXT-SEARCH ARMED ['1 failed in 0.81s']
+P-AC02-NO-COVERAGE ARMED ['1 failed in 0.82s']
+P-AC02-PG-NOT-DURABLE ARMED ['1 failed, 1 passed in 2.16s']
+P-AC03-NO-CLOCK ARMED ['1 failed in 0.77s']
+P-AC03-UNAUDITED ARMED ['1 failed in 0.75s']
+P-AC03-DB-NO-CLOCK-CHECK ARMED ['1 failed, 1 passed in 2.12s']
+ARMED=11 VACUOUS=0
+=== perturb_u17.py
+P-AC02-GATE-ENABLED ARMED ['2 failed, 1 passed in 1.10s']
+P-AC02-ENV-SWITCH ARMED ['2 failed, 1 deselected in 0.82s']
+P-AC02-MOVEMENT-UNGATED ARMED ['2 failed, 1 deselected in 0.85s']
+P-AC02-SUPPLY-UNGATED ARMED ['2 failed, 1 deselected in 0.85s']
+P-AC02-DISPENSE-UNGATED ARMED ['2 failed, 1 deselected in 0.84s']
+P-AC02-UNAUDITED ARMED ['2 failed, 1 deselected in 0.96s']
+P-AC03-CLASS-FROM-BODY-TOLERATED ARMED ['1 failed in 0.71s']
+P-AC03-UNREGISTERED-GENERAL ARMED ['1 failed in 0.73s']
+P-AC01-UI-NO-NOTICE ARMED ['      Tests  1 failed (1)']
+ARMED=9 VACUOUS=0
+=== perturb_u18.py
+P-AC01-IGNORE-LICENCE ARMED ['1 failed in 0.81s']
+P-AC01-IGNORE-BASKET ARMED ['1 failed in 0.79s']
+P-AC01-DISTANCE-BEFORE-ETA ARMED ['1 failed in 0.79s']
+P-AC01-REVERSED-ID-TIEBREAK ARMED ['1 failed in 0.79s']
+P-AC01-OWNER-LOCATION-IGNORED ARMED ['1 failed in 0.79s']
+P-AC01-CROSS-TENANT ARMED ['1 failed in 0.84s']
+P-AC01-MAPS-FAIL-OPEN ARMED ['1 failed in 0.81s']
+P-AC04-UNRECORDED ARMED ['1 failed in 0.79s']
+P-AC04-UNAUDITED ARMED ['1 failed in 0.76s']
+P-AC04-OWNER-BLIND ARMED ['1 failed in 0.76s']
+P-AC04-DELIVER-ANYWHERE ARMED ['1 failed in 0.76s']
+P-AC04-UI-HIDDEN ARMED ['      Tests  1 failed | 1 passed (2)']
+P-AC04-DB-EMPTY-CANDIDATES ARMED ['1 failed in 1.97s']
+ARMED=13 VACUOUS=0
+=== perturb_u19.py
+P-AC03-MESSAGE-ENGLISH ARMED ['1 failed in 0.90s']
+P-AC03-RECALL-ENGLISH ARMED ['1 failed in 0.89s']
+P-AC03-SENDER-LANGUAGE ARMED ['1 failed in 0.89s']
+ARMED=3 VACUOUS=0
+=== perturb_u20.py
+P-AC03-TOKEN-TENANT ARMED ['1 failed in 0.60s']
+P-AC03-SIGNOUT-NO-REVOKE ARMED ['1 failed in 0.63s']
+P-AC03-SIGNIN-UNCHAINED ARMED ['1 failed in 0.64s']
+P-AC03-IDENTITY-DELETED-ON-END ARMED ['1 failed in 0.65s']
+P-AC04-PHARMACY-ROLE ARMED ['1 failed in 0.52s']
+P-AC04-NONVET-DISPENSE ARMED ['1 failed in 0.80s']
+ARMED=6 VACUOUS=0
+=== perturb_u21.py
+P-AC02-NONVET-DISPENSE ARMED ['1 failed in 0.71s']
+P-AC02-NONVET-SUPPLY VACUOUS ['1 passed in 0.69s']
+P-AC02-OUT-OF-SCOPE-CLASS ARMED ['1 failed in 0.68s']
+P-AC02-OVER-RESTRICTED-GENERAL ARMED ['1 failed in 0.71s']
+P-AC02-REFUSAL-UNAUDITED ARMED ['1 failed in 0.71s']
+ARMED=4 VACUOUS=1
+=== perturb_u22.py
+Traceback (most recent call last):
+  File "<HARNESS>/perturb_u22.py", line 20, in <module>
+    s=open(R+f).read(); assert s.count(old)==1,(pid,f,s.count(old)); open(R+f,'w').write(s.replace(old,new))
+                               ^^^^^^^^^^^^^^^
+AssertionError: ('P-VIDEO-GATE-OPEN', 'petcare_api/main.py', 0)
+=== perturb_u24.py
+P-RAISE-PRINCIPAL-LIMIT ARMED ['2 failed, 2 passed in 1.04s']
+P-RAISE-ANONYMOUS-LIMIT ARMED ['3 failed, 1 passed in 1.02s']
+P-KEY-BY-HEADER-IDENTITY ARMED ['1 failed, 3 passed in 1.10s']
+P-TRUST-ANY-FORWARDED-FOR ARMED ['2 failed, 2 passed in 1.12s']
+P-NO-429 ARMED ['3 failed, 1 passed in 1.10s']
+P-LOST-UPDATE ARMED ['1 failed in 2.12s']
+ARMED=6 VACUOUS=0
+=== perturb_u25.py
+P-BYPASS-STEP-UP ARMED ['1 failed, 3 passed in 1.07s']
+P-STEP-UP-NOT-SESSION-BOUND ARMED ['1 failed, 3 passed in 0.79s']
+P-NO-FRESHNESS ARMED ['1 failed, 3 passed in 0.82s']
+P-REPLAY-ALLOWED ARMED ['1 failed, 3 passed in 0.79s']
+P-RUNNER-CHOSEN-WINDOW ARMED ['1 failed, 3 passed in 0.77s']
+P-PLAINTEXT-SECRET ARMED ['2 failed, 2 passed in 1.50s']
+P-PG-REPLAY-RACE ARMED ['1 failed in 2.26s']
+ARMED=7 VACUOUS=0
+=== perturb_u26.py
+P-FAILED-SIGNIN-TO-TENANT-CHAIN ARMED ['1 failed, 1 passed in 0.83s']
+P-NULL-TENANT-ON-TENANT-CHAIN ARMED ['1 failed in 2.28s']
+P-REGISTRATION-UNCHAINED ARMED ['1 failed, 1 passed in 1.07s']
+P-SENTINEL-TENANT-ALLOWED ARMED ['1 failed in 2.20s']
+P-DISTINGUISHABLE-RESPONSE ARMED ['1 failed, 1 passed in 0.83s']
+P-PLATFORM-HEAD-UNLOCKED ARMED ['1 failed in 2.20s']
+ARMED=6 VACUOUS=0
+=== perturb_u27.py
+P-SWITCH-DEFAULT-ON ARMED ['2 failed, 2 passed in 1.32s']
+P-SWITCH-BYPASSED ARMED ['1 failed, 3 passed in 1.12s']
+P-CONFIG-TURNS-SWITCH-ON ARMED ['1 failed, 3 passed in 1.09s']
+P-NO-SCREEN-SHARE ARMED ['1 failed, 3 passed in 1.04s']
+P-NO-STEP-DOWN-RULE ARMED ['1 failed, 3 passed in 1.04s']
+P-WEB-IGNORES-SWITCH ARMED ['      Tests  1 failed | 2 passed (3)']
+ARMED=6 VACUOUS=0
