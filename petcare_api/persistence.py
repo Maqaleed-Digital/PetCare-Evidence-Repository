@@ -52,6 +52,7 @@ from postgres_repositories import (
     PostgresRoutingRepository,
     PostgresRateLimitRepository,
     PostgresMfaRepository,
+    PostgresPlatformIdentityAudit,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -76,6 +77,7 @@ from compliance import InMemoryComplianceRepository
 from routing import InMemoryRoutingRepository
 from ratelimit import InMemoryRateLimitRepository
 from mfa import InMemoryMfaRepository
+from platform_identity_audit import InMemoryPlatformIdentityAudit
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -136,6 +138,8 @@ class Persistence:
     ratelimits: Any = None
     #: NFR-08 (v1.2 U25): TOTP factors (ciphertext) and session step-ups.
     mfa: Any = None
+    #: SQ-1 (v1.2 U26): the platform identity audit chain (no tenant).
+    platform_audit: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -218,6 +222,7 @@ def build_persistence(
             routing=InMemoryRoutingRepository(),
             ratelimits=InMemoryRateLimitRepository(),
             mfa=InMemoryMfaRepository(),
+            platform_audit=InMemoryPlatformIdentityAudit(),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -259,6 +264,7 @@ def build_persistence(
         routing=PostgresRoutingRepository(pool),
         ratelimits=PostgresRateLimitRepository(pool),
         mfa=PostgresMfaRepository(pool),
+        platform_audit=PostgresPlatformIdentityAudit(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )

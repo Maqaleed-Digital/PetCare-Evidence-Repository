@@ -166,6 +166,17 @@ def _hash_password(password: str) -> str:
     return f"{_SCRYPT_PREFIX}${_SCRYPT_N}${_SCRYPT_R}${_SCRYPT_P}${salt.hex()}${dk.hex()}"
 
 
+#: SQ-1 (v1.2 U26): verified against for an UNKNOWN identity so a failed sign-in costs the same either way.
+_DUMMY_PASSWORD_HASH = None
+
+
+def _dummy_hash() -> str:
+    global _DUMMY_PASSWORD_HASH
+    if _DUMMY_PASSWORD_HASH is None:
+        _DUMMY_PASSWORD_HASH = _hash_password("not-a-real-password-" + uuid4().hex)
+    return _DUMMY_PASSWORD_HASH
+
+
 def _verify_password(password: str, stored: str) -> tuple[bool, bool]:
     """Verify a password. Returns (ok, needs_rehash).
 
@@ -290,6 +301,31 @@ def _log_auth_event(event_name: str, detail: dict):
     needs a governed answer on how a tenantless security event is recorded.
     """
     log.info("AUTH_EVENT %s %s", event_name, detail)
+    # SQ-1 (Sponsor act MVC-SQ1-PLATFORM-IDENTITY-AUDIT-001; v1.2 U26): pre-tenant identity/security events are ALSO
+    # chained — on the PLATFORM IDENTITY chain, never a tenant chain, even when the identity has a tenant.
+    if event_name in _PLATFORM_CHAINED:
+        _platform_chain(event_name, detail)
+
+
+#: Registration (success, failure, licence submission) and every failed sign-in — the account actions SQ-1 places on
+#: the platform identity chain.
+_PLATFORM_CHAINED = frozenset({"auth.user_registered", "auth.register_failed", "auth.vet_licence_submitted",
+                               "auth.sign_in_failed"})
+
+
+def _platform_chain(event_name: str, detail: dict) -> None:
+    from platform_identity_audit import SUBJECT_IDENTITY, SUBJECT_UNKNOWN, email_ref
+    user_id = detail.get("user_id")
+    if not user_id and detail.get("email"):
+        known = IDENTITY_REPO.get_by_email(detail["email"])
+        user_id = known.user_id if known else None
+    PERSISTENCE.platform_audit.append({
+        "event_id": str(uuid4()), "event_name": event_name,
+        "subject_kind": SUBJECT_IDENTITY if user_id else SUBJECT_UNKNOWN,
+        "subject_ref": user_id or email_ref(detail.get("email", "")),
+        "outcome": "denied" if event_name.endswith("_failed") else "success",
+        "reason_code": detail.get("reason"), "correlation_id": str(uuid4()),
+        "occurred_at": datetime.now(timezone.utc).isoformat()})
 
 
 # ---------------------------------------------------------------------------
@@ -324,6 +360,9 @@ class RegisterRequest(BaseModel):
 async def sign_in(body: SignInRequest):
     user = IDENTITY_REPO.get_by_email(body.email)
     if not user:
+        # SQ-1 (v1.2 U26): the response for an unknown identity is indistinguishable from a wrong password — same
+        # status and body, and a password verification is still performed so timing does not reveal existence.
+        _verify_password(body.password, _dummy_hash())
         _log_auth_event("auth.sign_in_failed",
                {"email": body.email, "reason": "user_not_found"})
         raise HTTPException(status_code=401,
@@ -409,7 +448,7 @@ async def register(body: RegisterRequest):
     if invite is None or invite.is_consumed():
         _log_auth_event("auth.register_failed",
                {"reason": "invite_invalid_or_used",
-                "invite_code": body.invite_code})
+                "invite_code": body.invite_code, "email": body.email})
         raise HTTPException(status_code=400,
                             detail={"error": "INVALID_INVITE"})
 
@@ -417,7 +456,7 @@ async def register(body: RegisterRequest):
     if invite.is_expired_at(now):
         _log_auth_event("auth.register_failed",
                {"reason": "invite_expired",
-                "invite_code": body.invite_code})
+                "invite_code": body.invite_code, "email": body.email})
         raise HTTPException(status_code=400,
                             detail={"error": "INVITE_EXPIRED"})
 
@@ -425,7 +464,7 @@ async def register(body: RegisterRequest):
         _log_auth_event("auth.register_failed",
                {"reason": "role_mismatch",
                 "invite_role": invite.allowed_role,
-                "requested_role": body.role})
+                "requested_role": body.role, "email": body.email})
         raise HTTPException(status_code=400,
                             detail={"error": "ROLE_MISMATCH"})
 
@@ -466,7 +505,7 @@ async def register(body: RegisterRequest):
     if not INVITE_REPO.consume(body.invite_code, email=body.email, at=now):
         _log_auth_event("auth.register_failed",
                {"reason": "invite_invalid_or_used",
-                "invite_code": body.invite_code})
+                "invite_code": body.invite_code, "email": body.email})
         raise HTTPException(status_code=400,
                             detail={"error": "INVALID_INVITE"})
 

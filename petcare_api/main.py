@@ -3082,6 +3082,15 @@ def mfa_step_up(body: MfaCode, request: Request, role: str = Depends(require_rol
 
 
 # ---------------------------------------------------------------------------
+# SQ-1 · the platform identity audit chain (v1.2 U26)
+# ---------------------------------------------------------------------------
+@app.get("/api/admin/platform-identity-audit")
+def platform_identity_audit(limit: int = 200, role: str = Depends(require_admin)):
+    """Platform operators read the platform identity chain (registration, failed sign-in) and its verification."""
+    return {"verify": PERSISTENCE.platform_audit.verify(), "events": PERSISTENCE.platform_audit.events(limit=limit)}
+
+
+# ---------------------------------------------------------------------------
 # FR-01 · practitioner authority administration (U5). Never self-service.
 # ---------------------------------------------------------------------------
 class AuthorityGrantRequest(BaseModel):

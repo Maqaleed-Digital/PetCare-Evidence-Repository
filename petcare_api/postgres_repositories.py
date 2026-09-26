@@ -1980,3 +1980,41 @@ class PostgresMfaRepository:
             rows = conn.execute("SELECT verified_at FROM mfa_step_up WHERE session_id = %s AND user_id = %s",
                                 (session_id, user_id)).fetchall()
         return _from_db(rows[0][0]) if rows else None
+
+
+class PostgresPlatformIdentityAudit:
+    """SQ-1 platform identity chain over migration 0053 (v1.2 U26): own head row, FOR UPDATE, no tenant."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def append(self, record):
+        from platform_identity_audit import CHAIN_ID, FIELDS, PlatformAuditWriteFailed, core
+        from petcare_execution.FND.security.audit_chain import compute_event_hash
+        c = core(record)
+        with self._pool.connection() as conn:
+            with conn.transaction():
+                head = conn.execute("SELECT head_hash, next_seq FROM platform_identity_chain_head WHERE chain_id = %s "
+                                    "FOR UPDATE", (CHAIN_ID,)).fetchone()
+                if head is None:
+                    raise PlatformAuditWriteFailed("the platform identity chain head is missing")
+                prev, seq = head
+                h = compute_event_hash(prev, c)
+                conn.execute(f"INSERT INTO platform_identity_event ({', '.join(FIELDS)}, prev_hash, event_hash, chain_seq) "
+                             f"VALUES ({', '.join(['%s'] * len(FIELDS))}, %s, %s, %s)",
+                             tuple(c[f] for f in FIELDS) + (prev, h, seq))
+                conn.execute("UPDATE platform_identity_chain_head SET head_hash = %s, next_seq = %s, "
+                             "updated_at = CURRENT_TIMESTAMP WHERE chain_id = %s", (h, seq + 1, CHAIN_ID))
+        return {**c, "prev_hash": prev, "event_hash": h, "chain_seq": seq}
+
+    def events(self, limit=None):
+        from platform_identity_audit import FIELDS
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {', '.join(FIELDS)}, prev_hash, event_hash, chain_seq FROM platform_identity_event "
+                                "ORDER BY chain_seq").fetchall()
+        out = [dict(zip(FIELDS + ("prev_hash", "event_hash", "chain_seq"), r)) for r in rows]
+        return out if limit is None else out[-limit:]
+
+    def verify(self):
+        from platform_identity_audit import verify
+        return verify(self.events())

@@ -15,15 +15,16 @@
       "petcare_api/main.py:1497 grant (platform_admin; never self-granted) and :1530 revoke; both audited",
       "petcare_api/postgres_repositories.py:1041 PostgresPractitionerAuthorityRepository (migration 0039)",
       "petcare_api/practitioners.py evaluate(): time-bounded grant in force at `when`, else the reason",
-      "petcare_api/routers/auth.py read_session (U20): tenant and role from the server-held session record; the identity's current membership must match, else 401 SESSION_TENANT_STALE; sign-out revokes the server session; sign-in/sign-out chained (account.signed_in / account.signed_out)"
+      "petcare_api/routers/auth.py read_session (U20): tenant and role from the server-held session record; the identity's current membership must match, else 401 SESSION_TENANT_STALE; sign-out revokes the server session; sign-in/sign-out chained (account.signed_in / account.signed_out)",
+      "petcare_api/platform_identity_audit.py + migration 0053 (U26, SQ-1 act sha256 639c82bf3cebc9cd0347b9683b853a6085362b467d5ccc7dd99ebdd59af20c43): pre-session account actions (registration, failed registration, vet licence submission, every failed sign-in) are written to a separate platform identity audit chain with no tenant column and its own head serialised FOR UPDATE; the tenant chain's NOT NULL tenant invariant is unchanged; failed sign-in is indistinguishable for known and unknown identities (dummy password hash)"
     ],
     "fitness": {
-      "audit_actor_source": "NONE",
+      "audit_actor_source": "SESSION",
       "basis": [
         "petcare_api/persistence.py:53 PETCARE_PERSISTENCE_MODE selects memory|postgres; no fallback (persistence.py:90); postgres adapter petcare_api/postgres_repositories.py. PERSISTENT_POSTGRES holds only when the deployment sets postgres; W1 imported the app in memory mode",
         "petcare_api/routers/auth.py:35 PERSISTENCE = build_persistence()",
         "petcare_api/routers/auth.py:551 require_tenant: tenant from signed session",
-        "petcare_api/routers/auth.py:265 _log_auth_event is a log line, not the audit chain (AUTH_EVENTS_OUTSIDE_AUDIT_CHAIN)",
+        "petcare_api/routers/auth.py _log_auth_event: session-bearing account actions are chained with the session actor (U20); pre-session actions go to the platform identity chain (U26, SQ-1)",
         "petcare_web/app/register/page.tsx:45 POST /api/auth/register",
         "petcare_web/app/signin/page.tsx:37 POST /api/auth/sign-in",
         "petcare_web/app/account/page.tsx:31 reads localStorage vc_user, not /api/auth/me",
@@ -50,7 +51,10 @@
       "main:my_practitioner_authority",
       "practitioners:evaluate",
       "practitioners:InMemoryPractitionerAuthorityRepository",
-      "postgres_repositories:PostgresPractitionerAuthorityRepository"
+      "postgres_repositories:PostgresPractitionerAuthorityRepository",
+      "platform_identity_audit:InMemoryPlatformIdentityAudit",
+      "postgres_repositories:PostgresPlatformIdentityAudit",
+      "main:platform_identity_audit"
     ],
     "legacy": [
       "W0-D",
@@ -64,7 +68,8 @@
       "POST /api/auth/sign-out",
       "POST /api/admin/practitioners/{user_id}/authority",
       "POST /api/admin/practitioners/authority/{grant_id}/revoke",
-      "GET /api/practitioners/me/authority"
+      "GET /api/practitioners/me/authority",
+      "GET /api/admin/platform-identity-audit"
     ],
     "tests": [
       "petcare_api/tests/test_auth.py",
@@ -73,9 +78,11 @@
       "petcare_api/tests/test_fr01_session_identity.py",
       "petcare_api/tests/test_practitioner_authority.py",
       "petcare_api/tests/test_practitioner_authority_postgres.py",
-      "petcare_api/tests/test_fr01_account_authority.py"
+      "petcare_api/tests/test_fr01_account_authority.py",
+      "petcare_api/tests/test_sq1_platform_identity_chain.py",
+      "petcare_api/tests/test_sq1_platform_identity_chain_postgres.py"
     ],
-    "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role. U20: AC-FR-01-03's session-bearing parts are built (server-held tenant authority, stale sessions fail closed, sign-in/sign-out chained, sign-out revokes, history attributable after membership ends) but NOT registered: pre-session account actions (registration, failed sign-in) are tenantless and remain SPONSOR_QUEUE SQ-1. AC-FR-01-04: no general-purpose pharmacy role exists and no role dispenses unscoped (evidenced); the class-scoped pharmacy authority awaits COUNSEL:L-2."
+    "unresolved": "BRD names Owner, Vet, Pharmacist, Admin; the served role set has no pharmacist (petcare_api/roles.py:66, PHARMACY_ROLE=REMOVE). Engineering status covers the account routes only, not the missing role. AC-FR-01-03 evidenced (U20 session-bearing parts + U26 platform identity chain under SQ-1 act sha256 639c82bf3cebc9cd0347b9683b853a6085362b467d5ccc7dd99ebdd59af20c43). AC-FR-01-04: no general-purpose pharmacy role exists and no role dispenses unscoped (evidenced); the class-scoped pharmacy authority awaits COUNSEL:L-2."
   },
   "FR-02": {
     "basis": [
