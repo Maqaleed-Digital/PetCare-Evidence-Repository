@@ -1919,3 +1919,17 @@ class PostgresRoutingRepository:
         return RoutingDecision(decision_id=r[0], order_id=r[1], tenant_id=r[2], owner_latitude=float(r[3]),
                                owner_longitude=float(r[4]), candidates=tuple(r[5]), chosen_location_id=r[6],
                                rule_version=r[7], decided_by=r[8], decided_at=_from_db(r[9]))
+
+
+class PostgresRateLimitRepository:
+    """NFR-15 counters over migration 0051 (MVC-BUILD-RUNNER-001 v1.2 U24): one atomic upsert per request."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def increment(self, bucket, window_start):
+        with self._pool.connection() as conn:
+            return conn.execute(
+                "INSERT INTO rate_limit_counter (bucket, window_start, count) VALUES (%s, %s, 1) "
+                "ON CONFLICT (bucket, window_start) DO UPDATE SET count = rate_limit_counter.count + 1 "
+                "RETURNING count", (bucket, window_start)).fetchone()[0]

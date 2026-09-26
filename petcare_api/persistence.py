@@ -50,6 +50,7 @@ from postgres_repositories import (
     PostgresReminderRepository,
     PostgresComplianceRepository,
     PostgresRoutingRepository,
+    PostgresRateLimitRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -72,6 +73,7 @@ from orders import InMemoryOrderRepository
 from reminders import InMemoryReminderRepository
 from compliance import InMemoryComplianceRepository
 from routing import InMemoryRoutingRepository
+from ratelimit import InMemoryRateLimitRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -128,6 +130,8 @@ class Persistence:
     compliance: Any = None
     #: FR-15 (U18): pharmacy licence register and routing decisions.
     routing: Any = None
+    #: NFR-15 (v1.2 U24): shared rate-limit counters.
+    ratelimits: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -208,6 +212,7 @@ def build_persistence(
             reminders=InMemoryReminderRepository(tenants),
             compliance=InMemoryComplianceRepository(),
             routing=InMemoryRoutingRepository(),
+            ratelimits=InMemoryRateLimitRepository(),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -247,6 +252,7 @@ def build_persistence(
         reminders=PostgresReminderRepository(pool),
         compliance=PostgresComplianceRepository(pool),
         routing=PostgresRoutingRepository(pool),
+        ratelimits=PostgresRateLimitRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )
