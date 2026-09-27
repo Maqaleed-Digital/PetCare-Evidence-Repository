@@ -8,6 +8,7 @@ from __future__ import annotations
 import dataclasses
 import json
 import logging
+import hashlib
 import os
 from datetime import date, datetime, timedelta, timezone
 from typing import Any, Optional
@@ -3236,6 +3237,263 @@ def approve_mfa_reset(reset_id: str, request: Request, role: str = Depends(requi
            resource_type="mfa_reset_request", resource_id=reset_id, action_result="success",
            correlation_id=x_correlation_id)
     return {"reset_id": reset_id, "status": "APPLIED", "sessions_revoked": revoked, "reenrolment_required": True}
+
+
+# ---------------------------------------------------------------------------
+# SQ-3 completion (MVC-EPC-D-001 Lane D, D1): #4 sign medical record, #5 change role, #11 personal-data export,
+# #12 payout details, #13 bank details, #14 issue credentials, #15 issue API keys. Step-up for every one of them is
+# enforced by `enforce_mfa_step_up` through mfa.SQ3_OPERATIONS; these handlers hold role/tenant/business rules only.
+# ---------------------------------------------------------------------------
+import sq3_ops  # noqa: E402
+from roles import ALLOWED_ROLES as _ALLOWED_ROLES  # noqa: E402
+
+SQ3_OPS = PERSISTENCE.sq3_ops
+_TENANT_ADMINS = frozenset({ROLE_PLATFORM_ADMIN, ROLE_PARTNER_CLINIC_ADMIN})
+#: Which roles an admin of each kind may confer (#5) or invite (#14). Only a platform admin confers platform_admin.
+_ASSIGNABLE = {ROLE_PLATFORM_ADMIN: frozenset(_ALLOWED_ROLES),
+               ROLE_PARTNER_CLINIC_ADMIN: frozenset({ROLE_OWNER, ROLE_VETERINARIAN, ROLE_PARTNER_CLINIC_ADMIN})}
+FINANCE_KEY_SECRET_ID_ENV = "PETCARE_FINANCE_KEY_SECRET_ID"
+DEFAULT_FINANCE_KEY_SECRET_ID = "PETCARE_FINANCE_ENCRYPTION_KEY"
+
+
+def _tenant_admin(request: Request):
+    actor_id, actor_role = _actor(request)
+    if actor_role not in _TENANT_ADMINS:
+        raise HTTPException(403, {"error": "ADMIN_ONLY"})
+    return actor_id, actor_role, require_tenant(request)
+
+
+def _finance_key() -> str:
+    """Bank-detail encryption key through the governed secret provider. Unavailable -> fail closed (503)."""
+    try:
+        return _resolve_secret(os.environ.get(FINANCE_KEY_SECRET_ID_ENV, DEFAULT_FINANCE_KEY_SECRET_ID),
+                               provider=_build_sp(os.environ))
+    except Exception:
+        raise HTTPException(503, {"error": "FINANCE_KEY_UNAVAILABLE"}) from None
+
+
+def _encrypt_iban(iban: str) -> tuple:
+    from cryptography.hazmat.primitives.ciphers.aead import AESGCM
+    nonce = os.urandom(12)
+    key = hashlib.sha256(_finance_key().encode()).digest()
+    return nonce, AESGCM(key).encrypt(nonce, iban.encode(), b"petcare-bank-iban")
+
+
+# ---- #4 sign a medical record -------------------------------------------------------------------------------------
+@app.post("/api/pets/{pet_id}/medical-records/{record_id}/sign")
+def sign_medical_record(pet_id: str, record_id: str, request: Request, role: str = Depends(require_role),
+                        x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """SQ-3 #4. A veterinarian with a live practitioner authority signs a record of a pet in the session tenant; the
+    signature binds the record's content (sha256) and the record is immutable from then on (DB trigger, 0055)."""
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(403, "Only veterinarians may sign medical records")
+    _pet, actor_id, actor_role, tenant_id = _pet_or_404(request, pet_id)
+    _require_practitioner_authority(actor_id, tenant_id)
+    if not any(r.record_id == record_id for r in PET_REPO.medical_records_for(pet_id, tenant_id=tenant_id)):
+        raise HTTPException(404, "Medical record not found")
+    outcome = PET_REPO.sign_medical_record(record_id, tenant_id=tenant_id, actor_id=actor_id, at=datetime.now(timezone.utc))
+    if outcome == "ALREADY_SIGNED":
+        raise HTTPException(409, {"error": "MEDICAL_RECORD_ALREADY_SIGNED"})
+    if outcome != "SIGNED":
+        raise HTTPException(404, "Medical record not found")
+    _pet_audit("pet.medical_record.signed", actor_id, actor_role, tenant_id, pet_id, x_correlation_id)
+    return next(r.to_read_model() for r in PET_REPO.medical_records_for(pet_id, tenant_id=tenant_id) if r.record_id == record_id)
+
+
+# ---- #5 change a role (always-fresh) -------------------------------------------------------------------------------
+class RoleChangeRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    role: str
+
+
+@app.post("/api/admin/identities/{user_id}/role")
+def change_role(user_id: str, body: RoleChangeRequest, request: Request, role: str = Depends(require_role),
+                x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """SQ-3 #5 (always-fresh). An admin changes the role of another identity of the SAME tenant, to a role that admin may
+    confer; never their own. Every session of the subject is revoked, so the new role applies from the next sign-in."""
+    actor_id, actor_role, tenant_id = _tenant_admin(request)
+    target = PERSISTENCE.identities.get_by_user_id(user_id)
+    if target is None or target.tenant_id != tenant_id:
+        raise HTTPException(404, "Identity not found in this tenant")
+    if user_id == actor_id:
+        raise HTTPException(403, {"error": "ROLE_SELF_CHANGE_REFUSED"})
+    if body.role not in _ALLOWED_ROLES or body.role not in _ASSIGNABLE[actor_role] or target.role not in _ASSIGNABLE[actor_role]:
+        _audit(event_name="identity.role.change_refused", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+               resource_type="user_identity", resource_id=user_id, action_result="denied", correlation_id=x_correlation_id,
+               reason_code=f"{target.role}->{body.role}")
+        raise HTTPException(403, {"error": "ROLE_NOT_ASSIGNABLE"})
+    if body.role == target.role:
+        return {"user_id": user_id, "role": target.role, "changed": False}
+    if not PERSISTENCE.identities.set_role(user_id, body.role, tenant_id=tenant_id):
+        raise HTTPException(404, "Identity not found in this tenant")
+    revoked = auth.SESSION_STORE.revoke_all_for_user(user_id, tenant_id=tenant_id)
+    _audit(event_name="identity.role.changed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="user_identity", resource_id=user_id, action_result="success", correlation_id=x_correlation_id,
+           reason_code=f"{target.role}->{body.role}")
+    return {"user_id": user_id, "role": body.role, "changed": True, "sessions_revoked": revoked}
+
+
+# ---- #11 personal-data export ---------------------------------------------------------------------------------------
+@app.get("/api/me/export")
+def export_personal_data(request: Request, role: str = Depends(require_role),
+                         x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """SQ-3 #11 (PDPL data-subject access). The caller's OWN data as a downloadable JSON file. No password hash, MFA
+    secret, recovery code or session token is ever included."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    ident = PERSISTENCE.identities.get_by_user_id(actor_id)
+    pets = PET_REPO.list_for_tenant(tenant_id=tenant_id, owner_id=actor_id) if actor_role == ROLE_OWNER else []
+    payload = {
+        "format": "myveticare.personal-data-export.v1",
+        "exported_at": datetime.now(timezone.utc).isoformat(),
+        "identity": {"user_id": ident.user_id, "email": ident.email, "full_name": ident.full_name, "role": ident.role,
+                     "tenant_id": ident.tenant_id} if ident else None,
+        "preferences": {"language": PREFERENCE_REPO.get_language(actor_id)},
+        "pets": [{**p.to_read_model(),
+                  "medical_records": [r.to_read_model() for r in PET_REPO.medical_records_for(p.pet_id, tenant_id=tenant_id)]}
+                 for p in pets],
+        "orders": [o.read_model() if hasattr(o, "read_model") else getattr(o, "__dict__", {})
+                   for o in ORDER_REPO.for_tenant(tenant_id) if getattr(o, "owner_id", None) == actor_id],
+    }
+    _audit(event_name="personal_data.exported", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="user_identity", resource_id=actor_id, action_result="success", correlation_id=x_correlation_id)
+    return _JSONResponse(content=_jsonable(payload), headers={
+        "Content-Disposition": f'attachment; filename="myveticare-personal-data-{actor_id}.json"'})
+
+
+def _jsonable(obj):
+    import json as _json
+    return _json.loads(_json.dumps(obj, default=lambda o: o.isoformat() if hasattr(o, "isoformat") else str(o)))
+
+
+# ---- #12 payout details / #13 bank details (always-fresh) ----------------------------------------------------------
+class PayoutRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    payout_method: str = "BANK_TRANSFER"
+    payout_schedule: str
+    minimum_payout_halalas: int = 0
+
+
+@app.put("/api/admin/tenant/payout-details")
+def set_payout_details(body: PayoutRequest, request: Request, role: str = Depends(require_role),
+                       x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """SQ-3 #12 (always-fresh). The tenant's payout details."""
+    actor_id, actor_role, tenant_id = _tenant_admin(request)
+    try:
+        p = SQ3_OPS.set_payout(sq3_ops.PayoutDetails(tenant_id, body.payout_method, body.payout_schedule,
+                                                     body.minimum_payout_halalas, actor_id, datetime.now(timezone.utc)))
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Payout details refused: {exc}") from None
+    _audit(event_name="tenant.payout_details.changed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="tenant", resource_id=tenant_id, action_result="success", correlation_id=x_correlation_id)
+    return p.read_model()
+
+
+@app.get("/api/admin/tenant/payout-details")
+def get_payout_details(request: Request, role: str = Depends(require_role)):
+    _a, _r, tenant_id = _tenant_admin(request)
+    p = SQ3_OPS.payout(tenant_id=tenant_id)
+    return p.read_model() if p else None
+
+
+class BankDetailsRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    bank_name: str
+    account_holder: str
+    iban: str
+
+
+@app.put("/api/admin/tenant/bank-details")
+def set_bank_details(body: BankDetailsRequest, request: Request, role: str = Depends(require_role),
+                     x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """SQ-3 #13 (always-fresh). The IBAN is validated (ISO 13616), stored only as AES-GCM ciphertext, never returned,
+    never logged, never audited in clear — reads get the masked form."""
+    actor_id, actor_role, tenant_id = _tenant_admin(request)
+    iban = sq3_ops.normalise_iban(body.iban)
+    if not sq3_ops.iban_valid(iban) or not body.bank_name.strip() or not body.account_holder.strip():
+        raise HTTPException(400, {"error": "BANK_DETAILS_INVALID"})
+    nonce, ct = _encrypt_iban(iban)
+    b = SQ3_OPS.set_bank(sq3_ops.BankDetails(tenant_id, body.bank_name.strip(), body.account_holder.strip(), nonce, ct,
+                                             iban[-4:], actor_id, datetime.now(timezone.utc)))
+    _audit(event_name="tenant.bank_details.changed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="tenant", resource_id=tenant_id, action_result="success", correlation_id=x_correlation_id)
+    return b.read_model()
+
+
+@app.get("/api/admin/tenant/bank-details")
+def get_bank_details(request: Request, role: str = Depends(require_role)):
+    _a, _r, tenant_id = _tenant_admin(request)
+    b = SQ3_OPS.bank(tenant_id=tenant_id)
+    return b.read_model() if b else None
+
+
+# ---- #14 issue credentials ------------------------------------------------------------------------------------------
+class CredentialRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    role: str
+    expires_in_days: int = 7
+
+
+@app.post("/api/admin/credentials")
+def issue_credential(body: CredentialRequest, request: Request, role: str = Depends(require_role),
+                     x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """SQ-3 #14. A single-use staff invitation credential bound to a role the admin may confer and to the admin's tenant.
+    Returned ONCE; stored only as sha256 (invite_code.code = "sha256:<hex>"); redeemed at /api/auth/register."""
+    actor_id, actor_role, tenant_id = _tenant_admin(request)
+    if body.role not in _ASSIGNABLE[actor_role] or not 1 <= body.expires_in_days <= 30:
+        raise HTTPException(400, {"error": "CREDENTIAL_REQUEST_INVALID"})
+    raw = sq3_ops.new_credential()
+    expires_at = datetime.now(timezone.utc) + timedelta(days=body.expires_in_days)
+    auth.INVITE_REPO.upsert(auth.InviteCode(code=sq3_ops.credential_key(raw), allowed_role=body.role,
+                                            tenant_id=tenant_id, expires_at=expires_at))
+    _audit(event_name="credential.issued", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="invite_credential", resource_id=sq3_ops.credential_key(raw)[:19], action_result="success",
+           correlation_id=x_correlation_id, reason_code=body.role)
+    return {"credential": raw, "role": body.role, "expires_at": expires_at.isoformat(), "shown_once": True}
+
+
+# ---- #15 API keys ---------------------------------------------------------------------------------------------------
+class ApiKeyRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    name: str
+
+
+@app.post("/api/admin/api-keys")
+def issue_api_key(body: ApiKeyRequest, request: Request, role: str = Depends(require_admin),
+                  x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """SQ-3 #15. Platform admin issues an API key for the session tenant. Shown ONCE; stored only as sha256."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    if not body.name.strip():
+        raise HTTPException(400, {"error": "API_KEY_NAME_REQUIRED"})
+    key, key_id, prefix, digest = sq3_ops.new_api_key()
+    k = SQ3_OPS.add_api_key(sq3_ops.ApiKey(key_id, tenant_id, body.name.strip(), prefix, digest, actor_id,
+                                           datetime.now(timezone.utc)))
+    _audit(event_name="api_key.issued", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="api_key", resource_id=key_id, action_result="success", correlation_id=x_correlation_id)
+    return {**k.read_model(), "api_key": key, "shown_once": True}
+
+
+@app.get("/api/admin/api-keys")
+def list_api_keys(request: Request, role: str = Depends(require_admin)):
+    return [k.read_model() for k in SQ3_OPS.api_keys(tenant_id=require_tenant(request))]
+
+
+@app.post("/api/admin/api-keys/{key_id}/revoke")
+def revoke_api_key(key_id: str, request: Request, role: str = Depends(require_admin),
+                   x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    if not SQ3_OPS.revoke_api_key(key_id, tenant_id=tenant_id, at=datetime.now(timezone.utc)):
+        raise HTTPException(404, "API key not found or already revoked")
+    _audit(event_name="api_key.revoked", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="api_key", resource_id=key_id, action_result="success", correlation_id=x_correlation_id)
+    return {"key_id": key_id, "revoked": True}
 
 
 # ---------------------------------------------------------------------------

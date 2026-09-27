@@ -258,6 +258,12 @@ def seed_user(user_id: str, email: str, password: str, role: str,
     ))
 
 
+def _invite_ref(code: str) -> str:
+    """X6 (MVC-EPC-D-001 D1): an invite code or issued credential is a secret; logs carry a short one-way reference."""
+    import hashlib
+    return "inv:" + hashlib.sha256(str(code).encode()).hexdigest()[:12]
+
+
 def seed_invite_code(code: str, allowed_role: str,
                      expires_at: datetime | None = None):
     """Seed an invite code. Called at startup.
@@ -444,11 +450,18 @@ async def register(body: RegisterRequest):
     On success the user is authenticated (session + role cookies set)
     so the frontend can route directly to the role portal.
     """
-    invite = INVITE_REPO.get(body.invite_code)
+    # SQ-3 #14 (MVC-EPC-D-001 D1): a credential issued by an admin is stored one-way ("sha256:<hex>"); a seeded pilot
+    # code is stored as itself. Look the raw value up first, then its one-way form; consume whichever matched.
+    invite_key = body.invite_code
+    invite = INVITE_REPO.get(invite_key)
+    if invite is None:
+        from sq3_ops import credential_key
+        invite_key = credential_key(body.invite_code)
+        invite = INVITE_REPO.get(invite_key)
     if invite is None or invite.is_consumed():
         _log_auth_event("auth.register_failed",
                {"reason": "invite_invalid_or_used",
-                "invite_code": body.invite_code, "email": body.email})
+                "invite_ref": _invite_ref(body.invite_code), "email": body.email})
         raise HTTPException(status_code=400,
                             detail={"error": "INVALID_INVITE"})
 
@@ -456,7 +469,7 @@ async def register(body: RegisterRequest):
     if invite.is_expired_at(now):
         _log_auth_event("auth.register_failed",
                {"reason": "invite_expired",
-                "invite_code": body.invite_code, "email": body.email})
+                "invite_ref": _invite_ref(body.invite_code), "email": body.email})
         raise HTTPException(status_code=400,
                             detail={"error": "INVITE_EXPIRED"})
 
@@ -502,10 +515,10 @@ async def register(body: RegisterRequest):
     # The residual cost is that a code can be spent by a registration that then
     # fails on the UNIQUE email constraint. That direction denies rather than
     # permits, which is the direction to fail in.
-    if not INVITE_REPO.consume(body.invite_code, email=body.email, at=now):
+    if not INVITE_REPO.consume(invite_key, email=body.email, at=now):
         _log_auth_event("auth.register_failed",
                {"reason": "invite_invalid_or_used",
-                "invite_code": body.invite_code, "email": body.email})
+                "invite_ref": _invite_ref(body.invite_code), "email": body.email})
         raise HTTPException(status_code=400,
                             detail={"error": "INVALID_INVITE"})
 
@@ -532,7 +545,7 @@ async def register(body: RegisterRequest):
 
     _log_auth_event("auth.user_registered",
            {"user_id": user_id, "email": body.email, "role": body.role,
-            "invite_code": body.invite_code})
+            "invite_ref": _invite_ref(body.invite_code)})
 
     if licence_expiry is not None:
         submitted = PERSISTENCE.licences.submit(VetLicence(

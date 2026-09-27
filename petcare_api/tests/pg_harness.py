@@ -130,6 +130,8 @@ def reset_w0f_tables(url: str) -> None:
         # immutable ledger), so the fixture reset TRUNCATEs it, which fires no row
         # trigger. This is the test owner emptying a scratch database, not an
         # application path; both reference tenant, so they go first.
+        # D1 (0055): a SIGNED pet_medical_record refuses row UPDATE/DELETE by trigger, so it is truncated too.
+        conn.execute("TRUNCATE pet_medical_record")
         conn.execute("TRUNCATE routing_decision, pharmacy_licence, "  # FR-15 (0050)
                      "recall_notification, recall, delivery_completion, delivery_alert, "
                      "temperature_reading, delivery, stock_movement, inventory_location, "
@@ -158,6 +160,8 @@ def reset_w0f_tables(url: str) -> None:
                       # NFR-08 (migration 0052): factors and step-ups reference user_identity.
                       # NFR-08 SQ-3 (migration 0054): codes and reset requests reference user_identity.
                       "mfa_reset_request", "mfa_recovery_code",
+                      # SQ-3 completion (0055): reference tenant and user_identity.
+                      "api_key", "tenant_bank_details", "tenant_payout_details",
                       "mfa_step_up", "mfa_factor",
                       # NFR-15 (migration 0051): shared rate-limit counters (no references).
                       "rate_limit_counter",

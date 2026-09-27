@@ -63,6 +63,8 @@ os.environ.setdefault("PETCARE_RATE_LIMIT_PRINCIPAL_PER_MIN", "1000000")
 os.environ.setdefault("PETCARE_RATE_LIMIT_ANONYMOUS_PER_MIN", "1000000")
 # NFR-08 (v1.2 U25): the TOTP-secret encryption key, resolved through the environment secret provider (non-prod).
 os.environ.setdefault("PETCARE_MFA_ENCRYPTION_KEY", "test-only-mfa-key-not-a-deployed-secret")
+# SQ-3 #13 (MVC-EPC-D-001 D1): the bank-detail (IBAN) encryption key, same provider, non-prod literal.
+os.environ.setdefault("PETCARE_FINANCE_ENCRYPTION_KEY", "test-only-finance-key-not-a-deployed-secret")
 os.environ.setdefault(
     "PETCARE_DOCUMENT_ROOT",
     str(Path(tempfile.gettempdir()) / "petcare-test-documents"),
