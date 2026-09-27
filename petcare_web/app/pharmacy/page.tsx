@@ -26,6 +26,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
 import { QUEUE_REFRESH_MS } from '@/lib/pharmacyQueue'
+import { useStepUp } from '@/components/StepUp'
 
 type Prescription = {
   prescription_id: string
@@ -69,6 +70,8 @@ function fmt(iso: string | null, isAr: boolean): string {
 
 export default function PharmacyPage() {
   const { lang } = useLang()
+  // NFR-08 / SQ-3 item 1: dispensing is step-up protected by the server (MVC-EPC-B-001 Lane B).
+  const { stepUpFetch, stepUpUi } = useStepUp()
   const isAr = lang === 'ar'
 
   const [queue, setQueue] = useState<Prescription[]>([])
@@ -152,10 +155,12 @@ export default function PharmacyPage() {
     setError('')
     setNotice('')
     try {
-      const res = await call(`/api/prescriptions/${rx.prescription_id}/dispense`, {
+      const { response: res, state } = await stepUpFetch(`/api/prescriptions/${rx.prescription_id}/dispense`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ...origin, location_id: origin.location_id || locations[0]?.location_id || '' }),
       })
+      // Prompt cancelled, still refused after one retry, or enrolment needed: the step-up UI says which.
+      if (state !== 'ok') return
       if (res.ok) {
         setNotice(isAr ? 'تم الصرف وتسجيله في سجل التدقيق.' : 'Dispensed and recorded in the audit log.')
         setSelected(null)
@@ -392,6 +397,7 @@ export default function PharmacyPage() {
             : 'Dispense actions are irreversible once confirmed. Every action is attributed and recorded in the audit log.'}
         </span>
       </div>
+      {stepUpUi}
     </main>
   )
 }

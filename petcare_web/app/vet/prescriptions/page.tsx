@@ -13,6 +13,7 @@
 
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
+import { useStepUp } from '@/components/StepUp'
 
 type Authority = { in_force: boolean; reason: string | null }
 type Rx = { prescription_id: string; pet_id: string; medication_name: string; dosage: string; status: string }
@@ -52,6 +53,8 @@ function reasonText(reason: string | null, isAr: boolean): string {
 
 export default function VetPrescriptionsPage() {
   const { lang } = useLang()
+  // NFR-08 / SQ-3 item 2: prescribing is step-up protected by the server (MVC-EPC-B-001 Lane B).
+  const { stepUpFetch, stepUpUi } = useStepUp()
   const isAr = lang === 'ar'
   const t = (k: keyof typeof L) => L[k][isAr ? 'ar' : 'en']
   const [authority, setAuthority] = useState<Authority | null>(null)
@@ -75,8 +78,9 @@ export default function VetPrescriptionsPage() {
     const f = new FormData(e.currentTarget)
     const body = Object.fromEntries(['pet_id', 'session_id', 'medication_name', 'dosage', 'instructions']
       .map(k => [k, String(f.get(k) ?? '').trim()]))
-    const r = await call('/api/prescriptions', { method: 'POST', headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body) })
+    const { response: r, state } = await stepUpFetch('/api/prescriptions', { method: 'POST',
+      headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) })
+    if (state !== 'ok') return                   // the step-up UI explains why nothing was issued
     setError(r.ok ? '' : t('error'))
     if (r.ok) await load()
   }
@@ -133,6 +137,7 @@ export default function VetPrescriptionsPage() {
         ))}
       </section>
       {error && <p role="alert">{error}</p>}
+      {stepUpUi}
     </main>
   )
 }
