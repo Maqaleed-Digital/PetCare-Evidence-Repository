@@ -40,6 +40,7 @@ def _env(db_url: str) -> None:
         "PETCARE_DOCUMENT_STORE_MODE": "local",
         "PETCARE_DOCUMENT_ROOT": str(Path(os.environ.get("TMPDIR", "/tmp")) / "petcare-e2e-documents"),
         "PETCARE_MFA_ENCRYPTION_KEY": "e2e-only-mfa-key-not-a-deployed-secret",
+        "PETCARE_FINANCE_ENCRYPTION_KEY": "e2e-only-finance-key-not-a-deployed-secret",
         # The journey suite drives many requests from one browser; NFR-15 limits stay enforced, just generous here.
         "PETCARE_RATE_LIMIT_PRINCIPAL_PER_MIN": "100000",
         "PETCARE_RATE_LIMIT_ANONYMOUS_PER_MIN": "100000",

@@ -2,6 +2,41 @@
   "app": "main:app",
   "routes": [
     {
+      "endpoint": "main:list_api_keys",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/admin/api-keys"
+    },
+    {
+      "endpoint": "main:issue_api_key",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/api-keys"
+    },
+    {
+      "endpoint": "main:revoke_api_key",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/api-keys/{key_id}/revoke"
+    },
+    {
+      "endpoint": "main:issue_credential",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/credentials"
+    },
+    {
+      "endpoint": "main:change_role",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/identities/{user_id}/role"
+    },
+    {
       "endpoint": "main:read_tenant_membership",
       "methods": [
         "GET"
@@ -70,6 +105,34 @@
         "GET"
       ],
       "path": "/api/admin/rate-limits"
+    },
+    {
+      "endpoint": "main:get_bank_details",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/admin/tenant/bank-details"
+    },
+    {
+      "endpoint": "main:set_bank_details",
+      "methods": [
+        "PUT"
+      ],
+      "path": "/api/admin/tenant/bank-details"
+    },
+    {
+      "endpoint": "main:get_payout_details",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/admin/tenant/payout-details"
+    },
+    {
+      "endpoint": "main:set_payout_details",
+      "methods": [
+        "PUT"
+      ],
+      "path": "/api/admin/tenant/payout-details"
     },
     {
       "endpoint": "main:book_appointment",
@@ -352,6 +415,13 @@
       "path": "/api/inventory/supplies"
     },
     {
+      "endpoint": "main:export_personal_data",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/me/export"
+    },
+    {
       "endpoint": "main:mfa_confirm",
       "methods": [
         "POST"
@@ -511,6 +581,13 @@
         "POST"
       ],
       "path": "/api/pets/{pet_id}/medical-records"
+    },
+    {
+      "endpoint": "main:sign_medical_record",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/pets/{pet_id}/medical-records/{record_id}/sign"
     },
     {
       "endpoint": "main:record_notifiable_case",

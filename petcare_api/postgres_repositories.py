@@ -462,6 +462,17 @@ class PostgresIdentityRepository:
         with self._pool.connection() as conn:
             return conn.execute("SELECT count(*) FROM user_identity").fetchone()[0]
 
+    def set_role(self, user_id: str, role: str, *, tenant_id: str) -> bool:
+        """SQ-3 #5 (MVC-EPC-D-001 D1): change ONLY the role, only for an identity of `tenant_id`. The statement names
+        no tenant column to write — tenant membership has exactly one governed write path."""
+        from roles import ALLOWED_ROLES
+        if role not in ALLOWED_ROLES:
+            raise RepositoryDenied(f"role {role!r} is not an allowed role")
+        with self._pool.connection() as conn:
+            cur = conn.execute("UPDATE user_identity SET role = %s WHERE user_id = %s AND tenant_id = %s",
+                               (role, user_id, tenant_id))
+            return cur.rowcount == 1
+
     def list_for_tenant(self, *, tenant_id: str) -> list:
         """NFR-08 (U28): the identities of one tenant (the assisted-reset approver pool)."""
         with self._pool.connection() as conn:
@@ -922,6 +933,8 @@ class PostgresPetProfileRepository:
         return PetMedicalRecord(
             record_id=row[0], pet_id=row[1], tenant_id=row[2], record_type=row[3], title=row[4],
             detail=row[5], recorded_by_actor_id=row[6], recorded_at=_from_db(row[7]),
+            **({"signed_by_actor_id": row[8], "signed_at": _from_db(row[9]), "content_sha256": row[10]}
+               if len(row) > 8 else {}),
         )
 
     def _write(self, sql: str, params: tuple, what: str) -> None:
@@ -1008,9 +1021,22 @@ class PostgresPetProfileRepository:
     def medical_records_for(self, pet_id: str, *, tenant_id: str):
         with self._pool.connection() as conn:
             rows = conn.execute(
-                f"SELECT {self._REC} FROM pet_medical_record WHERE pet_id = %s AND tenant_id = %s "
-                "ORDER BY recorded_at, record_id", (pet_id, tenant_id)).fetchall()
+                f"SELECT {self._REC}, signed_by_actor_id, signed_at, content_sha256 FROM pet_medical_record "
+                "WHERE pet_id = %s AND tenant_id = %s ORDER BY recorded_at, record_id", (pet_id, tenant_id)).fetchall()
         return [self._to_rec(r) for r in rows]
+
+    def sign_medical_record(self, record_id, *, tenant_id, actor_id, at):
+        """SQ-3 #4 (D1): one conditional UPDATE — only an unsigned record of this tenant is signed, exactly once."""
+        from pets import medical_record_digest
+        with self._pool.connection() as conn:
+            row = conn.execute(f"SELECT {self._REC}, signed_by_actor_id, signed_at, content_sha256 FROM "
+                               "pet_medical_record WHERE record_id = %s AND tenant_id = %s", (record_id, tenant_id)).fetchone()
+            if row is None:
+                return "NOT_FOUND"
+            cur = conn.execute("UPDATE pet_medical_record SET signed_by_actor_id = %s, signed_at = %s, content_sha256 = %s "
+                               "WHERE record_id = %s AND tenant_id = %s AND signed_at IS NULL",
+                               (actor_id, _to_db(at), medical_record_digest(self._to_rec(row)), record_id, tenant_id))
+            return "SIGNED" if cur.rowcount == 1 else "ALREADY_SIGNED"
 
 
 
@@ -2100,3 +2126,71 @@ class PostgresPlatformIdentityAudit:
     def verify(self):
         from platform_identity_audit import verify
         return verify(self.events())
+
+
+class PostgresSq3OpsRepository:
+    """SQ-3 #12/#13/#15 over migration 0055 (MVC-EPC-D-001 D1). IBAN ciphertext only; API keys as sha256 only."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def set_payout(self, p):
+        from sq3_ops import validate_payout
+        validate_payout(p)
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO tenant_payout_details (tenant_id, payout_method, payout_schedule, minimum_payout_halalas, "
+                         "updated_by, updated_at) VALUES (%s,%s,%s,%s,%s,%s) ON CONFLICT (tenant_id) DO UPDATE SET "
+                         "payout_method = EXCLUDED.payout_method, payout_schedule = EXCLUDED.payout_schedule, "
+                         "minimum_payout_halalas = EXCLUDED.minimum_payout_halalas, updated_by = EXCLUDED.updated_by, "
+                         "updated_at = EXCLUDED.updated_at",
+                         (p.tenant_id, p.payout_method, p.payout_schedule, p.minimum_payout_halalas, p.updated_by,
+                          _to_db(p.updated_at)))
+        return p
+
+    def payout(self, *, tenant_id):
+        from sq3_ops import PayoutDetails
+        with self._pool.connection() as conn:
+            r = conn.execute("SELECT tenant_id, payout_method, payout_schedule, minimum_payout_halalas, updated_by, updated_at "
+                             "FROM tenant_payout_details WHERE tenant_id = %s", (tenant_id,)).fetchone()
+        return PayoutDetails(r[0], r[1], r[2], r[3], r[4], _from_db(r[5])) if r else None
+
+    def set_bank(self, b):
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO tenant_bank_details (tenant_id, bank_name, account_holder, iban_nonce, iban_ciphertext, "
+                         "iban_last4, updated_by, updated_at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s) ON CONFLICT (tenant_id) DO UPDATE "
+                         "SET bank_name = EXCLUDED.bank_name, account_holder = EXCLUDED.account_holder, "
+                         "iban_nonce = EXCLUDED.iban_nonce, iban_ciphertext = EXCLUDED.iban_ciphertext, "
+                         "iban_last4 = EXCLUDED.iban_last4, updated_by = EXCLUDED.updated_by, updated_at = EXCLUDED.updated_at",
+                         (b.tenant_id, b.bank_name, b.account_holder, b.iban_nonce, b.iban_ciphertext, b.iban_last4,
+                          b.updated_by, _to_db(b.updated_at)))
+        return b
+
+    def bank(self, *, tenant_id):
+        from sq3_ops import BankDetails
+        with self._pool.connection() as conn:
+            r = conn.execute("SELECT tenant_id, bank_name, account_holder, iban_nonce, iban_ciphertext, iban_last4, updated_by, "
+                             "updated_at FROM tenant_bank_details WHERE tenant_id = %s", (tenant_id,)).fetchone()
+        return BankDetails(r[0], r[1], r[2], bytes(r[3]), bytes(r[4]), r[5], r[6], _from_db(r[7])) if r else None
+
+    def add_api_key(self, k):
+        with self._pool.connection() as conn:
+            try:
+                conn.execute("INSERT INTO api_key (key_id, tenant_id, name, prefix, key_sha256, created_by, created_at) "
+                             "VALUES (%s,%s,%s,%s,%s,%s,%s)", (k.key_id, k.tenant_id, k.name, k.prefix, k.key_sha256,
+                                                               k.created_by, _to_db(k.created_at)))
+            except Exception as exc:  # noqa: BLE001 — surfaced as a governed refusal
+                raise RepositoryDenied(f"api key refused: {type(exc).__name__}") from None
+        return k
+
+    def api_keys(self, *, tenant_id):
+        from sq3_ops import ApiKey
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT key_id, tenant_id, name, prefix, key_sha256, created_by, created_at, revoked_at "
+                                "FROM api_key WHERE tenant_id = %s ORDER BY created_at, key_id", (tenant_id,)).fetchall()
+        return [ApiKey(r[0], r[1], r[2], r[3], r[4], r[5], _from_db(r[6]), _from_db(r[7])) for r in rows]
+
+    def revoke_api_key(self, key_id, *, tenant_id, at):
+        with self._pool.connection() as conn:
+            cur = conn.execute("UPDATE api_key SET revoked_at = %s WHERE key_id = %s AND tenant_id = %s AND revoked_at IS NULL",
+                               (_to_db(at), key_id, tenant_id))
+            return cur.rowcount == 1

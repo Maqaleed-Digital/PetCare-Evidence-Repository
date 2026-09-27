@@ -296,9 +296,10 @@ def test_every_mapped_sq3_operation_is_served_and_no_unmapped_sensitive_route_ex
     served = {f"{m} {r.path}" for r in api.app.routes for m in (getattr(r, "methods", None) or ())}
     assert mfa.ALL_OPERATIONS <= served
     tokens = re.compile(r"role|permission|payout|bank|api-?key|credential|export|mfa-reset|membership", re.I)
-    unmapped = sorted(op for op in served if tokens.search(op.split(" ", 1)[1]) and op not in mfa.ALL_OPERATIONS)
+    # MVC-EPC-D-001 D1 extended SQ-3 to every item: a name-matched route must be MAPPED or DECLARED not sensitive
+    # (with its reason, mfa.DECLARED_NOT_SENSITIVE) — and every declaration must name a served route.
+    unmapped = sorted(op for op in served if tokens.search(op.split(" ", 1)[1]) and op not in mfa.ALL_OPERATIONS
+                      and op not in mfa.DECLARED_NOT_SENSITIVE)
     assert unmapped == [], unmapped
-    assert set(mfa.NOT_CURRENTLY_SERVED) == {"4. signing medical records", "5. changing roles",
-                                             "11. export of personal data", "12. changing payout details",
-                                             "13. changing bank details", "14. issuing credentials",
-                                             "15. issuing API keys"}
+    assert set(mfa.DECLARED_NOT_SENSITIVE) <= served and not set(mfa.DECLARED_NOT_SENSITIVE) & mfa.ALL_OPERATIONS
+    assert mfa.NOT_CURRENTLY_SERVED == ()                       # all fifteen SQ-3 operations are served (D1)

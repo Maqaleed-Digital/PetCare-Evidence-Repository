@@ -102,11 +102,26 @@ class PetMedicalRecord:
     recorded_by_actor_id: str
     recorded_at: datetime
     detail: Optional[str] = None
+    #: SQ-3 #4 (MVC-EPC-D-001 D1): set once by the signing veterinarian; a signed record is immutable.
+    signed_by_actor_id: Optional[str] = None
+    signed_at: Optional[datetime] = None
+    content_sha256: Optional[str] = None
 
     def to_read_model(self) -> dict:
         d = asdict(self)
         d["recorded_at"] = self.recorded_at.isoformat()
+        d["signed_at"] = self.signed_at.isoformat() if self.signed_at else None
         return d
+
+
+def medical_record_digest(rec: "PetMedicalRecord") -> str:
+    """The content a signature binds: type, title, detail, author and time — stable across stores."""
+    import hashlib
+    import json
+    body = json.dumps([rec.record_id, rec.pet_id, rec.tenant_id, rec.record_type, rec.title, rec.detail or "",
+                       rec.recorded_by_actor_id, rec.recorded_at.replace(tzinfo=None).isoformat(timespec="seconds")],
+                      ensure_ascii=False)
+    return hashlib.sha256(body.encode()).hexdigest()
 
 
 def validate_identification(ident: PetIdentification) -> None:
@@ -201,3 +216,15 @@ class InMemoryPetProfileRepository:
     def medical_records_for(self, pet_id: str, *, tenant_id: str) -> list[PetMedicalRecord]:
         return sorted((r for r in self._records if r.pet_id == pet_id and r.tenant_id == tenant_id),
                       key=lambda r: (r.recorded_at, r.record_id))
+
+    def sign_medical_record(self, record_id: str, *, tenant_id: str, actor_id: str, at: datetime) -> str:
+        """SIGNED | NOT_FOUND | ALREADY_SIGNED. Signing is the one permitted change, and happens once."""
+        from dataclasses import replace as _replace
+        for i, r in enumerate(self._records):
+            if r.record_id == record_id and r.tenant_id == tenant_id:
+                if r.signed_at is not None:
+                    return "ALREADY_SIGNED"
+                self._records[i] = _replace(r, signed_by_actor_id=actor_id, signed_at=at,
+                                            content_sha256=medical_record_digest(r))
+                return "SIGNED"
+        return "NOT_FOUND"

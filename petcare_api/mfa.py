@@ -43,8 +43,8 @@ SQ3_OPERATIONS = {
     1: ("dispensing a POM product", ("POST /api/prescriptions/{prescription_id}/dispense", SUPPLY_OF_PRESCRIPTION_CLASS)),
     2: ("prescribing a POM product", ("POST /api/prescriptions",)),
     3: ("signing consultation notes", ("POST /api/consultations/notes/{note_id}/sign",)),
-    4: ("signing medical records", ()),
-    5: ("changing roles", ()),
+    4: ("signing medical records", ("POST /api/pets/{pet_id}/medical-records/{record_id}/sign",)),
+    5: ("changing roles", ("POST /api/admin/identities/{user_id}/role",)),
     6: ("changing permissions", ("POST /api/admin/practitioners/{user_id}/authority",
                                  "POST /api/admin/practitioners/authority/{grant_id}/revoke",
                                  "POST /api/admin/practitioners/licences/{licence_id}/verify")),
@@ -55,11 +55,11 @@ SQ3_OPERATIONS = {
                                      "GET /api/admin/platform-identity-audit",
                                      "POST /api/compliance/reports/controlled-substances",
                                      "GET /api/compliance/reports/{report_id}")),
-    11: ("export of personal data", ()),
-    12: ("changing payout details", ()),
-    13: ("changing bank details", ()),
-    14: ("issuing credentials", ()),
-    15: ("issuing API keys", ()),
+    11: ("export of personal data", ("GET /api/me/export",)),
+    12: ("changing payout details", ("PUT /api/admin/tenant/payout-details",)),
+    13: ("changing bank details", ("PUT /api/admin/tenant/bank-details",)),
+    14: ("issuing credentials", ("POST /api/admin/credentials",)),
+    15: ("issuing API keys", ("POST /api/admin/api-keys",)),
 }
 #: SQ-3 ALWAYS-FRESH: role changes, MFA enrolment/reset, payout or bank-detail changes.
 ALWAYS_FRESH_ITEMS = frozenset({5, 8, 9, 12, 13})
@@ -68,6 +68,15 @@ ALL_OPERATIONS = frozenset(op for _t, ops in SQ3_OPERATIONS.values() for op in o
 ALWAYS_FRESH_OPERATIONS = frozenset(op for i in ALWAYS_FRESH_ITEMS for op in SQ3_OPERATIONS[i][1])
 MIDDLEWARE_OPERATIONS = ALL_OPERATIONS - {SUPPLY_OF_PRESCRIPTION_CLASS, ENROL}
 NOT_CURRENTLY_SERVED = tuple(f"{i}. {t}" for i, (t, ops) in SQ3_OPERATIONS.items() if not ops)
+#: Served routes whose NAMES touch an SQ-3 subject but which are NOT one of the fifteen sensitive operations, each with
+#: the reason (MVC-EPC-D-001 D1). The route-name guard in test_nfr08_sq3 accepts a route only if it is mapped above or
+#: declared here — a new sensitive-sounding route can never be left silently unprotected.
+DECLARED_NOT_SENSITIVE = {
+    "GET /api/admin/tenant/payout-details": "read of the tenant's payout settings; changing them is #12",
+    "GET /api/admin/tenant/bank-details": "read of the MASKED bank details; changing them is #13",
+    "GET /api/admin/api-keys": "list of key metadata (prefix only, never a key); issuing is #15",
+    "POST /api/admin/api-keys/{key_id}/revoke": "revocation removes access; issuing is #15",
+}
 
 
 def hotp(secret: bytes, counter: int, digits: int = DIGITS) -> str:

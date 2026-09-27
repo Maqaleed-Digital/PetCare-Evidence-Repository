@@ -167,6 +167,8 @@ class IdentityRepository(Protocol):
 
     def list_for_tenant(self, *, tenant_id: str) -> list: ...
 
+    def set_role(self, user_id: str, role: str, *, tenant_id: str) -> bool: ...
+
 
 class InviteCodeRepository(Protocol):
     def get(self, code: str) -> Optional[InviteCode]: ...
@@ -249,6 +251,17 @@ class InMemoryIdentityRepository:
     def list_for_tenant(self, *, tenant_id: str) -> list:
         """NFR-08 (U28): the identities of one tenant (the assisted-reset approver pool)."""
         return sorted((x for x in self._by_id.values() if x.tenant_id == tenant_id), key=lambda x: x.user_id)
+
+    def set_role(self, user_id: str, role: str, *, tenant_id: str) -> bool:
+        """SQ-3 #5 (MVC-EPC-D-001 D1): change ONLY the role of an identity of `tenant_id`. It cannot touch the tenant —
+        tenant membership has exactly one governed write path."""
+        existing = self._by_id.get(user_id)
+        if existing is None or existing.tenant_id != tenant_id:
+            return False
+        updated = replace(existing, role=role)
+        validate_identity(updated)
+        self._index(updated)
+        return True
 
     def count(self) -> int:
         return len(self._by_id)
