@@ -25,6 +25,8 @@ import sys
 import tempfile
 from pathlib import Path
 
+import pytest
+
 _RUNTIME_SRC = Path(__file__).resolve().parent / "petcare_runtime" / "src"
 if _RUNTIME_SRC.is_dir() and str(_RUNTIME_SRC) not in sys.path:
     sys.path.insert(0, str(_RUNTIME_SRC))
@@ -77,3 +79,20 @@ def pytest_configure(config):
     """
     config.addinivalue_line(
         "markers", "served_app: test exercises the served application object (main:app)")
+    config.addinivalue_line(
+        "markers", "mfa_enforced: NFR-08 test that runs with SQ-3 step-up enforcement ON (the served default)")
+
+
+@pytest.fixture(autouse=True)
+def _sq3_step_up_only_where_asserted(request, monkeypatch):
+    """NFR-08 / SQ-3 (v1.3 U28). The served app enforces MFA step-up on every sensitive operation, and that is its
+    ONLY configuration (`main.MFA_STEP_UP_ENFORCED`, a module constant with no environment switch). Suites that test
+    OTHER requirements through those routes predate SQ-3; they run with enforcement lifted IN-PROCESS for that test
+    alone. Every test marked `mfa_enforced` runs with enforcement ON, and
+    test_nfr08_sq3.py::test_step_up_is_enforced_by_default_and_has_no_off_switch proves the served default in a
+    fresh interpreter that never loads this file."""
+    if request.node.get_closest_marker("mfa_enforced"):
+        return
+    main = sys.modules.get("main")
+    if main is not None and hasattr(main, "MFA_STEP_UP_ENFORCED"):
+        monkeypatch.setattr(main, "MFA_STEP_UP_ENFORCED", False)

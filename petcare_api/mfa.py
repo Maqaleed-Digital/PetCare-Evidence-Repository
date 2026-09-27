@@ -1,15 +1,13 @@
-"""NFR-08 — MFA step-up for sensitive operations: the MECHANISM (MVC-BUILD-RUNNER-001 v1.2 U25).
+"""NFR-08 — MFA step-up for sensitive operations (U25 mechanism; U28 applies Sponsor act SQ-3).
 
 Factor: TOTP (RFC 6238, HMAC-SHA1, 30-second steps, 6 digits), one step of clock tolerance, and no code accepted twice
-(the last used step is stored). No SMS factor (EXTERNAL:SMS_GATEWAY). The TOTP secret is stored only as AES-256-GCM
-ciphertext under a key resolved through the governed secret provider; it is never logged.
+(the last used step is stored). SMS is NOT a factor (SQ-3). The TOTP secret is stored only as AES-256-GCM ciphertext
+under a key resolved through the governed secret provider; it is never logged.
 
-What the runner does NOT choose (the ratified NFR-08 evidence_definition does not fix it — SPONSOR_QUEUE SQ-3):
-- WHICH operations are sensitive: `PETCARE_MFA_SENSITIVE_OPERATIONS` ("METHOD /route/template", comma-separated),
-  default EMPTY — nothing is enforced until the Sponsor names them;
-- the step-up freshness window: `PETCARE_MFA_STEP_UP_MAX_AGE_SECONDS`, NO default — sensitive operations configured
-  without a window fail closed at startup;
-- recovery (lost factor): not built.
+Policy — governance/sponsor_acts/MVC-SQ3-NFR08-STEP-UP-001.md (MVC-BUILD-RUNNER-001 v1.3 U28). Fixed by the act, so
+nothing here is read from the environment: the sensitive operations (`SQ3_OPERATIONS`), the 15-minute freshness window,
+the always-fresh class, enrolment by per-operation primary re-authentication when no factor is active, ten single-use
+hashed recovery codes (one redemption = one step-up for exactly one operation), and the two-admin assisted reset.
 """
 from __future__ import annotations
 
@@ -17,18 +15,59 @@ import base64
 import hashlib
 import hmac
 import os
+import secrets
 import struct
-from dataclasses import dataclass, field
+from dataclasses import dataclass, field, replace
 from datetime import datetime
 from typing import Optional
 
-from repositories import RepositoryDenied
-
 STEP_SECONDS, DIGITS, TOLERANCE_STEPS = 30, 6, 1
-ENV_OPERATIONS = "PETCARE_MFA_SENSITIVE_OPERATIONS"
-ENV_MAX_AGE = "PETCARE_MFA_STEP_UP_MAX_AGE_SECONDS"
 ENV_KEY_SECRET_ID = "PETCARE_MFA_KEY_SECRET_ID"
 DEFAULT_KEY_SECRET_ID = "PETCARE_MFA_ENCRYPTION_KEY"
+
+SQ3_ACT_ID = "MVC-SQ3-NFR08-STEP-UP-001"
+STEP_UP_FRESHNESS_SECONDS = 15 * 60
+FACTORS = ("totp",)                     # SQ-3: SMS is not an MFA factor
+RECOVERY_CODE_COUNT = 10
+
+#: Operations enforced inside their route rather than by the middleware: the supply route only when the supply class
+#: is prescription-only; enrolment because SQ-3 gives it its own rule (re-authentication when no factor is active).
+SUPPLY_OF_PRESCRIPTION_CLASS = "POST /api/inventory/supplies"
+ENROL = "POST /api/me/mfa/enrol"
+RESET_REQUEST = "POST /api/admin/mfa-resets"
+RESET_APPROVE = "POST /api/admin/mfa-resets/{reset_id}/approve"
+
+#: SQ-3 item -> (text, served operations "METHOD /route/template"). An empty tuple is NOT_CURRENTLY_SERVED: the product
+#: has no such capability, and none is invented to create a test target.
+SQ3_OPERATIONS = {
+    1: ("dispensing a POM product", ("POST /api/prescriptions/{prescription_id}/dispense", SUPPLY_OF_PRESCRIPTION_CLASS)),
+    2: ("prescribing a POM product", ("POST /api/prescriptions",)),
+    3: ("signing consultation notes", ("POST /api/consultations/notes/{note_id}/sign",)),
+    4: ("signing medical records", ()),
+    5: ("changing roles", ()),
+    6: ("changing permissions", ("POST /api/admin/practitioners/{user_id}/authority",
+                                 "POST /api/admin/practitioners/authority/{grant_id}/revoke",
+                                 "POST /api/admin/practitioners/licences/{licence_id}/verify")),
+    7: ("changing tenant membership", ("POST /api/admin/identities/{user_id}/tenant",)),
+    8: ("enrolling MFA", (ENROL,)),
+    9: ("resetting MFA", (RESET_REQUEST, RESET_APPROVE)),
+    10: ("bulk export of any data", ("GET /audit/events", "GET /audit/events/tenant",
+                                     "GET /api/admin/platform-identity-audit",
+                                     "POST /api/compliance/reports/controlled-substances",
+                                     "GET /api/compliance/reports/{report_id}")),
+    11: ("export of personal data", ()),
+    12: ("changing payout details", ()),
+    13: ("changing bank details", ()),
+    14: ("issuing credentials", ()),
+    15: ("issuing API keys", ()),
+}
+#: SQ-3 ALWAYS-FRESH: role changes, MFA enrolment/reset, payout or bank-detail changes.
+ALWAYS_FRESH_ITEMS = frozenset({5, 8, 9, 12, 13})
+
+ALL_OPERATIONS = frozenset(op for _t, ops in SQ3_OPERATIONS.values() for op in ops)
+ALWAYS_FRESH_OPERATIONS = frozenset(op for i in ALWAYS_FRESH_ITEMS for op in SQ3_OPERATIONS[i][1])
+MIDDLEWARE_OPERATIONS = ALL_OPERATIONS - {SUPPLY_OF_PRESCRIPTION_CLASS, ENROL}
+NOT_CURRENTLY_SERVED = tuple(f"{i}. {t}" for i, (t, ops) in SQ3_OPERATIONS.items() if not ops)
 
 
 def hotp(secret: bytes, counter: int, digits: int = DIGITS) -> str:
@@ -52,26 +91,6 @@ def matching_step(secret: bytes, code: str, at: float) -> Optional[int]:
     return None
 
 
-@dataclass(frozen=True)
-class MfaPolicy:
-    sensitive_operations: frozenset = frozenset()
-    max_age_seconds: Optional[int] = None
-
-    @classmethod
-    def from_env(cls, env) -> "MfaPolicy":
-        ops = frozenset(x.strip() for x in (env.get(ENV_OPERATIONS) or "").split(",") if x.strip())
-        raw = env.get(ENV_MAX_AGE)
-        age = None
-        if raw not in (None, ""):
-            if not str(raw).isdigit() or int(raw) <= 0:
-                raise RepositoryDenied(f"{ENV_MAX_AGE} must be a positive integer")
-            age = int(raw)
-        if ops and age is None:
-            raise RepositoryDenied(f"{ENV_OPERATIONS} is set but {ENV_MAX_AGE} is not: the step-up freshness window is a "
-                                   "Sponsor decision (SQ-3) and has no default")
-        return cls(ops, age)
-
-
 def encrypt(key_material: str, plaintext: bytes) -> tuple:
     from cryptography.hazmat.primitives.ciphers.aead import AESGCM
     key = hashlib.sha256(key_material.encode()).digest()
@@ -89,6 +108,48 @@ def otpauth_uri(secret: bytes, account: str) -> str:
     return f"otpauth://totp/PetCare:{account}?secret={b32}&issuer=PetCare&algorithm=SHA1&digits={DIGITS}&period={STEP_SECONDS}"
 
 
+# ---------------------------------------------------------------------------------------------------- recovery codes
+@dataclass(frozen=True)
+class RecoveryCode:
+    """A recovery code as stored: a salted SHA-256 digest only. The plaintext exists once, in the issuing response."""
+    user_id: str
+    code_id: str
+    salt: bytes
+    digest: bytes
+    used_at: Optional[datetime] = None
+
+
+def _normalise(code: str) -> str:
+    return "".join(ch for ch in str(code).upper() if ch.isalnum())
+
+
+def code_digest(salt: bytes, code: str) -> bytes:
+    return hashlib.sha256(salt + _normalise(code).encode()).digest()
+
+
+def issue_recovery_codes(user_id: str) -> tuple:
+    """(plaintext codes shown once, stored records). 80 random bits per code from the OS CSPRNG."""
+    plain, stored = [], []
+    for _ in range(RECOVERY_CODE_COUNT):
+        raw = base64.b32encode(secrets.token_bytes(10)).decode()
+        code = "-".join(raw[i:i + 4] for i in range(0, 16, 4))
+        salt = secrets.token_bytes(16)
+        plain.append(code)
+        stored.append(RecoveryCode(user_id=user_id, code_id=secrets.token_hex(8), salt=salt,
+                                   digest=code_digest(salt, code)))
+    return plain, stored
+
+
+def matching_code(stored: list, code: str) -> Optional[RecoveryCode]:
+    """The unused stored code `code` matches, or None. Every candidate is compared (constant time each)."""
+    hit = None
+    for rc in stored:
+        if rc.used_at is None and hmac.compare_digest(code_digest(rc.salt, code), rc.digest):
+            hit = rc
+    return hit
+
+
+# ------------------------------------------------------------------------------------------------------------ records
 @dataclass(frozen=True)
 class Factor:
     user_id: str
@@ -99,10 +160,39 @@ class Factor:
     last_used_step: Optional[int] = None
 
 
+@dataclass(frozen=True)
+class StepUp:
+    session_id: str
+    user_id: str
+    verified_at: datetime
+    single_use: bool = False     # a recovery-code redemption: authorizes exactly one operation
+    used: bool = False           # has authorized an operation already (so it is no longer "new" for always-fresh)
+
+
+@dataclass(frozen=True)
+class ResetRequest:
+    reset_id: str
+    tenant_id: str
+    subject_user_id: str
+    requested_by: str
+    requested_at: datetime
+    approved_by: Optional[str] = None
+    approved_at: Optional[datetime] = None
+
+
+def authorizes(s: Optional[StepUp], user_id: str, now: datetime, always_fresh: bool) -> bool:
+    """SQ-3 step-up rule for one operation (the repositories apply it atomically)."""
+    if s is None or s.user_id != user_id or (now - s.verified_at).total_seconds() > STEP_UP_FRESHNESS_SECONDS:
+        return False
+    return not (always_fresh and s.used)
+
+
 @dataclass
 class InMemoryMfaRepository:
     _factors: dict = field(default_factory=dict)
     _step_ups: dict = field(default_factory=dict)
+    _codes: dict = field(default_factory=dict)
+    _resets: dict = field(default_factory=dict)
 
     def put_factor(self, f: Factor) -> Factor:
         self._factors[f.user_id] = f
@@ -116,13 +206,59 @@ class InMemoryMfaRepository:
         f = self._factors.get(user_id)
         if f is None or (f.last_used_step is not None and step <= f.last_used_step):
             return False
-        from dataclasses import replace
         self._factors[user_id] = replace(f, last_used_step=step, confirmed_at=f.confirmed_at or confirm_at)
         return True
 
-    def record_step_up(self, session_id: str, user_id: str, at: datetime) -> None:
-        self._step_ups[session_id] = (user_id, at)
+    def record_step_up(self, session_id: str, user_id: str, at: datetime, *, single_use: bool = False) -> None:
+        self._step_ups[session_id] = StepUp(session_id, user_id, at, single_use=single_use)
 
-    def step_up_at(self, session_id: str, user_id: str) -> Optional[datetime]:
-        v = self._step_ups.get(session_id)
-        return v[1] if v and v[0] == user_id else None
+    def step_up(self, session_id: str) -> Optional[StepUp]:
+        return self._step_ups.get(session_id)
+
+    def authorize(self, session_id: str, user_id: str, *, now: datetime, always_fresh: bool) -> bool:
+        """Spend the session's step-up on one operation: always-fresh and single-use step-ups are consumed; a normal
+        step-up is marked used and stays valid for further normal operations within the freshness window."""
+        s = self._step_ups.get(session_id)
+        if not authorizes(s, user_id, now, always_fresh):
+            return False
+        if always_fresh or s.single_use:
+            del self._step_ups[session_id]
+        else:
+            self._step_ups[session_id] = replace(s, used=True)
+        return True
+
+    def replace_recovery_codes(self, user_id: str, codes: list) -> None:
+        self._codes[user_id] = list(codes)
+
+    def recovery_codes(self, user_id: str) -> list:
+        return list(self._codes.get(user_id, []))
+
+    def use_recovery_code(self, user_id: str, code_id: str, at: datetime) -> bool:
+        codes = self._codes.get(user_id, [])
+        for i, rc in enumerate(codes):
+            if rc.code_id == code_id and rc.used_at is None:
+                codes[i] = replace(rc, used_at=at)
+                return True
+        return False
+
+    def clear_user(self, user_id: str) -> None:
+        """Assisted reset: the factor, the recovery codes and every step-up of the user are removed."""
+        self._factors.pop(user_id, None)
+        self._codes.pop(user_id, None)
+        for sid in [k for k, v in self._step_ups.items() if v.user_id == user_id]:
+            del self._step_ups[sid]
+
+    def create_reset(self, r: ResetRequest) -> ResetRequest:
+        self._resets[r.reset_id] = r
+        return r
+
+    def get_reset(self, reset_id: str, *, tenant_id: str) -> Optional[ResetRequest]:
+        r = self._resets.get(reset_id)
+        return r if r is not None and r.tenant_id == tenant_id else None
+
+    def approve_reset(self, reset_id: str, *, tenant_id: str, approver: str, at: datetime) -> bool:
+        r = self.get_reset(reset_id, tenant_id=tenant_id)
+        if r is None or r.approved_at is not None:
+            return False
+        self._resets[reset_id] = replace(r, approved_by=approver, approved_at=at)
+        return True

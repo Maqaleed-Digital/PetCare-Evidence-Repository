@@ -2018,6 +2018,8 @@ def supply_stock(
                                  resource_id=body.product_id, event_name="inventory.supply.refused",
                                  correlation_id=x_correlation_id)
     gated = prescription_required(supply_class)
+    if gated:  # NFR-08 / SQ-3 item 1: dispensing a prescription-only product needs a fresh step-up
+        _require_step_up(request, mfa_mod.SUPPLY_OF_PRESCRIPTION_CLASS)
 
     def refuse(status_code, detail, reason_code):
         _audit(event_name="inventory.supply.refused", actor_id=actor_id, actor_role=actor_role,
@@ -2980,14 +2982,22 @@ def effective_rate_limits(role: str = Depends(require_admin)):
 
 
 # ---------------------------------------------------------------------------
-# NFR-08 · MFA step-up mechanism (v1.2 U25) — WHICH operations is a Sponsor decision (SQ-3)
+# NFR-08 · MFA step-up (v1.2 U25 mechanism; v1.3 U28 applies Sponsor act SQ-3, MVC-SQ3-NFR08-STEP-UP-001)
 # ---------------------------------------------------------------------------
 import mfa as mfa_mod  # noqa: E402
+import routers.auth as auth  # noqa: E402 — identity store, password verification, session store
 from starlette.routing import Match as _Match  # noqa: E402
 from secret_provider import build_secret_provider as _build_sp, resolve_secret as _resolve_secret  # noqa: E402
 
 MFA_REPO = PERSISTENCE.mfa
-MFA_POLICY = mfa_mod.MfaPolicy.from_env(os.environ)
+#: SQ-3 step-up enforcement. A module constant, never read from the environment: no deployment can switch it off.
+MFA_STEP_UP_ENFORCED = True
+MFA_ADMIN_ROLES = frozenset({ROLE_PLATFORM_ADMIN, ROLE_PARTNER_CLINIC_ADMIN})
+
+
+def _mfa_now() -> datetime:
+    """The MFA clock (injectable in tests: freshness is proven at the boundary without sleeping)."""
+    return datetime.now(timezone.utc)
 
 
 def _mfa_key() -> str:
@@ -3007,24 +3017,52 @@ def _operation_of(request: Request) -> Optional[str]:
     return None
 
 
+def _active_factor(user_id: str):
+    f = MFA_REPO.factor(user_id)
+    return f if f is not None and f.confirmed_at is not None else None
+
+
+def _step_up_refusal(session: dict, operation: str) -> Optional[dict]:
+    """None when THIS session's step-up authorizes `operation` (and is spent on it), else the refusal detail."""
+    user_id = session["user_id"]
+    if _active_factor(user_id) is None:
+        return {"error": "MFA_ENROLMENT_REQUIRED", "operation": operation}
+    always_fresh = operation in mfa_mod.ALWAYS_FRESH_OPERATIONS
+    if not MFA_REPO.authorize(session["sid"], user_id, now=_mfa_now(), always_fresh=always_fresh):
+        return {"error": "MFA_STEP_UP_REQUIRED", "operation": operation, "always_fresh": always_fresh}
+    return None
+
+
+def _require_step_up(request: Request, operation: str) -> None:
+    """In-route SQ-3 enforcement (a prescription-class supply)."""
+    if not MFA_STEP_UP_ENFORCED:
+        return
+    refusal = _step_up_refusal(read_session(request), operation)
+    if refusal is not None:
+        raise HTTPException(403, refusal)
+
+
 @app.middleware("http")
 async def enforce_mfa_step_up(request: Request, call_next):
-    """NFR-08: a configured sensitive operation requires a fresh TOTP step-up bound to THIS session."""
-    if not MFA_POLICY.sensitive_operations or _operation_of(request) not in MFA_POLICY.sensitive_operations:
+    """NFR-08 / SQ-3: every served sensitive operation requires a fresh TOTP step-up bound to THIS session."""
+    operation = _operation_of(request) if MFA_STEP_UP_ENFORCED else None
+    if operation not in mfa_mod.MIDDLEWARE_OPERATIONS:
         return await call_next(request)
     try:
         session = read_session(request)
     except HTTPException as exc:
         return _JSONResponse(status_code=exc.status_code, content={"detail": exc.detail})
-    user_id = session["user_id"]
-    factor = MFA_REPO.factor(user_id)
-    if factor is None or factor.confirmed_at is None:
-        return _JSONResponse(status_code=403, content={"detail": {"error": "MFA_ENROLMENT_REQUIRED"}})
-    at = MFA_REPO.step_up_at(session["sid"], user_id)
-    if at is None or (datetime.now(timezone.utc) - at).total_seconds() > MFA_POLICY.max_age_seconds:
-        return _JSONResponse(status_code=403, content={"detail": {"error": "MFA_STEP_UP_REQUIRED",
-                                                                  "operation": _operation_of(request)}})
+    refusal = _step_up_refusal(session, operation)
+    if refusal is not None:
+        return _JSONResponse(status_code=403, content={"detail": refusal})
     return await call_next(request)
+
+
+def _mfa_audit(event_name, session, role, resource_type, resource_id, correlation_id, result="success", reason=None):
+    if session.get("tenant_id"):
+        _audit(event_name=event_name, actor_id=session["user_id"], actor_role=role, tenant_id=session["tenant_id"],
+               resource_type=resource_type, resource_id=resource_id, action_result=result,
+               correlation_id=correlation_id, reason_code=reason)
 
 
 class MfaCode(BaseModel):
@@ -3033,23 +3071,50 @@ class MfaCode(BaseModel):
     code: str
 
 
+class MfaEnrolRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    factor: str = "totp"
+    #: SQ-3: with no active factor, enrolment is authorized by primary re-authentication performed for THIS operation.
+    password: Optional[str] = None
+
+
 @app.post("/api/me/mfa/enrol")
-def mfa_enrol(request: Request, role: str = Depends(require_role)):
-    """Start TOTP enrolment. The secret is returned ONCE (as an otpauth URI for the authenticator app), stored only as
-    ciphertext, and never logged. Re-enrolling replaces an unconfirmed or confirmed factor for the caller only."""
+def mfa_enrol(request: Request, body: Optional[MfaEnrolRequest] = None, role: str = Depends(require_role),
+              x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """Start TOTP enrolment (SQ-3 item 8, always-fresh). No active factor -> the password, re-entered for this
+    operation; an active factor -> a new step-up with that factor. The secret is returned ONCE and never logged."""
+    body = body or MfaEnrolRequest()
     session = read_session(request)
+    user_id = session["user_id"]
+    if body.factor not in mfa_mod.FACTORS:
+        raise HTTPException(400, {"error": "MFA_FACTOR_NOT_SUPPORTED", "supported": list(mfa_mod.FACTORS)})
+    if _active_factor(user_id) is not None:
+        refusal = _step_up_refusal(session, mfa_mod.ENROL)
+        if refusal is not None:
+            _mfa_audit("mfa.enrolment.refused", session, role, "mfa_factor", user_id, x_correlation_id, "denied",
+                       refusal["error"])
+            raise HTTPException(403, refusal)
+    else:
+        ident = auth.IDENTITY_REPO.get_by_user_id(user_id)
+        ok = bool(body.password) and ident is not None and auth._verify_password(body.password, ident.password_hash)[0]
+        if not ok:
+            _mfa_audit("mfa.enrolment.refused", session, role, "mfa_factor", user_id, x_correlation_id, "denied",
+                       "PRIMARY_REAUTHENTICATION_REQUIRED")
+            raise HTTPException(401, {"error": "PRIMARY_REAUTHENTICATION_REQUIRED"})
     secret = os.urandom(20)
     nonce, ct = mfa_mod.encrypt(_mfa_key(), secret)
-    MFA_REPO.put_factor(mfa_mod.Factor(user_id=session["user_id"], nonce=nonce, ciphertext=ct,
-                                       created_at=datetime.now(timezone.utc)))
-    return {"otpauth_uri": mfa_mod.otpauth_uri(secret, session.get("email", session["user_id"]))}
+    MFA_REPO.put_factor(mfa_mod.Factor(user_id=user_id, nonce=nonce, ciphertext=ct, created_at=_mfa_now()))
+    MFA_REPO.replace_recovery_codes(user_id, [])          # the old factor's codes die with it
+    _mfa_audit("mfa.enrolment.started", session, role, "mfa_factor", user_id, x_correlation_id)
+    return {"otpauth_uri": mfa_mod.otpauth_uri(secret, session.get("email", user_id))}
 
 
 def _check_code(user_id: str, code: str, *, confirm: bool) -> None:
     f = MFA_REPO.factor(user_id)
     if f is None:
         raise HTTPException(403, {"error": "MFA_ENROLMENT_REQUIRED"})
-    now = datetime.now(timezone.utc)
+    now = _mfa_now()
     step = mfa_mod.matching_step(mfa_mod.decrypt(_mfa_key(), f.nonce, f.ciphertext), code, now.timestamp())
     if step is None or not MFA_REPO.use_step(user_id, step, confirm_at=now if confirm else None):
         raise HTTPException(401, {"error": "MFA_CODE_INVALID"})
@@ -3058,13 +3123,17 @@ def _check_code(user_id: str, code: str, *, confirm: bool) -> None:
 @app.post("/api/me/mfa/confirm")
 def mfa_confirm(body: MfaCode, request: Request, role: str = Depends(require_role),
                 x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """Confirm the pending factor and issue the ten single-use recovery codes, shown this once (SQ-3)."""
     session = read_session(request)
-    _check_code(session["user_id"], body.code, confirm=True)
-    if session.get("tenant_id"):
-        _audit(event_name="mfa.factor.confirmed", actor_id=session["user_id"], actor_role=role,
-               tenant_id=session["tenant_id"], resource_type="mfa_factor", resource_id=session["user_id"],
-               action_result="success", correlation_id=x_correlation_id)
-    return {"confirmed": True}
+    user_id = session["user_id"]
+    f = MFA_REPO.factor(user_id)
+    if f is not None and f.confirmed_at is not None:
+        raise HTTPException(409, {"error": "MFA_FACTOR_ALREADY_CONFIRMED"})
+    _check_code(user_id, body.code, confirm=True)
+    plain, stored = mfa_mod.issue_recovery_codes(user_id)
+    MFA_REPO.replace_recovery_codes(user_id, stored)
+    _mfa_audit("mfa.factor.confirmed", session, role, "mfa_factor", user_id, x_correlation_id)
+    return {"confirmed": True, "recovery_codes": plain}
 
 
 @app.post("/api/me/mfa/step-up")
@@ -3072,16 +3141,101 @@ def mfa_step_up(body: MfaCode, request: Request, role: str = Depends(require_rol
                 x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
     """Verify a TOTP code for THIS session (single-use codes; bound to the session id)."""
     session = read_session(request)
-    f = MFA_REPO.factor(session["user_id"])
-    if f is None or f.confirmed_at is None:
+    if _active_factor(session["user_id"]) is None:
         raise HTTPException(403, {"error": "MFA_ENROLMENT_REQUIRED"})
     _check_code(session["user_id"], body.code, confirm=False)
-    MFA_REPO.record_step_up(session["sid"], session["user_id"], datetime.now(timezone.utc))
-    if session.get("tenant_id"):
-        _audit(event_name="mfa.step_up.verified", actor_id=session["user_id"], actor_role=role,
-               tenant_id=session["tenant_id"], resource_type="account_session", resource_id=session["sid"],
-               action_result="success", correlation_id=x_correlation_id)
+    MFA_REPO.record_step_up(session["sid"], session["user_id"], _mfa_now())
+    _mfa_audit("mfa.step_up.verified", session, role, "account_session", session["sid"], x_correlation_id)
     return {"stepped_up": True}
+
+
+@app.post("/api/me/mfa/recovery")
+def mfa_recovery(body: MfaCode, request: Request, role: str = Depends(require_role),
+                 x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """Redeem one recovery code: ONE step-up event authorizing exactly one operation (SQ-3). Single use."""
+    session = read_session(request)
+    user_id = session["user_id"]
+    if _active_factor(user_id) is None:
+        raise HTTPException(403, {"error": "MFA_ENROLMENT_REQUIRED"})
+    now = _mfa_now()
+    hit = mfa_mod.matching_code(MFA_REPO.recovery_codes(user_id), body.code)
+    if hit is None or not MFA_REPO.use_recovery_code(user_id, hit.code_id, now):
+        _mfa_audit("mfa.recovery_code.refused", session, role, "mfa_factor", user_id, x_correlation_id, "denied",
+                   "RECOVERY_CODE_INVALID")
+        raise HTTPException(401, {"error": "RECOVERY_CODE_INVALID"})
+    MFA_REPO.record_step_up(session["sid"], user_id, now, single_use=True)
+    _mfa_audit("mfa.recovery_code.redeemed", session, role, "mfa_recovery_code", hit.code_id, x_correlation_id)
+    return {"stepped_up": True, "single_use": True}
+
+
+class MfaResetBody(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    subject_user_id: str
+
+
+def _mfa_admin(request: Request):
+    actor_id, actor_role = _actor(request)
+    if actor_role not in MFA_ADMIN_ROLES:
+        raise HTTPException(403, {"error": "ADMIN_ONLY"})
+    return actor_id, actor_role, require_tenant(request)
+
+
+@app.post("/api/admin/mfa-resets")
+def request_mfa_reset(body: MfaResetBody, request: Request, role: str = Depends(require_role),
+                      x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """SQ-3 assisted reset, step 1: a tenant admin requests a reset of another principal of the same tenant. Refused
+    when no SECOND eligible admin exists (OPERATIONS:SOLE_ADMIN_MFA_RECOVERY — a support procedure, not built)."""
+    actor_id, actor_role, tenant_id = _mfa_admin(request)
+    subject = PERSISTENCE.identities.get_by_user_id(body.subject_user_id)
+    if subject is None or subject.tenant_id != tenant_id:
+        raise HTTPException(404, "Subject not found in this tenant")
+
+    def refuse(status_code, error, reason):
+        _audit(event_name="mfa.reset.refused", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+               resource_type="mfa_factor", resource_id=subject.user_id, action_result="denied",
+               correlation_id=x_correlation_id, reason_code=reason)
+        raise HTTPException(status_code, error)
+
+    if subject.user_id == actor_id:
+        refuse(403, {"error": "MFA_RESET_SELF_REQUEST_REFUSED"}, "SELF")
+    approvers = [i for i in PERSISTENCE.identities.list_for_tenant(tenant_id=tenant_id)
+                 if i.role in MFA_ADMIN_ROLES and i.user_id not in (actor_id, subject.user_id)]
+    if not approvers:
+        refuse(409, {"error": "SOLE_ADMIN_MFA_RECOVERY", "dependency": "OPERATIONS:SOLE_ADMIN_MFA_RECOVERY"},
+               "NO_SECOND_ADMIN")
+    r = MFA_REPO.create_reset(mfa_mod.ResetRequest(reset_id=str(uuid4()), tenant_id=tenant_id,
+                                                   subject_user_id=subject.user_id, requested_by=actor_id,
+                                                   requested_at=_mfa_now()))
+    _audit(event_name="mfa.reset.requested", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="mfa_reset_request", resource_id=r.reset_id, action_result="success",
+           correlation_id=x_correlation_id)
+    return {"reset_id": r.reset_id, "subject_user_id": r.subject_user_id, "status": "PENDING_SECOND_ADMIN"}
+
+
+@app.post("/api/admin/mfa-resets/{reset_id}/approve")
+def approve_mfa_reset(reset_id: str, request: Request, role: str = Depends(require_role),
+                      x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """SQ-3 assisted reset, step 2: a SECOND admin of the same tenant (neither the requester nor the subject)
+    approves. The subject's factor, recovery codes and step-ups are removed and EVERY subject session is revoked;
+    sensitive operations stay refused until the subject re-enrols."""
+    actor_id, actor_role, tenant_id = _mfa_admin(request)
+    r = MFA_REPO.get_reset(reset_id, tenant_id=tenant_id)
+    if r is None:
+        raise HTTPException(404, "Reset request not found")
+    if actor_id in (r.requested_by, r.subject_user_id):
+        _audit(event_name="mfa.reset.refused", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+               resource_type="mfa_reset_request", resource_id=reset_id, action_result="denied",
+               correlation_id=x_correlation_id, reason_code="SECOND_ADMIN_REQUIRED")
+        raise HTTPException(403, {"error": "MFA_RESET_SECOND_ADMIN_REQUIRED"})
+    if not MFA_REPO.approve_reset(reset_id, tenant_id=tenant_id, approver=actor_id, at=_mfa_now()):
+        raise HTTPException(409, {"error": "MFA_RESET_ALREADY_APPROVED"})
+    MFA_REPO.clear_user(r.subject_user_id)
+    revoked = auth.SESSION_STORE.revoke_all_for_user(r.subject_user_id, tenant_id=tenant_id)
+    _audit(event_name="mfa.reset.approved", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="mfa_reset_request", resource_id=reset_id, action_result="success",
+           correlation_id=x_correlation_id)
+    return {"reset_id": reset_id, "status": "APPLIED", "sessions_revoked": revoked, "reenrolment_required": True}
 
 
 # ---------------------------------------------------------------------------
