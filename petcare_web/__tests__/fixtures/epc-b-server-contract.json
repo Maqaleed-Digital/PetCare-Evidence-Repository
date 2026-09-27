@@ -1,0 +1,126 @@
+{
+  "_provenance": {
+    "recorded": "2026-09-27 (MVC-EPC-B-001 Lane B, V4)",
+    "source": "petcare_api main:app (served app) at baseline 38bc79179ab78c181624252cfdeeed01beb136e7, in-memory, via FastAPI TestClient",
+    "synthetic_values": "otpauth secret and the ten recovery codes are REPLACED by synthetic placeholders; status codes and body shapes are exactly as served"
+  },
+  "responses": {
+    "confirm_success": {
+      "body": {
+        "confirmed": true,
+        "recovery_codes": [
+          "TEST-CODE-0001-XXXX",
+          "TEST-CODE-0002-XXXX",
+          "TEST-CODE-0003-XXXX",
+          "TEST-CODE-0004-XXXX",
+          "TEST-CODE-0005-XXXX",
+          "TEST-CODE-0006-XXXX",
+          "TEST-CODE-0007-XXXX",
+          "TEST-CODE-0008-XXXX",
+          "TEST-CODE-0009-XXXX",
+          "TEST-CODE-0010-XXXX"
+        ]
+      },
+      "status": 200
+    },
+    "confirm_wrong_code": {
+      "body": {
+        "detail": {
+          "error": "MFA_CODE_INVALID"
+        }
+      },
+      "status": 401
+    },
+    "enrol_factorless_without_password": {
+      "body": {
+        "detail": {
+          "error": "PRIMARY_REAUTHENTICATION_REQUIRED"
+        }
+      },
+      "status": 401
+    },
+    "enrol_factorless_wrong_password": {
+      "body": {
+        "detail": {
+          "error": "PRIMARY_REAUTHENTICATION_REQUIRED"
+        }
+      },
+      "status": 401
+    },
+    "enrol_sms_factor": {
+      "body": {
+        "detail": {
+          "error": "MFA_FACTOR_NOT_SUPPORTED",
+          "supported": [
+            "totp"
+          ]
+        }
+      },
+      "status": 400
+    },
+    "enrol_success": {
+      "body": {
+        "otpauth_uri": "otpauth://totp/PetCare:vet%40example.test?secret=SYNTHETICSECRETXXXXXXXXXXXXXXXXX&issuer=PetCare&algorithm=SHA1&digits=6&period=30"
+      },
+      "status": 200
+    },
+    "prescribe_without_factor": {
+      "body": {
+        "detail": {
+          "error": "MFA_ENROLMENT_REQUIRED",
+          "operation": "POST /api/prescriptions"
+        }
+      },
+      "status": 403
+    },
+    "prescribe_without_step_up": {
+      "body": {
+        "detail": {
+          "always_fresh": false,
+          "error": "MFA_STEP_UP_REQUIRED",
+          "operation": "POST /api/prescriptions"
+        }
+      },
+      "status": 403
+    },
+    "recovery_invalid": {
+      "body": {
+        "detail": {
+          "error": "RECOVERY_CODE_INVALID"
+        }
+      },
+      "status": 401
+    },
+    "recovery_success": {
+      "body": {
+        "single_use": true,
+        "stepped_up": true
+      },
+      "status": 200
+    },
+    "replace_factor_without_step_up": {
+      "body": {
+        "detail": {
+          "always_fresh": true,
+          "error": "MFA_STEP_UP_REQUIRED",
+          "operation": "POST /api/me/mfa/enrol"
+        }
+      },
+      "status": 403
+    },
+    "step_up_success": {
+      "body": {
+        "stepped_up": true
+      },
+      "status": 200
+    },
+    "step_up_wrong_code": {
+      "body": {
+        "detail": {
+          "error": "MFA_CODE_INVALID"
+        }
+      },
+      "status": 401
+    }
+  }
+}

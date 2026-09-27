@@ -300,3 +300,30 @@ html, body { overflow-x: hidden; }
   transition: background 0.15s;
 }
 .emergency-cta:hover { background: #912018; }
+
+/* MVC-EPC-B-001 Lane B — MFA step-up prompt (components/StepUp.tsx). */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.45);
+}
+.modal-backdrop > [role='dialog'] {
+  width: 100%;
+  max-width: 440px;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
+}
+.link {
+  background: none;
+  border: 0;
+  padding: 0;
+  min-height: 48px;
+  color: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
