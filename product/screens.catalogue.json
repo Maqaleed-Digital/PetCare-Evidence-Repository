@@ -1,0 +1,540 @@
+{
+ "_note": "MVC-EPC-D-001 v1.5 SCREEN CATALOGUE (frozen, 107 screens on 10 surfaces). Status is written by petcare_web/e2e-full/report.mjs from the journey suite; screen ids appear in test titles as @S:<id>.",
+ "screens": [
+  {
+   "id": "PUB-01",
+   "surface": "Public",
+   "screen": "Home"
+  },
+  {
+   "id": "PUB-02",
+   "surface": "Public",
+   "screen": "Clinic and vet finder (map, fees, availability, ratings)"
+  },
+  {
+   "id": "PUB-03",
+   "surface": "Public",
+   "screen": "Vet / clinic profile"
+  },
+  {
+   "id": "PUB-04",
+   "surface": "Public",
+   "screen": "Shop entry"
+  },
+  {
+   "id": "PUB-05",
+   "surface": "Public",
+   "screen": "Help centre and contact"
+  },
+  {
+   "id": "PUB-06",
+   "surface": "Public",
+   "screen": "Legal (terms, privacy/PDPL, returns)"
+  },
+  {
+   "id": "PUB-07",
+   "surface": "Public",
+   "screen": "Sign in / register / reset"
+  },
+  {
+   "id": "PUB-08",
+   "surface": "Public",
+   "screen": "Emergency (nearest open clinics + call; not triage)"
+  },
+  {
+   "id": "CO-01",
+   "surface": "Pet owner app",
+   "screen": "Owner home"
+  },
+  {
+   "id": "CO-02",
+   "surface": "Pet owner app",
+   "screen": "Household and pets"
+  },
+  {
+   "id": "CO-03",
+   "surface": "Pet owner app",
+   "screen": "Pet profile and timeline"
+  },
+  {
+   "id": "CO-04",
+   "surface": "Pet owner app",
+   "screen": "Vaccination card (PDF)"
+  },
+  {
+   "id": "CO-05",
+   "surface": "Pet owner app",
+   "screen": "Book (in-clinic / video, live slots)"
+  },
+  {
+   "id": "CO-06",
+   "surface": "Pet owner app",
+   "screen": "Pre-visit intake with photos"
+  },
+  {
+   "id": "CO-07",
+   "surface": "Pet owner app",
+   "screen": "My appointments"
+  },
+  {
+   "id": "CO-08",
+   "surface": "Pet owner app",
+   "screen": "Video waiting room + device check + call"
+  },
+  {
+   "id": "CO-09",
+   "surface": "Pet owner app",
+   "screen": "Messages"
+  },
+  {
+   "id": "CO-10",
+   "surface": "Pet owner app",
+   "screen": "Visit summary and care plan"
+  },
+  {
+   "id": "CO-11",
+   "surface": "Pet owner app",
+   "screen": "Prescriptions + upload"
+  },
+  {
+   "id": "CO-12",
+   "surface": "Pet owner app",
+   "screen": "Invoices and payments"
+  },
+  {
+   "id": "CO-13",
+   "surface": "Pet owner app",
+   "screen": "Rate visit"
+  },
+  {
+   "id": "CO-14",
+   "surface": "Pet owner app",
+   "screen": "Notifications"
+  },
+  {
+   "id": "CO-15",
+   "surface": "Pet owner app",
+   "screen": "Account / consent / security / data export"
+  },
+  {
+   "id": "CV-01",
+   "surface": "Veterinarian console",
+   "screen": "Today"
+  },
+  {
+   "id": "CV-02",
+   "surface": "Veterinarian console",
+   "screen": "Calendar and availability"
+  },
+  {
+   "id": "CV-03",
+   "surface": "Veterinarian console",
+   "screen": "Unified queue"
+  },
+  {
+   "id": "CV-04",
+   "surface": "Veterinarian console",
+   "screen": "Patient chart with allergy alerts"
+  },
+  {
+   "id": "CV-05",
+   "surface": "Veterinarian console",
+   "screen": "Consultation workspace with SOAP templates"
+  },
+  {
+   "id": "CV-06",
+   "surface": "Veterinarian console",
+   "screen": "Prescribe (SFDA-registered catalogue, dose-by-weight, allergy and duplicate warnings)"
+  },
+  {
+   "id": "CV-07",
+   "surface": "Veterinarian console",
+   "screen": "Dispense in clinic"
+  },
+  {
+   "id": "CV-08",
+   "surface": "Veterinarian console",
+   "screen": "Sign notes and records"
+  },
+  {
+   "id": "CV-09",
+   "surface": "Veterinarian console",
+   "screen": "Rx verification queue"
+  },
+  {
+   "id": "CV-10",
+   "surface": "Veterinarian console",
+   "screen": "Inbox"
+  },
+  {
+   "id": "CV-11",
+   "surface": "Veterinarian console",
+   "screen": "Follow-up tasks"
+  },
+  {
+   "id": "CV-12",
+   "surface": "Veterinarian console",
+   "screen": "Profile and licence status"
+  },
+  {
+   "id": "CV-13",
+   "surface": "Veterinarian console",
+   "screen": "Earnings"
+  },
+  {
+   "id": "CF-01",
+   "surface": "Front desk",
+   "screen": "Multi-vet calendar"
+  },
+  {
+   "id": "CF-02",
+   "surface": "Front desk",
+   "screen": "Register client and pet"
+  },
+  {
+   "id": "CF-03",
+   "surface": "Front desk",
+   "screen": "Book on behalf"
+  },
+  {
+   "id": "CF-04",
+   "surface": "Front desk",
+   "screen": "Check-in board"
+  },
+  {
+   "id": "CF-05",
+   "surface": "Front desk",
+   "screen": "Checkout (invoice, HyperPay or cash, receipt)"
+  },
+  {
+   "id": "CF-06",
+   "surface": "Front desk",
+   "screen": "No-shows and cancellations"
+  },
+  {
+   "id": "CA-01",
+   "surface": "Clinic admin",
+   "screen": "Clinic profile / locations / hours / licence"
+  },
+  {
+   "id": "CA-02",
+   "surface": "Clinic admin",
+   "screen": "Services and price list"
+  },
+  {
+   "id": "CA-03",
+   "surface": "Clinic admin",
+   "screen": "Staff, roles, permissions, membership"
+  },
+  {
+   "id": "CA-04",
+   "surface": "Clinic admin",
+   "screen": "Shifts"
+  },
+  {
+   "id": "CA-05",
+   "surface": "Clinic admin",
+   "screen": "Assisted MFA reset"
+  },
+  {
+   "id": "CA-06",
+   "surface": "Clinic admin",
+   "screen": "Reports (appointments, utilisation, revenue, no-shows)"
+  },
+  {
+   "id": "CA-07",
+   "surface": "Clinic admin",
+   "screen": "Reviews"
+  },
+  {
+   "id": "CA-08",
+   "surface": "Clinic admin",
+   "screen": "Payout and bank details"
+  },
+  {
+   "id": "CA-09",
+   "surface": "Clinic admin",
+   "screen": "Export"
+  },
+  {
+   "id": "PH-01",
+   "surface": "Pharmacy operator console",
+   "screen": "Dashboard"
+  },
+  {
+   "id": "PH-02",
+   "surface": "Pharmacy operator console",
+   "screen": "Order queue with SLA timers"
+  },
+  {
+   "id": "PH-03",
+   "surface": "Pharmacy operator console",
+   "screen": "Pick (barcode) / pack / label and packing slip / courier handover"
+  },
+  {
+   "id": "PH-04",
+   "surface": "Pharmacy operator console",
+   "screen": "Cold-chain flags and temperature log"
+  },
+  {
+   "id": "PH-05",
+   "surface": "Pharmacy operator console",
+   "screen": "Returns"
+  },
+  {
+   "id": "PH-06",
+   "surface": "Pharmacy operator console",
+   "screen": "Inventory by location"
+  },
+  {
+   "id": "PH-07",
+   "surface": "Pharmacy operator console",
+   "screen": "Adjust and transfer"
+  },
+  {
+   "id": "PH-08",
+   "surface": "Pharmacy operator console",
+   "screen": "Goods receipt (batch, expiry)"
+  },
+  {
+   "id": "PH-09",
+   "surface": "Pharmacy operator console",
+   "screen": "Purchase orders to suppliers (manual)"
+  },
+  {
+   "id": "PH-10",
+   "surface": "Pharmacy operator console",
+   "screen": "Stock-take"
+  },
+  {
+   "id": "PH-11",
+   "surface": "Pharmacy operator console",
+   "screen": "Expiry and low-stock alerts"
+  },
+  {
+   "id": "PH-12",
+   "surface": "Pharmacy operator console",
+   "screen": "Recalls with affected stock"
+  },
+  {
+   "id": "PH-13",
+   "surface": "Pharmacy operator console",
+   "screen": "SFDA reports"
+  },
+  {
+   "id": "PH-14",
+   "surface": "Pharmacy operator console",
+   "screen": "COD reconciliation"
+  },
+  {
+   "id": "PH-15",
+   "surface": "Pharmacy operator console",
+   "screen": "POS sync status (POS adapter)"
+  },
+  {
+   "id": "PH-16",
+   "surface": "Pharmacy operator console",
+   "screen": "Staff and establishment licence"
+  },
+  {
+   "id": "PH-17",
+   "surface": "Pharmacy operator console",
+   "screen": "Restricted-class stock view (read-only)"
+  },
+  {
+   "id": "MS-01",
+   "surface": "Marketplace shop",
+   "screen": "Shop home (categories, banners)"
+  },
+  {
+   "id": "MS-02",
+   "surface": "Marketplace shop",
+   "screen": "Search with Arabic/English autocomplete"
+  },
+  {
+   "id": "MS-03",
+   "surface": "Marketplace shop",
+   "screen": "Category listing with filters (species, brand, price) and sort"
+  },
+  {
+   "id": "MS-04",
+   "surface": "Marketplace shop",
+   "screen": "Product page (gallery, suitability, usage, reviews, delivery estimate)"
+  },
+  {
+   "id": "MS-05",
+   "surface": "Marketplace shop",
+   "screen": "Cart"
+  },
+  {
+   "id": "MS-06",
+   "surface": "Marketplace shop",
+   "screen": "Checkout (address book, map pin, Saudi National Address, delivery slot, coupon, HyperPay, COD)"
+  },
+  {
+   "id": "MS-07",
+   "surface": "Marketplace shop",
+   "screen": "Confirmation"
+  },
+  {
+   "id": "MS-08",
+   "surface": "Marketplace shop",
+   "screen": "Orders and tracking"
+  },
+  {
+   "id": "MS-09",
+   "surface": "Marketplace shop",
+   "screen": "Return and refund"
+  },
+  {
+   "id": "MS-10",
+   "surface": "Marketplace shop",
+   "screen": "Wishlist and buy-again"
+  },
+  {
+   "id": "MS-11",
+   "surface": "Marketplace shop",
+   "screen": "Write review"
+  },
+  {
+   "id": "MS-12",
+   "surface": "Marketplace shop",
+   "screen": "Support ticket"
+  },
+  {
+   "id": "MS-13",
+   "surface": "Marketplace shop",
+   "screen": "Autoship subscription (switch OFF; BRD FR-18 Phase 2)"
+  },
+  {
+   "id": "SC-01",
+   "surface": "Seller centre",
+   "screen": "Onboarding (licence upload, bank details, agreement acceptance)"
+  },
+  {
+   "id": "SC-02",
+   "surface": "Seller centre",
+   "screen": "Catalogue"
+  },
+  {
+   "id": "SC-03",
+   "surface": "Seller centre",
+   "screen": "Product editor"
+  },
+  {
+   "id": "SC-04",
+   "surface": "Seller centre",
+   "screen": "Bulk CSV upload with validation report"
+  },
+  {
+   "id": "SC-05",
+   "surface": "Seller centre",
+   "screen": "Price and stock"
+  },
+  {
+   "id": "SC-06",
+   "surface": "Seller centre",
+   "screen": "Orders"
+  },
+  {
+   "id": "SC-07",
+   "surface": "Seller centre",
+   "screen": "Returns"
+  },
+  {
+   "id": "SC-08",
+   "surface": "Seller centre",
+   "screen": "Settlement statement"
+  },
+  {
+   "id": "SC-09",
+   "surface": "Seller centre",
+   "screen": "Performance"
+  },
+  {
+   "id": "MO-01",
+   "surface": "Marketplace operations",
+   "screen": "Seller approvals"
+  },
+  {
+   "id": "MO-02",
+   "surface": "Marketplace operations",
+   "screen": "Catalogue moderation"
+  },
+  {
+   "id": "MO-03",
+   "surface": "Marketplace operations",
+   "screen": "Categories"
+  },
+  {
+   "id": "MO-04",
+   "surface": "Marketplace operations",
+   "screen": "Home content"
+  },
+  {
+   "id": "MO-05",
+   "surface": "Marketplace operations",
+   "screen": "Coupons and promotions"
+  },
+  {
+   "id": "MO-06",
+   "surface": "Marketplace operations",
+   "screen": "Orders and disputes"
+  },
+  {
+   "id": "MO-07",
+   "surface": "Marketplace operations",
+   "screen": "Refunds"
+  },
+  {
+   "id": "MO-08",
+   "surface": "Marketplace operations",
+   "screen": "Settlements with configurable commission rate"
+  },
+  {
+   "id": "MO-09",
+   "surface": "Marketplace operations",
+   "screen": "Review moderation"
+  },
+  {
+   "id": "MO-10",
+   "surface": "Marketplace operations",
+   "screen": "Support tickets"
+  },
+  {
+   "id": "PA-01",
+   "surface": "Platform admin",
+   "screen": "Tenants"
+  },
+  {
+   "id": "PA-02",
+   "surface": "Platform admin",
+   "screen": "Users"
+  },
+  {
+   "id": "PA-03",
+   "surface": "Platform admin",
+   "screen": "Credentials and API keys"
+  },
+  {
+   "id": "PA-04",
+   "surface": "Platform admin",
+   "screen": "Audit viewer and export"
+  },
+  {
+   "id": "PA-05",
+   "surface": "Platform admin",
+   "screen": "Configuration and switches"
+  },
+  {
+   "id": "PA-06",
+   "surface": "Platform admin",
+   "screen": "Vet verification queue"
+  },
+  {
+   "id": "PA-07",
+   "surface": "Platform admin",
+   "screen": "System health"
+  }
+ ]
+}
