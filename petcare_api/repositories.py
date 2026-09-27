@@ -165,6 +165,8 @@ class IdentityRepository(Protocol):
 
     def count(self) -> int: ...
 
+    def list_for_tenant(self, *, tenant_id: str) -> list: ...
+
 
 class InviteCodeRepository(Protocol):
     def get(self, code: str) -> Optional[InviteCode]: ...
@@ -243,6 +245,10 @@ class InMemoryIdentityRepository:
         if existing is None:
             raise RepositoryDenied(f"no identity with id {user_id!r}")
         self._index(replace(existing, password_hash=password_hash))
+
+    def list_for_tenant(self, *, tenant_id: str) -> list:
+        """NFR-08 (U28): the identities of one tenant (the assisted-reset approver pool)."""
+        return sorted((x for x in self._by_id.values() if x.tenant_id == tenant_id), key=lambda x: x.user_id)
 
     def count(self) -> int:
         return len(self._by_id)

@@ -677,18 +677,10 @@ def require_tenant(request: Request, requested: str | None = None) -> str:
 # ── GET /api/auth/me ──────────────────────────────────────────────
 @router.get("/me")
 async def me(request: Request):
-    token = request.cookies.get(COOKIE_NAME_SESSION)
-    if not token:
-        raise HTTPException(status_code=401,
-                            detail={"error": "NOT_AUTHENTICATED"})
-    try:
-        payload = _serializer().loads(token, max_age=COOKIE_MAX_AGE)
-    except SignatureExpired:
-        raise HTTPException(status_code=401,
-                            detail={"error": "SESSION_EXPIRED"})
-    except BadSignature:
-        raise HTTPException(status_code=401,
-                            detail={"error": "INVALID_SESSION"})
+    # NFR-08 / SQ-3 (v1.3 U28): /me validated only the cookie signature, so a REVOKED session (sign-out, or an
+    # assisted MFA reset revoking every session of its subject) still read as signed in here. It now takes the same
+    # path as every protected route: signature, server-held session record, revocation and tenant staleness.
+    payload = read_session(request)
 
     user = IDENTITY_REPO.get_by_email(payload["email"])
     if not user:

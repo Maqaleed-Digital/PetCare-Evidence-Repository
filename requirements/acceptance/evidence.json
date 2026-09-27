@@ -871,6 +871,106 @@
       "type": "NFR_EVIDENCE"
     }
   ],
+  "NFR-08": [
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_every_served_sensitive_operation_challenges_every_role[owner]",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_every_served_sensitive_operation_challenges_every_role[veterinarian]",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_every_served_sensitive_operation_challenges_every_role[partner_clinic_admin]",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_every_served_sensitive_operation_challenges_every_role[platform_admin]",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_role_enforcement_holds_after_step_up_and_an_allowed_role_proceeds",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_freshness_is_fifteen_minutes_exactly",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_an_always_fresh_operation_never_reuses_a_step_up",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_enrolment_needs_reauthentication_without_a_factor_and_a_step_up_with_one",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_recovery_codes_are_ten_hashed_single_use_one_operation_each_and_never_logged",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_assisted_reset_needs_a_second_same_tenant_admin_revokes_every_session_and_forces_reenrolment",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_a_sole_admin_cannot_perform_an_in_product_assisted_reset",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_step_up_is_enforced_by_default_and_has_no_off_switch",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_every_mapped_sq3_operation_is_served_and_no_unmapped_sensitive_route_exists",
+      "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3_postgres.py::test_step_ups_recovery_codes_and_resets_are_decided_atomically",
+      "type": "NFR_EVIDENCE"
+    }
+  ],
   "NFR-15": [
     {
       "kind": "TEST",

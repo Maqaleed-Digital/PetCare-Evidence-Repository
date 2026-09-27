@@ -462,6 +462,13 @@ class PostgresIdentityRepository:
         with self._pool.connection() as conn:
             return conn.execute("SELECT count(*) FROM user_identity").fetchone()[0]
 
+    def list_for_tenant(self, *, tenant_id: str) -> list:
+        """NFR-08 (U28): the identities of one tenant (the assisted-reset approver pool)."""
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {_IDENTITY_COLUMNS} FROM user_identity WHERE tenant_id = %s ORDER BY user_id",
+                                (tenant_id,)).fetchall()
+        return [_row_to_identity(r) for r in rows]
+
 
 # ---------------------------------------------------------------------------
 # Invite codes
@@ -1969,17 +1976,92 @@ class PostgresMfaRepository:
                                (step, _to_db(confirm_at), user_id, step))
             return cur.rowcount == 1
 
-    def record_step_up(self, session_id, user_id, at):
+    def record_step_up(self, session_id, user_id, at, *, single_use=False):
         with self._pool.connection() as conn:
-            conn.execute("INSERT INTO mfa_step_up (session_id, user_id, verified_at) VALUES (%s,%s,%s) "
-                         "ON CONFLICT (session_id) DO UPDATE SET verified_at = EXCLUDED.verified_at",
-                         (session_id, user_id, _to_db(at)))
+            conn.execute("INSERT INTO mfa_step_up (session_id, user_id, verified_at, single_use, used) "
+                         "VALUES (%s,%s,%s,%s,FALSE) ON CONFLICT (session_id) DO UPDATE SET user_id = EXCLUDED.user_id, "
+                         "verified_at = EXCLUDED.verified_at, single_use = EXCLUDED.single_use, used = FALSE",
+                         (session_id, user_id, _to_db(at), single_use))
 
-    def step_up_at(self, session_id, user_id):
+    def step_up(self, session_id):
+        from mfa import StepUp
         with self._pool.connection() as conn:
-            rows = conn.execute("SELECT verified_at FROM mfa_step_up WHERE session_id = %s AND user_id = %s",
-                                (session_id, user_id)).fetchall()
-        return _from_db(rows[0][0]) if rows else None
+            rows = conn.execute("SELECT session_id, user_id, verified_at, single_use, used FROM mfa_step_up "
+                                "WHERE session_id = %s", (session_id,)).fetchall()
+        return StepUp(rows[0][0], rows[0][1], _from_db(rows[0][2]), rows[0][3], rows[0][4]) if rows else None
+
+    def authorize(self, session_id, user_id, *, now, always_fresh):
+        """SQ-3, atomically (U28): one statement decides and spends. Always-fresh consumes an UNUSED step-up; a
+        recovery-code step-up is consumed by any operation; a normal step-up is marked used."""
+        from datetime import timedelta
+        from mfa import STEP_UP_FRESHNESS_SECONDS
+        cutoff = _to_db(now - timedelta(seconds=STEP_UP_FRESHNESS_SECONDS))
+        with self._pool.connection() as conn:
+            if always_fresh:
+                cur = conn.execute("DELETE FROM mfa_step_up WHERE session_id = %s AND user_id = %s AND verified_at >= %s "
+                                   "AND used = FALSE", (session_id, user_id, cutoff))
+                return cur.rowcount == 1
+            cur = conn.execute("DELETE FROM mfa_step_up WHERE session_id = %s AND user_id = %s AND verified_at >= %s "
+                               "AND single_use = TRUE", (session_id, user_id, cutoff))
+            if cur.rowcount == 1:
+                return True
+            cur = conn.execute("UPDATE mfa_step_up SET used = TRUE WHERE session_id = %s AND user_id = %s "
+                               "AND verified_at >= %s AND single_use = FALSE", (session_id, user_id, cutoff))
+            return cur.rowcount == 1
+
+    def replace_recovery_codes(self, user_id, codes):
+        with self._pool.connection() as conn:
+            with conn.transaction():
+                conn.execute("DELETE FROM mfa_recovery_code WHERE user_id = %s", (user_id,))
+                for rc in codes:
+                    conn.execute("INSERT INTO mfa_recovery_code (code_id, user_id, salt, digest, used_at) "
+                                 "VALUES (%s,%s,%s,%s,%s)", (rc.code_id, user_id, rc.salt, rc.digest, _to_db(rc.used_at)))
+
+    def recovery_codes(self, user_id):
+        from mfa import RecoveryCode
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT user_id, code_id, salt, digest, used_at FROM mfa_recovery_code "
+                                "WHERE user_id = %s ORDER BY code_id", (user_id,)).fetchall()
+        return [RecoveryCode(r[0], r[1], bytes(r[2]), bytes(r[3]), _from_db(r[4])) for r in rows]
+
+    def use_recovery_code(self, user_id, code_id, at):
+        """Atomic single use: only the first UPDATE finds used_at NULL."""
+        with self._pool.connection() as conn:
+            cur = conn.execute("UPDATE mfa_recovery_code SET used_at = %s WHERE code_id = %s AND user_id = %s "
+                               "AND used_at IS NULL", (_to_db(at), code_id, user_id))
+            return cur.rowcount == 1
+
+    def clear_user(self, user_id):
+        with self._pool.connection() as conn:
+            with conn.transaction():
+                conn.execute("DELETE FROM mfa_step_up WHERE user_id = %s", (user_id,))
+                conn.execute("DELETE FROM mfa_recovery_code WHERE user_id = %s", (user_id,))
+                conn.execute("DELETE FROM mfa_factor WHERE user_id = %s", (user_id,))
+
+    def create_reset(self, r):
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO mfa_reset_request (reset_id, tenant_id, subject_user_id, requested_by, requested_at) "
+                         "VALUES (%s,%s,%s,%s,%s)", (r.reset_id, r.tenant_id, r.subject_user_id, r.requested_by,
+                                                      _to_db(r.requested_at)))
+        return r
+
+    def get_reset(self, reset_id, *, tenant_id):
+        from mfa import ResetRequest
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT reset_id, tenant_id, subject_user_id, requested_by, requested_at, approved_by, "
+                                "approved_at FROM mfa_reset_request WHERE reset_id = %s AND tenant_id = %s",
+                                (reset_id, tenant_id)).fetchall()
+        if not rows:
+            return None
+        r = rows[0]
+        return ResetRequest(r[0], r[1], r[2], r[3], _from_db(r[4]), r[5], _from_db(r[6]))
+
+    def approve_reset(self, reset_id, *, tenant_id, approver, at):
+        """Atomic: exactly one approval of a pending request."""
+        with self._pool.connection() as conn:
+            cur = conn.execute("UPDATE mfa_reset_request SET approved_by = %s, approved_at = %s WHERE reset_id = %s "
+                               "AND tenant_id = %s AND approved_at IS NULL", (approver, _to_db(at), reset_id, tenant_id))
+            return cur.rowcount == 1
 
 
 class PostgresPlatformIdentityAudit:

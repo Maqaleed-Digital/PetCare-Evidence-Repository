@@ -16,6 +16,20 @@
       "path": "/api/admin/identities/{user_id}/tenant"
     },
     {
+      "endpoint": "main:request_mfa_reset",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/mfa-resets"
+    },
+    {
+      "endpoint": "main:approve_mfa_reset",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/mfa-resets/{reset_id}/approve"
+    },
+    {
       "endpoint": "main:platform_identity_audit",
       "methods": [
         "GET"
@@ -350,6 +364,13 @@
         "POST"
       ],
       "path": "/api/me/mfa/enrol"
+    },
+    {
+      "endpoint": "main:mfa_recovery",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/me/mfa/recovery"
     },
     {
       "endpoint": "main:mfa_step_up",
