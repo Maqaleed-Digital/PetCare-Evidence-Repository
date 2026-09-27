@@ -41,7 +41,7 @@ jobs:
   verify:
     name: verify
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 50
 
     # W0-F. The PostgreSQL integration suite is the only thing that proves the
     # persistent adapter against the store it will actually run on, and a suite
@@ -195,6 +195,37 @@ jobs:
           AUTH_AUDIENCE: ci-verify
           SESSION_SECRET: ci-only-not-a-deployed-secret
           AUDIT_PROBE_ENDPOINT: http://localhost:8080/api/audit
+
+      # MVC-EPC-D-001 Lane D (D0). The FULL-STACK journey suite: real browser -> petcare_web -> FastAPI main:app ->
+      # PostgreSQL (the service above, a fresh `petcare_e2e` database, every migration from empty, synthetic seed).
+      # Four projects: Arabic (default) and English at 1280 px and 390 px. The matrices e2e/JOURNEYS.md and
+      # product/SCREENS.md are regenerated from the results and uploaded.
+      - name: Install API server for the journey suite
+        run: python -m pip install "uvicorn[standard]==0.29.0"
+
+      - name: Full-stack journey suite
+        working-directory: petcare_web
+        run: npx playwright test -c playwright.full.config.ts
+        env:
+          CI: 'true'
+          PETCARE_E2E_PG_URL: postgresql://petcare_ci:petcare_ci_ephemeral_not_a_deployed_secret@127.0.0.1:5432/postgres
+
+      - name: Journey and screen matrices
+        if: always()
+        working-directory: petcare_web
+        run: node e2e-full/report.mjs
+
+      - name: Upload journey results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: journey-results
+          path: |
+            petcare_web/e2e-full/.results/
+            petcare_web/e2e/JOURNEYS.md
+            product/SCREENS.md
+            petcare_web/test-results/
+          if-no-files-found: ignore
 
       # Both scanners are scripts rather than shell one-liners, for the same
       # reason in each case. The shell secret scan matched its OWN regex and

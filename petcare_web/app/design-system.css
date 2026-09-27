@@ -1,0 +1,65 @@
+/*
+ * MyVetiCare design system — tokens and primitives (MVC-EPC-D-001 Lane D, D0, gate G1).
+ * ONE source of truth for new screens. Arabic-first typography; layout uses LOGICAL properties only
+ * (inline-start/end, block-start/end) so every component mirrors in RTL without per-direction overrides.
+ * Components live in components/ui; screens compose them rather than styling ad hoc.
+ */
+:root {
+  --ds-color-brand: #0F5E6E;
+  --ds-color-brand-strong: #0B4A57;
+  --ds-color-brand-soft: #E6F1F3;
+  --ds-color-accent: #7BAF9E;
+  --ds-color-bg: #F7F8FB;
+  --ds-color-surface: #FFFFFF;
+  --ds-color-text: #101828;
+  --ds-color-muted: #475467;          /* AA on white (7.0:1) */
+  --ds-color-line: #D0D5DD;
+  --ds-color-success: #027A48; --ds-color-success-bg: #ECFDF3;
+  --ds-color-warn: #B54708;    --ds-color-warn-bg: #FFFAEB;
+  --ds-color-danger: #B42318;  --ds-color-danger-bg: #FEF3F2;
+  --ds-color-info: #175CD3;    --ds-color-info-bg: #EFF8FF;
+  --ds-font: var(--font-arabic), var(--font-body), system-ui, sans-serif;
+  --ds-font-display: var(--font-arabic), var(--font-heading), serif;
+  --ds-space-1: 4px; --ds-space-2: 8px; --ds-space-3: 12px; --ds-space-4: 16px; --ds-space-6: 24px; --ds-space-8: 32px;
+  --ds-radius: 12px; --ds-radius-lg: 20px;
+  --ds-touch: 48px;                   /* minimum interactive size */
+  --ds-focus: 0 0 0 3px rgba(23, 92, 211, 0.45);
+}
+
+.ds-page { display: flex; flex-direction: column; gap: var(--ds-space-6); padding-inline: var(--ds-space-4);
+  padding-block: var(--ds-space-6); max-inline-size: 1120px; margin-inline: auto; font-family: var(--ds-font); color: var(--ds-color-text); }
+.ds-page__kicker { font-size: 0.85rem; color: var(--ds-color-muted); }
+.ds-page__title { font-family: var(--ds-font-display); font-size: clamp(1.4rem, 3vw, 2rem); margin: 0; }
+.ds-card { background: var(--ds-color-surface); border: 1px solid var(--ds-color-line); border-radius: var(--ds-radius);
+  padding: var(--ds-space-4); display: flex; flex-direction: column; gap: var(--ds-space-3); }
+.ds-row { display: flex; flex-wrap: wrap; gap: var(--ds-space-3); align-items: center; }
+.ds-btn { min-block-size: var(--ds-touch); min-inline-size: var(--ds-touch); padding-inline: var(--ds-space-4);
+  border-radius: var(--ds-radius); border: 1px solid transparent; font: inherit; cursor: pointer;
+  background: var(--ds-color-brand); color: #fff; }
+.ds-btn:hover { background: var(--ds-color-brand-strong); }
+.ds-btn--secondary { background: var(--ds-color-surface); color: var(--ds-color-brand); border-color: var(--ds-color-brand); }
+.ds-btn--danger { background: var(--ds-color-danger); }
+.ds-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+.ds-btn:focus-visible, .ds-input:focus-visible, .ds-link:focus-visible { outline: none; box-shadow: var(--ds-focus); }
+.ds-field { display: flex; flex-direction: column; gap: var(--ds-space-1); }
+.ds-label { font-weight: 600; }
+.ds-hint { color: var(--ds-color-muted); font-size: 0.9rem; }
+.ds-input { min-block-size: var(--ds-touch); padding-inline: var(--ds-space-3); border: 1px solid var(--ds-color-line);
+  border-radius: var(--ds-radius); font: inherit; background: var(--ds-color-surface); color: inherit; }
+.ds-input[aria-invalid="true"] { border-color: var(--ds-color-danger); }
+.ds-error-text { color: var(--ds-color-danger); }
+.ds-link { color: var(--ds-color-brand); text-decoration: underline; }
+.ds-notice { border-radius: var(--ds-radius); padding: var(--ds-space-3) var(--ds-space-4); border-inline-start: 4px solid; }
+.ds-notice--info { background: var(--ds-color-info-bg); border-color: var(--ds-color-info); }
+.ds-notice--success { background: var(--ds-color-success-bg); border-color: var(--ds-color-success); }
+.ds-notice--warn { background: var(--ds-color-warn-bg); border-color: var(--ds-color-warn); }
+.ds-notice--danger { background: var(--ds-color-danger-bg); border-color: var(--ds-color-danger); }
+.ds-state { display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--ds-space-3);
+  padding: var(--ds-space-8) var(--ds-space-4); color: var(--ds-color-muted); }
+.ds-spinner { inline-size: 32px; block-size: 32px; border-radius: 50%; border: 3px solid var(--ds-color-line);
+  border-block-start-color: var(--ds-color-brand); animation: ds-spin 0.9s linear infinite; }
+@keyframes ds-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .ds-spinner { animation: none; } }
+.ds-table { inline-size: 100%; border-collapse: collapse; }
+.ds-table th, .ds-table td { text-align: start; padding: var(--ds-space-2) var(--ds-space-3); border-block-end: 1px solid var(--ds-color-line); }
+@media (max-width: 480px) { .ds-page { padding-inline: var(--ds-space-3); } .ds-table { display: block; overflow-x: auto; } }
