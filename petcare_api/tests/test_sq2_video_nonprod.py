@@ -79,27 +79,80 @@ def test_the_video_path_is_refused_while_the_switch_is_off_even_with_the_gate_op
         assert r.status_code == 403 and r.json()["detail"]["error"] == "VIDEO_CAPABILITY_DISABLED", r.text
 
 
-def _non_test_configurations() -> list:
-    """Every tracked deployment / runtime configuration file (never a test file)."""
-    names = subprocess.run(["git", "ls-files"], cwd=ROOT, capture_output=True, text=True, check=True).stdout.split()
-    pat = re.compile(r"(^|/)(Dockerfile[^/]*|[^/]*\.env[^/]*|cloudbuild[^/]*\.ya?ml|docker-compose[^/]*\.ya?ml|"
-                     r"compose[^/]*\.ya?ml|next\.config\.[mc]?[jt]s|\.github/workflows/[^/]+\.ya?ml|[^/]*\.tf|"
-                     r"[^/]*\.tfvars|app\.ya?ml|Procfile)$")
-    return [n for n in names if pat.search(n) and "/tests/" not in n and "__tests__" not in n
-            and not n.startswith("tests/")]
+# ---------------------------------------------------------------- default-off proof (v1.3 U29 hardening)
+# CONFIGURATION AUTHORITY: the switch has exactly one reader, `video.capability_enabled(env)`, which the served app calls
+# with the PROCESS ENVIRONMENT (main.py). Nothing else resolves it — no settings file, no registry of sources. So a
+# repository-defined profile is any tracked file that can put the variable into a process environment, whatever its
+# name or format (Dockerfile ENV, CLI --set-env-vars, .env, YAML/JSON/k8s env blocks, shell exports, source code).
+# The proof is therefore: (1) the loader itself resolves OFF for the default runtime profile (a fresh interpreter) and
+# for every profile a tracked file defines; (2) discovery covers EVERY tracked file, not a list of filename patterns.
+# Excluded, by rule and not by name: test code (it may switch the capability on for itself), the module that DEFINES the
+# switch, and record trees that no deployment loads (evidence/, requirements/, governance/).
+_RECORD_ROOTS = ("evidence/", "requirements/", "governance/")
+_ASSIGN = (re.compile(r"""^["']?\s*[:=]\s*["']?([^"'\s,;}\]]*)"""),            # KEY=v, KEY: v, "KEY": "v", --x=KEY=v
+           re.compile(r"""^["']?[ \t]+["']?([^"'\s,;}\]]+)"""),                # Dockerfile `ENV KEY v`
+           re.compile(r"""^["']?\s*\n\s*value:\s*["']?([^"'\s]*)"""))        # k8s `- name: KEY` / `value: v`
+
+
+def _is_test_path(path: str) -> bool:
+    parts = path.split("/")
+    return "tests" in parts or "__tests__" in parts or parts[-1].startswith("test_") or ".test." in parts[-1]
+
+
+def _scanned_sources() -> list:
+    names = subprocess.run(["git", "ls-files", "-z"], cwd=ROOT, capture_output=True, check=True).stdout.decode().split("\0")
+    definer = Path(vid.__file__).resolve().relative_to(ROOT).as_posix()
+    return [n for n in names if n and not _is_test_path(n) and n != definer and not n.startswith(_RECORD_ROOTS)]
+
+
+def _mentions(text: str, name: str) -> list:
+    """Every mention of `name` in `text` with the value it assigns there, or None when no value can be read."""
+    out = []
+    for m in re.finditer(re.escape(name) + r"(?![A-Z0-9_])", text):
+        rest = text[m.end():m.end() + 200]
+        value = next((a.match(rest).group(1) for a in _ASSIGN if a.match(rest)), None)
+        out.append(value)
+    return out
+
+
+def _profile(text: str) -> dict:
+    """The PETCARE_* environment a tracked source defines (its non-test profile), as the loader would receive it."""
+    env = {}
+    for key in set(re.findall(r"PETCARE_[A-Z0-9_]+", text)):
+        vals = [v for v in _mentions(text, key) if v is not None]
+        if vals:
+            env[key] = vals[-1]
+    return env
 
 
 def test_the_video_switch_defaults_off_in_every_non_test_configuration(monkeypatch):
     monkeypatch.delenv(vid.SWITCH_ENV, raising=False)
     assert vid.SWITCH_DEFAULT is False
-    assert vid.capability_enabled({}) is False and vid.capability_enabled(dict(os.environ)) is False
-    assert vid.capability_enabled({vid.SWITCH_ENV: ""}) is False
+    assert vid.capability_enabled({}) is False and vid.capability_enabled({vid.SWITCH_ENV: ""}) is False
     assert vid.capability_enabled({vid.SWITCH_ENV: "yes-please"}) is False      # only an explicit true/1 is ON
     assert vid.capability_enabled({vid.SWITCH_ENV: "true"}) is True
-    configs = _non_test_configurations()
-    assert len(configs) >= 5, configs                                         # the sweep actually found files
-    on = re.compile(re.escape(vid.SWITCH_ENV) + r"""["']?\s*[:=]\s*["']?(true|1)\b""", re.I)
-    offenders = [c for c in configs if on.search((ROOT / c).read_text(encoding="utf-8", errors="replace"))]
-    assert offenders == []
-    # The root conftest (the shared test configuration) does not turn it on globally either.
+    # (1a) the default runtime profile: a fresh interpreter, no test configuration loaded, resolves OFF.
+    env = {k: v for k, v in os.environ.items() if k != vid.SWITCH_ENV}
+    env["PYTHONPATH"] = str(ROOT / "petcare_api")
+    out = subprocess.run([sys.executable, "-c", "import os, video; print(video.capability_enabled(os.environ))"],
+                         cwd=ROOT / "petcare_api", env=env, capture_output=True, text=True, timeout=60)
+    assert out.stdout.strip() == "False", out.stderr[-1000:]
+    # (1b)+(2) every profile any tracked source defines resolves OFF through the loader; every mention is readable.
+    sources = _scanned_sources()
+    assert len(sources) > 1000, len(sources)                                  # the sweep is the whole tracked tree
+    profiles = offenders = 0
+    unreadable = []
+    for path in sources:
+        try:
+            text = (ROOT / path).read_bytes().decode("utf-8")
+        except (UnicodeDecodeError, IsADirectoryError, FileNotFoundError):
+            continue
+        profile = _profile(text)
+        profiles += bool(profile)
+        if vid.capability_enabled(profile):
+            offenders += 1
+            unreadable.append((path, "resolves ON"))
+        unreadable += [(path, "mention without a readable value") for v in _mentions(text, vid.SWITCH_ENV) if v is None]
+    assert unreadable == [] and offenders == 0
+    assert profiles >= 5                                                      # real profiles were resolved
     assert vid.SWITCH_ENV not in (ROOT / "conftest.py").read_text(encoding="utf-8")
