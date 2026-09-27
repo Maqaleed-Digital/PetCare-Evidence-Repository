@@ -140,6 +140,17 @@ def test_role_enforcement_holds_after_step_up_and_an_allowed_role_proceeds(clock
     assert admin.get("/audit/events/tenant").status_code == 200             # a normal step-up serves normal ops
 
 
+def test_a_step_up_belongs_to_the_session_that_performed_it(clock):
+    """A step-up is bound to ONE server-side session: another session of the same person gets no authority from it."""
+    first = _client("u-sq3-sess", "partner_clinic_admin", "t-sq3-sess")
+    secret, _ = _enrol(first, clock)
+    second = _sign_in("u-sq3-sess")                                          # same person, a new session
+    _step_up(first, secret, clock)
+    r = second.get("/audit/events/tenant")
+    assert r.status_code == 403 and r.json()["detail"]["error"] == "MFA_STEP_UP_REQUIRED"
+    assert first.get("/audit/events/tenant").status_code == 200
+
+
 # ---------------------------------------------------------------------------------------------- freshness window
 def test_freshness_is_fifteen_minutes_exactly(clock):
     admin = _client("u-sq3-fresh", "partner_clinic_admin", "t-sq3-fresh")
