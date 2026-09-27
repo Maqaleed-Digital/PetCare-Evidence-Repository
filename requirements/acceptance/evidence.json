@@ -969,6 +969,13 @@
       "kind": "TEST",
       "ref": "petcare_api/tests/test_nfr08_sq3_postgres.py::test_step_ups_recovery_codes_and_resets_are_decided_atomically",
       "type": "NFR_EVIDENCE"
+    },
+    {
+      "authority": "MVC-SQ3-NFR08-STEP-UP-001 sha256 16efd2330f4b04e15aaf7cc04684897b7bd958feeb88c23a4133794e22f585cc",
+      "environment": "NON_PROD",
+      "kind": "TEST",
+      "ref": "petcare_api/tests/test_nfr08_sq3.py::test_a_step_up_belongs_to_the_session_that_performed_it",
+      "type": "NFR_EVIDENCE"
     }
   ],
   "NFR-15": [
