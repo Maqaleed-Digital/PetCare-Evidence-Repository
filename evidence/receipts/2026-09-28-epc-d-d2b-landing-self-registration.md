@@ -61,3 +61,9 @@ evidence/replay/2026-09-28-epc-d/perturb_epc_d_d2b.py → ARMED=13 VACUOUS=0 (in
 - D2-DEAD-LINK: owner home "Book appointment" is `href="#"` (J-O5 builds booking).
 - D2-SCREEN-PASS-IS-TEST-BASED: SCREENS.md PASS currently reflects journey tests; the G2–G8 gate checks per screen are
   added as those gates are built (G3 axe, G2 Lighthouse, …) before any screen can count toward X-01.
+- D2B-D3-CAUGHT-FROZEN-LITERAL-EDIT (fixed in-PR, commit b5ed42a): the first D3 replay of this head reported
+  `perturb_u26.py` rc=1 — P-REGISTRATION-UNCHAINED could no longer find its byte-exact target because D2b had rewritten
+  the `_PLATFORM_CHAINED` literal, so four committed ARMED items read MISSING. The literal is restored byte-identical and
+  the three D2 events are added as a separate union; u26 replays 6/6 ARMED. The corpus is unchanged (no script edited).
+- D2B-STALE-X6-ASSERTION (fixed in-PR): legacy mocked `e2e/pilot-path.spec.ts` asserted the invite code IS shown on
+  /account — the X6 defect this unit closes. Not registered evidence; now asserts the code is absent.
