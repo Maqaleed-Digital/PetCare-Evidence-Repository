@@ -37,6 +37,7 @@ const L = {
     en: 'Add the account to your authenticator app with the link or key below, then enter the six-digit code.',
   },
   key: { ar: 'المفتاح', en: 'Key' },
+  openApp: { ar: 'فتح في تطبيق المصادقة', en: 'Open in authenticator app' },
   code: { ar: 'رمز التحقق', en: 'Verification code' },
   confirm: { ar: 'تأكيد', en: 'Confirm' },
   wrongCode: { ar: 'الرمز غير صحيح. حاول مرة أخرى.', en: 'That code is not correct. Try again.' },
@@ -150,8 +151,8 @@ export default function SecurityPage() {
       {phase === 'confirm' && (
         <form onSubmit={confirm} className="card stack" data-testid="mfa-confirm">
           <p>{t('scan')}</p>
-          <a href={uri} data-testid="mfa-otpauth">otpauth</a>
-          <p>{t('key')}: <code dir="ltr" data-testid="mfa-key">{secretOf(uri)}</code></p>
+          <a href={uri} data-testid="mfa-otpauth">{t('openApp')}</a>
+          <p>{t('key')}: <code dir="ltr" translate="no" data-testid="mfa-key">{secretOf(uri)}</code></p>
           <label htmlFor="mfa-code">{t('code')}</label>
           <input id="mfa-code" name="code" inputMode="numeric" autoComplete="one-time-code" required
                  value={code} onChange={e => setCode(e.currentTarget.value)} />

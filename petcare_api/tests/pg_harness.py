@@ -132,6 +132,8 @@ def reset_w0f_tables(url: str) -> None:
         # application path; both reference tenant, so they go first.
         # D1 (0055): a SIGNED pet_medical_record refuses row UPDATE/DELETE by trigger, so it is truncated too.
         conn.execute("TRUNCATE pet_medical_record")
+        # D2 (0057): owner_consent_event is append-only (row DELETE refused by trigger), so it is truncated too.
+        conn.execute("TRUNCATE owner_consent_event")
         conn.execute("TRUNCATE routing_decision, pharmacy_licence, "  # FR-15 (0050)
                      "recall_notification, recall, delivery_completion, delivery_alert, "
                      "temperature_reading, delivery, stock_movement, inventory_location, "

@@ -33,6 +33,14 @@
 .ds-card { background: var(--ds-color-surface); border: 1px solid var(--ds-color-line); border-radius: var(--ds-radius);
   padding: var(--ds-space-4); display: flex; flex-direction: column; gap: var(--ds-space-3); }
 .ds-row { display: flex; flex-wrap: wrap; gap: var(--ds-space-3); align-items: center; }
+.ds-row--between { justify-content: space-between; }
+.ds-stack { display: flex; flex-direction: column; gap: var(--ds-space-3); }
+.ds-muted { color: var(--ds-color-muted); margin: 0; }
+.ds-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: var(--ds-space-3); }
+.ds-list > li { padding-block: var(--ds-space-2); border-block-end: 1px solid var(--ds-color-line); }
+.ds-badge { display: inline-block; padding-inline: var(--ds-space-2); border-radius: 999px; font-size: 0.85rem;
+  background: var(--ds-color-bg); color: var(--ds-color-muted); border: 1px solid var(--ds-color-line); }
+.ds-badge--success { background: var(--ds-color-success-bg); color: var(--ds-color-success); border-color: currentColor; }
 .ds-btn { min-block-size: var(--ds-touch); min-inline-size: var(--ds-touch); padding-inline: var(--ds-space-4);
   border-radius: var(--ds-radius); border: 1px solid transparent; font: inherit; cursor: pointer;
   background: var(--ds-color-brand); color: #fff; }

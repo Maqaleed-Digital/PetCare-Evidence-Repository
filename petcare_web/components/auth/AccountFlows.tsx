@@ -70,7 +70,7 @@ export function SelfRegisterForm() {
     setPassword('')
     setState('busy'); setError('')
     try {
-      const r = await post('/api/auth/self-register', { name, email, password: pw, locale: lang })
+      const r = await post('/api/auth/self-register', { name, email, password: pw, locale: lang, privacy_notice_accepted: consent })
       if (r.status === 201) { setState('sent'); return }
       const err = (await r.json().catch(() => ({})))?.detail?.error
       setError(tr(err === 'EMAIL_EXISTS' ? AC.exists : err === 'PASSWORD_TOO_SHORT' ? AC.tooShort

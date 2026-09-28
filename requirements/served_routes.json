@@ -450,6 +450,20 @@
       "path": "/api/inventory/supplies"
     },
     {
+      "endpoint": "main:my_consents",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/me/consents"
+    },
+    {
+      "endpoint": "main:change_my_consent",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/me/consents/{purpose}"
+    },
+    {
       "endpoint": "main:export_personal_data",
       "methods": [
         "GET"
@@ -497,6 +511,20 @@
         "PUT"
       ],
       "path": "/api/me/preferences/language"
+    },
+    {
+      "endpoint": "main:my_profile",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/me/profile"
+    },
+    {
+      "endpoint": "main:update_my_profile",
+      "methods": [
+        "PUT"
+      ],
+      "path": "/api/me/profile"
     },
     {
       "endpoint": "main:my_recall_notices",

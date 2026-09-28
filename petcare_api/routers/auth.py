@@ -770,6 +770,8 @@ class SelfRegisterRequest(BaseModel):
     password: str
     name: str
     locale: str = "ar"
+    #: J-O2: the PDPL privacy notice must be accepted, and the acceptance is recorded server-side (owner_consent).
+    privacy_notice_accepted: bool = False
 
 
 @router.post("/self-register", status_code=201)
@@ -787,6 +789,8 @@ async def self_register(body: SelfRegisterRequest):
         raise HTTPException(400, {"error": "REGISTRATION_INVALID"})
     if len(body.password) < MIN_PASSWORD_LENGTH:
         raise HTTPException(400, {"error": "PASSWORD_TOO_SHORT", "minimum": MIN_PASSWORD_LENGTH})
+    if body.privacy_notice_accepted is not True:
+        raise HTTPException(400, {"error": "PRIVACY_NOTICE_REQUIRED"})
     _email_ready()
     if IDENTITY_REPO.get_by_email(email) is not None:
         raise HTTPException(409, {"error": "EMAIL_EXISTS"})
@@ -798,6 +802,10 @@ async def self_register(body: SelfRegisterRequest):
                                           provenance=PROVENANCE_REGISTRATION))
     except RepositoryDenied:
         raise HTTPException(409, {"error": "EMAIL_EXISTS"}) from None
+    import owner_consent
+    PERSISTENCE.owner_consent.append(owner_consent.ConsentEvent(
+        event_id=str(uuid4()), tenant_id=tenant_id, user_id=user_id, purpose=owner_consent.PRIVACY_NOTICE,
+        action=owner_consent.GRANT, origin="self_registration", policy_version=owner_consent.POLICY_VERSION, at=now))
     PERSISTENCE.account_tokens.require_verification(user_id, now=now)
     token = PERSISTENCE.account_tokens.issue(user_id, "EMAIL_VERIFICATION", now=now)
     _send(email, "EMAIL_VERIFICATION", body.locale, "/verify-email", token)

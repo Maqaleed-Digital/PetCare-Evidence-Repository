@@ -26,7 +26,7 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | CO-12 | Pet owner app | Invoices and payments | — | 0 | NO_TEST |
 | CO-13 | Pet owner app | Rate visit | — | 0 | NO_TEST |
 | CO-14 | Pet owner app | Notifications | — | 0 | NO_TEST |
-| CO-15 | Pet owner app | Account / consent / security / data export | — | 0 | NO_TEST |
+| CO-15 | Pet owner app | Account / consent / security / data export | /account · /account/security | 3 | PASS |
 | CV-01 | Veterinarian console | Today | — | 0 | NO_TEST |
 | CV-02 | Veterinarian console | Calendar and availability | — | 0 | NO_TEST |
 | CV-03 | Veterinarian console | Unified queue | — | 0 | NO_TEST |
@@ -112,4 +112,4 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | PA-06 | Platform admin | Vet verification queue | — | 0 | NO_TEST |
 | PA-07 | Platform admin | System health | — | 0 | NO_TEST |
 
-TOTAL 107 · PASS 2
+TOTAL 107 · PASS 3

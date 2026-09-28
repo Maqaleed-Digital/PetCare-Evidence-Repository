@@ -473,6 +473,14 @@ class PostgresIdentityRepository:
                                (role, user_id, tenant_id))
             return cur.rowcount == 1
 
+    def set_full_name(self, user_id: str, full_name: str, *, tenant_id: str) -> bool:
+        """J-O3 (MVC-EPC-D-001 D2): change ONLY the display name of the caller's own identity. No role, tenant, email
+        or credential column is named, so a profile edit can never change who the user is or what they may do."""
+        with self._pool.connection() as conn:
+            cur = conn.execute("UPDATE user_identity SET full_name = %s WHERE user_id = %s AND tenant_id = %s",
+                               (full_name, user_id, tenant_id))
+            return cur.rowcount == 1
+
     def list_for_tenant(self, *, tenant_id: str) -> list:
         """NFR-08 (U28): the identities of one tenant (the assisted-reset approver pool)."""
         with self._pool.connection() as conn:
@@ -2233,3 +2241,32 @@ class PostgresAccountTokenRepository:
         with self._pool.connection() as conn:
             row = conn.execute("SELECT verified_at FROM email_verification WHERE user_id = %s", (user_id,)).fetchone()
         return row is not None and row[0] is None
+
+
+class PostgresOwnerConsentRepository:
+    """Owner consent ledger over migration 0057 (MVC-EPC-D-001 D2). INSERT only: the table refuses UPDATE and DELETE."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def append(self, event):
+        from owner_consent import validate_event
+        validate_event(event)
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO owner_consent_event (event_id, tenant_id, user_id, purpose, action, origin, "
+                         "policy_version, at) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)",
+                         (event.event_id, event.tenant_id, event.user_id, event.purpose, event.action, event.origin,
+                          event.policy_version, _to_db(event.at)))
+        return event
+
+    def events_for(self, user_id, *, tenant_id):
+        from owner_consent import ConsentEvent
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT event_id, tenant_id, user_id, purpose, action, origin, policy_version, at "
+                                "FROM owner_consent_event WHERE user_id = %s AND tenant_id = %s ORDER BY at, event_id",
+                                (user_id, tenant_id)).fetchall()
+        return [ConsentEvent(*r[:7], _from_db(r[7])) for r in rows]
+
+    def latest(self, user_id, purpose, *, tenant_id):
+        mine = [e for e in self.events_for(user_id, tenant_id=tenant_id) if e.purpose == purpose]
+        return mine[-1] if mine else None
