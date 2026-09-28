@@ -324,9 +324,12 @@ def _log_auth_event(event_name: str, detail: dict):
 
 #: Registration (success, failure, licence submission) and every failed sign-in — the account actions SQ-1 places on
 #: the platform identity chain.
-_PLATFORM_CHAINED = frozenset({"auth.owner_self_registered", "auth.email_verified", "auth.password_reset_completed",
-                               "auth.user_registered", "auth.register_failed", "auth.vet_licence_submitted",
+_PLATFORM_CHAINED = frozenset({"auth.user_registered", "auth.register_failed", "auth.vet_licence_submitted",
                                "auth.sign_in_failed"})
+#: D2 (Sponsor ruling 1): owner self-registration, email verification and password reset are account actions too. Kept
+#: as a separate union so the frozen literal above stays byte-identical for the committed U26 perturbation corpus.
+_PLATFORM_CHAINED = _PLATFORM_CHAINED | {"auth.owner_self_registered", "auth.email_verified",
+                                         "auth.password_reset_completed"}
 
 
 def _platform_chain(event_name: str, detail: dict) -> None:
