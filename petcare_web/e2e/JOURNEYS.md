@@ -4,8 +4,8 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 
 | Journey | Status | Tests |
 |---|---|---|
-| J-00 | NO_TEST | — |
-| J-O1 | NO_TEST | — |
+| J-00 | PASS | j00-landing.spec.ts › [J-00] @S:PUB-01 landing: Arabic by default, owner and veterinarian entry points, PDPL notice |
+| J-O1 | PASS | jo1-account.spec.ts › [J-O1] @S:PUB-07 an owner self-registers, verifies the email, signs in and out, and resets the password |
 | J-O2 | NO_TEST | — |
 | J-O3 | NO_TEST | — |
 | J-O4 | NO_TEST | — |
@@ -58,4 +58,4 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 | J-CHAIN-PHARMACY | NO_TEST | — |
 | J-CHAIN-MARKET | NO_TEST | — |
 
-TOTAL 53 · PASS 0
+TOTAL 53 · PASS 2

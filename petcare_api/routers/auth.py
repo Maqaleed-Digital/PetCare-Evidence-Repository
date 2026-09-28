@@ -326,6 +326,10 @@ def _log_auth_event(event_name: str, detail: dict):
 #: the platform identity chain.
 _PLATFORM_CHAINED = frozenset({"auth.user_registered", "auth.register_failed", "auth.vet_licence_submitted",
                                "auth.sign_in_failed"})
+#: D2 (Sponsor ruling 1): owner self-registration, email verification and password reset are account actions too. Kept
+#: as a separate union so the frozen literal above stays byte-identical for the committed U26 perturbation corpus.
+_PLATFORM_CHAINED = _PLATFORM_CHAINED | {"auth.owner_self_registered", "auth.email_verified",
+                                         "auth.password_reset_completed"}
 
 
 def _platform_chain(event_name: str, detail: dict) -> None:
@@ -407,6 +411,12 @@ async def sign_in(body: SignInRequest):
                {"email": body.email, "reason": "identity_disabled"})
         raise HTTPException(status_code=401,
                             detail={"error": "INVALID_CREDENTIALS"})
+
+    # MVC-EPC-D-001 D2 (owner self-registration): an identity that must verify its address holds no session until it
+    # has. Checked after the password, like the disabled check, so the answer cannot enumerate unverified accounts.
+    if PERSISTENCE.account_tokens.verification_pending(user.user_id):
+        _log_auth_event("auth.sign_in_failed", {"email": body.email, "reason": "email_not_verified"})
+        raise HTTPException(status_code=403, detail={"error": "EMAIL_NOT_VERIFIED"})
 
     role = user.role
     user_id = user.user_id
@@ -697,6 +707,162 @@ def require_tenant(request: Request, requested: str | None = None) -> str:
 
 
 # ── GET /api/auth/me ──────────────────────────────────────────────
+# ---------------------------------------------------------------------------------------------------------------------
+# Owner self-registration, email verification, password reset (MVC-EPC-D-001 Lane D, D2).
+# Sponsor ruling 1 (2026-09-28): BUILD_FULLY_BEHIND_FEATURE_SWITCH — production default OFF. When OFF the invite-only
+# pilot is authoritative and /self-register refuses (no API bypass). When ON: the owner's tenant comes from SERVER
+# configuration (PETCARE_SELF_REGISTRATION_TENANT), never from the request; the address must be verified through the
+# governed email adapter before the first sign-in. A missing email provider or tenant makes the feature fail closed.
+# ---------------------------------------------------------------------------------------------------------------------
+SELF_REGISTRATION_SWITCH = "PETCARE_OWNER_SELF_REGISTRATION"
+SELF_REGISTRATION_TENANT = "PETCARE_SELF_REGISTRATION_TENANT"
+PUBLIC_WEB_ORIGIN = "PETCARE_PUBLIC_WEB_ORIGIN"
+MIN_PASSWORD_LENGTH = 10
+EMAIL_ADAPTER = None                                   # built on first use; tests may substitute a FakeEmailAdapter
+
+
+def self_registration_enabled(env=None) -> bool:
+    env = os.environ if env is None else env
+    return (env.get(SELF_REGISTRATION_SWITCH) or "").strip().lower() in ("on", "true", "1")
+
+
+def _email():
+    global EMAIL_ADAPTER
+    from adapters.email import EmailUnavailable, build_email_adapter
+    if EMAIL_ADAPTER is None:
+        try:
+            EMAIL_ADAPTER = build_email_adapter()
+        except EmailUnavailable:
+            raise HTTPException(503, {"error": "EMAIL_PROVIDER_UNAVAILABLE"}) from None
+    return EMAIL_ADAPTER
+
+
+def _send(to: str, template: str, locale: str, link_path: str, token: str) -> None:
+    from adapters.email import EmailMessage, EmailUnavailable
+    origin = (os.environ.get(PUBLIC_WEB_ORIGIN) or "").rstrip("/")
+    try:
+        _email().send(EmailMessage(to=to, template=template, locale=locale if locale in ("ar", "en") else "ar",
+                                   params={"link": f"{origin}{link_path}?token={token}"}))
+    except EmailUnavailable:
+        raise HTTPException(503, {"error": "EMAIL_PROVIDER_UNAVAILABLE"}) from None
+
+
+def _email_ready() -> None:
+    """Fail closed BEFORE creating anything if no email provider is configured."""
+    from adapters.email import UnconfiguredEmailAdapter
+    if isinstance(_email(), UnconfiguredEmailAdapter):
+        raise HTTPException(503, {"error": "EMAIL_PROVIDER_UNAVAILABLE"})
+
+
+class RegistrationOptions(BaseModel):
+    owner_self_registration: bool
+
+
+@router.get("/registration-options")
+async def registration_options() -> RegistrationOptions:
+    return RegistrationOptions(owner_self_registration=self_registration_enabled())
+
+
+class SelfRegisterRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    email: str
+    password: str
+    name: str
+    locale: str = "ar"
+
+
+@router.post("/self-register", status_code=201)
+async def self_register(body: SelfRegisterRequest):
+    if not self_registration_enabled():
+        raise HTTPException(404, {"error": "SELF_REGISTRATION_DISABLED"})
+    from tenants import require_assignable
+    tenant_id = (os.environ.get(SELF_REGISTRATION_TENANT) or "").strip()
+    try:
+        require_assignable(PERSISTENCE.tenants, tenant_id or None)
+    except Exception:
+        raise HTTPException(503, {"error": "SELF_REGISTRATION_TENANT_UNAVAILABLE"}) from None
+    email = body.email.strip().lower()
+    if "@" not in email or not body.name.strip():
+        raise HTTPException(400, {"error": "REGISTRATION_INVALID"})
+    if len(body.password) < MIN_PASSWORD_LENGTH:
+        raise HTTPException(400, {"error": "PASSWORD_TOO_SHORT", "minimum": MIN_PASSWORD_LENGTH})
+    _email_ready()
+    if IDENTITY_REPO.get_by_email(email) is not None:
+        raise HTTPException(409, {"error": "EMAIL_EXISTS"})
+    now = datetime.now(timezone.utc)
+    user_id = f"u-{uuid4().hex[:12]}"
+    try:
+        IDENTITY_REPO.create(UserIdentity(user_id=user_id, email=email, password_hash=_hash_password(body.password),
+                                          role="owner", full_name=body.name.strip(), tenant_id=tenant_id,
+                                          provenance=PROVENANCE_REGISTRATION))
+    except RepositoryDenied:
+        raise HTTPException(409, {"error": "EMAIL_EXISTS"}) from None
+    PERSISTENCE.account_tokens.require_verification(user_id, now=now)
+    token = PERSISTENCE.account_tokens.issue(user_id, "EMAIL_VERIFICATION", now=now)
+    _send(email, "EMAIL_VERIFICATION", body.locale, "/verify-email", token)
+    _log_auth_event("auth.owner_self_registered", {"user_id": user_id, "email": email})
+    return {"user_id": user_id, "verification_required": True}
+
+
+class TokenRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    token: str
+
+
+@router.post("/verify-email")
+async def verify_email(body: TokenRequest):
+    now = datetime.now(timezone.utc)
+    user_id = PERSISTENCE.account_tokens.consume(body.token, "EMAIL_VERIFICATION", now=now)
+    if user_id is None:
+        raise HTTPException(400, {"error": "TOKEN_INVALID_OR_EXPIRED"})
+    PERSISTENCE.account_tokens.mark_verified(user_id, now=now)
+    _log_auth_event("auth.email_verified", {"user_id": user_id})
+    return {"verified": True}
+
+
+class ResetRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    email: str
+    locale: str = "ar"
+
+
+@router.post("/password-reset/request", status_code=202)
+async def password_reset_request(body: ResetRequest):
+    """Always 202 for any address (no enumeration). A reset link is sent only to an existing, active identity."""
+    _email_ready()
+    user = IDENTITY_REPO.get_by_email(body.email.strip().lower()) or IDENTITY_REPO.get_by_email(body.email)
+    if user is not None and user.is_active:
+        token = PERSISTENCE.account_tokens.issue(user.user_id, "PASSWORD_RESET", now=datetime.now(timezone.utc))
+        _send(user.email, "PASSWORD_RESET", body.locale, "/reset-password", token)
+    _log_auth_event("auth.password_reset_requested", {"email": body.email})
+    return {"accepted": True}
+
+
+class ResetConfirm(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    token: str
+    password: str
+
+
+@router.post("/password-reset/confirm")
+async def password_reset_confirm(body: ResetConfirm):
+    if len(body.password) < MIN_PASSWORD_LENGTH:
+        raise HTTPException(400, {"error": "PASSWORD_TOO_SHORT", "minimum": MIN_PASSWORD_LENGTH})
+    now = datetime.now(timezone.utc)
+    user_id = PERSISTENCE.account_tokens.consume(body.token, "PASSWORD_RESET", now=now)
+    if user_id is None:
+        raise HTTPException(400, {"error": "TOKEN_INVALID_OR_EXPIRED"})
+    user = IDENTITY_REPO.get_by_user_id(user_id)
+    IDENTITY_REPO.set_password_hash(user_id, _hash_password(body.password))
+    revoked = SESSION_STORE.revoke_all_for_user(user_id, tenant_id=user.tenant_id) if user and user.tenant_id else 0
+    _log_auth_event("auth.password_reset_completed", {"user_id": user_id, "sessions_revoked": revoked})
+    return {"reset": True, "sessions_revoked": revoked}
+
+
 @router.get("/me")
 async def me(request: Request):
     # NFR-08 / SQ-3 (v1.3 U28): /me validated only the cookie signature, so a REVOKED session (sign-out, or an

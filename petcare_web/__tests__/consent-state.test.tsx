@@ -19,13 +19,14 @@ describe('ConsentStateView — WI-3 (P-06 ConsentOriginMap, read-only)', () => {
   it('displays scope + when + origin from a written consent record', () => {
     writeConsent({
       consented_at: '2026-05-24T10:00:00.000Z',
-      origin_invite_code: 'OWNER-PILOT-001',
+      origin: 'pilot_invite',
       scope: ['registration', 'privacy_notice'],
     })
     render(<LangProvider><ConsentStateView /></LangProvider>)
     expect(screen.getByText(/تسجيل الحساب التجريبي/)).toBeInTheDocument()
     expect(screen.getByText(/إقرار بسياسة الخصوصية \(PDPL\)/)).toBeInTheDocument()
-    expect(screen.getByText(/OWNER-PILOT-001/)).toBeInTheDocument()
+    expect(screen.getByText(/دعوة برنامج التجريب/)).toBeInTheDocument()
+    expect(document.body.textContent).not.toMatch(/OWNER-PILOT-001/)          // X6: no credential is shown or stored
     // Date formatting goes through toLocaleString('ar-SA'|'en-GB'); the
     // exact string depends on the Intl backend in the test env. Assert
     // the dt (label) for "when" is present rather than the value.

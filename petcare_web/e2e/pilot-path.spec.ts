@@ -126,9 +126,10 @@ test('trust surfaces: /owner advisory + ModeDisclosure cards + /account PDPL & c
   const accessCta = page.getByTestId('pdpl-access-cta')
   const href = await accessCta.getAttribute('href')
   expect(href).toMatch(/^mailto:dpo@myveticare\.com/)
-  // Consent record visible
+  // Consent record visible — and, X6 (MVC-EPC-D-001 D2), a legacy record's invite CODE is never shown: a credential
+  // does not belong in browser storage or on screen.
   await expect(page.getByTestId('consent-state-view')).toBeVisible()
-  await expect(page.getByText(/OWNER-PILOT-001/)).toBeVisible()
+  await expect(page.getByText(/OWNER-PILOT-001/)).toHaveCount(0)
 
   // /owner ai-surface-area (dark scaffolds) should render no children
   // while FEATURE_AI is OFF — the aside exists but is empty.

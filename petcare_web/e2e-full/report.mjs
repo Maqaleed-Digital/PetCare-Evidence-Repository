@@ -50,7 +50,7 @@ const verdict = (entry) => {
   for (const p of entry.values()) for (const proj of PROJECTS) if (p[proj] !== 'passed') return 'FAIL'
   return 'PASS'
 }
-const journeys = tagged(/\[(J-[A-Z]+-?[A-Z0-9]*)\]/g)
+const journeys = tagged(/\[(J-[A-Z0-9]+(?:-[A-Z]+)?)\]/g)       // J-00, J-O12, J-CHAIN-CLINIC
 const screens = tagged(/@S:([A-Z]{2,3}-\d{2})/g)
 const routes = fs.existsSync(path.join(here, 'screen-routes.json')) ? JSON.parse(fs.readFileSync(path.join(here, 'screen-routes.json'), 'utf8')) : {}
 

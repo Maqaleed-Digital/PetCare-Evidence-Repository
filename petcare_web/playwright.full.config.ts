@@ -5,9 +5,14 @@
  * new-visitor default) and English, each at 1280 px and 390 px. The mocked-backend smoke suite stays in ./e2e.
  */
 import { defineConfig } from '@playwright/test'
+import os from 'node:os'
+import path from 'node:path'
 
 const API = process.env.PETCARE_E2E_API ?? 'http://localhost:8090'
 const WEB = process.env.PETCARE_E2E_WEB ?? 'http://localhost:3100'
+// The FAKE email adapter's outbox (tools/e2e_stack.py writes it; journeys read verification/reset links from it).
+const OUTBOX = process.env.PETCARE_E2E_OUTBOX ?? path.join(os.tmpdir(), 'petcare-e2e-outbox.jsonl')
+process.env.PETCARE_E2E_OUTBOX = OUTBOX
 const desktop = { viewport: { width: 1280, height: 900 } }
 const mobile = { viewport: { width: 390, height: 844 }, isMobile: true, hasTouch: true }
 
@@ -32,7 +37,7 @@ export default defineConfig<{ lang: 'ar' | 'en' }>({
       url: `${API}/health`,
       timeout: 240_000,
       reuseExistingServer: !process.env.CI,
-      env: { PETCARE_E2E_API_PORT: new URL(API).port, PETCARE_E2E_WEB_ORIGIN: WEB },
+      env: { PETCARE_E2E_API_PORT: new URL(API).port, PETCARE_E2E_WEB_ORIGIN: WEB, PETCARE_E2E_OUTBOX: OUTBOX },
     },
     {
       command: `npx next dev -p ${new URL(WEB).port}`,

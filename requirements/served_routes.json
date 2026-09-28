@@ -156,11 +156,39 @@
       "path": "/api/auth/me"
     },
     {
+      "endpoint": "routers.auth:password_reset_confirm",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/auth/password-reset/confirm"
+    },
+    {
+      "endpoint": "routers.auth:password_reset_request",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/auth/password-reset/request"
+    },
+    {
       "endpoint": "routers.auth:register",
       "methods": [
         "POST"
       ],
       "path": "/api/auth/register"
+    },
+    {
+      "endpoint": "routers.auth:registration_options",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/auth/registration-options"
+    },
+    {
+      "endpoint": "routers.auth:self_register",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/auth/self-register"
     },
     {
       "endpoint": "routers.auth:sign_in",
@@ -175,6 +203,13 @@
         "POST"
       ],
       "path": "/api/auth/sign-out"
+    },
+    {
+      "endpoint": "routers.auth:verify_email",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/auth/verify-email"
     },
     {
       "endpoint": "main:list_prices",
