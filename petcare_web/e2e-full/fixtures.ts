@@ -48,9 +48,20 @@ export async function lastEmailLink(to: string, template: 'EMAIL_VERIFICATION' |
 
 /** X1: in Arabic, visible text carries no Latin word other than brand/technical tokens. */
 export const LATIN_ALLOWED = new Set(['VetiCare', 'MyVetiCare', 'EN', 'AR', 'PDPL', 'SA'])
+/** The registered product name is one brand token, not three English words. */
+export const BRAND_PHRASES = ['Maqaleed Vet by VetiCare']
 export async function untranslated(page: Page, selector = 'body'): Promise<string[]> {
-  const text = await page.locator(selector).innerText()
-  return [...new Set((text.match(/[A-Za-z][A-Za-z'’-]*/g) ?? []).filter(w => !LATIN_ALLOWED.has(w)))]
+  // Machine values the reader must copy verbatim (an MFA key, a recovery code) are marked translate="no" or set in <code>.
+  const text = await page.locator(selector).evaluate((root: HTMLElement) => {
+    const copy = root.cloneNode(true) as HTMLElement
+    copy.querySelectorAll('code, [translate="no"], script, style').forEach(n => n.remove())
+    document.body.appendChild(copy)
+    const t = copy.innerText
+    copy.remove()
+    return t
+  })
+  const scanned = BRAND_PHRASES.reduce((t, b) => t.split(b).join(' '), text)
+  return [...new Set((scanned.match(/[A-Za-z][A-Za-z'’-]*/g) ?? []).filter(w => !LATIN_ALLOWED.has(w)))]
 }
 
 /** A real user closes the owner's first-run guide before using the page (it is dismissable with Esc by design). */
@@ -60,4 +71,40 @@ export async function dismissFirstRun(page: Page) {
     await page.keyboard.press('Escape')
     await expect(guide).toBeHidden()
   }
+}
+
+/** RFC 6238 TOTP (SHA-1, 6 digits, 30 s) from a Base32 secret — the journey plays the owner's authenticator app. */
+export async function totp(secretB32: string, at = Date.now()): Promise<string> {
+  const crypto = await import('node:crypto')
+  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567'
+  let bits = ''
+  for (const ch of secretB32.replace(/=+$/, '').toUpperCase()) bits += alphabet.indexOf(ch).toString(2).padStart(5, '0')
+  const key = Buffer.from((bits.match(/.{8}/g) ?? []).map(b => parseInt(b, 2)))
+  const counter = Buffer.alloc(8)
+  counter.writeBigUInt64BE(BigInt(Math.floor(at / 1000 / 30)))
+  const mac = crypto.createHmac('sha1', key).update(counter).digest()
+  const off = mac[mac.length - 1] & 0x0f
+  return String((mac.readUInt32BE(off) & 0x7fffffff) % 1_000_000).padStart(6, '0')
+}
+
+/** A new, email-verified owner signed in on /owner — each journey owns its account, so projects never collide. */
+export async function newOwner(page: Page, info: { project: { name: string } }, tag: string, lang: Lang = 'en'): Promise<{ email: string; password: string }> {
+  const email = `owner.${tag}.${info.project.name}.${Date.now()}@e2e.test`
+  const password = 'Owner-passw0rd-1'
+  await page.goto('/signup')
+  await page.waitForLoadState('networkidle')
+  const form = page.getByTestId('self-register-form')
+  await form.locator('input[autocomplete="name"]').fill(lang === 'ar' ? 'مالكة تجريبية' : 'Test Owner')
+  await form.locator('input[type="email"]').fill(email)
+  await form.locator('input[type="password"]').fill(password)
+  await form.locator('input[type="checkbox"]').check()
+  await form.locator('button[type="submit"]').click()
+  await expect(page.getByTestId('self-register-sent')).toBeVisible()
+  await page.goto(await lastEmailLink(email, 'EMAIL_VERIFICATION'))
+  await expect(page.getByTestId('verify-ok')).toBeVisible()
+  await signIn(page, email, password)
+  await expect(page).toHaveURL(/\/owner/)
+  await page.waitForLoadState('networkidle')
+  await dismissFirstRun(page)
+  return { email, password }
 }

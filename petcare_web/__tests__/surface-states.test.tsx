@@ -108,9 +108,12 @@ describe('PORT-08 empty states', () => {
     expect(screen.getByText(STRINGS.account.notSignedIn.ar)).toBeInTheDocument()
   })
 
-  it('/account says so when the browser holds no consent record', () => {
+  it('/account shows an explicit state, not a blank, while the server consent ledger cannot be read (D2)', async () => {
+    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(new Response('{}', { status: 500 }))))
     mount(<AccountPage />)
-    expect(screen.getByText(STRINGS.consentState.noRecord.ar)).toBeInTheDocument()
+    const ledger = screen.getByTestId('consent-ledger')
+    await waitFor(() => expect(ledger.querySelector('[data-state="error"]')).not.toBeNull())
+    vi.unstubAllGlobals()
   })
 })
 

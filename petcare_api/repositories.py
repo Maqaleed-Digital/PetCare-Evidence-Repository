@@ -169,6 +169,8 @@ class IdentityRepository(Protocol):
 
     def set_role(self, user_id: str, role: str, *, tenant_id: str) -> bool: ...
 
+    def set_full_name(self, user_id: str, full_name: str, *, tenant_id: str) -> bool: ...
+
 
 class InviteCodeRepository(Protocol):
     def get(self, code: str) -> Optional[InviteCode]: ...
@@ -259,6 +261,16 @@ class InMemoryIdentityRepository:
         if existing is None or existing.tenant_id != tenant_id:
             return False
         updated = replace(existing, role=role)
+        validate_identity(updated)
+        self._index(updated)
+        return True
+
+    def set_full_name(self, user_id: str, full_name: str, *, tenant_id: str) -> bool:
+        """J-O3 (MVC-EPC-D-001 D2): change ONLY the display name of an identity of `tenant_id`."""
+        existing = self._by_id.get(user_id)
+        if existing is None or existing.tenant_id != tenant_id:
+            return False
+        updated = replace(existing, full_name=full_name)
         validate_identity(updated)
         self._index(updated)
         return True

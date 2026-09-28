@@ -69,7 +69,7 @@ export const STRINGS = {
                     en: 'Under the Saudi Personal Data Protection Law (PDPL) you may exercise the following rights. Responses are returned within the statutory window — there is no instant mechanism in the pilot.' },
     accessTitle:  { ar: 'حق الوصول إلى بياناتك (المادة 12)',
                     en: 'Right of access (Article 12)' },
-    accessBody:   { ar: 'اطلب نسخة من بياناتك الشخصية المحفوظة لدى Maqaleed Vet by VetiCare. سيتولى مسؤول حماية البيانات (DPO) معالجة طلبك خلال المهلة النظامية.',
+    accessBody:   { ar: 'اطلب نسخة من بياناتك الشخصية المحفوظة لدى Maqaleed Vet by VetiCare. سيتولى مسؤول حماية البيانات معالجة طلبك خلال المهلة النظامية.',
                     en: 'Request a copy of the personal data Maqaleed Vet by VetiCare holds about you. The Data Protection Officer (DPO) handles the request within the statutory window.' },
     accessCta:    { ar: 'طلب وصول إلى البيانات',
                     en: 'Request data access' },

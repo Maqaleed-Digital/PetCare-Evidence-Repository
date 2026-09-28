@@ -5,11 +5,13 @@ import AccountPage from '@/app/account/page'
 import { Footer } from '@/components/Footer'
 
 describe('/account — settings + PDPL rights surface (MVC-UX-WO-002 mount point)', () => {
-  it('renders both PDPL Rights and Consent State sections', () => {
+  it('renders the PDPL Rights section and the server-backed profile, consent ledger and export (MVC-EPC-D-001 D2)', () => {
     render(<LangProvider><AccountPage /></LangProvider>)
     expect(screen.getByText(/الإعدادات والحقوق/)).toBeInTheDocument()
     expect(screen.getByTestId('pdpl-rights-entry')).toBeInTheDocument()
-    expect(screen.getByTestId('consent-state-view')).toBeInTheDocument()
+    expect(screen.getByTestId('profile-card')).toBeInTheDocument()
+    expect(screen.getByTestId('consent-ledger')).toBeInTheDocument()
+    expect(screen.getByTestId('data-export')).toBeInTheDocument()
   })
 
   it('shows the not-signed-in note when vc_user is absent', () => {
@@ -24,7 +26,9 @@ describe('/account — settings + PDPL rights surface (MVC-UX-WO-002 mount point
     }))
     render(<LangProvider><AccountPage /></LangProvider>)
     expect(screen.getByText('مالك التجريب')).toBeInTheDocument()
-    expect(screen.getByText('owner')).toBeInTheDocument()
+    // X1 (MVC-EPC-D-001 D2): the role is shown in the reader's language, never as the raw role id.
+    expect(screen.getByTestId('account-role')).toHaveTextContent('مالك')
+    expect(screen.queryByText('owner')).toBeNull()
   })
 
   it('Footer carries the PDPL-rights link routing to /account', () => {

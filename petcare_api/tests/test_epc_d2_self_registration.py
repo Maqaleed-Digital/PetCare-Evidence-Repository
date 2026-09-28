@@ -45,7 +45,7 @@ def test_switch_off_is_the_default_and_self_registration_fails_closed_with_no_by
     c = TestClient(api.app)
     assert c.get("/api/auth/registration-options").json() == {"owner_self_registration": False}
     email = _email()
-    r = c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x"})
+    r = c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x", "privacy_notice_accepted": True})
     assert r.status_code == 404 and r.json()["detail"]["error"] == "SELF_REGISTRATION_DISABLED"
     assert auth.IDENTITY_REPO.get_by_email(email) is None
     # the invite-only pilot path is unchanged and still refuses without an invite
@@ -57,12 +57,12 @@ def test_switch_on_register_verify_then_sign_in(enabled):
     c = TestClient(api.app)
     assert c.get("/api/auth/registration-options").json() == {"owner_self_registration": True}
     email = _email()
-    assert c.post("/api/auth/self-register", json={"email": email, "password": "short", "name": "x"}).status_code == 400
-    r = c.post("/api/auth/self-register", json={"email": email.upper(), "password": PW, "name": "مالك", "locale": "ar"})
+    assert c.post("/api/auth/self-register", json={"email": email, "password": "short", "name": "x", "privacy_notice_accepted": True}).status_code == 400
+    r = c.post("/api/auth/self-register", json={"email": email.upper(), "password": PW, "name": "مالك", "locale": "ar", "privacy_notice_accepted": True})
     assert r.status_code == 201 and r.json()["verification_required"] is True
     ident = auth.IDENTITY_REPO.get_by_email(email)
     assert ident.role == "owner" and ident.tenant_id == T                       # tenant from SERVER config
-    assert c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x"}).status_code == 409
+    assert c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x", "privacy_notice_accepted": True}).status_code == 409
     r = c.post("/api/auth/sign-in", json={"email": email, "password": PW})
     assert r.status_code == 403 and r.json()["detail"]["error"] == "EMAIL_NOT_VERIFIED"
     msg = enabled.outbox[-1]
@@ -81,18 +81,18 @@ def test_switch_on_fails_closed_without_an_email_provider_or_a_tenant(monkeypatc
     monkeypatch.setattr(auth, "EMAIL_ADAPTER", UnconfiguredEmailAdapter())
     c = TestClient(api.app)
     email = _email()
-    r = c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x"})
+    r = c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x", "privacy_notice_accepted": True})
     assert r.status_code == 503 and auth.IDENTITY_REPO.get_by_email(email) is None
     monkeypatch.setenv(auth.SELF_REGISTRATION_TENANT, "t-does-not-exist")
     monkeypatch.setattr(auth, "EMAIL_ADAPTER", FakeEmailAdapter())
-    r = c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x"})
+    r = c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x", "privacy_notice_accepted": True})
     assert r.status_code == 503 and r.json()["detail"]["error"] == "SELF_REGISTRATION_TENANT_UNAVAILABLE"
 
 
 def test_password_reset_does_not_enumerate_is_single_use_and_revokes_sessions(enabled):
     c = TestClient(api.app)
     email = _email()
-    c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x"})
+    c.post("/api/auth/self-register", json={"email": email, "password": PW, "name": "x", "privacy_notice_accepted": True})
     c.post("/api/auth/verify-email", json={"token": _token(enabled, "EMAIL_VERIFICATION")})
     s = TestClient(api.app)
     r = s.post("/api/auth/sign-in", json={"email": email, "password": PW})

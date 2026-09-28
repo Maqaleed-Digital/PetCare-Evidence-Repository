@@ -3,15 +3,16 @@
 /**
  * /account — Settings & rights surface (MVC-UX-WO-002 mount point).
  *
- * Hosts WI-2 PDPLRightsEntry and WI-3 ConsentStateView. Available to
- * any authenticated user (middleware gates on petcare_role).
+ * Hosts the server-backed account centre (MVC-EPC-D-001 D2 — J-O2 consent ledger, J-O3 profile and personal-data
+ * export) and WI-2 PDPLRightsEntry. The browser-local consent note (WI-3 ConsentStateView) is superseded by the
+ * server ledger. Available to any authenticated user (middleware gates on petcare_role).
  */
 
 import { useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
 import { STRINGS } from '@/lib/strings'
 import { PDPLRightsEntry } from '@/components/PDPLRightsEntry'
-import { ConsentStateView } from '@/components/ConsentStateView'
+import { ConsentLedger, DataExportCard, ProfileCard } from '@/components/account/AccountCenter'
 
 interface VcUser {
   user_id: string
@@ -46,7 +47,9 @@ export default function AccountPage() {
         <div className="card card-sm" style={{ display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap' }}>
           <div className="kicker" style={{ margin: 0 }}>{t(s.signedInAs)}</div>
           <div style={{ fontSize: 14, fontWeight: 600 }}>{user.name}</div>
-          <span className="badge badge-blue">{user.role}</span>
+          <span className="badge badge-blue" data-testid="account-role">
+            {STRINGS.nav.roleNames[user.role] ? t(STRINGS.nav.roleNames[user.role]) : user.role}
+          </span>
         </div>
       ) : hydrated ? (
         <div className="note">
@@ -54,8 +57,10 @@ export default function AccountPage() {
         </div>
       ) : null}
 
+      <ProfileCard />
+      <ConsentLedger />
+      <DataExportCard />
       <PDPLRightsEntry />
-      <ConsentStateView />
 
       <p>
         <a href="/owner" style={{ color: 'var(--accent)', fontSize: 14 }}>{t(s.backToOwner)}</a>

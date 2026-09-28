@@ -98,14 +98,9 @@ app = FastAPI(
     description="Governed veterinary platform API. Fail-closed. Audit-traced.",
 )
 
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=ALLOWED_ORIGINS,
-    allow_credentials=True,
-    allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-    allow_headers=["*"],
-    expose_headers=["Set-Cookie"],
-)
+# CORS is registered at the END of this module (_install_cors) so it is the OUTERMOST middleware: a refusal produced by
+# the rate-limit (429) or step-up (403) middleware must carry CORS headers too, or a cross-origin browser cannot read it
+# (MVC-EPC-D-001 D2, finding D2C-REFUSALS-WITHOUT-CORS).
 
 # ---------------------------------------------------------------------------
 # Auth router
@@ -3355,11 +3350,99 @@ def export_personal_data(request: Request, role: str = Depends(require_role),
                  for p in pets],
         "orders": [o.read_model() if hasattr(o, "read_model") else getattr(o, "__dict__", {})
                    for o in ORDER_REPO.for_tenant(tenant_id) if getattr(o, "owner_id", None) == actor_id],
+        "consents": [e.read_model() for e in CONSENT_REPO.events_for(actor_id, tenant_id=tenant_id)],
     }
     _audit(event_name="personal_data.exported", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
            resource_type="user_identity", resource_id=actor_id, action_result="success", correlation_id=x_correlation_id)
     return _JSONResponse(content=_jsonable(payload), headers={
         "Content-Disposition": f'attachment; filename="myveticare-personal-data-{actor_id}.json"'})
+
+
+# ---- J-O3 profile · J-O2 consent ledger (MVC-EPC-D-001 D2) ------------------------------------------------------------
+import owner_consent  # noqa: E402
+
+CONSENT_REPO = PERSISTENCE.owner_consent
+PROFILE_NAME_MAX = 120
+
+
+class ProfileUpdate(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    full_name: str
+
+
+@app.get("/api/me/profile")
+def my_profile(request: Request, role: str = Depends(require_role)):
+    """The caller's own identity as the account page shows it. Never a credential or a factor."""
+    actor_id, _ = _actor(request)
+    ident = PERSISTENCE.identities.get_by_user_id(actor_id)
+    if ident is None:
+        raise HTTPException(404, "Identity not found")
+    return {"user_id": ident.user_id, "email": ident.email, "full_name": ident.full_name, "role": ident.role,
+            "tenant_id": ident.tenant_id}
+
+
+@app.put("/api/me/profile")
+def update_my_profile(body: ProfileUpdate, request: Request, role: str = Depends(require_role),
+                      x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """J-O3: the caller changes THEIR OWN display name, and nothing else — the repository write names only full_name,
+    so a profile edit cannot touch role, tenant, email or credentials."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    name = " ".join(body.full_name.split())
+    if not name or len(name) > PROFILE_NAME_MAX:
+        raise HTTPException(400, {"error": "PROFILE_NAME_INVALID", "maximum": PROFILE_NAME_MAX})
+    if not PERSISTENCE.identities.set_full_name(actor_id, name, tenant_id=tenant_id):
+        raise HTTPException(404, "Identity not found in this tenant")
+    _audit(event_name="identity.profile.updated", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="user_identity", resource_id=actor_id, action_result="success", correlation_id=x_correlation_id,
+           reason_code="full_name")
+    return {"user_id": actor_id, "full_name": name}
+
+
+class ConsentChange(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    action: str
+
+
+def _consent_view(actor_id: str, tenant_id: str) -> dict:
+    events = CONSENT_REPO.events_for(actor_id, tenant_id=tenant_id)
+    return {"policy_version": owner_consent.POLICY_VERSION, "purposes": owner_consent.current_state(events),
+            "history": [e.read_model() for e in reversed(events)]}
+
+
+@app.get("/api/me/consents")
+def my_consents(request: Request, role: str = Depends(require_role)):
+    """J-O2: the caller's consent state per purpose and the full, append-only history behind it."""
+    actor_id, _ = _actor(request)
+    return _consent_view(actor_id, require_tenant(request))
+
+
+@app.post("/api/me/consents/{purpose}")
+def change_my_consent(purpose: str, body: ConsentChange, request: Request, role: str = Depends(require_role),
+                      x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """J-O2: grant or withdraw one purpose for the caller only. A no-op (already in that state) writes nothing. The
+    privacy notice cannot be withdrawn here — withdrawing it is closing the account (the erasure request)."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    if purpose not in owner_consent.PURPOSES:
+        raise HTTPException(404, {"error": "CONSENT_PURPOSE_UNKNOWN"})
+    if body.action not in (owner_consent.GRANT, owner_consent.REVOKE):
+        raise HTTPException(400, {"error": "CONSENT_ACTION_INVALID"})
+    if body.action == owner_consent.REVOKE and purpose not in owner_consent.REVOCABLE:
+        raise HTTPException(409, {"error": "CONSENT_NOT_REVOCABLE", "purpose": purpose})
+    latest = CONSENT_REPO.latest(actor_id, purpose, tenant_id=tenant_id)
+    currently = latest is not None and latest.action == owner_consent.GRANT
+    if currently == (body.action == owner_consent.GRANT):
+        return {**_consent_view(actor_id, tenant_id), "changed": False}
+    CONSENT_REPO.append(owner_consent.ConsentEvent(
+        event_id=str(uuid4()), tenant_id=tenant_id, user_id=actor_id, purpose=purpose, action=body.action,
+        origin="account_settings", policy_version=owner_consent.POLICY_VERSION, at=datetime.now(timezone.utc)))
+    _audit(event_name="consent.granted" if body.action == owner_consent.GRANT else "consent.revoked",
+           actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id, resource_type="owner_consent",
+           resource_id=actor_id, action_result="success", correlation_id=x_correlation_id, reason_code=purpose)
+    return {**_consent_view(actor_id, tenant_id), "changed": True}
 
 
 def _jsonable(obj):
@@ -3826,3 +3909,20 @@ def governance_status():
         ),
         "ts": utc_now_iso(),
     }
+
+
+def _install_cors() -> None:
+    """Starlette runs the LAST-registered middleware first. Registering CORS after every @app.middleware makes it wrap
+    them, so their own responses (429 rate limit, 403 step-up refusal) are readable by the allowed web origin."""
+    app.add_middleware(
+        CORSMiddleware,
+        allow_origins=ALLOWED_ORIGINS,
+        allow_credentials=True,
+        allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+        allow_headers=["*"],
+        # Content-Disposition: the personal-data export (#11) names its file.
+        expose_headers=["Set-Cookie", "Content-Disposition"],
+    )
+
+
+_install_cors()

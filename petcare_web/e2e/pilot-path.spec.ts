@@ -115,7 +115,7 @@ test('trust surfaces: /owner advisory + ModeDisclosure cards + /account PDPL & c
   // Footer carries the PDPL-rights link
   await expect(page.getByTestId('footer-pdpl-link')).toBeVisible()
 
-  // /account — PDPLRightsEntry + ConsentStateView
+  // /account — PDPLRightsEntry + the server consent ledger (MVC-EPC-D-001 D2; replaces the browser-local ConsentStateView)
   await page.getByTestId('nav-account-link').click()
   await page.waitForURL('**/account')
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
@@ -126,9 +126,9 @@ test('trust surfaces: /owner advisory + ModeDisclosure cards + /account PDPL & c
   const accessCta = page.getByTestId('pdpl-access-cta')
   const href = await accessCta.getAttribute('href')
   expect(href).toMatch(/^mailto:dpo@myveticare\.com/)
-  // Consent record visible — and, X6 (MVC-EPC-D-001 D2), a legacy record's invite CODE is never shown: a credential
-  // does not belong in browser storage or on screen.
-  await expect(page.getByTestId('consent-state-view')).toBeVisible()
+  // The consent ledger is served (no API in this mocked suite: it shows its error state) — and, X6, a legacy browser
+  // record's invite CODE is never shown: a credential does not belong in browser storage or on screen.
+  await expect(page.getByTestId('consent-ledger')).toBeVisible()
   await expect(page.getByText(/OWNER-PILOT-001/)).toHaveCount(0)
 
   // /owner ai-surface-area (dark scaffolds) should render no children

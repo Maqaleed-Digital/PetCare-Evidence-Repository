@@ -67,7 +67,7 @@ export function PDPLRightsEntry() {
       </p>
       <p className="muted" style={{ fontSize: 12 }}>
         <strong>{t(s.dpoContact)}: </strong>
-        <a href={`mailto:${DPO_EMAIL}`} style={{ color: 'var(--accent)' }}>{DPO_EMAIL}</a>
+        <a href={`mailto:${DPO_EMAIL}`} style={{ color: 'var(--accent)' }} translate="no">{DPO_EMAIL}</a>
       </p>
     </section>
   )

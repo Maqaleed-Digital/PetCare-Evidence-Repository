@@ -6,8 +6,8 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 |---|---|---|
 | J-00 | PASS | j00-landing.spec.ts › [J-00] @S:PUB-01 landing: Arabic by default, owner and veterinarian entry points, PDPL notice |
 | J-O1 | PASS | jo1-account.spec.ts › [J-O1] @S:PUB-07 an owner self-registers, verifies the email, signs in and out, and resets the password |
-| J-O2 | NO_TEST | — |
-| J-O3 | NO_TEST | — |
+| J-O2 | PASS | jo2-account-centre.spec.ts › [J-O2] @S:CO-15 an owner reviews, grants and withdraws consent, and the history is kept on the server |
+| J-O3 | PASS | jo2-account-centre.spec.ts › [J-O3] @S:CO-15 an owner edits their name and downloads their personal data after step-up |
 | J-O4 | NO_TEST | — |
 | J-O5 | NO_TEST | — |
 | J-O6 | NO_TEST | — |
@@ -15,7 +15,7 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 | J-O8 | NO_TEST | — |
 | J-O9 | NO_TEST | — |
 | J-O10 | NO_TEST | — |
-| J-O11 | NO_TEST | — |
+| J-O11 | PASS | jo2-account-centre.spec.ts › [J-O11] @S:CO-15 an owner enrols two-step verification and a recovery code works exactly once |
 | J-O12 | NO_TEST | — |
 | J-V1 | NO_TEST | — |
 | J-V2 | NO_TEST | — |
@@ -58,4 +58,4 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 | J-CHAIN-PHARMACY | NO_TEST | — |
 | J-CHAIN-MARKET | NO_TEST | — |
 
-TOTAL 53 · PASS 2
+TOTAL 53 · PASS 5
