@@ -59,7 +59,10 @@ Diff inspected: +4 routes (GET /api/me/consents, POST /api/me/consents/{purpose}
 /api/me/profile); status.json changes only `served_route_count` 117 → 121. No FR/NFR status change (D4).
 
 ## D3
-D3_PLACEHOLDER
+`tools/corpus_replay.py` on commit 55fb5f9 (identical to the PR head except this receipt and ledger s5, Markdown only):
+base (main c47bb0a) 234 → head 250 · head ARMED 245 · excluded 5 (EXCLUSIONS.md) · no classification change · **D3 PASS**.
+New: `perturb_epc_d_d2c.py` 16 ARMED / 0 VACUOUS (incl. full-stack P-D2C-ACCOUNT-ENGLISH-IN-ARABIC and the registered
+FR-09 test guarding P-D2C-FR09-LTR-OVERRIDE).
 
 ## Findings
 - D2C-CONSENT-ENFORCEMENT: `care_reminders` is recorded, not enforced on FR-23 dispatch — coupling a recorded choice
