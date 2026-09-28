@@ -4,13 +4,13 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 
 | Id | Surface | Screen | Route | Tests | Status |
 |---|---|---|---|---|---|
-| PUB-01 | Public | Home | — | 0 | NO_TEST |
+| PUB-01 | Public | Home | / | 1 | PASS |
 | PUB-02 | Public | Clinic and vet finder (map, fees, availability, ratings) | — | 0 | NO_TEST |
 | PUB-03 | Public | Vet / clinic profile | — | 0 | NO_TEST |
 | PUB-04 | Public | Shop entry | — | 0 | NO_TEST |
 | PUB-05 | Public | Help centre and contact | — | 0 | NO_TEST |
 | PUB-06 | Public | Legal (terms, privacy/PDPL, returns) | — | 0 | NO_TEST |
-| PUB-07 | Public | Sign in / register / reset | — | 0 | NO_TEST |
+| PUB-07 | Public | Sign in / register / reset | /signin · /signup · /register · /verify-email · /forgot-password · /reset-password | 1 | PASS |
 | PUB-08 | Public | Emergency (nearest open clinics + call; not triage) | — | 0 | NO_TEST |
 | CO-01 | Pet owner app | Owner home | — | 0 | NO_TEST |
 | CO-02 | Pet owner app | Household and pets | — | 0 | NO_TEST |
@@ -112,4 +112,4 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | PA-06 | Platform admin | Vet verification queue | — | 0 | NO_TEST |
 | PA-07 | Platform admin | System health | — | 0 | NO_TEST |
 
-TOTAL 107 · PASS 0
+TOTAL 107 · PASS 2

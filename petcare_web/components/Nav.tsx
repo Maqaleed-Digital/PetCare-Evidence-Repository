@@ -62,7 +62,7 @@ export function Nav() {
             <span style={{ fontSize: 13, color: 'var(--text-muted, #666)', marginRight: 8 }}>
               {user.name}
               <span style={{ marginLeft: 6, fontSize: 11, background: 'var(--accent-bg, #e8f0fe)', color: 'var(--accent, #1a56db)', borderRadius: 4, padding: '1px 6px' }}>
-                {user.role}
+                {STRINGS.nav.roleNames[user.role] ? t(STRINGS.nav.roleNames[user.role]) : user.role}
               </span>
             </span>
             <a

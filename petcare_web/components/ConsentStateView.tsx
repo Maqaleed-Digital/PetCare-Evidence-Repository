@@ -74,7 +74,7 @@ export function ConsentStateView() {
 
           <dt style={{ fontWeight: 700, color: 'var(--muted)' }}>{t(s.origin)}</dt>
           <dd style={{ margin: 0 }}>
-            {t(s.originPilotInvite).replace('{{code}}', record.origin_invite_code)}
+            {t(record.origin === 'self_registration' ? s.originSelfRegistration : s.originPilotInvite)}
           </dd>
         </dl>
       )}

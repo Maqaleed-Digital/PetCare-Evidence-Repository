@@ -44,7 +44,11 @@ export default function SignInPage() {
       })
 
       if (res.status === 401) { setError(t(s.errInvalid)); return }
-      if (res.status === 403) { setError(t(s.errInactive)); return }
+      if (res.status === 403) {
+        // MVC-EPC-D-001 D2: a self-registered owner must confirm the email address first.
+        const code = (await res.json().catch(() => ({})))?.detail?.error
+        setError(code === 'EMAIL_NOT_VERIFIED' ? t(s.errUnverified) : t(s.errInactive)); return
+      }
       if (!res.ok) { setError(`${t(s.errFailed)} (${res.status})`); return }
 
       const data = await res.json()
@@ -119,6 +123,7 @@ export default function SignInPage() {
             {loading ? t(s.submitting) : t(s.submit)}
           </button>
         </form>
+        <a href="/forgot-password" className="link" data-testid="forgot-link">{t(s.forgot)}</a>
 
         <p className="muted" style={{ textAlign: 'center', fontSize: 12 }}>{t(s.noSelfReg)}</p>
         <p style={{ textAlign: 'center', fontSize: 13 }}>

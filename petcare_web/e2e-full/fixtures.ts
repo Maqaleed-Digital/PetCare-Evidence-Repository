@@ -32,3 +32,32 @@ export async function signIn(page: Page, email: string, password = SEED_PASSWORD
   await page.locator('input[type="password"]').fill(password)
   await page.locator('form button[type="submit"]').click()
 }
+
+/** The FAKE email adapter's outbox: the newest message of `template` sent to `to`, as a same-origin path+query. */
+export async function lastEmailLink(to: string, template: 'EMAIL_VERIFICATION' | 'PASSWORD_RESET'): Promise<string> {
+  const fs = await import('node:fs')
+  const file = process.env.PETCARE_E2E_OUTBOX as string
+  for (let i = 0; i < 40; i++) {
+    const lines = fs.existsSync(file) ? fs.readFileSync(file, 'utf8').split('\n').filter(Boolean) : []
+    const hit = lines.map(l => JSON.parse(l)).reverse().find(m => m.to === to && m.template === template)
+    if (hit) { expect(hit.label).toBe('FAKE'); const u = new URL(hit.params.link); return u.pathname + u.search }
+    await new Promise(r => setTimeout(r, 250))
+  }
+  throw new Error(`no ${template} email for ${to}`)
+}
+
+/** X1: in Arabic, visible text carries no Latin word other than brand/technical tokens. */
+export const LATIN_ALLOWED = new Set(['VetiCare', 'MyVetiCare', 'EN', 'AR', 'PDPL', 'SA'])
+export async function untranslated(page: Page, selector = 'body'): Promise<string[]> {
+  const text = await page.locator(selector).innerText()
+  return [...new Set((text.match(/[A-Za-z][A-Za-z'’-]*/g) ?? []).filter(w => !LATIN_ALLOWED.has(w)))]
+}
+
+/** A real user closes the owner's first-run guide before using the page (it is dismissable with Esc by design). */
+export async function dismissFirstRun(page: Page) {
+  const guide = page.locator('[role="dialog"][aria-labelledby="firstrun-title"]')
+  if (await guide.isVisible().catch(() => false)) {
+    await page.keyboard.press('Escape')
+    await expect(guide).toBeHidden()
+  }
+}

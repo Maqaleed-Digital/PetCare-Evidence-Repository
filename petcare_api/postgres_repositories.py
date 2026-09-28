@@ -2194,3 +2194,42 @@ class PostgresSq3OpsRepository:
             cur = conn.execute("UPDATE api_key SET revoked_at = %s WHERE key_id = %s AND tenant_id = %s AND revoked_at IS NULL",
                                (_to_db(at), key_id, tenant_id))
             return cur.rowcount == 1
+
+
+class PostgresAccountTokenRepository:
+    """Account tokens (sha256 only) and email verification over migration 0056 (MVC-EPC-D-001 D2)."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def issue(self, user_id, purpose, *, now):
+        from account_tokens import TTL, digest, new_token
+        raw = new_token()
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO account_token (token_sha256, user_id, purpose, created_at, expires_at) "
+                         "VALUES (%s,%s,%s,%s,%s)", (digest(raw), user_id, purpose, _to_db(now), _to_db(now + TTL[purpose])))
+        return raw
+
+    def consume(self, raw, purpose, *, now):
+        """Atomic single use: only the first UPDATE of an unexpired, unused token of this purpose succeeds."""
+        from account_tokens import digest
+        with self._pool.connection() as conn:
+            row = conn.execute("UPDATE account_token SET used_at = %s WHERE token_sha256 = %s AND purpose = %s "
+                               "AND used_at IS NULL AND expires_at > %s RETURNING user_id",
+                               (_to_db(now), digest(raw), purpose, _to_db(now))).fetchone()
+        return row[0] if row else None
+
+    def require_verification(self, user_id, *, now):
+        with self._pool.connection() as conn:
+            conn.execute("INSERT INTO email_verification (user_id, required_since) VALUES (%s,%s) "
+                         "ON CONFLICT (user_id) DO NOTHING", (user_id, _to_db(now)))
+
+    def mark_verified(self, user_id, *, now):
+        with self._pool.connection() as conn:
+            conn.execute("UPDATE email_verification SET verified_at = %s WHERE user_id = %s AND verified_at IS NULL",
+                         (_to_db(now), user_id))
+
+    def verification_pending(self, user_id):
+        with self._pool.connection() as conn:
+            row = conn.execute("SELECT verified_at FROM email_verification WHERE user_id = %s", (user_id,)).fetchone()
+        return row is not None and row[0] is None

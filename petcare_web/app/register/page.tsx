@@ -87,7 +87,7 @@ export default function RegisterPage() {
         // when, and the origin (the pilot invite code).
         writeConsent({
           consented_at: new Date().toISOString(),
-          origin_invite_code: inviteCode,
+          origin: 'pilot_invite',   // X6: never the invite code itself
           scope: ['registration', 'privacy_notice'],
         })
         window.dispatchEvent(new Event('vc_user_changed'))

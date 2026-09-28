@@ -5,11 +5,11 @@ import { useLang } from '@/components/LangProvider'
 import { STRINGS } from '@/lib/strings'
 
 export default function HomePage() {
-  const { t } = useLang()
+  const { t, lang } = useLang()
   const s = STRINGS.home
 
   return (
-    <main className="stack">
+    <main className="stack" dir={lang === 'ar' ? 'rtl' : 'ltr'}>
       {/* Hero */}
       <div className="hero">
         <div className="hero-eyebrow">{t(s.eyebrow)}</div>
@@ -21,6 +21,7 @@ export default function HomePage() {
         <p className="hero-sub">{t(s.sub)}</p>
         <div className="hero-actions">
           <a className="button button-white" href="/signin">{t(s.ctaSignIn)}</a>
+          <a className="button button-ghost" href="/signup" data-testid="cta-register">{t(s.ctaRegister)}</a>
           <a className="button button-ghost" href="/onboarding">{t(s.ctaOnboard)}</a>
         </div>
       </div>
@@ -39,7 +40,7 @@ export default function HomePage() {
               <div className="title" style={{ fontSize: 16 }}>{t(s.owner)}</div>
               <p className="subtitle">{t(s.ownerSub)}</p>
             </div>
-            <a className="button button-outline button-sm" href="/owner">{t(s.ownerCta)}</a>
+            <a className="button button-outline button-sm" href="/owner" data-testid="entry-owner">{t(s.ownerCta)}</a>
           </div>
           <div className="role-card">
             <div className="role-card-icon">
@@ -51,7 +52,7 @@ export default function HomePage() {
               <div className="title" style={{ fontSize: 16 }}>{t(s.vet)}</div>
               <p className="subtitle">{t(s.vetSub)}</p>
             </div>
-            <a className="button button-outline button-sm" href="/vet">{t(s.vetCta)}</a>
+            <a className="button button-outline button-sm" href="/vet" data-testid="entry-vet">{t(s.vetCta)}</a>
           </div>
           <div className="role-card">
             <div className="role-card-icon">
@@ -81,6 +82,11 @@ export default function HomePage() {
           </div>
         </div>
       </div>
+
+      {/* PDPL notice (J-00, MVC-EPC-D-001 D2) */}
+      <p className="card card-sm" role="note" data-testid="pdpl-notice">
+        {t(s.pdplNotice)} <a href="/privacy" style={{ color: 'var(--accent)' }}>{t(s.privacyLink)}</a>
+      </p>
 
       {/* Governance strip */}
       <div className="card card-sm" style={{ display: 'flex', gap: 24, flexWrap: 'wrap', alignItems: 'center' }}>

@@ -54,6 +54,7 @@ from postgres_repositories import (
     PostgresMfaRepository,
     PostgresPlatformIdentityAudit,
     PostgresSq3OpsRepository,
+    PostgresAccountTokenRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -80,6 +81,7 @@ from ratelimit import InMemoryRateLimitRepository
 from mfa import InMemoryMfaRepository
 from platform_identity_audit import InMemoryPlatformIdentityAudit
 from sq3_ops import InMemorySq3OpsRepository
+from account_tokens import InMemoryAccountTokenRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -144,6 +146,8 @@ class Persistence:
     platform_audit: Any = None
     #: SQ-3 #12/#13/#15 (MVC-EPC-D-001 D1, migration 0055).
     sq3_ops: Any = None
+    #: Owner self-registration tokens + email verification (MVC-EPC-D-001 D2, migration 0056).
+    account_tokens: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -228,6 +232,7 @@ def build_persistence(
             mfa=InMemoryMfaRepository(),
             platform_audit=InMemoryPlatformIdentityAudit(),
             sq3_ops=InMemorySq3OpsRepository(),
+            account_tokens=InMemoryAccountTokenRepository(),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -271,6 +276,7 @@ def build_persistence(
         mfa=PostgresMfaRepository(pool),
         platform_audit=PostgresPlatformIdentityAudit(pool),
         sq3_ops=PostgresSq3OpsRepository(pool),
+        account_tokens=PostgresAccountTokenRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )

@@ -29,6 +29,7 @@ USERS = (
 )
 PORT = int(os.environ.get("PETCARE_E2E_API_PORT", "8090"))
 WEB_ORIGIN = os.environ.get("PETCARE_E2E_WEB_ORIGIN", "http://localhost:3100")
+OUTBOX = os.environ.get("PETCARE_E2E_OUTBOX") or str(Path(os.environ.get("TMPDIR", "/tmp")) / "petcare-e2e-outbox.jsonl")
 
 
 def _env(db_url: str) -> None:
@@ -45,7 +46,15 @@ def _env(db_url: str) -> None:
         "PETCARE_RATE_LIMIT_PRINCIPAL_PER_MIN": "100000",
         "PETCARE_RATE_LIMIT_ANONYMOUS_PER_MIN": "100000",
         "ALLOWED_ORIGINS": WEB_ORIGIN,
+        # Sponsor ruling 1: owner self-registration is ON in test/staging (production default OFF). Email goes to the
+        # FAKE adapter, which writes a JSON-lines outbox the journey suite reads.
+        "PETCARE_OWNER_SELF_REGISTRATION": "on",
+        "PETCARE_SELF_REGISTRATION_TENANT": TENANT,
+        "PETCARE_EMAIL_ADAPTER": "fake",
+        "PETCARE_FAKE_EMAIL_OUTBOX": OUTBOX,
+        "PETCARE_PUBLIC_WEB_ORIGIN": WEB_ORIGIN,
     })
+    Path(OUTBOX).write_text("", encoding="utf-8")            # a fresh outbox per stack
 
 
 def _database() -> str:

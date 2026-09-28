@@ -162,6 +162,8 @@ def reset_w0f_tables(url: str) -> None:
                       "mfa_reset_request", "mfa_recovery_code",
                       # SQ-3 completion (0055): reference tenant and user_identity.
                       "api_key", "tenant_bank_details", "tenant_payout_details",
+                      # D2 (0056): reference user_identity.
+                      "account_token", "email_verification",
                       "mfa_step_up", "mfa_factor",
                       # NFR-15 (migration 0051): shared rate-limit counters (no references).
                       "rate_limit_counter",
