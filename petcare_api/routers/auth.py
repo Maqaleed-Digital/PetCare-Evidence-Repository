@@ -280,6 +280,12 @@ def seed_invite_code(code: str, allowed_role: str,
     ))
 
 
+def _log_safe(detail: dict) -> dict:
+    """X-23: the auth log's view of an event — personal identifiers replaced by their one-way references."""
+    from platform_identity_audit import email_ref
+    return {("email_ref" if k == "email" else k): (email_ref(v) if k == "email" else v) for k, v in detail.items()}
+
+
 def _log_auth_event(event_name: str, detail: dict):
     """A LOG LINE. Not the governed audit chain, and deliberately named so.
 
@@ -306,7 +312,10 @@ def _log_auth_event(event_name: str, detail: dict):
     `AUTH_EVENTS_OUTSIDE_AUDIT_CHAIN` — see the W0-G evidence bundle. Closing it
     needs a governed answer on how a tenantless security event is recorded.
     """
-    log.info("AUTH_EVENT %s %s", event_name, detail)
+    # X-23 (MVC-EPC-D-001 D2): the LOG LINE never carries a raw email address. It carries the same one-way reference the
+    # platform identity chain uses as its subject (platform_identity_audit.email_ref), so a security reviewer can still
+    # correlate a log line with a chain event. The chain below still receives the detail it needs to resolve a subject.
+    log.info("AUTH_EVENT %s %s", event_name, _log_safe(detail))
     # SQ-1 (Sponsor act MVC-SQ1-PLATFORM-IDENTITY-AUDIT-001; v1.2 U26): pre-tenant identity/security events are ALSO
     # chained — on the PLATFORM IDENTITY chain, never a tenant chain, even when the identity has a tenant.
     if event_name in _PLATFORM_CHAINED:
