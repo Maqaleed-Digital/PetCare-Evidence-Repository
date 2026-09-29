@@ -166,6 +166,8 @@ PORT08_EVIDENCE=base 4896e33 app/owner/page.tsx contains 0 fetch/useEffect calls
 | served routes (`tools/list_served_routes.py main:app`, canonical env) | unchanged (requirements/served_routes.json byte-identical) |
 | full stack (Playwright → petcare_web → main:app → PostgreSQL), ar/en × 1280/390, head 28d908f | **36/36**; journeys **7/53** (J-00, J-O1, J-O2, J-O3, J-O4, J-O10, J-O11); screens **7/107** (PUB-01, PUB-07, CO-01, CO-02, CO-03, CO-14, CO-15) |
 | D2d perturbations `evidence/replay/2026-09-29-epc-d/perturb_epc_d_d2d.py` | **19 ARMED / 0 VACUOUS** |
+| CI `verify` (run 36559397954, head e96a94f, attempt 1) | success · Python estate **1196 passed, 8 skipped** · PostgreSQL controls **207 passed, 0 skipped** · web 41 files / 215 · mocked e2e 90 · full stack **36/36** (journeys 7/53, screens 7/107) |
+| CI skip accounting (D5) | base main 4896e33 run 36414704613: 1162 passed, **7 skipped** (pre-existing; present when D2a–D2c merged; the step has no `-rs`, so CI does not name them). D2d adds exactly **1**: `test_epc_d2d_scratch_ownership.py::test_the_harness_marks_its_cluster_before_start_and_removes_only_that`, `skipif` initdb/pg_ctl not on PATH — the CI runner cannot start a local cluster (verify.yml). It RUNS locally (11/11, 0 skipped) and its perturbation P-D2D-HARNESS-UNMARKED is ARMED in D3 |
 | FR-23 / FR-09 perturbations after R13.1 | perturb_u15.py **9/9 ARMED**, perturb_u19.py **3/3 ARMED** |
 | D3 full corpus replay (`tools/corpus_replay.py`, detached checkouts) | base main 4896e33 **250** → head 921efdb **269** (new dir `evidence/replay/2026-09-29-epc-d`) · head ARMED **264** · excluded **5** (the EXCLUSIONS.md items, unchanged) · 19 new, all ARMED · 0 removed · no classification change · **D3 PASS** |
 
