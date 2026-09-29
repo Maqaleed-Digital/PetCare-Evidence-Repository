@@ -848,7 +848,7 @@
     {
       "acceptance_state": "EVIDENCE_INCOMPLETE",
       "counts": {
-        "basis": 6,
+        "basis": 7,
         "implements": 10,
         "legacy": 0,
         "routes": 5,

@@ -7,7 +7,7 @@ from uuid import uuid4
 from fastapi import APIRouter, Request, Response, HTTPException
 from fastapi.responses import JSONResponse
 from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
-from pydantic import BaseModel
+from pydantic import BaseModel, StrictBool
 
 from persistence import build_persistence
 from licences import VetLicence  # FR-05 (U10)
@@ -772,6 +772,9 @@ class SelfRegisterRequest(BaseModel):
     locale: str = "ar"
     #: J-O2: the PDPL privacy notice must be accepted, and the acceptance is recorded server-side (owner_consent).
     privacy_notice_accepted: bool = False
+    #: D2d (R13.3): an OPTIONAL, separate choice — care reminders are consented to only by an explicit true, never implied
+    #: by the privacy notice. Absent or false records nothing (the owner can grant it later on /account).
+    care_reminders: StrictBool = False     # strict: "yes" / 1 are refused (422), never read as consent
 
 
 @router.post("/self-register", status_code=201)
@@ -806,6 +809,10 @@ async def self_register(body: SelfRegisterRequest):
     PERSISTENCE.owner_consent.append(owner_consent.ConsentEvent(
         event_id=str(uuid4()), tenant_id=tenant_id, user_id=user_id, purpose=owner_consent.PRIVACY_NOTICE,
         action=owner_consent.GRANT, origin="self_registration", policy_version=owner_consent.POLICY_VERSION, at=now))
+    if body.care_reminders is True:
+        PERSISTENCE.owner_consent.append(owner_consent.ConsentEvent(
+            event_id=str(uuid4()), tenant_id=tenant_id, user_id=user_id, purpose=owner_consent.CARE_REMINDERS,
+            action=owner_consent.GRANT, origin="self_registration", policy_version=owner_consent.POLICY_VERSION, at=now))
     PERSISTENCE.account_tokens.require_verification(user_id, now=now)
     token = PERSISTENCE.account_tokens.issue(user_id, "EMAIL_VERIFICATION", now=now)
     _send(email, "EMAIL_VERIFICATION", body.locale, "/verify-email", token)

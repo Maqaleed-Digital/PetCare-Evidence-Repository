@@ -4,15 +4,15 @@ import { LangProvider } from '@/components/LangProvider'
 import OwnerPage from '@/app/owner/page'
 
 describe('OwnerPage — pilot RTL/AR coverage (WI-2)', () => {
-  it('renders Arabic-first portal headings and four governance cards by default', () => {
+  it('renders Arabic-first portal headings and the served-screen cards by default (D2d CO-01)', () => {
     render(<LangProvider><OwnerPage /></LangProvider>)
     expect(screen.getByText('بوابة المالك')).toBeInTheDocument()
     expect(screen.getByText('حيواناتي الأليفة')).toBeInTheDocument()
     expect(screen.getByText('التدقيق نشط')).toBeInTheDocument()
-    expect(screen.getByText('ملف الحيوان الأليف')).toBeInTheDocument()
-    expect(screen.getByText('الجدول الصحي')).toBeInTheDocument()
-    expect(screen.getByText('المواعيد')).toBeInTheDocument()
-    expect(screen.getByText('الموافقة')).toBeInTheDocument()
+    for (const h of ['ملف الحيوان الأليف', 'الإشعارات', 'الطلبات والتوصيل', 'الحساب والموافقات', 'المواعيد'])
+      expect(screen.getByRole('heading', { name: h })).toBeInTheDocument()
+    expect(document.querySelector('a[href="#"]')).toBeNull()                    // D2-DEAD-LINK closed
+    expect(screen.getByRole('link', { name: 'فتح حيواناتي' })).toHaveAttribute('href', '/owner/pets')
   })
 
   it('renders English content when LangProvider hydrates with vc_lang=en', () => {
@@ -21,7 +21,7 @@ describe('OwnerPage — pilot RTL/AR coverage (WI-2)', () => {
     expect(screen.getByText('Owner portal')).toBeInTheDocument()
     expect(screen.getByText('My pets')).toBeInTheDocument()
     expect(screen.getByText('Pet profile')).toBeInTheDocument()
-    expect(screen.getByText('Health timeline')).toBeInTheDocument()
+    expect(screen.getByText('Notifications')).toBeInTheDocument()
     expect(document.documentElement.dir).toBe('ltr')
     expect(document.documentElement.lang).toBe('en')
   })

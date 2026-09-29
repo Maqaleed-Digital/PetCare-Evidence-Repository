@@ -97,7 +97,7 @@ export async function newOwner(page: Page, info: { project: { name: string } }, 
   await form.locator('input[autocomplete="name"]').fill(lang === 'ar' ? 'مالكة تجريبية' : 'Test Owner')
   await form.locator('input[type="email"]').fill(email)
   await form.locator('input[type="password"]').fill(password)
-  await form.locator('input[type="checkbox"]').check()
+  await form.getByTestId('self-register-privacy').check()          // care reminders stay unticked (D2d R13.3)
   await form.locator('button[type="submit"]').click()
   await expect(page.getByTestId('self-register-sent')).toBeVisible()
   await page.goto(await lastEmailLink(email, 'EMAIL_VERIFICATION'))

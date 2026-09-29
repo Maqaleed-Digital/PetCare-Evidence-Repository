@@ -89,7 +89,17 @@ def _seed() -> None:
     print(f"[e2e] seeded tenant {TENANT} and {len(USERS)} synthetic users", flush=True)
 
 
+def _exit_on_signal(*_args) -> None:
+    raise SystemExit(0)
+
+
 def main() -> None:
+    # pg_harness stops its throwaway cluster via atexit, which a SIGTERM/SIGHUP does not run. Playwright ends its web
+    # servers with a signal, so without this every journey run leaked one running cluster (and its SysV shared-memory
+    # segment) until the machine's segment limit refused new clusters (D2d finding D2D-E2E-CLUSTER-LEAK).
+    import signal
+    for sig in (signal.SIGTERM, signal.SIGHUP):
+        signal.signal(sig, _exit_on_signal)
     _env(_database())
     _seed()
     import uvicorn

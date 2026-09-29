@@ -904,6 +904,7 @@
       "petcare_api/main.py:2505 run_reminders: the session tenant's scheduler; 7-day and 24-hour-if-outstanding defaults (no suppression input); owner of THIS tenant's pet; rendered in the owner's language; each send audited",
       "petcare_api/main.py:2478 complete_care_due: the item is no longer outstanding",
       "petcare_api/reminders.py reminders_due: the ratified defaults; render: Arabic / English",
+      "petcare_api/owner_consent.py reminder_dispatch_decision + main.py run_reminders: dispatch only to an owner whose latest care_reminders consent in the tenant is a GRANT; fails closed (MVC-EPC-D-001 D2d R10; interpretation governance/sponsor_acts/MVC-EPC-D-001-R13-FR23-CONSENT.md)",
       "petcare_runtime/migrations/0048_fr23_care_reminders.sql pet_care_due / pet_care_completion / care_reminder UNIQUE(due_id, kind)",
       "petcare_web/app/owner/reminders/page.tsx the owner's reminders, RTL for Arabic"
     ],

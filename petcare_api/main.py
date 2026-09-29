@@ -1569,6 +1569,11 @@ def create_pet(
     if actor_role == ROLE_OWNER:
         owner_id = actor_id
     elif body.owner_id and body.owner_id.strip():
+        # D2d (R13.5): an admin's owner_id is a SELECTOR, never authority — it must name an owner of THIS tenant
+        # (as POST /api/deliveries requires), or a pet could be attached to another tenant's user or to no one.
+        ident = PERSISTENCE.identities.get_by_user_id(body.owner_id)
+        if ident is None or ident.tenant_id != tenant_id or ident.role != ROLE_OWNER:
+            raise HTTPException(400, "owner_id is not an owner of this tenant")
         owner_id = body.owner_id
     else:
         raise HTTPException(400, "owner_id is required when an admin creates a pet profile")
@@ -2561,7 +2566,7 @@ def run_reminders(request: Request, role: str = Depends(require_role),
         raise HTTPException(403, "The reminder run is an administrative act")
     tenant_id = require_tenant(request)
     now = datetime.now(timezone.utc)
-    sent = []
+    sent, withheld = [], []
     for d in REMINDER_REPO.dues(tenant_id=tenant_id):
         kinds = rmd.reminders_due(d, now=now, completed=REMINDER_REPO.completed(d.due_id, tenant_id=tenant_id),
                                   already=REMINDER_REPO.sent_kinds(d.due_id, tenant_id=tenant_id))
@@ -2569,6 +2574,17 @@ def run_reminders(request: Request, role: str = Depends(require_role),
             continue
         pet = PET_REPO.get(d.pet_id, tenant_id=tenant_id)  # the owner of THIS tenant's pet — never another tenant's
         if pet is None:
+            continue
+        # R10 / X-25: the owner's care_reminders consent, read from the server ledger immediately before dispatch.
+        # Fails closed — nothing is recorded or sent unless the latest event is a GRANT. It is read in the tenant that
+        # holds THIS due item (always the session tenant, since dues are tenant-scoped above): the consent check decides
+        # consent only, and tenant isolation stays with the two scopes that own it (U15 P-AC01-NO-TENANT-SCOPE).
+        admitted, why = owner_consent.reminder_dispatch_decision(CONSENT_REPO, pet.owner_id, tenant_id=d.tenant_id)
+        if not admitted:
+            _audit(event_name="reminder.withheld", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+                   resource_type="pet_care_due", resource_id=d.due_id, action_result="denied",
+                   correlation_id=x_correlation_id, reason_code=f"{why}:owner:{pet.owner_id}")
+            withheld.append({"due_id": d.due_id, "owner_id": pet.owner_id, "reason": why})
             continue
         language = PREFERENCE_REPO.get_language(pet.owner_id) or DEFAULT_LANGUAGE
         for kind in kinds:
@@ -2580,7 +2596,7 @@ def run_reminders(request: Request, role: str = Depends(require_role),
                        resource_type="care_reminder", resource_id=r.reminder_id, action_result="success",
                        correlation_id=x_correlation_id, reason_code=f"{kind}:{language}:owner:{pet.owner_id}")
                 sent.append({"due_id": d.due_id, "kind": kind, "owner_id": pet.owner_id, "language": language})
-    return {"run_at": now.isoformat(), "sent": sent}
+    return {"run_at": now.isoformat(), "sent": sent, "withheld": withheld}
 
 
 @app.get("/api/me/reminders")
