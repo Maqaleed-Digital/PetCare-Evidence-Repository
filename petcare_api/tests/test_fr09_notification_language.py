@@ -62,6 +62,9 @@ def _documents_for(owner_id, owner, vet, admin):
     admin.post("/api/recalls", json={"product_id": "vax-09n", "batch": batch, "reason": "potency"})
     out["recall_notice"] = [n["body"] for n in owner.get("/api/me/recall-notices").json() if batch in n["body"]][0]
     # FR-23 reminder
+    # PRECONDITION ONLY (MVC-EPC-D-001 D2d, Sponsor ruling R13.1): since R10 a reminder is dispatched only to an owner
+    # whose server-side care_reminders consent is a GRANT; the owner grants it through the governed consent route.
+    assert owner.post("/api/me/consents/care_reminders", json={"action": "GRANT"}).status_code == 200
     due = (datetime.now(timezone.utc) + timedelta(days=3)).isoformat()
     vet.post(f"/api/pets/{pet}/care-due", json={"kind": "VACCINATION", "title": "Rabies", "due_at": due})
     admin.post("/api/reminders/run")

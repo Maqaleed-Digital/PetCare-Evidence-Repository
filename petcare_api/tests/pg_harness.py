@@ -23,6 +23,61 @@ MIGRATIONS_DIR = ROOT / "petcare_runtime" / "migrations"
 
 _CLUSTER: dict = {}
 
+#: R12 (MVC-EPC-D-001 D2d): a cluster this harness creates carries this marker, written into its data directory before
+#: the server starts. Cleanup removes a data directory ONLY on positive proof of ownership (`ownership_proof`); zero
+#: client connections, a stopped server or a familiar-looking path are never proof.
+MARKER_NAME = "LANE_D_SCRATCH_OWNER.json"
+MARKER_OWNER = "MVC-EPC-D-001/lane-d/pg_harness"
+DATADIR_PREFIX = "petcare-pg-"
+
+
+def _write_marker(datadir: str, nonce: str) -> None:
+    import json
+    from datetime import datetime, timezone
+    Path(datadir, MARKER_NAME).write_text(json.dumps({
+        "owner": MARKER_OWNER, "run_nonce": nonce, "datadir": os.path.realpath(datadir),
+        "created_at": datetime.now(timezone.utc).isoformat(), "pid": os.getpid()}), encoding="utf-8")
+
+
+def ownership_proof(datadir, *, run_nonce: str | None = None) -> tuple:
+    """(proven, reason) that `datadir` is a scratch cluster this Lane-D harness created.
+
+    Proven only when ALL hold: the directory name carries the harness prefix; the marker file exists and parses; it
+    names this harness as owner; it is bound to THIS directory's real path (a copied or moved marker does not transfer
+    ownership); and, when `run_nonce` is given, it was written by that run. Anything else is refused."""
+    import json
+    path = Path(datadir)
+    if not path.is_dir():
+        return False, "NOT_A_DIRECTORY"
+    if not path.name.startswith(DATADIR_PREFIX):
+        return False, "UNRELATED_NAME"
+    marker = path / MARKER_NAME
+    if not marker.is_file():
+        return False, "UNMARKED"
+    try:
+        m = json.loads(marker.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        return False, "AMBIGUOUS_MARKER_UNREADABLE"
+    if not isinstance(m, dict) or m.get("owner") != MARKER_OWNER or not m.get("run_nonce"):
+        return False, "AMBIGUOUS_MARKER_OWNER"
+    if m.get("datadir") != os.path.realpath(path):
+        return False, "AMBIGUOUS_MARKER_NOT_BOUND_TO_THIS_DIRECTORY"
+    if run_nonce is not None and m.get("run_nonce") != run_nonce:
+        return False, "AMBIGUOUS_MARKER_OTHER_RUN"
+    return True, "PROVEN_HARNESS_OWNED"
+
+
+def cleanup_owned_cluster(datadir, *, run_nonce: str | None = None, pg_ctl: str | None = None) -> tuple:
+    """Stop and remove `datadir` only if `ownership_proof` holds; otherwise touch nothing. Returns (removed, reason)."""
+    proven, reason = ownership_proof(datadir, run_nonce=run_nonce)
+    if not proven:
+        return False, reason
+    pg_ctl = pg_ctl or shutil.which("pg_ctl")
+    if pg_ctl and Path(datadir, "postmaster.pid").exists():
+        subprocess.run([pg_ctl, "-D", str(datadir), "-m", "immediate", "stop"], capture_output=True, text=True)
+    shutil.rmtree(datadir, ignore_errors=True)
+    return True, reason
+
 
 def _free_port() -> int:
     with socket.socket() as s:
@@ -43,13 +98,15 @@ def start_ephemeral_cluster() -> str:
     if not initdb or not pg_ctl:
         raise RuntimeError("initdb/pg_ctl not found on PATH")
 
-    datadir = tempfile.mkdtemp(prefix="petcare-pg-")
+    datadir = tempfile.mkdtemp(prefix=DATADIR_PREFIX)
     user = "petcare_test"
     subprocess.run(
         [initdb, "-D", datadir, "-U", user, "--auth=trust",
          "--encoding=UTF8", "--locale=C"],
         check=True, capture_output=True, text=True,
     )
+    nonce = __import__("uuid").uuid4().hex
+    _write_marker(datadir, nonce)          # R12: ownership is recorded before the server ever starts
     port = _free_port()
     subprocess.run(
         [pg_ctl, "-D", datadir, "-w", "-o",
@@ -62,11 +119,10 @@ def start_ephemeral_cluster() -> str:
     )
 
     def _stop() -> None:
-        subprocess.run([pg_ctl, "-D", datadir, "-m", "immediate", "stop"],
-                       capture_output=True, text=True)
-        shutil.rmtree(datadir, ignore_errors=True)
+        cleanup_owned_cluster(datadir, run_nonce=nonce, pg_ctl=pg_ctl)   # removes only what THIS run proved it owns
 
     atexit.register(_stop)
+    _CLUSTER.update(datadir=datadir, run_nonce=nonce)
     _CLUSTER["url"] = f"postgresql://{user}@127.0.0.1:{port}/postgres"
     return _CLUSTER["url"]
 

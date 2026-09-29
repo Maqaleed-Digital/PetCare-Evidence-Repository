@@ -12,8 +12,9 @@ Purposes:
   care_reminders      care reminders about the owner's pets.
   marketing_messages  product news and offers. There is no marketing sender; the choice is recorded for when one exists.
 
-This slice RECORDS consent. It does not yet gate reminder dispatch on `care_reminders` — coupling a recorded choice to
-FR-23 delivery is a product rule not ratified here (receipt finding D2C-CONSENT-ENFORCEMENT).
+D2d (Sponsor ruling R10 / X-25): `care_reminders` is ENFORCED at the FR-23 dispatch boundary, not only recorded.
+`reminder_dispatch_decision` is read from this server ledger immediately before each send and fails closed: absent,
+revoked, malformed or unreadable consent means no dispatch. The ledger has no expiry semantics, so none is applied.
 """
 from __future__ import annotations
 
@@ -62,6 +63,30 @@ def current_state(events: list) -> list:
              "since": latest[p].at.isoformat() if p in latest else None,
              "origin": latest[p].origin if p in latest else None,
              "revocable": p in REVOCABLE} for p in PURPOSES]
+
+
+#: Why a reminder was not dispatched. Every value except CONSENT_GRANTED refuses.
+CONSENT_GRANTED, CONSENT_ABSENT, CONSENT_REVOKED = "CONSENT_GRANTED", "CONSENT_ABSENT", "CONSENT_REVOKED"
+CONSENT_MALFORMED, CONSENT_UNREADABLE = "CONSENT_MALFORMED", "CONSENT_UNREADABLE"
+
+
+def reminder_dispatch_decision(repo, owner_id: str, *, tenant_id: str) -> tuple:
+    """(admitted, reason) for one FR-23 reminder to `owner_id` in `tenant_id`, from the server ledger only.
+
+    Fails closed: admitted only when the owner's latest `care_reminders` event in THIS tenant is a well-formed GRANT.
+    A read error, a record that is not a ConsentEvent for this owner/tenant/purpose, or an unknown action refuses."""
+    try:
+        latest = repo.latest(owner_id, CARE_REMINDERS, tenant_id=tenant_id)
+    except Exception:  # noqa: BLE001 — any failure to read the ledger is indeterminate consent, never permission
+        return False, CONSENT_UNREADABLE
+    if latest is None:
+        return False, CONSENT_ABSENT
+    if (not isinstance(latest, ConsentEvent) or latest.user_id != owner_id or latest.tenant_id != tenant_id
+            or latest.purpose != CARE_REMINDERS or latest.action not in (GRANT, REVOKE)):
+        return False, CONSENT_MALFORMED
+    if latest.action == REVOKE:
+        return False, CONSENT_REVOKED
+    return True, CONSENT_GRANTED
 
 
 @dataclass

@@ -47,6 +47,15 @@ def _mine(owner):
     return owner.get("/api/me/reminders").json()
 
 
+def _consents_to_reminders(*owners):
+    """PRECONDITION ONLY (MVC-EPC-D-001 D2d, Sponsor ruling R13.1): since R10 the scheduler dispatches only to an owner
+    whose server-side care_reminders consent is a GRANT, so each owner grants it through the governed consent route
+    before the run. Every assertion below is unchanged."""
+    for owner in owners:
+        r = owner.post("/api/me/consents/care_reminders", json={"action": "GRANT"})
+        assert r.status_code == 200, r.text
+
+
 def _later(monkeypatch, hours):
     real = datetime
 
@@ -63,6 +72,7 @@ def test_a_due_date_reminds_the_owner_seven_days_and_again_24_hours_before_if_ou
     vet = _client("u-fr23-vet", T_A, "veterinarian")
     owner = _client("u-fr23-owner", T_A, "owner")
     admin = _client("u-fr23-admin", T_A, "partner_clinic_admin")
+    _consents_to_reminders(owner)
     pet = _pet(owner)
     near = _due(vet, pet, in_hours=6 * 24)                          # inside the 7-day window
     given = _due(vet, pet, in_hours=6 * 24, title="Deworming", kind="TREATMENT")
@@ -84,6 +94,7 @@ def test_reminders_never_reach_another_tenants_owner():
                                _client("u-fr23-admin-a", T_A, "partner_clinic_admin"))
     vet_b, owner_b, admin_b = (_client("u-fr23-vet-b", T_B, "veterinarian"), _client("u-fr23-owner-b", T_B, "owner"),
                                _client("u-fr23-admin-b", T_B, "partner_clinic_admin"))
+    _consents_to_reminders(owner_a, owner_b)
     pet_b = _pet(owner_b, "Max")
     assert vet_a.post(f"/api/pets/{pet_b}/care-due", json={"kind": "VACCINATION", "title": "x",
                                                             "due_at": datetime.now(timezone.utc).isoformat()}).status_code == 404
@@ -100,6 +111,7 @@ def test_reminders_are_in_the_owners_language_and_every_send_is_audited():
     owner_ar = _client("u-fr23-owner-ar", T_A, "owner")
     owner_en = _client("u-fr23-owner-en", T_A, "owner")
     admin = _client("u-fr23-admin3", T_A, "partner_clinic_admin")
+    _consents_to_reminders(owner_ar, owner_en)
     assert owner_en.put("/api/me/preferences/language", json={"language": "en"}).status_code == 200
     d_ar = _due(vet, _pet(owner_ar, "Bella"), in_hours=72)
     d_en = _due(vet, _pet(owner_en, "Rex"), in_hours=72)

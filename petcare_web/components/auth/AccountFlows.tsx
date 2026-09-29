@@ -21,6 +21,8 @@ export const AC = {
   password: { ar: 'كلمة المرور', en: 'Password' },
   passwordHint: { ar: 'عشرة أحرف على الأقل.', en: 'At least ten characters.' },
   consent: { ar: 'أوافق على إشعار الخصوصية وفق نظام حماية البيانات الشخصية.', en: 'I agree to the privacy notice under the Saudi PDPL.' },
+  careReminders: { ar: 'أرغب في تلقي تذكيرات رعاية حيواناتي الأليفة (اختياري، ويمكن إلغاؤه في أي وقت من صفحة الحساب).',
+                   en: 'Send me care reminders for my pets (optional — you can withdraw this at any time from your account).' },
   create: { ar: 'إنشاء الحساب', en: 'Create account' },
   checkEmail: { ar: 'أرسلنا رابط تأكيد إلى بريدك الإلكتروني. افتحه لتفعيل حسابك ثم سجّل الدخول.', en: 'We sent a confirmation link to your email. Open it to activate your account, then sign in.' },
   exists: { ar: 'هذا البريد مسجّل بالفعل.', en: 'This email is already registered.' },
@@ -61,6 +63,7 @@ export function SelfRegisterForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [consent, setConsent] = useState(false)
+  const [reminders, setReminders] = useState(false)
   const [state, setState] = useState<'idle' | 'busy' | 'sent'>('idle')
   const [error, setError] = useState('')
 
@@ -70,7 +73,8 @@ export function SelfRegisterForm() {
     setPassword('')
     setState('busy'); setError('')
     try {
-      const r = await post('/api/auth/self-register', { name, email, password: pw, locale: lang, privacy_notice_accepted: consent })
+      const r = await post('/api/auth/self-register', { name, email, password: pw, locale: lang, privacy_notice_accepted: consent,
+        care_reminders: reminders })
       if (r.status === 201) { setState('sent'); return }
       const err = (await r.json().catch(() => ({})))?.detail?.error
       setError(tr(err === 'EMAIL_EXISTS' ? AC.exists : err === 'PASSWORD_TOO_SHORT' ? AC.tooShort
@@ -87,8 +91,13 @@ export function SelfRegisterForm() {
       <Field label={AC.email} type="email" value={email} onChange={e => setEmail(e.currentTarget.value)} required autoComplete="email" />
       <Field label={AC.password} hint={AC.passwordHint} type="password" value={password} minLength={10}
              onChange={e => setPassword(e.currentTarget.value)} required autoComplete="new-password" />
-      <label className="ds-row"><input type="checkbox" checked={consent} onChange={e => setConsent(e.currentTarget.checked)} required />
+      <label className="ds-row"><input type="checkbox" data-testid="self-register-privacy" checked={consent}
+        onChange={e => setConsent(e.currentTarget.checked)} required />
         <span>{tr(AC.consent)} <a className="ds-link" href="/privacy">PDPL</a></span></label>
+      {/* D2d (R13.3): care reminders are a separate, optional choice — unticked by default, never required. */}
+      <label className="ds-row"><input type="checkbox" data-testid="self-register-care-reminders" checked={reminders}
+        onChange={e => setReminders(e.currentTarget.checked)} />
+        <span>{tr(AC.careReminders)}</span></label>
       {error && <Notice tone="danger" testId="self-register-error">{error}</Notice>}
       <Button type="submit" disabled={state === 'busy' || !consent}>{tr(AC.create)}</Button>
     </form>

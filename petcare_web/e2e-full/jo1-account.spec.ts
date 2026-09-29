@@ -19,7 +19,12 @@ test('[J-O1] @S:PUB-07 an owner self-registers, verifies the email, signs in and
   await form.locator('input[autocomplete="name"]').fill(lang === 'ar' ? 'مالك تجريبي' : 'Test Owner')
   await form.locator('input[type="email"]').fill(email)
   await form.locator('input[type="password"]').fill(PW1)
-  await form.locator('input[type="checkbox"]').check()
+  // D2d (R13.3): care reminders are offered as a separate, optional choice, unticked by default.
+  const reminders = form.getByTestId('self-register-care-reminders')
+  await expect(reminders).toBeVisible()
+  await expect(reminders).not.toBeChecked()
+  expect(await reminders.getAttribute('required')).toBeNull()
+  await form.getByTestId('self-register-privacy').check()
   await form.locator('button[type="submit"]').click()
   await expect(page.getByTestId('self-register-sent')).toBeVisible()
 

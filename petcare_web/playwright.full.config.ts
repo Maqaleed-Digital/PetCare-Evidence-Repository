@@ -38,6 +38,8 @@ export default defineConfig<{ lang: 'ar' | 'en' }>({
       timeout: 240_000,
       reuseExistingServer: !process.env.CI,
       env: { PETCARE_E2E_API_PORT: new URL(API).port, PETCARE_E2E_WEB_ORIGIN: WEB, PETCARE_E2E_OUTBOX: OUTBOX },
+      // SIGTERM (not Playwright's default SIGKILL) so e2e_stack stops its throwaway PostgreSQL cluster (D2D-E2E-CLUSTER-LEAK).
+      gracefulShutdown: { signal: 'SIGTERM', timeout: 15_000 },
     },
     {
       command: `npx next dev -p ${new URL(WEB).port}`,

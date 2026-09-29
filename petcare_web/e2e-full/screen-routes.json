@@ -1,5 +1,9 @@
 {
   "PUB-01": "/",
   "PUB-07": "/signin · /signup · /register · /verify-email · /forgot-password · /reset-password",
-  "CO-15": "/account · /account/security"
+  "CO-15": "/account · /account/security",
+  "CO-01": "/owner",
+  "CO-14": "/owner/notifications",
+  "CO-02": "/owner/pets",
+  "CO-03": "/owner/pets (selected pet)"
 }

@@ -61,14 +61,11 @@ afterEach(() => {
 // ---------------------------------------------------------------------------
 
 describe('PORT-08 empty states', () => {
-  it('/owner names an empty state for each of its list regions', () => {
+  it('/owner names its empty state once the server says the owner has no pets (D2d: served, not static)', async () => {
+    vi.stubGlobal('fetch', vi.fn(() => Promise.resolve(new Response('[]', { status: 200 }))))
     mount(<OwnerPage />)
-    for (const key of ['petProfileEmpty', 'timelineEmpty', 'consentEmpty'] as const) {
-      expect(
-        screen.getByText(STRINGS.owner[key].ar),
-        `/owner is missing the ${key} empty state`,
-      ).toBeInTheDocument()
-    }
+    expect(await screen.findByText(STRINGS.owner.petProfileEmpty.ar)).toBeInTheDocument()
+    vi.unstubAllGlobals()
   })
 
   it('/pharmacy names an empty state for every queue it shows', () => {
@@ -173,8 +170,10 @@ describe('PORT-08 forbidden states', () => {
         inspected += 1
         const hasRows = region.querySelectorAll('[data-list-row]').length > 0
         const hasEmpty = region.querySelector('[data-list-empty]') !== null
+        // D2d: a served region may also show the design system's explicit loading / error state — not blank either.
+        const hasState = region.querySelector('[data-state="loading"], [data-state="error"]') !== null
         expect(
-          hasRows || hasEmpty,
+          hasRows || hasEmpty || hasState,
           `${name}: list region "${region.getAttribute('data-list-region')}" ` +
           'resolved to neither rows nor an empty state',
         ).toBe(true)
@@ -192,7 +191,10 @@ describe('PORT-08 forbidden states', () => {
      * the change to be noticed rather than absorbed silently, which is exactly
      * what it was written to do.
      */
-    expect(inspected).toBe(6)
+    // FOUR since D2d: /owner went from three static cards marked as list regions (pets, timeline, consents — all
+    // permanently empty in the pilot) to ONE served list (pets). The timeline lives on the pet profile (CO-03);
+    // consents are on /account (server ledger). Updated deliberately, as this guard intends.
+    expect(inspected).toBe(4)
   })
 
   it('the list-region guard fails on a region that resolves to neither', () => {

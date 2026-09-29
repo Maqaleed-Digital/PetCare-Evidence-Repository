@@ -12,9 +12,9 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | PUB-06 | Public | Legal (terms, privacy/PDPL, returns) | — | 0 | NO_TEST |
 | PUB-07 | Public | Sign in / register / reset | /signin · /signup · /register · /verify-email · /forgot-password · /reset-password | 1 | PASS |
 | PUB-08 | Public | Emergency (nearest open clinics + call; not triage) | — | 0 | NO_TEST |
-| CO-01 | Pet owner app | Owner home | — | 0 | NO_TEST |
-| CO-02 | Pet owner app | Household and pets | — | 0 | NO_TEST |
-| CO-03 | Pet owner app | Pet profile and timeline | — | 0 | NO_TEST |
+| CO-01 | Pet owner app | Owner home | /owner | 1 | PASS |
+| CO-02 | Pet owner app | Household and pets | /owner/pets | 1 | PASS |
+| CO-03 | Pet owner app | Pet profile and timeline | /owner/pets (selected pet) | 1 | PASS |
 | CO-04 | Pet owner app | Vaccination card (PDF) | — | 0 | NO_TEST |
 | CO-05 | Pet owner app | Book (in-clinic / video, live slots) | — | 0 | NO_TEST |
 | CO-06 | Pet owner app | Pre-visit intake with photos | — | 0 | NO_TEST |
@@ -25,7 +25,7 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | CO-11 | Pet owner app | Prescriptions + upload | — | 0 | NO_TEST |
 | CO-12 | Pet owner app | Invoices and payments | — | 0 | NO_TEST |
 | CO-13 | Pet owner app | Rate visit | — | 0 | NO_TEST |
-| CO-14 | Pet owner app | Notifications | — | 0 | NO_TEST |
+| CO-14 | Pet owner app | Notifications | /owner/notifications | 1 | PASS |
 | CO-15 | Pet owner app | Account / consent / security / data export | /account · /account/security | 3 | PASS |
 | CV-01 | Veterinarian console | Today | — | 0 | NO_TEST |
 | CV-02 | Veterinarian console | Calendar and availability | — | 0 | NO_TEST |
@@ -112,4 +112,4 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | PA-06 | Platform admin | Vet verification queue | — | 0 | NO_TEST |
 | PA-07 | Platform admin | System health | — | 0 | NO_TEST |
 
-TOTAL 107 · PASS 3
+TOTAL 107 · PASS 7
