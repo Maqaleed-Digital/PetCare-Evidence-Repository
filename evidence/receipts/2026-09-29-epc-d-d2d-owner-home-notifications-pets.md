@@ -4,7 +4,7 @@
 PROGRAMME=MVC-EXTERNAL-PRODUCTION-CLOSURE-001   INSTRUMENT=MVC-EPC-D-001 v1.5   UNIT=D2d
 BRANCH=lane-d/d2d-owner-pets-reminders-deliveries
 START_HEAD=4896e3316e29d12f13f9af0b53e6a6035446777e (= origin/main = merge-base; D2c PR #86)
-IMPLEMENTATION_COMMITS=3e6c09b (D2d + R10–R13) · c3783f9 (R12 test teardown) · 28d908f (D2c anchor collision)   END_HEAD=see PR
+IMPLEMENTATION_COMMITS=3e6c09b (D2d + R10–R13) · c3783f9 (R12 test teardown) · 28d908f (D2c anchor collision) · 921efdb (v1.5 LIMITS correction)   END_HEAD=see PR
 AUTHORITY: MVC-EPC-D-001 v1.5 [SPONSOR] + Sponsor continuation authority 2026-09-28 (R10, R11, R12) + ruling R13 2026-09-29
 ACCEPTANCE_COUNTS=UNCHANGED — requirements/** (incl. acceptance/**) and governance/** byte-identical to base; every
 registered test node id unchanged; existing evidence/receipts/* and existing evidence/replay/<dir>/** unchanged
@@ -167,7 +167,7 @@ PORT08_EVIDENCE=base 4896e33 app/owner/page.tsx contains 0 fetch/useEffect calls
 | full stack (Playwright → petcare_web → main:app → PostgreSQL), ar/en × 1280/390, head 28d908f | **36/36**; journeys **7/53** (J-00, J-O1, J-O2, J-O3, J-O4, J-O10, J-O11); screens **7/107** (PUB-01, PUB-07, CO-01, CO-02, CO-03, CO-14, CO-15) |
 | D2d perturbations `evidence/replay/2026-09-29-epc-d/perturb_epc_d_d2d.py` | **19 ARMED / 0 VACUOUS** |
 | FR-23 / FR-09 perturbations after R13.1 | perturb_u15.py **9/9 ARMED**, perturb_u19.py **3/3 ARMED** |
-| D3 full corpus replay (`tools/corpus_replay.py`, detached checkouts) | base main 4896e33 **250** → head 28d908f **269** · head ARMED **264** · excluded **5** (the EXCLUSIONS.md items, unchanged) · 19 new, all ARMED · 0 removed · no classification change · **D3 PASS** |
+| D3 full corpus replay (`tools/corpus_replay.py`, detached checkouts) | base main 4896e33 **250** → head 921efdb **269** (new dir `evidence/replay/2026-09-29-epc-d`) · head ARMED **264** · excluded **5** (the EXCLUSIONS.md items, unchanged) · 19 new, all ARMED · 0 removed · no classification change · **D3 PASS** |
 
 ## Generated artefacts
 None. requirements/served_routes.json and requirements/status.json are byte-identical to base (no route added; the
