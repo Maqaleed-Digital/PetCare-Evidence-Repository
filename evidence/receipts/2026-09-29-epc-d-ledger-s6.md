@@ -7,5 +7,5 @@
 
 Ledger rows: X-25 CLOSED (dispatch refuses without consent; tests + ARMED perturbations + J-O10). X-01 3/107 → 7/107.
 X-26 OPEN (J-O5). X-22 OPEN — reproduced under a controlled clock, no TZ masking. X-27 NEW (consultation pet selector).
-R13: AC-FR-23-01 interpretation recorded (governance/sponsor_acts/MVC-EPC-D-001-R13-FR23-CONSENT.md); four registered
+R13: AC-FR-23-01 interpretation recorded (evidence/receipts/2026-09-29-epc-d-d2d-r13-fr23-consent-interpretation.md); four registered
 tests amended precondition-only, assertions byte-identical; acceptance counts unchanged.

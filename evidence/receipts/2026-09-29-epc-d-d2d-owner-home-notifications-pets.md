@@ -6,7 +6,8 @@ BRANCH=lane-d/d2d-owner-pets-reminders-deliveries
 START_HEAD=4896e3316e29d12f13f9af0b53e6a6035446777e (= origin/main = merge-base; D2c PR #86)
 IMPLEMENTATION_COMMITS=3e6c09b (D2d + R10–R13) · c3783f9 (R12 test teardown) · 28d908f (D2c anchor collision)   END_HEAD=see PR
 AUTHORITY: MVC-EPC-D-001 v1.5 [SPONSOR] + Sponsor continuation authority 2026-09-28 (R10, R11, R12) + ruling R13 2026-09-29
-ACCEPTANCE_COUNTS=UNCHANGED — requirements/acceptance/** byte-identical; every registered test node id unchanged
+ACCEPTANCE_COUNTS=UNCHANGED — requirements/** (incl. acceptance/**) and governance/** byte-identical to base; every
+registered test node id unchanged; existing evidence/receipts/* and existing evidence/replay/<dir>/** unchanged
 ```
 
 ## Phase V (accepted, not repeated)
@@ -49,7 +50,8 @@ R13_DECISION=OPTION_A
 R13_TESTS_AMENDED=4, method: in place, insert-only precondition (the register's TEST items are keyed by node id and
   carry no supersession mechanism), provenance below
 R13_ASSERTIONS_CHANGED=NO
-AC_FR_23_01_ANNOTATED=YES  (governance/sponsor_acts/MVC-EPC-D-001-R13-FR23-CONSENT.md; ratified text unchanged)
+AC_FR_23_01_ANNOTATED=YES  (evidence/receipts/2026-09-29-epc-d-d2d-r13-fr23-consent-interpretation.md; ratified text unchanged;
+  recorded as a NEW receipt because instrument v1.5 LIMITS forbid changes to governance/**)
 ```
 | TEST_ID | BEFORE (file sha256) | AFTER (file sha256) | PRECONDITION_CHANGE | ASSERTIONS_CHANGED | COVERAGE_WEAKENED |
 |---|---|---|---|---|---|
@@ -160,21 +162,24 @@ PORT08_EVIDENCE=base 4896e33 app/owner/page.tsx contains 0 fetch/useEffect calls
 | tsc | clean |
 | web vitest | 41 files / **215** passed |
 | backend (CI command `pytest tests petcare_runtime/tests petcare_api/tests`, TZ unset, head 28d908f, 2026-09-29 13:21 +03) | **1204 passed, 0 failed, 0 skipped** |
-| canonical checker `tools/check_register.py` | output == requirements/status.json; acceptance states, summary and acceptance block unchanged |
+| canonical checker `tools/check_register.py` | output == requirements/status.json, which is byte-identical to base (sha256 9e4c9d5e…0709); no FR/NFR status change |
 | served routes (`tools/list_served_routes.py main:app`, canonical env) | unchanged (requirements/served_routes.json byte-identical) |
 | full stack (Playwright → petcare_web → main:app → PostgreSQL), ar/en × 1280/390, head 28d908f | **36/36**; journeys **7/53** (J-00, J-O1, J-O2, J-O3, J-O4, J-O10, J-O11); screens **7/107** (PUB-01, PUB-07, CO-01, CO-02, CO-03, CO-14, CO-15) |
-| D2d perturbations `perturb_epc_d_d2d.py` | **19 ARMED / 0 VACUOUS** |
+| D2d perturbations `evidence/replay/2026-09-29-epc-d/perturb_epc_d_d2d.py` | **19 ARMED / 0 VACUOUS** |
 | FR-23 / FR-09 perturbations after R13.1 | perturb_u15.py **9/9 ARMED**, perturb_u19.py **3/3 ARMED** |
 | D3 full corpus replay (`tools/corpus_replay.py`, detached checkouts) | base main 4896e33 **250** → head 28d908f **269** · head ARMED **264** · excluded **5** (the EXCLUSIONS.md items, unchanged) · 19 new, all ARMED · 0 removed · no classification change · **D3 PASS** |
 
 ## Generated artefacts
-| File | Before sha256 | After sha256 | Generator |
-|---|---|---|---|
-| requirements/status.json | 9e4c9d5e1a746f906e0b7e4f3fbdc0aeb6ccfeadfd88b3a85307076b11d4220b | c92203635b8e750c82b4b399844a37ca74b94688c5ace9c1a0cd8810252275e0 | `tools/check_register.py` |
-
-Diff inspected: FR-23 `counts.basis` 6 → 7 only (the added bindings basis line citing the consent gate and the R13 act).
+None. requirements/served_routes.json and requirements/status.json are byte-identical to base (no route added; the
+checker output equals status.json).
 
 ## Findings
+- **D2D-LIMITS-SELF-CORRECTION (fixed before merge):** reading the v1.5 LIMITS before merging showed three of this
+  unit's own changes outside them: (1) the R13.2 interpretation had been written to governance/sponsor_acts/ — moved to
+  a new receipt (governance/** may not change); (2) a basis line had been added to requirements/bindings.json, with
+  status.json regenerated (R4: only served_routes.json/status.json via their generators may change) — both reverted to
+  base bytes; (3) perturb_epc_d_d2d.py had been placed in the existing replay dir 2026-09-28-epc-d — moved to the new dir
+  2026-09-29-epc-d ("new replay dirs only"). D3 was re-run on the corrected head.
 - **D2D-E2E-CLUSTER-LEAK (fixed):** Playwright ended the API stack with SIGKILL, so pg_harness's atexit never ran and
   every journey run leaked a cluster and its SysV segment. SIGTERM + signal handler.
 - **D2D-R10-MASKED-TENANT-PERTURBATION (fixed before commit):** the first R10 draft read consent in the SESSION tenant.

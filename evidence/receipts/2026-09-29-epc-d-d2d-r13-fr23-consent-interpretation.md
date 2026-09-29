@@ -1,14 +1,8 @@
-# MVC-EPC-D-001-R13-FR23-CONSENT
+# MVC-EPC-D-001 v1.5 — D2d: Sponsor ruling R13 (2026-09-29) — FR-23 consent interpretation, recorded as a receipt
 
-- id: MVC-EPC-D-001-R13-FR23-CONSENT
-- status: RATIFIED
-- date: 2026-09-29
-- lock: YES
-- scope: FR-23 (AC-FR-23-01, AC-FR-23-02), FR-09 (AC-FR-09-03)
-
-Recorded under MVC-EPC-D-001 v1.5, unit D2d. Sponsor rulings R10 (2026-09-28) and R13 (2026-09-29).
-The ratified AC-FR-23-01 text in `requirements/acceptance/phase1_high_pack.ratified.json` is NOT edited; this act
-records the governed interpretation attached to it.
+Recorded here, not under governance/**: instrument v1.5 LIMITS forbid any change to governance/** and requirements/**
+("new receipts only"). The ratified AC-FR-23-01 text in requirements/acceptance/phase1_high_pack.ratified.json is
+unchanged; this receipt records the governed interpretation R13.2 attaches to it.
 
 ```
 ACT_ID=MVC-EPC-D-001-R13-FR23-CONSENT
