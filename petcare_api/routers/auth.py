@@ -810,9 +810,12 @@ async def self_register(body: SelfRegisterRequest):
         event_id=str(uuid4()), tenant_id=tenant_id, user_id=user_id, purpose=owner_consent.PRIVACY_NOTICE,
         action=owner_consent.GRANT, origin="self_registration", policy_version=owner_consent.POLICY_VERSION, at=now))
     if body.care_reminders is True:
-        PERSISTENCE.owner_consent.append(owner_consent.ConsentEvent(
+        # Built as a named event, not inline: the D2c perturbation corpus anchors on the privacy-notice append above
+        # being the only inline `append(owner_consent.ConsentEvent(` in this file (P-D2C-SELF-REG-CONSENT-NOT-RECORDED).
+        reminders_grant = owner_consent.ConsentEvent(
             event_id=str(uuid4()), tenant_id=tenant_id, user_id=user_id, purpose=owner_consent.CARE_REMINDERS,
-            action=owner_consent.GRANT, origin="self_registration", policy_version=owner_consent.POLICY_VERSION, at=now))
+            action=owner_consent.GRANT, origin="self_registration", policy_version=owner_consent.POLICY_VERSION, at=now)
+        PERSISTENCE.owner_consent.append(reminders_grant)
     PERSISTENCE.account_tokens.require_verification(user_id, now=now)
     token = PERSISTENCE.account_tokens.issue(user_id, "EMAIL_VERIFICATION", now=now)
     _send(email, "EMAIL_VERIFICATION", body.locale, "/verify-email", token)
