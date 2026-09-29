@@ -98,10 +98,16 @@ def test_the_harness_marks_its_cluster_before_start_and_removes_only_that(tmp_pa
     monkeypatch.setattr(h.atexit, "register", stops.append)
     h.start_ephemeral_cluster()
     d = Path(h._CLUSTER["datadir"])
-    assert d.name.startswith(h.DATADIR_PREFIX) and (d / "postmaster.pid").exists()
-    assert h.ownership_proof(d, run_nonce=h._CLUSTER["run_nonce"]) == (True, "PROVEN_HARNESS_OWNED")
-    bystander = _cluster_like(tmp_path, "petcare-pg-bystander")
-    (stop,) = stops
-    stop()
-    assert not d.exists() and bystander.exists()
-    assert subprocess.run(["pg_ctl", "-D", str(d), "status"], capture_output=True).returncode != 0
+    try:
+        assert d.name.startswith(h.DATADIR_PREFIX) and (d / "postmaster.pid").exists()
+        assert h.ownership_proof(d, run_nonce=h._CLUSTER["run_nonce"]) == (True, "PROVEN_HARNESS_OWNED")
+        bystander = _cluster_like(tmp_path, "petcare-pg-bystander")
+        (stop,) = stops
+        stop()
+        assert not d.exists() and bystander.exists()
+        assert subprocess.run(["pg_ctl", "-D", str(d), "status"], capture_output=True).returncode != 0
+    finally:
+        # Test hygiene, not the harness cleanup path: if an assertion above failed, STOP (never delete) the server this
+        # test process started seconds ago in its own tmp_path, so a failing run does not leave a postmaster behind.
+        if (d / "postmaster.pid").exists():
+            subprocess.run(["pg_ctl", "-D", str(d), "-m", "immediate", "stop"], capture_output=True)
