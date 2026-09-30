@@ -2270,3 +2270,81 @@ class PostgresOwnerConsentRepository:
     def latest(self, user_id, purpose, *, tenant_id):
         mine = [e for e in self.events_for(user_id, tenant_id=tenant_id) if e.purpose == purpose]
         return mine[-1] if mine else None
+
+
+class PostgresBookingRepository:
+    """J-O5 consultation bookings over migration 0058 (MVC-EPC-D-001 D2e). The partial unique index refuses a second
+    live booking of one veterinarian at one instant; that refusal is surfaced as SlotTaken."""
+
+    _COLS = ("booking_id, tenant_id, owner_id, pet_id, veterinarian_id, mode, starts_at, status, reason, "
+             "created_by_actor_id, created_at, updated_at")
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    @staticmethod
+    def _row(r):
+        from bookings import Booking
+        return Booking(r[0], r[1], r[2], r[3], r[4], r[5], _from_db(r[6]), r[7], r[8], r[9], _from_db(r[10]),
+                       _from_db(r[11]))
+
+    @staticmethod
+    def _slot_taken(exc: Exception) -> bool:
+        return getattr(exc, "sqlstate", None) == "23505"
+
+    def create(self, b):
+        from bookings import SlotTaken, validate_booking
+        validate_booking(b)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO consultation_booking ({self._COLS}) VALUES "
+                             "(%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                             (b.booking_id, b.tenant_id, b.owner_id, b.pet_id, b.veterinarian_id, b.mode,
+                              _to_db(b.starts_at), b.status, b.reason, b.created_by_actor_id, _to_db(b.created_at),
+                              _to_db(b.updated_at)))
+        except Exception as exc:
+            if self._slot_taken(exc):
+                raise SlotTaken("that slot is already booked") from None
+            raise
+        return b
+
+    def get(self, booking_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            r = conn.execute(f"SELECT {self._COLS} FROM consultation_booking WHERE booking_id = %s AND tenant_id = %s",
+                             (booking_id, tenant_id)).fetchone()
+        return self._row(r) if r else None
+
+    def list_for_owner(self, owner_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._COLS} FROM consultation_booking WHERE owner_id = %s AND tenant_id = %s "
+                                "ORDER BY starts_at, booking_id", (owner_id, tenant_id)).fetchall()
+        return [self._row(r) for r in rows]
+
+    def taken_starts(self, veterinarian_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT starts_at FROM consultation_booking WHERE veterinarian_id = %s "
+                                "AND tenant_id = %s AND status = 'BOOKED'", (veterinarian_id, tenant_id)).fetchall()
+        return {_from_db(r[0]) for r in rows}
+
+    def reschedule(self, booking_id, starts_at, *, tenant_id, at):
+        from bookings import SlotTaken
+        try:
+            with self._pool.connection() as conn:
+                n = conn.execute("UPDATE consultation_booking SET starts_at = %s, updated_at = %s WHERE booking_id = %s "
+                                 "AND tenant_id = %s AND status = 'BOOKED'",
+                                 (_to_db(starts_at), _to_db(at), booking_id, tenant_id)).rowcount
+        except Exception as exc:
+            if self._slot_taken(exc):
+                raise SlotTaken("that slot is already booked") from None
+            raise
+        if n != 1:
+            raise RepositoryDenied("only a live booking can be rescheduled")
+        return self.get(booking_id, tenant_id=tenant_id)
+
+    def cancel(self, booking_id, *, tenant_id, at):
+        with self._pool.connection() as conn:
+            n = conn.execute("UPDATE consultation_booking SET status = 'CANCELLED', updated_at = %s WHERE booking_id = %s "
+                             "AND tenant_id = %s AND status = 'BOOKED'", (_to_db(at), booking_id, tenant_id)).rowcount
+        if n != 1:
+            raise RepositoryDenied("only a live booking can be cancelled")
+        return self.get(booking_id, tenant_id=tenant_id)

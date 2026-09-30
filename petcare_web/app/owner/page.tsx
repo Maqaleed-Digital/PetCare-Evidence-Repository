@@ -5,7 +5,6 @@ import { useLang } from '@/components/LangProvider'
 import { STRINGS } from '@/lib/strings'
 import { FirstRunModal } from '@/components/FirstRunModal'
 import { AdvisoryDisclosureBanner } from '@/components/AdvisoryDisclosureBanner'
-import { ModeDisclosureBanner } from '@/components/ModeDisclosureBanner'
 import { ConfidenceBand } from '@/components/ConfidenceBand'
 import { ExplainabilityPanel } from '@/components/ExplainabilityPanel'
 import { AuditTrailLink } from '@/components/AuditTrailLink'
@@ -98,13 +97,16 @@ export default function OwnerPage() {
           <a className="button button-outline button-sm" href="/account">{t(s.accountOpen)}</a>
         </section>
 
-        {/* Booking (J-O5) is not built yet: disclosed, never a dead link (closes D2-DEAD-LINK). */}
+        {/* Booking (J-O5, D2e): served screens CO-05 and CO-07. */}
         <section className="role-card" aria-labelledby="owner-appointments-title">
           <div>
             <h2 id="owner-appointments-title" className="title" style={{ fontSize: 16 }}>{t(s.appointmentsTitle)}</h2>
-            <p className="subtitle">{t(s.appointmentsSoon)}</p>
+            <p className="subtitle">{t(s.appointmentsSub)}</p>
           </div>
-          <ModeDisclosureBanner variant="badge" />
+          <div className="row">
+            <a className="button button-outline button-sm" href="/owner/book" data-testid="owner-open-book">{t(s.appointmentsBook)}</a>
+            <a className="button button-outline button-sm" href="/owner/appointments" data-testid="owner-open-appointments">{t(s.appointmentsOpen)}</a>
+          </div>
         </section>
       </div>
 

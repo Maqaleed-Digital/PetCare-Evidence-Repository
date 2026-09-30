@@ -67,7 +67,9 @@ export async function untranslated(page: Page, selector = 'body'): Promise<strin
 /** A real user closes the owner's first-run guide before using the page (it is dismissable with Esc by design). */
 export async function dismissFirstRun(page: Page) {
   const guide = page.locator('[role="dialog"][aria-labelledby="firstrun-title"]')
-  if (await guide.isVisible().catch(() => false)) {
+  // The guide opens in an effect after hydration, which can lag under a loaded full-suite run (D2e finding
+  // D2E-FIRSTRUN-RACE): wait briefly for it instead of sampling visibility once.
+  if (await guide.waitFor({ state: 'visible', timeout: 5_000 }).then(() => true, () => false)) {
     await page.keyboard.press('Escape')
     await expect(guide).toBeHidden()
   }

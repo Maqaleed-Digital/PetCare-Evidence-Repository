@@ -1,0 +1,414 @@
+[SPONSOR RULING — MVC-EPC-D-001 v1.5 — R15 EXECUTION MECHANICS]
+
+DATE=2026-09-30
+AUTHORITY=SPONSOR
+STATUS=RATIFIED
+LOCK=YES
+CREATE_NEW_INSTRUMENT=NO
+
+R15.1 STRATEGY FROZEN
+
+The governing strategy is frozen.
+
+Do not create:
+- another recovery programme;
+- another completion definition;
+- another Lane D instrument;
+- another completion/gap ledger.
+
+The canonical Master Completion Gap Ledger is the sole denominator.
+
+Completion semantics:
+
+CP1 = PHASE-1 ENGINEERING COMPLETE
+CP2 = PHASE-1 LIVE COMPLETE
+CP3 = PROJECT COMPLETE / FULL APPROVED BRD
+
+LANE_D=FINISHED means CP1 only.
+
+It NEVER means PROJECT_COMPLETE.
+
+Newly discovered legitimate defects:
+
+1. search for an existing canonical row first;
+2. if already represented, update/evidence that row;
+3. if genuinely new, add exactly one OPEN row;
+4. report it under ROWS_ADDED;
+5. do not maintain a parallel defect list.
+
+If closure-point classification is genuinely ambiguous and changes Sponsor
+scope, propose classification and continue unrelated work until Sponsor ruling.
+
+R15.2 RULINGS CUSTODY
+
+Create/update append-only governed custody at:
+
+evidence/receipts/<date>-epc-d-rulings-register.md
+
+Custody only ruling text available VERBATIM from authoritative session or
+repository evidence.
+
+For each available block record:
+
+IDENTIFIER
+SOURCE
+SHA256
+CUSTODY_STATUS
+
+Never reconstruct unavailable R1-R14 text from summaries.
+
+For unavailable original text:
+
+CUSTODY_EXCEPTION=<identifier>
+REASON=VERBATIM_SOURCE_NOT_AVAILABLE
+
+A custody exception is NOT a stop.
+
+Continue engineering.
+
+Mirror the custody record into the existing Lane D Notion authority location
+when Notion tooling is available.
+
+If Notion tooling is unavailable:
+produce an exact NOTION_BLOCK and continue.
+
+Do not create a competing Notion authority page.
+
+R15.3 MEASUREMENT
+
+Every closure receipt independently reports:
+
+SCREENS=<passed>/107
+JOURNEYS=<passed>/53
+
+CP1_CLOSED=<closed>/<measured CP1 total>
+CP2_CLOSED=<closed>/<measured CP2 total>
+CP3_CLOSED=<closed>/<measured CP3 total>
+
+Also report:
+
+SCREENS_DELTA
+JOURNEYS_DELTA
+ROWS_CLOSED_DELTA
+ROWS_ADDED
+ELAPSED_CALENDAR_DAYS
+
+Never turn unequal ledger rows into a fake project-completion percentage.
+
+R15.4 REPORTING CONTRACT
+
+Every runner report begins with exactly:
+
+CLOSED:
+<only newly closed work and evidence>
+
+REMAINING:
+<measured canonical state>
+
+NEXT_GATE:
+<CONTINUE or genuine gate>
+
+Do not report:
+- green unit tests as BRD completion;
+- backend completion as product completion;
+- CP1 as project completion;
+- mocked provider evidence as CP2 evidence.
+
+R15.5 FAST LANE / FAIL-FORWARD
+
+Proceed automatically through every safe, reversible, governed activity,
+including:
+
+- read-only discovery;
+- source inspection;
+- coding;
+- refactoring inside owned scope;
+- local synthetic PostgreSQL;
+- governed fake-provider execution;
+- unit/integration/E2E tests;
+- Playwright;
+- Arabic/English validation;
+- desktop/mobile validation;
+- perturbation creation;
+- perturbation replay;
+- full corpus replay;
+- checker replay;
+- documentation;
+- evidence;
+- receipts;
+- append-only ledger segments;
+- Notion reconciliation;
+- branch creation;
+- explicit-path staging;
+- commits;
+- pushes;
+- PR creation;
+- CI observation;
+- safe repair of CI failures;
+- CI reruns.
+
+Do NOT stop merely because:
+- a journey passed;
+- a screen passed;
+- a test suite passed;
+- a receipt was written;
+- a ledger segment was written;
+- Notion was updated;
+- a commit was created;
+- a PR was opened;
+- CI initially failed for a repairable owned defect;
+- one sub-unit completed;
+- context is getting long.
+
+Bundle the largest safe closure wave permitted by MVC-EPC-D-001 v1.5.
+
+If context is approaching its limit:
+write complete governed recovery state/receipt first;
+preserve exact branch/HEAD/gate/evidence;
+then return CONTEXT_HANDOFF rather than losing execution state.
+
+R15.6 ONLY PERMITTED STOPS
+
+STOP only at:
+
+A. MERGE GATE
+
+A PR is fully merge-ready but the runner cannot perform the governed merge.
+
+Return:
+
+GATE=MERGE
+PR=<number>
+HEAD=<full sha>
+CI=<exact state>
+
+COMMAND:
+gh pr merge <number> --merge --match-head-commit <full-sha>
+
+Do not treat this as a defect.
+
+B. CREDENTIAL GATE
+
+A real credential/key/token is required and is not already available through
+an authorised mechanism.
+
+Return exactly which credential is required and why.
+
+C. LIVE EXTERNAL / PRODUCTION MUTATION
+
+Examples:
+- production deployment;
+- live DB apply/mutation;
+- real provider activation;
+- DNS;
+- external dashboard configuration;
+- production secrets;
+- genesis/first live tenant.
+
+D. IRREVERSIBLE ACTION
+
+A destructive or irreversible action without explicit existing authority.
+
+E. SPONSOR BUSINESS DECISION
+
+A genuine unresolved A/B changes product/business semantics and existing
+authority cannot resolve it.
+
+Do NOT manufacture Sponsor decisions for ordinary implementation choices.
+
+R15.7 MERGE GATES ARE ROUTINE
+
+A merge gate is the expected human interruption.
+
+When reached:
+return the exact merge command and stop.
+
+After a merge SHA is supplied:
+verify it;
+reconcile evidence/ledger/Notion;
+continue automatically into the next unfinished unit.
+
+Do NOT require Sponsor to repaste earlier rulings after each merge.
+
+R15.8 ENGINEERING EXECUTION ORDER
+
+After R14 bookkeeping, continue immediately:
+
+1. J-O5 / X-26
+2. J-O6
+3. J-O7
+4. J-O8
+5. J-O9
+6. J-O12
+7. all remaining D2 owner journeys/screens
+8. remaining D3-D9 units in the governing instrument's dependency order
+9. X-05 payment engineering
+10. X-07 provider-adapter engineering using governed fakes
+11. X-10 deployment engineering
+12. X-11 load-test tooling
+13. every remaining CP1 defect/finding
+14. CP1 final acceptance replay
+
+This list does NOT supersede a stricter dependency ordering already present in
+MVC-EPC-D-001 v1.5.
+
+The instrument + canonical ledger remain authoritative.
+
+Do not omit a requirement merely because it is absent from this summary.
+
+R15.9 CP1 EXIT GATE
+
+CP1 may be declared only when all measured CP1 rows are CLOSED and all v1.5
+CP1 acceptance conditions are satisfied.
+
+The final CP1 receipt must prove at minimum:
+
+CP1_ROWS_TOTAL=<measured>
+CP1_ROWS_CLOSED=<same number>
+OPEN_CP1_ROWS=0
+
+SCREENS=107/107
+JOURNEYS=53/53
+
+SENSITIVE_OPERATIONS=<required>/<required>
+PROVIDER_ADAPTERS=<required>/<required>
+
+DEPLOYMENT_ENGINEERING=PASS
+LOAD_TOOLING=PASS
+FULL_CORPUS_REPLAY=PASS
+CHECKER=PASS
+
+If any condition is false:
+
+CP1=OPEN
+
+Continue any non-gated work.
+
+R15.10 CP2 PARALLEL READINESS — NOT IN THIS RUNNER
+
+CP2 external preparation — including:
+
+- provider onboarding;
+- credential inventories;
+- production-input collection;
+- penetration-test procurement/scope;
+- external load-environment authorization;
+- legal/regulatory question packs;
+
+is managed OUTSIDE this engineering runner.
+
+Do not spend this runner's pre-CP1 context preparing those external packages.
+
+This runner's CP2-related work before CP1 is limited to engineering already
+inside CP1 scope, including:
+
+X-05
+X-07
+X-10
+X-11
+
+and any other CP1 engineering explicitly required by the governing instrument
+or canonical ledger.
+
+Do not modify the canonical ledger schema.
+
+At CP1 exit, report each CP2 row's remaining dependency in the CP1 receipt.
+
+R15.11 RESIDENCY AUTHORITY — DO NOT REOPEN
+
+The governing position is the one recorded in the live NFR-07 ledger row,
+verbatim:
+
+"Sponsor position: deploy now, migrate to AWS KSA region when available
+(not a blocker to launch); closes after migration."
+
+Do NOT treat KSA-region selection or migration as a launch prerequisite.
+
+Do NOT paraphrase or extend this position in any receipt; cite the ledger row.
+
+NFR-07 closes only when production data stores are in the AWS KSA region.
+
+R15.12 CP2 → CP3 CONTINUITY
+
+After CP1 is genuinely closed:
+
+continue automatically through all safe, non-gated CP2 engineering and
+acceptance preparation permitted by existing authority.
+
+Stop only at an R15.6 gate.
+
+Do not claim CP2 until every governed CP2 closure condition is actually met.
+
+After CP2 closes:
+continue through the approved CP3/full-BRD scope under the governing
+requirements.
+
+PROJECT_COMPLETE requires CP3.
+
+No required BRD functionality may be silently deferred, removed or relabelled
+"future" merely to achieve closure.
+
+R15.13 NO-LOOP RULE
+
+Before asking Sponsor a question:
+
+1. search repository authority;
+2. search canonical ledger;
+3. search governed receipts;
+4. search governed Sponsor rulings;
+5. determine whether existing authority already resolves it.
+
+If YES:
+execute.
+
+If NO but the choice is safe, reversible and does not change governed
+product/business semantics:
+choose the safest compliant implementation;
+record the assumption;
+continue.
+
+If NO and it is an R15.6 mandatory gate:
+ask exactly ONE bounded question, with evidence and alternatives.
+
+Never ask Sponsor to repeat information already in governed custody.
+
+R15.14 NO FALSE CLOSURE
+
+Before every closure claim, red-team it:
+
+- Does the test exercise the served application?
+- Is MyVetiCare's own API real rather than mocked?
+- Is PostgreSQL real where required?
+- Does the intended human reach the behavior through the UI where required?
+- Are Arabic and English proven where required?
+- Are desktop and mobile proven where required?
+- Would the perturbation fail if the requirement were broken?
+- Is external fake evidence being incorrectly counted as live evidence?
+- Is a stale Notion row contradicting repository authority?
+- Is a newly discovered gap already represented elsewhere?
+
+If any answer invalidates closure:
+do not close the row.
+
+Fix owned engineering automatically where permitted.
+
+R15.15 SECURITY / DEFECT DISCOVERY
+
+Security defects discovered during owned work are not reasons to abandon the
+current unit.
+
+For a genuine defect:
+
+1. contain it where necessary;
+2. search for equivalents;
+3. reconcile with canonical ledger;
+4. add one row only if genuinely new;
+5. fix automatically if within current authorised engineering scope;
+6. add negative tests;
+7. add ARMED perturbation where applicable;
+8. replay regression evidence;
+9. continue.
+
+Stop only if remediation crosses an R15.6 boundary.
+
+[END SPONSOR RULING — R15]

@@ -9,7 +9,7 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 | J-O2 | PASS | jo2-account-centre.spec.ts › [J-O2] @S:CO-15 an owner reviews, grants and withdraws consent, and the history is kept on the server |
 | J-O3 | PASS | jo2-account-centre.spec.ts › [J-O3] @S:CO-15 an owner edits their name and downloads their personal data after step-up |
 | J-O4 | PASS | jo4-pets.spec.ts › [J-O4] @S:CO-02 @S:CO-03 an owner adds a pet, opens its profile and history, and edits care preferences |
-| J-O5 | NO_TEST | — |
+| J-O5 | PASS | jo5-booking.spec.ts › [J-O5] @S:CO-05 @S:CO-07 an owner books, views, reschedules and cancels a consultation |
 | J-O6 | NO_TEST | — |
 | J-O7 | NO_TEST | — |
 | J-O8 | NO_TEST | — |
@@ -58,4 +58,4 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 | J-CHAIN-PHARMACY | NO_TEST | — |
 | J-CHAIN-MARKET | NO_TEST | — |
 
-TOTAL 53 · PASS 7
+TOTAL 53 · PASS 8

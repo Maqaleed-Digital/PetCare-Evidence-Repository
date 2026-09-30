@@ -93,6 +93,15 @@ jobs:
       # 353 = tests/ 73 (39 governance) + petcare_runtime 234 + petcare_api 46.
       # The root conftest.py puts petcare_runtime/src on sys.path, so this needs
       # no PYTHONPATH from the environment.
+      # R14.4 (MVC-EPC-D-001, D2e): the R12 real-cluster ownership test needs initdb/pg_ctl, which the runner image ships
+      # but does not put on PATH; without this it was skipped in CI (D2d receipt, skip accounting).
+      - name: Expose the runner's PostgreSQL server binaries
+        run: |
+          set -euo pipefail
+          bin="$(ls -d /usr/lib/postgresql/*/bin 2>/dev/null | sort -V | tail -1 || true)"
+          if [ -z "$bin" ]; then sudo apt-get update -q && sudo apt-get install -y -q postgresql; bin="$(ls -d /usr/lib/postgresql/*/bin | sort -V | tail -1)"; fi
+          test -x "$bin/initdb" && test -x "$bin/pg_ctl"
+          echo "$bin" >> "$GITHUB_PATH"
       - name: Python estate — tests, governance registers, authority resolver
         run: python -m pytest tests petcare_runtime/tests petcare_api/tests -q
         env:
@@ -150,6 +159,8 @@ jobs:
             petcare_api/tests/test_epc_d1_sq3_postgres.py \
             petcare_api/tests/test_epc_d2_account_tokens_postgres.py \
             petcare_api/tests/test_epc_d2_consent_postgres.py \
+            petcare_api/tests/test_epc_d2e_booking_postgres.py \
+            petcare_api/tests/test_epc_d2d_scratch_ownership.py \
             petcare_api/tests/test_sq1_platform_identity_chain_postgres.py \
             -q --no-header -rs | tee /tmp/pg.txt
           grep -qE '[0-9]+ passed' /tmp/pg.txt

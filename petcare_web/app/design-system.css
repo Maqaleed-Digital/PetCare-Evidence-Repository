@@ -71,3 +71,7 @@
 .ds-table { inline-size: 100%; border-collapse: collapse; }
 .ds-table th, .ds-table td { text-align: start; padding: var(--ds-space-2) var(--ds-space-3); border-block-end: 1px solid var(--ds-color-line); }
 @media (max-width: 480px) { .ds-page { padding-inline: var(--ds-space-3); } .ds-table { display: block; overflow-x: auto; } }
+/* D2e (J-O5): a selectable slot — a radio with a touch-sized label; the selected slot is marked by border and weight. */
+.ds-chip { display: inline-flex; align-items: center; gap: var(--ds-space-2); min-block-size: var(--ds-touch);
+  padding-inline: var(--ds-space-3); border: 1px solid var(--ds-color-line); border-radius: var(--ds-radius); cursor: pointer; }
+.ds-chip--selected { border-color: currentColor; font-weight: 600; }

@@ -190,6 +190,8 @@ def reset_w0f_tables(url: str) -> None:
         conn.execute("TRUNCATE pet_medical_record")
         # D2 (0057): owner_consent_event is append-only (row DELETE refused by trigger), so it is truncated too.
         conn.execute("TRUNCATE owner_consent_event")
+        # D2e (0058): bookings reference pet_profile, user_identity and tenant, so they go before all three.
+        conn.execute("TRUNCATE consultation_booking")
         conn.execute("TRUNCATE routing_decision, pharmacy_licence, "  # FR-15 (0050)
                      "recall_notification, recall, delivery_completion, delivery_alert, "
                      "temperature_reading, delivery, stock_movement, inventory_location, "
