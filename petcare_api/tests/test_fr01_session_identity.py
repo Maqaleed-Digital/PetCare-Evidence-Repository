@@ -19,6 +19,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import main as api  # noqa: E402
 from routers import auth  # noqa: E402
 from tenant_fixtures import ensure_tenant, grant_practitioner_authority  # noqa: E402
+from owned_pet_fixtures import owned_pet  # noqa: E402  X-27 precondition (R16.4)
 
 pytestmark = pytest.mark.served_app
 T_A, T_B = "t-fr01-alpha", "t-fr01-beta"
@@ -101,7 +102,7 @@ def test_client_actor_header_is_ignored_on_appointments_and_consultations():
     assert _events(owner, "appointment.booked", appt["appointment_id"])[0]["actor_id"] == "u-fr01-owner"
     vet = _client_for("u-fr01-vet", T_A, "veterinarian")
     sess = vet.post("/api/consultations", headers=spoof, json={
-        "pet_id": "p1", "owner_id": "u-fr01-owner", "veterinarian_id": "u-fr01-vet", "tenant_id": T_A}).json()
+        "pet_id": owned_pet("u-fr01-owner"), "owner_id": "u-fr01-owner", "veterinarian_id": "u-fr01-vet", "tenant_id": T_A}).json()
     assert _events(vet, "consultation.session.requested", sess["session_id"])[0]["actor_id"] == "u-fr01-vet"
     note = vet.post(f"/api/consultations/{sess['session_id']}/notes", headers=spoof, json={
         "session_id": sess["session_id"], "pet_id": "p1", "content": "ok", "tenant_id": T_A}).json()
@@ -120,7 +121,7 @@ def test_appointment_and_consultation_records_are_tenant_scoped():
         "pet_id": "p1", "owner_id": "u-fr01-owner2", "clinic_id": "c1", "tenant_id": T_A}).json()
     vet_a = _client_for("u-fr01-vet2", T_A, "veterinarian")
     sess = vet_a.post("/api/consultations", json={
-        "pet_id": "p1", "owner_id": "u-fr01-owner2", "veterinarian_id": "u-fr01-vet2",
+        "pet_id": owned_pet("u-fr01-owner2"), "owner_id": "u-fr01-owner2", "veterinarian_id": "u-fr01-vet2",
         "tenant_id": T_A}).json()  # FR-06 (U11): participants are real identities of the tenant
     note = vet_a.post(f"/api/consultations/{sess['session_id']}/notes", json={
         "session_id": sess["session_id"], "pet_id": "p1", "content": "ok", "tenant_id": T_A}).json()

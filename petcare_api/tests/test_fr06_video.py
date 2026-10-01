@@ -18,6 +18,7 @@ import consultations as consult  # noqa: E402
 import main as api  # noqa: E402
 from routers import auth  # noqa: E402
 from tenant_fixtures import ensure_tenant, grant_practitioner_authority  # noqa: E402
+from owned_pet_fixtures import owned_pet  # noqa: E402  X-27 precondition (R16.4)
 
 pytestmark = pytest.mark.served_app
 T_A, T_B = "t-fr06v-alpha", "t-fr06v-beta"
@@ -43,7 +44,7 @@ def _open_gate(monkeypatch):
 
 
 def _book(vet, owner_id, vet_id, mode):
-    r = vet.post("/api/consultations", json={"pet_id": "p", "owner_id": owner_id, "veterinarian_id": vet_id, "mode": mode})
+    r = vet.post("/api/consultations", json={"pet_id": owned_pet(owner_id), "owner_id": owner_id, "veterinarian_id": vet_id, "mode": mode})
     assert r.status_code == 200, r.text
     return r.json()["session_id"]
 

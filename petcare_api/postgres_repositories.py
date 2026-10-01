@@ -1370,8 +1370,8 @@ class PostgresLicenceRepository:
         self._pool = pool
 
     def submit(self, lic):
-        from licences import validate_licence
-        validate_licence(lic, today=lic.submitted_at.date())
+        from licences import licence_calendar_date, validate_licence
+        validate_licence(lic, today=licence_calendar_date(lic.submitted_at))
         try:
             with self._pool.connection() as conn:
                 conn.execute(f"INSERT INTO vet_licence ({self._L}) VALUES (%s,%s,%s,%s,%s,%s)",

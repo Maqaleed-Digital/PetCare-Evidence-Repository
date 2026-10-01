@@ -19,6 +19,7 @@ import consultations as consult  # noqa: E402
 import main as api  # noqa: E402
 from routers import auth  # noqa: E402
 from tenant_fixtures import ensure_tenant, grant_practitioner_authority  # noqa: E402
+from owned_pet_fixtures import owned_pet  # noqa: E402  X-27 precondition (R16.4)
 
 pytestmark = pytest.mark.served_app
 T_A, T_B = "t-fr06-alpha", "t-fr06-beta"
@@ -42,7 +43,7 @@ def _events(c, name, rid=None):
 
 
 def _book(vet, owner_id, vet_id, **extra):
-    return vet.post("/api/consultations", json={"pet_id": "pet-6", "owner_id": owner_id, "veterinarian_id": vet_id,
+    return vet.post("/api/consultations", json={"pet_id": owned_pet(owner_id), "owner_id": owner_id, "veterinarian_id": vet_id,
                                                 **extra})
 
 

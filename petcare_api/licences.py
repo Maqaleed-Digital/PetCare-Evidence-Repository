@@ -17,6 +17,7 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from datetime import date, datetime, time, timedelta, timezone
 from typing import Optional, Protocol
+from zoneinfo import ZoneInfo
 
 from repositories import RepositoryDenied
 
@@ -24,6 +25,17 @@ MANUAL_STAFF, AUTHORITY_LOOKUP = "MANUAL_STAFF", "AUTHORITY_LOOKUP"
 METHODS = (MANUAL_STAFF, AUTHORITY_LOOKUP)
 SUBMITTED, VERIFIED = "SUBMITTED", "VERIFIED"
 MAX_FIELD = 200
+
+# X-22 (MVC-EPC-D-001, Sponsor ruling R16.3, Option B): Saudi veterinary licence validity is judged on the
+# Asia/Riyadh calendar date — never the UTC calendar and never the host machine's zone.
+LICENCE_CALENDAR_ZONE = ZoneInfo("Asia/Riyadh")
+
+
+def licence_calendar_date(at: datetime) -> date:
+    """The Asia/Riyadh calendar date of an instant. A naive instant is refused rather than guessed."""
+    if at.tzinfo is None or at.utcoffset() is None:
+        raise ValueError("licence validity needs a timezone-aware instant")
+    return at.astimezone(LICENCE_CALENDAR_ZONE).date()
 
 # The licensing-authority lookup port (AC-FR-05-03 contract): only LICENCE_VALID verifies.
 LICENCE_VALID, LICENCE_NOT_FOUND, LICENCE_LAPSED, LOOKUP_UNAVAILABLE = "VALID", "NOT_FOUND", "LAPSED", "UNAVAILABLE"
@@ -115,7 +127,7 @@ class InMemoryLicenceRepository:
     _verifications: dict = field(default_factory=dict)
 
     def submit(self, lic):
-        validate_licence(lic, today=lic.submitted_at.date())
+        validate_licence(lic, today=licence_calendar_date(lic.submitted_at))
         self._licences[lic.licence_id] = lic
         return lic
 

@@ -9,7 +9,8 @@ import dataclasses
 import os
 import sys
 import uuid
-from datetime import date, datetime, timedelta, timezone
+from datetime import date as _calendar_date, datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 
 import pytest
 from fastapi.testclient import TestClient
@@ -23,6 +24,17 @@ from routers import auth  # noqa: E402
 from tenant_fixtures import ensure_tenant  # noqa: E402
 
 pytestmark = pytest.mark.served_app
+
+
+class date(_calendar_date):
+    """X-22 date basis (Sponsor ruling R16.3, Option B; R13 precondition/date-basis amendment): "today" in this file's
+    fixtures is the Asia/Riyadh calendar date — the date the licence rule judges by — never the host machine's."""
+
+    @classmethod
+    def today(cls):
+        return datetime.now(ZoneInfo("Asia/Riyadh")).date()
+
+
 T_A, T_B = "t-fr05-alpha", "t-fr05-beta"
 PW = "Pw-long-enough-1"
 RX = {"pet_id": "p1", "session_id": "s1", "medication_name": "Amoxicillin", "dosage": "50mg", "instructions": "bid"}
