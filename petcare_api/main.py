@@ -525,7 +525,8 @@ def verify_audit_chain_endpoint(role: str = Depends(require_admin)):
 # ---------------------------------------------------------------------------
 class AppointmentRequest(BaseModel):
     pet_id: str
-    owner_id: str
+    #: X-26 (D2e): accepted for compatibility and IGNORED — the owner is derived from the session only (R11).
+    owner_id: Optional[str] = None
     clinic_id: str
     tenant_id: str
     requested_at: Optional[str] = None
@@ -546,7 +547,8 @@ def book_appointment(
     appt = {
         "appointment_id": appt_id,
         "pet_id": body.pet_id,
-        "owner_id": body.owner_id,
+        # X-26 / R11: the owner comes from the session, never the body; an admin session names no owner.
+        "owner_id": actor_id if actor_role == ROLE_OWNER else None,
         "clinic_id": body.clinic_id,
         "tenant_id": require_tenant(request, body.tenant_id),
         "status": "REQUESTED",
@@ -591,6 +593,164 @@ def get_appointment(
         clinic_id=appt.get("clinic_id"),
     )
     return appt
+
+# ---------------------------------------------------------------------------
+# J-O5 consultation booking (MVC-EPC-D-001 D2e; X-26). Owner, tenant and actor come from the session; the body only
+# selects a pet, a veterinarian and a slot, and every selector is validated against the session tenant.
+# ---------------------------------------------------------------------------
+import bookings as bk  # noqa: E402
+
+BOOKING_REPO = PERSISTENCE.bookings
+
+
+class BookingRequest(BaseModel):
+    pet_id: str
+    veterinarian_id: str
+    starts_at: str
+    mode: str = bk.IN_CLINIC
+    reason: str = ""
+
+
+class RescheduleRequest(BaseModel):
+    starts_at: str
+
+
+def _owner_session(request: Request, role: str):
+    if role != ROLE_OWNER:
+        raise HTTPException(403, {"error": "OWNER_ONLY"})
+    actor_id, actor_role = _actor(request)
+    return actor_id, actor_role, require_tenant(request)
+
+
+def _tenant_veterinarian(user_id: str, tenant_id: str):
+    ident = PERSISTENCE.identities.get_by_user_id(user_id)
+    if ident is None or ident.tenant_id != tenant_id or ident.role != ROLE_VETERINARIAN or ident.disabled_at:
+        raise HTTPException(400, {"error": "VETERINARIAN_NOT_IN_TENANT"})
+    return ident
+
+
+def _slot_instant(raw: str) -> datetime:
+    try:
+        at = datetime.fromisoformat(raw.replace("Z", "+00:00"))
+    except ValueError:
+        raise HTTPException(400, {"error": "SLOT_INVALID"}) from None
+    if at.tzinfo is None:
+        raise HTTPException(400, {"error": "SLOT_INVALID"})
+    at = at.astimezone(timezone.utc)
+    if not bk.is_bookable_instant(at, now=datetime.now(timezone.utc)):
+        raise HTTPException(400, {"error": "SLOT_NOT_BOOKABLE"})
+    return at
+
+
+def _booking_audit(event: str, actor_id: str, actor_role: str, tenant_id: str, booking_id: str, cid: str) -> None:
+    _audit(event_name=event, actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="consultation_booking", resource_id=booking_id, action_result="success", correlation_id=cid)
+
+
+def _own_booking_or_404(booking_id: str, actor_id: str, tenant_id: str):
+    b = BOOKING_REPO.get(booking_id, tenant_id=tenant_id)
+    if b is None or b.owner_id != actor_id:
+        raise HTTPException(404, "Booking not found")  # 404, not 403: never confirm another owner's booking exists
+    return b
+
+
+@app.get("/api/booking/veterinarians")
+def booking_veterinarians(request: Request, role: str = Depends(require_role)):
+    """The veterinarians of the caller's own clinic (session tenant) — names only."""
+    _actor_id, _r, tenant_id = _owner_session(request, role)
+    vets = [i for i in PERSISTENCE.identities.list_for_tenant(tenant_id=tenant_id)
+            if i.role == ROLE_VETERINARIAN and not i.disabled_at]
+    return [{"user_id": v.user_id, "full_name": v.full_name} for v in sorted(vets, key=lambda v: v.full_name)]
+
+
+@app.get("/api/booking/slots")
+def booking_slots(request: Request, veterinarian_id: str, day: str, role: str = Depends(require_role)):
+    """Free slots of one veterinarian of the session tenant on one clinic-local day (default hours, D2E-DEFAULT-HOURS)."""
+    _actor_id, _r, tenant_id = _owner_session(request, role)
+    _tenant_veterinarian(veterinarian_id, tenant_id)
+    try:
+        on = date.fromisoformat(day)
+    except ValueError:
+        raise HTTPException(400, {"error": "DAY_INVALID"}) from None
+    now = datetime.now(timezone.utc)
+    taken = BOOKING_REPO.taken_starts(veterinarian_id, tenant_id=tenant_id)
+    return [s.isoformat() for s in bk.default_slots(on) if bk.is_bookable_instant(s, now=now) and s not in taken]
+
+
+@app.post("/api/bookings", status_code=201)
+def create_booking(
+    request: Request,
+    body: BookingRequest,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    actor_id, actor_role, tenant_id = _owner_session(request, role)
+    pet = PET_REPO.get(body.pet_id, tenant_id=tenant_id)
+    if pet is None or pet.owner_id != actor_id:
+        raise HTTPException(404, "Pet not found")
+    _tenant_veterinarian(body.veterinarian_id, tenant_id)
+    if body.mode not in bk.MODES:
+        raise HTTPException(400, {"error": "MODE_INVALID"})
+    if body.mode == bk.VIDEO and not vid.capability_enabled(os.environ):
+        raise HTTPException(409, {"error": "VIDEO_DISABLED"})  # SQ-2: video stays behind its switch
+    starts_at = _slot_instant(body.starts_at)
+    now = datetime.now(timezone.utc)
+    b = bk.Booking(booking_id=str(uuid4()), tenant_id=tenant_id, owner_id=actor_id, pet_id=pet.pet_id,
+                   veterinarian_id=body.veterinarian_id, mode=body.mode, starts_at=starts_at, status=bk.BOOKED,
+                   reason=" ".join(body.reason.split()), created_by_actor_id=actor_id, created_at=now, updated_at=now)
+    try:
+        BOOKING_REPO.create(b)
+    except bk.SlotTaken:
+        raise HTTPException(409, {"error": "SLOT_TAKEN"}) from None
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Booking refused: {exc}") from None
+    _booking_audit("consultation.booking.created", actor_id, actor_role, tenant_id, b.booking_id, x_correlation_id)
+    return b.to_read_model()
+
+
+@app.get("/api/bookings")
+def list_bookings(request: Request, role: str = Depends(require_role)):
+    actor_id, _r, tenant_id = _owner_session(request, role)
+    return [b.to_read_model() for b in BOOKING_REPO.list_for_owner(actor_id, tenant_id=tenant_id)]
+
+
+@app.post("/api/bookings/{booking_id}/reschedule")
+def reschedule_booking(
+    request: Request,
+    booking_id: str,
+    body: RescheduleRequest,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    actor_id, actor_role, tenant_id = _owner_session(request, role)
+    _own_booking_or_404(booking_id, actor_id, tenant_id)
+    starts_at = _slot_instant(body.starts_at)
+    try:
+        b = BOOKING_REPO.reschedule(booking_id, starts_at, tenant_id=tenant_id, at=datetime.now(timezone.utc))
+    except bk.SlotTaken:
+        raise HTTPException(409, {"error": "SLOT_TAKEN"}) from None
+    except RepositoryDenied:
+        raise HTTPException(409, {"error": "BOOKING_NOT_LIVE"}) from None
+    _booking_audit("consultation.booking.rescheduled", actor_id, actor_role, tenant_id, booking_id, x_correlation_id)
+    return b.to_read_model()
+
+
+@app.post("/api/bookings/{booking_id}/cancel")
+def cancel_booking(
+    request: Request,
+    booking_id: str,
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    actor_id, actor_role, tenant_id = _owner_session(request, role)
+    _own_booking_or_404(booking_id, actor_id, tenant_id)
+    try:
+        b = BOOKING_REPO.cancel(booking_id, tenant_id=tenant_id, at=datetime.now(timezone.utc))
+    except RepositoryDenied:
+        raise HTTPException(409, {"error": "BOOKING_NOT_LIVE"}) from None
+    _booking_audit("consultation.booking.cancelled", actor_id, actor_role, tenant_id, booking_id, x_correlation_id)
+    return b.to_read_model()
+
 
 # ---------------------------------------------------------------------------
 # Consultations

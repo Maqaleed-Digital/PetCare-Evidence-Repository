@@ -108,9 +108,9 @@ test('trust surfaces: /owner advisory + ModeDisclosure cards + /account PDPL & c
   await expect(page.locator('html')).toHaveAttribute('dir', 'rtl')
   await expect(page.getByTestId('advisory-disclosure')).toBeVisible()
   await expect(page.getByText(/إرشاد، وليس قراراً سريرياً/)).toBeVisible()
-  // ModeDisclosureBanner badges on the deferred-capability cards
-  const deferredBadges = page.getByTestId('mode-disclosure-badge')
-  await expect(deferredBadges.first()).toBeVisible()
+  // D2e (J-O5): booking was the last deferred card on /owner; it is now a served entry, not a deferred badge
+  await expect(page.getByTestId('owner-open-book')).toHaveAttribute('href', '/owner/book')
+  await expect(page.getByTestId('mode-disclosure-badge')).toHaveCount(0)
 
   // Footer carries the PDPL-rights link
   await expect(page.getByTestId('footer-pdpl-link')).toBeVisible()

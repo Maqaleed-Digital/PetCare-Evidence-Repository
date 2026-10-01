@@ -212,6 +212,48 @@
       "path": "/api/auth/verify-email"
     },
     {
+      "endpoint": "main:booking_slots",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/booking/slots"
+    },
+    {
+      "endpoint": "main:booking_veterinarians",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/booking/veterinarians"
+    },
+    {
+      "endpoint": "main:list_bookings",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/bookings"
+    },
+    {
+      "endpoint": "main:create_booking",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/bookings"
+    },
+    {
+      "endpoint": "main:cancel_booking",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/bookings/{booking_id}/cancel"
+    },
+    {
+      "endpoint": "main:reschedule_booking",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/bookings/{booking_id}/reschedule"
+    },
+    {
       "endpoint": "main:list_prices",
       "methods": [
         "GET"

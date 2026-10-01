@@ -267,7 +267,7 @@ export const STRINGS = {
     accountSub:         { ar: 'ملفك الشخصي، موافقاتك، التحقق بخطوتين، وتنزيل بياناتك.',
                           en: 'Your profile, consents, two-step verification and data download.' },
     accountOpen:        { ar: 'إدارة الحساب',          en: 'Manage account' },
-    appointmentsSoon:   { ar: 'حجز المواعيد غير متاح بعد في هذه المرحلة.', en: 'Booking is not available yet in this phase.' },
+    appointmentsOpen:   { ar: 'مواعيدي', en: 'My appointments' },
     emergencyHint:      { ar: 'هل حيوانك في حالة طارئة؟ اضغط للحصول على إرشادات فورية.',
                           en: 'Is your pet in an emergency? Tap for immediate guidance.' },
   },

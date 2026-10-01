@@ -1,0 +1,136 @@
+[SPONSOR RULING — MVC-EPC-D-001 v1.5 — R14]
+
+AUTHORITY=SPONSOR
+STATUS=RATIFIED
+LOCK=YES
+
+R14.0 POST-D2d RECORD CLOSURE
+
+Do not rewrite ledger s6.
+
+Create the next append-only ledger segment cryptographically chained to s6.
+
+Record:
+
+PR=87
+HEAD=62dff27eddcd3a43dfbcef6daad344e98dd9412d
+MERGE_SHA=2f9a3c6ae27598cb950a85124262e5db566bb7d6
+
+Reconcile the canonical Master Completion Gap Ledger and Notion.
+
+Close X-25 ONLY if its required closure evidence is satisfied by the merged
+D2d implementation and receipt.
+
+X-25 closure evidence must include:
+2f9a3c6ae27598cb950a85124262e5db566bb7d6
+
+Do NOT convert the engineering consent implementation into a PDPL lawful-basis
+or legal-compliance conclusion.
+
+If the merged D2d receipt contains an incorrect R13 subsection citation:
+do not edit historical merged evidence.
+Record an append-only correction in the next receipt/ledger segment.
+
+R14.1 X-27
+
+X-27 is RATIFIED as a CP1 row.
+
+EXPECTED_CP1_ROWS_TOTAL=14
+
+Independently measure CP1_ROWS_TOTAL from the live canonical ledger.
+
+Do NOT force the result to 14.
+
+If measured total differs:
+FINDING=CP1_COUNT_MISMATCH
+record the exact discrepancy and provenance.
+Do not add/remove/rename/reclassify rows merely to force the expected number.
+
+X-27 must close before LANE_D=FINISHED.
+
+Its closure requires:
+- implementation;
+- positive authorization test;
+- negative authorization/isolation test;
+- ARMED perturbation;
+- owning consultation journey evidence where applicable.
+
+R14.2 BOUNDED SCRATCH POSTGRESQL CLEANUP
+
+AUTHORISED:
+
+Gracefully stop ONLY the four PROBABLE_HARNESS_OWNED PostgreSQL servers
+explicitly identified in the D2d receipt.
+
+Before acting, record for each:
+- PID;
+- data directory;
+- endpoint/port if available;
+- exact ownership/classification evidence.
+
+Allowed:
+graceful pg_ctl stop -m fast or SIGTERM.
+
+PROHIBITED:
+- deleting any PostgreSQL data directory;
+- deleting database data;
+- stopping Homebrew postgresql@16;
+- stopping another session's scratchpad;
+- stopping an instance not in the exact D2d four;
+- inferring ownership only because connections are zero.
+
+Report:
+
+R12_PROBABLE_STOPPED=<n>/4
+R12_DIRS_DELETED=0
+
+If one of the four cannot be matched exactly:
+do not touch it;
+record the mismatch;
+continue unrelated execution.
+
+R14.3 X-22 — EVIDENCE ONLY, DO NOT FIX
+
+X-22 must NOT block independent engineering.
+
+Produce exact source evidence:
+
+PRODUCT_FILE_LINES=<exact>
+U10_FILE_LINES=<exact>
+CONTROLLED_CLOCK_EVIDENCE=<exact>
+TZ_OVERRIDE=NO
+
+Verify the current root-cause statement from source rather than assuming it:
+
+Frozen U10 derives "yesterday" from host-local calendar while the product
+licence rule uses its governed date basis.
+
+Provide Sponsor decision package:
+
+OPTION_A
+- fixture/test date-basis correction;
+- assertions unchanged;
+- before/after SHA256 if later authorised.
+
+OPTION_B
+- change product licence-date business semantics;
+- identify every dependent consequence.
+
+Do NOT silently select A or B.
+
+X22_STATUS=OPEN
+
+Continue all independent work.
+
+R14.4 CI INITDB
+
+Carry the missing-initdb CI condition as an engineering finding.
+
+The real PostgreSQL R12 test must eventually execute in CI.
+
+When a safe owning engineering unit can fix the runner dependency:
+fix it automatically and prove the real-DB test runs in CI.
+
+Do not permanently substitute local-only evidence for CI evidence.
+
+[END R14]

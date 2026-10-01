@@ -16,9 +16,9 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | CO-02 | Pet owner app | Household and pets | /owner/pets | 1 | PASS |
 | CO-03 | Pet owner app | Pet profile and timeline | /owner/pets (selected pet) | 1 | PASS |
 | CO-04 | Pet owner app | Vaccination card (PDF) | — | 0 | NO_TEST |
-| CO-05 | Pet owner app | Book (in-clinic / video, live slots) | — | 0 | NO_TEST |
+| CO-05 | Pet owner app | Book (in-clinic / video, live slots) | /owner/book | 1 | PASS |
 | CO-06 | Pet owner app | Pre-visit intake with photos | — | 0 | NO_TEST |
-| CO-07 | Pet owner app | My appointments | — | 0 | NO_TEST |
+| CO-07 | Pet owner app | My appointments | /owner/appointments | 1 | PASS |
 | CO-08 | Pet owner app | Video waiting room + device check + call | — | 0 | NO_TEST |
 | CO-09 | Pet owner app | Messages | — | 0 | NO_TEST |
 | CO-10 | Pet owner app | Visit summary and care plan | — | 0 | NO_TEST |
@@ -112,4 +112,4 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | PA-06 | Platform admin | Vet verification queue | — | 0 | NO_TEST |
 | PA-07 | Platform admin | System health | — | 0 | NO_TEST |
 
-TOTAL 107 · PASS 7
+TOTAL 107 · PASS 9
