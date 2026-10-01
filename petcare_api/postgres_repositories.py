@@ -2348,3 +2348,45 @@ class PostgresBookingRepository:
         if n != 1:
             raise RepositoryDenied("only a live booking can be cancelled")
         return self.get(booking_id, tenant_id=tenant_id)
+
+
+class PostgresOwnerPrescriptionUploadRepository:
+    """J-O7 owner-uploaded external prescriptions over migration 0059 (MVC-EPC-D-001 D2g)."""
+
+    _COLS = ("upload_id, tenant_id, owner_id, pet_id, filename, content_type, byte_size, content_sha256, storage_key, note, "
+             "status, uploaded_at")
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    @staticmethod
+    def _row(r):
+        from owner_prescriptions import OwnerPrescriptionUpload
+        return OwnerPrescriptionUpload(*r[:11], _from_db(r[11]))
+
+    def create(self, u):
+        from owner_prescriptions import validate_upload_record
+        validate_upload_record(u)
+        with self._pool.connection() as conn:
+            conn.execute(f"INSERT INTO owner_prescription_upload ({self._COLS}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                         (u.upload_id, u.tenant_id, u.owner_id, u.pet_id, u.filename, u.content_type, u.byte_size,
+                          u.content_sha256, u.storage_key, u.note, u.status, _to_db(u.uploaded_at)))
+        return u
+
+    def get(self, upload_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            r = conn.execute(f"SELECT {self._COLS} FROM owner_prescription_upload WHERE upload_id = %s AND tenant_id = %s",
+                             (upload_id, tenant_id)).fetchone()
+        return self._row(r) if r else None
+
+    def list_for_owner(self, owner_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._COLS} FROM owner_prescription_upload WHERE owner_id = %s AND tenant_id = %s "
+                                "ORDER BY uploaded_at, upload_id", (owner_id, tenant_id)).fetchall()
+        return [self._row(r) for r in rows]
+
+    def list_awaiting(self, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._COLS} FROM owner_prescription_upload WHERE tenant_id = %s "
+                                "AND status = 'AWAITING_VERIFICATION' ORDER BY uploaded_at, upload_id", (tenant_id,)).fetchall()
+        return [self._row(r) for r in rows]

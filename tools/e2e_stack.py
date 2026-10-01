@@ -30,6 +30,8 @@ USERS = (
 PORT = int(os.environ.get("PETCARE_E2E_API_PORT", "8090"))
 WEB_ORIGIN = os.environ.get("PETCARE_E2E_WEB_ORIGIN", "http://localhost:3100")
 OUTBOX = os.environ.get("PETCARE_E2E_OUTBOX") or str(Path(os.environ.get("TMPDIR", "/tmp")) / "petcare-e2e-outbox.jsonl")
+#: Per-run TOTP secrets of seeded staff (D2g), beside the outbox in TMPDIR — never in the repository.
+MFA_FILE = os.environ.get("PETCARE_E2E_MFA_FILE") or str(Path(OUTBOX).with_suffix(".mfa.json"))
 
 
 def _env(db_url: str) -> None:
@@ -86,6 +88,16 @@ def _seed() -> None:
         grant_id=str(uuid4()), tenant_id=TENANT, actor_id="u-e2e-vet", professional_class=CLASS_VETERINARIAN,
         licence_ref="E2E-SYNTHETIC-LICENCE", effective_from=now - timedelta(minutes=1),
         granted_by_actor_id="e2e-seed", granted_at=now))
+    # D2g (J-O7): issuing a prescription is an SQ-3 operation (MFA enrolment + step-up). The seeded veterinarian gets a
+    # confirmed TOTP factor whose secret is random PER STACK RUN and is written only next to the run's outbox (TMPDIR),
+    # never into the repository; journeys read it to step up through the real /api/me/mfa/step-up.
+    import base64
+    import json
+    import mfa as mfa_mod
+    secret = os.urandom(20)
+    nonce, ct = mfa_mod.encrypt(api._mfa_key(), secret)
+    api.MFA_REPO.put_factor(mfa_mod.Factor(user_id="u-e2e-vet", nonce=nonce, ciphertext=ct, created_at=now, confirmed_at=now))
+    Path(MFA_FILE).write_text(json.dumps({"u-e2e-vet": base64.b32encode(secret).decode()}), encoding="utf-8")
     print(f"[e2e] seeded tenant {TENANT} and {len(USERS)} synthetic users", flush=True)
 
 

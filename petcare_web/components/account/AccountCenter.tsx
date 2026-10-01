@@ -10,6 +10,7 @@
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { Button, Card, Copy, DataView, Field, Notice, useCopy } from '@/components/ui'
 import { useStepUp } from '@/components/StepUp'
+import { formatKsa } from '@/lib/ksaTime'
 
 const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL ?? '').replace(/\/$/, '')
 const call = (path: string, init?: RequestInit) => fetch(`${apiBase}${path}`, {
@@ -110,7 +111,7 @@ export function ConsentLedger() {
     if (r?.ok) setLedger(await r.json()); else setFailed(true)
     setBusy(null)
   }
-  const when = (iso: string) => new Date(iso).toLocaleString(lang === 'ar' ? 'ar-SA' : 'en-GB',
+  const when = (iso: string) => formatKsa(iso, lang,
     { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
 
   return (

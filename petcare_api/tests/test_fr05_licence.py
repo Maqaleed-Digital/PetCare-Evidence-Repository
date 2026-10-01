@@ -175,7 +175,7 @@ def test_the_licence_expiry_is_rechecked_at_the_moment_of_each_clinical_act(monk
     r = vet.post("/api/prescriptions", json=RX)
     assert r.status_code == 403
     expiry = datetime.combine(date.today() + timedelta(days=1), datetime.min.time(), tzinfo=timezone.utc)
-    assert r.json()["detail"]["reason"] == f"expired at {expiry.isoformat()}"
+    assert r.json()["detail"]["reason"] == f"expired at {expiry.replace(tzinfo=ZoneInfo('Asia/Riyadh')).isoformat()}"
 
 
 # --------------------------------------------------------------------------- AC-FR-05-03 (port contract, not evidence)

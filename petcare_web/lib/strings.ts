@@ -269,6 +269,7 @@ export const STRINGS = {
     accountOpen:        { ar: 'إدارة الحساب',          en: 'Manage account' },
     appointmentsOpen:   { ar: 'مواعيدي', en: 'My appointments' },
     consultationsOpen:  { ar: 'استشاراتي ورسائلها', en: 'My consultations and messages' },
+    prescriptionsOpen:  { ar: 'الوصفات الطبية', en: 'Prescriptions' },
     emergencyHint:      { ar: 'هل حيوانك في حالة طارئة؟ اضغط للحصول على إرشادات فورية.',
                           en: 'Is your pet in an emergency? Tap for immediate guidance.' },
   },

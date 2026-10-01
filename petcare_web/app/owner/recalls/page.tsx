@@ -10,6 +10,7 @@
 
 import { useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
+import { formatKsa } from '@/lib/ksaTime'
 
 type Notice = { notification_id: string; recall_id: string; body: string; created_at: string }
 
@@ -49,7 +50,7 @@ export default function OwnerRecallsPage() {
         <section key={n.notification_id} className="card stack" data-testid="recall-notice" role="alert">
           <strong>{t('intro')}</strong>
           <div dir="auto">{n.body}</div>
-          <small>{new Date(n.created_at).toLocaleString(isAr ? 'ar-SA' : 'en-GB', { dateStyle: 'medium' })}</small>
+          <small>{formatKsa(n.created_at, isAr ? 'ar' : 'en', { dateStyle: 'medium' })}</small>
         </section>
       ))}
     </main>

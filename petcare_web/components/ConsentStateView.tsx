@@ -10,13 +10,14 @@
 
 import { useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
+import { formatKsa } from '@/lib/ksaTime'
 import { STRINGS } from '@/lib/strings'
 import { readConsent, type ConsentRecord } from '@/lib/consent'
 
 function formatTimestamp(iso: string, lang: 'ar' | 'en'): string {
   try {
     const d = new Date(iso)
-    return d.toLocaleString(lang === 'ar' ? 'ar-SA' : 'en-GB', {
+    return formatKsa(d, lang, {
       year: 'numeric', month: 'long', day: 'numeric',
       hour: '2-digit', minute: '2-digit',
     })

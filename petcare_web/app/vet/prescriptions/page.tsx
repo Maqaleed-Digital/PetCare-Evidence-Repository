@@ -13,6 +13,7 @@
 
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
+import { formatKsa } from '@/lib/ksaTime'
 import { useStepUp } from '@/components/StepUp'
 
 type Authority = { in_force: boolean; reason: string | null }
@@ -45,7 +46,7 @@ function reasonText(reason: string | null, isAr: boolean): string {
   if (!reason) return ''
   const m = reason.match(/^(expired at|revoked at|not yet effective \(from) (.+?)\)?$/)
   if (!m) return reason === 'no authority granted' ? (isAr ? 'لا توجد صلاحية ممنوحة' : 'No authority granted') : reason
-  const when = new Date(m[2]).toLocaleString(isAr ? 'ar-SA' : 'en-GB', { dateStyle: 'medium', timeStyle: 'short' })
+  const when = formatKsa(m[2], isAr ? 'ar' : 'en', { dateStyle: 'medium', timeStyle: 'short' })
   const label = { 'expired at': isAr ? 'انتهت في' : 'Expired at', 'revoked at': isAr ? 'أُلغيت في' : 'Revoked at',
     'not yet effective (from': isAr ? 'تسري اعتباراً من' : 'Effective from' }[m[1]]
   return `${label} ${when}`

@@ -11,7 +11,7 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 | J-O4 | PASS | jo4-pets.spec.ts › [J-O4] @S:CO-02 @S:CO-03 an owner adds a pet, opens its profile and history, and edits care preferences |
 | J-O5 | PASS | jo5-booking.spec.ts › [J-O5] @S:CO-05 @S:CO-07 an owner books, views, reschedules and cancels a consultation |
 | J-O6 | NO_TEST | — |
-| J-O7 | NO_TEST | — |
+| J-O7 | PASS | jo7-prescriptions.spec.ts › [J-O7] @S:CO-11 an owner views their pet's prescriptions and timeline and uploads one for verification |
 | J-O8 | NO_TEST | — |
 | J-O9 | NO_TEST | — |
 | J-O10 | PASS | jo10-notifications.spec.ts › [J-O10] @S:CO-01 @S:CO-14 care reminders reach the notification centre only once the owner consents |
@@ -58,4 +58,4 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 | J-CHAIN-PHARMACY | NO_TEST | — |
 | J-CHAIN-MARKET | NO_TEST | — |
 
-TOTAL 53 · PASS 8
+TOTAL 53 · PASS 9

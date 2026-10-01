@@ -80,8 +80,8 @@ class VetLicence:
     submitted_at: datetime
 
     def expires_at(self) -> datetime:
-        """Valid THROUGH expires_on: the authority lapses at the start of the next UTC day."""
-        return datetime.combine(self.expires_on + timedelta(days=1), time(0), tzinfo=timezone.utc)
+        """Valid THROUGH expires_on: the authority lapses at the start of the next Asia/Riyadh calendar day (X-22, R17.2)."""
+        return datetime.combine(self.expires_on + timedelta(days=1), time(0), tzinfo=LICENCE_CALENDAR_ZONE)
 
 
 @dataclass(frozen=True)

@@ -8,6 +8,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { Copy, DataView, Page, useCopy } from '@/components/ui'
+import { formatKsa } from '@/lib/ksaTime'
 
 const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL ?? '').replace(/\/$/, '')
 const get = (path: string) => fetch(`${apiBase}${path}`, { credentials: 'include', cache: 'no-store' })
@@ -45,7 +46,7 @@ export default function NotificationsPage() {
   }, [])
   useEffect(load, [load])
 
-  const when = (iso: string) => new Date(iso).toLocaleString(lang === 'ar' ? 'ar-SA' : 'en-GB',
+  const when = (iso: string) => formatKsa(iso, lang,
     { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })
 
   return (
