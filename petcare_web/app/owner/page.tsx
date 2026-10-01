@@ -106,6 +106,7 @@ export default function OwnerPage() {
           <div className="row">
             <a className="button button-outline button-sm" href="/owner/book" data-testid="owner-open-book">{t(s.appointmentsBook)}</a>
             <a className="button button-outline button-sm" href="/owner/appointments" data-testid="owner-open-appointments">{t(s.appointmentsOpen)}</a>
+            <a className="button button-outline button-sm" href="/owner/consultations" data-testid="owner-open-consultations">{t(s.consultationsOpen)}</a>
           </div>
         </section>
       </div>

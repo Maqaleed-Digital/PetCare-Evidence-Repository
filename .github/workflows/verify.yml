@@ -160,6 +160,7 @@ jobs:
             petcare_api/tests/test_epc_d2_account_tokens_postgres.py \
             petcare_api/tests/test_epc_d2_consent_postgres.py \
             petcare_api/tests/test_epc_d2e_booking_postgres.py \
+            petcare_api/tests/test_epc_d2f_x22_licence_postgres.py \
             petcare_api/tests/test_epc_d2d_scratch_ownership.py \
             petcare_api/tests/test_sq1_platform_identity_chain_postgres.py \
             -q --no-header -rs | tee /tmp/pg.txt

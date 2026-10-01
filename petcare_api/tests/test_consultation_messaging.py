@@ -16,6 +16,7 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import main as api  # noqa: E402
 from routers import auth  # noqa: E402
 from tenant_fixtures import ensure_tenant  # noqa: E402
+from owned_pet_fixtures import owned_pet  # noqa: E402  X-27 precondition (R16.4)
 
 pytestmark = pytest.mark.served_app
 T_A, T_B = "t-msg-alpha", "t-msg-beta"
@@ -33,7 +34,7 @@ def _client(user_id: str, tenant: str, role: str) -> TestClient:
 
 
 def _consultation(vet: TestClient, owner_id: str, vet_id: str, tenant: str = T_A) -> str:
-    r = vet.post("/api/consultations", json={"pet_id": "p1", "owner_id": owner_id,
+    r = vet.post("/api/consultations", json={"pet_id": owned_pet(owner_id), "owner_id": owner_id,
                                              "veterinarian_id": vet_id, "tenant_id": tenant})
     assert r.status_code == 200, r.text
     return r.json()["session_id"]

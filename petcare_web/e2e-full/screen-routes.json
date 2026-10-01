@@ -7,5 +7,7 @@
   "CO-02": "/owner/pets",
   "CO-03": "/owner/pets (selected pet)",
   "CO-05": "/owner/book",
-  "CO-07": "/owner/appointments"
+  "CO-07": "/owner/appointments",
+  "CO-08": "/owner/consultations/video",
+  "CO-09": "/owner/consultations · /owner/consultations/messages"
 }

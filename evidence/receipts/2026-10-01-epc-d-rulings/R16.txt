@@ -1,0 +1,682 @@
+[SPONSOR RULING + EXECUTION — MVC-EPC-D-001 v1.5 — R16]
+
+DATE=2026-10-01
+AUTHORITY=SPONSOR
+STATUS=RATIFIED
+LOCK=YES
+CREATE_NEW_INSTRUMENT=NO
+
+PROGRAMME=MVC-EXTERNAL-PRODUCTION-CLOSURE-001
+INSTRUMENT=MVC-EPC-D-001 v1.5
+
+WORKTREE=/Users/waheebmahmoud/dev/petcare-wt-build
+
+EXECUTION_MODE=FAST_LANE_CONTINUOUS_CLOSURE
+
+D2E_PR=88
+D2E_HEAD=1e55c26504d6bc9713a99a9478dc410bbcd3fb07
+D2E_MERGE_SHA=1df6f2417b1b8fc26092fd197f460c21950c0f85
+D2E_CI=SUCCESS
+D2E_WORKFLOW=verify
+D2E_WORKFLOW_RUN=235
+
+======================================================================
+0. RESUME / AUTHORITY CHECK
+======================================================================
+
+Begin with read-only recovery.
+
+cd /Users/waheebmahmoud/dev/petcare-wt-build
+
+Run:
+
+git status --short
+git branch --show-current
+git fetch origin
+git rev-parse origin/main
+git log -5 --oneline --decorate origin/main
+
+Verify:
+
+1. PR #88 is MERGED.
+2. PR #88 exact head is:
+   1e55c26504d6bc9713a99a9478dc410bbcd3fb07
+3. PR #88 merge SHA is:
+   1df6f2417b1b8fc26092fd197f460c21950c0f85
+4. GitHub workflow "verify" run #235 completed SUCCESS.
+5. The merge SHA is an ancestor of current origin/main.
+
+IMPORTANT:
+
+origin/main MAY legitimately be ahead by the time this runs.
+
+Do NOT stop merely because origin/main is newer than the D2e merge.
+
+If:
+git merge-base --is-ancestor \
+  1df6f2417b1b8fc26092fd197f460c21950c0f85 \
+  origin/main
+
+succeeds:
+
+AUTHORITY_CHECK=PASS
+
+If D2e merge is not an ancestor:
+MANDATORY_STOP=UNEXPECTED_HISTORY
+
+Do not destroy unrelated local changes.
+
+Never stage:
+
+.claude-flow/
+petcare_web/.claude-flow/
+petcare_web/node_modules symlink
+
+Never use:
+
+git add -A
+git add .
+git commit -a
+
+Stage explicit governed paths only.
+
+If the current local branch is the merged D2e branch, safely return to an
+appropriate branch based on current origin/main before beginning new work.
+
+Do not delete an unmerged branch or discard unrelated work.
+
+======================================================================
+R16.1 — D2e POST-MERGE RECONCILIATION
+======================================================================
+
+R16.1 is RATIFIED.
+
+Verify the D2e merge from repository/GitHub evidence.
+
+Record in the next append-only ledger segment chained to s7:
+
+PR=88
+HEAD=1e55c26504d6bc9713a99a9478dc410bbcd3fb07
+MERGE_SHA=1df6f2417b1b8fc26092fd197f460c21950c0f85
+CI=SUCCESS
+WORKFLOW=verify
+WORKFLOW_RUN=235
+
+Do NOT rewrite s7.
+
+Reconcile repository evidence and canonical Notion ledger.
+
+X-26:
+
+Close X-26 ONLY if the merged D2e evidence satisfies its canonical closure
+requirements.
+
+The closure evidence must cite the actual D2e merge SHA:
+
+1df6f2417b1b8fc26092fd197f460c21950c0f85
+
+Re-measure:
+
+CP1_ROWS_TOTAL
+CP1_ROWS_CLOSED
+SCREENS
+JOURNEYS
+
+EXPECTED after valid reconciliation, but NEVER force:
+
+CP1_ROWS_TOTAL=14
+CP1_ROWS_CLOSED=4
+SCREENS=9/107
+JOURNEYS=8/53
+
+If measured values differ:
+report the actual values and reconcile the discrepancy.
+Do not alter rows merely to reach the expected counts.
+
+======================================================================
+R16.2 — R14.4 CI INITDB VERIFICATION
+======================================================================
+
+R14.4 must now be resolved from the actual successful PR #88 CI run.
+
+Prove from workflow/job evidence that:
+
+- PostgreSQL server binaries/initdb were exposed;
+- the PostgreSQL control suite actually executed;
+- the real-database R12 test did not disappear through skip;
+- the "PostgreSQL controls must not be skipped" control passed.
+
+If proven:
+
+R14_4_CI_INITDB=PROVEN
+
+Record exact workflow/run/job/step evidence.
+
+If not proven:
+R14_4_CI_INITDB=OPEN
+record exact missing evidence;
+repair automatically if within safe engineering scope;
+do not invent proof.
+
+Do not reopen D2e merely because historical local evidence was weaker if the
+successful CI run now supplies the required proof.
+
+======================================================================
+R16.3 — X-22 SPONSOR DECISION
+======================================================================
+
+AUTHORITY=SPONSOR
+DECISION=OPTION_B
+STATUS=RATIFIED
+LOCK=YES
+
+Business rule:
+
+Saudi veterinary licence validity is judged using the
+Asia/Riyadh calendar date.
+
+The licence validity rule must be explicit and independent of the host
+machine's timezone.
+
+Implement this decision.
+
+A. PRODUCT
+
+Locate:
+
+routers/auth.py:487
+routers/auth.py:516
+
+and any actual shared helper/current equivalent.
+
+Do not blindly edit line numbers if the file has moved.
+Identify the actual governed licence-validity logic.
+
+Replace UTC-calendar-date semantics for licence validity with explicit
+Asia/Riyadh calendar-date semantics.
+
+Use an appropriate timezone-aware implementation.
+
+Do NOT alter unrelated date/business rules in this unit.
+
+B. FROZEN U10
+
+The frozen U10 test may receive a PRECONDITION/DATE-BASIS AMENDMENT ONLY,
+using the R13 method.
+
+Its "yesterday" fixture must derive from the Asia/Riyadh calendar date.
+
+ASSERTIONS MUST REMAIN BYTE-IDENTICAL.
+
+Before modification record:
+
+U10_BEFORE_SHA256=<sha>
+
+After modification record:
+
+U10_AFTER_SHA256=<sha>
+
+Prove that only the necessary precondition/date-basis construction changed.
+
+If assertions change:
+MANDATORY_STOP=FROZEN_ASSERTION_CHANGE
+
+C. TIMEZONE MATRIX
+
+Prove the product and U10 agree under pinned Riyadh times at minimum:
+
+01:30 Asia/Riyadh
+12:00 Asia/Riyadh
+
+Run the relevant tests with host timezone conditions representing at minimum:
+
+TZ=UTC
+TZ=Asia/Riyadh
+TZ=Asia/Dubai
+
+No suite-level timezone masking.
+
+Report each matrix result explicitly.
+
+D. PERTURBATION
+
+Add an ARMED perturbation that changes/reverts the product licence-validity
+date basis back to UTC.
+
+The perturbation MUST cause the relevant acceptance evidence to fail.
+
+Then restore the correct implementation and prove the acceptance evidence
+passes.
+
+Report:
+
+X22_PERTURBATION=ARMED
+
+E. EQUIVALENT SEARCH
+
+Search for other product/business date comparisons using UTC calendar dates.
+
+Do NOT change them merely because they use UTC.
+
+Classify each as:
+
+- same licence-validity rule;
+- legitimate UTC instant/time comparison;
+- possible business-calendar finding;
+- unrelated.
+
+If a genuinely separate defect exists:
+reconcile against the canonical ledger first.
+Add a row only if it is genuinely new.
+
+F. X-22 CLOSURE
+
+Do not close X-22 merely because local tests pass.
+
+X-22 becomes MERGE-READY when the required implementation, frozen-test
+amendment evidence, timezone matrix, perturbation and regression evidence are
+complete.
+
+X-22 closes only on the eventual merge containing this work.
+
+======================================================================
+R16.4 — X-27 PRE-AUTHORISED FROZEN-TEST AMENDMENT
+======================================================================
+
+AUTHORITY=SPONSOR
+STATUS=RATIFIED
+LOCK=YES
+
+The frozen FR-01 tests identified during D2e that create consultations using
+placeholder:
+
+pet_id="p1"
+
+may receive a PRECONDITION-ONLY amendment using the R13 method.
+
+The amended setup must:
+
+1. create a real pet;
+2. bind that pet to the test owner through the governed path;
+3. use that real pet ID when creating the consultation.
+
+Frozen assertions must remain byte-identical.
+
+Record for every affected frozen test:
+
+TEST=<path/test id>
+BEFORE_SHA256=<sha>
+AFTER_SHA256=<sha>
+ASSERTIONS_CHANGED=NO
+
+Acceptance counts must not fall.
+
+This authority applies ONLY to the known placeholder-pet precondition
+conflict.
+
+Any materially different frozen-evidence conflict remains governed by R15.
+
+======================================================================
+R16.5 — J-O6 / X-27
+======================================================================
+
+After D2e reconciliation, proceed immediately into J-O6.
+
+Do NOT stop after bookkeeping.
+
+Implement X-27 correctly.
+
+Requirement:
+
+A consultation must not accept/use a pet merely because a client supplied a
+pet_id.
+
+The served application must verify the selected pet belongs to the authorised
+owner/tenant/clinic relationship required by the governing model.
+
+Do not trust client-supplied ownership or tenant identity.
+
+Derive identity/tenant/actor context from the authenticated governed session.
+
+Build the owning J-O6 served journey and required screens according to
+MVC-EPC-D-001 v1.5 and the canonical journey/screen catalogues.
+
+Prove at minimum:
+
+- authorised positive path;
+- wrong-owner pet rejected;
+- wrong-tenant pet rejected where applicable;
+- nonexistent pet rejected;
+- client-supplied owner/tenant identity cannot override authenticated context;
+- Arabic served journey;
+- English served journey;
+- desktop;
+- mobile;
+- real MyVetiCare API;
+- real PostgreSQL where required;
+- no MyVetiCare API mocking;
+- governed external fakes only where an external provider is genuinely
+  involved.
+
+Add ARMED perturbation(s) demonstrating the evidence fails when the ownership
+validation is removed/bypassed.
+
+X-27 closes only on merge of the required implementation/evidence.
+
+======================================================================
+R16.6 — CONTINUE, DO NOT STOP AT J-O6
+======================================================================
+
+R15 remains fully in force.
+
+After J-O6/X-27 is implemented and proven locally:
+
+continue automatically through the largest safe governed engineering wave
+permitted by MVC-EPC-D-001 v1.5.
+
+Current intended sequence remains:
+
+J-O6
+→ J-O7
+→ J-O8
+→ J-O9
+→ J-O12
+→ remaining D2 owner journeys/screens
+→ remaining D3-D9 in governed dependency order
+→ X-05
+→ X-07
+→ X-10
+→ X-11
+→ remaining CP1 work
+→ CP1 acceptance replay
+
+This sequence does not override stricter dependencies in v1.5.
+
+Do not stop merely because one journey or one screen is complete.
+
+Bundle as much safe/reversible engineering as the governing instrument and
+available context permit.
+
+======================================================================
+R16.7 — TEST / EVIDENCE STANDARD
+======================================================================
+
+For every closure wave execute all applicable evidence:
+
+- backend suite;
+- PostgreSQL controls;
+- web unit tests;
+- TypeScript/type check;
+- responsive regression;
+- full-stack journey suite;
+- Arabic/English;
+- desktop/mobile;
+- relevant SQ-3 controls;
+- new perturbations;
+- prior perturbation corpus;
+- checker;
+- governance/evidence verification;
+- prohibited-literal scan;
+- secret scan.
+
+MyVetiCare's own API must not be mocked for full-stack acceptance.
+
+External services may use governed provider fakes only where permitted by the
+instrument.
+
+Provider fake evidence NEVER counts as CP2 live-provider acceptance.
+
+Do not weaken prior perturbation classifications.
+
+Do not reduce frozen acceptance counts.
+
+======================================================================
+R16.8 — BRANCH / COMMIT / PR
+======================================================================
+
+Create the next governed Lane D branch from current origin/main after
+successful preflight.
+
+Use a descriptive branch consistent with existing naming conventions.
+
+Commit only explicit governed files.
+
+Push and create the PR automatically if permissions permit.
+
+Observe CI.
+
+If CI fails for an owned/reversible defect:
+
+diagnose
+→ repair
+→ test
+→ commit
+→ push
+→ rerun/observe CI
+
+Do not return to Sponsor for repairable engineering failures.
+
+If publication is blocked by Claude permissions but the branch is otherwise
+merge-ready, return one exact bounded publication command.
+
+If PR is created and CI is green but merge requires Sponsor action, stop at
+the merge gate.
+
+======================================================================
+R16.9 — PERMITTED STOPS
+======================================================================
+
+R15.6 remains binding.
+
+Stop ONLY for:
+
+GATE=MERGE
+GATE=CREDENTIAL
+GATE=PRODUCTION
+GATE=IRREVERSIBLE
+GATE=SPONSOR_DECISION
+GATE=CONTEXT_HANDOFF
+
+Do not manufacture a Sponsor decision for ordinary engineering choices.
+
+Do not stop for:
+
+- successful tests;
+- completed screen;
+- completed journey;
+- receipt;
+- ledger update;
+- Notion update;
+- commit;
+- push;
+- PR creation;
+- recoverable CI failure.
+
+======================================================================
+R16.10 — NOTION / LEDGER
+======================================================================
+
+Keep the existing canonical MyVetiCare Master Completion Gap Ledger as the
+sole denominator.
+
+Do not create another ledger.
+
+Update/reconcile existing rows only.
+
+At minimum reconcile:
+
+X-26
+X-22
+X-27
+X-01
+X-02
+X-03
+
+as actual evidence changes their state/progress.
+
+Do not close a row before its governed closure condition is met.
+
+Notion is reconciliation.
+
+Repository evidence + immutable commit/merge evidence remain execution
+authority.
+
+If Notion tooling is unavailable:
+
+NOTION_BLOCK=<exact intended update>
+
+and continue engineering.
+
+Do not stop solely because Notion cannot be reached.
+
+======================================================================
+R16.11 — RESIDENCY AUTHORITY REMAINS UNCHANGED
+======================================================================
+
+DO NOT REOPEN NFR-07.
+
+The governing ledger position remains verbatim:
+
+"Sponsor position: deploy now, migrate to AWS KSA region when available
+(not a blocker to launch); closes after migration."
+
+Do not make KSA-region migration a launch prerequisite.
+
+NFR-07 itself closes only after the production data stores have migrated to
+the AWS KSA region.
+
+No change to this ruling is authorised here.
+
+======================================================================
+R16.12 — CP2 EXTERNAL WORK REMAINS OUTSIDE THIS RUNNER
+======================================================================
+
+Do not consume this engineering runner's context preparing:
+
+- counsel packages;
+- provider commercial onboarding;
+- production credentials;
+- penetration-test procurement;
+- external load-environment approvals.
+
+Those are parallel CP2 readiness activities outside this runner.
+
+Engineering that is itself required for CP1 remains in scope.
+
+======================================================================
+R16.13 — NO FALSE CLOSURE / RED TEAM
+======================================================================
+
+Before closing anything, ask:
+
+1. Is this on the served application?
+2. Is MyVetiCare's own API real?
+3. Is PostgreSQL real where required?
+4. Can the intended human reach it through the required UI?
+5. Are Arabic and English proven?
+6. Are desktop and mobile proven?
+7. Does the perturbation actually fail if the requirement is broken?
+8. Did acceptance counts stay equal or increase?
+9. Did prior perturbation classifications remain non-regressive?
+10. Is a provider fake being incorrectly counted as live CP2 evidence?
+11. Does Notion conflict with repository evidence?
+12. Is this CP1 engineering being incorrectly described as project
+    completion?
+
+If closure fails any applicable check:
+do not close it.
+Repair owned engineering automatically where authorised.
+Continue.
+
+======================================================================
+EXECUTE NOW
+======================================================================
+
+This is an EXECUTION instruction.
+
+Do not respond with another proposed plan.
+
+Execute:
+
+VERIFY PR #88 / MERGE
+→ reconcile D2e
+→ close X-26 if evidence permits
+→ prove R14.4 CI initdb
+→ implement X-22 Option B
+→ amend U10 precondition/date basis only
+→ execute X-22 timezone matrix
+→ add/replay X-22 perturbation
+→ execute J-O6/X-27
+→ apply authorised FR-01 placeholder-pet precondition repair
+→ build required served journey/screens
+→ perturb
+→ replay
+→ continue into subsequent safe D2 work
+→ full regression
+→ checker
+→ receipt
+→ append-only ledger
+→ Notion reconciliation
+→ explicit-path commit
+→ push
+→ PR
+→ CI
+→ repair safe failures automatically
+→ continue until first genuine R15/R16 gate.
+
+Do not stop after X-26.
+
+Do not stop after X-22.
+
+Do not stop after J-O6 if further governed work safely fits in the closure
+wave.
+
+======================================================================
+REQUIRED RETURN
+======================================================================
+
+Begin the eventual return exactly:
+
+CLOSED:
+<newly closed work only>
+
+REMAINING:
+CP1=<closed>/<measured total>
+CP2=<closed>/<measured total>
+CP3=<closed>/<measured total>
+SCREENS=<x>/107
+JOURNEYS=<x>/53
+OPEN_CP1_ROWS=<exact refs>
+ROWS_ADDED=<count/refs>
+<material remaining work>
+
+NEXT_GATE:
+<GATE>
+
+If MERGE:
+
+GATE=MERGE
+PR=<number>
+HEAD=<full SHA>
+CI=<exact state>
+COMMAND=gh pr merge <number> --merge --match-head-commit <full SHA>
+
+If publication itself is blocked before PR creation:
+
+GATE=MERGE
+PUBLICATION_BLOCKED=YES
+BRANCH=<branch>
+HEAD=<full SHA>
+COMMAND=<one complete exact push + PR + guarded CI/merge command>
+
+No project-completion percentage.
+
+No new instrument.
+
+No new recovery plan.
+
+No request to repeat already-ratified R14/R15/R16 authority.
+
+Continue until the first genuine gate.
+
+[END SPONSOR RULING + EXECUTION — R16]

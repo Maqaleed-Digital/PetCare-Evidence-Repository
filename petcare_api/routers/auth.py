@@ -10,7 +10,7 @@ from itsdangerous import URLSafeTimedSerializer, BadSignature, SignatureExpired
 from pydantic import BaseModel, StrictBool
 
 from persistence import build_persistence
-from licences import VetLicence  # FR-05 (U10)
+from licences import VetLicence, licence_calendar_date  # FR-05 (U10); X-22 (R16.3)
 from repositories import (
     InviteCode,
     PROVENANCE_REGISTRATION,
@@ -513,7 +513,7 @@ async def register(body: RegisterRequest):
                 or not lic.issuing_authority.strip()):
             _log_auth_event("auth.register_failed", {"reason": "licence_details_required", "email": body.email})
             raise HTTPException(status_code=400, detail={"error": "LICENCE_DETAILS_REQUIRED"})
-        if licence_expiry < now.date():
+        if licence_expiry < licence_calendar_date(now):  # X-22 (R16.3 Option B): the Asia/Riyadh calendar date
             _log_auth_event("auth.register_failed", {"reason": "licence_expired", "email": body.email})
             raise HTTPException(status_code=400, detail={"error": "LICENCE_EXPIRED"})
 

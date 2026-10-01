@@ -807,6 +807,14 @@ def start_consultation(
         ident = PERSISTENCE.identities.get_by_user_id(uid)
         if ident is None or ident.tenant_id != tenant_id or ident.role != want:
             raise HTTPException(400, f"{want} {uid!r} is not a {want} of this tenant")
+    # X-27 (R14.1, R16.5): a client-supplied pet_id is only a selector. The pet must exist in the SESSION tenant and
+    # belong to the selected owner; otherwise the consultation is refused and the refusal audited.
+    pet = PET_REPO.get(body.pet_id, tenant_id=tenant_id)
+    if pet is None or pet.owner_id != body.owner_id:
+        _audit(event_name="consultation.session.refused", actor_id=actor_id, actor_role=actor_role,
+               tenant_id=tenant_id, resource_type="consultation_session", resource_id=body.pet_id,
+               action_result="denied", correlation_id=x_correlation_id, reason_code="PET_NOT_OF_OWNER")
+        raise HTTPException(400, detail={"error": "PET_NOT_OF_OWNER"})
     session_id = str(uuid4())
     c = consult.Consultation(session_id=session_id, tenant_id=tenant_id, pet_id=body.pet_id, owner_id=body.owner_id,
                              veterinarian_id=body.veterinarian_id, requested_by_actor_id=actor_id, mode=body.mode,
