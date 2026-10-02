@@ -58,6 +58,7 @@ from postgres_repositories import (
     PostgresOwnerConsentRepository,
     PostgresBookingRepository,
     PostgresOwnerPrescriptionUploadRepository,
+    PostgresEstablishmentLicenceRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
     PostgresInviteCodeRepository,
@@ -88,6 +89,7 @@ from account_tokens import InMemoryAccountTokenRepository
 from owner_consent import InMemoryOwnerConsentRepository
 from bookings import InMemoryBookingRepository
 from owner_prescriptions import InMemoryOwnerPrescriptionUploadRepository
+from establishment_licences import InMemoryEstablishmentLicenceRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
 from session_store import InMemorySessionStore
@@ -160,6 +162,8 @@ class Persistence:
     bookings: Any = None
     #: J-O7 owner-uploaded external prescriptions (MVC-EPC-D-001 D2g, migration 0059).
     owner_prescription_uploads: Any = None
+    #: X-30 establishment licences of supplying locations (MVC-EPC-D-001 D2h, migration 0060).
+    establishment_licences: Any = None
     quarantine: Optional[Any] = None
     pool: Optional[Any] = None
 
@@ -248,6 +252,7 @@ def build_persistence(
             owner_consent=InMemoryOwnerConsentRepository(),
             bookings=InMemoryBookingRepository(),
             owner_prescription_uploads=InMemoryOwnerPrescriptionUploadRepository(),
+            establishment_licences=InMemoryEstablishmentLicenceRepository(),
         )
 
     # MODE_POSTGRES from here. Every failure path below raises; none returns a
@@ -295,6 +300,7 @@ def build_persistence(
         owner_consent=PostgresOwnerConsentRepository(pool),
         bookings=PostgresBookingRepository(pool),
         owner_prescription_uploads=PostgresOwnerPrescriptionUploadRepository(pool),
+        establishment_licences=PostgresEstablishmentLicenceRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
     )

@@ -30,6 +30,20 @@
       "path": "/api/admin/credentials"
     },
     {
+      "endpoint": "main:list_establishment_licences",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/admin/establishment-licences"
+    },
+    {
+      "endpoint": "main:record_establishment_licence",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/admin/establishment-licences"
+    },
+    {
       "endpoint": "main:change_role",
       "methods": [
         "POST"

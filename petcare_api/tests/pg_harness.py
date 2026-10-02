@@ -194,7 +194,7 @@ def reset_w0f_tables(url: str) -> None:
         conn.execute("TRUNCATE consultation_booking")
         # D2g (0059): owner prescription uploads reference pet_profile, user_identity and tenant.
         conn.execute("TRUNCATE owner_prescription_upload")
-        conn.execute("TRUNCATE routing_decision, pharmacy_licence, "  # FR-15 (0050)
+        conn.execute("TRUNCATE routing_decision, pharmacy_licence, establishment_licence, "  # FR-15 (0050), D2h (0060)
                      "recall_notification, recall, delivery_completion, delivery_alert, "
                      "temperature_reading, delivery, stock_movement, inventory_location, "
                      "product_registration")  # + FR-16 (0045), FR-19 (0046)
