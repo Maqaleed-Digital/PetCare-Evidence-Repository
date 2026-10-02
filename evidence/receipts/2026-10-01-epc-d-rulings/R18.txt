@@ -1,0 +1,72 @@
+R18 — Rulings on D2g progress (issued by the Sponsor, 2026-10-01)
+
+R18.1 — X-29 (antimicrobial report month): AUTHORIZED, in D2g.
+
+Amend the frozen FR-30 assertion that pins the antimicrobial report month to UTC, at that assertion location only, so regulated antimicrobial reporting uses the Asia/Riyadh calendar basis.
+
+Required evidence:
+- file SHA-256 before and after;
+- diff limited to that assertion;
+- AST/source hash equal for every other assertion;
+- timezone matrix including the month boundary from 00:00 through 02:59 Asia/Riyadh on the first day of a month;
+- perturbation reverting the report-month rule to UTC must fail specifically because the regulated report month changes.
+
+X-29 remains OPEN until the D2g merge containing this evidence.
+
+R18.2 — Scope of R17.3 and test entity data: CLARIFIED AND AUTHORIZED.
+
+R17.3 prohibits synthetic, test or non-production DETERMINATIONS: counsel, regulator or other authority rulings asserting that a capability is lawful or authorized, including REG-02.
+
+It does NOT prohibit test entity data that the product itself is required to validate, including licences, registrations and permits.
+
+Where an existing frozen test needs such entity data solely to satisfy a newly enforced real product precondition, a precondition-only fixture amendment is authorized provided:
+- the fixture represents entity data, not a regulatory/counsel determination;
+- production validation is exercised rather than bypassed;
+- existing assertion semantics remain unchanged;
+- every existing assertion remains byte-identical / AST-equivalent;
+- before/after hashes and the fixture change are recorded.
+
+No synthetic determination may be introduced under this ruling.
+
+R18.3 — Establishment-licence enforcement for the J-O8 order path: REQUIRED; create a new CP1 row.
+
+First identify from the authoritative FR-20/J-O8 domain model which regulated establishment participates in the order fulfilment/dispensing path. Do not invent or change the actor relationship.
+
+Before the regulated fulfilment/dispensing action is accepted, the served product must verify that the applicable establishment has a valid licence on the Asia/Riyadh calendar date.
+
+An absent, expired, wrong-tenant or otherwise invalid applicable establishment licence must cause refusal, and the refusal must be audited.
+
+Frozen FR-20 tests may receive only the precondition entity-data fixtures authorized by R18.2. Their existing assertions must remain byte-identical / AST-equivalent.
+
+Required evidence includes positive, absent, expired, wrong-tenant and boundary-date cases plus an ARMED perturbation removing/bypassing the licence control.
+
+Implement this control in D2h before J-O8 is counted complete.
+
+If the authoritative FR-20/J-O8 model does not identify an applicable regulated establishment for this action, do not invent one: ledger that exact modelling gap and STOP only this journey pending Sponsor disposition; continue other unblocked work under R18.4.
+
+R18.4 — Blocked journeys do not stop the execution queue.
+
+When a journey depends on a capability requiring Sponsor-held credentials, an external provider activation, or an unresolved regulatory/counsel determination, record the journey BLOCKED with its exact dependency and continue with the next unblocked journey in live-ledger order.
+
+J-O12 is BLOCKED on X-05 / HyperPay until the required real merchant/provider dependency is available.
+
+No mock payment, logistics provider, regulatory determination or other external dependency may be counted as production acceptance evidence.
+
+For J-O9, implement and count only functionality that can be proven against real currently available dependencies. Any unavailable logistics-dependent portion remains BLOCKED/PARTIAL and uncounted.
+
+R18.5 — Rulings-register continuity: REQUIRED.
+
+Do not modify the existing R14–R16 register.
+
+Create an authoritative rulings-register index that lists every rulings-register file in chronological order, including:
+- file path;
+- ruling range;
+- SHA-256.
+
+Add an executable continuity/uniqueness test proving that every ruling R1 through the current highest ruling:
+- is discoverable through the index;
+- occurs exactly once across indexed authoritative ruling files;
+- has no missing ruling number;
+- has no duplicate ruling number.
+
+In the D2g receipt, state whether the R14–R16 file is itself an immutable receipt or a standalone register and therefore whether the original S3 premise was correct. Do not rewrite historical custody merely to normalize the structure.

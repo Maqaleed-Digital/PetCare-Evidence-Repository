@@ -1,0 +1,27 @@
+# X-29 UTC report-month reversion — per-cell signature (x29_month_tz_matrix.py --expect-utc-signature), 2026-10-02
+TZ=UTC          23:59 Riyadh 31 Oct  PASS failed=[] as-expected []
+TZ=UTC          00:00 Riyadh 1 Nov   FAIL failed=['test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitioner_and_period', 'test_the_report_month_now_is_the_riyadh_month'] as-expected ['        got = _period_of(admin, rx)']
+TZ=UTC          01:30 Riyadh 1 Nov   FAIL failed=['test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitioner_and_period', 'test_the_report_month_now_is_the_riyadh_month'] as-expected ['        got = _period_of(admin, rx)']
+TZ=UTC          02:59 Riyadh 1 Nov   FAIL failed=['test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitioner_and_period', 'test_the_report_month_now_is_the_riyadh_month'] as-expected ['        got = _period_of(admin, rx)']
+TZ=UTC          03:00 Riyadh 1 Nov   PASS failed=[] as-expected []
+TZ=UTC          12:00 Riyadh 1 Nov   PASS failed=[] as-expected []
+TZ=Asia/Riyadh  23:59 Riyadh 31 Oct  PASS failed=[] as-expected []
+TZ=Asia/Riyadh  00:00 Riyadh 1 Nov   FAIL failed=['test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitioner_and_period', 'test_the_report_month_now_is_the_riyadh_month'] as-expected ['        got = _period_of(admin, rx)']
+TZ=Asia/Riyadh  01:30 Riyadh 1 Nov   FAIL failed=['test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitioner_and_period', 'test_the_report_month_now_is_the_riyadh_month'] as-expected ['        got = _period_of(admin, rx)']
+TZ=Asia/Riyadh  02:59 Riyadh 1 Nov   FAIL failed=['test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitioner_and_period', 'test_the_report_month_now_is_the_riyadh_month'] as-expected ['        got = _period_of(admin, rx)']
+TZ=Asia/Riyadh  03:00 Riyadh 1 Nov   PASS failed=[] as-expected []
+TZ=Asia/Riyadh  12:00 Riyadh 1 Nov   PASS failed=[] as-expected []
+TZ=Asia/Dubai   23:59 Riyadh 31 Oct  PASS failed=[] as-expected []
+TZ=Asia/Dubai   00:00 Riyadh 1 Nov   FAIL failed=['test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitioner_and_period', 'test_the_report_month_now_is_the_riyadh_month'] as-expected ['        got = _period_of(admin, rx)']
+TZ=Asia/Dubai   01:30 Riyadh 1 Nov   FAIL failed=['test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitioner_and_period', 'test_the_report_month_now_is_the_riyadh_month'] as-expected ['        got = _period_of(admin, rx)']
+TZ=Asia/Dubai   02:59 Riyadh 1 Nov   FAIL failed=['test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitioner_and_period', 'test_the_report_month_now_is_the_riyadh_month'] as-expected ['        got = _period_of(admin, rx)']
+TZ=Asia/Dubai   03:00 Riyadh 1 Nov   PASS failed=[] as-expected []
+TZ=Asia/Dubai   12:00 Riyadh 1 Nov   PASS failed=[] as-expected []
+X29_MONTH_TZ_MATRIX[UTC_SIGNATURE]=PASS cells=18 unexpected=0
+# fixed-instant boundary test under the same reversion:
+ ============================
+FAILED petcare_api/tests/test_epc_d2g_x29_report_month.py::test_the_month_boundary[first-0000]
+FAILED petcare_api/tests/test_epc_d2g_x29_report_month.py::test_the_month_boundary[first-0130]
+FAILED petcare_api/tests/test_epc_d2g_x29_report_month.py::test_the_month_boundary[first-0259]
+3 failed, 2 passed in 3.00s
+

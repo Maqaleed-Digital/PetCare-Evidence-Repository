@@ -138,6 +138,7 @@ from inventory import (ADJUSTMENT, RECEIPT, REASONS, SUPPLY, TRANSFER_IN, TRANSF
                        VETERINARIAN_ONLY, InventoryLocation, StockMovement, prescription_required,
                        RESTRICTED_SUBSTANCE_CLASSES, restricted_substance_workflow_enabled)  # FR-04 (U17)
 import sfda  # FR-14 AC-06 (U9): the SFDA prescription-validation port
+from ksa_calendar import ksa_date  # X-29 (R18.1): regulated report month on the Asia/Riyadh calendar
 import licences  # FR-05 (U10): veterinarian licence registration and verification
 import consultations as consult  # FR-06 (U11): durable consultations and the REG-02 gate
 import deliveries as dlv  # FR-16 (U12): cold-chain delivery tracking
@@ -2974,7 +2975,7 @@ def antimicrobial_register(request: Request, group_by: str = "agent,agent_class,
             pet = PET_REPO.get(rx.pet_id, tenant_id=tenant_id)
             records.append({"prescription_id": rx.prescription_id, "agent": am[0], "agent_class": am[1],
                             "species": pet.species if pet else "UNRESOLVED", "practitioner": rx.issuing_vet_id,
-                            "period": rx.issued_at.strftime("%Y-%m")})
+                            "period": ksa_date(rx.issued_at).strftime("%Y-%m")})  # X-29 (R18.1)
     try:
         return cmp.antimicrobial_aggregate(records, tuple(g for g in group_by.split(",") if g))
     except RepositoryDenied as exc:
