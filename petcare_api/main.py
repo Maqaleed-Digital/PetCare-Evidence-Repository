@@ -2633,7 +2633,13 @@ def _order_view(o, tenant_id: str) -> dict:
                        "unit_price_halalas": l.unit_price_halalas} for l in o.lines],          # name: J-O8 (D2m), additive
             "receipt": None if rec is None else {"receipt_id": rec.receipt_id, "language": rec.language,
                                                  "rendered": rec.rendered, "issued_at": rec.issued_at.isoformat()},
-            "fulfilled_by": _fulfilled_by(o.order_id, tenant_id)}
+            "fulfilled_by": _fulfilled_by(o.order_id, tenant_id),
+            "tracking": _tracking(o, col, rec, tenant_id)}
+
+
+def _tracking(o, col, rec, tenant_id: str) -> dict:
+    """J-O9 internal tracking (D2n): see orders.tracking_view — the platform's own records only, never a carrier."""
+    return ordr.tracking_view(o, ROUTING_REPO.latest_for(o.order_id, tenant_id=tenant_id), col, rec)
 
 
 def _fulfilled_by(order_id: str, tenant_id: str):
