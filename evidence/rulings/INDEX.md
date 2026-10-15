@@ -13,3 +13,4 @@ is the one maintained file — a new ruling adds a new register file and a new r
 | 4 | `evidence/receipts/2026-10-02-epc-d-rulings-register-c4.md` | R18 | 0871d988c048b61e4f84ffd8c3303cd2707bffb1798a2cabc7af284638b6e792 | R18 verbatim |
 | 5 | `evidence/receipts/2026-10-15-epc-d-rulings-register-c5.md` | R19 | fbb32db688e7584ccc1f9b956e67a9d0f3b513521779ea3a055778367fe2b1ec | R19 verbatim (as relayed by the Sponsor 2026-10-15; issued 2026-10-04); punctuation correction annotated in row 6 (R20.3) |
 | 6 | `evidence/receipts/2026-10-15-epc-d-rulings-register-c6.md` | R20 | 33047ad39e623862822e0fb3dc70a7f294f60db820e77a7dbba0b3e8aeb6e9f3 | R20 verbatim; R19 correction annotation (R20.3) |
+| 7 | `evidence/receipts/2026-10-15-epc-d-rulings-register-c7.md` | R21 | 41fbdc47a83ffb2c18bcc2810e789f903369efc8c764cb84311ae8f7c2913c96 | R21 verbatim; custody note: R21 cites R20.5/R20.5c, not in custody (R20 holds R20.1–R20.4) |

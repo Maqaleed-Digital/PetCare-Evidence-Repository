@@ -1,0 +1,13 @@
+R21 — Rulings at the end of R20.5 (issued by the Sponsor, 2026-10-15)
+
+R21.1 — J-O9 counting: [J-O9-INTERNAL] does not count J-O9. Its carrier readings are blocked on the logistics partner, and its "pharmacy assigned" step is proven only through the maps stand-in, which R18.4 bars from counting a journey. J-O9 counts only when both are proven against real providers. The internal-tracking spec stays as uncounted partial evidence.
+
+R21.2 — D2M stray-file scan: confirm whether the recorded secret scan covered evidence/replay/2026-10-15-epc-d-d2m/.claude-flow/policy/state.json itself, now untracked. If it did not, run the repository's six patterns directly against that file path and record the result in an addendum to the D2M receipt. Any hit = HARD STOP and report.
+
+R21.3 — .claude-flow hygiene lane (own branch, own PR):
+  a. Secret-scan both .claude-flow logs already tracked on main, by path. Any hit = HARD STOP: they are published, so report for Sponsor credential rotation and do nothing further in this lane.
+  b. If clean: run the evidence-bundle checker and search every bundle manifest for both paths BEFORE any untracking. If any bundle lists either path, record a finding, do not untrack that file, and report; never hand-edit a hash.
+  c. Only for paths no bundle references: git rm --cached (files stay on disk), add .claude-flow/ to .gitignore, and confirm no other .claude-flow path is tracked. Re-run the evidence-bundle checker after the change; it must stay at 0 failed.
+  d. Merge with the §5b mechanics.
+
+R21.4 — Continue under R20.5c, which already authorizes it: the remaining owner screens, then the D3 veterinarian journeys, in ledger order, under R18.4, with the same merge mechanics and mandatory stops. Custody R21 in its own branch and merge, as with R19 and R20. Recount from main after each merge, and end with one receipt and the Notion handoff update.
