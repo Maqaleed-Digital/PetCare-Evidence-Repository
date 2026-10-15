@@ -2448,6 +2448,36 @@ class PostgresPreVisitIntakeRepository:
                               photos=tuple(IntakePhoto(*p[:9], _from_db(p[9])) for p in photos))
 
 
+class PostgresCarePlanRepository:
+    """CO-10 consultation care plans over migration 0063 (MVC-EPC-D-001 D2q). Insert-only; one per consultation."""
+
+    _C = "session_id, tenant_id, instructions, follow_up_on, recorded_by_actor_id, recorded_at"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def create(self, p):
+        from care_plan import CarePlanExists, validate_care_plan
+        validate_care_plan(p)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO consultation_care_plan ({self._C}) VALUES (%s,%s,%s,%s,%s,%s)",
+                             (p.session_id, p.tenant_id, p.instructions, p.follow_up_on, p.recorded_by_actor_id,
+                              _to_db(p.recorded_at)))
+        except Exception as exc:
+            if type(exc).__name__ == "UniqueViolation":
+                raise CarePlanExists(p.session_id) from None
+            raise RepositoryDenied(f"care plan was refused ({type(exc).__name__})") from None
+        return p
+
+    def for_session(self, session_id, *, tenant_id):
+        from care_plan import CarePlan
+        with self._pool.connection() as conn:
+            r = conn.execute(f"SELECT {self._C} FROM consultation_care_plan WHERE session_id = %s AND tenant_id = %s",
+                             (session_id, tenant_id)).fetchone()
+        return None if r is None else CarePlan(*r[:5], _from_db(r[5]))
+
+
 class PostgresEstablishmentLicenceRepository:
     """X-30 establishment licences over migration 0060 (MVC-EPC-D-001 D2h)."""
 
