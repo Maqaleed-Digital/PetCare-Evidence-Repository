@@ -2697,6 +2697,11 @@ class EstablishmentLicenceRequest(BaseModel):
     issuing_authority: str
     expires_on: str
     basis: str
+    #: R19.2 (X-31): what kind of licence, and the activity it licenses.
+    licence_type: str
+    scope: str
+    #: R19.2 (X-32): the evidence document the administrator checked (a reference; R19.3 — not registry verification).
+    evidence_document_ref: str
 
 
 @app.post("/api/admin/establishment-licences", status_code=201)
@@ -2717,7 +2722,8 @@ def record_establishment_licence(body: EstablishmentLicenceRequest, request: Req
     lic = est_lic.EstablishmentLicence(licence_id=str(uuid4()), tenant_id=tenant_id, location_id=body.location_id,
                                        licence_number=body.licence_number.strip(), issuing_authority=body.issuing_authority.strip(),
                                        expires_on=expires_on, basis=body.basis.strip(), recorded_by_actor_id=actor_id,
-                                       recorded_at=datetime.now(timezone.utc))
+                                       recorded_at=datetime.now(timezone.utc), licence_type=body.licence_type.strip(),
+                                       scope=body.scope.strip(), evidence_document_ref=body.evidence_document_ref.strip())
     try:
         ESTABLISHMENT_LICENCE_REPO.record(lic)
     except RepositoryDenied as exc:
