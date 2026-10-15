@@ -1,0 +1,4 @@
+SCANNER=scripts/governance/secret_scan.py sha256=36eecae761f885bf77cb25b9f026c37f83d3142743167c6474b2dd26db104cb4
+PATTERNS=6 ids=private_key_block,aws_access_key_id,aws_secret_access_key,slack_token,github_token,google_api_key pattern_set_sha256=bf2377688c87e94c70c601382b59df8349ed005fdfc3faf9c09b8268bfd72a48
+FILE evidence/replay/2026-10-15-epc-d-d2m/.claude-flow/policy/state.json bytes=1590 lines=52 sha256=5cf8f2485afd8b7bc22463ab8c0834a0e1923c5c63232313bca08f5608d2f7bf findings=0
+TOTAL_FINDINGS=0 RESULT=CLEAN

@@ -16,3 +16,9 @@ petcare_web/node_modules/
 .env.*
 !.env.example
 !.env*.example
+
+# claude-flow hook state. The hook writes `.claude-flow/policy/state.json` into
+# whatever directory the shell is in, and staging that directory sweeps it in
+# (D2M-TOOLING-LOG-IN-EVIDENCE). It is local tooling state, never evidence.
+# Untracked under Sponsor ruling R21.3 after a by-path secret scan (CLEAN).
+.claude-flow/
