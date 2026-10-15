@@ -24,7 +24,8 @@ ENV = {SECRET_MODE_ENV_VAR: "environment", PERSISTENCE_MODE_ENV_VAR: MODE_POSTGR
 
 
 def _lic(i, loc, expires, tenant=T):
-    return est.EstablishmentLicence(f"el-{i}", tenant, loc, f"SFDA-{i}", "SFDA", expires, "certificate sighted", "u-pa", NOW)
+    return est.EstablishmentLicence(f"el-{i}", tenant, loc, f"SFDA-{i}", "SFDA", expires, "certificate sighted", "u-pa", NOW,
+                                    "PHARMACY_ESTABLISHMENT", "veterinary medicines supply", f"DOC-{i}")   # R19.2 inputs (D2k)
 
 
 def test_establishment_licences_persist_scoped_and_the_database_refuses_invalid_rows(clean_postgres):

@@ -2396,7 +2396,7 @@ class PostgresEstablishmentLicenceRepository:
     """X-30 establishment licences over migration 0060 (MVC-EPC-D-001 D2h)."""
 
     _COLS = ("licence_id, tenant_id, location_id, licence_number, issuing_authority, expires_on, basis, recorded_by_actor_id, "
-             "recorded_at")
+             "recorded_at, licence_type, scope, evidence_document_ref")   # 0061 (R19.2): the last three
 
     def __init__(self, pool: Any) -> None:
         self._pool = pool
@@ -2404,15 +2404,16 @@ class PostgresEstablishmentLicenceRepository:
     @staticmethod
     def _row(r):
         from establishment_licences import EstablishmentLicence
-        return EstablishmentLicence(*r[:8], _from_db(r[8]))
+        return EstablishmentLicence(*r[:8], _from_db(r[8]), *r[9:12])
 
     def record(self, lic):
         from establishment_licences import validate_establishment_licence
         validate_establishment_licence(lic)
         with self._pool.connection() as conn:
-            conn.execute(f"INSERT INTO establishment_licence ({self._COLS}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+            conn.execute(f"INSERT INTO establishment_licence ({self._COLS}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
                          (lic.licence_id, lic.tenant_id, lic.location_id, lic.licence_number, lic.issuing_authority,
-                          lic.expires_on, lic.basis, lic.recorded_by_actor_id, _to_db(lic.recorded_at)))
+                          lic.expires_on, lic.basis, lic.recorded_by_actor_id, _to_db(lic.recorded_at), lic.licence_type,
+                          lic.scope, lic.evidence_document_ref))
         return lic
 
     def for_location(self, location_id, *, tenant_id):

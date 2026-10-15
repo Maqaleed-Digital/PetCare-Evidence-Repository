@@ -97,7 +97,7 @@ def test_another_tenants_licence_for_the_location_is_refused(w):
     api.ESTABLISHMENT_LICENCE_REPO.record(est.EstablishmentLicence(
         licence_id=str(uuid.uuid4()), tenant_id="t-some-other-tenant", location_id=w["loc"], licence_number="SFDA-EST-X",
         issuing_authority="SFDA", expires_on=date(2099, 12, 31), basis="wrong tenant", recorded_by_actor_id="u-x",
-        recorded_at=datetime.now(timezone.utc)))
+        recorded_at=datetime.now(timezone.utc), licence_type="PHARMACY_ESTABLISHMENT", scope="s", evidence_document_ref="DOC-X"))
     assert _refused(_deliver(w, _order(w)))
 
 
@@ -122,7 +122,8 @@ def test_the_licence_is_valid_through_its_expiry_day_on_the_riyadh_calendar(w, m
 
 
 def test_only_a_platform_administrator_records_a_licence_for_a_location_of_its_tenant(w):
-    body = {"location_id": w["loc"], "licence_number": "N", "issuing_authority": "SFDA", "expires_on": "2099-12-31", "basis": "seen"}
+    body = {"location_id": w["loc"], "licence_number": "N", "issuing_authority": "SFDA", "expires_on": "2099-12-31", "basis": "seen",
+            "licence_type": "PHARMACY_ESTABLISHMENT", "scope": "s", "evidence_document_ref": "DOC-1"}   # R19.2 inputs (D2k)
     assert w["admin"].post("/api/admin/establishment-licences", json=body).status_code == 403
     assert w["platform"].post("/api/admin/establishment-licences", json={**body, "location_id": "no-such"}).status_code == 404
     assert w["platform"].post("/api/admin/establishment-licences", json={**body, "basis": "  "}).status_code == 400

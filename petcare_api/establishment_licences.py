@@ -6,6 +6,12 @@ establishment. Delivery is accepted only when the location holds a licence, reco
 Asia/Riyadh calendar date of the act (valid THROUGH expires_on, as for veterinary licences, X-22). A licence is entity data the
 product validates; it is recorded by a platform administrator with what it was checked against (R18.2 distinguishes such data
 from a regulatory determination, which this is not).
+
+R19.2 (D2k): the record also carries the licence type, its scope (X-31) and a reference to the evidence document the
+administrator checked (X-32). A row without them (recorded before migration 0061) is INCOMPLETE and never validates a delivery
+(fail closed). A location may hold more than one licence; any one complete licence valid on the date suffices. R19.3: recording a
+licence is an administrator's attestation, NOT verification against the issuing authority's registry — that is an external
+dependency (X-33) this module does not claim.
 """
 from __future__ import annotations
 
@@ -16,6 +22,8 @@ from typing import Optional, Protocol
 from repositories import RepositoryDenied
 
 MAX_FIELD = 200
+#: R19.2 fields a licence must carry to validate a delivery (X-31 type/scope, X-32 evidence-document reference).
+R19_2_FIELDS = ("licence_type", "scope", "evidence_document_ref")
 
 
 @dataclass(frozen=True)
@@ -29,16 +37,26 @@ class EstablishmentLicence:
     basis: str
     recorded_by_actor_id: str
     recorded_at: datetime
+    #: R19.2. None only on a row recorded before migration 0061; such a row is incomplete (see `is_complete`).
+    licence_type: Optional[str] = None
+    scope: Optional[str] = None
+    evidence_document_ref: Optional[str] = None
+
+    def is_complete(self) -> bool:
+        return all(getattr(self, name) and getattr(self, name).strip() for name in R19_2_FIELDS)
 
     def to_read_model(self) -> dict:
         d = asdict(self)
         d["expires_on"] = self.expires_on.isoformat()
         d["recorded_at"] = self.recorded_at.isoformat()
+        d["complete"] = self.is_complete()
+        d["registry_verified"] = False          # R19.3: attestation only; registry verification is X-33 (external)
         return d
 
 
 def validate_establishment_licence(lic: EstablishmentLicence) -> None:
-    for name in ("licence_number", "issuing_authority", "basis", "location_id", "tenant_id", "recorded_by_actor_id"):
+    for name in ("licence_number", "issuing_authority", "basis", "location_id", "tenant_id", "recorded_by_actor_id",
+                 *R19_2_FIELDS):
         v = getattr(lic, name)
         if not v or not v.strip():
             raise RepositoryDenied(f"an establishment licence names its {name.replace('_', ' ')}")
@@ -47,8 +65,8 @@ def validate_establishment_licence(lic: EstablishmentLicence) -> None:
 
 
 def valid_on(licences: list, on: date) -> Optional[EstablishmentLicence]:
-    """The licence valid THROUGH `on` with the latest expiry, else None (fail closed)."""
-    live = [l for l in licences if l.expires_on >= on]
+    """The COMPLETE licence valid THROUGH `on` with the latest expiry, else None (fail closed)."""
+    live = [l for l in licences if l.expires_on >= on and l.is_complete()]
     return max(live, key=lambda l: (l.expires_on, l.licence_id)) if live else None
 
 

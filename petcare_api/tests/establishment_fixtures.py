@@ -29,7 +29,9 @@ def licensed_location(staff: TestClient, location_id: str, expires_on: str = "20
     admin.cookies.set("petcare_session", r.cookies["petcare_session"])
     lic = admin.post("/api/admin/establishment-licences", json={
         "location_id": location_id, "licence_number": f"SFDA-EST-{uuid.uuid4().hex[:6]}", "issuing_authority": "SFDA",
-        "expires_on": expires_on, "basis": "test entity data (R18.2): licence certificate fixture"})
+        "expires_on": expires_on, "basis": "test entity data (R18.2): licence certificate fixture",
+        "licence_type": "PHARMACY_ESTABLISHMENT", "scope": "veterinary medicines supply (test entity data)",
+        "evidence_document_ref": f"DOC-TEST-{uuid.uuid4().hex[:6]}"})     # R19.2 fields (D2k)
     if lic.status_code != 201:
         raise AssertionError(f"precondition: governed establishment-licence record failed: {lic.status_code} {lic.text}")
     return lic.json()
