@@ -58,24 +58,27 @@ class Booking:
                 "updated_at": self.updated_at.isoformat()}
 
 
-def default_slots(on: date) -> list:
-    """The clinic default hours on a local calendar day, as UTC instants."""
-    out, t = [], datetime.combine(on, OPENS, tzinfo=CLINIC_ZONE)
-    end = datetime.combine(on, CLOSES, tzinfo=CLINIC_ZONE)
-    while t < end:
-        out.append(t.astimezone(timezone.utc))
-        t += timedelta(minutes=SLOT_MINUTES)
+def default_slots(on: date, windows=None) -> list:
+    """The slot starts on a local calendar day, as UTC instants: from the veterinarian's published windows for that weekday
+    (J-V2, D3b), or — when `windows` is None (never published) — the clinic default hours."""
+    spans = [(OPENS, CLOSES)] if windows is None else [(w.opens, w.closes) for w in windows if w.weekday == on.weekday()]
+    out = []
+    for opens, closes in sorted(spans):
+        t, end = datetime.combine(on, opens, tzinfo=CLINIC_ZONE), datetime.combine(on, closes, tzinfo=CLINIC_ZONE)
+        while t < end:
+            out.append(t.astimezone(timezone.utc))
+            t += timedelta(minutes=SLOT_MINUTES)
     return out
 
 
-def is_bookable_instant(at: datetime, *, now: datetime) -> bool:
-    """A default-hours slot start, strictly in the future and inside the booking horizon."""
+def is_bookable_instant(at: datetime, *, now: datetime, windows=None) -> bool:
+    """A slot start of the veterinarian's schedule (see default_slots), strictly in the future and inside the horizon."""
     if at.tzinfo is None or at <= now:
         return False
     local = at.astimezone(CLINIC_ZONE)
     if (local.date() - now.astimezone(CLINIC_ZONE).date()).days > HORIZON_DAYS:
         return False
-    return at.astimezone(timezone.utc) in default_slots(local.date())
+    return at.astimezone(timezone.utc) in default_slots(local.date(), windows)
 
 
 def validate_booking(b: Booking) -> None:
@@ -93,6 +96,7 @@ class BookingRepository(Protocol):
     def create(self, b: Booking) -> Booking: ...
     def get(self, booking_id: str, *, tenant_id: str) -> Optional[Booking]: ...
     def list_for_owner(self, owner_id: str, *, tenant_id: str) -> list: ...
+    def list_for_veterinarian(self, veterinarian_id: str, *, tenant_id: str) -> list: ...
     def taken_starts(self, veterinarian_id: str, *, tenant_id: str) -> set: ...
     def reschedule(self, booking_id: str, starts_at: datetime, *, tenant_id: str, at: datetime) -> Booking: ...
     def cancel(self, booking_id: str, *, tenant_id: str, at: datetime) -> Booking: ...
@@ -120,6 +124,10 @@ class InMemoryBookingRepository:
 
     def list_for_owner(self, owner_id, *, tenant_id):
         return sorted((b for b in self._rows.values() if b.owner_id == owner_id and b.tenant_id == tenant_id),
+                      key=lambda b: (b.starts_at, b.booking_id))
+
+    def list_for_veterinarian(self, veterinarian_id, *, tenant_id):
+        return sorted((b for b in self._rows.values() if b.veterinarian_id == veterinarian_id and b.tenant_id == tenant_id),
                       key=lambda b: (b.starts_at, b.booking_id))
 
     def taken_starts(self, veterinarian_id, *, tenant_id):

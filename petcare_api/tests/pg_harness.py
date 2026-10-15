@@ -200,6 +200,8 @@ def reset_w0f_tables(url: str) -> None:
                      "recall_notification, recall, delivery_completion, delivery_alert, "
                      "temperature_reading, delivery, stock_movement, inventory_location, "
                      "product_registration")  # + FR-16 (0045), FR-19 (0046)
+        # D3b (0065): availability windows before their plans; plans reference user_identity and tenant.
+        conn.execute("TRUNCATE vet_availability_window, vet_availability_plan")
         for table in ("app_session", "invite_code",
                       "identity_migration_quarantine", "audit_event",
                       # Option A (migration 0036). These reference BOTH
