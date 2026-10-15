@@ -1,0 +1,5 @@
+SCANNER=scripts/governance/secret_scan.py sha256=36eecae761f885bf77cb25b9f026c37f83d3142743167c6474b2dd26db104cb4
+PATTERNS=6 ids=private_key_block,aws_access_key_id,aws_secret_access_key,slack_token,github_token,google_api_key pattern_set_sha256=bf2377688c87e94c70c601382b59df8349ed005fdfc3faf9c09b8268bfd72a48
+FILE petcare_api/.claude-flow/policy/state.json bytes=1590 lines=52 sha256=7d6d55a2f467c21b47f56f8af5e9a8032cf99f8bb99849bff0527d6f3f8b6e82 findings=0
+FILE petcare_api/tests/.claude-flow/policy/state.json bytes=1590 lines=52 sha256=4a46e01523142500c5bf7a9d796d440efb299729c90b8742e55c3b2e9a6b2466 findings=0
+TOTAL_FINDINGS=0 RESULT=CLEAN

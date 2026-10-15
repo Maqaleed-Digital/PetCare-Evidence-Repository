@@ -1,0 +1,15 @@
+BASE=b13016879bebf413eb69e575cc38dbd7a08cc310
+$ python3 scripts/governance/verify_evidence_bundles.py
+[OK] scheme A    4 artefacts  petcare_execution/EVIDENCE/MVC-W0I/20260907T101009Z
+[OK] scheme A    3 artefacts  petcare_execution/EVIDENCE/MVC-W0J/20260907T103127Z
+[OK] scheme A    1 artefacts  petcare_execution/EVIDENCE/MVC-WAVE0-GOVERNANCE-COMPLETION/20260907T130000Z
+[OK] scheme B    3 artefacts  petcare_execution/EVIDENCE/MVC-WAVE0-INTEGRATION/20260903T191034Z
+
+BUNDLES=32 ARTEFACTS=213 FAILED=0
+rc=0
+
+$ manifest search (all tracked files named *MANIFEST* / *SHA256* / *manifest*):
+MANIFEST_FILES=363
+$ git grep -lF ".claude-flow/policy/state.json" (all tracked files):
+evidence/receipts/2026-10-15-epc-d-d2m-jo8-cod.md
+END
