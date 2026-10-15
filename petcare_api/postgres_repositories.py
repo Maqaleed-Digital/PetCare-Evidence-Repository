@@ -2478,6 +2478,35 @@ class PostgresCarePlanRepository:
         return None if r is None else CarePlan(*r[:5], _from_db(r[5]))
 
 
+class PostgresVisitRatingRepository:
+    """CO-13 consultation ratings over migration 0064 (MVC-EPC-D-001 D2r). Insert-only; one per consultation."""
+
+    _C = "session_id, tenant_id, owner_id, veterinarian_id, score, comment, rated_at"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def create(self, r):
+        from visit_rating import RatingExists, validate_rating
+        validate_rating(r)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO consultation_rating ({self._C}) VALUES (%s,%s,%s,%s,%s,%s,%s)",
+                             (r.session_id, r.tenant_id, r.owner_id, r.veterinarian_id, r.score, r.comment, _to_db(r.rated_at)))
+        except Exception as exc:
+            if type(exc).__name__ == "UniqueViolation":
+                raise RatingExists(r.session_id) from None
+            raise RepositoryDenied(f"rating was refused ({type(exc).__name__})") from None
+        return r
+
+    def for_session(self, session_id, *, tenant_id):
+        from visit_rating import VisitRating
+        with self._pool.connection() as conn:
+            row = conn.execute(f"SELECT {self._C} FROM consultation_rating WHERE session_id = %s AND tenant_id = %s",
+                               (session_id, tenant_id)).fetchone()
+        return None if row is None else VisitRating(*row[:6], _from_db(row[6]))
+
+
 class PostgresEstablishmentLicenceRepository:
     """X-30 establishment licences over migration 0060 (MVC-EPC-D-001 D2h)."""
 

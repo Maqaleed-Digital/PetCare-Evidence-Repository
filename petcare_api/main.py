@@ -18,7 +18,7 @@ from fastapi import (Depends, FastAPI, File, Form, Header, HTTPException, Reques
                      Response, UploadFile)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
-from pydantic import BaseModel
+from pydantic import BaseModel, StrictInt
 
 # ---------------------------------------------------------------------------
 # Domain imports — all existing petcare_runtime modules
@@ -1115,6 +1115,70 @@ def owner_visit_summary(session_id: str, request: Request, role: str = Depends(r
            correlation_id=x_correlation_id)
     return cpl.visit_summary(c, outcome, pet_name=pet.name if pet else None, vet_name=names.get(c.veterinarian_id),
                              prescriptions=rxs, plan=CARE_PLAN_REPO.for_session(session_id, tenant_id=tenant_id))
+
+
+# CO-13 · rate visit (MVC-EPC-D-001 D2r, R21.4)
+import visit_rating as vr  # noqa: E402
+
+RATING_REPO = PERSISTENCE.visit_ratings
+
+
+class RatingRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    score: StrictInt                     # a JSON true is not a score of 1
+    comment: str = ""
+
+
+@app.post("/api/owner/consultations/{session_id}/rating", status_code=201)
+def rate_visit(session_id: str, body: RatingRequest, request: Request, role: str = Depends(require_role),
+               x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """CO-13: the owner rates their OWN completed consultation, once. Another owner's/tenant's consultation is 404."""
+    actor_id, actor_role, tenant_id = _owner_session(request, role)
+    c = CONSULTATION_REPO.get(session_id, tenant_id=tenant_id)
+    if c is None or c.owner_id != actor_id:
+        raise HTTPException(404, "Consultation not found")
+    if CONSULTATION_REPO.outcome_of(session_id, tenant_id=tenant_id) is None:
+        raise HTTPException(409, {"error": "VISIT_NOT_COMPLETED"})
+    r = vr.VisitRating(session_id=session_id, tenant_id=tenant_id, owner_id=actor_id, veterinarian_id=c.veterinarian_id,
+                       score=body.score, comment=" ".join(body.comment.split()), rated_at=datetime.now(timezone.utc))
+    try:
+        RATING_REPO.create(r)
+    except vr.RatingExists:
+        raise HTTPException(409, {"error": "VISIT_ALREADY_RATED"}) from None
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Rating refused: {exc}") from None
+    _audit(event_name="consultation.rating.recorded", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="consultation_session", resource_id=session_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"score:{r.score}")
+    return r.to_read_model()
+
+
+@app.get("/api/owner/consultations/{session_id}/rating")
+def owner_visit_rating(session_id: str, request: Request, role: str = Depends(require_role)):
+    """The owner's own rating of their own consultation (404 when none, or not theirs)."""
+    actor_id, _r, tenant_id = _owner_session(request, role)
+    c = CONSULTATION_REPO.get(session_id, tenant_id=tenant_id)
+    r = RATING_REPO.for_session(session_id, tenant_id=tenant_id) if c is not None and c.owner_id == actor_id else None
+    if r is None:
+        raise HTTPException(404, "No rating")
+    return r.to_read_model()
+
+
+@app.get("/api/consultations/{session_id}/rating")
+def staff_visit_rating(session_id: str, request: Request, role: str = Depends(require_role)):
+    """The consultation's veterinarian, or the clinic's administrator, reads the owner's rating (404 when none)."""
+    actor_id, _r = _actor(request)
+    tenant_id = require_tenant(request)
+    c = CONSULTATION_REPO.get(session_id, tenant_id=tenant_id)
+    if c is None:
+        raise HTTPException(404, "Consultation not found")
+    if not (role == ROLE_PARTNER_CLINIC_ADMIN or (role == ROLE_VETERINARIAN and actor_id == c.veterinarian_id)):
+        raise HTTPException(403, "Only the consultation's veterinarian or the clinic's administrator reads its rating")
+    r = RATING_REPO.for_session(session_id, tenant_id=tenant_id)
+    if r is None:
+        raise HTTPException(404, "No rating")
+    return r.to_read_model()
 
 
 @app.post("/api/consultations/{session_id}/notes")
