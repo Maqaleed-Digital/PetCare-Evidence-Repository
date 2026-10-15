@@ -261,6 +261,27 @@
       "path": "/api/bookings/{booking_id}/cancel"
     },
     {
+      "endpoint": "main:read_previsit_intake",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/bookings/{booking_id}/intake"
+    },
+    {
+      "endpoint": "main:submit_previsit_intake",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/bookings/{booking_id}/intake"
+    },
+    {
+      "endpoint": "main:download_previsit_intake_photo",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/bookings/{booking_id}/intake/photos/{photo_id}"
+    },
+    {
       "endpoint": "main:reschedule_booking",
       "methods": [
         "POST"
