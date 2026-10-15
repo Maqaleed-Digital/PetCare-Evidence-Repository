@@ -1801,6 +1801,14 @@ class PostgresReminderRepository:
             return bool(conn.execute("SELECT 1 FROM pet_care_completion WHERE due_id = %s AND tenant_id = %s",
                                      (due_id, tenant_id)).fetchall())
 
+    def completion(self, due_id, *, tenant_id):
+        from reminders import CareCompletion
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT due_id, tenant_id, completed_by, completed_at FROM pet_care_completion "
+                                "WHERE due_id = %s AND tenant_id = %s", (due_id, tenant_id)).fetchall()
+        return None if not rows else CareCompletion(due_id=rows[0][0], tenant_id=rows[0][1], completed_by=rows[0][2],
+                                                    completed_at=_from_db(rows[0][3]))
+
     def record(self, r):
         with self._pool.connection() as conn:
             cur = conn.execute(f"INSERT INTO care_reminder ({self._R}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s) "
