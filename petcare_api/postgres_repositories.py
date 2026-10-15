@@ -2405,6 +2405,49 @@ class PostgresOwnerPrescriptionUploadRepository:
         return [self._row(r) for r in rows]
 
 
+class PostgresPreVisitIntakeRepository:
+    """CO-06 pre-visit intake with photos over migration 0062 (MVC-EPC-D-001 D2p). Insert-only; the intake and its photo rows
+    are written in ONE transaction, after the photo objects are stored. A second intake for a booking is IntakeExists."""
+
+    _I = ("intake_id, tenant_id, booking_id, owner_id, pet_id, reason, symptoms_since, eating_normally, current_medications, "
+          "submitted_at")
+    _P = "photo_id, intake_id, tenant_id, position, filename, content_type, byte_size, content_sha256, storage_key, uploaded_at"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def create(self, i):
+        from previsit_intake import IntakeExists, validate_intake
+        validate_intake(i)
+        try:
+            with self._pool.connection() as conn:
+                with conn.transaction():
+                    conn.execute(f"INSERT INTO pre_visit_intake ({self._I}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                                 (i.intake_id, i.tenant_id, i.booking_id, i.owner_id, i.pet_id, i.reason, i.symptoms_since,
+                                  i.eating_normally, i.current_medications, _to_db(i.submitted_at)))
+                    for p in i.photos:
+                        conn.execute(f"INSERT INTO pre_visit_intake_photo ({self._P}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                                     (p.photo_id, p.intake_id, p.tenant_id, p.position, p.filename, p.content_type, p.byte_size,
+                                      p.content_sha256, p.storage_key, _to_db(p.uploaded_at)))
+        except Exception as exc:
+            if type(exc).__name__ == "UniqueViolation" and "booking_id" in str(exc):
+                raise IntakeExists(i.booking_id) from None
+            raise RepositoryDenied(f"intake was refused ({type(exc).__name__})") from None
+        return i
+
+    def for_booking(self, booking_id, *, tenant_id):
+        from previsit_intake import IntakePhoto, PreVisitIntake
+        with self._pool.connection() as conn:
+            r = conn.execute(f"SELECT {self._I} FROM pre_visit_intake WHERE booking_id = %s AND tenant_id = %s",
+                             (booking_id, tenant_id)).fetchone()
+            if r is None:
+                return None
+            photos = conn.execute(f"SELECT {self._P} FROM pre_visit_intake_photo WHERE intake_id = %s AND tenant_id = %s "
+                                  "ORDER BY position", (r[0], tenant_id)).fetchall()
+        return PreVisitIntake(*r[:9], _from_db(r[9]),
+                              photos=tuple(IntakePhoto(*p[:9], _from_db(p[9])) for p in photos))
+
+
 class PostgresCarePlanRepository:
     """CO-10 consultation care plans over migration 0063 (MVC-EPC-D-001 D2q). Insert-only; one per consultation."""
 

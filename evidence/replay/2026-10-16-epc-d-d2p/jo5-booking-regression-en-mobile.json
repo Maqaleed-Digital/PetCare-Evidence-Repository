@@ -1,0 +1,157 @@
+{
+  "config": {
+    "configFile": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/playwright.full.config.ts",
+    "rootDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-desktop",
+        "name": "ar-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-mobile",
+        "name": "ar-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-desktop",
+        "name": "en-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-mobile",
+        "name": "en-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "jo5-booking.spec.ts",
+      "file": "jo5-booking.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O5] @S:CO-05 @S:CO-07 an owner books, views, reschedules and cancels a consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-05",
+            "S:CO-07"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11669,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-15T21:16:43.156Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a7e00d792fd3a11c7673-5dde166bd503ed8f9064",
+          "file": "jo5-booking.spec.ts",
+          "line": 38,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-15T21:16:34.744Z",
+    "duration": 20979.599000000002,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

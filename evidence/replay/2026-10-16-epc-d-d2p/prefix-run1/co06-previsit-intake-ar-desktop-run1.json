@@ -1,0 +1,156 @@
+{
+  "config": {
+    "configFile": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/playwright.full.config.ts",
+    "rootDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-desktop",
+        "name": "ar-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-mobile",
+        "name": "ar-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-desktop",
+        "name": "en-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-mobile",
+        "name": "en-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "co06-previsit-intake.spec.ts",
+      "file": "co06-previsit-intake.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@S:CO-06 an owner sends the pre-visit intake with photos for an upcoming appointment",
+          "ok": true,
+          "tags": [
+            "S:CO-06"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11631,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-15T21:14:53.768Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcd96d5c68004a9c3304-c1db095abb15ac60960b",
+          "file": "co06-previsit-intake.spec.ts",
+          "line": 25,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-15T21:14:40.793Z",
+    "duration": 25784.023999999998,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
