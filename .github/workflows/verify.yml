@@ -164,6 +164,7 @@ jobs:
             petcare_api/tests/test_epc_d2g_owner_prescription_upload_postgres.py \
             petcare_api/tests/test_epc_d2h_establishment_licence_postgres.py \
             petcare_api/tests/test_epc_d2k_r19_2_licence_postgres.py \
+            petcare_api/tests/test_epc_d2m_jo8_product_names_postgres.py \
             petcare_api/tests/test_epc_d2d_scratch_ownership.py \
             petcare_api/tests/test_sq1_platform_identity_chain_postgres.py \
             -q --no-header -rs | tee /tmp/pg.txt

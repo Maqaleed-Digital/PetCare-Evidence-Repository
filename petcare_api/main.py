@@ -2602,7 +2602,8 @@ def set_price(body: PriceRequest, request: Request, role: str = Depends(require_
 def list_prices(request: Request, role: str = Depends(require_role)):
     """The session tenant's orderable products: priced and GENERAL/OTC (eligible for an order)."""
     tenant_id = require_tenant(request)
-    return [{"product_id": pid, "unit_price_halalas": price, "supply_class": INVENTORY_REPO.supply_class_of(pid)}
+    return [{"product_id": pid, "name": INVENTORY_REPO.name_of(pid), "unit_price_halalas": price,
+             "supply_class": INVENTORY_REPO.supply_class_of(pid)}                    # name: J-O8 (D2m), additive
             for pid, price in sorted(ORDER_REPO.prices(tenant_id=tenant_id).items())
             if not prescription_required(INVENTORY_REPO.supply_class_of(pid))]
 
@@ -2628,8 +2629,8 @@ def _order_view(o, tenant_id: str) -> dict:
     return {"order_id": o.order_id, "owner_id": o.owner_id, "payment_method": o.payment_method,
             "status": ordr.DELIVERED if col else ordr.PLACED, "paid": col is not None,
             "total_halalas": o.total_halalas, "created_at": o.created_at.isoformat(),
-            "lines": [{"product_id": l.product_id, "quantity": l.quantity, "unit_price_halalas": l.unit_price_halalas}
-                      for l in o.lines],
+            "lines": [{"product_id": l.product_id, "name": INVENTORY_REPO.name_of(l.product_id), "quantity": l.quantity,
+                       "unit_price_halalas": l.unit_price_halalas} for l in o.lines],          # name: J-O8 (D2m), additive
             "receipt": None if rec is None else {"receipt_id": rec.receipt_id, "language": rec.language,
                                                  "rendered": rec.rendered, "issued_at": rec.issued_at.isoformat()},
             "fulfilled_by": _fulfilled_by(o.order_id, tenant_id)}
