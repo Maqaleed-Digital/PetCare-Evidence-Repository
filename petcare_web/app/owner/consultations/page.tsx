@@ -25,6 +25,7 @@ const C = {
   completed: { ar: 'مكتملة', en: 'Completed' },
   messages: { ar: 'الرسائل والملفات', en: 'Messages and files' },
   room: { ar: 'غرفة الانتظار المرئية', en: 'Video waiting room' },
+  summary: { ar: 'ملخص الزيارة وخطة الرعاية', en: 'Visit summary and care plan' },
   rate: { ar: 'تقييم الزيارة', en: 'Rate visit' },
 } satisfies Record<string, Copy>
 
@@ -70,6 +71,11 @@ export default function OwnerConsultationsPage() {
                   </p>
                   <div className="ds-row">
                     <a className="ds-link" href={`/owner/consultations/messages?${q}`} data-testid="consultation-open-messages">{tr(C.messages)}</a>
+                    {c.status === 'COMPLETED' && (
+                      // CO-10 (MVC-EPC-D-001 D2q): the visit summary and care plan of a completed consultation
+                      <a className="ds-link" href={`/owner/consultations/${encodeURIComponent(c.session_id)}/summary`}
+                        data-testid="consultation-open-summary">{tr(C.summary)}</a>
+                    )}
                     {c.status === 'COMPLETED' && (
                       // CO-13 (MVC-EPC-D-001 D2r): rate a completed consultation
                       <a className="ds-link" href={`/owner/consultations/${encodeURIComponent(c.session_id)}/rate`}

@@ -59,6 +59,8 @@ from postgres_repositories import (
     PostgresBookingRepository,
     PostgresOwnerPrescriptionUploadRepository,
     PostgresVisitRatingRepository,
+    PostgresPreVisitIntakeRepository,
+    PostgresCarePlanRepository,
     PostgresEstablishmentLicenceRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
@@ -91,6 +93,8 @@ from owner_consent import InMemoryOwnerConsentRepository
 from bookings import InMemoryBookingRepository
 from owner_prescriptions import InMemoryOwnerPrescriptionUploadRepository
 from visit_rating import InMemoryVisitRatingRepository
+from previsit_intake import InMemoryPreVisitIntakeRepository
+from care_plan import InMemoryCarePlanRepository
 from establishment_licences import InMemoryEstablishmentLicenceRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
@@ -166,6 +170,10 @@ class Persistence:
     owner_prescription_uploads: Any = None
     #: CO-13 (MVC-EPC-D-001 D2r): consultation ratings.
     visit_ratings: Any = None
+    #: CO-06 (MVC-EPC-D-001 D2p): pre-visit intake with photos.
+    previsit_intakes: Any = None
+    #: CO-10 (MVC-EPC-D-001 D2q): consultation care plans.
+    care_plans: Any = None
     #: X-30 establishment licences of supplying locations (MVC-EPC-D-001 D2h, migration 0060).
     establishment_licences: Any = None
     quarantine: Optional[Any] = None
@@ -257,6 +265,8 @@ def build_persistence(
             bookings=InMemoryBookingRepository(),
             owner_prescription_uploads=InMemoryOwnerPrescriptionUploadRepository(),
             visit_ratings=InMemoryVisitRatingRepository(),
+            previsit_intakes=InMemoryPreVisitIntakeRepository(),
+            care_plans=InMemoryCarePlanRepository(),
             establishment_licences=InMemoryEstablishmentLicenceRepository(),
         )
 
@@ -306,6 +316,8 @@ def build_persistence(
         bookings=PostgresBookingRepository(pool),
         owner_prescription_uploads=PostgresOwnerPrescriptionUploadRepository(pool),
         visit_ratings=PostgresVisitRatingRepository(pool),
+        previsit_intakes=PostgresPreVisitIntakeRepository(pool),
+        care_plans=PostgresCarePlanRepository(pool),
         establishment_licences=PostgresEstablishmentLicenceRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
