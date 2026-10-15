@@ -97,6 +97,23 @@ def render_receipt(order: Order, collection: Collection, language: str, issued_a
     return "\n".join(lines)
 
 
+#: J-O9 internal tracking (MVC-EPC-D-001 D2n, R19.5 item 4): an order's own lifecycle, derived ONLY from records the platform
+#: already holds — the order, the FR-15 routing decision, the FR-20 cash collection and the receipt. No carrier reading, ETA or
+#: courier status is shown or invented: there is no logistics-partner integration (EXTERNAL:LOGISTICS_PARTNER, R18.4).
+TRACKING_STEPS = ("PLACED", "ROUTED", "DELIVERED", "RECEIPT_ISSUED")
+
+
+def tracking_view(order: Order, decision, collection: Optional[Collection], receipt) -> dict:
+    """Each step is done exactly when its record exists, at that record's own time. A routing REFUSAL (no chosen location) is
+    not a route."""
+    routed = decision is not None and bool(decision.chosen_location_id)
+    at = {"PLACED": order.created_at, "ROUTED": decision.decided_at if routed else None,
+          "DELIVERED": collection.confirmed_at if collection else None, "RECEIPT_ISSUED": receipt.issued_at if receipt else None}
+    return {"steps": [{"step": s, "done": at[s] is not None, "at": at[s].isoformat() if at[s] else None}
+                      for s in TRACKING_STEPS],
+            "carrier": None}
+
+
 def validate_collection(order: Order, c: Collection) -> None:
     """AC-FR-20-03: an order is paid only by a confirmation of its exact total, with a reference."""
     if c.amount_halalas != order.total_halalas:

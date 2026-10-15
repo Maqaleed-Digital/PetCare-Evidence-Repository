@@ -11,16 +11,23 @@
  * J-O8 cash on delivery (MVC-EPC-D-001 D2m, R19.5 item 3): products are shown by their registered name; each order carries its
  * status for the journey; machine values (product names, ids, references) are marked translate="no" so the Arabic page holds
  * no untranslated copy. Online payment is not offered: it is blocked on X-05 / HyperPay (R18.4), never simulated.
+ *
+ * J-O9 internal tracking (D2n, R19.5 item 4): each order shows its own lifecycle — placed, pharmacy assigned, delivered, receipt
+ * issued — from the platform's records (`tracking` on the order). There is no courier/carrier tracking (no logistics partner,
+ * R18.4): the page says so and never shows a carrier status or ETA.
  */
 
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
+import { formatKsa } from '@/lib/ksaTime'
 
 type Priced = { product_id: string; name?: string | null; unit_price_halalas: number }
 type Line = { product_id: string; name?: string | null; quantity: number; unit_price_halalas: number }
 type Receipt = { receipt_id: string; language: string; rendered: string; issued_at: string }
+type Step = { step: 'PLACED' | 'ROUTED' | 'DELIVERED' | 'RECEIPT_ISSUED'; done: boolean; at: string | null }
 type Order = { order_id: string; payment_method: string; status: string; paid: boolean; total_halalas: number;
-  receipt: Receipt | null; fulfilled_by?: { location_id: string; name: string } | null; lines?: Line[] }
+  receipt: Receipt | null; fulfilled_by?: { location_id: string; name: string } | null; lines?: Line[];
+  tracking?: { steps: Step[]; carrier: null } }
 
 const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL ?? '').replace(/\/$/, '')
 const call = (path: string, init?: RequestInit) =>
@@ -39,6 +46,14 @@ const L = {
   PLACED: { ar: 'بانتظار التوصيل', en: 'Awaiting delivery' },
   DELIVERED: { ar: 'تم التسليم والدفع', en: 'Delivered and paid' },
   sar: { ar: 'ر.س', en: 'SAR' },
+  tracking: { ar: 'تتبّع الطلب', en: 'Order tracking' },
+  step_PLACED: { ar: 'استُلم الطلب', en: 'Order placed' },
+  step_ROUTED: { ar: 'حُدِّدت الصيدلية', en: 'Pharmacy assigned' },
+  step_DELIVERED: { ar: 'سُلِّم الطلب', en: 'Delivered' },
+  step_RECEIPT_ISSUED: { ar: 'صدر الإيصال', en: 'Receipt issued' },
+  pending: { ar: 'لم يتم بعد', en: 'Not yet' },
+  noCarrier: { ar: 'لا يتوفر تتبّع لدى شركة شحن؛ تُعرض الحالة من سجلات المنصة فقط.',
+    en: "No courier tracking is available; the status comes from the platform's own records only." },
   error: { ar: 'تعذر إتمام الطلب', en: 'The order could not be placed' },
   // FR-04 AC-FR-04-01 (U17): the purchaser is told, in the purchase flow, that verification is required and why.
   restricted: { ar: 'الأدوية المقيّدة والخاضعة للرقابة غير متاحة للشراء عبر التطبيق: يتطلب شراؤها التحقق من هوية المشتري، '
@@ -113,6 +128,20 @@ export default function OwnerOrdersPage() {
             <ul data-testid="order-lines">
               {o.lines.map(l => <li key={l.product_id}><bdi translate="no">{l.name ?? l.product_id}</bdi> × {l.quantity}</li>)}
             </ul>
+          )}
+          {o.tracking && (
+            <section data-testid="order-tracking" aria-label={t('tracking')}>
+              <h3 className="title-md">{t('tracking')}</h3>
+              <ol>
+                {o.tracking.steps.map(s => (
+                  <li key={s.step} data-testid="tracking-step" data-step={s.step} data-done={s.done ? 'true' : 'false'}>
+                    {t(`step_${s.step}` as keyof typeof L)} · {s.done && s.at
+                      ? formatKsa(s.at, lang, { dateStyle: 'medium', timeStyle: 'short' }) : t('pending')}
+                  </li>
+                ))}
+              </ol>
+              <p className="muted" data-testid="tracking-no-carrier">{t('noCarrier')}</p>
+            </section>
           )}
           {o.fulfilled_by && <div data-testid="fulfilled-by">{t('fulfilledBy')}: {o.fulfilled_by.name}</div>}
           {o.receipt && (
