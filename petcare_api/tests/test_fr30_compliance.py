@@ -119,7 +119,7 @@ def test_antimicrobial_prescribing_aggregates_by_agent_class_species_practitione
                    ("enrofloxacin", "fluoroquinolone", "cat", "u-fr30-vet1"): 1,
                    ("amoxicillin", "penicillin", "cat", "u-fr30-vet2"): 1,
                    ("amoxicillin", "penicillin", "UNRESOLVED", "u-fr30-vet2"): 1}
-    assert all(r["period"] == datetime.now(timezone.utc).strftime("%Y-%m") for r in mine)
+    assert all(r["period"] == datetime.now(__import__("zoneinfo").ZoneInfo("Asia/Riyadh")).strftime("%Y-%m") for r in mine)
     by_agent = admin.get("/api/compliance/antimicrobials", params={"group_by": "agent"}).json()
     cov = by_agent["coverage"]
     assert cov["antimicrobial_prescriptions"] - before["antimicrobial_prescriptions"] == 5

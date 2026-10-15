@@ -25,6 +25,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
+import { formatKsa } from '@/lib/ksaTime'
 import { QUEUE_REFRESH_MS } from '@/lib/pharmacyQueue'
 import { useStepUp } from '@/components/StepUp'
 
@@ -62,7 +63,7 @@ function fmt(iso: string | null, isAr: boolean): string {
   if (!iso) return '—'
   const d = new Date(iso)
   if (Number.isNaN(d.getTime())) return '—'
-  return d.toLocaleString(isAr ? 'ar-SA' : 'en-GB', {
+  return formatKsa(d, isAr ? 'ar' : 'en', {
     dateStyle: 'medium',
     timeStyle: 'short',
   })

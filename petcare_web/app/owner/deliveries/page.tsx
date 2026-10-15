@@ -10,6 +10,7 @@
 
 import { useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
+import { formatKsa } from '@/lib/ksaTime'
 
 type Reading = { recorded_at: string; celsius: number; out_of_range: boolean }
 type Delivery = { delivery_id: string; product_id: string; cold_chain: boolean; temp_min_c: number | null;
@@ -47,7 +48,7 @@ export default function OwnerDeliveriesPage() {
     })()
   }, [])
 
-  const when = (iso: string) => new Date(iso).toLocaleString(isAr ? 'ar-SA' : 'en-GB', { dateStyle: 'short', timeStyle: 'short' })
+  const when = (iso: string) => formatKsa(iso, isAr ? 'ar' : 'en', { dateStyle: 'short', timeStyle: 'short' })
   const deg = (n: number) => n.toLocaleString(isAr ? 'ar-SA' : 'en-GB')
 
   return (

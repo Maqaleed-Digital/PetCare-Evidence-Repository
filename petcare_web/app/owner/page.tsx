@@ -107,6 +107,7 @@ export default function OwnerPage() {
             <a className="button button-outline button-sm" href="/owner/book" data-testid="owner-open-book">{t(s.appointmentsBook)}</a>
             <a className="button button-outline button-sm" href="/owner/appointments" data-testid="owner-open-appointments">{t(s.appointmentsOpen)}</a>
             <a className="button button-outline button-sm" href="/owner/consultations" data-testid="owner-open-consultations">{t(s.consultationsOpen)}</a>
+            <a className="button button-outline button-sm" href="/owner/prescriptions" data-testid="owner-open-prescriptions">{t(s.prescriptionsOpen)}</a>
           </div>
         </section>
       </div>

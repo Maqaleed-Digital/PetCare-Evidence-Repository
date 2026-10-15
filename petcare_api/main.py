@@ -14,7 +14,7 @@ from datetime import date, datetime, timedelta, timezone
 from typing import Any, Optional
 from uuid import uuid4
 
-from fastapi import (Depends, FastAPI, File, Header, HTTPException, Request,
+from fastapi import (Depends, FastAPI, File, Form, Header, HTTPException, Request,
                      Response, UploadFile)
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
@@ -138,6 +138,7 @@ from inventory import (ADJUSTMENT, RECEIPT, REASONS, SUPPLY, TRANSFER_IN, TRANSF
                        VETERINARIAN_ONLY, InventoryLocation, StockMovement, prescription_required,
                        RESTRICTED_SUBSTANCE_CLASSES, restricted_substance_workflow_enabled)  # FR-04 (U17)
 import sfda  # FR-14 AC-06 (U9): the SFDA prescription-validation port
+from ksa_calendar import ksa_date  # X-29 (R18.1): regulated report month on the Asia/Riyadh calendar
 import licences  # FR-05 (U10): veterinarian licence registration and verification
 import consultations as consult  # FR-06 (U11): durable consultations and the REG-02 gate
 import deliveries as dlv  # FR-16 (U12): cold-chain delivery tracking
@@ -1601,6 +1602,110 @@ def prescription_verification_metric(request: Request, role: str = Depends(requi
             "meets_target": (n > 0 and within / n >= 0.95)}
 
 
+# ---------------------------------------------------------------------------
+# J-O7 — the owner's prescriptions and owner-uploaded external prescriptions (MVC-EPC-D-001 D2g; FR-14 owner part)
+# ---------------------------------------------------------------------------
+
+import owner_prescriptions as orx  # noqa: E402
+
+OWNER_RX_UPLOADS = PERSISTENCE.owner_prescription_uploads
+
+
+def _own_pet_or_404(pet_id: str, owner_id: str, tenant_id: str):
+    pet = PET_REPO.get(pet_id, tenant_id=tenant_id)
+    if pet is None or pet.owner_id != owner_id:
+        raise HTTPException(404, "Pet not found")  # 404, not 403: never confirm another owner's pet exists
+    return pet
+
+
+@app.get("/api/owner/prescriptions")
+def owner_prescriptions(request: Request, role: str = Depends(require_role),
+                        x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """J-O7: prescriptions issued for the session owner's own pets (every status) and the external prescriptions they
+    uploaded for verification. Owner, tenant and pets come from the session; nothing is selected by the request."""
+    actor_id, actor_role, tenant_id = _owner_session(request, role)
+    pets = {p.pet_id for p in PET_REPO.list_for_tenant(tenant_id=tenant_id, owner_id=actor_id)}
+    issued = [rx for status in (STATUS_ISSUED, STATUS_VET_VERIFIED, STATUS_DISPENSED)
+              for rx in PRESCRIPTION_REPO.list_by_status(tenant_id=tenant_id, status=status) if rx.pet_id in pets]
+    _audit(event_name="prescription.owner_listed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="prescription", resource_id=actor_id, action_result="success", correlation_id=x_correlation_id)
+    return {"prescriptions": [rx.to_read_model() for rx in sorted(issued, key=lambda r: (r.issued_at, r.prescription_id))],
+            "uploads": [u.to_read_model() for u in OWNER_RX_UPLOADS.list_for_owner(actor_id, tenant_id=tenant_id)]}
+
+
+@app.post("/api/owner/prescriptions/uploads", status_code=201)
+async def owner_upload_prescription(
+    request: Request,
+    pet_id: str = Form(...),
+    note: str = Form(""),
+    file: UploadFile = File(...),
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """J-O7: an owner uploads a prescription written elsewhere for one of their own pets; it waits for a veterinarian
+    (AWAITING_VERIFICATION). Same order as prescription documents: authorise, validate the bytes, store the object,
+    write the row last."""
+    actor_id, actor_role, tenant_id = _owner_session(request, role)
+    _own_pet_or_404(pet_id, actor_id, tenant_id)
+    payload = await file.read()
+    try:
+        validate_upload(content_type=file.content_type or "", payload=payload)
+    except DocumentRejected as exc:
+        _audit(event_name="prescription.owner_upload_rejected", actor_id=actor_id, actor_role=actor_role,
+               tenant_id=tenant_id, resource_type="owner_prescription_upload", resource_id=pet_id,
+               action_result="denied", correlation_id=x_correlation_id, reason_code="DOCUMENT_REJECTED")
+        raise HTTPException(400, str(exc)) from None
+    upload_id = str(uuid4())
+    u = orx.OwnerPrescriptionUpload(
+        upload_id=upload_id, tenant_id=tenant_id, owner_id=actor_id, pet_id=pet_id,
+        filename=file.filename or "prescription", content_type=(file.content_type or "").split(";")[0].strip().lower(),
+        byte_size=len(payload), content_sha256=sha256_hex(payload),
+        storage_key=new_storage_key(tenant_id=tenant_id, prescription_id=f"owner-upload-{upload_id}"),
+        note=" ".join(note.split()), status=orx.AWAITING_VERIFICATION, uploaded_at=datetime.now(timezone.utc))
+    try:
+        DOCUMENT_STORE.put(u.storage_key, payload)
+    except (ObjectStoreUnavailable, DocumentRejected) as exc:
+        raise HTTPException(503, f"Document store unavailable: {exc}") from None
+    try:
+        OWNER_RX_UPLOADS.create(u)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Upload refused: {exc}") from None
+    _audit(event_name="prescription.owner_uploaded", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="owner_prescription_upload", resource_id=upload_id, action_result="success",
+           correlation_id=x_correlation_id)
+    return u.to_read_model()
+
+
+@app.get("/api/owner/prescriptions/uploads/{upload_id}/document")
+def owner_upload_document(request: Request, upload_id: str, role: str = Depends(require_role),
+                          x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """The owner's own upload, as a download (never rendered inline — see download_prescription_document)."""
+    actor_id, actor_role, tenant_id = _owner_session(request, role)
+    u = OWNER_RX_UPLOADS.get(upload_id, tenant_id=tenant_id)
+    if u is None or u.owner_id != actor_id:
+        raise HTTPException(404, "Upload not found")
+    try:
+        payload = DOCUMENT_STORE.get(u.storage_key)
+    except ObjectStoreUnavailable as exc:
+        raise HTTPException(503, f"Document store unavailable: {exc}") from None
+    _audit(event_name="prescription.owner_upload_downloaded", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="owner_prescription_upload", resource_id=upload_id,
+           action_result="success", correlation_id=x_correlation_id)
+    return Response(content=payload, media_type=SERVED_CONTENT_TYPE,
+                    headers={"Content-Disposition": 'attachment; filename="prescription-upload"'})
+
+
+@app.get("/api/prescriptions/uploads/awaiting-verification")
+def owner_uploads_awaiting_verification(request: Request, role: str = Depends(require_role)):
+    """The clinic's queue of owner-uploaded prescriptions awaiting a veterinarian (read only; deciding them is J-V6)."""
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(403, "Only a veterinarian verifies prescriptions")
+    tenant_id = require_tenant(request)
+    _rx_read_audit(request, "prescription.owner_upload_queue_viewed", "owner_prescription_upload_queue",
+                   orx.AWAITING_VERIFICATION, tenant_id)
+    return [u.to_read_model() for u in OWNER_RX_UPLOADS.list_awaiting(tenant_id=tenant_id)]
+
+
 @app.get("/api/prescriptions/{prescription_id}/transitions")
 def prescription_transitions(
     request: Request,
@@ -2870,7 +2975,7 @@ def antimicrobial_register(request: Request, group_by: str = "agent,agent_class,
             pet = PET_REPO.get(rx.pet_id, tenant_id=tenant_id)
             records.append({"prescription_id": rx.prescription_id, "agent": am[0], "agent_class": am[1],
                             "species": pet.species if pet else "UNRESOLVED", "practitioner": rx.issuing_vet_id,
-                            "period": rx.issued_at.strftime("%Y-%m")})
+                            "period": ksa_date(rx.issued_at).strftime("%Y-%m")})  # X-29 (R18.1)
     try:
         return cmp.antimicrobial_aggregate(records, tuple(g for g in group_by.split(",") if g))
     except RepositoryDenied as exc:

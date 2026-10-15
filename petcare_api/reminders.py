@@ -14,6 +14,7 @@ from dataclasses import dataclass, field
 from datetime import datetime, timedelta
 from typing import Optional, Protocol
 
+from ksa_calendar import ksa_date  # X-28 (R17.4)
 from repositories import RepositoryDenied
 
 VACCINATION, TREATMENT = "VACCINATION", "TREATMENT"
@@ -70,7 +71,7 @@ def reminders_due(item: CareDue, *, now: datetime, completed: bool, already: set
 
 
 def render(item: CareDue, kind: str, language: str, pet_name: str) -> str:
-    when = item.due_at.date().isoformat()
+    when = ksa_date(item.due_at).isoformat()
     if language == "ar":
         what = "تطعيم" if item.kind == VACCINATION else "علاج"
         lead = "تذكير: خلال ٢٤ ساعة" if kind == REMIND_24H else "تذكير: خلال ٧ أيام"

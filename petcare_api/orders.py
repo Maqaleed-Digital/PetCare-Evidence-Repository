@@ -15,6 +15,7 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Optional, Protocol
 
+from ksa_calendar import ksa_date  # X-28 (R17.4)
 from repositories import RepositoryDenied
 
 COD = "COD"
@@ -87,12 +88,12 @@ def render_receipt(order: Order, collection: Collection, language: str, issued_a
         lines = [f"إيصال رقمي — الطلب {order.order_id}", "طريقة الدفع: الدفع عند الاستلام",
                  *[f"{l.product_id} × {l.quantity} — {sar(l.quantity * l.unit_price_halalas)} ر.س" for l in order.lines],
                  f"الإجمالي المحصّل: {sar(collection.amount_halalas)} ر.س", f"مرجع التحصيل: {collection.reference}",
-                 f"تاريخ الإصدار: {issued_at.date().isoformat()}"]
+                 f"تاريخ الإصدار: {ksa_date(issued_at).isoformat()}"]
     else:
         lines = [f"Digital receipt — order {order.order_id}", "Payment method: cash on delivery",
                  *[f"{l.product_id} x {l.quantity} — SAR {sar(l.quantity * l.unit_price_halalas)}" for l in order.lines],
                  f"Total collected: SAR {sar(collection.amount_halalas)}", f"Collection reference: {collection.reference}",
-                 f"Issued: {issued_at.date().isoformat()}"]
+                 f"Issued: {ksa_date(issued_at).isoformat()}"]
     return "\n".join(lines)
 
 

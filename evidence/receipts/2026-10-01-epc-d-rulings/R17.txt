@@ -1,0 +1,17 @@
+--- R17 BEGIN ---
+R17 — Rulings on D2f (issued by the Sponsor, 2026-10-01)
+
+R17.1 — D2F-R16.4-SCOPE: RATIFIED. The R16.4 precondition-only fix extends to the placeholder-pet preconditions in the FR-06 consultation, FR-07 messaging and FR-06 video test helpers, as enumerated in the D2f receipt. Every assertion must be byte-identical (AST hash equal before and after). No assertion change is authorized.
+
+R17.2 — X-22 lapse time: AUTHORIZED, in D2g. Amend the frozen assertion at test_fr05_licence.py:178, and only that location, to the Asia/Riyadh calendar-date basis.
+Required evidence:
+  - file SHA-256 before and after;
+  - a diff limited to that assertion;
+  - a timezone matrix extended to clinical-act lapse across TZ=UTC, Asia/Riyadh and Asia/Dubai;
+  - a perturbation that reverts the rule to UTC must FAIL.
+X-22 closes only on the D2g merge.
+
+R17.3 — J-O6 video: NO test, synthetic or non-production REG-02 determination in any harness. J-O6 and CO-08 stay uncounted until counsel records REG-02. J-O6-CHAT is recorded as partial evidence only.
+
+R17.4 — X-28 goes into D2g with X-22. D2g also sweeps for code that renders or compares calendar dates in UTC. Every site found is either fixed in D2g or ledgered as its own row.
+--- R17 END ---

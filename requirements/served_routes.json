@@ -625,6 +625,27 @@
       "path": "/api/orders/{order_id}/routing"
     },
     {
+      "endpoint": "main:owner_prescriptions",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/owner/prescriptions"
+    },
+    {
+      "endpoint": "main:owner_upload_prescription",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/owner/prescriptions/uploads"
+    },
+    {
+      "endpoint": "main:owner_upload_document",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/owner/prescriptions/uploads/{upload_id}/document"
+    },
+    {
       "endpoint": "main:list_pets",
       "methods": [
         "GET"
@@ -742,6 +763,13 @@
         "GET"
       ],
       "path": "/api/prescriptions/queue/awaiting-verification"
+    },
+    {
+      "endpoint": "main:owner_uploads_awaiting_verification",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/prescriptions/uploads/awaiting-verification"
     },
     {
       "endpoint": "main:get_prescription",

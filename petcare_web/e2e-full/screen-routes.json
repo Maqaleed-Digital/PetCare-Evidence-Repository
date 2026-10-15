@@ -9,5 +9,6 @@
   "CO-05": "/owner/book",
   "CO-07": "/owner/appointments",
   "CO-08": "/owner/consultations/video",
-  "CO-09": "/owner/consultations · /owner/consultations/messages"
+  "CO-09": "/owner/consultations · /owner/consultations/messages",
+  "CO-11": "/owner/prescriptions"
 }
