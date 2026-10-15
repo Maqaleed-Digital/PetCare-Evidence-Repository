@@ -1,0 +1,11 @@
+BASE=b13016879bebf413eb69e575cc38dbd7a08cc310 (+ working change: 2 paths untracked, .gitignore rule)
+$ python3 scripts/governance/verify_evidence_bundles.py
+BUNDLES=32 ARTEFACTS=213 FAILED=0
+$ git ls-files | grep -c claude-flow
+0
+$ git check-ignore -v petcare_api/.claude-flow/policy/state.json petcare_api/tests/.claude-flow/policy/state.json
+.gitignore:24:.claude-flow/	petcare_api/.claude-flow/policy/state.json
+.gitignore:24:.claude-flow/	petcare_api/tests/.claude-flow/policy/state.json
+$ python3 scripts/governance/secret_scan.py
+SCANNED=4406 ALLOWLISTED=0 FINDINGS=0
+SECRET_SCAN=CLEAN
