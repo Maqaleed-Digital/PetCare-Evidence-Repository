@@ -2390,3 +2390,40 @@ class PostgresOwnerPrescriptionUploadRepository:
             rows = conn.execute(f"SELECT {self._COLS} FROM owner_prescription_upload WHERE tenant_id = %s "
                                 "AND status = 'AWAITING_VERIFICATION' ORDER BY uploaded_at, upload_id", (tenant_id,)).fetchall()
         return [self._row(r) for r in rows]
+
+
+class PostgresEstablishmentLicenceRepository:
+    """X-30 establishment licences over migration 0060 (MVC-EPC-D-001 D2h)."""
+
+    _COLS = ("licence_id, tenant_id, location_id, licence_number, issuing_authority, expires_on, basis, recorded_by_actor_id, "
+             "recorded_at")
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    @staticmethod
+    def _row(r):
+        from establishment_licences import EstablishmentLicence
+        return EstablishmentLicence(*r[:8], _from_db(r[8]))
+
+    def record(self, lic):
+        from establishment_licences import validate_establishment_licence
+        validate_establishment_licence(lic)
+        with self._pool.connection() as conn:
+            conn.execute(f"INSERT INTO establishment_licence ({self._COLS}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                         (lic.licence_id, lic.tenant_id, lic.location_id, lic.licence_number, lic.issuing_authority,
+                          lic.expires_on, lic.basis, lic.recorded_by_actor_id, _to_db(lic.recorded_at)))
+        return lic
+
+    def for_location(self, location_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._COLS} FROM establishment_licence WHERE location_id = %s AND tenant_id = %s "
+                                "ORDER BY recorded_at, licence_id", (location_id, tenant_id)).fetchall()
+        return [self._row(r) for r in rows]
+
+    def for_tenant(self, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._COLS} FROM establishment_licence WHERE tenant_id = %s "
+                                "ORDER BY recorded_at, licence_id", (tenant_id,)).fetchall()
+        return [self._row(r) for r in rows]
+

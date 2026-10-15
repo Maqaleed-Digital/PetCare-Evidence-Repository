@@ -16,6 +16,7 @@ import main as api  # noqa: E402
 from inventory import REGISTRATION_SOURCE, ProductRegistration  # noqa: E402
 from routers import auth  # noqa: E402
 from tenant_fixtures import ensure_tenant, grant_practitioner_authority, stock_origin  # noqa: E402
+from establishment_fixtures import licensed_location  # noqa: E402  X-30 precondition (R18.2)
 
 pytestmark = pytest.mark.served_app
 T = "t-fr09-notify"
@@ -73,6 +74,7 @@ def _documents_for(owner_id, owner, vet, admin):
     _general("brush-09n")
     admin.post("/api/catalog/prices", json={"product_id": "brush-09n", "unit_price_halalas": 1500})
     loc = admin.post("/api/inventory/locations", json={"name": f"Shop {owner_id}"}).json()["location_id"]
+    licensed_location(admin, loc)
     admin.post("/api/inventory/movements", json={"location_id": loc, "product_id": "brush-09n", "batch": "S",
                                                  "quantity_delta": 5, "reason": "RECEIPT", "batch_expiry": "2030-01-01"})
     o = owner.post("/api/orders", json={"lines": [{"product_id": "brush-09n", "quantity": 1}], "payment_method": "COD"}).json()

@@ -16,6 +16,7 @@ import main as api  # noqa: E402
 from inventory import REGISTRATION_SOURCE, ProductRegistration  # noqa: E402
 from routers import auth  # noqa: E402
 from tenant_fixtures import ensure_tenant  # noqa: E402
+from establishment_fixtures import licensed_location  # noqa: E402  X-30 precondition (R18.2)
 
 pytestmark = pytest.mark.served_app
 T_A, T_B = "t-fr20-alpha", "t-fr20-beta"
@@ -42,6 +43,7 @@ def _shop(admin, product="shampoo-20", price=4550, stock=50):
     _register(product)
     assert admin.post("/api/catalog/prices", json={"product_id": product, "unit_price_halalas": price}).status_code == 200
     loc = admin.post("/api/inventory/locations", json={"name": f"Shop {product}"}).json()["location_id"]
+    licensed_location(admin, loc)
     assert admin.post("/api/inventory/movements", json={"location_id": loc, "product_id": product, "batch": "S1",
                                                         "quantity_delta": stock, "reason": "RECEIPT",
                                                         "batch_expiry": "2030-06-30"}).status_code == 200

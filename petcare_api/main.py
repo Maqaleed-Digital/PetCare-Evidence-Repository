@@ -2684,6 +2684,58 @@ class DeliverOrderRequest(BaseModel):
     collection_reference: str
 
 
+import establishment_licences as est_lic  # noqa: E402  X-30 (R18.3)
+
+ESTABLISHMENT_LICENCE_REPO = PERSISTENCE.establishment_licences
+
+
+class EstablishmentLicenceRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    location_id: str
+    licence_number: str
+    issuing_authority: str
+    expires_on: str
+    basis: str
+
+
+@app.post("/api/admin/establishment-licences", status_code=201)
+def record_establishment_licence(body: EstablishmentLicenceRequest, request: Request, role: str = Depends(require_role),
+                                 x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """X-30 (R18.3): a platform administrator records the licence of a supplying location of the SESSION tenant, stating what
+    it was checked against. Entity data the product validates at every delivery; never updated (a renewal is a new row)."""
+    actor_id, actor_role = _actor(request)
+    if actor_role != ROLE_PLATFORM_ADMIN:
+        raise HTTPException(403, "Only a platform administrator records establishment licences")
+    tenant_id = require_tenant(request)
+    if INVENTORY_REPO.get_location(body.location_id, tenant_id=tenant_id) is None:
+        raise HTTPException(404, "No such location in this tenant")
+    try:
+        expires_on = date.fromisoformat(body.expires_on)
+    except ValueError:
+        raise HTTPException(400, {"error": "EXPIRES_ON_INVALID"}) from None
+    lic = est_lic.EstablishmentLicence(licence_id=str(uuid4()), tenant_id=tenant_id, location_id=body.location_id,
+                                       licence_number=body.licence_number.strip(), issuing_authority=body.issuing_authority.strip(),
+                                       expires_on=expires_on, basis=body.basis.strip(), recorded_by_actor_id=actor_id,
+                                       recorded_at=datetime.now(timezone.utc))
+    try:
+        ESTABLISHMENT_LICENCE_REPO.record(lic)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Licence refused: {exc}") from None
+    _audit(event_name="establishment.licence.recorded", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="establishment_licence", resource_id=lic.licence_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"{body.location_id}:{expires_on.isoformat()}")
+    return lic.to_read_model()
+
+
+@app.get("/api/admin/establishment-licences")
+def list_establishment_licences(request: Request, role: str = Depends(require_role)):
+    actor_id, actor_role = _actor(request)
+    if actor_role != ROLE_PLATFORM_ADMIN:
+        raise HTTPException(403, "Only a platform administrator reads establishment licences")
+    return [l.to_read_model() for l in ESTABLISHMENT_LICENCE_REPO.for_tenant(tenant_id=require_tenant(request))]
+
+
 @app.post("/api/orders/{order_id}/deliver")
 def deliver_order(order_id: str, body: DeliverOrderRequest, request: Request, role: str = Depends(require_role),
                   x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
@@ -2705,6 +2757,14 @@ def deliver_order(order_id: str, body: DeliverOrderRequest, request: Request, ro
     if routed is not None and routed.chosen_location_id and routed.chosen_location_id != body.location_id:
         raise HTTPException(409, {"error": "NOT_THE_ROUTED_PHARMACY", "routed_location_id": routed.chosen_location_id})
     now = datetime.now(timezone.utc)
+    # X-30 (R18.3): the supplying location is the regulated establishment; it must hold a licence of THIS tenant valid on
+    # the Asia/Riyadh date of the act. Absent, expired or another tenant's licence -> refused and audited, nothing moves.
+    if est_lic.valid_on(ESTABLISHMENT_LICENCE_REPO.for_location(body.location_id, tenant_id=tenant_id), ksa_date(now)) is None:
+        _audit(event_name="order.delivery.refused", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+               resource_type="customer_order", resource_id=order_id, action_result="denied", correlation_id=x_correlation_id,
+               reason_code="ESTABLISHMENT_LICENCE_INVALID")
+        raise HTTPException(409, {"error": "ESTABLISHMENT_LICENCE_INVALID", "location_id": body.location_id,
+                                  "detail": "the supplying location holds no licence valid today (Asia/Riyadh)"})
     moves = [StockMovement(movement_id=str(uuid4()), tenant_id=tenant_id, location_id=body.location_id,
                            product_id=l.product_id, batch=body.batches[l.product_id], quantity_delta=-l.quantity,
                            reason=SUPPLY, supply_class=INVENTORY_REPO.supply_class_of(l.product_id), actor_id=actor_id,
