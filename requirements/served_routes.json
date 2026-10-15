@@ -737,6 +737,13 @@
       "path": "/api/pets/{pet_id}/notifiable-cases"
     },
     {
+      "endpoint": "main:pet_vaccination_card",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/pets/{pet_id}/vaccination-card"
+    },
+    {
       "endpoint": "main:my_practitioner_authority",
       "methods": [
         "GET"

@@ -2902,6 +2902,25 @@ def list_care_due(pet_id: str, request: Request, role: str = Depends(require_rol
     return [_due_view(d) for d in REMINDER_REPO.dues(tenant_id=tenant_id) if d.pet_id == pet_id]
 
 
+@app.get("/api/pets/{pet_id}/vaccination-card")
+def pet_vaccination_card(pet_id: str, request: Request, role: str = Depends(require_role)):
+    """CO-04 (MVC-EPC-D-001 D2o): the pet's vaccination card — identity, vaccinations given (with the recording
+    veterinarian) and vaccinations due — from the FR-23 records only. Scoped like the pet profile: the session tenant and,
+    for an owner, their own pet (another owner's pet is 404). The PDF is produced by the client's print engine from this."""
+    if role not in PET_READERS:
+        raise HTTPException(403, "Not authorized to read pet profiles")
+    pet, _a, _r, tenant_id = _pet_or_404(request, pet_id)
+    names = {i.user_id: i.full_name for i in PERSISTENCE.identities.list_for_tenant(tenant_id=tenant_id)}
+    card = rmd.vaccination_card([d for d in REMINDER_REPO.dues(tenant_id=tenant_id) if d.pet_id == pet_id],
+                                lambda due_id: REMINDER_REPO.completion(due_id, tenant_id=tenant_id),
+                                lambda user_id: names.get(user_id))
+    p = pet.to_read_model()
+    return {"pet": {k: p[k] for k in ("pet_id", "name", "species", "breed", "birth_date")},
+            "identifications": [{"id_type": i.id_type, "id_value": i.id_value}
+                                for i in PET_REPO.identifications_for(pet_id, tenant_id=tenant_id)],
+            "issued_on": ksa_date(datetime.now(timezone.utc)).isoformat(), **card}
+
+
 @app.post("/api/reminders/run")
 def run_reminders(request: Request, role: str = Depends(require_role),
                   x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):

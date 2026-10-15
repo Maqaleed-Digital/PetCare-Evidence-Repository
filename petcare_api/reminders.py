@@ -90,12 +90,35 @@ def validate_due(d: CareDue) -> None:
         raise RepositoryDenied("a due date carries its offset")
 
 
+def vaccination_card(dues, completion_of, name_of) -> dict:
+    """CO-04 (MVC-EPC-D-001 D2o): the pet's vaccination card, built ONLY from recorded FR-23 items.
+
+    GIVEN = a VACCINATION item whose completion is recorded: its title, the Asia/Riyadh date the completion was recorded and
+    the veterinarian who recorded it. DUE = a VACCINATION item with no completion: its title and due date. A TREATMENT is not a
+    vaccination and never appears. Nothing is inferred from a due date alone — an overdue item is still DUE, not GIVEN.
+    """
+    given, due = [], []
+    for d in dues:
+        if d.kind != VACCINATION:
+            continue
+        c = completion_of(d.due_id)
+        if c is None:
+            due.append({"due_id": d.due_id, "title": d.title, "due_on": ksa_date(d.due_at).isoformat()})
+        else:
+            given.append({"due_id": d.due_id, "title": d.title, "given_on": ksa_date(c.completed_at).isoformat(),
+                          "given_by": name_of(c.completed_by)})
+    given.sort(key=lambda g: (g["given_on"], g["due_id"]))
+    due.sort(key=lambda g: (g["due_on"], g["due_id"]))
+    return {"given": given, "due": due}
+
+
 class ReminderRepository(Protocol):
     def add_due(self, d: CareDue) -> CareDue: ...
     def get_due(self, due_id: str, *, tenant_id: str): ...
     def dues(self, *, tenant_id: str) -> list: ...
     def complete(self, c: CareCompletion) -> CareCompletion: ...
     def completed(self, due_id: str, *, tenant_id: str) -> bool: ...
+    def completion(self, due_id: str, *, tenant_id: str): ...
     def record(self, r: Reminder) -> bool: ...
     def sent_kinds(self, due_id: str, *, tenant_id: str) -> set: ...
     def for_owner(self, owner_id: str, *, tenant_id: str) -> list: ...
@@ -133,6 +156,10 @@ class InMemoryReminderRepository:
     def completed(self, due_id, *, tenant_id):
         c = self._done.get(due_id)
         return c is not None and c.tenant_id == tenant_id
+
+    def completion(self, due_id, *, tenant_id):
+        c = self._done.get(due_id)
+        return c if c is not None and c.tenant_id == tenant_id else None
 
     def record(self, r):
         """Idempotent: False when this (due item, kind) was already sent."""
