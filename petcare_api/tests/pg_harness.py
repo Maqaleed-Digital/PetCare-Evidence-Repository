@@ -242,7 +242,9 @@ def reset_w0f_tables(url: str) -> None:
                       # FR-06 (migration 0044): the outcome before the consultation; both
                       # reference tenant, the consultation references user_identity.
                       # D2q (0063): the care plan references consultation, so it goes first.
-                      "consultation_care_plan", "consultation_outcome", "consultation", "regulatory_determination",
+                      # D2r (0064): the rating references consultation, so it goes first.
+                      "consultation_rating", "consultation_care_plan", "consultation_outcome", "consultation",
+                      "regulatory_determination",
                       # FR-07 (migration 0040): children before consultation_message.
                       "notification_delivery_record", "consultation_message_attachment",
                       "consultation_message",

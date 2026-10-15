@@ -26,6 +26,7 @@ const C = {
   messages: { ar: 'الرسائل والملفات', en: 'Messages and files' },
   room: { ar: 'غرفة الانتظار المرئية', en: 'Video waiting room' },
   summary: { ar: 'ملخص الزيارة وخطة الرعاية', en: 'Visit summary and care plan' },
+  rate: { ar: 'تقييم الزيارة', en: 'Rate visit' },
 } satisfies Record<string, Copy>
 
 type Consultation = { session_id: string; pet_id: string; mode: string; status: string; created_at: string }
@@ -74,6 +75,11 @@ export default function OwnerConsultationsPage() {
                       // CO-10 (MVC-EPC-D-001 D2q): the visit summary and care plan of a completed consultation
                       <a className="ds-link" href={`/owner/consultations/${encodeURIComponent(c.session_id)}/summary`}
                         data-testid="consultation-open-summary">{tr(C.summary)}</a>
+                    )}
+                    {c.status === 'COMPLETED' && (
+                      // CO-13 (MVC-EPC-D-001 D2r): rate a completed consultation
+                      <a className="ds-link" href={`/owner/consultations/${encodeURIComponent(c.session_id)}/rate`}
+                        data-testid="consultation-open-rate">{tr(C.rate)}</a>
                     )}
                     {c.mode === 'REMOTE_VIDEO' && (
                       <a className="ds-link" href={`/owner/consultations/video?${q}`} data-testid="consultation-open-video">{tr(C.room)}</a>

@@ -450,6 +450,13 @@
       "path": "/api/consultations/{session_id}/outcome"
     },
     {
+      "endpoint": "main:staff_visit_rating",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/consultations/{session_id}/rating"
+    },
+    {
       "endpoint": "main:list_deliveries",
       "methods": [
         "GET"
@@ -665,6 +672,20 @@
         "GET"
       ],
       "path": "/api/orders/{order_id}/routing"
+    },
+    {
+      "endpoint": "main:owner_visit_rating",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/owner/consultations/{session_id}/rating"
+    },
+    {
+      "endpoint": "main:rate_visit",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/owner/consultations/{session_id}/rating"
     },
     {
       "endpoint": "main:owner_visit_summary",

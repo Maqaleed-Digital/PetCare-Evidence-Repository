@@ -1,0 +1,11 @@
+P-D2R-CO13-INCOMPLETE-RATED ARMED ['1 failed in 1.08s']
+P-D2R-CO13-ANOTHER-OWNER-RATES ARMED ['1 failed in 1.13s']
+P-D2R-CO13-SECOND-RATING-REPLACES ARMED ['1 failed in 1.07s']
+P-D2R-CO13-SCORE-UNBOUNDED ARMED ['3 failed, 3 passed in 3.10s']
+P-D2R-CO13-BOOL-SCORE-ACCEPTED ARMED ['1 failed, 5 passed in 3.07s']
+P-D2R-CO13-ANY-VET-READS ARMED ['1 failed in 1.11s']
+P-D2R-CO13-PG-RATING-UNSCOPED ARMED ['1 failed in 2.20s']
+P-D2R-CO13-UI-SCORE-NOT-SENT ARMED ['      Tests  1 failed | 3 passed (4)']
+P-D2R-CO13-UI-FORM-AFTER-RATING ARMED ['      Tests  2 failed | 2 passed (4)']
+P-D2R-CO13-UI-REFUSAL-SILENT ARMED ['      Tests  1 failed | 3 passed (4)']
+ARMED=10 VACUOUS=0
