@@ -1,0 +1,5 @@
+P-D3A-JV1-ATTESTATION-SHOWN-AS-LOOKUP ARMED ['      Tests  1 failed | 2 passed (3)']
+P-D3A-JV1-NO-TENANT-CLAIMS-AUTHORITY ARMED ['      Tests  1 failed | 2 passed (3)']
+P-D3A-JV1-REGISTRY-NOTICE-DROPPED ARMED ['      Tests  2 failed | 1 passed (3)']
+P-D3A-JV1-STATUS-NOT-FROM-SERVER ARMED ['      Tests  1 failed | 2 passed (3)']
+ARMED=4 VACUOUS=0
