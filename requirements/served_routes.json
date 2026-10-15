@@ -408,6 +408,13 @@
       "path": "/api/consultations/{session_id}"
     },
     {
+      "endpoint": "main:record_care_plan",
+      "methods": [
+        "POST"
+      ],
+      "path": "/api/consultations/{session_id}/care-plan"
+    },
+    {
       "endpoint": "main:create_note",
       "methods": [
         "POST"
@@ -637,6 +644,13 @@
         "GET"
       ],
       "path": "/api/orders/{order_id}/routing"
+    },
+    {
+      "endpoint": "main:owner_visit_summary",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/owner/consultations/{session_id}/summary"
     },
     {
       "endpoint": "main:owner_prescriptions",

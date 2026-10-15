@@ -58,6 +58,7 @@ from postgres_repositories import (
     PostgresOwnerConsentRepository,
     PostgresBookingRepository,
     PostgresOwnerPrescriptionUploadRepository,
+    PostgresCarePlanRepository,
     PostgresEstablishmentLicenceRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
@@ -89,6 +90,7 @@ from account_tokens import InMemoryAccountTokenRepository
 from owner_consent import InMemoryOwnerConsentRepository
 from bookings import InMemoryBookingRepository
 from owner_prescriptions import InMemoryOwnerPrescriptionUploadRepository
+from care_plan import InMemoryCarePlanRepository
 from establishment_licences import InMemoryEstablishmentLicenceRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
@@ -162,6 +164,8 @@ class Persistence:
     bookings: Any = None
     #: J-O7 owner-uploaded external prescriptions (MVC-EPC-D-001 D2g, migration 0059).
     owner_prescription_uploads: Any = None
+    #: CO-10 (MVC-EPC-D-001 D2q): consultation care plans.
+    care_plans: Any = None
     #: X-30 establishment licences of supplying locations (MVC-EPC-D-001 D2h, migration 0060).
     establishment_licences: Any = None
     quarantine: Optional[Any] = None
@@ -252,6 +256,7 @@ def build_persistence(
             owner_consent=InMemoryOwnerConsentRepository(),
             bookings=InMemoryBookingRepository(),
             owner_prescription_uploads=InMemoryOwnerPrescriptionUploadRepository(),
+            care_plans=InMemoryCarePlanRepository(),
             establishment_licences=InMemoryEstablishmentLicenceRepository(),
         )
 
@@ -300,6 +305,7 @@ def build_persistence(
         owner_consent=PostgresOwnerConsentRepository(pool),
         bookings=PostgresBookingRepository(pool),
         owner_prescription_uploads=PostgresOwnerPrescriptionUploadRepository(pool),
+        care_plans=PostgresCarePlanRepository(pool),
         establishment_licences=PostgresEstablishmentLicenceRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,

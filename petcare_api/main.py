@@ -920,6 +920,75 @@ def record_consultation_outcome(
     return _consultation(session_id, tenant_id)
 
 
+# CO-10 · visit summary and care plan (MVC-EPC-D-001 D2q, R21.4)
+import care_plan as cpl  # noqa: E402
+
+CARE_PLAN_REPO = PERSISTENCE.care_plans
+
+
+class CarePlanRequest(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    instructions: str
+    follow_up_on: Optional[str] = None
+
+
+@app.post("/api/consultations/{session_id}/care-plan", status_code=201)
+def record_care_plan(session_id: str, body: CarePlanRequest, request: Request, role: str = Depends(require_role),
+                     x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """CO-10: the consultation's veterinarian (live authority) records its care plan ONCE, after the outcome; audited."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    c = CONSULTATION_REPO.get(session_id, tenant_id=tenant_id)
+    if c is None:
+        raise HTTPException(404, "Consultation session not found")
+    if role != ROLE_VETERINARIAN or actor_id != c.veterinarian_id:
+        raise HTTPException(403, "Only the consultation's veterinarian records its care plan")
+    _require_practitioner_authority(actor_id, tenant_id)
+    if CONSULTATION_REPO.outcome_of(session_id, tenant_id=tenant_id) is None:
+        raise HTTPException(409, {"error": "VISIT_NOT_COMPLETED"})
+    try:
+        follow_up = date.fromisoformat(body.follow_up_on) if body.follow_up_on else None
+    except ValueError:
+        raise HTTPException(400, {"error": "FOLLOW_UP_INVALID"}) from None
+    plan = cpl.CarePlan(session_id=session_id, tenant_id=tenant_id, instructions=body.instructions.strip(),
+                        follow_up_on=follow_up, recorded_by_actor_id=actor_id, recorded_at=datetime.now(timezone.utc))
+    try:
+        CARE_PLAN_REPO.create(plan)
+    except cpl.CarePlanExists:
+        raise HTTPException(409, {"error": "CARE_PLAN_ALREADY_RECORDED"}) from None
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Care plan refused: {exc}") from None
+    _audit(event_name="consultation.care_plan.recorded", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="consultation_session", resource_id=session_id, action_result="success",
+           correlation_id=x_correlation_id)
+    return plan.to_read_model()
+
+
+@app.get("/api/owner/consultations/{session_id}/summary")
+def owner_visit_summary(session_id: str, request: Request, role: str = Depends(require_role),
+                        x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """CO-10: the owner's summary of their OWN completed consultation — outcome, prescriptions issued under this session for
+    this pet, and the care plan. Another owner's or tenant's consultation is 404 (never confirmed); an incomplete one is 409."""
+    actor_id, actor_role, tenant_id = _owner_session(request, role)
+    c = CONSULTATION_REPO.get(session_id, tenant_id=tenant_id)
+    if c is None or c.owner_id != actor_id:
+        raise HTTPException(404, "Consultation not found")
+    outcome = CONSULTATION_REPO.outcome_of(session_id, tenant_id=tenant_id)
+    if outcome is None:
+        raise HTTPException(409, {"error": "VISIT_NOT_COMPLETED"})
+    names = {i.user_id: i.full_name for i in PERSISTENCE.identities.list_for_tenant(tenant_id=tenant_id)}
+    pet = PET_REPO.get(c.pet_id, tenant_id=tenant_id)
+    rxs = [rx for status in (STATUS_ISSUED, STATUS_VET_VERIFIED, STATUS_DISPENSED)
+           for rx in PRESCRIPTION_REPO.list_by_status(tenant_id=tenant_id, status=status)
+           if rx.session_id == session_id and rx.pet_id == c.pet_id]
+    _audit(event_name="consultation.visit_summary.read", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="consultation_session", resource_id=session_id, action_result="success",
+           correlation_id=x_correlation_id)
+    return cpl.visit_summary(c, outcome, pet_name=pet.name if pet else None, vet_name=names.get(c.veterinarian_id),
+                             prescriptions=rxs, plan=CARE_PLAN_REPO.for_session(session_id, tenant_id=tenant_id))
+
+
 @app.post("/api/consultations/{session_id}/notes")
 def create_note(
     request: Request,
