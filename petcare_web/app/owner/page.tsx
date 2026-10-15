@@ -84,7 +84,7 @@ export default function OwnerPage() {
             <p className="subtitle">{t(s.ordersSub)}</p>
           </div>
           <div className="row">
-            <a className="button button-outline button-sm" href="/owner/orders">{t(s.ordersOpen)}</a>
+            <a className="button button-outline button-sm" href="/owner/orders" data-testid="owner-open-orders">{t(s.ordersOpen)}</a>
             <a className="button button-outline button-sm" href="/owner/deliveries">{t(s.deliveriesOpen)}</a>
           </div>
         </section>

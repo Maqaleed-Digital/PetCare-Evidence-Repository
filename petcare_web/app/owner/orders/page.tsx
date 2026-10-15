@@ -7,15 +7,20 @@
  * from the tenant's price list on the server — the page sends product and quantity only.
  * AC-FR-20-02: after delivery the owner reads the digital receipt, persisted against the order, in their
  * chosen language (Arabic by default, right-to-left). Route: /owner/orders.
+ *
+ * J-O8 cash on delivery (MVC-EPC-D-001 D2m, R19.5 item 3): products are shown by their registered name; each order carries its
+ * status for the journey; machine values (product names, ids, references) are marked translate="no" so the Arabic page holds
+ * no untranslated copy. Online payment is not offered: it is blocked on X-05 / HyperPay (R18.4), never simulated.
  */
 
 import { FormEvent, useCallback, useEffect, useState } from 'react'
 import { useLang } from '@/components/LangProvider'
 
-type Priced = { product_id: string; unit_price_halalas: number }
+type Priced = { product_id: string; name?: string | null; unit_price_halalas: number }
+type Line = { product_id: string; name?: string | null; quantity: number; unit_price_halalas: number }
 type Receipt = { receipt_id: string; language: string; rendered: string; issued_at: string }
 type Order = { order_id: string; payment_method: string; status: string; paid: boolean; total_halalas: number;
-  receipt: Receipt | null; fulfilled_by?: { location_id: string; name: string } | null }
+  receipt: Receipt | null; fulfilled_by?: { location_id: string; name: string } | null; lines?: Line[] }
 
 const apiBase = (process.env.NEXT_PUBLIC_API_BASE_URL ?? '').replace(/\/$/, '')
 const call = (path: string, init?: RequestInit) =>
@@ -37,10 +42,17 @@ const L = {
   error: { ar: 'تعذر إتمام الطلب', en: 'The order could not be placed' },
   // FR-04 AC-FR-04-01 (U17): the purchaser is told, in the purchase flow, that verification is required and why.
   restricted: { ar: 'الأدوية المقيّدة والخاضعة للرقابة غير متاحة للشراء عبر التطبيق: يتطلب شراؤها التحقق من هوية المشتري، '
-    + 'وسير عملها معطّل إلى حين صدور الرأي القانوني المعتمد (EV-11).',
+    + 'وسير عملها معطّل إلى حين صدور الرأي القانوني المعتمد',
     en: 'Restricted and controlled medicines cannot be bought in the app: their purchase requires verification of the '
-    + "purchaser's identity, and the workflow is disabled until counsel's determination is recorded (EV-11)." },
+    + "purchaser's identity, and the workflow is disabled until counsel's determination is recorded" },
 } as const
+
+/** Machine values inside a server-rendered Arabic receipt (order id, product id, collection reference, ISO date) are copied
+ *  verbatim, never translated: each Latin/digit token is set apart as translate="no". */
+function Verbatim({ text }: { text: string }) {
+  return <>{text.split(/([A-Za-z0-9][A-Za-z0-9._:/-]*)/).map((part, i) =>
+    i % 2 ? <bdi key={i} translate="no">{part}</bdi> : part)}</>
+}
 
 export default function OwnerOrdersPage() {
   const { lang } = useLang()
@@ -74,12 +86,13 @@ export default function OwnerOrdersPage() {
   return (
     <main className="stack" dir={isAr ? 'rtl' : 'ltr'}>
       <h1 className="title-lg">{t('title')}</h1>
-      <p role="note" data-testid="restricted-notice">{t('restricted')}</p>
+      <p role="note" data-testid="restricted-notice">{t('restricted')} (<bdi translate="no">EV-11</bdi>).</p>
       {catalog.length > 0 && (
         <form onSubmit={place} className="card stack" aria-label={t('checkout')}>
           <h2 className="title-md">{t('checkout')}</h2>
           {catalog.map(p => (
-            <label key={p.product_id}>{p.product_id} · {money(p.unit_price_halalas)} · {t('quantity')}
+            <label key={p.product_id} data-testid="catalog-item" data-product-id={p.product_id}>
+              <bdi translate="no">{p.name ?? p.product_id}</bdi> · {money(p.unit_price_halalas)} · {t('quantity')}
               <input type="number" min={0} name={`qty-${p.product_id}`} value={qty[p.product_id] ?? 0}
                 onChange={e => setQty({ ...qty, [p.product_id]: Number(e.target.value) })} />
             </label>
@@ -94,13 +107,19 @@ export default function OwnerOrdersPage() {
       )}
       {orders.length === 0 && <p className="muted">{t('none')}</p>}
       {orders.map(o => (
-        <section key={o.order_id} className="card stack" data-testid="order">
+        <section key={o.order_id} className="card stack" data-testid="order" data-status={o.status} data-order-id={o.order_id}>
           <div>{t(o.status === 'DELIVERED' ? 'DELIVERED' : 'PLACED')} · {t('cod')} · {money(o.total_halalas)}</div>
+          {o.lines && o.lines.length > 0 && (
+            <ul data-testid="order-lines">
+              {o.lines.map(l => <li key={l.product_id}><bdi translate="no">{l.name ?? l.product_id}</bdi> × {l.quantity}</li>)}
+            </ul>
+          )}
           {o.fulfilled_by && <div data-testid="fulfilled-by">{t('fulfilledBy')}: {o.fulfilled_by.name}</div>}
           {o.receipt && (
             <article data-testid="receipt" lang={o.receipt.language} dir={o.receipt.language === 'ar' ? 'rtl' : 'ltr'}>
               <h3>{t('receipt')}</h3>
-              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>{o.receipt.rendered}</pre>
+              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: 'inherit' }}>
+                {o.receipt.language === 'ar' ? <Verbatim text={o.receipt.rendered} /> : o.receipt.rendered}</pre>
             </article>
           )}
         </section>

@@ -27,6 +27,11 @@ USERS = (
     ("u-e2e-clinic-admin", "clinic-admin@e2e.test", "partner_clinic_admin", "مدير عيادة تجريبي"),
     ("u-e2e-platform-admin", "platform-admin@e2e.test", "platform_admin", "مدير منصة تجريبي"),
 )
+#: D2m (J-O8): synthetic registered products (id, name, supply class). Names are clearly synthetic.
+PRODUCTS = (
+    ("e2e-shampoo", "E2E Synthetic Shampoo", "GENERAL"),
+    ("e2e-amoxicillin", "E2E Synthetic Amoxicillin", "POM"),
+)
 PORT = int(os.environ.get("PETCARE_E2E_API_PORT", "8090"))
 WEB_ORIGIN = os.environ.get("PETCARE_E2E_WEB_ORIGIN", "http://localhost:3100")
 OUTBOX = os.environ.get("PETCARE_E2E_OUTBOX") or str(Path(os.environ.get("TMPDIR", "/tmp")) / "petcare-e2e-outbox.jsonl")
@@ -113,7 +118,14 @@ def _seed() -> None:
     nonce, ct = mfa_mod.encrypt(api._mfa_key(), secret)
     api.MFA_REPO.put_factor(mfa_mod.Factor(user_id="u-e2e-vet", nonce=nonce, ciphertext=ct, created_at=now, confirmed_at=now))
     Path(MFA_FILE).write_text(json.dumps({"u-e2e-vet": base64.b32encode(secret).decode()}), encoding="utf-8")
-    print(f"[e2e] seeded tenant {TENANT} and {len(USERS)} synthetic users", flush=True)
+    # D2m (J-O8): product registration has no served route (registration feed only, AC-FR-04-03). Two SYNTHETIC products: one
+    # GENERAL an owner may buy, one POM an owner must never be able to buy. Prices, stock, location and licence are set by
+    # the journey itself through the served routes (clinic admin / platform admin).
+    from inventory import REGISTRATION_SOURCE, ProductRegistration
+    for pid, name, cls in PRODUCTS:
+        api.INVENTORY_REPO.register_product(ProductRegistration(product_id=pid, name=name, supply_class=cls,
+                                                                source=REGISTRATION_SOURCE, registered_at=now))
+    print(f"[e2e] seeded tenant {TENANT}, {len(USERS)} synthetic users and {len(PRODUCTS)} synthetic products", flush=True)
 
 
 def _exit_on_signal(*_args) -> None:

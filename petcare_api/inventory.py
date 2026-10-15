@@ -137,6 +137,7 @@ class InventoryRepository(Protocol):
     def locations(self, *, tenant_id: str) -> list: ...
     def get_location(self, location_id: str, *, tenant_id: str): ...
     def supply_class_of(self, product_id: str) -> str: ...
+    def name_of(self, product_id: str) -> Optional[str]: ...
     def record(self, movements: list) -> list: ...
     def movements(self, *, tenant_id: str, location_id: Optional[str] = None) -> list: ...
     def balances(self, *, tenant_id: str, location_id: Optional[str] = None,
@@ -176,6 +177,11 @@ class InMemoryInventoryRepository:
     def supply_class_of(self, product_id):
         p = self._products.get(product_id)
         return p.supply_class if p is not None else UNREGISTERED_CLASS
+
+    def name_of(self, product_id):
+        """J-O8 (D2k+): the registered product name an owner shops by; None when unregistered."""
+        p = self._products.get(product_id)
+        return p.name if p is not None else None
 
     def antimicrobial_of(self, product_id):
         """(agent, class) when the registration marks the product antimicrobial, else None."""

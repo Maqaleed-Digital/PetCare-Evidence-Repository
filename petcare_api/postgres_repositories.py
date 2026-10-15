@@ -1274,6 +1274,11 @@ class PostgresInventoryRepository:
                                 (product_id,)).fetchall()
         return rows[0][0] if rows else UNREGISTERED_CLASS
 
+    def name_of(self, product_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute("SELECT name FROM product_registration WHERE product_id = %s", (product_id,)).fetchall()
+        return rows[0][0] if rows else None
+
     def antimicrobial_of(self, product_id):
         with self._pool.connection() as conn:
             rows = conn.execute("SELECT antimicrobial_agent, antimicrobial_class FROM product_registration "
