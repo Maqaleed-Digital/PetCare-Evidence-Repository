@@ -54,6 +54,11 @@ export default function VetPage() {
         <span className="badge badge-green"><span className="icon-dot green" />{isAr ? 'التدقيق نشط' : 'Audit active'}</span>
       </div>
 
+      {/* J-V1 internal (MVC-EPC-D-001 D3a): the veterinarian's profile and licence status (CV-12) */}
+      <a className="button button-outline button-sm" href="/vet/profile" data-testid="vet-open-profile">
+        {isAr ? 'الملف المهني وحالة الترخيص' : 'Profile and licence status'}
+      </a>
+
       <div className="card stack" data-list-region="vet-consultation-queue">
         <span
           className="muted"
