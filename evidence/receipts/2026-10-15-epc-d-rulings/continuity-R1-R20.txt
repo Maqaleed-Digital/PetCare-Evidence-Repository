@@ -1,0 +1,23 @@
+R20 custody — ruling continuity evidence (2026-10-15, base origin/main 496235c18a76fc20b722041d3e4fa38927af9c99)
+
+$ python3 -m pytest tests/governance/test_rulings_register_continuity.py -q
+3 passed in 0.03s
+
+INDEX rows and hashes:
+ 1 | `evidence/receipts/2026-09-30-epc-d-rulings-register.md` | R1–R15 | 8f1dee0cfe5733dadab575f1db49dad360e9438117e49af086a07005523c8b71 
+ 2 | `evidence/receipts/2026-10-01-epc-d-rulings-register.md` | R16 | 7af65fe52492693be7ff83ec1168f36074a18a23c68d86476f0a93f789278b2f 
+ 3 | `evidence/receipts/2026-10-01-epc-d-rulings-register-c3.md` | R17 | dfca8a2c5958b848029badbd31bd9ff3372e0e9375aa5de70bddf60b222abefe 
+ 4 | `evidence/receipts/2026-10-02-epc-d-rulings-register-c4.md` | R18 | 0871d988c048b61e4f84ffd8c3303cd2707bffb1798a2cabc7af284638b6e792 
+ 5 | `evidence/receipts/2026-10-15-epc-d-rulings-register-c5.md` | R19 | fbb32db688e7584ccc1f9b956e67a9d0f3b513521779ea3a055778367fe2b1ec 
+ 6 | `evidence/receipts/2026-10-15-epc-d-rulings-register-c6.md` | R20 | 33047ad39e623862822e0fb3dc70a7f294f60db820e77a7dbba0b3e8aeb6e9f3 
+
+Recomputed:
+8f1dee0cfe5733dadab575f1db49dad360e9438117e49af086a07005523c8b71  evidence/receipts/2026-09-30-epc-d-rulings-register.md
+7af65fe52492693be7ff83ec1168f36074a18a23c68d86476f0a93f789278b2f  evidence/receipts/2026-10-01-epc-d-rulings-register.md
+dfca8a2c5958b848029badbd31bd9ff3372e0e9375aa5de70bddf60b222abefe  evidence/receipts/2026-10-01-epc-d-rulings-register-c3.md
+0871d988c048b61e4f84ffd8c3303cd2707bffb1798a2cabc7af284638b6e792  evidence/receipts/2026-10-02-epc-d-rulings-register-c4.md
+fbb32db688e7584ccc1f9b956e67a9d0f3b513521779ea3a055778367fe2b1ec  evidence/receipts/2026-10-15-epc-d-rulings-register-c5.md
+33047ad39e623862822e0fb3dc70a7f294f60db820e77a7dbba0b3e8aeb6e9f3  evidence/receipts/2026-10-15-epc-d-rulings-register-c6.md
+
+Rulings R1..R20: each exactly once (no gap, no duplicate).
+R1-R19 register files and R19.txt: unchanged vs base (git diff empty).

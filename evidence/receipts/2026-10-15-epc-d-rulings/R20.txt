@@ -1,0 +1,52 @@
+R20 is issued by the Sponsor on 2026-10-15.
+
+R20.1 — J-O8 COUNTING
+
+Cash on delivery alone does not complete J-O8.
+
+J-O8 counts only when its online-payment path is proven
+against the real provider under X-05.
+
+[J-O8-COD] remains uncounted partial evidence.
+
+Do not retag it as [J-O8].
+
+Do not change the frozen BRD journey definition.
+
+R20.2 — D2K-R19.2-SCOPE
+
+Ratify D2H test-input changes limited to request bodies
+and constructions needed for the R19.2 fields.
+
+Prove D2H assertions are byte-identical using a diff.
+
+Ratify re-anchoring the five unrun D2H perturbations
+inside the D2K script.
+
+Do not modify D2H's committed perturbation script.
+
+R20.3 — R19 CUSTODY ANNOTATION
+
+The authoritative R19 instrument is the 2026-10-04
+Sponsor-issued text.
+
+The custodied register differs at two punctuation points:
+colon became full stop.
+
+Add a correction annotation identifying both locations
+and the issued wording.
+
+Do not rewrite the ruling body.
+Do not republish or re-version R19.
+Re-run ruling continuity.
+
+R20.4 — LEDGER
+
+Ratify X-31 and X-32 as CP1 rows upon D2K merge.
+
+Ratify X-33 as an OPEN CP2 external-provider dependency.
+
+Recount CP1, CP2, screens and journeys from the live ledger
+after every merge.
+
+Do not use projected denominators.
