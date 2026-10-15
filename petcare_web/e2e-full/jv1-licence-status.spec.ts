@@ -96,4 +96,12 @@ test('[J-V1-INTERNAL] a veterinarian joins by invite with their licence and sees
     await expect(page.locator('main')).toHaveAttribute('dir', 'rtl')
     expect(await untranslated(page, 'main')).toEqual([])
   }
+
+  // Leave the shared clinic as it was: the CI run serves every project from ONE stack, and later journeys (J-O5) rely on the
+  // clinic's seeded veterinarian being its only one. Revocation is the governed membership change (tenant_id null).
+  const cleanup = await staff(USERS.platformAdmin)
+  await stepUp(cleanup, 'u-e2e-platform-admin')
+  const revoked = await cleanup.post(`/api/admin/identities/${me.user_id}/tenant`, { data: { tenant_id: null, reason: 'E2E J-V1 cleanup' } })
+  expect(revoked.status(), await revoked.text()).toBe(200)
+  await cleanup.dispose()
 })
