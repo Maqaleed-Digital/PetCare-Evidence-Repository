@@ -754,6 +754,134 @@ def cancel_booking(
 
 
 # ---------------------------------------------------------------------------
+# CO-06 · pre-visit intake with photos (MVC-EPC-D-001 D2p, R21.4)
+# ---------------------------------------------------------------------------
+import previsit_intake as pvi  # noqa: E402
+
+INTAKE_REPO = PERSISTENCE.previsit_intakes
+
+
+def _intake_reader(request: Request, role: str, booking_id: str):
+    """The booking's owner, or a veterinarian of the booking's clinic (session tenant). Anyone else: 404 / 403."""
+    actor_id, actor_role = _actor(request)
+    tenant_id = require_tenant(request)
+    b = BOOKING_REPO.get(booking_id, tenant_id=tenant_id)
+    if role == ROLE_OWNER:
+        if b is None or b.owner_id != actor_id:
+            raise HTTPException(404, "Booking not found")
+    elif role == ROLE_VETERINARIAN:
+        if b is None:
+            raise HTTPException(404, "Booking not found")
+    else:
+        raise HTTPException(403, "Only the owner or a veterinarian of the clinic reads a pre-visit intake")
+    return b, actor_id, actor_role, tenant_id
+
+
+@app.post("/api/bookings/{booking_id}/intake", status_code=201)
+async def submit_previsit_intake(
+    request: Request,
+    booking_id: str,
+    reason: str = Form(...),
+    eating_normally: str = Form(...),
+    symptoms_since: str = Form(""),
+    current_medications: str = Form(""),
+    photos: list[UploadFile] = File(default=[]),
+    role: str = Depends(require_role),
+    x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
+):
+    """CO-06: the owner's intake for their own UPCOMING booking, once. Order: authorise, validate every field and every photo,
+    store the photo objects, then write the intake and its photo rows in one transaction."""
+    actor_id, actor_role, tenant_id = _owner_session(request, role)
+    b = _own_booking_or_404(booking_id, actor_id, tenant_id)
+    now = datetime.now(timezone.utc)
+    if b.status != bk.BOOKED or b.starts_at <= now:
+        raise HTTPException(409, {"error": "BOOKING_NOT_UPCOMING"})
+    if INTAKE_REPO.for_booking(booking_id, tenant_id=tenant_id) is not None:
+        raise HTTPException(409, {"error": "INTAKE_ALREADY_SUBMITTED"})
+    if len(photos) > pvi.MAX_PHOTOS:
+        raise HTTPException(400, {"error": "TOO_MANY_PHOTOS", "max": pvi.MAX_PHOTOS})
+    try:
+        since = date.fromisoformat(symptoms_since) if symptoms_since.strip() else None
+    except ValueError:
+        raise HTTPException(400, {"error": "SYMPTOMS_SINCE_INVALID"}) from None
+    intake_id = str(uuid4())
+    staged = []
+    for position, f in enumerate(photos):
+        payload = await f.read()
+        ctype = (f.content_type or "").split(";")[0].strip().lower()
+        try:
+            validate_upload(content_type=ctype, payload=payload)
+        except DocumentRejected as exc:
+            raise HTTPException(400, {"error": "PHOTO_REJECTED", "detail": str(exc)}) from None
+        if ctype not in pvi.PHOTO_CONTENT_TYPES:
+            raise HTTPException(400, {"error": "PHOTO_NOT_IMAGE"})
+        photo_id = str(uuid4())
+        staged.append((pvi.IntakePhoto(photo_id=photo_id, intake_id=intake_id, tenant_id=tenant_id, position=position,
+                                       filename=f.filename or "photo", content_type=ctype, byte_size=len(payload),
+                                       content_sha256=sha256_hex(payload),
+                                       storage_key=new_storage_key(tenant_id=tenant_id,
+                                                                   prescription_id=f"intake-{intake_id}-{photo_id}"),
+                                       uploaded_at=now), payload))
+    intake = pvi.PreVisitIntake(intake_id=intake_id, tenant_id=tenant_id, booking_id=booking_id, owner_id=actor_id,
+                                pet_id=b.pet_id, reason=" ".join(reason.split()), symptoms_since=since,
+                                eating_normally=eating_normally.strip().upper(),
+                                current_medications=" ".join(current_medications.split()), submitted_at=now,
+                                photos=tuple(p for p, _ in staged))
+    try:
+        pvi.validate_intake(intake)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Intake refused: {exc}") from None
+    try:
+        for p, payload in staged:
+            DOCUMENT_STORE.put(p.storage_key, payload)
+    except (ObjectStoreUnavailable, DocumentRejected) as exc:
+        raise HTTPException(503, f"Document store unavailable: {exc}") from None
+    try:
+        INTAKE_REPO.create(intake)
+    except pvi.IntakeExists:
+        raise HTTPException(409, {"error": "INTAKE_ALREADY_SUBMITTED"}) from None
+    except RepositoryDenied as exc:
+        raise HTTPException(400, f"Intake refused: {exc}") from None
+    _audit(event_name="consultation.previsit_intake.submitted", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="pre_visit_intake", resource_id=intake_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"photos:{len(staged)}")
+    return intake.to_read_model()
+
+
+@app.get("/api/bookings/{booking_id}/intake")
+def read_previsit_intake(request: Request, booking_id: str, role: str = Depends(require_role),
+                         x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    _b, actor_id, actor_role, tenant_id = _intake_reader(request, role, booking_id)
+    intake = INTAKE_REPO.for_booking(booking_id, tenant_id=tenant_id)
+    if intake is None:
+        raise HTTPException(404, "No intake for this booking")
+    _audit(event_name="consultation.previsit_intake.read", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="pre_visit_intake", resource_id=intake.intake_id, action_result="success",
+           correlation_id=x_correlation_id)
+    return intake.to_read_model()
+
+
+@app.get("/api/bookings/{booking_id}/intake/photos/{photo_id}")
+def download_previsit_intake_photo(request: Request, booking_id: str, photo_id: str, role: str = Depends(require_role),
+                                   x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """One intake photo, as a download (never rendered inline — see download_prescription_document)."""
+    _b, actor_id, actor_role, tenant_id = _intake_reader(request, role, booking_id)
+    intake = INTAKE_REPO.for_booking(booking_id, tenant_id=tenant_id)
+    photo = next((p for p in (intake.photos if intake else ()) if p.photo_id == photo_id), None)
+    if photo is None:
+        raise HTTPException(404, "Photo not found")
+    try:
+        payload = DOCUMENT_STORE.get(photo.storage_key)
+    except ObjectStoreUnavailable as exc:
+        raise HTTPException(503, f"Document store unavailable: {exc}") from None
+    _audit(event_name="consultation.previsit_intake.photo_downloaded", actor_id=actor_id, actor_role=actor_role,
+           tenant_id=tenant_id, resource_type="pre_visit_intake_photo", resource_id=photo_id, action_result="success",
+           correlation_id=x_correlation_id)
+    return Response(content=payload, media_type=SERVED_CONTENT_TYPE,
+                    headers={"Content-Disposition": 'attachment; filename="intake-photo"'})
+
+
+# ---------------------------------------------------------------------------
 # Consultations
 # ---------------------------------------------------------------------------
 class ConsultationRequest(BaseModel):

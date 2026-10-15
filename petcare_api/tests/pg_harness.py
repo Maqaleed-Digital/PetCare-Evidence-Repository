@@ -191,7 +191,9 @@ def reset_w0f_tables(url: str) -> None:
         # D2 (0057): owner_consent_event is append-only (row DELETE refused by trigger), so it is truncated too.
         conn.execute("TRUNCATE owner_consent_event")
         # D2e (0058): bookings reference pet_profile, user_identity and tenant, so they go before all three.
-        conn.execute("TRUNCATE consultation_booking")
+        # D2p (0062): pre-visit intakes (and their photos) reference consultation_booking; PostgreSQL truncates a referenced
+        # table only together with the tables that reference it, so all three are named in one statement.
+        conn.execute("TRUNCATE pre_visit_intake_photo, pre_visit_intake, consultation_booking")
         # D2g (0059): owner prescription uploads reference pet_profile, user_identity and tenant.
         conn.execute("TRUNCATE owner_prescription_upload")
         conn.execute("TRUNCATE routing_decision, pharmacy_licence, establishment_licence, "  # FR-15 (0050), D2h (0060)

@@ -27,6 +27,7 @@ const A = {
   keep: { ar: 'إبقاء الموعد', en: 'Keep appointment' },
   failed: { ar: 'تعذّر إلغاء الموعد. حاول مرة أخرى.', en: 'The appointment could not be cancelled. Try again.' },
   with: { ar: 'مع', en: 'with' },
+  intake: { ar: 'استمارة ما قبل الزيارة', en: 'Pre-visit intake' },
 } satisfies Record<string, Copy>
 
 type Booking = { booking_id: string; pet_id: string; veterinarian_id: string; mode: string; starts_at: string; status: string }
@@ -84,6 +85,11 @@ export default function AppointmentsPage() {
                 </p>
                 {b.status === 'BOOKED' && (
                   <div className="ds-row">
+                    {new Date(b.starts_at).getTime() > Date.now() && (
+                      // CO-06 (MVC-EPC-D-001 D2p): the pre-visit intake for an upcoming appointment
+                      <a className="ds-link" data-testid="appointment-intake"
+                        href={`/owner/appointments/${encodeURIComponent(b.booking_id)}/intake`}>{tr(A.intake)}</a>
+                    )}
                     <a className="ds-link" data-testid="appointment-reschedule"
                       href={`/owner/book?reschedule=${encodeURIComponent(b.booking_id)}&vet=${encodeURIComponent(b.veterinarian_id)}`}>
                       {tr(A.reschedule)}

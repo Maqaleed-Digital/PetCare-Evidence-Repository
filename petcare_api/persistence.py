@@ -58,6 +58,7 @@ from postgres_repositories import (
     PostgresOwnerConsentRepository,
     PostgresBookingRepository,
     PostgresOwnerPrescriptionUploadRepository,
+    PostgresPreVisitIntakeRepository,
     PostgresEstablishmentLicenceRepository,
     PostgresPrescriptionRepository,
     PostgresIdentityRepository,
@@ -89,6 +90,7 @@ from account_tokens import InMemoryAccountTokenRepository
 from owner_consent import InMemoryOwnerConsentRepository
 from bookings import InMemoryBookingRepository
 from owner_prescriptions import InMemoryOwnerPrescriptionUploadRepository
+from previsit_intake import InMemoryPreVisitIntakeRepository
 from establishment_licences import InMemoryEstablishmentLicenceRepository
 from repositories import InMemoryIdentityRepository, InMemoryInviteCodeRepository
 from tenants import InMemoryTenantRepository
@@ -162,6 +164,8 @@ class Persistence:
     bookings: Any = None
     #: J-O7 owner-uploaded external prescriptions (MVC-EPC-D-001 D2g, migration 0059).
     owner_prescription_uploads: Any = None
+    #: CO-06 (MVC-EPC-D-001 D2p): pre-visit intake with photos.
+    previsit_intakes: Any = None
     #: X-30 establishment licences of supplying locations (MVC-EPC-D-001 D2h, migration 0060).
     establishment_licences: Any = None
     quarantine: Optional[Any] = None
@@ -252,6 +256,7 @@ def build_persistence(
             owner_consent=InMemoryOwnerConsentRepository(),
             bookings=InMemoryBookingRepository(),
             owner_prescription_uploads=InMemoryOwnerPrescriptionUploadRepository(),
+            previsit_intakes=InMemoryPreVisitIntakeRepository(),
             establishment_licences=InMemoryEstablishmentLicenceRepository(),
         )
 
@@ -300,6 +305,7 @@ def build_persistence(
         owner_consent=PostgresOwnerConsentRepository(pool),
         bookings=PostgresBookingRepository(pool),
         owner_prescription_uploads=PostgresOwnerPrescriptionUploadRepository(pool),
+        previsit_intakes=PostgresPreVisitIntakeRepository(pool),
         establishment_licences=PostgresEstablishmentLicenceRepository(pool),
         quarantine=PostgresQuarantineRepository(pool),
         pool=pool,
