@@ -11,6 +11,7 @@
   "CO-06": "/owner/appointments/{booking}/intake",
   "CO-07": "/owner/appointments",
   "CO-08": "/owner/consultations/video",
+  "CO-10": "/owner/consultations/{session}/summary",
   "CO-09": "/owner/consultations · /owner/consultations/messages",
   "CO-11": "/owner/prescriptions"
 }
