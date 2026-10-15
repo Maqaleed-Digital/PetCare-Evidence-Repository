@@ -34,6 +34,18 @@ OUTBOX = os.environ.get("PETCARE_E2E_OUTBOX") or str(Path(os.environ.get("TMPDIR
 MFA_FILE = os.environ.get("PETCARE_E2E_MFA_FILE") or str(Path(OUTBOX).with_suffix(".mfa.json"))
 
 
+#: R19.4: production configuration is `PETCARE_SECRET_MODE=aws_secrets_manager` (petcare_api/secret_provider.py; `environment`
+#: is admissible only off production). This tool — and above all its per-run TOTP seeding, which writes a CONFIRMED factor
+#: without enrolment — never runs under it. Standing test: tests/governance/test_r19_4_step_up_seeding_unreachable.py.
+PRODUCTION_SECRET_MODE = "aws_secrets_manager"
+
+
+def _refuse_production() -> None:
+    if (os.environ.get("PETCARE_SECRET_MODE") or "").strip() == PRODUCTION_SECRET_MODE:
+        raise SystemExit("R19.4: tools/e2e_stack.py is test-only and refuses production configuration "
+                         f"(PETCARE_SECRET_MODE={PRODUCTION_SECRET_MODE}); nothing was started or seeded")
+
+
 def _env(db_url: str) -> None:
     os.environ.update({
         "SECRET_KEY": "e2e-only-session-signing-key-not-a-deployed-secret",
@@ -72,6 +84,9 @@ def _database() -> str:
 
 
 def _seed() -> None:
+    # R19.4: the seeding runs only under the test secret mode `_env` sets; anything else (production, or unset) is refused.
+    if (os.environ.get("PETCARE_SECRET_MODE") or "").strip() != "environment":
+        raise SystemExit("R19.4: test-only step-up seeding refused outside PETCARE_SECRET_MODE=environment")
     from datetime import datetime, timedelta, timezone
     from uuid import uuid4
 
@@ -112,6 +127,7 @@ def main() -> None:
     import signal
     for sig in (signal.SIGTERM, signal.SIGHUP):
         signal.signal(sig, _exit_on_signal)
+    _refuse_production()                      # R19.4 — before any database is created or touched
     _env(_database())
     _seed()
     import uvicorn
