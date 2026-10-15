@@ -6,6 +6,7 @@
   "CO-14": "/owner/notifications",
   "CO-02": "/owner/pets",
   "CO-03": "/owner/pets (selected pet)",
+  "CO-04": "/owner/pets/{pet}/vaccination-card",
   "CO-05": "/owner/book",
   "CO-06": "/owner/appointments/{booking}/intake",
   "CO-07": "/owner/appointments",

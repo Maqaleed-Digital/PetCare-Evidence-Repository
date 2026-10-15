@@ -60,6 +60,7 @@ const L = {
   records: { ar: 'نتائج المختبر والسجلات', en: 'Lab results and records' },
   prescriptions: { ar: 'الوصفات الطبية', en: 'Prescriptions' },
   identification: { ar: 'الهوية', en: 'Identification' },
+  vaccinationCard: { ar: 'بطاقة التطعيمات', en: 'Vaccination card' },
   none: { ar: 'لا يوجد', en: 'None' },
   error: { ar: 'تعذر إكمال الطلب', en: 'The request could not be completed' },
 } as const
@@ -156,6 +157,10 @@ export default function OwnerPetsPage() {
               <li key={i.identification_id}>{i.id_type}: {i.id_value} ({i.captured_at})</li>
             ))}</ul>
           )}
+
+          {/* CO-04 (MVC-EPC-D-001 D2o): the pet's vaccination card, printable as PDF */}
+          <a className="button button-outline button-sm" data-testid="pet-vaccination-card"
+            href={`/owner/pets/${encodeURIComponent(selected.profile.pet_id)}/vaccination-card`}>{t('vaccinationCard')}</a>
 
           <h3>{t('history')}</h3>
           <h4>{t('records')}</h4>
