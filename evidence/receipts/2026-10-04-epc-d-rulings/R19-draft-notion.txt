@@ -1,0 +1,17 @@
+R19 — Rulings at the D2g–D2j merge gate (issued by the Sponsor, 2026-10-02)
+
+R19.1 — X-30 licence model: CONFIRMED AS INTERIM. A platform admin records licences per supplying location (the FR-15 routed pharmacy) with a stated basis. Orders are refused when no valid licence exists on the Asia/Riyadh calendar date.
+
+R19.2 — Licence record completeness: the record must support licence type/scope, issuer and licence number, evidence-document reference, recorded-by and recorded-at audit, and more than one licence per location. The next lane states which of these D2h already provides. Each absent item becomes its own ledger row and is built before J-O8 is counted.
+
+R19.3 — Admin attestation is not regulator verification. Ledger a separate row for verification against the issuing authority's registry, as an external-provider dependency. No mock registry may count it as closed.
+
+R19.4 — Test-only step-up seeding: the per-run TOTP seeding (D2G-JO7-SQ3-STEP-UP) must be unreachable under production configuration. Add a standing test asserting this. If seeding code is found in application source, it is a CP1 defect fixed before any further journey work.
+
+R19.5 — Next lane order:
+  1. R19.2 gaps
+  2. R19.4 test
+  3. J-O8 cash on delivery (full stack)
+  4. J-O9 internal tracking (no carrier readings)
+  5. next unblocked journeys in ledger order
+R18.4 continues to govern blocked journeys.
