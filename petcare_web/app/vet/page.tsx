@@ -58,6 +58,15 @@ export default function VetPage() {
       <a className="button button-outline button-sm" href="/vet/profile" data-testid="vet-open-profile">
         {isAr ? 'الملف المهني وحالة الترخيص' : 'Profile and licence status'}
       </a>
+      {/* J-V2 (MVC-EPC-D-001 D3b): the veterinarian's queue (CV-03) and published availability (CV-02) */}
+      <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+        <a className="button button-outline button-sm" href="/vet/queue" data-testid="vet-open-queue">
+          {isAr ? 'قائمة العمل الموحّدة' : 'Unified queue'}
+        </a>
+        <a className="button button-outline button-sm" href="/vet/availability" data-testid="vet-open-availability">
+          {isAr ? 'التقويم والتوفر' : 'Calendar and availability'}
+        </a>
+      </div>
 
       <div className="card stack" data-list-region="vet-consultation-queue">
         <span

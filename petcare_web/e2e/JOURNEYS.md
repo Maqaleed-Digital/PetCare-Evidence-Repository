@@ -18,7 +18,7 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 | J-O11 | PASS | jo2-account-centre.spec.ts › [J-O11] @S:CO-15 an owner enrols two-step verification and a recovery code works exactly once |
 | J-O12 | NO_TEST | — |
 | J-V1 | NO_TEST | — |
-| J-V2 | NO_TEST | — |
+| J-V2 | PASS | jv2-availability-queue.spec.ts › [J-V2] @S:CV-02 @S:CV-03 a veterinarian publishes availability; owners book only those slots; the booking is in their queue |
 | J-V3 | NO_TEST | — |
 | J-V4 | NO_TEST | — |
 | J-V5 | NO_TEST | — |
@@ -58,4 +58,4 @@ PASS = every tagged test passed in ar-desktop, ar-mobile, en-desktop and en-mobi
 | J-CHAIN-PHARMACY | NO_TEST | — |
 | J-CHAIN-MARKET | NO_TEST | — |
 
-TOTAL 53 · PASS 9
+TOTAL 53 · PASS 10

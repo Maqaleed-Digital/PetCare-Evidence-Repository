@@ -926,6 +926,27 @@
       "path": "/api/reminders/run"
     },
     {
+      "endpoint": "main:read_vet_availability",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/vet/availability"
+    },
+    {
+      "endpoint": "main:publish_vet_availability",
+      "methods": [
+        "PUT"
+      ],
+      "path": "/api/vet/availability"
+    },
+    {
+      "endpoint": "main:vet_queue",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/vet/queue"
+    },
+    {
       "endpoint": "main:verify_audit_chain_endpoint",
       "methods": [
         "GET"

@@ -2333,6 +2333,12 @@ class PostgresBookingRepository:
                                 "ORDER BY starts_at, booking_id", (owner_id, tenant_id)).fetchall()
         return [self._row(r) for r in rows]
 
+    def list_for_veterinarian(self, veterinarian_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            rows = conn.execute(f"SELECT {self._COLS} FROM consultation_booking WHERE veterinarian_id = %s AND tenant_id = %s "
+                                "ORDER BY starts_at, booking_id", (veterinarian_id, tenant_id)).fetchall()
+        return [self._row(r) for r in rows]
+
     def taken_starts(self, veterinarian_id, *, tenant_id):
         with self._pool.connection() as conn:
             rows = conn.execute("SELECT starts_at FROM consultation_booking WHERE veterinarian_id = %s "
@@ -2505,6 +2511,42 @@ class PostgresVisitRatingRepository:
             row = conn.execute(f"SELECT {self._C} FROM consultation_rating WHERE session_id = %s AND tenant_id = %s",
                                (session_id, tenant_id)).fetchone()
         return None if row is None else VisitRating(*row[:6], _from_db(row[6]))
+
+
+class PostgresAvailabilityRepository:
+    """J-V2 published availability over migration 0065 (MVC-EPC-D-001 D3b). Insert-only; the latest plan is in force. A plan
+    and its windows are written in one transaction."""
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def publish(self, p):
+        from availability import validate_plan
+        validate_plan(p)
+        try:
+            with self._pool.connection() as conn:
+                with conn.transaction():
+                    conn.execute("INSERT INTO vet_availability_plan (plan_id, tenant_id, veterinarian_id, published_at) "
+                                 "VALUES (%s,%s,%s,%s)", (p.plan_id, p.tenant_id, p.veterinarian_id, _to_db(p.published_at)))
+                    for w in p.windows:
+                        conn.execute("INSERT INTO vet_availability_window (plan_id, weekday, opens, closes) VALUES (%s,%s,%s,%s)",
+                                     (p.plan_id, w.weekday, w.opens, w.closes))
+        except Exception as exc:
+            raise RepositoryDenied(f"availability was refused ({type(exc).__name__})") from None
+        return p
+
+    def latest(self, veterinarian_id, *, tenant_id):
+        from availability import AvailabilityPlan, Window
+        with self._pool.connection() as conn:
+            r = conn.execute("SELECT plan_id, published_at FROM vet_availability_plan WHERE veterinarian_id = %s "
+                             "AND tenant_id = %s ORDER BY published_at DESC, plan_id DESC LIMIT 1",
+                             (veterinarian_id, tenant_id)).fetchone()
+            if r is None:
+                return None
+            ws = conn.execute("SELECT weekday, opens, closes FROM vet_availability_window WHERE plan_id = %s "
+                              "ORDER BY weekday, opens", (r[0],)).fetchall()
+        return AvailabilityPlan(plan_id=r[0], tenant_id=tenant_id, veterinarian_id=veterinarian_id,
+                                windows=tuple(Window(*w) for w in ws), published_at=_from_db(r[1]))
 
 
 class PostgresEstablishmentLicenceRepository:

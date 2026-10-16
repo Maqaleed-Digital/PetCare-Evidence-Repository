@@ -58,6 +58,7 @@ from postgres_repositories import (
     PostgresOwnerConsentRepository,
     PostgresBookingRepository,
     PostgresOwnerPrescriptionUploadRepository,
+    PostgresAvailabilityRepository,
     PostgresVisitRatingRepository,
     PostgresPreVisitIntakeRepository,
     PostgresCarePlanRepository,
@@ -92,6 +93,7 @@ from account_tokens import InMemoryAccountTokenRepository
 from owner_consent import InMemoryOwnerConsentRepository
 from bookings import InMemoryBookingRepository
 from owner_prescriptions import InMemoryOwnerPrescriptionUploadRepository
+from availability import InMemoryAvailabilityRepository
 from visit_rating import InMemoryVisitRatingRepository
 from previsit_intake import InMemoryPreVisitIntakeRepository
 from care_plan import InMemoryCarePlanRepository
@@ -168,6 +170,8 @@ class Persistence:
     bookings: Any = None
     #: J-O7 owner-uploaded external prescriptions (MVC-EPC-D-001 D2g, migration 0059).
     owner_prescription_uploads: Any = None
+    #: J-V2 (MVC-EPC-D-001 D3b): veterinarians' published availability.
+    availability: Any = None
     #: CO-13 (MVC-EPC-D-001 D2r): consultation ratings.
     visit_ratings: Any = None
     #: CO-06 (MVC-EPC-D-001 D2p): pre-visit intake with photos.
@@ -264,6 +268,7 @@ def build_persistence(
             owner_consent=InMemoryOwnerConsentRepository(),
             bookings=InMemoryBookingRepository(),
             owner_prescription_uploads=InMemoryOwnerPrescriptionUploadRepository(),
+            availability=InMemoryAvailabilityRepository(),
             visit_ratings=InMemoryVisitRatingRepository(),
             previsit_intakes=InMemoryPreVisitIntakeRepository(),
             care_plans=InMemoryCarePlanRepository(),
@@ -315,6 +320,7 @@ def build_persistence(
         owner_consent=PostgresOwnerConsentRepository(pool),
         bookings=PostgresBookingRepository(pool),
         owner_prescription_uploads=PostgresOwnerPrescriptionUploadRepository(pool),
+        availability=PostgresAvailabilityRepository(pool),
         visit_ratings=PostgresVisitRatingRepository(pool),
         previsit_intakes=PostgresPreVisitIntakeRepository(pool),
         care_plans=PostgresCarePlanRepository(pool),

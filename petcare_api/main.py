@@ -600,6 +600,9 @@ def get_appointment(
 # selects a pet, a veterinarian and a slot, and every selector is validated against the session tenant.
 # ---------------------------------------------------------------------------
 import bookings as bk  # noqa: E402
+import availability as avl  # noqa: E402
+
+AVAILABILITY_REPO = PERSISTENCE.availability
 
 BOOKING_REPO = PERSISTENCE.bookings
 
@@ -630,7 +633,13 @@ def _tenant_veterinarian(user_id: str, tenant_id: str):
     return ident
 
 
-def _slot_instant(raw: str) -> datetime:
+def _vet_windows(veterinarian_id: str, tenant_id: str):
+    """J-V2 (D3b): the veterinarian's published windows, or None when they never published (clinic default hours)."""
+    plan = AVAILABILITY_REPO.latest(veterinarian_id, tenant_id=tenant_id)
+    return None if plan is None else plan.windows
+
+
+def _slot_instant(raw: str, veterinarian_id: str, tenant_id: str) -> datetime:
     try:
         at = datetime.fromisoformat(raw.replace("Z", "+00:00"))
     except ValueError:
@@ -638,7 +647,7 @@ def _slot_instant(raw: str) -> datetime:
     if at.tzinfo is None:
         raise HTTPException(400, {"error": "SLOT_INVALID"})
     at = at.astimezone(timezone.utc)
-    if not bk.is_bookable_instant(at, now=datetime.now(timezone.utc)):
+    if not bk.is_bookable_instant(at, now=datetime.now(timezone.utc), windows=_vet_windows(veterinarian_id, tenant_id)):
         raise HTTPException(400, {"error": "SLOT_NOT_BOOKABLE"})
     return at
 
@@ -675,7 +684,9 @@ def booking_slots(request: Request, veterinarian_id: str, day: str, role: str = 
         raise HTTPException(400, {"error": "DAY_INVALID"}) from None
     now = datetime.now(timezone.utc)
     taken = BOOKING_REPO.taken_starts(veterinarian_id, tenant_id=tenant_id)
-    return [s.isoformat() for s in bk.default_slots(on) if bk.is_bookable_instant(s, now=now) and s not in taken]
+    windows = _vet_windows(veterinarian_id, tenant_id)
+    return [s.isoformat() for s in bk.default_slots(on, windows)
+            if bk.is_bookable_instant(s, now=now, windows=windows) and s not in taken]
 
 
 @app.post("/api/bookings", status_code=201)
@@ -694,7 +705,7 @@ def create_booking(
         raise HTTPException(400, {"error": "MODE_INVALID"})
     if body.mode == bk.VIDEO and not vid.capability_enabled(os.environ):
         raise HTTPException(409, {"error": "VIDEO_DISABLED"})  # SQ-2: video stays behind its switch
-    starts_at = _slot_instant(body.starts_at)
+    starts_at = _slot_instant(body.starts_at, body.veterinarian_id, tenant_id)
     now = datetime.now(timezone.utc)
     b = bk.Booking(booking_id=str(uuid4()), tenant_id=tenant_id, owner_id=actor_id, pet_id=pet.pet_id,
                    veterinarian_id=body.veterinarian_id, mode=body.mode, starts_at=starts_at, status=bk.BOOKED,
@@ -724,8 +735,8 @@ def reschedule_booking(
     x_correlation_id: str = Header(default_factory=lambda: str(uuid4())),
 ):
     actor_id, actor_role, tenant_id = _owner_session(request, role)
-    _own_booking_or_404(booking_id, actor_id, tenant_id)
-    starts_at = _slot_instant(body.starts_at)
+    current = _own_booking_or_404(booking_id, actor_id, tenant_id)
+    starts_at = _slot_instant(body.starts_at, current.veterinarian_id, tenant_id)
     try:
         b = BOOKING_REPO.reschedule(booking_id, starts_at, tenant_id=tenant_id, at=datetime.now(timezone.utc))
     except bk.SlotTaken:
@@ -879,6 +890,90 @@ def download_previsit_intake_photo(request: Request, booking_id: str, photo_id: 
            correlation_id=x_correlation_id)
     return Response(content=payload, media_type=SERVED_CONTENT_TYPE,
                     headers={"Content-Disposition": 'attachment; filename="intake-photo"'})
+
+
+# ---------------------------------------------------------------------------
+# J-V2 · the veterinarian's availability and queue (MVC-EPC-D-001 D3b, R21.4)
+# ---------------------------------------------------------------------------
+class AvailabilityWindowBody(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    weekday: int
+    opens: str
+    closes: str
+
+
+class AvailabilityBody(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    windows: list[AvailabilityWindowBody]
+
+
+def _vet_session(request: Request, role: str):
+    if role != ROLE_VETERINARIAN:
+        raise HTTPException(403, {"error": "VETERINARIAN_ONLY"})
+    actor_id, actor_role = _actor(request)
+    return actor_id, actor_role, require_tenant(request)
+
+
+@app.put("/api/vet/availability")
+def publish_vet_availability(body: AvailabilityBody, request: Request, role: str = Depends(require_role),
+                             x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """J-V2: the veterinarian publishes their weekly schedule (a new version; existing bookings are not changed). Audited."""
+    from datetime import time as clock
+    actor_id, actor_role, tenant_id = _vet_session(request, role)
+    try:
+        windows = tuple(avl.Window(weekday=w.weekday, opens=clock.fromisoformat(w.opens), closes=clock.fromisoformat(w.closes))
+                        for w in body.windows)
+    except ValueError:
+        raise HTTPException(400, {"error": "TIME_INVALID"}) from None
+    plan = avl.AvailabilityPlan(plan_id=str(uuid4()), tenant_id=tenant_id, veterinarian_id=actor_id, windows=windows,
+                                published_at=datetime.now(timezone.utc))
+    try:
+        AVAILABILITY_REPO.publish(plan)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, {"error": "AVAILABILITY_INVALID", "detail": str(exc)}) from None
+    _audit(event_name="practitioner.availability.published", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="vet_availability_plan", resource_id=plan.plan_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"windows:{len(windows)}")
+    return plan.to_read_model()
+
+
+@app.get("/api/vet/availability")
+def read_vet_availability(request: Request, role: str = Depends(require_role)):
+    """The veterinarian's own schedule in force: their latest plan, or the clinic default hours if never published."""
+    actor_id, _r, tenant_id = _vet_session(request, role)
+    plan = AVAILABILITY_REPO.latest(actor_id, tenant_id=tenant_id)
+    if plan is None:
+        return {"plan_id": None, "published_at": None, "default_hours": True,
+                "windows": [{"weekday": d, "opens": bk.OPENS.strftime("%H:%M"), "closes": bk.CLOSES.strftime("%H:%M")}
+                            for d in avl.WEEKDAYS]}
+    return {**plan.to_read_model(), "default_hours": False}
+
+
+@app.get("/api/vet/queue")
+def vet_queue(request: Request, role: str = Depends(require_role)):
+    """J-V2 (CV-03): the veterinarian's OWN upcoming booked appointments (soonest first, with pet, owner and whether the owner
+    sent a pre-visit intake) and their consultations not yet completed. Nothing of another veterinarian's appears."""
+    actor_id, _r, tenant_id = _vet_session(request, role)
+    now = datetime.now(timezone.utc)
+    names = {i.user_id: i.full_name for i in PERSISTENCE.identities.list_for_tenant(tenant_id=tenant_id)}
+
+    def pet_name(pet_id):
+        pet = PET_REPO.get(pet_id, tenant_id=tenant_id)
+        return pet.name if pet else None
+
+    appointments = [{"booking_id": b.booking_id, "starts_at": b.starts_at.astimezone(timezone.utc).isoformat(), "mode": b.mode,
+                     "pet": {"pet_id": b.pet_id, "name": pet_name(b.pet_id)}, "owner_name": names.get(b.owner_id),
+                     "reason": b.reason,
+                     "intake_submitted": PERSISTENCE.previsit_intakes.for_booking(b.booking_id, tenant_id=tenant_id) is not None}
+                    for b in BOOKING_REPO.list_for_veterinarian(actor_id, tenant_id=tenant_id)
+                    if b.status == bk.BOOKED and b.starts_at > now]
+    open_consultations = [{"session_id": c.session_id, "created_at": c.created_at.isoformat(), "mode": c.mode,
+                           "pet": {"pet_id": c.pet_id, "name": pet_name(c.pet_id)}, "owner_name": names.get(c.owner_id)}
+                          for c in CONSULTATION_REPO.for_tenant(tenant_id)
+                          if c.veterinarian_id == actor_id and CONSULTATION_REPO.outcome_of(c.session_id, tenant_id=tenant_id) is None]
+    return {"appointments": appointments, "open_consultations": open_consultations}
 
 
 # ---------------------------------------------------------------------------
