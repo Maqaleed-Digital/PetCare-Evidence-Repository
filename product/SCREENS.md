@@ -28,8 +28,8 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | CO-14 | Pet owner app | Notifications | /owner/notifications | 1 | PASS |
 | CO-15 | Pet owner app | Account / consent / security / data export | /account · /account/security | 3 | PASS |
 | CV-01 | Veterinarian console | Today | — | 0 | NO_TEST |
-| CV-02 | Veterinarian console | Calendar and availability | — | 0 | NO_TEST |
-| CV-03 | Veterinarian console | Unified queue | — | 0 | NO_TEST |
+| CV-02 | Veterinarian console | Calendar and availability | /vet/availability | 1 | PASS |
+| CV-03 | Veterinarian console | Unified queue | /vet/queue | 1 | PASS |
 | CV-04 | Veterinarian console | Patient chart with allergy alerts | — | 0 | NO_TEST |
 | CV-05 | Veterinarian console | Consultation workspace with SOAP templates | — | 0 | NO_TEST |
 | CV-06 | Veterinarian console | Prescribe (SFDA-registered catalogue, dose-by-weight, allergy and duplicate warnings) | — | 0 | NO_TEST |
@@ -112,4 +112,4 @@ PASS = the screen's journey tests passed in all four projects. Route from e2e-fu
 | PA-06 | Platform admin | Vet verification queue | — | 0 | NO_TEST |
 | PA-07 | Platform admin | System health | — | 0 | NO_TEST |
 
-TOTAL 107 · PASS 15
+TOTAL 107 · PASS 17
