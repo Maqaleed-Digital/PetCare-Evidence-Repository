@@ -114,10 +114,19 @@ def _seed() -> None:
     import base64
     import json
     import mfa as mfa_mod
-    secret = os.urandom(20)
-    nonce, ct = mfa_mod.encrypt(api._mfa_key(), secret)
-    api.MFA_REPO.put_factor(mfa_mod.Factor(user_id="u-e2e-vet", nonce=nonce, ciphertext=ct, created_at=now, confirmed_at=now))
-    Path(MFA_FILE).write_text(json.dumps({"u-e2e-vet": base64.b32encode(secret).decode()}), encoding="utf-8")
+    # D3a (J-V1 internal): tenant assignment and licence verification are SQ-3 operations of the platform administrator, who
+    # gets a per-run factor the same way.
+    keys = {}
+    for staff_id in ("u-e2e-vet", "u-e2e-platform-admin"):
+        secret = os.urandom(20)
+        nonce, ct = mfa_mod.encrypt(api._mfa_key(), secret)
+        api.MFA_REPO.put_factor(mfa_mod.Factor(user_id=staff_id, nonce=nonce, ciphertext=ct, created_at=now, confirmed_at=now))
+        keys[staff_id] = base64.b32encode(secret).decode()
+    Path(MFA_FILE).write_text(json.dumps(keys), encoding="utf-8")
+    # D3a (J-V1 internal): a veterinarian joins by invite registration; invite codes are seeded at startup only (no served
+    # route). One SYNTHETIC single-use invite per project, because the CI run serves all four projects from one stack.
+    for project in ("ar-desktop", "ar-mobile", "en-desktop", "en-mobile"):
+        auth.seed_invite_code(f"E2E-VET-INVITE-{project}", "veterinarian")
     # D2m (J-O8): product registration has no served route (registration feed only, AC-FR-04-03). Two SYNTHETIC products: one
     # GENERAL an owner may buy, one POM an owner must never be able to buy. Prices, stock, location and licence are set by
     # the journey itself through the served routes (clinic admin / platform admin).

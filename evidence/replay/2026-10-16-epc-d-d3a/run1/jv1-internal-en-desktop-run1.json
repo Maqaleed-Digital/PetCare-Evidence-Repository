@@ -1,0 +1,189 @@
+{
+  "config": {
+    "configFile": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/playwright.full.config.ts",
+    "rootDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-desktop",
+        "name": "ar-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-mobile",
+        "name": "ar-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-desktop",
+        "name": "en-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-mobile",
+        "name": "en-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "json"
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "jv1-licence-status.spec.ts",
+      "file": "jv1-licence-status.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-V1-INTERNAL] a veterinarian joins by invite with their licence and sees its status until staff verify it",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 4202,
+                  "error": {
+                    "message": "Error: {\"detail\":{\"error\":\"MFA_ENROLMENT_REQUIRED\",\"operation\":\"POST /api/admin/identities/{user_id}/tenant\"}}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m403\u001b[39m",
+                    "stack": "Error: {\"detail\":{\"error\":\"MFA_ENROLMENT_REQUIRED\",\"operation\":\"POST /api/admin/identities/{user_id}/tenant\"}}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m403\u001b[39m\n    at /Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full/jv1-licence-status.spec.ts:61:52",
+                    "location": {
+                      "file": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full/jv1-licence-status.spec.ts",
+                      "column": 52,
+                      "line": 61
+                    },
+                    "snippet": "  59 |   const me = await (await page.request.get(`${API}/api/auth/me`)).json()\n  60 |   const assigned = await admin.post(`/api/admin/identities/${me.user_id}/tenant`, { data: { tenant_id: TENANT, reason: 'E2E J-V1 onboarding' } })\n> 61 |   expect(assigned.status(), await assigned.text()).toBe(200)\n     |                                                    ^\n  62 |   const pending = ((await (await admin.get('/api/admin/practitioners/licences')).json()) as { licence_id: string; licence_number: string }[])\n  63 |     .find(l => l.licence_number === licenceNumber)\n  64 |   expect(pending).toBeTruthy()"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full/jv1-licence-status.spec.ts",
+                        "column": 52,
+                        "line": 61
+                      },
+                      "message": "Error: {\"detail\":{\"error\":\"MFA_ENROLMENT_REQUIRED\",\"operation\":\"POST /api/admin/identities/{user_id}/tenant\"}}\n\n\u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m200\u001b[39m\nReceived: \u001b[31m403\u001b[39m\n\n  59 |   const me = await (await page.request.get(`${API}/api/auth/me`)).json()\n  60 |   const assigned = await admin.post(`/api/admin/identities/${me.user_id}/tenant`, { data: { tenant_id: TENANT, reason: 'E2E J-V1 onboarding' } })\n> 61 |   expect(assigned.status(), await assigned.text()).toBe(200)\n     |                                                    ^\n  62 |   const pending = ((await (await admin.get('/api/admin/practitioners/licences')).json()) as { licence_id: string; licence_number: string }[])\n  63 |     .find(l => l.licence_number === licenceNumber)\n  64 |   expect(pending).toBeTruthy()\n    at /Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full/jv1-licence-status.spec.ts:61:52"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-15T22:16:59.559Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results/jv1-licence-status--J-V1-I-2e73a-tatus-until-staff-verify-it-en-desktop/error-context.md"
+                    },
+                    {
+                      "name": "trace",
+                      "contentType": "application/zip",
+                      "path": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/test-results/jv1-licence-status--J-V1-I-2e73a-tatus-until-staff-verify-it-en-desktop/trace.zip"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/Users/waheebmahmoud/dev/petcare-lane-d-r21-d2p/petcare_web/e2e-full/jv1-licence-status.spec.ts",
+                    "column": 52,
+                    "line": 61
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "d18585e03bd5c2325b1c-dc102ba70251781c301e",
+          "file": "jv1-licence-status.spec.ts",
+          "line": 26,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-15T22:16:50.577Z",
+    "duration": 14263.193000000001,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}
