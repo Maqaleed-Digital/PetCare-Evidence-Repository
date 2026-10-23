@@ -25,6 +25,7 @@ const L = {
   noAppointments: { ar: 'لا توجد مواعيد قادمة.', en: 'No upcoming appointments.' },
   open: { ar: 'استشارات لم تكتمل', en: 'Consultations not yet completed' },
   noOpen: { ar: 'لا توجد استشارات مفتوحة.', en: 'No open consultations.' },
+  workspace: { ar: 'فتح مساحة العمل', en: 'Open workspace' },
   owner: { ar: 'المالك', en: 'Owner' },
   inClinic: { ar: 'في العيادة', en: 'In clinic' },
   video: { ar: 'مرئية', en: 'Video' },
@@ -71,6 +72,8 @@ export default function VetQueuePage() {
             <ol>{q.open_consultations.map(c => (
               <li key={c.session_id} data-testid="queue-open-consultation" data-session={c.session_id}>
                 <strong>{c.pet.name ?? ''}</strong> · {when(c.created_at)} · {mode(c.mode)} · {t('owner')}: {c.owner_name ?? ''}
+                {/* J-V3 (MVC-EPC-D-001 D3c): the consultation workspace (CV-05) */}
+                <div><a href={`/vet/consultations/${encodeURIComponent(c.session_id)}`} data-testid="queue-open-workspace">{t('workspace')}</a></div>
               </li>
             ))}</ol>
           )}

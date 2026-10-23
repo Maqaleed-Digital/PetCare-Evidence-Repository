@@ -2549,6 +2549,39 @@ class PostgresAvailabilityRepository:
                                 windows=tuple(Window(*w) for w in ws), published_at=_from_db(r[1]))
 
 
+class PostgresSoapDraftRepository:
+    """J-V3 consultation SOAP drafts over migration 0066 (MVC-EPC-D-001 D3c). Insert-only; the latest version is in force."""
+
+    _C = "draft_id, session_id, tenant_id, veterinarian_id, template_id, subjective, objective, assessment, plan, saved_at"
+
+    def __init__(self, pool: Any) -> None:
+        self._pool = pool
+
+    def save(self, d):
+        from soap_notes import validate_draft
+        validate_draft(d)
+        try:
+            with self._pool.connection() as conn:
+                conn.execute(f"INSERT INTO consultation_soap_draft ({self._C}) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)",
+                             (d.draft_id, d.session_id, d.tenant_id, d.veterinarian_id, d.template_id, d.subjective,
+                              d.objective, d.assessment, d.plan, _to_db(d.saved_at)))
+        except Exception as exc:
+            raise RepositoryDenied(f"SOAP draft was refused ({type(exc).__name__})") from None
+        return d
+
+    def latest(self, session_id, *, tenant_id):
+        from soap_notes import SoapDraft
+        with self._pool.connection() as conn:
+            r = conn.execute(f"SELECT {self._C} FROM consultation_soap_draft WHERE session_id = %s AND tenant_id = %s "
+                             "ORDER BY saved_at DESC, draft_id DESC LIMIT 1", (session_id, tenant_id)).fetchone()
+        return None if r is None else SoapDraft(*r[:9], _from_db(r[9]))
+
+    def versions(self, session_id, *, tenant_id):
+        with self._pool.connection() as conn:
+            return conn.execute("SELECT count(*) FROM consultation_soap_draft WHERE session_id = %s AND tenant_id = %s",
+                                (session_id, tenant_id)).fetchone()[0]
+
+
 class PostgresEstablishmentLicenceRepository:
     """X-30 establishment licences over migration 0060 (MVC-EPC-D-001 D2h)."""
 
