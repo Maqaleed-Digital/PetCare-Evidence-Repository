@@ -940,6 +940,20 @@
       "path": "/api/vet/availability"
     },
     {
+      "endpoint": "main:save_vet_soap_draft",
+      "methods": [
+        "PUT"
+      ],
+      "path": "/api/vet/consultations/{session_id}/soap"
+    },
+    {
+      "endpoint": "main:vet_consultation_workspace",
+      "methods": [
+        "GET"
+      ],
+      "path": "/api/vet/consultations/{session_id}/workspace"
+    },
+    {
       "endpoint": "main:vet_queue",
       "methods": [
         "GET"

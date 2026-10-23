@@ -16,5 +16,6 @@
   "CO-09": "/owner/consultations · /owner/consultations/messages",
   "CO-11": "/owner/prescriptions",
   "CV-02": "/vet/availability",
-  "CV-03": "/vet/queue"
+  "CV-03": "/vet/queue",
+  "CV-05": "/vet/consultations/{session}"
 }

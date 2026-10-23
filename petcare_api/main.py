@@ -1188,6 +1188,75 @@ def record_care_plan(session_id: str, body: CarePlanRequest, request: Request, r
     return plan.to_read_model()
 
 
+# ---------------------------------------------------------------------------
+# J-V3 · the consultation workspace: SOAP drafts with templates (MVC-EPC-D-001 D3c, R21.4; CV-05)
+# ---------------------------------------------------------------------------
+import soap_notes as soap  # noqa: E402
+
+SOAP_REPO = PERSISTENCE.soap_drafts
+
+
+class SoapDraftBody(BaseModel):
+    model_config = {"extra": "forbid"}
+
+    template_id: Optional[str] = None
+    subjective: str = ""
+    objective: str = ""
+    assessment: str = ""
+    plan: str = ""
+
+
+def _own_consultation(request: Request, role: str, session_id: str):
+    """The veterinarian's OWN consultation in the session tenant. Another veterinarian's, or another tenant's, is 404 —
+    its existence is never confirmed."""
+    actor_id, actor_role, tenant_id = _vet_session(request, role)
+    c = CONSULTATION_REPO.get(session_id, tenant_id=tenant_id)
+    if c is None or c.veterinarian_id != actor_id:
+        raise HTTPException(404, {"error": "CONSULTATION_NOT_FOUND"})
+    return c, actor_id, actor_role, tenant_id
+
+
+@app.get("/api/vet/consultations/{session_id}/workspace")
+def vet_consultation_workspace(session_id: str, request: Request, role: str = Depends(require_role),
+                               x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """J-V3 (CV-05): the veterinarian's workspace for their OWN consultation — the consultation, its patient and owner, the
+    SOAP draft in force (unsigned) and the structural templates. Audited as a read of the consultation."""
+    c, actor_id, actor_role, tenant_id = _own_consultation(request, role, session_id)
+    pet = PET_REPO.get(c.pet_id, tenant_id=tenant_id)
+    owner = PERSISTENCE.identities.get_by_user_id(c.owner_id)
+    draft = SOAP_REPO.latest(session_id, tenant_id=tenant_id)
+    _audit(event_name="consultation.workspace.viewed", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="consultation_session", resource_id=session_id, action_result="success",
+           correlation_id=x_correlation_id)
+    return {"consultation": consult.read_model(c, CONSULTATION_REPO.outcome_of(session_id, tenant_id=tenant_id)),
+            "pet": None if pet is None else {"pet_id": pet.pet_id, "name": pet.name, "species": pet.species, "breed": pet.breed},
+            "owner_name": owner.full_name if owner is not None and owner.tenant_id == tenant_id else None,
+            "soap": None if draft is None else draft.to_read_model(),
+            "soap_versions": SOAP_REPO.versions(session_id, tenant_id=tenant_id),
+            "templates": soap.templates_read_model(),
+            "remote": _remote_consultation_gate()}
+
+
+@app.put("/api/vet/consultations/{session_id}/soap")
+def save_vet_soap_draft(session_id: str, body: SoapDraftBody, request: Request, role: str = Depends(require_role),
+                        x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):
+    """J-V3 (CV-05): the consultation's veterinarian (live authority, FR-05) saves a new version of the SOAP draft. Unsigned;
+    insert-only; the latest version is in force. Audited without the note's text."""
+    c, actor_id, actor_role, tenant_id = _own_consultation(request, role, session_id)
+    _require_practitioner_authority(actor_id, tenant_id)
+    d = soap.SoapDraft(draft_id=str(uuid4()), session_id=session_id, tenant_id=tenant_id, veterinarian_id=actor_id,
+                       template_id=body.template_id, subjective=body.subjective, objective=body.objective,
+                       assessment=body.assessment, plan=body.plan, saved_at=datetime.now(timezone.utc))
+    try:
+        SOAP_REPO.save(d)
+    except RepositoryDenied as exc:
+        raise HTTPException(400, {"error": "SOAP_DRAFT_INVALID", "detail": str(exc)}) from None
+    _audit(event_name="consultation.soap_draft.saved", actor_id=actor_id, actor_role=actor_role, tenant_id=tenant_id,
+           resource_type="consultation_soap_draft", resource_id=d.draft_id, action_result="success",
+           correlation_id=x_correlation_id, reason_code=f"template:{d.template_id or 'none'}")
+    return d.to_read_model()
+
+
 @app.get("/api/owner/consultations/{session_id}/summary")
 def owner_visit_summary(session_id: str, request: Request, role: str = Depends(require_role),
                         x_correlation_id: str = Header(default_factory=lambda: str(uuid4()))):

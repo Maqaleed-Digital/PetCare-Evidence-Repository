@@ -59,6 +59,7 @@ from postgres_repositories import (
     PostgresBookingRepository,
     PostgresOwnerPrescriptionUploadRepository,
     PostgresAvailabilityRepository,
+    PostgresSoapDraftRepository,
     PostgresVisitRatingRepository,
     PostgresPreVisitIntakeRepository,
     PostgresCarePlanRepository,
@@ -94,6 +95,7 @@ from owner_consent import InMemoryOwnerConsentRepository
 from bookings import InMemoryBookingRepository
 from owner_prescriptions import InMemoryOwnerPrescriptionUploadRepository
 from availability import InMemoryAvailabilityRepository
+from soap_notes import InMemorySoapDraftRepository
 from visit_rating import InMemoryVisitRatingRepository
 from previsit_intake import InMemoryPreVisitIntakeRepository
 from care_plan import InMemoryCarePlanRepository
@@ -172,6 +174,8 @@ class Persistence:
     owner_prescription_uploads: Any = None
     #: J-V2 (MVC-EPC-D-001 D3b): veterinarians' published availability.
     availability: Any = None
+    #: J-V3 (MVC-EPC-D-001 D3c): consultation SOAP note drafts (CV-05).
+    soap_drafts: Any = None
     #: CO-13 (MVC-EPC-D-001 D2r): consultation ratings.
     visit_ratings: Any = None
     #: CO-06 (MVC-EPC-D-001 D2p): pre-visit intake with photos.
@@ -269,6 +273,7 @@ def build_persistence(
             bookings=InMemoryBookingRepository(),
             owner_prescription_uploads=InMemoryOwnerPrescriptionUploadRepository(),
             availability=InMemoryAvailabilityRepository(),
+            soap_drafts=InMemorySoapDraftRepository(),
             visit_ratings=InMemoryVisitRatingRepository(),
             previsit_intakes=InMemoryPreVisitIntakeRepository(),
             care_plans=InMemoryCarePlanRepository(),
@@ -321,6 +326,7 @@ def build_persistence(
         bookings=PostgresBookingRepository(pool),
         owner_prescription_uploads=PostgresOwnerPrescriptionUploadRepository(pool),
         availability=PostgresAvailabilityRepository(pool),
+        soap_drafts=PostgresSoapDraftRepository(pool),
         visit_ratings=PostgresVisitRatingRepository(pool),
         previsit_intakes=PostgresPreVisitIntakeRepository(pool),
         care_plans=PostgresCarePlanRepository(pool),
