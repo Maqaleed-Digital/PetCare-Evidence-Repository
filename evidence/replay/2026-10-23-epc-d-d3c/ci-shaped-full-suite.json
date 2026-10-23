@@ -1,0 +1,3263 @@
+{
+  "config": {
+    "configFile": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/playwright.full.config.ts",
+    "rootDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-desktop",
+        "name": "ar-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-mobile",
+        "name": "ar-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-desktop",
+        "name": "en-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-mobile",
+        "name": "en-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "e2e-full/.results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "co04-vaccination-card.spec.ts",
+      "file": "co04-vaccination-card.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@S:CO-04 an owner opens their pet's vaccination card and saves it as PDF",
+          "ok": true,
+          "tags": [
+            "S:CO-04"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13295,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:58:06.567Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "516d284e7d94c74b6cbe-1a9dac8215b8c7a4a9e9",
+          "file": "co04-vaccination-card.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-04 an owner opens their pet's vaccination card and saves it as PDF",
+          "ok": true,
+          "tags": [
+            "S:CO-04"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8098,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:01:53.724Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "516d284e7d94c74b6cbe-725f9ee2a8c34a0d1e3b",
+          "file": "co04-vaccination-card.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-04 an owner opens their pet's vaccination card and saves it as PDF",
+          "ok": true,
+          "tags": [
+            "S:CO-04"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8854,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:05:19.436Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "516d284e7d94c74b6cbe-3eab259c5ef37c49a263",
+          "file": "co04-vaccination-card.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-04 an owner opens their pet's vaccination card and saves it as PDF",
+          "ok": true,
+          "tags": [
+            "S:CO-04"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7806,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:08:48.359Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "516d284e7d94c74b6cbe-ed6239b5ee19109d2f56",
+          "file": "co04-vaccination-card.spec.ts",
+          "line": 30,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "co06-previsit-intake.spec.ts",
+      "file": "co06-previsit-intake.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@S:CO-06 an owner sends the pre-visit intake with photos for an upcoming appointment",
+          "ok": true,
+          "tags": [
+            "S:CO-06"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11521,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:58:20.208Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcd96d5c68004a9c3304-c1db095abb15ac60960b",
+          "file": "co06-previsit-intake.spec.ts",
+          "line": 25,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-06 an owner sends the pre-visit intake with photos for an upcoming appointment",
+          "ok": true,
+          "tags": [
+            "S:CO-06"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11090,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:02:02.111Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcd96d5c68004a9c3304-84e5546371f54b6be3e1",
+          "file": "co06-previsit-intake.spec.ts",
+          "line": 25,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-06 an owner sends the pre-visit intake with photos for an upcoming appointment",
+          "ok": true,
+          "tags": [
+            "S:CO-06"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10883,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:05:28.612Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcd96d5c68004a9c3304-716cc1732ebc7a648a9f",
+          "file": "co06-previsit-intake.spec.ts",
+          "line": 25,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-06 an owner sends the pre-visit intake with photos for an upcoming appointment",
+          "ok": true,
+          "tags": [
+            "S:CO-06"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10253,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:08:56.418Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fcd96d5c68004a9c3304-fec1e60e787207747b26",
+          "file": "co06-previsit-intake.spec.ts",
+          "line": 25,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "co10-visit-summary.spec.ts",
+      "file": "co10-visit-summary.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@S:CO-10 an owner reads the visit summary and care plan of their completed consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-10"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11610,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:58:31.753Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7bd602b63b61c2dcee5e-4d5242ab6da875672716",
+          "file": "co10-visit-summary.spec.ts",
+          "line": 38,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-10 an owner reads the visit summary and care plan of their completed consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-10"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12490,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:02:13.231Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7bd602b63b61c2dcee5e-68b21442f1a4eae53050",
+          "file": "co10-visit-summary.spec.ts",
+          "line": 38,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-10 an owner reads the visit summary and care plan of their completed consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-10"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15639,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:05:39.518Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7bd602b63b61c2dcee5e-93629ad7394fe13cf169",
+          "file": "co10-visit-summary.spec.ts",
+          "line": 38,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-10 an owner reads the visit summary and care plan of their completed consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-10"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9520,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:09:06.691Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "7bd602b63b61c2dcee5e-ee6d2267aae96c6c3440",
+          "file": "co10-visit-summary.spec.ts",
+          "line": 38,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "co13-rate-visit.spec.ts",
+      "file": "co13-rate-visit.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "@S:CO-13 an owner rates their completed consultation once",
+          "ok": true,
+          "tags": [
+            "S:CO-13"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10759,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:58:43.384Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "79d3dac8526fa944260b-51de8cac9fb2232e3fb3",
+          "file": "co13-rate-visit.spec.ts",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-13 an owner rates their completed consultation once",
+          "ok": true,
+          "tags": [
+            "S:CO-13"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8329,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:02:25.753Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "79d3dac8526fa944260b-ae34008204bbc477dc10",
+          "file": "co13-rate-visit.spec.ts",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-13 an owner rates their completed consultation once",
+          "ok": true,
+          "tags": [
+            "S:CO-13"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 18256,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:05:55.244Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "79d3dac8526fa944260b-8a4f02ed89840d04aad9",
+          "file": "co13-rate-visit.spec.ts",
+          "line": 21,
+          "column": 5
+        },
+        {
+          "title": "@S:CO-13 an owner rates their completed consultation once",
+          "ok": true,
+          "tags": [
+            "S:CO-13"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7316,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:09:16.227Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "79d3dac8526fa944260b-bd799d9087105d7c0803",
+          "file": "co13-rate-visit.spec.ts",
+          "line": 21,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "harness.spec.ts",
+      "file": "harness.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[HARNESS] a seeded owner signs in through the real stack and the server holds the session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2199,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:58:54.173Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2726d9e30a893a88bbed-55059ada373c999bf535",
+          "file": "harness.spec.ts",
+          "line": 8,
+          "column": 5
+        },
+        {
+          "title": "[HARNESS] a wrong password is refused by the server and no session is created",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1330,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:58:56.395Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2726d9e30a893a88bbed-857d191ea49a34c135a5",
+          "file": "harness.spec.ts",
+          "line": 20,
+          "column": 5
+        },
+        {
+          "title": "[HARNESS] a seeded owner signs in through the real stack and the server holds the session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1422,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:02:34.110Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2726d9e30a893a88bbed-763cab98f710c3470d69",
+          "file": "harness.spec.ts",
+          "line": 8,
+          "column": 5
+        },
+        {
+          "title": "[HARNESS] a wrong password is refused by the server and no session is created",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1140,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:02:35.555Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2726d9e30a893a88bbed-482d785b10af738c6041",
+          "file": "harness.spec.ts",
+          "line": 20,
+          "column": 5
+        },
+        {
+          "title": "[HARNESS] a seeded owner signs in through the real stack and the server holds the session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2553,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:06:13.600Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2726d9e30a893a88bbed-2d0501e4e386f4acc2db",
+          "file": "harness.spec.ts",
+          "line": 8,
+          "column": 5
+        },
+        {
+          "title": "[HARNESS] a wrong password is refused by the server and no session is created",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1600,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:06:16.175Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2726d9e30a893a88bbed-c3661eb324539795f5fd",
+          "file": "harness.spec.ts",
+          "line": 20,
+          "column": 5
+        },
+        {
+          "title": "[HARNESS] a seeded owner signs in through the real stack and the server holds the session",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1442,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:09:23.559Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2726d9e30a893a88bbed-193a2821762e1f90e76e",
+          "file": "harness.spec.ts",
+          "line": 8,
+          "column": 5
+        },
+        {
+          "title": "[HARNESS] a wrong password is refused by the server and no session is created",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1167,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:09:25.018Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "2726d9e30a893a88bbed-0328f185b4659c24be2e",
+          "file": "harness.spec.ts",
+          "line": 20,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "j00-landing.spec.ts",
+      "file": "j00-landing.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-00] @S:PUB-01 landing: Arabic by default, owner and veterinarian entry points, PDPL notice",
+          "ok": true,
+          "tags": [
+            "S:PUB-01"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1088,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:58:57.748Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b625a43f0626f9a98fe3-b4e87bf7d999f739e8c5",
+          "file": "j00-landing.spec.ts",
+          "line": 4,
+          "column": 5
+        },
+        {
+          "title": "[J-00] @S:PUB-01 landing: Arabic by default, owner and veterinarian entry points, PDPL notice",
+          "ok": true,
+          "tags": [
+            "S:PUB-01"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1922,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:02:36.714Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b625a43f0626f9a98fe3-e65fe8aaf4d4108be7ce",
+          "file": "j00-landing.spec.ts",
+          "line": 4,
+          "column": 5
+        },
+        {
+          "title": "[J-00] @S:PUB-01 landing: Arabic by default, owner and veterinarian entry points, PDPL notice",
+          "ok": true,
+          "tags": [
+            "S:PUB-01"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2157,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:06:17.823Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b625a43f0626f9a98fe3-acdbafabd9a0a81f6a67",
+          "file": "j00-landing.spec.ts",
+          "line": 4,
+          "column": 5
+        },
+        {
+          "title": "[J-00] @S:PUB-01 landing: Arabic by default, owner and veterinarian entry points, PDPL notice",
+          "ok": true,
+          "tags": [
+            "S:PUB-01"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2335,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:09:26.198Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b625a43f0626f9a98fe3-efe1b5562323ce9243ad",
+          "file": "j00-landing.spec.ts",
+          "line": 4,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jo1-account.spec.ts",
+      "file": "jo1-account.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O1] @S:PUB-07 an owner self-registers, verifies the email, signs in and out, and resets the password",
+          "ok": true,
+          "tags": [
+            "S:PUB-07"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11782,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:58:58.857Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b15208645a9da2ed3928-778f730049f5c9dd7ac4",
+          "file": "jo1-account.spec.ts",
+          "line": 12,
+          "column": 5
+        },
+        {
+          "title": "[J-O1] @S:PUB-07 an owner self-registers, verifies the email, signs in and out, and resets the password",
+          "ok": true,
+          "tags": [
+            "S:PUB-07"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 15909,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:02:38.655Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b15208645a9da2ed3928-4424cd5787ccc531223a",
+          "file": "jo1-account.spec.ts",
+          "line": 12,
+          "column": 5
+        },
+        {
+          "title": "[J-O1] @S:PUB-07 an owner self-registers, verifies the email, signs in and out, and resets the password",
+          "ok": true,
+          "tags": [
+            "S:PUB-07"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11915,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:06:19.996Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b15208645a9da2ed3928-3e6815a30eef38ca45ad",
+          "file": "jo1-account.spec.ts",
+          "line": 12,
+          "column": 5
+        },
+        {
+          "title": "[J-O1] @S:PUB-07 an owner self-registers, verifies the email, signs in and out, and resets the password",
+          "ok": true,
+          "tags": [
+            "S:PUB-07"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13059,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:09:28.550Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "b15208645a9da2ed3928-9ad98bc6b954332d0b75",
+          "file": "jo1-account.spec.ts",
+          "line": 12,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jo10-notifications.spec.ts",
+      "file": "jo10-notifications.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O10] @S:CO-01 @S:CO-14 care reminders reach the notification centre only once the owner consents",
+          "ok": true,
+          "tags": [
+            "S:CO-01",
+            "S:CO-14"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13790,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:59:10.674Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e9c3012186c3df16cbd1-17320a13cd1a5095821b",
+          "file": "jo10-notifications.spec.ts",
+          "line": 24,
+          "column": 5
+        },
+        {
+          "title": "[J-O10] @S:CO-01 @S:CO-14 care reminders reach the notification centre only once the owner consents",
+          "ok": true,
+          "tags": [
+            "S:CO-01",
+            "S:CO-14"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20726,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:02:54.639Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e9c3012186c3df16cbd1-ee7db0ecb3b721d7e8d8",
+          "file": "jo10-notifications.spec.ts",
+          "line": 24,
+          "column": 5
+        },
+        {
+          "title": "[J-O10] @S:CO-01 @S:CO-14 care reminders reach the notification centre only once the owner consents",
+          "ok": true,
+          "tags": [
+            "S:CO-01",
+            "S:CO-14"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11122,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:06:31.943Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e9c3012186c3df16cbd1-73e1c243b69a4f1bc90b",
+          "file": "jo10-notifications.spec.ts",
+          "line": 24,
+          "column": 5
+        },
+        {
+          "title": "[J-O10] @S:CO-01 @S:CO-14 care reminders reach the notification centre only once the owner consents",
+          "ok": true,
+          "tags": [
+            "S:CO-01",
+            "S:CO-14"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11900,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:09:41.634Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "e9c3012186c3df16cbd1-3e4501a7085a28343bb8",
+          "file": "jo10-notifications.spec.ts",
+          "line": 24,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jo2-account-centre.spec.ts",
+      "file": "jo2-account-centre.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O2] @S:CO-15 an owner reviews, grants and withdraws consent, and the history is kept on the server",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7564,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:59:24.529Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-fc1baad43104bf55bef8",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O3] @S:CO-15 an owner edits their name and downloads their personal data after step-up",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10581,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:59:32.133Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-978188165d637dfe8543",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 54,
+          "column": 5
+        },
+        {
+          "title": "[J-O11] @S:CO-15 an owner enrols two-step verification and a recovery code works exactly once",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9509,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:59:42.751Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-be9c49e3ceb8b432df8b",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 92,
+          "column": 5
+        },
+        {
+          "title": "[J-O2] @S:CO-15 an owner reviews, grants and withdraws consent, and the history is kept on the server",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5970,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:03:15.502Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-b8d12b9b9f92d63c6891",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O3] @S:CO-15 an owner edits their name and downloads their personal data after step-up",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9298,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:03:21.496Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-a1f0442d1888829ffc99",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 54,
+          "column": 5
+        },
+        {
+          "title": "[J-O11] @S:CO-15 an owner enrols two-step verification and a recovery code works exactly once",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7164,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:03:30.813Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-5bea264a91db89925ea2",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 92,
+          "column": 5
+        },
+        {
+          "title": "[J-O2] @S:CO-15 an owner reviews, grants and withdraws consent, and the history is kept on the server",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5613,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:06:43.091Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-a98754bfa26d80d4ab2f",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O3] @S:CO-15 an owner edits their name and downloads their personal data after step-up",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9230,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:06:48.718Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-697fafb159d0644df433",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 54,
+          "column": 5
+        },
+        {
+          "title": "[J-O11] @S:CO-15 an owner enrols two-step verification and a recovery code works exactly once",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7033,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:06:57.972Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-a60c652597b7ed60b6ff",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 92,
+          "column": 5
+        },
+        {
+          "title": "[J-O2] @S:CO-15 an owner reviews, grants and withdraws consent, and the history is kept on the server",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5590,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:09:53.560Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-ceb09be123caeea099fc",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O3] @S:CO-15 an owner edits their name and downloads their personal data after step-up",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9120,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:09:59.170Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-db7a07d56ec1e8cbc453",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 54,
+          "column": 5
+        },
+        {
+          "title": "[J-O11] @S:CO-15 an owner enrols two-step verification and a recovery code works exactly once",
+          "ok": true,
+          "tags": [
+            "S:CO-15"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6952,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:10:08.303Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d11437a541646040b0a8-421505c9caf71d9d37cc",
+          "file": "jo2-account-centre.spec.ts",
+          "line": 92,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jo4-pets.spec.ts",
+      "file": "jo4-pets.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O4] @S:CO-02 @S:CO-03 an owner adds a pet, opens its profile and history, and edits care preferences",
+          "ok": true,
+          "tags": [
+            "S:CO-02",
+            "S:CO-03"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7146,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:59:52.295Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfae48ef966efbf32540-d82aa897a452f2dda557",
+          "file": "jo4-pets.spec.ts",
+          "line": 8,
+          "column": 5
+        },
+        {
+          "title": "[J-O4] @S:CO-02 @S:CO-03 an owner adds a pet, opens its profile and history, and edits care preferences",
+          "ok": true,
+          "tags": [
+            "S:CO-02",
+            "S:CO-03"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6715,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:03:37.997Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfae48ef966efbf32540-4fa83ea1045c1fe953cf",
+          "file": "jo4-pets.spec.ts",
+          "line": 8,
+          "column": 5
+        },
+        {
+          "title": "[J-O4] @S:CO-02 @S:CO-03 an owner adds a pet, opens its profile and history, and edits care preferences",
+          "ok": true,
+          "tags": [
+            "S:CO-02",
+            "S:CO-03"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6116,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:07:05.033Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfae48ef966efbf32540-331d534d2945dc1d0455",
+          "file": "jo4-pets.spec.ts",
+          "line": 8,
+          "column": 5
+        },
+        {
+          "title": "[J-O4] @S:CO-02 @S:CO-03 an owner adds a pet, opens its profile and history, and edits care preferences",
+          "ok": true,
+          "tags": [
+            "S:CO-02",
+            "S:CO-03"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7762,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:10:15.283Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "dfae48ef966efbf32540-1347586a33d7ce8161bd",
+          "file": "jo4-pets.spec.ts",
+          "line": 8,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jo5-booking.spec.ts",
+      "file": "jo5-booking.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O5] @S:CO-05 @S:CO-07 an owner books, views, reschedules and cancels a consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-05",
+            "S:CO-07"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 19998,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:59:59.465Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a7e00d792fd3a11c7673-bc569c4d1ea3fdf51baa",
+          "file": "jo5-booking.spec.ts",
+          "line": 38,
+          "column": 5
+        },
+        {
+          "title": "[J-O5] @S:CO-05 @S:CO-07 an owner books, views, reschedules and cancels a consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-05",
+            "S:CO-07"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11758,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:03:44.733Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a7e00d792fd3a11c7673-5e5f2020b87176df4851",
+          "file": "jo5-booking.spec.ts",
+          "line": 38,
+          "column": 5
+        },
+        {
+          "title": "[J-O5] @S:CO-05 @S:CO-07 an owner books, views, reschedules and cancels a consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-05",
+            "S:CO-07"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14175,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:07:11.168Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a7e00d792fd3a11c7673-df6c88d68bb25de81b0e",
+          "file": "jo5-booking.spec.ts",
+          "line": 38,
+          "column": 5
+        },
+        {
+          "title": "[J-O5] @S:CO-05 @S:CO-07 an owner books, views, reschedules and cancels a consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-05",
+            "S:CO-07"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 21537,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:10:23.070Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "a7e00d792fd3a11c7673-5dde166bd503ed8f9064",
+          "file": "jo5-booking.spec.ts",
+          "line": 38,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jo6-consultation.spec.ts",
+      "file": "jo6-consultation.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O6-CHAT] @S:CO-09 an owner exchanges messages and a file with the veterinarian in their own consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-09"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22817,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:00:19.509Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "88a33af06c0423cc0f03-c4c80c9ab979d12dd569",
+          "file": "jo6-consultation.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O6-CHAT] @S:CO-09 an owner exchanges messages and a file with the veterinarian in their own consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-09"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9734,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:03:56.520Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "88a33af06c0423cc0f03-1672e5fa250d028608c1",
+          "file": "jo6-consultation.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O6-CHAT] @S:CO-09 an owner exchanges messages and a file with the veterinarian in their own consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-09"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 12720,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:07:25.368Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "88a33af06c0423cc0f03-155b58ed8fb087765cf1",
+          "file": "jo6-consultation.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O6-CHAT] @S:CO-09 an owner exchanges messages and a file with the veterinarian in their own consultation",
+          "ok": true,
+          "tags": [
+            "S:CO-09"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 22550,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:10:44.670Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "88a33af06c0423cc0f03-e9048de9dd8a1d60980b",
+          "file": "jo6-consultation.spec.ts",
+          "line": 30,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jo7-prescriptions.spec.ts",
+      "file": "jo7-prescriptions.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O7] @S:CO-11 an owner views their pet's prescriptions and timeline and uploads one for verification",
+          "ok": true,
+          "tags": [
+            "S:CO-11"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9849,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:00:42.396Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d758daedba769ccc13ff-1531457d8b34c6564ada",
+          "file": "jo7-prescriptions.spec.ts",
+          "line": 39,
+          "column": 5
+        },
+        {
+          "title": "[J-O7] @S:CO-11 an owner views their pet's prescriptions and timeline and uploads one for verification",
+          "ok": true,
+          "tags": [
+            "S:CO-11"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7122,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:04:06.271Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d758daedba769ccc13ff-8ffe0916677d0f327a2c",
+          "file": "jo7-prescriptions.spec.ts",
+          "line": 39,
+          "column": 5
+        },
+        {
+          "title": "[J-O7] @S:CO-11 an owner views their pet's prescriptions and timeline and uploads one for verification",
+          "ok": true,
+          "tags": [
+            "S:CO-11"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 10336,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:07:38.115Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d758daedba769ccc13ff-68f37c0ff1a83798deca",
+          "file": "jo7-prescriptions.spec.ts",
+          "line": 39,
+          "column": 5
+        },
+        {
+          "title": "[J-O7] @S:CO-11 an owner views their pet's prescriptions and timeline and uploads one for verification",
+          "ok": true,
+          "tags": [
+            "S:CO-11"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11154,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:11:07.269Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d758daedba769ccc13ff-dfeac16e6d37d95b0d21",
+          "file": "jo7-prescriptions.spec.ts",
+          "line": 39,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jo8-cod.spec.ts",
+      "file": "jo8-cod.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O8-COD] an owner orders a GENERAL product with cash on delivery and reads the receipt once a licensed pharmacy delivers",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9956,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:00:52.287Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bda04f2a46961938325e-b163ad3121ef7ca33c10",
+          "file": "jo8-cod.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O8-COD] an owner orders a GENERAL product with cash on delivery and reads the receipt once a licensed pharmacy delivers",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7570,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:04:13.418Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bda04f2a46961938325e-6380fe60f85571c0af12",
+          "file": "jo8-cod.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O8-COD] an owner orders a GENERAL product with cash on delivery and reads the receipt once a licensed pharmacy delivers",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9620,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:07:48.482Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bda04f2a46961938325e-0a371516efaacd3e17c4",
+          "file": "jo8-cod.spec.ts",
+          "line": 30,
+          "column": 5
+        },
+        {
+          "title": "[J-O8-COD] an owner orders a GENERAL product with cash on delivery and reads the receipt once a licensed pharmacy delivers",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9622,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:11:18.452Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bda04f2a46961938325e-dc8523ed45a5e99fe73e",
+          "file": "jo8-cod.spec.ts",
+          "line": 30,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jo9-tracking.spec.ts",
+      "file": "jo9-tracking.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-O9-INTERNAL] an owner follows their order from placed to delivered and receipt, with no carrier tracking claimed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8391,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:01:02.277Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "aec6e9efea8d4aa01737-ec40250f6b62d996066e",
+          "file": "jo9-tracking.spec.ts",
+          "line": 40,
+          "column": 5
+        },
+        {
+          "title": "[J-O9-INTERNAL] an owner follows their order from placed to delivered and receipt, with no carrier tracking claimed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8047,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:04:21.007Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "aec6e9efea8d4aa01737-9a004995478ec214fdf5",
+          "file": "jo9-tracking.spec.ts",
+          "line": 40,
+          "column": 5
+        },
+        {
+          "title": "[J-O9-INTERNAL] an owner follows their order from placed to delivered and receipt, with no carrier tracking claimed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8678,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:07:58.127Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "aec6e9efea8d4aa01737-5803e30fcf31a1b9906c",
+          "file": "jo9-tracking.spec.ts",
+          "line": 40,
+          "column": 5
+        },
+        {
+          "title": "[J-O9-INTERNAL] an owner follows their order from placed to delivered and receipt, with no carrier tracking claimed",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7588,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:11:28.098Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "aec6e9efea8d4aa01737-51f540c5448fb3090566",
+          "file": "jo9-tracking.spec.ts",
+          "line": 40,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jv1-licence-status.spec.ts",
+      "file": "jv1-licence-status.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-V1-INTERNAL] a veterinarian joins by invite with their licence and sees its status until staff verify it",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 20708,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:01:10.693Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d18585e03bd5c2325b1c-5db3138cc3d56a75770e",
+          "file": "jv1-licence-status.spec.ts",
+          "line": 41,
+          "column": 5
+        },
+        {
+          "title": "[J-V1-INTERNAL] a veterinarian joins by invite with their licence and sees its status until staff verify it",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 32285,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:04:29.079Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d18585e03bd5c2325b1c-7787532ff9e6c21a2854",
+          "file": "jv1-licence-status.spec.ts",
+          "line": 41,
+          "column": 5
+        },
+        {
+          "title": "[J-V1-INTERNAL] a veterinarian joins by invite with their licence and sees its status until staff verify it",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 24572,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:08:06.834Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d18585e03bd5c2325b1c-dc102ba70251781c301e",
+          "file": "jv1-licence-status.spec.ts",
+          "line": 41,
+          "column": 5
+        },
+        {
+          "title": "[J-V1-INTERNAL] a veterinarian joins by invite with their licence and sees its status until staff verify it",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 25857,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:11:35.708Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d18585e03bd5c2325b1c-a61cb277998cb95d7f0b",
+          "file": "jv1-licence-status.spec.ts",
+          "line": 41,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jv2-availability-queue.spec.ts",
+      "file": "jv2-availability-queue.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-V2] @S:CV-02 @S:CV-03 a veterinarian publishes availability; owners book only those slots; the booking is in their queue",
+          "ok": true,
+          "tags": [
+            "S:CV-02",
+            "S:CV-03"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11171,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:01:31.435Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d03c96376bb28d3feff0-8106a6619c6c02cfc5d6",
+          "file": "jv2-availability-queue.spec.ts",
+          "line": 25,
+          "column": 5
+        },
+        {
+          "title": "[J-V2] @S:CV-02 @S:CV-03 a veterinarian publishes availability; owners book only those slots; the booking is in their queue",
+          "ok": true,
+          "tags": [
+            "S:CV-02",
+            "S:CV-03"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9363,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:05:01.394Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d03c96376bb28d3feff0-05334dc2cfcfd467e05e",
+          "file": "jv2-availability-queue.spec.ts",
+          "line": 25,
+          "column": 5
+        },
+        {
+          "title": "[J-V2] @S:CV-02 @S:CV-03 a veterinarian publishes availability; owners book only those slots; the booking is in their queue",
+          "ok": true,
+          "tags": [
+            "S:CV-02",
+            "S:CV-03"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 8751,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:08:31.436Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d03c96376bb28d3feff0-48f3afc6a3f191316868",
+          "file": "jv2-availability-queue.spec.ts",
+          "line": 25,
+          "column": 5
+        },
+        {
+          "title": "[J-V2] @S:CV-02 @S:CV-03 a veterinarian publishes availability; owners book only those slots; the booking is in their queue",
+          "ok": true,
+          "tags": [
+            "S:CV-02",
+            "S:CV-03"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14418,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:12:01.593Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "d03c96376bb28d3feff0-a265af7a9847941b852b",
+          "file": "jv2-availability-queue.spec.ts",
+          "line": 25,
+          "column": 5
+        }
+      ]
+    },
+    {
+      "title": "jv3-workspace.spec.ts",
+      "file": "jv3-workspace.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-V3] @S:CV-05 a veterinarian works a consultation in the workspace: SOAP draft from a template, saved, then the outcome",
+          "ok": true,
+          "tags": [
+            "S:CV-05"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-desktop",
+              "projectName": "ar-desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 9714,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:01:42.650Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "14acd9c27257188024b5-80b0325f468640923d07",
+          "file": "jv3-workspace.spec.ts",
+          "line": 26,
+          "column": 5
+        },
+        {
+          "title": "[J-V3] @S:CV-05 a veterinarian works a consultation in the workspace: SOAP draft from a template, saved, then the outcome",
+          "ok": true,
+          "tags": [
+            "S:CV-05"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 7159,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:05:10.790Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "14acd9c27257188024b5-24ca916feb330ce1611a",
+          "file": "jv3-workspace.spec.ts",
+          "line": 26,
+          "column": 5
+        },
+        {
+          "title": "[J-V3] @S:CV-05 a veterinarian works a consultation in the workspace: SOAP draft from a template, saved, then the outcome",
+          "ok": true,
+          "tags": [
+            "S:CV-05"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-desktop",
+              "projectName": "en-desktop",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 6895,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:08:40.212Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "14acd9c27257188024b5-54b9d5a2cae74bdab0b0",
+          "file": "jv3-workspace.spec.ts",
+          "line": 26,
+          "column": 5
+        },
+        {
+          "title": "[J-V3] @S:CV-05 a veterinarian works a consultation in the workspace: SOAP draft from a template, saved, then the outcome",
+          "ok": true,
+          "tags": [
+            "S:CV-05"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "en-mobile",
+              "projectName": "en-mobile",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11845,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T14:12:16.109Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "14acd9c27257188024b5-cfb262b04f4f204d371f",
+          "file": "jv3-workspace.spec.ts",
+          "line": 26,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-23T13:57:53.055Z",
+    "duration": 876363.65,
+    "expected": 84,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

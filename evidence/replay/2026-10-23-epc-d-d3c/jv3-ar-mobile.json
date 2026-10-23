@@ -1,0 +1,163 @@
+{
+  "config": {
+    "configFile": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/playwright.full.config.ts",
+    "rootDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-desktop",
+        "name": "ar-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "ar-mobile",
+        "name": "ar-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-desktop",
+        "name": "en-desktop",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "en-mobile",
+        "name": "en-mobile",
+        "testDir": "/Users/waheebmahmoud/dev/petcare-lane-d-d3c/petcare_web/e2e-full",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "e2e-full/.results/results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.60.0",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "jv3-workspace.spec.ts",
+      "file": "jv3-workspace.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "[J-V3] @S:CV-05 a veterinarian works a consultation in the workspace: SOAP draft from a template, saved, then the outcome",
+          "ok": true,
+          "tags": [
+            "S:CV-05"
+          ],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "ar-mobile",
+              "projectName": "ar-mobile",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 11893,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-23T13:56:29.418Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "14acd9c27257188024b5-24ca916feb330ce1611a",
+          "file": "jv3-workspace.spec.ts",
+          "line": 26,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-23T13:56:16.079Z",
+    "duration": 26854.395,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}
